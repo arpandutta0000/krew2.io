@@ -1,0 +1,9 @@
+
+# Ignore modules
+node_modules/
+
+# Ignore private key
+.env
+
+# Ignore autocompiled files
+package-lock.json
