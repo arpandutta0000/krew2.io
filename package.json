@@ -9,20 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DamienVesper/krew2.git"
+    "url": "git+https://github.com/Krew-io/krew2.io.git"
   },
   "author": "DamienVesper",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DamienVesper/krew2/issues"
+    "url": "https://github.com/Krew-io/krew2.io/issues"
   },
-  "homepage": "https://github.com/DamienVesper/krew2#readme",
+  "homepage": "https://github.com/Krew-io/krew2.io#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^2.3.0",
-    "webpack": "^4.44.2"
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "grunt-webpack": "^4.0.2",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   }
 }
