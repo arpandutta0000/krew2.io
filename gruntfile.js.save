@@ -1,0 +1,141 @@
+const webpackConfig = require(`./webpack-config.js`);
+
+module.exports = (grunt => {
+    grunt.initConfig({
+        pkg: grunt.file.readJSON(`package.json`),
+
+        concat: {
+            dist_scripts: {
+                src: [
+                    `src/client/assets/js/core/client/config.js`,
+                    `src/client/assets/js/rangeInput.js`,
+
+                    `src/client/assets/assets/js/canvas.map.js`,
+
+                    `src/client/libs/ua.js`,
+					`src/client/libs/firebase.js`,
+                    `src/client/libs/keypress.min.js`,
+                    `src/client/libs/OBJLoader.js`,
+                    `src/client/libs/TGALoader.js`,
+                    `src/client/libs/MTLLoader.js`,
+                    `src/client/libs/socket.js`,
+
+                    `src/client/assets/js/environment.js`,
+                    `src/client/assets/js/window.js`,
+                    `src/client/assets/js/geometry.js`,
+                    `src/client/assets/js/loader.js`,
+                    `src/client/assets/js/keyboard.js`,
+                    `src/client/assets/js/controls.js`,
+
+                    `src/client/assets/js/core/core.js`,
+                    `src/client/assets/js/core/utils.js`,
+                    `src/client/assets/js/core/entity.js`,
+                    `src/client/assets/js/core/goods_types.js`,
+                    `src/client/assets/js/core/client/parseSnap.js`,
+                    `src/client/assets/js/core/boat_types.js`,
+                    `src/client/assets/js/core/boat.js`,
+                    `src/client/assets/js/core/item.js`,
+                    `src/client/assets/js/core/player.js`,
+                    `src/client/assets/js/core/impact.js`,
+                    `src/client/assets/js/core/pickup.js`,
+                    `src/client/assets/js/core/landmark.js`,
+                    `src/client/assets/js/core/projectile.js`,
+
+                    `src/client/assets/js/core/client/entity.js`,
+                    `src/client/assets/js/core/client/boat.js`,
+                    `src/client/assets/js/core/client/player.js`,
+
+                    `src/client/assets/js/ui/suggestion.js`,
+                    `src/client/assets/js/ui/krewlist.js`,
+                    `src/client/assets/js/ui/goods.js`,
+                    `src/client/assets/js/ui/experience.js`,
+
+                    `src/client/assets/js/ui.js`,
+                    `src/client/assets/js/main.js`,
+                    `src/client/assets/js/particles.js`,
+                    `src/client/assets/js/connection.js`,
+                ],
+                dest: `dist/assets/js/dist.js`
+            },
+        },
+        anonymous: {
+            dist: {
+                options: {
+                    params: [
+                        [`window`, `w`],
+                        [`document`, `d`]
+                    ]
+                },
+                files: {
+                    "dist/assets/js/dist.anonym.js": [`dist/assets/js/dist.js`],
+                }
+            }
+        },
+        watch: {
+            scripts: {
+                files: [`**/*.js`, `!**/node_modules/**`, `**/*.css`, `**/*.html`],
+                tasks: [`build-dev`, `build-production`],
+                options: {
+                    spawn: false
+                }
+            }
+        },
+        concurrent: {
+            dev: [
+                `nodemon:dev`,
+                `watch:scripts`
+            ],
+            options: {
+                logConcurrentOutput: true
+            }
+        },
+        copy: {
+            dist: {
+                files: [
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/*`, `!src/client/*.html`], dest: `dist/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/css/*`], dest: `dist/assets/css/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/fonts/*`], dest: `dist/assets/fonts/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/img/*`], dest: `dist/assets/img/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/js/*`], dest: `dist/assets/js/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/*`], dest: `dist/assets/models/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/dogs/*`], dest: `dist/assets/models/dogs/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/cannon/*`], dest: `dist/assets/models/cannon/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/audio/*`], dest: `dist/assets/audio/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/ships/*`], dest: `dist/assets/models/ships/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/error-pages/*`], dest: `dist/assets/error-pages/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/sea_animals/*`], dest: `dist/assets/models/sea_animals/`, filter: `isFile` }, 
+                ]
+            }
+        },
+        clean: {
+            preUglified: [`dist/assets/js/dist.js`, `dist/assets/js/dist.anonym.js`],
+            dist: `dist/*`
+        },
+        webpack: {
+            myConfig: webpackConfig
+        }
+    });
+
+    grunt.registerTask(`build-dist`, [
+        `clean:dist`,
+        `concat:servercore`,
+        `concat:dist_scripts`,
+        `anonymous:dist`,
+    ]);
+
+    grunt.registerTask(`build-dev`, [
+        `concat:servercore`,
+        `concat:dev_index`,
+    ]);
+
+    grunt.registerTask(`dev`, [`concurrent:dev`]);
+
+    grunt.loadNpmTasks(`grunt-contrib-concat`);
+    grunt.loadNpmTasks(`grunt-webpack`);
+    grunt.loadNpmTasks(`grunt-contrib-copy`);
+    grunt.loadNpmTasks(`grunt-contrib-clean`);
+    grunt.loadNpmTasks(`grunt-contrib-watch`);
+    grunt.loadNpmTasks(`grunt-nodemon`);
+    grunt.loadNpmTasks(`grunt-concurrent`);
+    grunt.loadNpmTasks(`grunt-anonymous`);
+});

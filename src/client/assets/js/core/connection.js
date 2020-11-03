@@ -15,9 +15,9 @@ let intervalUpdate = undefined;
 
 // Define staff accounts clientside for things like name coloring, tags, etc.
 const staff = {
-    admins: [`devclied`, `LeoLeoLeo`],
-    mods: [`Fiftyyyyy`, `Sjmun`, `Sloth`],
-    devs: [`Yaz`, `DamienVesper`]
+    admins: [`devclied`, `DamienVesper`, `LeoLeoLeo`, `harderman`, `itsdabomb`],
+    mods: [`Fiftyyyyy`, `Sloth`, `Sjmun`],
+    devs: [`Yaz`]
 }
 
 let connect = pid => {
@@ -42,8 +42,8 @@ let connect = pid => {
     });
     initSocketBinds();
 
-    document.querySelector(`.game-ui`).style.display = `block`;
-    document.querySelector(`.login-ui`).style.display = `none`;
+    $(`.game-ui`).style.display = `block`;
+    $(`.login-ui`).style.display = `none`;
 }
 
 let initSocketBinds = () => {
@@ -105,7 +105,7 @@ let initSocketBinds = () => {
 
         // Receive and update ship cargo.
         socket.on(`updateCargo`, () => {
-            if(document.querySelector(`#buy-goods`).classList.includes(`active`)) {
+            if($(`#buy-goods`).hasClass(`active`)) {
                 GOODSCOMPONENT.getList();
             }
         });
@@ -124,17 +124,17 @@ let initSocketBinds = () => {
 
         // Departure warning for other ships that depart at the same island.
         socket.on(`departureWarning`, () => {
-            let krewListBtn = document.querySelector(`.toggle-krew-list-button`);
-            if(krewListBtn.classList.includes(`enabled`)) {
-                krewListBtn.classList.add(`glowing`);
-                setTimeout(() => krewListBtn.classList.remove(`glowing`), 5e3);
+            let krewListBtn = $(`.toggle-krew-list-button`);
+            if(krewListBtn.hasClass(`enabled`)) {
+                krewListBtn.addClass(`glowing`);
+                setTimeout(() => krewListBtn.removeClass(`glowing`), 5e3);
             }
         });
 
         // Show message in message bar (top center) to user.
         socket.on(`showCenterMessage`, (msg, type, time) => {
             if(ui && ui.showCenterMessage) ui.showCenterMessage(message, type || 3, time);
-            if(message.startsWith(`Achievement trading`)) document.querySelector(`.shopping-modal`).style.display = `none`;
+            if(message.startsWith(`Achievement trading`)) $(`.shopping-modal`).style.display = `none`;
         });
 
         // Show killfeed to user.
@@ -194,10 +194,11 @@ let initSocketBinds = () => {
         // Receive chat messages and show them in the chat menu.
         socket.on(`chatMessage`, data => {
             if(myPlayer && myPlayer.parent && (myPlayer.parent.hasChild(data.playerID) || data.recipent == `global` || data.recipent == `local` || data.recipient == `clan`) && entities[data.playerID] != undefined) {
-                let chatHistory = document.querySelector(`.chat-history`);
+                let chatHistory = $(`.chat-history`);
 
                 let isKrewmate = myPlayer.parent.netType == 1 && myPlayer.parent.hasChild(data.myPlayerID);
-                let isClanMember = myPlayer.clan != `` && myPlayer.clan != undefined && myPlayer.clan == entities[data.playerID].clan && !isPlayer;
+                let playerClan = entities[data.playerID].clan;
+                let isClanMember = myPlayer.clan != `` && myPlayer.clan != undefined && myPlayer.clan == playerClan && !isPlayer;
                 
                 let isAdmin = staff.admins.includes(data.playerName);
                 let isMod = staff.mods.includes(data.playerName);
@@ -206,21 +207,89 @@ let initSocketBinds = () => {
                 let classRec = `global-chat`;
                 classRec = `${data.recipient}-chat`;
 
-                // Set message data in element.
+                // Create message data wrappers.
                 let msgWrapper = document.createElement(`span`);
-                msgWrapper.innerHTML = `${(isAdmin ? `[admin]`: isMod ? `[mod]`: isDev ? `[dev]`: ``) + data.playerName}: ${data.message}`;
-                msgWrapper.classList.add(classRec, `text-${isPlayer ? `success`: (isAdmin || isMod || isDev) ? `mod-color`: isClanMember ? `clan-color`: isKrewmate && entities[data.playerID].isCaptain ? `danger`: isKrewmate ? `primary`: `info`}`);
+                let tagWrapper = document.createElement(`span`);
+                let contentWrapper = document.createElement(`span`);
 
-                // Show / hide message based on what chat is currently selected by the user.
-                if((data.recipient == `global` && !chatOptions.global) || (data.recipient == `local` && !chatOptions.local) || (data.recipient == `clan` && !chatOptions.clan)) msgWrapper.style.display = `none`;
+                // Create tag wrappers.
+                let staffTag = document.createElement(`span`);
+                let clanTag = document.createElement(`span`);
+                let krewTag = document.createElement(`span`);
+
+                // Set the tags and color them.
+                staffTag.html(isAdmin ? `[admin]`: isMod ? `[mod]`: isDev ? `[dev]`: ``);
+                clanTag.html(playerClan ? `[${playerClan}]`: ``);
+                krewTag.html(isKrewmate ? `[krew]`: ``);
+
+                tagWrapper.appendChild(staffTag);
+                tagWrapper.appendChild(clanTag);
+                tagWrapper.appendChild(krewTag);
+
+                if(isAdmin || isMod || isDev) staffTag.addClass(`text-staff`);
+                if(playerClan) clanTag.addClass(`text-warning`);
+                isKrewmate ? entitites[data.playerId].isCaptain ? `text-danger`: `text-primary`: null;
+
+                // Set the content of the message.
+                contentWrapper.html(`${data.playerName}: ${data.message}`);
+
+                // Concatenate both into a wrapper.
+                msgWrapper.appendChild(tagWrapper);
+                msgWrapper.appendChild(contentWrapper);
+
+                // hide message based on what chat is currently selected by the user.
+                if((data.recipient == `global` && !chatOptions.global)
+                || (data.recipient == `local` && !chatOptions.local)
+                || (data.recipient == `clan` && !chatOptions.clan))
+                    msgWrapper.hide();
 
                 let chatAlerts = document.querySelectorAll(`.chat-alerts`);
-                if(data.recipient == `global` && !chatOptions.global) chatAlerts[2].style.display = `block`;
-                if(data.recipient == `local` && !chatOptions.local) chatAlerts[1].style.display = `block`;
-                if(data.recipient == `clan` && !chatOptions.clan) chatAlerts[0].style.display = `block`;
+                if(data.recipient == `global` && !chatOptions.global) chatAlerts[2].show();
+                if(data.recipient == `local` && !chatOptions.local) chatAlerts[1].show();
+                if(data.recipient == `clan` && !chatOptions.clan) chatAlerts[0].show();
 
-                chatHistory.append(msgWrapper);
+                chatHistory.appendChild(msgWrapper);
             }
         });
     });
+}
+
+let getUrlVars = () => {
+    let vars = {}
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => vars[key] = value);
+    return vars;
+}
+
+let deleteEverything = () => {
+    for(let e in entities) if(entities.hasOwnProperty(e)) entities[e].onDestroy();
+}
+
+// Disconnect player from socket.
+let endTheGame = (gold, fired, hit, sank) => {
+    miniplaySend2API(`gameover`, 1);
+    miniplaySend2API(`ships`, sank);
+
+    controls.unLockMouseLook();
+
+    $(`.local-chat`).remove();
+    $(`#game-over-modal`).modal(`show`);
+
+    setHighlights(gold, fired, hit, sank);
+    myPlayer.state = 1;
+}
+
+// Set player session highlights for respawn window.
+let setHighlights = (gold, fired, hit, sank) => {
+    miniplaySend2API(`gameover`, 1);
+    miniplaySend2API(`ships`, sank);
+
+    $(`#total-score`).html(lastScore);
+    $(`#total-damage`).html(lastScore);
+    $(`#total-gold-collected`).html(gold.toFixed(0));
+    $(`#total-shots-fired`).html(fired);
+    $(`#total-shots-hit`).html(Math.round((hit / fired) * 100));
+    $(`#total-ships-sank`).html(sank);
+    $(`#supplies-cut`).html((0.3 * gold).toFixed(0));
+
+    if($(`#docking-modal`).is(`:visible`)) $(`#docking-modal`).hide();
 }
