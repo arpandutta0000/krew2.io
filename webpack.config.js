@@ -2,9 +2,9 @@ const path = require(`path`);
 
 module.exports = {
     mode: `production`,
-    entry: `dist/assets/js/dist.js`,
+    entry: path.resolve(__dirname, `dist/client/dist.js`),
     output: {
-        path: path.resolve(__dirname, `dist`),
-        filename: `src.js`
+        path: path.resolve(__dirname, `dist/client`),
+        filename: `dist.min.js`
     }
 }

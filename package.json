@@ -4,8 +4,8 @@
     "description": "Booty.io",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "server0": "grunt webpack:prod"
+        "dist-test": "grunt-build-dist",
+        "prod": "grunt build-dist && grunt webpack:prod && forever -o out-history_$(date +%F_%R).log -e err.log src/server/app.js"
     },
     "repository": {
         "type": "git",
@@ -18,31 +18,23 @@
     },
     "homepage": "https://github.com/Krew-io/krew2.io#readme",
     "dependencies": {
-        "bad-words": "^3.0.3",
-        "compression": "^1.7.4",
-        "connect-flash": "^0.1.1",
-        "connect-mongo": "^3.2.0",
+        "chokidar": "^3.4.3",
         "cross-env": "^7.0.2",
-        "dotenv": "^8.2.0",
         "express": "^4.17.1",
-        "express-openid-connect": "^2.0.0",
-        "express-session": "^1.17.1",
         "forever": "^3.0.2",
+        "grunt": "^1.3.0",
+        "grunt-contrib-clean": "^2.0.0",
+        "grunt-contrib-concat": "^1.0.1",
         "grunt-webpack": "^4.0.2",
-        "jsonwebtoken": "^8.5.1",
+        "lz-string": "^1.4.4",
+        "minimist": "^1.2.5",
         "mongodb": "^3.6.2",
         "mongoose": "^5.10.11",
-        "passport": "^0.4.1",
-        "passport-auth0": "^1.4.0",
-        "passport-facebook": "^3.0.0",
-        "passport-local": "^1.0.0",
-        "public-ip": "^4.0.2",
-        "rollbar": "^2.19.4",
+        "nconf": "^0.10.0",
         "socket.io": "^2.3.0",
-        "validator": "^13.1.17",
-        "webhook-discord": "^3.7.7",
-        "webpack": "^4.44.2",
-        "webpack-cli": "^4.1.0",
-        "xss-filters": "^1.2.7"
+        "webpack": "^4.44.2"
+    },
+    "devDependencies": {
+        "webpack-dev-server": "^3.11.0"
     }
 }
