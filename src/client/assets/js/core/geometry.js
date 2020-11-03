@@ -11,7 +11,7 @@ let geometry = {
     boat: base_geometries.box,
     projectile: base_geometries.sphere,
     hook: base_geometries.plane,
-    impact_water = base_geometries.sphere,
+    impact_water: base_geometries.sphere,
     islandradius: new THREE.CylinderBufferGeometry(0.3, 1, 1, 20, 1)
 }
 

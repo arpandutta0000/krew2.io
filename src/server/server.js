@@ -4,7 +4,8 @@ Note that the app must be exported to be used by socket.io.
 */
 
 // Configuration
-const config = require(`../config.js`);
+const { config } = require(`./config.js`);
+const dotenv = require(`dotenv`).config();
 
 // Dependencies
 const express = require(`express`);
@@ -13,14 +14,56 @@ const https = require(`https`);
 const flash = require(`connect-flash`);
 const compression = require(`compression`);
 const bodyParser = require(`body-parser`);
-const axios = require(`axios`);
 const fs = require(`fs`);
 const socketIO = require(`socket.io`);
 
 // Create app.
 let app = express();
 
-// Enable compressor to reduce load times.
+// Routes.
+const authRouter = require(`./routes/auth.js`);
+const indexRouter = require(`./routes/index.js`);
+
+// Load passport.
+const passport = require(`passport`);
+const Auth0Strategy = require(`passport-auth0`);
+
+const { auth } = require(`express-openid-connect`);
+
+// Auth0 configuration.
+const auth0Config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: undefined,
+    baseURL: `https://${config.domain}`,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: `https://${process.env.AUTH0_CUSTOM_DOMAIN}`
+}
+
+// Configure express session.
+const expressSession = require(`express-session`);
+let session = {
+    secret: process.env.AUTH0_SESSION_SECRET,
+    cookie: {
+        path: `/`,
+        _expires: null,
+        originalMaxAge: null,
+        httpOnly: true
+    },
+    resave: false,
+    saveUnitialized: false
+}
+app.use(expressSession(session));
+
+// Configure passport for Auth0.
+let strategy = new Auth0Strategy({
+    domain: process.env.AUTH0_CUSTOM_DOMAIN,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL: process.env.AUTH0_CALLBACK_URL || `https://${config.domain}/callback`
+});
+
+// Middleware.
 app.use(compression);
 app.use(flash);
 
@@ -48,11 +91,11 @@ app.use((req, res, next) => {
     // Set HTTP status / forward page.
     req.method.toLowerCase() == `options` ? res.sendStatus(200): next();
 });
-]
+
 // Set up the application server to listen on ports.
 let server = config.port == 8080 ? http.createServer(app): https.createServer({
-    key: fs.existsSync(config.ssl.keyPath) ? fs.readFileSync(config.ssl.keyPath): null,
-    cert: fs.existsSync(config.ssl.certPath) ? fs.readFileSync(config.ssl.certPath): null,
+    key: fs.existsSync(config.ssl.key) ? fs.readFileSync(config.ssl.key): null,
+    cert: fs.existsSync(config.ssl.cert) ? fs.readFileSync(config.ssl.cert): null,
     requestCert: false,
     rejectUnauthorized: false
 });
@@ -65,6 +108,8 @@ if(config.port != 8080) {
 }
 
 // Create Socket.IO service.
-let io = config.port == 8080 ? socketIO(server, { origins: `*:*` }): socketIO(server, { origins: `*:*` }).listen(2000);
+let io = config.port == 8080 ? socketIO(server, { origins: `*:*` }).listen(2000): socketIO(server, { origins: `*:*` }).listen(2000);
 
 app.get(`/get_servers`, (req, res) => res.jsonp(app.workers));
+
+app.listen(config.port, () => console.log(`Server is running on port ${config.port}.`));
