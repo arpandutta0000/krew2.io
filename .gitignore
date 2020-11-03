@@ -7,3 +7,4 @@ node_modules/
 
 # Ignore autocompiled files
 package-lock.json
+/dist
