@@ -5,7 +5,7 @@ module.exports = (grunt => {
         pkg: grunt.file.readJSON(`package.json`),
         concat: {
             dist_scripts: {
-                src: [
+                src: [  
                     `src/client/assets/js/core/client/config.js`,
                     `src/client/assets/js/rangeInput.js`,
 
@@ -16,7 +16,7 @@ module.exports = (grunt => {
                     `src/client/assets/js/libs/OBJLoader.js`,
                     `src/client/assets/js/libs/TGALoader.js`,
                     `src/client/assets/js/libs/MTLLoader.js`,
-                    `src/client/assets/js/libs/socket.js`,
+                    `src/client/assets/js/libs/socket.io.js`,
 
                     `src/client/assets/js/core/environment.js`,
                     `src/client/assets/js/core/window.js`,
@@ -59,6 +59,24 @@ module.exports = (grunt => {
         clean: {
             dist: [`dist/`]
         },
+        copy: {
+            dist: {
+                files: [
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/*`, `!src/client/*.html`], dest: `dist/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/css/*`], dest: `dist/assets/css/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/fonts/*`], dest: `dist/assets/fonts/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/img/*`], dest: `dist/assets/img/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/js/*`], dest: `dist/assets/js/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/*`], dest: `dist/assets/models/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/dogs/*`], dest: `dist/assets/models/dogs/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/cannon/*`], dest: `dist/assets/models/cannon/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/audio/*`], dest: `dist/assets/audio/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/ships/*`], dest: `dist/assets/models/ships/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/error-pages/*`], dest: `dist/assets/error-pages/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/sea_animals/*`], dest: `dist/assets/models/sea_animals/`, filter: `isFile` }
+                ]
+            }
+        },
         webpack: {
             options: {
                 stats: !process.env.NODE_ENV || process.env.NODE_ENV == `dev`
@@ -70,10 +88,12 @@ module.exports = (grunt => {
 
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
-        `concat:dist_scripts`
+        `copy:dist`,
+        `concat:dist_scripts`,
     ]);
 
     grunt.loadNpmTasks(`grunt-contrib-concat`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
+    grunt.loadNpmTasks(`grunt-contrib-copy`);
     grunt.loadNpmTasks(`grunt-webpack`);
 });

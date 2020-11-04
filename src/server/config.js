@@ -11,4 +11,4 @@ config.ssl = {
     cert: `/etc/letsencrypt/live/${config.domain}/fullchain.pem`
 }
 
-module.exports = { config }
+module.exports = config;
