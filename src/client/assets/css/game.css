@@ -170,6 +170,10 @@ html, body {
 }
 /* Tooltip END */
 
+/* Splash Menu */
+
+/*  */
+
 /* Game UI */
 .game-ui {
     display: flex;
@@ -248,7 +252,7 @@ canvas#game-canvas {
 }
 .lb-logo {
     width: 100%;
-    background-image: url("/assets/img/lb_logo.png");
+    background-image: url("/assets/img/logoleaderboard.png");
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;

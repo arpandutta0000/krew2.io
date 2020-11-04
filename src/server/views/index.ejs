@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Krew 2</title>
+        <title>Krew.io</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -15,27 +15,64 @@
 
         <!-- Libraries -->
         <script src="/assets/js/jquery.min.js"></script>
-        <script src="/assets/js/popper.min.js"></script>
         <script src="/assets/js/three.min.js"></script>
 
         <!-- Bootstrap -->
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/assets/icofont/icofont.min.css">
+        <link rel="stylesheet" href="/assets/css/icofont.min.css">
         <script src="/assets/js/bootstrap.min.js"></script>
 
         <!-- Gamestyles & JS -->
         <link rel="stylesheet" href="/assets/css/game.css">
-        <link rel="stylesheet" href="/assets/css/site.css">
+
+        <!-- Icon -->
+        <link rel="icon" href="/favicon.ico" sizes="16x16">
 
         <script src="/assets/js/socket.io.js"></script>
-        <script src="/assets/js/dist.js"></script>
+        <script src="/assets/js/dist.min.js"></script>
+
+        <!-- Audio -->
+        <!-- <audio id="wheelspin" src="https://cdn.krew.io/assets/audio/Wheel Spin.wav"></audio>
+        <audio id="cannon" src="https://cdn.krew.io/assets/audio/Cannon.wav"></audio>
+        <audio id="cannon-hit" src="https://cdn.krew.io/assets/audio/Cannonball Hit.wav"></audio>
+        <audio id="cast-rod" src="https://cdn.krew.io/assets/audio/Cast Rod.wav"></audio>
+        <audio id="catch-crab" src="https://cdn.krew.io/assets/audio/Catch Crab.wav"></audio>
+        <audio id="catch-fish" src="https://cdn.krew.io/assets/audio/Catch Fish.wav"></audio>
+        <audio id="dock" src="https://cdn.krew.io/assets/audio/Dock.wav"></audio>
+        <audio id="fishing" src="https://cdn.krew.io/assets/audio/Fishing.wav"></audio>
+        <audio id="get-crate" src="https://cdn.krew.io/assets/audio/Get Crate.wav"></audio>
+        <audio id="deposit" src="https://cdn.krew.io/assets/audio/Deposit Money.wav"></audio>
+        <audio id="level-up" src="https://cdn.krew.io/assets/audio/Level Up.wav"></audio>
+        <audio id="island-music" src="https://cdn.krew.io/assets/audio/music - non ocean area loop.wav"></audio>
+        <audio id="ocean-music" src="https://cdn.krew.io/assets/audio/music - ocean area loop.wav"></audio>
+        <audio id="ocean-ambience" src="https://cdn.krew.io/assets/audio/Ocean Ambience Loop.wav"></audio>
+        <audio id="sail" src="https://cdn.krew.io/assets/audio/Sail.wav"></audio>
+        <audio id="select" src="https://cdn.krew.io/assets/audio/Select.wav"></audio>
+        <audio id="sink-crash" src="https://cdn.krew.io/assets/audio/Sink Crash.wav"></audio>
+        <audio id="step-sand01" src="https://cdn.krew.io/assets/audio/Step_Sand_01.wav"></audio>
+        <audio id="step-sand02" src="https://cdn.krew.io/assets/audio/Step_Sand_02.wav"></audio>
+        <audio id="step-wood01" src="https://cdn.krew.io/assets/audio/Step_Wood_01.wav"></audio>
+        <audio id="step-wood02" src="https://cdn.krew.io/assets/audio/Step_Wood_02.wav"></audio>
+        <audio id="switch-rod-cannon" src="https://cdn.krew.io/assets/audio/Switch Rod Cannon.wav"></audio>
+        <audio id="turning" src="https://cdn.krew.io/assets/audio/Turning.wav"></audio> -->
     </head>
     <body>
         <div class="app">
-            <div class="loading-splash"></div>
+            <div class="loading-splash">
+                <div class="login-menu modal show text-xs-center">
+                    <span class="logged-in">You are logged in as</span>
+                    <a href="#" class="login-link" onclick = "logoutUser(event)"></a>
+                    <img src="/assets/img/logo.png" alt="Krew logo" class="rounded mx-auto d-block">
+                </div>
+            </div>
+            <div class="loading-wheel">
+                <img src="/assets/img/wheel.png" alt="Ship wheel">
+                <div>Loading...</div>
+            </div>
+            <div class="spyglass-overlay">
+                <img src="/assets/img/spyglass_ocular.png" alt="Spyglass overlay">
+            </div>
             <div class="game-ui">
-                <!-- Primary UI -->
-
                 <!-- Krew Info -->
                 <div class="krew-info">
                     <div class="btn btn-secondary btn-sm float-sm-right toggle-settings-btn"><i class="icofont icofont-options"></i></div>
@@ -56,7 +93,7 @@
                     </div>
                     <div class="krew-buttons">
                         <span class="btn btn-sm btn-success exit-island-btn" data-tooltip="Depart to sea with your ship" data-tooltip-location="right"><i class="icofont icofont-ship-wheel"></i> Sail</span>
-                        <span class="btn btn-sm btn-primary invite-link-btn" data-tooltip="Invite friends to your krew" data-tooltip-location="right"><i class="icofont icofont-link"></i> Invite</span>
+                        <span class="btn btn-sm btn-primary invite-link-btn" data-tooltip="Invite friends to your krew" data-tooltip-location="bottom"><i class="icofont icofont-link"></i> Invite</span>
                         <span class="btn btn-sm btn-warning abandon-ship-btn" data-tooltip="Abandon the ship" data-tooltip-location="bottom"><i class="icofont icofont-anchor"></i> Abandon Ship</span>
                     </div>
                 </div>
@@ -136,7 +173,7 @@
                         </div>
                     </div>
                     <div class="point-name-container">
-                        <span>Firepower</span>
+                        <span>Reload</span>
                         <span>Distance</span>
                         <span>Damage</span>
                     </div>

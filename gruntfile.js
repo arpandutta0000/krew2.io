@@ -53,11 +53,11 @@ module.exports = (grunt => {
                     `src/client/assets/js/particles.js`,
                     `src/client/assets/js/connection.js`,
                 ],
-                dest: `dist/client/dist.js`
+                dest: `dist_anonym/dist.js`
             },
         },
         clean: {
-            dist: [`dist/`]
+            dist: [`dist_anonym/`, `dist/`]
         },
         copy: {
             dist: {
@@ -66,7 +66,7 @@ module.exports = (grunt => {
                     { expand: true, nonull: true, flatten: true, src: [`src/client/assets/css/*`], dest: `dist/assets/css/`, filter: `isFile` },
                     { expand: true, nonull: true, flatten: true, src: [`src/client/assets/fonts/*`], dest: `dist/assets/fonts/`, filter: `isFile` },
                     { expand: true, nonull: true, flatten: true, src: [`src/client/assets/img/*`], dest: `dist/assets/img/`, filter: `isFile` },
-                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/js/*`], dest: `dist/assets/js/`, filter: `isFile` },
+                    { expand: true, nonull: true, flatten: true, src: [`src/client/assets/js/libs/*`], dest: `dist/assets/js/`, filter: `isFile` },
                     { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/*`], dest: `dist/assets/models/`, filter: `isFile` },
                     { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/dogs/*`], dest: `dist/assets/models/dogs/`, filter: `isFile` },
                     { expand: true, nonull: true, flatten: true, src: [`src/client/assets/models/cannon/*`], dest: `dist/assets/models/cannon/`, filter: `isFile` },

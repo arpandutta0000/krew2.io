@@ -1,7 +1,8 @@
 
 # Ignore modules
 node_modules/
+package-lock.json
 
 # Ignore autocompiled files
-package-lock.json
 dist/
+dist_anonym/
