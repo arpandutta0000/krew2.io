@@ -24,13 +24,15 @@
 
         <!-- Gamestyles & JS -->
         <link rel="stylesheet" href="/assets/css/game.css">
+        <link rel="stylesheet" href="/assets/css/magnific-popup.css">
 
         <!-- Icon -->
         <link rel="icon" href="/favicon.ico" sizes="16x16">
 
         <script src="/assets/js/socket.io.js"></script>
         <script src="/assets/js/dist.min.js"></script>
-
+        <script src="/assets/js/jquery.magnific-popup.js"></script>
+    
         <!-- Audio -->
         <!-- <audio id="wheelspin" src="https://cdn.krew.io/assets/audio/Wheel Spin.wav"></audio>
         <audio id="cannon" src="https://cdn.krew.io/assets/audio/Cannon.wav"></audio>
@@ -63,14 +65,133 @@
                     <span class="logged-in">You are logged in as</span>
                     <a href="#" class="login-link" onclick = "logoutUser(event)"></a>
                     <img src="/assets/img/logo.png" alt="Krew logo" class="rounded mx-auto d-block">
+                    <a href="https://addictinggames.com/" target="_blank">
+                        <img src="/assets/img/addictinggames_logo.png"  style="position:absolute;width: 20%;height:auto;left:5%;top:5%">
+                    </a>
+                </div>
+                <div id="modal-dialog" class="container" role="document">
+                    <div class="row justify-content-center">
+                        <div style="width:100%; top:310px">
+                            <div class="wall-of-fame-div">
+                                <div class="white-bg" style="border-radius: 5px; word-wrap: break-word">
+                                    <h4 class="changelog-title">Wall of fame</h4><br/>
+                                    <div id="wall-of-fame-table-div">
+                                        <table id="wall-of-fame-table">
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Player name</th>
+                                                <th>Clan</th>
+                                                <th>Highscore</th>
+                                            </tr>
+                                        </table>
+                                        <button class="btn btn-success btn-sm" id="show-more" style="padding: .55rem 1rem;">
+                                            <i class="icofont icofont-medal"></i>
+                                            Show more
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="main-menu-div">
+                                <div class="white-bg" style="border-radius: 5px; padding-top: 12px">
+                                    <div>
+                                        <span style="font-size: .8rem">Try <a href="https://relmz.io/" target="_window">relmz.io</a></span>
+                                        </br>
+                                        <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock</span>
+                                    </div>
+                                    <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">
+                                        Ahoy! It seems like you're using an invite link ;D
+                                    </div>
+        
+                                    <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
+                                        <select id="server-list" class="custom-select form-control"></select>
+                                    </div>
+        
+                                    <div id="select-spawn" class="form-group" style="margin:10 auto;">
+                                        <select id="spawn-selection" class="custom-select form-control">
+                                            <option value="sea">Spawn in the sea</option>
+                                            <option value="krew">Join a random krew</option>
+                                            <option value="guinea">Spawn on Guinea</option>
+                                            <option value="spain">Spawn on Spain</option>
+                                            <option value="labrador">Spawn on Labrador</option>
+                                            <option value="brazil">Spawn on Brazil</option>
+                                            <option value="island">Spawn on random island</option>
+                                        </select>
+                                    </div>
+        
+                                    <div class="form-group" style="margin:10 auto;">
+                                        <button id='play-button' type="button" class="btn btn-success btn-block" disabled>Loading...</button>
+                                        <button id='login-button' type="button" class="btn btn-warning btn-block" disabled style="display: none">Log In / Sign Up</button>
+                                        <button id='tutorial-button' type="button" class="btn btn-primary btn-block popup-youtube" href="https://www.youtube.com/watch?v=kwAydeQL73s?autoplay=1&rel=0">Watch tutorial</button>
+                                    </div>
+                                    <!-- jQuery code for tutorial popover -->
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('.popup-youtube').magnificPopup({
+                                                focus: '',
+                                                disableOn: 700,
+                                                type: 'iframe',
+                                                mainClass: 'mfp-own',
+                                                removalDelay: 160,
+                                                preloader: false,
+                                                fixedContentPos: false,
+                                            });
+                                        });
+                                    </script>
+        
+                                    <div id = "cpmstar_ad" style ="position:relative;text-align: center;max-width: 50%">
+                                       <script language="Javascript">
+                                            var cpmstar_rnd=Math.round(Math.random()*999999);
+                                            var cpmstar_pid=10016;
+                                            document.writeln("<SCR"+"IPT language='Javascript' src='//server.cpmstar.com/view.aspx?poolid="+cpmstar_pid+"&script=1&rnd="+cpmstar_rnd+"'></SCR"+"IPT>");
+                                       </script>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <a target="_blank" href="https://discord.krew.io"><img class="rounded" src="assets/img/discord.jpg"></a>
+                                    <a target="_blank" href="https://www.reddit.com/r/krewio"><img class="rounded" src="assets/img/reddit.jpg"></a>
+                                    <a target="_blank" href="https://www.facebook.com/krewio/"><img class="rounded" src="assets/img/fb.jpg"></a>
+                                    <a target="_blank" href="https://twitter.com/krewio"><img class="rounded" src="assets/img/twitter.jpg"></a>        
+                                    <br/>
+                                    <br/>
+                                    <span style="color: red">For optimal experience and to avoid browser bugs, make sure you are using Firefox. You can download it from <a href="https://www.mozilla.org/en-US/firefox/new/" target="_window">here</a>.</span>
+                                    <br/>
+                                    <small><a href="./tos.txt" target="_window">TOS & Privacy Policy</a></small>
+                                    <br/>
+                                    <small>Proxy / VPN detection by <a href="https://getipintel.net">GetIPIntel.net</a></small>
+                                </div>
+                            </div>
+        
+                            <div class="changelog-box">
+                                <div class="white-bg" style="border-radius: 5px">
+                                    <h4 class="changelog-title">Changelog</h4>
+                                    <span style="font-size:.8rem">Detailed information on </span><a style="font-size:.8rem" href="https://discord.krew.io">Discord</a>
+                                    <div id='krew-io_300x250'>
+                                        <script type='text/javascript'>
+                                        // aiptag.cmd.display.push(function() { aipDisplayTag.display('krew-io_300x250'); });
+                                        </script>
+                                    </div>
+                                    <div class="changelog-div">
+                                        <article class="changelog-article">
+                                            <h5 class="patch-title">Patch - September 07, 2020</h5>
+                                            <div class="patch-content">
+                                                <ul class="patch-content-list">
+                                                    <li><b>New:</b> Damien has taken over.</li>
+                                                </ul>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="loading-wheel">
-                <img src="/assets/img/wheel.png" alt="Ship wheel">
-                <div>Loading...</div>
+            <div id="loading-wheel">
+                <img src="/assets/img/wheel.png" style="margin-top:10%" class="wheel">
+                <div style="font-family:caribbean; font-size:20px;">Loading...</div>
             </div>
-            <div class="spyglass-overlay">
-                <img src="/assets/img/spyglass_ocular.png" alt="Spyglass overlay">
+            <div id="spyglass" style="display:none">
+                <img src="/assets/img/spyglass_ocular.png" style="width: 100%; height: 100; position: absolute;">
             </div>
             <div class="game-ui">
                 <!-- Krew Info -->
