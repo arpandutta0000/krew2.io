@@ -7,9 +7,9 @@ let core = require(`./core/core_concatenated.js`);
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
-let mognoUtil = require(`./core/mongo_connection`);
+let mongoUtil = require(`./core/mongo_connection`);
 
-mognoUtil.connectToServer((err, client) => {
+mongoUtil.connectToServer((err, client) => {
     if(err) console.log(err);
     if(cluster.isMaster) {
         let server = require(`./server.js`);

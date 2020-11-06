@@ -13,7 +13,7 @@ let chatOptions = {
 let maxPlayers = 100;
 let intervalUpdate = undefined;
 
-// Define staff accounts clientside for things like name coloring, tags, etc.
+// Define clientside account perms.
 const staff = {
     admins: [`devclied`, `DamienVesper`, `LeoLeoLeo`, `harderman`, `itsdabomb`],
     mods: [`Fiftyyyyy`, `Sloth`, `Sjmun`],

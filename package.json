@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "dist-test": "grunt-build-dist && grunt webpack:prod",
-        "prod": "grunt build-dist && grunt webpack:prod && cross-env NODE_ENV=\"prod\" && node src/server/server.js",
-        "dev": "grunt build-dist && grunt webpack:prod && cross-env NODE_ENV=\"dev\" && nodemon src/server/server.js"
+        "prod": "grunt build-dist && grunt webpack:prod && cross-env NODE_ENV=\"prod\" && node src/server/app.js",
+        "dev": "grunt build-dist && grunt webpack:prod && cross-env NODE_ENV=\"dev\" && nodemon src/server/app.js"
     },
     "repository": {
         "type": "git",
