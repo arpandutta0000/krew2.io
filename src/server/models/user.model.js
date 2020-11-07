@@ -1,24 +1,32 @@
 const Mongoose = require(`mongoose`);
 
 let clanSchema = Mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true
     },
-    tag: {
-        type: String,
-        required: true,
-    },
-    owner: {
+    email: {
         type: String,
         required: true
     },
-    leaders: {
-        type: Array,
+    creationIP: {
+        type: String,
         required: true
     },
-    assistants: {
-        type: Array,
+    lastIP: {
+        type: String,
+        required: true
+    },
+    creationDate: {
+        type: Date,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    clan: {
+        type: String,
         required: true
     }
 });

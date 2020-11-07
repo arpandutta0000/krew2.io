@@ -156,8 +156,11 @@ io.on(`connection`, async socket => {
 
         // Only start the restore process if the server start was less than 5 minutes ago.
         if(Date.now() - serverStartTimestamp < 3e5) {
-            let playerSave = await PlayerRestore.find({ ip: socket.handshake.address });
+            let playerSave = await PlayerRestore.findOne({ ip: socket.handshake.address });
             if(playerStore && Date.now() - playerStore.timestamp < 3e5) {
+                // If username is seadog, set the name to proper seadog.
+                if(playerEntity.name.startsWith(`seadog`)) playerEntity.name = playerSave.name;
+
                 // Restore gold.
                 playerEntity.gold = playerSave.gold;
 
@@ -173,17 +176,17 @@ io.on(`connection`, async socket => {
                 playerEntity.score = playerSave.score;
                 playerEntity.shipsSank = playerSave.shipsSank;
                 playerEntity.deaths = playerSave.deaths;
-                playerEntity.damage = playerSave.damage;
+                playerEntity.totalDamage = playerSave.totalDamage;
 
                 // Refund ship if captain.
                 if(playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipID].price;
 
                 // Restore item & item stats.
                 if(playerSave.itemID) playerEntity.itemID = playerSave.itemID;
-                playerEntity.attackSpeedBonus = playerSave.fireRateBonus;
-                playerEntity.attackDistanceBonus = playerSave.distanceBonus;
-                playerEntity.attackDamageBonus = playerSave.damageBonus;
-                playerEntity.movementSpeedBonus = playerSave.movementSpeedBonus;
+                playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
+                playerEntity.attackDistanceBonus = playerSave.bonus.distance;
+                playerEntity.attackDamageBonus = playerSave.bonus.damage;
+                playerEntity.movementSpeedBonus = playerSave.bonus.movement;
 
                 // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
                 playerSave.delete();
@@ -312,7 +315,8 @@ io.on(`connection`, async socket => {
                     player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
                     playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
 
-                    return console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    return player.socket.disconnect();
                 }
                 else if(command == `ban` && (isAdmin || isMod)) {
                     let banUser = args.shift();
@@ -321,6 +325,21 @@ io.on(`connection`, async socket => {
                     let player = core.players.find(player => player.name == kickUser);
                     if(!player) return;
 
+                    let ban = new Ban({
+                        IP: player.socket.handshake.address,
+                        comment: banReason.length == `` ? banReason: `banned by admin / mod`
+                    });
+                    ban.save(err ? console.log(err): () => {
+                        player.socket.disconnect();
+                        playerEntity.socket.emit(`showCenterMessage`, `You permanently banned ${player.name}`, 3, 1e4);    
+                    });
+                }
+                else if(command == `save` && (isAdmin || isDev)) {
+                    core.players.forEach(player => {
+                        let playerData = await PlayerRestore.findOne({ IP: socket.handshake.address });
+
+
+                    });
                 }
             }
         }
