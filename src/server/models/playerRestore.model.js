@@ -72,7 +72,7 @@ let playerRestoreSchema = Mongoose.Schema({
             type: Number,
             required: true
         },
-        movement: {
+        speed: {
             type: Number,
             required: true
         }

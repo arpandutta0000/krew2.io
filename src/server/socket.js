@@ -2,11 +2,12 @@
 const xssFilters = require(`xss-filters`);
 const axios = require(`axios`);
 
-// Crate logic.
+// Server startup config.
 global.cratesInSea = {
     min: 480,
     max: 1100
 }
+let reportIPs = [];
 
 // Admin panel.
 const thugConfig = require(`./config/thugConfig.js`);
@@ -94,7 +95,7 @@ io.on(`connection`, async socket => {
         if(playerEntity) return;
 
         // Check if the player IP is in the ban list.
-        let isIPBanned = await Ban.findOne({ ip: socket.handshake.address });
+        let isIPBanned = await Ban.findOne({ IP: socket.handshake.address });
         if(isIPBanned) {
             console.log(`${getTimestamp()} Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
             socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
@@ -156,15 +157,13 @@ io.on(`connection`, async socket => {
 
         // Only start the restore process if the server start was less than 5 minutes ago.
         if(Date.now() - serverStartTimestamp < 3e5) {
-            let playerSave = await PlayerRestore.findOne({ ip: socket.handshake.address });
+            let playerSave = await PlayerRestore.findOne({ IP: socket.handshake.address });
             if(playerStore && Date.now() - playerStore.timestamp < 3e5) {
                 // If username is seadog, set the name to proper seadog.
                 if(playerEntity.name.startsWith(`seadog`)) playerEntity.name = playerSave.name;
 
-                // Restore gold.
+                // Restore gold and xp.
                 playerEntity.gold = playerSave.gold;
-
-                // Restore xp.
                 playerEntity.experience = playerSave.xp;
                 playerEntity.points = {
                     fireRate: playerSave.fireRate,
@@ -186,7 +185,7 @@ io.on(`connection`, async socket => {
                 playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
                 playerEntity.attackDistanceBonus = playerSave.bonus.distance;
                 playerEntity.attackDamageBonus = playerSave.bonus.damage;
-                playerEntity.movementSpeedBonus = playerSave.bonus.movement;
+                playerEntity.movementSpeedBonus = playerSave.bonus.speed;
 
                 // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
                 playerSave.delete();
@@ -239,7 +238,7 @@ io.on(`connection`, async socket => {
             if(!staff.admins.includes(playerEntity.name) && !staff.mods.includes(playerEntity.name) && !staff.devs.includes(playerEntity.name)) return;
 
             // Parse the message for arguments and set the command.
-            let args = msgData.message.slice(2).split(/+/g);
+            let args = msgData.message.toString().slice(2).split(/+/g);
             let command = args.shift();
 
 
@@ -268,19 +267,21 @@ io.on(`connection`, async socket => {
                 if(command == `say`) {
                     let msg = args.join(` `);
                     if(!msg) return;
+
                     console.log(`${getTimestamp()} ADMIN SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return io.emit(`showAdminMessage`, msg);
                 }
                 else if(command == `recompense` && (isAdmin || isDev)) {
                     let amt = args[0];
-                    if(!amt || isNaN(parseInt(amt))) return;
 
-                    for(let i in core.players) core.players[i].gold += parseInt(amt);
+                    if(!amt || isNaN(parseInt(amt))) return;
+                    core.players.forEach(player => player.gold += parseInt(amt));
+
                     console.log(`${getTimestamp()} ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return io.emit(`showAdminMessage`, `You have received gold recompense for server retart!`);
                 }
                 else if(command == `nick` && isAdmin) {
-                    let nick = args[0].toString();
+                    let nick = args[0];
                     if(!nick) {
                         playerEntity.name = nick;
                         return console.log(`${getTimestamp()} ADMIN SET NAME: ${nick} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -291,17 +292,17 @@ io.on(`connection`, async socket => {
                     let output = `That player does not exist.`;
                     if(user.startsWith(`seadog`)) {
                         let player = core.players.find(player => player.name == user);
-                        if(!player) return;
+                        if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
-                        console.log(`${getTimestamp()} ADMIN WHOIS SEADOG: ${input} --> ${core.players[i].id} | IP: ${core.players[i].socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        output = core.players[i].id;
+                        console.log(`${getTimestamp()} ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        output = player.id;
                     }
                     else {
-                        let user = core.boats.find(boat => boat.crewName == user);
-                        if(!user) return;
+                        let player = core.boats.find(boat => boat.crewName == user);
+                        if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
-                        console.log(`${getTimestamp()} ADMIN WHOIS CAPTAIN: ${input} --> ${core.boats[i].captainID} | PLAYER NAME: ${core.players[i].name} | IP: ${core.players[i].socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        output = core.boats[i].captainID;
+                        console.log(`${getTimestamp()} ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainID} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        output = player.captainID;
                     }
                     return playerEntity.socket.emit(`showCenterMessage`, output, 4, 1e4);
                 }
@@ -310,7 +311,7 @@ io.on(`connection`, async socket => {
                     let kickReason = args.join(` `);
 
                     let player = core.players.find(player => player.name == kickUser);
-                    if(!player) return;
+                    if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                     player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
                     playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
@@ -323,7 +324,7 @@ io.on(`connection`, async socket => {
                     let banReason = args.join(` `);
 
                     let player = core.players.find(player => player.name == kickUser);
-                    if(!player) return;
+                    if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                     let ban = new Ban({
                         IP: player.socket.handshake.address,
@@ -335,12 +336,86 @@ io.on(`connection`, async socket => {
                     });
                 }
                 else if(command == `save` && (isAdmin || isDev)) {
+                    playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
                     core.players.forEach(player => {
-                        let playerData = await PlayerRestore.findOne({ IP: socket.handshake.address });
+                        // Delete existing outstanding data if any.
+                        let oldPlayerData = await PlayerRestore.findOne({ IP: socket.handshake.address });
+                        if(oldPlayerData) oldPlayerData.delete();
+                        
+                        let playerSaveData = new PlayerRestore({
+                            name: player.name,
+                            ip: player.socket.handshake.address,
+                            timestamp: new Date(),
 
+                            gold: player.gold,
+                            xp: player.experience,
+                            points: {
+                                fireRate: player.fireRate,
+                                distance: player.distance,
+                                damage: player.damage
+                            },
 
+                            score: player.score,
+                            shipsSank: player.shipsSank,
+                            deaths: player.deaths,
+                            totalDamage: player.totalDamage,
+
+                            isCaptain: player.isCaptain,
+                            shipID: player.parent ? player.parent.shipClassID: null,
+
+                            itemID: player.itemID ? player.itemID: null,
+                            bonus: {
+                                fireRate: player.attackSpeedBonus,
+                                distance: player.attackDistanceBonus,
+                                damage: player.attackDamageBonus,
+                                speed: player.movementSpeedBonus
+                            }
+                        });
+                        playerSaveData.save(err ? console.log(err): () => {
+                            console.log(`Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                            player.socket.disconnect();
+                        });
                     });
                 }
+                else if(command == `report` && (isAdmin || isMod)) {
+                    let reportUser = args.shift();
+                    let reportReason = args.join(` `);
+
+                    let player = core.players.find(player => player.name == reportUser);
+                    if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+
+                    if(reportIPs.includes(player.socket.handshake.address)) {
+                        player.socket.emit(`showCenterMessage`, `You have been warned...`, 1);
+
+                        console.log(`${getTimestamp()} Reporter ${playerEntity.name} reported ${player.name} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        Hook.warn(`Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+
+                        playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
+                        return player.socket.disconnect();
+                    }
+                    else {
+                        reportIPs.push(player.socket.handshake.address);
+                        player.socket.emit(`showCenterMessage`, `You have been reported. ${reportReason ? `Reason: ${reportReason} `: ``}Last warning!`, 1);
+                        playerEntity.socket.emit(`showCenterMessage`, `You reported ${player.name}`, 3, 1e4);
+
+                        console.log(`${getTimestamp()} Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        return Hook.warn(`Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    }
+                }
+                else if(command == `mute` && (isAdmin || isMod)) {
+                    let mutePlayer = args.shift();
+                    let muteReason = args.join(` `);
+
+                    let player = core.players.find(player => player.name == mutePlayer);
+                    if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+
+                    player.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
+                    playerEntity.socket.emit(`showCenterMessage`, `You muted ${player.name}`, 3);
+
+                    console.log(`${getTimestamp()} Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    Hook.warn(`Muted Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                }
+                return;
             }
         }
     });
