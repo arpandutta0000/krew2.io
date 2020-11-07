@@ -130,7 +130,7 @@ io.on(`connection`, async socket => {
 
         // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
         if(data.lastIP && !(playerEntity.socket.handshake.address.includes(data.lastIP))) {
-            console.log(`${getTimestamp()} Player ${playerEntity.name} tried to connect from differnt IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            console.log(`${getTimestamp()} Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             return playerEntity.socket.disconnect();
         }
 
@@ -228,19 +228,22 @@ io.on(`connection`, async socket => {
 
         // Staff commands.
         if((msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`)) && playerEntity.isLoggedIn) {
+            // If the player is not a staff member, disregard the command usage.
             if(!staff.admins.includes(playerEntity.name) && !staff.mods.includes(playerEntity.name) && !staff.devs.includes(playerEntity.name)) return;
+
+            // Parse the message for arguments and set the command.
             let args = msgData.message.slice(2).split(/+/g);
             let command = args.shift();
 
-            let isAdmin = thugConfig.staff.admins[playerEntity.name] == pwd;
-            let isMod = thugConfig.staff.mods[playerEntity.name] == pwd;
-            let isDev = thugConfig.staff.devs[playerEntity.name] == pwd;
 
             // If the user has not authenticated, only give them access to login command.
             if(!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                 let pwd = await md5(args[0]);
                 if(command == `login`) {
-
+                    let isAdmin = thugConfig.staff.admins[playerEntity.name] == pwd;
+                    let isMod = thugConfig.staff.mods[playerEntity.name] == pwd;
+                    let isDev = thugConfig.staff.devs[playerEntity.name] == pwd;
+        
                     // Log the player login and send them a friendly message confirming it.
                     console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
                     if(isAdmin || isMod || isDev) playerEntity.socket.emit(`showCenterMessage`, `Logged in succesfully`, 3, 1e4);
@@ -250,8 +253,60 @@ io.on(`connection`, async socket => {
                 }
             }
             else {
-                // Staff commands after authentication. Commands will stack with permissions.
-                
+                let isAdmin = playerEntity.isAdmin;
+                let isMod = playerEntity.isMod;
+                let isDev = playerEntity.isDev;
+
+                // Staff commands after authentication.
+                if(command == `say`) {
+                    let msg = args[0];
+                    if(!msg) return;
+                    console.log(`${getTimestamp()} ADMIN SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    return io.emit(`showAdminMessage`, msg);
+                }
+                else if(command == `recompense` && (isAdmin || isDev)) {
+                    let amt = args[0];
+                    if(!amt || isNaN(parseInt(amt))) return;
+
+                    for(let i in core.players) core.players[i].gold += parseInt(amt);
+                    console.log(`${getTimestamp()} ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    return io.emit(`showAdminMessage`, `You have received gold recompense for server retart!`);
+                }
+                else if(command == `nick` && isAdmin) {
+                    let nick = args[0].toString();
+                    if(!nick) {
+                        playerEntity.name = nick;
+                        return console.log(`${getTimestamp()} ADMIN SET NAME: ${nick} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    }
+                }
+                else if(command == `whois` && isAdmin) {
+                    let user = args[0];
+                    let output = `That player does not exist.`;
+                    if(user.startsWith(`seadog`)) {
+                        let player = core.players.find(player => player.name == user);
+                        if(!player) return;
+
+                        console.log(`${getTimestamp()} ADMIN WHOIS SEADOG: ${input} --> ${core.players[i].id} | IP: ${core.players[i].socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        output = core.players[i].id;
+                    }
+                    else {
+                        let user = core.boats.find(boat => boat.crewName == user);
+                        if(!user) return;
+
+                        console.log(`${getTimestamp()} ADMIN WHOIS CAPTAIN: ${input} --> ${core.boats[i].captainID} | PLAYER NAME: ${core.players[i].name} | IP: ${core.players[i].socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        output = core.boats[i].captainID;
+                    }
+                    return playerEntity.socket.emit(`showCenterMessage`, output, 4, 1e4);
+                }
+                else if(command == `kick` && (isAdmin || isMod)) {
+                    let kickUser = args.shift();
+                    let kickReason = args.join(` `);
+
+                    let player = core.players.find(player => player.name == kickUser);
+                    if(!player) return;
+
+                    player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
+                }
             }
         }
     });
