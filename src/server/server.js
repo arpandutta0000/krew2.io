@@ -4,7 +4,7 @@ Note that the app must be exported to be used by socket.io.
 */
 
 // Configuration
-const config = require(`./config.js`);
+const config = require(`./config/config.js`);
 const dotenv = require(`dotenv`).config();
 
 // Dependencies
@@ -15,7 +15,7 @@ const bodyParser = require(`body-parser`);
 const fs = require(`fs`);
 const socketIO = require(`socket.io`);
 
-// Declare rollbar.
+// Use rollbar.
 const Rollbar = require(`rollbar`);
 let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
@@ -23,67 +23,8 @@ let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 let app = express();
 
 // Routes.
-const authRouter = require(`./routes/auth.js`);
 const indexRouter = require(`./routes/index.js`);
-
-// Load passport.
-const passport = require(`passport`);
-const Auth0Strategy = require(`passport-auth0`);
-
-const { auth } = require(`express-openid-connect`);
-
-// Auth0 configuration.
-const auth0Config = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: `öskdjfnspdijnfpsidjn`,
-    baseURL: `https://${config.domain}`,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: `https://${process.env.AUTH0_CUSTOM_DOMAIN}`
-}
-
-// Configure express session.
-const expressSession = require(`express-session`);
-let session = {
-    secret: process.env.AUTH0_SESSION_SECRET,
-    cookie: {
-        path: `/`,
-        _expires: null,
-        originalMaxAge: null,
-        httpOnly: true
-    },
-    resave: false,
-    saveUnitialized: false
-}
-app.use(expressSession(session));
-
-// Configure passport for Auth0.
-let strategy = new Auth0Strategy({
-    domain: process.env.AUTH0_CUSTOM_DOMAIN,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL: process.env.AUTH0_CALLBACK_URL || `https://${config.domain}/callback`
-}, (accessToken, refreshToken, extraParams, profile, done) => {
-    return done(null, profile);
-});
-
-passport.use(strategy);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
-
-app.use((req, res, next) => {
-    res.locals.isAuthenticated = req.isAuthenticated();
-    next();
-});
-
-app.use(`/`, authRouter);
 app.use(`/`, indexRouter);
-
-app.use(auth(auth0Config));
 
 // Enable body parser.
 app.use(bodyParser.json({ limit: `50mb` }));
@@ -138,19 +79,6 @@ app.get(`/wall-of-fame`, (req, res) => {
     let sort = { highscore: -1 }
 
     mongodb.ReturnAndSort(`players`, query, fields, sort, 20, callback => res.jsonp(callback));
-});
-
-// Login data.
-app.get(`/authenticated`, (req, res, next) => {
-    if(req.user) {
-        let buff = new Buffer.from(req.user.user_id);
-        let base64token = buff.toString(`base64`);
-
-        res.send({ username: req.user.nickname, token: base64token });
-        return next();
-    }
-    else res.send(`out`);
-    req.session.returnTo = `/`;
 });
 
 // Admin panel.

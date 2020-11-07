@@ -3,7 +3,7 @@ const Mongoose = require(`mongoose`);
 let banSchema = Mongoose.Schema({
     timestamp: {
         type: Date,
-        required: true
+        required: false
     },
     IP: {
         type: String,

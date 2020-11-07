@@ -9,7 +9,7 @@ global.cratesInSea = {
 }
 
 // Admin panel.
-const thugConfig = require(`./thugConfig.js`);
+const thugConfig = require(`./config/thugConfig.js`);
 
 // Auth login.
 let login = require(`./auth/login.js`);
@@ -24,11 +24,15 @@ let http = require(`http`);
 let https = require(`https`);
 
 // Mongoose API wrapper for MongoDB.
+const mongoConnection = require(`./utils/mongoConnection`);
+
+// Mongoose Models
 const User = require(`./models/user.model`);
 const Clan = require(`./models/clan.model`);
 const Ban = require(`./models/ban.model`);
 const Hacker = require(`./models/hacker.model`);
 const PlayerRestore = require(`./models/playerRestore.model`);
+
 
 // Log the time that the server started up.
 let serverStartTimestamp = Date.now();
@@ -259,7 +263,7 @@ io.on(`connection`, async socket => {
 
                 // Staff commands after authentication.
                 if(command == `say`) {
-                    let msg = args[0];
+                    let msg = args.join(` `);
                     if(!msg) return;
                     console.log(`${getTimestamp()} ADMIN SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return io.emit(`showAdminMessage`, msg);
@@ -306,6 +310,17 @@ io.on(`connection`, async socket => {
                     if(!player) return;
 
                     player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
+                    playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
+
+                    return console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                }
+                else if(command == `ban` && (isAdmin || isMod)) {
+                    let banUser = args.shift();
+                    let banReason = args.join(` `);
+
+                    let player = core.players.find(player => player.name == kickUser);
+                    if(!player) return;
+
                 }
             }
         }
