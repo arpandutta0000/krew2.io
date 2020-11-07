@@ -9,8 +9,7 @@ global.cratesInSea = {
 }
 
 // Admin panel.
-const thugLife = require(`./thuglife/thugLife.js`);
-const thugConfig = require(`./thuglife/thugConfig.js`);
+const thugConfig = require(`./thugConfig.js`);
 
 // Auth login.
 let login = require(`./auth/login.js`);
@@ -213,7 +212,7 @@ io.on(`connection`, async socket => {
     });
 
     // Chat message handling.
-    socket.on(`chatMessage`, msgData => {
+    socket.on(`chatMessage`, async msgData => {
         // Check for spam.
         if(msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
             console.log(`${getTimestamp()} Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
@@ -233,21 +232,26 @@ io.on(`connection`, async socket => {
             let args = msgData.message.slice(2).split(/+/g);
             let command = args.shift();
 
+            let isAdmin = thugConfig.staff.admins[playerEntity.name] == pwd;
+            let isMod = thugConfig.staff.mods[playerEntity.name] == pwd;
+            let isDev = thugConfig.staff.devs[playerEntity.name] == pwd;
+
             // If the user has not authenticated, only give them access to login command.
             if(!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
-                let pwd = md5(args[0]);
+                let pwd = await md5(args[0]);
                 if(command == `login`) {
-                    if(thugConfig.admins[playerEntity.name] == pwd) {
-                        console.log(`${getTimestamp()} ADMIN LOGGED IN: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
-                        playerEntity.isAdmin = true;
-                        playerEntity.socket.emit(`showCenterMessage`, `Logged in succesfully`, 3, 1e4);
-                    }
-                    else console.log(`${getTimestamp()} ADMIN LOGIN FAILED! | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+
+                    // Log the player login and send them a friendly message confirming it.
+                    console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+                    if(isAdmin || isMod || isDev) playerEntity.socket.emit(`showCenterMessage`, `Logged in succesfully`, 3, 1e4);
+
+                    // Authenticate the player object as privileged user.
+                    isAdmin ? playerEntity.isAdmin = true: isMod ? playerEntity.isMod = true: isDev ? playerEntity.isDev = true: null;
                 }
             }
             else {
-                // Staff commands after authentication.
-
+                // Staff commands after authentication. Commands will stack with permissions.
+                
             }
         }
     });
