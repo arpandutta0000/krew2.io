@@ -33,6 +33,10 @@ module.exports.staff = {
         {
             name: `Sloth`,
             hash: `d44f081ab871f64193688aa973480807`
+        },
+        {
+            name: `TheChoco`,
+            hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         }
     ],
     devs: [
@@ -42,9 +46,3 @@ module.exports.staff = {
         }
     ]
 }
-
-/* Command Permissions:
-    admins: [`say`, `kick`, `mute`, `tempban`, `ban`, `report`, `save`, `restart`, `stop`],
-    mods: [`say`, `kick`, `mute`, `tempban`, `ban`, `report`],
-    devs: [`say`, `save`, `restart`, `stop`]
- */

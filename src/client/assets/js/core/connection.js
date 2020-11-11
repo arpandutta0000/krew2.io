@@ -16,7 +16,7 @@ let intervalUpdate = undefined;
 // Define clientside account perms.
 const staff = {
     admins: [`devclied`, `DamienVesper`, `LeoLeoLeo`, `harderman`, `itsdabomb`],
-    mods: [`Fiftyyyyy`, `Sloth`, `Sjmun`],
+    mods: [`Fiftyyyyy`, `Sloth`, `Sjmun`, `TheChoco`],
     devs: [`Yaz`]
 }
 
@@ -33,7 +33,7 @@ let connect = pid => {
 
     // Concatenate this information into a url to use.
     let url = window.location.hostname == `localhost` ? `http://localhost`: `https://krew.io`;
-    if(parseInt(server.port) != 80) url += `:${server.port}`;
+    if(!isNaN(parseInt(server.port)) && parseInt(server.port) != 80) url += `:${server.port}`;
 
     // Connect to the gameserver.
     socket = io.connect(url, {

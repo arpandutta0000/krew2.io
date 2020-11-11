@@ -74,7 +74,7 @@ console.log(`Socket.IO is running on port ${process.env.port}.`);
 // Define serverside account perms.
 const staff = {
     admins: [`devclied`, `LeoLeoLeo`, `DamienVesper`, `ITSDABOMB`, `harderman`],
-    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`],
+    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`],
     devs: [`Yaz_`]
 }
 
@@ -508,6 +508,7 @@ io.on(`connection`, async socket => {
         }
     });
 
+    // Fired when player disconnects from the game.
     socket.on(`disconnect`, data => {
         console.log(`${getTimestamp()} Player: ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         if(!DEV_ENV) delete gameCookies[playerEntity.id];
@@ -520,9 +521,10 @@ io.on(`connection`, async socket => {
         }
 
         if(playerEntity.parent.netType == 1 && playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3 && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHP) {
-            playerEntity.parent.hp = 1;
             console.log(`${getTimestamp()} Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
+            // Make the ship a one-hitter and remove it from the game after fifteen seconds.
+            playerEntity.parent.hp = 1;
             setTimeout(() => {
                 core.removeEntity(playerEntity);
                 playerEntity.parent.updateProps();
@@ -540,6 +542,35 @@ io.on(`connection`, async socket => {
                 if(playerEntity.parent.netType == 1) {
                     playerEntity.parent.updateProps();
                     if(Object.keys(playerEntity.parent.children).length == 0) core.removeEntity(playerEntity.parent());
+                }
+            }
+        }
+    });
+
+    socket.on(`updateKrewName`, name => {
+        // Do not allow any form of brackets in the name.
+        name = name.replace(/[\[\]{}()/\\]/g, ``);
+
+        if(name != null && name.length > 1) {
+            console.log(`${getTimestamp()} Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+
+            if(name.length > 60) {
+                console.log(`${getTimestamp()} Exploit detected (crew name). Player ${playerEntity.name} kicked | Adding IP ${playerEntity.socket.handshake.address} to the ban list | Server ${playerEntity.serverNumber}.`);
+                if(playerEntity.socket.handshake.address.length > 5) {
+                    let ban = new Ban({ ip: socket.handshake.address });
+                    return ban.save(err ? console.log(err): playerEntity.socket.disconnect());
+                }
+
+                // Filter the ship name.
+                name = xssFilters.inHTMLData(name);
+                name = filter.clean(name);
+                name = name.substring(0, 20);
+
+                // Make sure that the player is the captain of the krew.
+                let boat = playerENtity.parent;
+                if(core.boats[boat.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainID == playerEntity.id) {
+                    if(krewioData) krewioService.save(krewioData.user, { krewname: name }).then(data => krewioData = data);
+                    core.boats[boat.id].crewName = name;
                 }
             }
         }
