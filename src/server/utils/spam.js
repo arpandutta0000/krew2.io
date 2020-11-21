@@ -1,5 +1,5 @@
 let now = new Date();
-const getTimestamp = require(`./getTimestamp.js`);
+const getTimestamp = require(`./log.js`);
 
 let isSpamming = (playerEntity, message) => {
     if(typeof message != `string`) return true;

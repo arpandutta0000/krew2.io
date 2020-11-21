@@ -79,4 +79,4 @@ let playerRestoreSchema = Mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(playerRestoreSchema);
+module.exports = Mongoose.model(`PlayerRestore`, playerRestoreSchema);

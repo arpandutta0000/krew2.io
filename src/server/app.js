@@ -2,12 +2,12 @@ const dotenv = require(`dotenv`).config();
 const config = require(`./config/config.js`);
 
 const cluster = require(`cluster`);
+const log = require(`./utils/log.js`);
 
-let core = require(`./core/core_concatenated.js`);
+let core = null; //require(`./core/core_concatenated.js`);
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
-if(err) console.log(err);
 if(cluster.isMaster) {
     let server = require(`./server.js`);
     server.app.workers = {}
@@ -25,7 +25,7 @@ if(cluster.isMaster) {
         });
     }
     else {
-        for(let i = 0; i < numCPUs; i++) {
+        for(let i = 0; i < DEV_ENV == `prod` ? 3: 1; i++) {
             process.env.port = 2001 + i;
 
             let worker = cluster.fork();
@@ -67,15 +67,14 @@ else {
                 });
             }
             catch(err) {
-                console.log(err, err.stack);
-                ige.log(`emit error at`, msgType, data, err);
+                log(err);
             }
         }, 1e3);
     }
     catch(e) {
-        console.log(`e`, e);
+        log(`error ${e}`);
     }
 
     console.log(`Worker ${process.pid} started.`);
-    console.log(`Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
+    console.log(`Server has been up since: ${new Date()}`);
 }

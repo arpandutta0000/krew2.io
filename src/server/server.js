@@ -19,6 +19,10 @@ const socketIO = require(`socket.io`);
 const Rollbar = require(`rollbar`);
 let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
+const connection = require(`./utils/mongoConnection.js`);
+const User = require(`./models/user.model.js`);
+
+
 // Create app.
 let app = express();
 
@@ -73,19 +77,16 @@ let io = config.port == 8080 ? socketIO(server, { origins: `*:*` }).listen(2000)
 app.get(`/get_servers`, (req, res) => res.jsonp(app.workers));
 
 // Wall of fame data.
-app.get(`/wall-of-fame`, (req, res) => {
-    let query = {}
-    let fields = { _id: 0, playerName: 1, clan: 1, highscore: 1 }
-    let sort = { highscore: -1 }
-
-    mongodb.ReturnAndSort(`players`, query, fields, sort, 20, callback => res.jsonp(callback));
+app.get(`/wall-of-fame`, async(req, res) => {
+    let wofPlayers = await User.find({}).sort({ highscore: -1 }).slice(20);
+    res.jsonp(wofPlayers);
 });
 
 // Admin panel.
 app.get(`/thug_life`, (req, res) => res.render(`index_thuglife.ejs`));
 
 // Listen on port for incoming requests.
-server.listen(config.port, () => console.log(`Server is running on port ${config.port}.`));
+server.listen(config.port, () => log(`Server is running on port ${config.port}.`));
 
 // Export server for use in other serverside files.
 exports.server = server;

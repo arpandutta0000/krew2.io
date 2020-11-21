@@ -19,6 +19,7 @@
     },
     "homepage": "https://github.com/Krew-io/krew2.io#readme",
     "dependencies": {
+        "axios": "^0.21.0",
         "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",
         "cross-env": "^7.0.2",
@@ -39,6 +40,7 @@
         "nodemon": "^2.0.6",
         "rollbar": "^2.19.4",
         "socket.io": "^2.3.0",
-        "webpack": "^4.44.2"
+        "webpack": "^4.44.2",
+        "xss-filters": "^1.2.7"
     }
 }

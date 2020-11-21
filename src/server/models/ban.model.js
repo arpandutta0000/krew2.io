@@ -15,4 +15,4 @@ let banSchema = Mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(banSchema);
+module.exports = Mongoose.model(`Ban`, banSchema);

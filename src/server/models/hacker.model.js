@@ -1,6 +1,6 @@
 const Mongoose = require(`mongoose`);
 
-let banSchema = Mongoose.Schema({
+let hackerSchema = Mongoose.Schema({
     name: {
         type: String,
         required: false
@@ -11,4 +11,4 @@ let banSchema = Mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(banSchema);
+module.exports = Mongoose.model(`HackerSchema`, hackerSchema);

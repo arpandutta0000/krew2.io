@@ -54,7 +54,7 @@ if(global.io == undefined) {
 }
 
 // Utils.
-const getTimestamp = require(`./utils/getTimestamp.js`);
+const log = require(`./utils/log.js`);
 const sha256 = require(`./utils/sha256.js`);
 const md5 = require(`./utils/md5.js`);
 const { isSpamming, mutePlayer } = require(`./utils/spam.js`);
@@ -91,14 +91,14 @@ io.on(`connection`, async socket => {
     // Define the player entity that stores all data for the player.
     let playerEntity;
 
-    let initPlayerSocket = data => {
+    let initPlayerSocket = async data => {
         // Player entity already exists, so don't create another one else it will duplicate itself.
         if(playerEntity) return;
 
         // Check if the player IP is in the ban list.
         let isIPBanned = await Ban.findOne({ IP: socket.handshake.address });
         if(isIPBanned) {
-            console.log(`${getTimestamp()} Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
+            log(`Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
             socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
 
             socket.banned = true;
@@ -111,7 +111,7 @@ io.on(`connection`, async socket => {
 
             if(res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
                 socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
-                console.log(`${getTimestamp()} VPN connection. Disconnecting IP: ${socket.handshake.address}.`);
+                log(`VPN connection. Disconnecting IP: ${socket.handshake.address}.`);
 
                 // Ban the IP.
                 let ban = new Ban({
@@ -125,7 +125,7 @@ io.on(`connection`, async socket => {
 
         // Check if cookie has been blocked.
         if(data.cookie != undefined && data.cookie != ``) {
-            if(Object.values(gameCookies).includes(data.cookie)) return console.log(`${getTimestamp()} Trying to spam multiple players... ${socket.handshake.address}.`);
+            if(Object.values(gameCookies).includes(data.cookie)) return log(`Trying to spam multiple players... ${socket.handshake.address}.`);
             gameCookies[socketID] = data.cookie;
         }
 
@@ -136,7 +136,7 @@ io.on(`connection`, async socket => {
 
         // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
         if(data.lastIP && !(playerEntity.socket.handshake.address.includes(data.lastIP))) {
-            console.log(`${getTimestamp()} Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             return playerEntity.socket.disconnect();
         }
 
@@ -144,11 +144,11 @@ io.on(`connection`, async socket => {
         playerEntity.serverNumber = playerEntity.socket.handshake.headers.host.substr(-4) == `2001` ? 1: 2;
         playerEntity.sellCounter = 0;
 
-        if(playerEntity.socket.request.headers.user-agent && playerEntity.socket.handshake.address) console.log(`${getTimestamp()} Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers.user-agent} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
+        if(playerEntity.socket.request.headers.user-agent && playerEntity.socket.handshake.address) log(`Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers.user-agent} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
 
         // Log hackers if detected.
         if(data.hacker) {
-            console.log(`${getTimestamp()} Exploit detected (modified client script / wrong emit). Player name: ${playerEntity.name} | IP: ${socket.handshake.address}.`);
+            log(`Exploit detected (modified client script / wrong emit). Player name: ${playerEntity.name} | IP: ${socket.handshake.address}.`);
             let hacker = new Hacker({
                 name: playerEntity.name,
                 IP: socket.handshake.address
@@ -201,7 +201,7 @@ io.on(`connection`, async socket => {
     socket.on(`u`, data => playerEntity.parseSnap(data));
 
     let checkPlayerStatus = () => {
-        if(playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) console.log(`${getTimestamp()} Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        if(playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) log(`Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
     }
 
     // Gather all stats and return them to the client.
@@ -222,7 +222,7 @@ io.on(`connection`, async socket => {
     socket.on(`chatMessage`, async msgData => {
         // Check for spam.
         if(msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
-            console.log(`${getTimestamp()} Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
+            log(`Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
             console.log(`Spam message: ${msgData.message}`);
 
             let ban = new Ban({
@@ -240,7 +240,7 @@ io.on(`connection`, async socket => {
 
             // Respective prefixes.
             if(msgData.message.startsWith(`!!`) && !staff.admins.includes(playerEntity.name) && !staff.devs.includes(playerEntity.name)) return;
-            if(msgData.emssage.startsWith(`//`) && !staff.mods.includes(playerEntity.name)) return;
+            if(msgData.message.startsWith(`//`) && !staff.mods.includes(playerEntity.name)) return;
 
             // Parse the message for arguments and set the command.
             let args = msgData.message.toString().slice(2).split(/+/g);
@@ -256,7 +256,7 @@ io.on(`connection`, async socket => {
                     let isDev = thugConfig.staff.devs[playerEntity.name] == pwd;
         
                     // Log the player login and send them a friendly message confirming it.
-                    console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+                    log(`${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
                     if(isAdmin || isMod || isDev) playerEntity.socket.emit(`showCenterMessage`, `Logged in succesfully`, 3, 1e4);
 
                     // Authenticate the player object as privileged user.
@@ -273,7 +273,7 @@ io.on(`connection`, async socket => {
                     let msg = args.join(` `);
                     if(!msg) return;
 
-                    console.log(`${getTimestamp()} ADMIN SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    log(`ADMIN SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return io.emit(`showAdminMessage`, msg);
                 }
                 else if(command == `recompense` && (isAdmin || isDev)) {
@@ -282,14 +282,14 @@ io.on(`connection`, async socket => {
                     if(!amt || isNaN(parseInt(amt))) return;
                     core.players.forEach(player => player.gold += parseInt(amt));
 
-                    console.log(`${getTimestamp()} ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    log(`ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return io.emit(`showAdminMessage`, `You have received gold recompense for server retart!`);
                 }
                 else if(command == `nick` && isAdmin) {
                     let nick = args[0];
                     if(!nick) {
                         playerEntity.name = nick;
-                        return console.log(`${getTimestamp()} ADMIN SET NAME: ${nick} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return log(`ADMIN SET NAME: ${nick} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     }
                 }
                 else if(command == `whois` && isAdmin) {
@@ -299,14 +299,14 @@ io.on(`connection`, async socket => {
                         let player = core.players.find(player => player.name == user);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
-                        console.log(`${getTimestamp()} ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        log(`ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         output = player.id;
                     }
                     else {
                         let player = core.boats.find(boat => boat.crewName == user);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
-                        console.log(`${getTimestamp()} ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainID} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        log(`ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainID} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         output = player.captainID;
                     }
                     return playerEntity.socket.emit(`showCenterMessage`, output, 4, 1e4);
@@ -321,7 +321,7 @@ io.on(`connection`, async socket => {
                     player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
                     playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
 
-                    console.log(`${getTimestamp()} ${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    log(`${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return player.socket.disconnect();
                 }
                 else if(command == `ban` && (isAdmin || isMod)) {
@@ -341,7 +341,7 @@ io.on(`connection`, async socket => {
                         playerEntity.socket.emit(`showCenterMessage`, `You permanently banned ${player.name}`, 3, 1e4);    
                     });
 
-                    console.log(`${getTimestamp()} Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    log(`Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                     return Hook.warn(`Permanently Ban Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                 }
                 else if(command == `tempban` && (isAdmin || isMod)) {
@@ -362,12 +362,12 @@ io.on(`connection`, async socket => {
                         playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
                     });
 
-                    console.log(`${getTimestamp()} Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    log(`Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                     return Hook.warn(`Temporary Ban Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                 }
                 else if(command == `save` && (isAdmin || isDev)) {
                     playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
-                    core.players.forEach(player => {
+                    core.players.forEach(async player => {
                         // Delete existing outstanding data if any.
                         let oldPlayerData = await PlayerRestore.findOne({ IP: socket.handshake.address });
                         if(oldPlayerData) oldPlayerData.delete();
@@ -417,7 +417,7 @@ io.on(`connection`, async socket => {
                     if(reportIPs.includes(player.socket.handshake.address)) {
                         player.socket.emit(`showCenterMessage`, `You have been warned...`, 1);
 
-                        console.log(`${getTimestamp()} Reporter ${playerEntity.name} reported ${player.name} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        log(`Reporter ${playerEntity.name} reported ${player.name} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         Hook.warn(`Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} for the second time --> kick | ${reportReason ? `Reason: ${reportReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
 
                         playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
@@ -428,7 +428,7 @@ io.on(`connection`, async socket => {
                         player.socket.emit(`showCenterMessage`, `You have been reported. ${reportReason ? `Reason: ${reportReason} `: ``}Last warning!`, 1);
                         playerEntity.socket.emit(`showCenterMessage`, `You reported ${player.name}`, 3, 1e4);
 
-                        console.log(`${getTimestamp()} Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        log(`Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         return Hook.warn(`Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} | ${reportReason ? `Reason: ${reportReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                     }
                 }
@@ -443,7 +443,7 @@ io.on(`connection`, async socket => {
                     player.socket.emit(`showCenterMessage`, `You have been muted! ${muteReason ? `Reason: ${muteReason}`: ``}`, 1);
                     playerEntity.socket.emit(`showCenterMessage`, `You muted ${player.name}`, 3);
 
-                    console.log(`${getTimestamp()} Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    log(`Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                     return Hook.warn(`Muted Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                 }
             }
@@ -510,18 +510,18 @@ io.on(`connection`, async socket => {
 
     // Fired when player disconnects from the game.
     socket.on(`disconnect`, data => {
-        console.log(`${getTimestamp()} Player: ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        log(`Player: ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         if(!DEV_ENV) delete gameCookies[playerEntity.id];
 
         if(playerEntity.isLoggedIn == true && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
-            console.log(`${getTimestamp()} Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${player.socket.handshake.address}`);
+            log(`Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${player.socket.handshake.address}`);
             playerEntity.highscore = playerEntity.gold;
 
             User.updateOne({ name: playerEntity.name }, { highscore: playerEntity.gold });
         }
 
         if(playerEntity.parent.netType == 1 && playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3 && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHP) {
-            console.log(`${getTimestamp()} Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             // Make the ship a one-hitter and remove it from the game after fifteen seconds.
             playerEntity.parent.hp = 1;
@@ -552,10 +552,10 @@ io.on(`connection`, async socket => {
         name = name.replace(/[\[\]{}()/\\]/g, ``);
 
         if(name != null && name.length > 1) {
-            console.log(`${getTimestamp()} Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             if(name.length > 60) {
-                console.log(`${getTimestamp()} Exploit detected (crew name). Player ${playerEntity.name} kicked | Adding IP ${playerEntity.socket.handshake.address} to the ban list | Server ${playerEntity.serverNumber}.`);
+                log(`Exploit detected (crew name). Player ${playerEntity.name} kicked | Adding IP ${playerEntity.socket.handshake.address} to the ban list | Server ${playerEntity.serverNumber}.`);
                 if(playerEntity.socket.handshake.address.length > 5) {
                     let ban = new Ban({ ip: socket.handshake.address });
                     return ban.save(err ? console.log(err): playerEntity.socket.disconnect());

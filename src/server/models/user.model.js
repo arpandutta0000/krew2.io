@@ -1,6 +1,6 @@
 const Mongoose = require(`mongoose`);
 
-let clanSchema = Mongoose.Schema({
+let userSchema = Mongoose.Schema({
     username: {
         type: String,
         required: true
@@ -31,4 +31,4 @@ let clanSchema = Mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(clanSchema);
+module.exports = Mongoose.model(`User`, userSchema);

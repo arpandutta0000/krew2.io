@@ -23,4 +23,4 @@ let clanSchema = Mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(clanSchema);
+module.exports = Mongoose.model(`Clan`, clanSchema);
