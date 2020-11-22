@@ -1,0 +1,22 @@
+module.exports = {
+    iterateEntities,
+    entities,
+    worldsize,
+    boats,
+    players,
+    pickups,
+    bots,
+    Landmarks,
+    createPlayer,
+    createBoat,
+    createLandmark,
+    creaeteBot,
+    createPickup,
+    removeEntity,
+    entityDistance,
+    boatTypes,
+    itemTypes,
+    goodsTypes,
+    config: this.config,
+    compressor
+}
