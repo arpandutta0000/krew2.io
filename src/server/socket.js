@@ -34,13 +34,17 @@ const Ban = require(`./models/ban.model.js`);
 const Hacker = require(`./models/hacker.model.js`);
 const PlayerRestore = require(`./models/playerRestore.model.js`);
 
+// Utils.
+const log = require(`./utils/log.js`);
+const sha256 = require(`./utils/sha256.js`);
+const md5 = require(`./utils/md5.js`);
+const { isSpamming, mutePlayer } = require(`./utils/spam.js`);
 
 // Log the time that the server started up.
 let serverStartTimestamp = Date.now();
-console.log(`UNIX Timestamp for server start: ${serverStartTimestamp}.`);
+log(`UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
 // Configure the socket.
-const socketIO = require(`socket.io`);
 if(global.io == undefined) {
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
         key: fs.existsSync(config.ssl.key) ? fs.readFileSync(config.ssl.key): null,
@@ -49,15 +53,9 @@ if(global.io == undefined) {
         rejectUnauthorized: false
     }): http.createServer();
 
-    global.io = socketIO()(server, { origins: `*:*` });
-    server.listen(proces.env.port);
+    global.io = require(`socket.io`)(server, { origins: `*:*` });
+    server.listen(process.env.port);
 }
-
-// Utils.
-const log = require(`./utils/log.js`);
-const sha256 = require(`./utils/sha256.js`);
-const md5 = require(`./utils/md5.js`);
-const { isSpamming, mutePlayer } = require(`./utils/spam.js`);
 
 // Alphanumeric string checker.
 const isAlphanumeric = str => {
@@ -67,9 +65,9 @@ const isAlphanumeric = str => {
 
 // Discord webhook.
 const webhook = require(`webhook-discord`);
-let Hook = new webhook.Webhook(process.env.WEBHOOK_URI);
+let Hook = new webhook.Webhook(process.env.WEBHOOK_URL);
 
-console.log(`Socket.IO is running on port ${process.env.port}.`);
+log(`Socket.IO is running on port ${process.env.port}.`);
 
 // Define serverside account perms.
 const staff = {
@@ -223,7 +221,7 @@ io.on(`connection`, async socket => {
         // Check for spam.
         if(msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
             log(`Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
-            console.log(`Spam message: ${msgData.message}`);
+            log(`Spam message: ${msgData.message}`);
 
             let ban = new Ban({
                 timestamp: new Date(new Date().toISOString()),
@@ -402,7 +400,7 @@ io.on(`connection`, async socket => {
                             }
                         });
                         playerSaveData.save(err ? console.log(err): () => {
-                            console.log(`Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                            log(`Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             player.socket.disconnect();
                         });
                     });

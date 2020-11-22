@@ -89,6 +89,8 @@ app.get(`/thug_life`, (req, res) => res.render(`index_thuglife.ejs`));
 server.listen(config.port, () => log(`Server is running on port ${config.port}.`));
 
 // Export server for use in other serverside files.
-exports.server = server;
-exports.io = global.io;
-exports.app = app;
+module.exports = {
+    server,
+    io: global.io,
+    app
+}
