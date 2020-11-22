@@ -72,7 +72,7 @@ log(`Socket.IO is running on port ${process.env.port}.`);
 // Define serverside account perms.
 const staff = {
     admins: [`devclied`, `LeoLeoLeo`, `DamienVesper`, `ITSDABOMB`, `harderman`],
-    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`],
+    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
     devs: [`Yaz_`]
 }
 

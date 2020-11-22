@@ -16,7 +16,7 @@ let intervalUpdate = undefined;
 // Define clientside account perms.
 const staff = {
     admins: [`devclied`, `DamienVesper`, `LeoLeoLeo`, `harderman`, `itsdabomb`],
-    mods: [`Fiftyyyyy`, `Sloth`, `Sjmun`, `TheChoco`],
+    mods: [`Fiftyyyyy`, `Sloth`, `Sjmun`, `TheChoco`, `Kekmw`, `Headkeeper`],
     devs: [`Yaz`]
 }
 
