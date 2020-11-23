@@ -387,6 +387,7 @@ io.on(`connection`, async socket => {
                             shipsSank: player.shipsSank,
                             deaths: player.deaths,
                             totalDamage: player.totalDamage,
+                            overallKills: player.overallKills,
 
                             isCaptain: player.isCaptain,
                             shipID: player.parent ? player.parent.shipClassID: null,

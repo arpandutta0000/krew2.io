@@ -51,6 +51,10 @@ let playerRestoreSchema = Mongoose.Schema({
         type: Number,
         required: true
     },
+    overallKills: {
+        type: Number,
+        required: true
+    },
     isCaptain: {
         type: Boolean,
         required: true

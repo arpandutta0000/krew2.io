@@ -28,6 +28,10 @@ let userSchema = Mongoose.Schema({
     clan: {
         type: String,
         required: true
+    },
+    highscore: {
+        type: Number,
+        required: true
     }
 });
 
