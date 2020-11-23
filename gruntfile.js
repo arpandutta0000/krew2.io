@@ -5,7 +5,7 @@ module.exports = (grunt => {
         pkg: grunt.file.readJSON(`package.json`),
         concat: {
             dist_scripts: {
-                src: [  
+                src: [
                     `src/client/assets/js/core/client/config.js`,
                     `src/client/assets/js/rangeInput.js`,
 
@@ -53,11 +53,15 @@ module.exports = (grunt => {
                     `src/client/assets/js/particles.js`,
                     `src/client/assets/js/connection.js`,
                 ],
-                dest: `dist_anonym/dist.js`
+                dest: `_compiled/dist.js`
             },
+            server_scripts: {
+                src: [],
+                dest: `_compiled/core.js`
+            }
         },
         clean: {
-            dist: [`dist_anonym/`, `dist/`]
+            dist: [`_compiled/`, `dist/`]
         },
         copy: {
             dist: {
