@@ -10,13 +10,13 @@ module.exports = {
     createPlayer,
     createBoat,
     createLandmark,
-    creaeteBot,
+    createBot,
     createPickup,
     removeEntity,
     entityDistance,
     boatTypes,
     itemTypes,
     goodsTypes,
-    config: this.config,
+    config: Config,
     compressor
 }

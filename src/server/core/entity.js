@@ -1,4 +1,6 @@
-const Entity = () => {}
+function Entity() {
+
+}
 
 Entity.prototype.createProperties = () => {
     // Each and every thing in the game has a position and a velocity.
@@ -136,6 +138,25 @@ Entity.prototype.deltaTypeCompare = (old, fresh) => {
 Entity.prototype.worldPos = () => {
     let pos = new THREE.Vector3();
     pos.copy(this.position);
+    if(this.parent != undefined) {
+        let parent = this.parent;
+        if(parent.children[this.id] != undefined) delete parent.children[this.id];
+    }
+    return pos;
+}
+
+// Turns a world coordinate into our local coordinate space (sbutract rotation, set relative).
+Entity.prototype.toLocal = coord => {
+    let pos = new THREE.Vector3();
+
+    pos.copy(coord);
+    pos.sub(this.position);
+    pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), -this.rotation);
+
+    return pos;
+}
+
+Entity.prototype.onDestroy = () => {
     if(this.parent != undefined) {
         let parent = this.parent;
         if(parent.children[this.id] != undefined) delete parent.children[this.id];

@@ -4,6 +4,35 @@ module.exports = (grunt => {
     grunt.initConfig({
         pkg: grunt.file.readJSON(`package.json`),
         concat: {
+            server_core: {
+                src: [
+                    `src/server/core/preConcat.js`,
+                    `src/server/utils/mongoConnection.js`,
+                    `src/server/core/core.js`,
+                    `src/server/core/utils.js`,
+
+                    `src/server/core/goodsTypes.js`,
+
+                    `src/server/core/entity.js`,
+                    `src/server/core/player.js`,
+
+                    `src/server/core/itemTypes.js`,
+                    `src/server/core/item.js`,
+
+                    `src/server/core/boatTypes.js`,
+                    `src/server/core/boat.js`,
+
+                    `src/server/core/impact.js`,
+                    `src/server/core/pickup.js`,
+                    `src/server/core/landmark.js`,
+                    `src/server/core/projectile.js`,
+
+                    `src/server/config/gameConfig.js`,
+                    `src/server/core/serverEntity.js`,
+                    `src/server/core/postConcat.js`,
+                ],
+                dest: `_compiled/core.js`
+            },
             dist_scripts: {
                 src: [
                     `src/client/assets/js/core/client/config.js`,
@@ -54,10 +83,6 @@ module.exports = (grunt => {
                     `src/client/assets/js/connection.js`,
                 ],
                 dest: `_compiled/dist.js`
-            },
-            server_scripts: {
-                src: [],
-                dest: `_compiled/core.js`
             }
         },
         clean: {
@@ -92,7 +117,8 @@ module.exports = (grunt => {
 
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
-        `copy:dist`,
+        `copy:dist`, 
+        `concat:server_core`,
         `concat:dist_scripts`,
     ]);
 

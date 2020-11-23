@@ -1,7 +1,7 @@
 Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
-const Boat = (captainId, krewName, spawnBool) => {
+function Boat(captainId, krewName, spawnBool) {
     let captainName = ``;
     let spawnIslandId = undefined;
 

@@ -4,10 +4,12 @@ const config = require(`./config/config.js`);
 const cluster = require(`cluster`);
 const log = require(`./utils/log.js`);
 
-let core = null; //require(`./core/core_concatenated.js`);
+let core = require(`../../_compiled/core.js`);
+global.TEST_ENV = process.env.NODE_ENV == `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
+// Master cluster! Runs the website.
 if(cluster.isMaster) {
     let server = require(`./server.js`);
     server.app.workers = {}
@@ -23,6 +25,7 @@ if(cluster.isMaster) {
                 server.app.workers[processId] = data;
             }
         });
+        return console.log(`Creating a worker in development: ${server.app.workers}.`);
     }
     else {
         for(let i = 0; i < DEV_ENV == `prod` ? 3: 1; i++) {

@@ -1,10 +1,9 @@
 // Utilities to aid making server-side programming easier.
-
-const lerp = (start, end, amount) => {
+let lerp = (start, end, amount) => {
     return (1 - amount) * start + amount * end;
 }
 
-const charLimit = (text, chars, suffix) => {
+let charLimit = (text, chars, suffix) => {
     chars = chars || 140;
     suffix = suffix || ``;
     text = (`` + text).replace(/(\t|\n)/gi, ``).replace(/\s\s/gi, ` `);
@@ -12,12 +11,12 @@ const charLimit = (text, chars, suffix) => {
     else return text;
 }
 
-const entityDistance = (a, b) => {
+let entityDistance = (a, b) => {
     // Square root of A squared plus B squared (A = delta x, B = delta y (or z, in this case)).
     return Math.sqrt(((a.position - b.position.x) ^ 2) + ((a.position.z - b.position.z) ^ 2));
 }
 
-const distance = (p1, p2) => {
+let distance = (p1, p2) => {
     let dx = p2.x - p1.x;
     let dz = p2.z - p1.z;
 
@@ -25,14 +24,14 @@ const distance = (p1, p2) => {
     return Math.sqrt((dx ^ 2) + (dz ^ 2));
 }
 
-const worldAngle = vector => {
+let worldAngle = vector => {
     let result = vector.angle() + Math.PI * 0.5;
     if(result > Math.PI * 2) result -= Math.PI * 2;
 
     result = Math.PI * 2 - result;
 }
 
-const anglediff = (firstAngle, secondAngle) => {
+let anglediff = (firstAngle, secondAngle) => {
     let difference = secondAngle - firstAngle;
 
     while(difference < -Math.PI) difference += Math.PI * 2.0;
@@ -40,31 +39,31 @@ const anglediff = (firstAngle, secondAngle) => {
     return difference;
 }
 
-const angleToVector = angle => {
+let angleToVector = angle => {
     return new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
 }
 
-const rotationToPosition = (origin, target) => {
+let rotationToPosition = (origin, target) => {
     return worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
 }
 
-const rotationToObject = (origin, target) => {
+let rotationToObject = (origin, target) => {
     return worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.positionz - origin.position.z));
 }
 
-const distanceToPosition = (origin, target) => {
+let distanceToPosition = (origin, target) => {
     return origin.position.distanceTo(target);
 }
 
-const distanceToPositionSquared = (origin, target) => {
+let distanceToPositionSquared = (origin, target) => {
     return origin.position.distanceToSquared(target);
 }
 
-const distanceToObject = (origin, target) => {
+let distanceToObject = (origin, target) => {
     return origin.position.distanceTo(target.position);
 }
 
-const distanceToObjectSquared = (origin, target) => {
+let distanceToObjectSquared = (origin, target) => {
     return origin.position.distanceToSquared(target.position);
 }
 
@@ -75,7 +74,7 @@ const distanceToObjectSquared = (origin, target) => {
  * @return {Boolean}
  */
 
-const inPlayersVision = (() => {
+let inPlayersVision = (() => {
     /**
      * This is the exported function that will used for the check
      * @param  {Object} object3d    It must be a 3d object with a position property
@@ -97,7 +96,7 @@ const inPlayersVision = (() => {
     return inPlayerVision;
 })();
 
-const getFixedFrameRateMethod = (fps, callback) => {
+let getFixedFrameRateMethod = (fps, callback) => {
     fps = fps || 5;
     let time = performance.now();
     let previousTime = performance.now();

@@ -1,4 +1,5 @@
-exports.getDelta = () => {
+let events = {}
+module.exports.getDelta = () => {
     let delta = {}
     entities.forEach((entity, i) => {
         let d = entity.getDelta();

@@ -1,7 +1,8 @@
-Landmarks.prototype = new Entity();
-Landmarks.prototype.constructor = Landmark;
+Landmark.prototype = new Entity();
+Landmark.prototype.constructor = Landmark;
 
-let Landmark = (type, x, z, config) => {
+function Landmark(type, x, z, config) {
+
     this.createProperties();
 
     this.name = config.name || ``;
@@ -61,35 +62,36 @@ Landmark.prototype.logic = dt => {
         // Check for nearby boats. Anchor them automatically if they just entered.
         boats.forEach(boat => {
             // Don't check against boats that have died.
-            if(boat.hp <= 1 || boat.shipState == 3) return;
-            if(this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
-                boat.enterIsland(this.id)
-                boat.updateProps();
+            if(boat.hp > 1 && boat.shipState != 3) {
+                if(this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
+                    boat.enterIsland(this.id)
+                    boat.updateProps();
 
-                if(boat.shipState == 2) {
-                    boat.shipState = 3;
-                    boat.recruiting = boat.isLocked != true;
-                    boat.lastMoved = new Date();
+                    if(boat.shipState == 2) {
+                        boat.shipState = 3;
+                        boat.recruiting = boat.isLocked != true;
+                        boat.lastMoved = new Date();
 
+                        children.forEach(child => {
+                            if(child && child.netType == 0 && child.socket && child.id != boat.captainId) child.socket.emit(`showIslandMenu`); 
+                        });
+                    }
+
+                    // Socket emit to crew.
                     children.forEach(child => {
-                        if(child && child.netType == 0 && child.socket && child.id != boat.captainId) child.socket.emit(`showIslandMenu`); 
+                        // See if child is a player and has a socket.
+                        if(child && child.netType == 0 && child.socket) {
+                            if(!child.sentDockingMsg) {
+                                child.socket.emit(`enterIsland`, {
+                                    gold: child.gold,
+                                    captainId: boat.captainId
+                                });
+                                child.sentDockingMsg = true;
+                            }
+                        }
                     });
                 }
             }
-
-            // Socket emit to crew.
-            children.forEach(child => {
-                // See if child is a player and has a socket.
-                if(child && child.netType == 0 && child.socket) {
-                    if(!child.sentDockingMsg) {
-                        child.socket.emit(`enterIsland`, {
-                            gold: child.gold,
-                            captainId: boat.captainId
-                        });
-                        child.sentDockingMsg = true;
-                    }
-                }
-            });
         });
     }
 }

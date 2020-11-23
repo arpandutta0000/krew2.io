@@ -101,6 +101,6 @@ let Config = {
                 spice: 0,
                 silk: 0
             }
-        },
+        }
     ]
 }

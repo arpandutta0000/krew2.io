@@ -1,12 +1,7 @@
-// Function for logging.
-const { ContextReplacementPlugin } = require("webpack");
-const log = require(`../utils/log.js`);
-const { removeEntity, boats, pickups, worldsize } = require("./postConcat.js");
-
 Projectile.prototype = new Entity();
 Projectile.prototype.constructor = Projectile;
 
-let Projectile = shooter => {
+function Projectile(shooter) {
     this.createProperties();
 
     // Netcode type.
@@ -38,15 +33,17 @@ let Projectile = shooter => {
 
     // Remove projectile if it shouldn't be there.
     if(!shooter
-    || shooter.activeWeapon == -1
-    || shooter.activeWeapon == 2
-    || shooter.parent.netType == 5
-    || shooter.activeWeapon == 0
-    || shooter.parent.hp < 1
-    || (shooter.activeWeapon == 0 &&
-        shooter.parent.shipState == -1
-        || shooter.parent.shipState == 4
-        || shooter.parent.shipState == 3)
+        || shooter.activeWeapon == -1
+        || shooter.activeWeapon == 2
+        || shooter.parent.netType == 5
+        || shooter.activeWeapon == 0
+        || shooter.parent.hp < 1
+        || (
+            shooter.activeWeapon == 0
+            && shooter.parent.shipState == -1
+            || shooter.parent.shipState == 4
+            || shooter.parent.shipState == 3
+        )
     ) {
         if(this.impact) this.impact.destroy = true;
         removeEntity(this);

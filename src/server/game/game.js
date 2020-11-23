@@ -1,4 +1,3 @@
-const lzString = require(`lz-string`);
 let socket = require(`../socket.js`);
 
 let chestCount = 0;

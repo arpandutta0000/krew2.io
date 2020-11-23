@@ -1,6 +1,6 @@
 global.entities = entities;
 
-let compressor = require(`../compressor/compressor.js`);
+let compressor = require(`../src/server/compressor/compressor.js`);
 
 let createPlayer = data => {
     data = data || {}
@@ -23,8 +23,8 @@ let createPlayer = data => {
 }
 
 let createPickup = (size, x, z, type, collisionIsland, specialBonus) => {
-    let x = Math.min(Math.max(0, x), worldsize);
-    let z = Math.min(Math.max(0, z), worldsize);
+    x = Math.min(Math.max(0, x), worldsize);
+    z = Math.min(Math.max(0, z), worldsize);
 
     // Check if it is in island position.
     if(!collisionIsland) {
@@ -64,7 +64,7 @@ let createLandmark = (type, x, z, name) => {
     let id;
     while(!id || entities[id] != undefined) id = randomID();
 
-    let l = new Landmarks(type, x, z, name);
+    let l = new Landmark(type, x, z, name);
     l.id = id;
 
     Landmarks[id] = l;

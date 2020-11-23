@@ -5,4 +5,4 @@ package-lock.json
 
 # Ignore autocompiled files
 dist/
-dist_anonym/
+_compiled/

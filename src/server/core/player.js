@@ -2,7 +2,7 @@
 Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
-const Player = data => {
+function Player(data) {
     this.isLoggedIn = true;
     this.name = data != undefined ? (data.name || ``): ``;
 

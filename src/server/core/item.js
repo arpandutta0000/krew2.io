@@ -1,4 +1,4 @@
-Item.prototype.contstructor = Item;
+Item.prototype.constructor = Item;
 
-let Item = () => {}
+function Item() {}
 Item.prototype.logic = dt => {}
