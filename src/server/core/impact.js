@@ -28,7 +28,7 @@ function Impact(type, x, z) {
 }
 
 Impact.prototype.logic = dt => {
-    // Tick down the timer and delet eon end.
+    // Tick down the timer and delete on end.
     this.timeout -= dt * 0.8;
     if(this.timeout <= 0) removeEntity(this);
 }

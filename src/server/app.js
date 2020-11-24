@@ -28,7 +28,7 @@ if(cluster.isMaster) {
         return console.log(`Creating a worker in development: ${server.app.workers}.`);
     }
     else {
-        for(let i = 0; i < DEV_ENV == `prod` ? 3: 1; i++) {
+        for(let i = 0; i < 3; i++) {
             process.env.port = 2001 + i;
 
             let worker = cluster.fork();
@@ -74,8 +74,8 @@ else {
             }
         }, 1e3);
     }
-    catch(e) {
-        log(`error ${e}`);
+    catch(err) {
+        log(`Err ${err}`);
     }
 
     console.log(`Worker ${process.pid} started.`);

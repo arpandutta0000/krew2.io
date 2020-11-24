@@ -15,6 +15,6 @@ let worldsize = 1700;
 let iterateEntities = dt => {
     // Tick each entity.
     for(let i in entities) {
-        if(entities.hasOwnProperty(e)) entities[e].tick(dt);
+        if(entities.hasOwnProperty(i)) entities[i].tick(dt);
     }
 }

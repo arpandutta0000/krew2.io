@@ -8,7 +8,7 @@ module.exports = (string => {
 
         if(!fs.existsSync(logPath)) fs.writeFileSync(logPath, `Created log for ${new Date()}.`);
 
-        fs.appendFileSync(logPath, `[${new Date().toTimeString()}] ${string}`);
+        fs.appendFileSync(logPath, `[${new Date().toISOString()}] ${string}`);
     }
     console.log(`${new Date()} ${string}`);
 });

@@ -2,14 +2,14 @@ function Entity() {
 
 }
 
-Entity.prototype.createProperties = () => {
+Entity.prototype.createProperties = function() {
     // Each and every thing in the game has a position and a velocity.
     this.position = new THREE.Vector3(0, 0, 0);
     this.velocity = new THREE.Vector3(0, 0, 0);
 
     // Everything has a size and rotation (y-axis), and in terms of logic, everything is a box.
     this.size = new THREE.Vector3(1, 1, 1);
-    this.DeviceRotationRate = 0;
+    this.rotation = 0;
     this.collisionRadius = 1;
 
     // Things can have a parent entity, for example a boat, which is a relative anchor in the world. Things that don't have a parent float freely.
@@ -39,7 +39,7 @@ Entity.prototype.createProperties = () => {
     this.muted = []
 }
 
-Entity.prototype.tick = dt => {
+Entity.prototype.tick = function(dt) {
     // Compute the base class logic. This is set by the children classes.
     this.logic(dt);
 
@@ -48,9 +48,10 @@ Entity.prototype.tick = dt => {
     this.position.z += this.velocity.z * dt;
 }
 
+// Function that generates a snapshot.
 Entity.prototype.getSnap = force => {
     if(!force && !this.sendSnap || this.disableSnapAndDelta) return undefined;
-    if(this.rotation == undefined) console.log(this);
+    if(this.rotation == undefined) console.log(this); // Bots don't have a rotation so this fails.
 
     let snap = {
         p: this.parent ? this.parent.id: undefined,
@@ -59,7 +60,7 @@ Entity.prototype.getSnap = force => {
         y: this.position.y.toFixed(2),
         z: this.position.z.toFixed(2),
         r: (this.rotation || 0).toFixed(2), // Rotation
-        t: this.getTypeSnap()
+        t: this.getTypeSnap() // Type-based snapshot data.
     }
 
     // Pass name variable if we're creating this entity for the first time.
@@ -73,7 +74,7 @@ Entity.prototype.getSnap = force => {
 
 // Function that generates a snapshot.
 Entity.prototype.getDelta = () => {
-    if(!this.senDDelta && !this.sendCreationSnapOnDelta || this.disableSnapAndDelta) return undefined;
+    if(!this.sendDelta && !this.sendCreationSnapOnDelta || this.disableSnapAndDelta) return undefined;
 
     // Send a full snapshot on the delta data, for creation.
     if(this.sendCreationSnapOnDelta) {
@@ -169,7 +170,7 @@ let isEmpty = obj => {
 
     // Check if object is full of undefined.
     for(let i in obj) {
-        if(obj.hasOwnProperty(p) && obj[p] != undefined) return false;
+        if(obj.hasOwnProperty(i) && obj[i] != undefined) return false;
     }
     return true;
 }

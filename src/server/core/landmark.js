@@ -29,9 +29,7 @@ function Landmark(type, x, z, config) {
     // Size of a Landmark.
     this.size = new THREE.Vector3(this.dockRadius, 20, this.dockRadius);
 
-    this.position.x = x;
-    this.position.z = z;
-
+    this.position = { x, z }
     this.collisionRadius = 30;
 }
 

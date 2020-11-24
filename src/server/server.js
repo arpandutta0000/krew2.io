@@ -21,7 +21,7 @@ let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
 const connection = require(`./utils/mongoConnection.js`);
 const User = require(`./models/user.model.js`);
-
+const log = require(`./utils/log.js`);
 
 // Create app.
 let app = express();

@@ -188,7 +188,7 @@ Player.prototype.logic = dt => {
     this.oldCaptainState = this.isCaptain;
     this.isCaptain = this.parent && this.id == this.parent.captainId;
 
-    // The player movement lgoic is dependent on whether the player is walking to the side / forward.
+    // The player movement logic is dependent on whether the player is walking to the side / forward.
     let moveVector = new THREE.Vector3(0, 0, 0);
     moveVector.z = -this.walkForward;
     moveVector.x = this.walkSideward;

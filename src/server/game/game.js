@@ -7,7 +7,7 @@ const log = require(`../utils/log.js`);
 log(`Game is listening at port ${process.env.port}`);
 
 // Create islands.
-core.config.landmarks.forEach(landmark => core.createLandmark(landmark.type, landmark.x, landmark.y, landmark.z));
+core.config.landmarks.forEach(landmark => core.createLandmark(landmark.type, landmark.x, landmark.z, landmark));
 
 // Create the main game loop.
 lastFrameTime = Date.now();
@@ -24,7 +24,7 @@ setInterval(() => {
 
 setInterval(() => {
     // Delete residing impacts, pickups, and projectiles every 15 minutes.
-    core.entities.forEach(entity => {
+    Object.values(core.entities).forEach(entity => {
         if(entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
             if(entity.netType == 4 && entity.type != 1) core.removeEntity(entity);
         }
@@ -39,8 +39,9 @@ setInterval(() => {
         boats: []
     }
     let now = new Date();
-g
-    core.players.forEach(player => {
+
+    for(let i in core.players) {
+        let player = core.players[i];
         scores.players.push({
             id: player.id,
             n: player.name,
@@ -68,10 +69,11 @@ g
             }
             core.removeEntity(player);
         }
-    });
+    }
 
     // Remove crewless boats and add the boat scores.
-    core.boats.forEach(boat => {
+    for(let i in core.boats) {
+        let boat = core.boats[i];
         // Remove any bots / ghost ships (ships without krew).
         if(boat.krewCount < 1) return core.removeEntity(boat);
         if((now - boat.lastMoved) > 6e5) boat.recruiting = false;
@@ -120,9 +122,11 @@ g
                 if(boatScoreObj.players.length > 0) scores.boats.push(boatScoreObj);
             });
         }
-    });
+    }
 
-    core.Landmarks.forEach(landmark => {
+    for(let i in core.Landmarks) {
+        let landmark = core.Landmarks[i];
+
         if(landmark.pickups == undefined) landmark.pickups = {}
         landmark.pickups.forEach(pickup => {
             if(pickup == undefined) delete pickup;
@@ -151,15 +155,13 @@ g
             let pickup = core.createPickup(size, pickupPosition.x, pickupPosition.z, type, false);
             landmark.pickups[pickup.id] = pickup;
         }
-    });
+    }
 
     // Fill up the world to the brink with supplies.
     let pickupAmount = Object.keys(core.pickups).length;
     chestCount = 0;
 
-    core.pickups.forEach(pickup => {
-        if(pickup.type == 4) chestCount++;
-    });
+    for(let i in core.pickups) if(core.pickups[i].type == 4) chestCount++;
 
     while(pickupAmount < cratesInSea.min) {
         // Constant amount of crates at sea.
