@@ -49,7 +49,7 @@ Entity.prototype.tick = function(dt) {
 }
 
 // Function that generates a snapshot.
-Entity.prototype.getSnap = force => {
+Entity.prototype.getSnap = function(force) {
     if(!force && !this.sendSnap || this.disableSnapAndDelta) return undefined;
     if(this.rotation == undefined) console.log(this); // Bots don't have a rotation so this fails.
 
@@ -73,7 +73,7 @@ Entity.prototype.getSnap = force => {
 }
 
 // Function that generates a snapshot.
-Entity.prototype.getDelta = () => {
+Entity.prototype.getDelta = function() {
     if(!this.sendDelta && !this.sendCreationSnapOnDelta || this.disableSnapAndDelta) return undefined;
 
     // Send a full snapshot on the delta data, for creation.
@@ -98,7 +98,7 @@ Entity.prototype.getDelta = () => {
 }
 
 // Function that parses a snapshot.
-Entity.prototype.parseSnap = (snap, id) => {
+Entity.prototype.parseSnap = function(snap, id) {
     if(snap.t != undefined) this.parseTypeSnap(snap.t);
 
     if(!this.isPlayer) {
@@ -109,18 +109,18 @@ Entity.prototype.parseSnap = (snap, id) => {
     }
 }
 
-Entity.prototype.addChildren = entity => {
+Entity.prototype.addChildren = function(entity) {
     this.children[entity.id] = entity;
     entity.parent = this;
 }
 
-Entity.prototype.hasChild = id => {
+Entity.prototype.hasChild = function(id) {
     let child = this.children.find(child => child.id == id);
     if(child) return true;
     else return false;
 }
 
-Entity.prototype.deltaCompare = (old, fresh) => {
+Entity.prototype.deltaCompare = function(old, fresh) {
     if(this.last[old] != fresh && this.muted.indexOf(old) < 0) {
         this.last[old] = fresh;
         return fresh;
@@ -128,7 +128,7 @@ Entity.prototype.deltaCompare = (old, fresh) => {
     return undefined;
 }
 
-Entity.prototype.deltaTypeCompare = (old, fresh) => {
+Entity.prototype.deltaTypeCompare = function(old, fresh) {
     if(this.lastType[old] != fresh) {
         this.lastType[old] = fresh;
         return fresh;
@@ -136,7 +136,7 @@ Entity.prototype.deltaTypeCompare = (old, fresh) => {
     return undefined;
 }
 
-Entity.prototype.worldPos = () => {
+Entity.prototype.worldPos = function() {
     let pos = new THREE.Vector3();
     pos.copy(this.position);
     if(this.parent != undefined) {
@@ -147,7 +147,7 @@ Entity.prototype.worldPos = () => {
 }
 
 // Turns a world coordinate into our local coordinate space (sbutract rotation, set relative).
-Entity.prototype.toLocal = coord => {
+Entity.prototype.toLocal = function(coord) {
     let pos = new THREE.Vector3();
 
     pos.copy(coord);
@@ -157,14 +157,14 @@ Entity.prototype.toLocal = coord => {
     return pos;
 }
 
-Entity.prototype.onDestroy = () => {
+Entity.prototype.onDestroy = function() {
     if(this.parent != undefined) {
         let parent = this.parent;
         if(parent.children[this.id] != undefined) delete parent.children[this.id];
     }
 }
 
-let isEmpty = obj => {
+let isEmpty = function(obj) {
     // Check if object is completely empty.
     if(Object.keys(obj).length == 0 && obj.constructor == Object) return true;
 
