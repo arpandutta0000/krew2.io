@@ -105,9 +105,7 @@ let initSocketBinds = () => {
 
         // Receive and update ship cargo.
         socket.on(`updateCargo`, () => {
-            if($(`#buy-goods`).hasClass(`active`)) {
-                GOODSCOMPONENT.getList();
-            }
+            if($(`#buy-goods`).hasClass(`active`)) GOODSCOMPONENT.getList();
         });
 
         // Receive docking menu and update ui to reflect.

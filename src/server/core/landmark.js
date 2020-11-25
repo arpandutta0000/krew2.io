@@ -48,17 +48,19 @@ Landmark.prototype.parseTypeSnap = snap => {
 }
 
 Landmark.prototype.logic = dt => {
-    this.children.forEach(child => {
+    for(let i in this.children) {
+        let child = this.children[i];
         if(child.netType == 0 && child.parent != this) {
             this.children[child.id] = undefined;
             delete this.children[child.id];
         }
-    });
+    }
 
     // If this landmark is a dockable thing.
     if(this.dockType > 0) {
         // Check for nearby boats. Anchor them automatically if they just entered.
-        boats.forEach(boat => {
+        for(let i in boats) {
+            let boat = boats[i];
             // Don't check against boats that have died.
             if(boat.hp > 1 && boat.shipState != 3) {
                 if(this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
@@ -90,7 +92,7 @@ Landmark.prototype.logic = dt => {
                     });
                 }
             }
-        });
+        }
     }
 }
 

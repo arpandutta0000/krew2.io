@@ -9,11 +9,11 @@ let clanSchema = Mongoose.Schema({
         type: String,
         required: true,
     },
-    owner: {
+    leader: {
         type: String,
         required: true
     },
-    leaders: {
+    owners: {
         type: Array,
         required: true
     },
