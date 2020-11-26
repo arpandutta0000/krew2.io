@@ -198,22 +198,22 @@ Projectile.prototype.logic = dt => {
 
                             // Levels for pirate quests.
                             if(this.shooter.shipsSank == 1) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship tester: +1,000 gold +100 XP`, 3);
+                                this.shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Teaser: +1,000 gold +100 XP`, 3);
                                 this.shooter.gold += 1e3;
                                 this.shooter.experience += 100;
                             }
                             else if(this.shooter.shipsSank == 5) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship tester: +5,000 gold +500 XP`, 3);
+                                this.shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Teaser: +5,000 gold +500 XP`, 3);
                                 this.shooter.gold += 5e3;
                                 this.shooter.experience += 500;
                             }
                             else if(this.shooter.shipsSank == 10) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship tester: +10,000 gold +1,000 XP`, 3);
+                                this.shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Teaser: +10,000 gold +1,000 XP`, 3);
                                 this.shooter.gold += 1e4;
                                 this.shooter.experience += 1e3;
                             }
                             else if(this.shooter.shipsSank == 20) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship tester: +20,000 gold +1,000 XP`, 3);
+                                this.shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Teaser: +20,000 gold +1,000 XP`, 3);
                                 this.shooter.gold += 2e4;
                                 this.shooter.experience += 1e3;
                             }

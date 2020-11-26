@@ -45,7 +45,7 @@ let serverStartTimestamp = Date.now();
 log(`UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
 // Configure the socket.
-if(global.io == undefined) {
+if(!global.io) {
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
         key: fs.existsSync(config.ssl.key) ? fs.readFileSync(config.ssl.key): null,
         cert: fs.existsSync(config.ssl.cert) ? fs.readFileSync(config.ssl.cert): null,
@@ -515,7 +515,7 @@ io.on(`connection`, async socket => {
         log(`Player: ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         if(!DEV_ENV) delete gameCookies[playerEntity.id];
 
-        if(playerEntity.isLoggedIn == true && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
+        if(playerEntity.isLoggedIn && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
             log(`Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${player.socket.handshake.address}`);
             playerEntity.highscore = playerEntity.gold;
 
@@ -689,11 +689,11 @@ io.on(`connection`, async socket => {
         }
     });
     socket.on(`lockKrew`, lockBool => {
-        if(playerEntity.isCaptain == true && lockBool == true) {
+        if(playerEntity.isCaptain && lockBool) {
             playerEntity.parent.isLocked = true;
             playerEntity.parent.recruiting = false;
         }
-        else if(playerEntity.isCaptain == true && lockBool == false) {
+        else if(playerEntity.isCaptain && !lockBool) {
             playerEntity.parent.isLocked = false;
             if(playerEntity.parent.shipState == 2 || playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4) playerEntity.parent.recruiting = true;
         }
@@ -1004,7 +1004,175 @@ io.on(`connection`, async socket => {
     });
 
     // When ship docks completely (anchors) in the island.
-    socket.on(`anchor`, () => {});
+    socket.on(`anchor`, () => {
+        if(playerEntity.parent.dockCountdown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.aprent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
+    });
+
+    // When player buys an item.
+    socket.on(`purchase`, (item, callback) => {
+        checkPlayerStatus();
+        log(`Player ${playerEntity.name} is buying ${item} while having ${playerEntity.gold} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+
+        // Check if id is an integer > 0.
+        if(!isNormalInteger(item.id)) return;
+
+        // Ship
+        if(item.type == 0 && playerEntity.parent.shipState != 4) {
+            if(playerEntity) {
+                let ships = {}
+
+                let cargoUsed = 0;
+                for(let i in playerEntity.goods) cargoUsed += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
+                playerEntity.cargoUsed = cargoUsed;
+
+                // Put together item.id and item.type and send them back to the client.
+                callback(item.type + item.id);
+
+                playerEntity.otherQuestLevel = playerEntity.otherQuestLevel == undefined ? 0: playerEntity.otherQuestLevel;
+
+                // Give the rewards for the quests.
+                if(playerEntity.gold >= core.boatTypes[item.id].price) {
+                    let questLists = [
+                        [`04`, `05`, `06`, `07`, `015`, `016`], // Trader or boat.
+                        [`08`, `09`, `010`, `012`, `013`, `018`, `019`], // Destroyer, calm spirit, or royal fortune.
+                        [`014`, `020`] // Queen Barb's Justice
+                    ]
+
+                    if(questLists[0].includes(response) && playerEntity.otherQuestLevel == 0) {
+                        playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +5,000 Gold & 500 XP`)
+                        playerEntity.gold += 5e3;
+                        playerEntity.experience += 500;
+                        playerEntity.otherQuestLevel++;
+                    }
+                    if(questLists[1].includes(response) && playerEntity.otherQuestLevel == 0) {
+                        playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +10,000 Gold & 1,000 XP`)
+                        playerEntity.gold += 1e4;
+                        playerEntity.experience += 1e3;
+                        playerEntity.otherQuestLevel++;
+                    }
+                    if(questLists[2].includes(response) && playerEntity.otherQuestLevel == 0) {
+                        playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +50,000 Gold & 5,000 XP`)
+                        playerEntity.gold += 5e4;
+                        playerEntity.experience += 5e3;
+                        playerEntity.otherQuestLevel++;
+                    }
+                }
+                playerEntity.purchaseShip(item.id, (krewioData || {}).krewname);
+
+                // Calculate other quest level of captain.
+                for(let i in core.players) {
+                    let player = core.players[i];
+                    if(otherPlayer.parent != undefined && playerEntity.parent.id == player.parent.id && player.isCaptain) playerEntity.parent.otherQuestLevel = otherQuestLevel;
+                }
+                playerEntity.parent.otherQuestLevel = otherQuestLevel;
+            }
+        }
+        else if(item.type == 1) {
+            // Item.
+            callback(item.id);
+
+            // Check conditions for buying demolisher.
+            if(item.id == `11` &&  playerEntity.gold >= 1e5) {
+                if(playerEntity.overallCargo >= 1e3 && playerEntity.shipsSank >= 10) {
+                    playerEntity.purchaseItem(item.id);
+                    log(`Player ${playerEntity.name} is buying item ${item} (Demolisher) while having ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                }
+            }
+            else if(item.id == `14` && playerEntity.gold >= 15e4) {
+                // Player can buy this item only once.
+                if(!playerEntity.statsReset) {
+                    // Reset stats.
+                    for(let i in playerEntity.points) playerEntity.points[i] = 0;
+                    playerEntity.availablepoints = playerEntity.level;
+                    playerEntity.statsReset = true;
+                    playerEntity.purchaseItem(item.id);
+                    log(`Player ${playerEntity.name} is buying item ${item} (Fountain of Youth) while having ${playerENtity.gold} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                }
+            }
+            else {
+                playerEntity.purchaseItem(item.id);
+                log(`Player ${playerEntity.name} is buying item ${item} while having ${playerEntity.gold} gold | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+            }
+        }
+
+        // Recalculate amount of killed ships and traded cargo (by all crew members).
+        let crewKillCount = 0;
+        let crewTradeCount = 0;
+
+        for(let i in core.players) {
+            let player = core.players[i];
+            if(player.parent != undefined && playerEntity.parent.id == player.parent.id) {
+                crewKillCount += player.shipsSank;
+                crewTradeCount += player.overallCargo;
+            }
+        }
+        playerEntity.parent.overallKills = crewKillCount;
+        playerEntity.parent.overallCargo = crewTradeCount;
+    });
+
+    // Get ships in shop.
+    socket.on(`getShips`, callback => {
+        if(playerEntity && playerEntity.parent) {
+            let ships = {}
+            let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
+
+            if(!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not at an island.`));
+
+            let cargoUsed = 0;
+            for(let i in playerEntity.goods) cargoused += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
+            playerEntity.cargoUsed = cargoUsed;
+
+            for(let i in core.boatTypes) {
+                if((!island.onlySellOwnShips && (core.boatTypes[i].availableAt == undefined || core.boatTypes[i].availableAt.indexOf(island.name) != -1))
+                || (core.boatTypes[i].availableAt && core.boatTypes[i].availableAt.indexOf(island.name) != -1)) {
+                    ships[i] = core.boatTypes[i];
+                    ships[i].purchaseable = 
+                        playerEntity.gold >= ships[i].price
+                        && ships[i].cargoSize >= playerEntity.cargoUsed;
+                }
+            }
+            callback && callback.call && callback(undefined, ships);
+        }
+        callback && callback.call && callback(`Oops, it seems you don't have a boat.`);
+    });
+
+    // Get items in shop.
+    socket.on(`getItems`, callback => {
+        if(playerEntity && playerEntity.parent) {
+            let items = {}
+            let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
+
+            if(!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not in an island.`));
+
+            for(let i in core.itemTypes) {
+                let itemProp = Math.random().toFixed(2);
+
+                if(playerEntity.itemId == core.itemTypes[i].id || (playerEntity.checkedItemsList && playerEntity.rareItemsFound.includes(core.itemTypes[i].id))) itemProb = 0;
+                if(playerEntity.checkedItemsList && !playerEntity.rareItemsFound.includes(core.itemTypes[i].id)) itemProb = 1;
+
+                if(itemProb <= core.itemTypes[i].rarity
+                && (core.itemTypes[i].availableAt == undefined || core.itemTypes[i].availableAt.indexOf(island.name) != 1
+                || (core.itemTypes[i].availableAt && core.itemTypes[i].availableAt.indexOf(island.name) != 1))) {
+                    items[i] = core.itemTypes[i];
+
+                    if(!playerEntity.checkedItemsList && core.itemTypes[i].rarity != 1) playerEntity.rareItemsFound.push(core.itemTypes[i].id);
+                    items[i].purchaseable = false;
+
+                    if(playerEntity.gold >= item[i].price) items[i].purchaseable = true;
+                }
+            }
+            playerEntity.checkedItemsList = true;
+            callback && callback.call && callback(undefined, items);
+        }
+        callback && callback.call && callback(`Oops, it seems you don't have items.`);
+    });
+
+    // Get goods in shop.
+    socket.on(`getGoodsStore`, callback => {
+        if(playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
+            if(core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it sems you dont' have an anchored boat.`);
+        }
+    });
 });
 
 module.exports.io = io;
