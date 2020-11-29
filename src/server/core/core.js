@@ -10,7 +10,7 @@ let pickups = {}
 let bots = {}
 
 // 1000 is the default worldsize.
-let worldsize = 1700;
+let { worldsize } = require(`../src/server/config/gameConfig.js`);
 
 let iterateEntities = dt => {
     // Tick each entity.

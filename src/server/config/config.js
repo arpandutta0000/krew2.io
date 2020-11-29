@@ -1,12 +1,11 @@
 const dotenv = require(`dotenv`).config();
 
 const config = {
-    appName: `Krew2.io`,
+    appName: `Krew.io`,
     port: process.env.NODE_ENV == `prod` ? 443: 8080,
+    mode: process.env.NODE_ENV,
     domain: `krew.io`,
-    params: {
-        logging: true
-    }
+    logging: true,
 }
 
 config.ssl = {

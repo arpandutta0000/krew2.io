@@ -2173,7 +2173,7 @@ let setUpEnvironment = () => {
     }
 }
 
-THREE.Water.prototype = Object.create(THREE.mesh.prototype);
+THREE.Water.prototype = Object.create(THREE.Mesh.prototype);
 THREE.Water.prototype.constructor = THREE.Water;
 
 const initWater = () => {
@@ -2278,6 +2278,7 @@ setInterval(() => {
     if(date.getUTCMinutes() > 35 && date.getUTCMinutes() < 55) doDaylightCycle(1);
     else if(date.getUTCMinutes() < 35 || date.getUTCMinutes() > 55) doDaylightCycle(0);
 }, 200);
+
 let base_geometries = {
     box: new THREE.BoxBufferGeometry(1, 1, 1),
     sphere: new THREE.SphereBufferGeometry(0.65),
@@ -2403,6 +2404,7 @@ let vectors = {
     sizePlayer: new THREE.Vector3(1, 1, 1),
     sizeProjectile: new THREE.Vector3(0.3, 0.3, 0.3)
 }
+
 let keys = {
     walkLeft: false,
     walkRight: false,
@@ -2525,6 +2527,7 @@ let setUpIslandUI = () => {
     socket.emit(`anchor`);
     lastScore = 0;
 }
+
 let GameControls = () => {
     let _this = this;
     let PI_2 = Math.PI / 2;

@@ -186,7 +186,7 @@ let setUpEnvironment = () => {
     }
 }
 
-THREE.Water.prototype = Object.create(THREE.mesh.prototype);
+THREE.Water.prototype = Object.create(THREE.Mesh.prototype);
 THREE.Water.prototype.constructor = THREE.Water;
 
 const initWater = () => {

@@ -25,7 +25,7 @@ if(cluster.isMaster) {
                 server.app.workers[processId] = data;
             }
         });
-        return console.log(`Creating a worker in development: ${server.app.workers}.`);
+        return log(`green`, `Creating a worker in development: ${server.app.workers}.`);
     }
     else {
         for(let i = 0; i < 3; i++) {
@@ -46,16 +46,6 @@ else {
 
     let game = require(`./game/game.js`);
 
-    let Rollbar = require(`rollbar`);
-    let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
-
-    process.on(`uncaughtException`, e => {
-        if(!DEV_ENV) {
-            console.log(e);
-            return rollbar.error(e);
-        }
-    });
-
     try {
         let gameUpdate = setInterval(() => {
             try {
@@ -70,14 +60,14 @@ else {
                 });
             }
             catch(err) {
-                log(err);
+                log(`red`, err);
             }
         }, 1e3);
     }
     catch(err) {
-        log(`Err ${err}`);
+        log(`red`, err);
     }
 
-    console.log(`Worker ${process.pid} started.`);
-    console.log(`Server has been up since: ${new Date()}`);
+    log(`green`, `Worker ${process.pid} started.`);
+    log(`green`, `Server has been up since: ${new Date()}`);
 }

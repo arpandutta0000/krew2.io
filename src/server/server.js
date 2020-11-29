@@ -15,10 +15,6 @@ const bodyParser = require(`body-parser`);
 const fs = require(`fs`);
 const socketIO = require(`socket.io`);
 
-// Use rollbar.
-const Rollbar = require(`rollbar`);
-let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
-
 const connection = require(`./utils/mongoConnection.js`);
 const User = require(`./models/user.model.js`);
 const log = require(`./utils/log.js`);
@@ -86,7 +82,7 @@ app.get(`/wall-of-fame`, async(req, res) => {
 app.get(`/thug_life`, (req, res) => res.render(`index_thuglife.ejs`));
 
 // Listen on port for incoming requests.
-server.listen(config.port, () => log(`Server is running on port ${config.port}.`));
+server.listen(config.port, () => log(`green`, `Server is running on port ${config.port}.`));
 
 // Export server for use in other serverside files.
 module.exports = {

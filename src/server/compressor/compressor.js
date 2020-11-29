@@ -1,10 +1,12 @@
 let events = {}
+
 module.exports.getDelta = () => {
     let delta = {}
-    entities.forEach((entity, i) => {
+    for(let i in entities) {
+        let entity = entities[i];
         let d = entity.getDelta();
         if(d) delta[i] = d;
-    });
+    }
 
     if(!isEmpty(events)) {
         Object.assign(delta, events);

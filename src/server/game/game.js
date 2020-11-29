@@ -4,10 +4,10 @@ let chestCount = 0;
 let chestRespawn = undefined;
 
 const log = require(`../utils/log.js`);
-log(`Game is listening at port ${process.env.port}`);
+log(`green`, `Game is listening at port ${process.env.port}`);
 
 // Create islands.
-core.config.landmarks.forEach(landmark => core.createLandmark(landmark.type, landmark.x, landmark.z, landmark));
+core.config.landmarks.forEach(landmark => core.createLandmark(landmark.type, landmark.x, landmark.y, landmark));
 
 // Create the main game loop.
 lastFrameTime = Date.now();
@@ -24,12 +24,13 @@ setInterval(() => {
 
 setInterval(() => {
     // Delete residing impacts, pickups, and projectiles every 15 minutes.
-    Object.values(core.entities).forEach(entity => {
+    for(let i in core.entities) {
+        let entity = core.entities[i];
         if(entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
             if(entity.netType == 4 && entity.type != 1) core.removeEntity(entity);
         }
-    }, 9e5);
-});
+    }
+}, 9e5);
 
 // Slower game loop for general event cleanups and leaderboard.
 setInterval(() => {
@@ -64,7 +65,7 @@ setInterval(() => {
         // If the player has been afk for more than 30 minutes.
         if((now - player.lastMoved) > 18e5 && !staff.admins.includes(player.name) && !staff.mods.includes(player.name) && staff.devs.includes(player.name)) {
             if(player.socket != undefined) {
-                log(`Player ${player.name} was kicked due to AFK timeout | IP: ${player.socket.handshake.address}`);
+                log(`magenta`, `Player ${player.name} was kicked due to AFK timeout | IP: ${player.socket.handshake.address}`);
                 player.socket.disconnect();
             }
             core.removeEntity(player);
@@ -85,7 +86,8 @@ setInterval(() => {
                 boat.exitIsland();
 
                 // Make all krew members close their shopping windows.
-                boat.children.forEach(boatMember => {
+                for(let i in boat.children) {
+                    let boatMember = boat.children[i];
                     if(boatMember != undefined && boatMember.netType == 0) {
                         boatMember.socket.emit(`exitIsland`, { captainId: boat.captainId });
                         boatMember.rareItemsFound = [];
@@ -93,7 +95,7 @@ setInterval(() => {
                         boatMember.sentDockingMsg = false;
                         boatMember.checkedItemsList = false;
                     }
-                });
+                }
             }
         }
         if(boat.krewCount > 0) {
@@ -109,7 +111,8 @@ setInterval(() => {
                 oc: boat.overallCargo,
                 oql: boat.otherQuestLevel
             }
-            boat.children.forEach(player => {
+            for(let i in boat.children) {
+                let player = boat.children[i];
                 let playerObj = {
                     id: player.id,
                     name: player.name,
@@ -120,7 +123,7 @@ setInterval(() => {
                     cargoused: boat.cargoUsed
                 }
                 if(boatScoreObj.players.length > 0) scores.boats.push(boatScoreObj);
-            });
+            }
         }
     }
 
@@ -128,12 +131,13 @@ setInterval(() => {
         let landmark = core.Landmarks[i];
 
         if(landmark.pickups == undefined) landmark.pickups = {}
-        landmark.pickups.forEach(pickup => {
+        for(let i in landmark.pickups) {
+            let pickup = landmark.pickups[i];
             if(pickup == undefined) delete pickup;
-        });
+        }
 
         while(Object.keys(landmark.pickups).length < 20) {
-            let roll = Maht.random();
+            let roll = Math.random();
             let size = roll > 0.9 ? 2: roll > 0.6 ? 1: 0;
             let type = roll > 0.4 ? 3: 2;
 
