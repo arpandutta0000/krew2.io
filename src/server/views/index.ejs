@@ -13,67 +13,197 @@
         <meta property="og:title" content="Krew 2">
         <meta property="og:description" content="Krew.io, reimagined.">
 
-        <!-- Libraries -->
-        <script src="/assets/js/jquery.min.js"></script>
-        <script src="/assets/js/three.min.js"></script>
-
         <!-- Bootstrap -->
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/css/icofont.min.css">
         <script src="/assets/js/bootstrap.min.js"></script>
 
-        <!-- Gamestyles & JS -->
+        <!-- Styling -->
         <link rel="stylesheet" href="/assets/css/game.css">
         <link rel="stylesheet" href="/assets/css/magnific-popup.css">
 
         <!-- Icon -->
-        <link rel="icon" href="/favicon.ico" sizes="16x16">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+        <!-- THREE.js -->
+        <script src="/assets/js/three.min.js"></script>
+        <script src="/assets/js/THREE.TextTexture.es5.js"></script>
+        <script src="/assets/js/THREE.TextSprite.es5.js"></script>
 
+        <!-- jQuery -->
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        <script src="/assets/js/jquery.magnific-popup.js"></script>
+
+        <!-- Other Libraries -->
+        <script src="/assets/js/hyperapp.js"></script>
+        <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+        <script src="/assets/js/growl-notification.min.js"></script>
+        <script src="/assets/js/lz-string.min.js"></script>
+    
         <script src="/assets/js/socket.io.js"></script>
         <script src="/assets/js/dist.min.js"></script>
-        <script src="/assets/js/jquery.magnific-popup.js"></script>
-    
+
+        <!-- Ads -->
+        <script async src="https://ssl.cdne.cpmstar.com/cached/js/lib.js"></script>
+        <script async src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js"></script>
+
+        <!-- Game Analytics -->
+        <script src="https://download.gameanalytics.com/js/GameAnalytics-3.0.1.min.js"></script>
+
         <!-- Audio -->
-        <!-- <audio id="wheelspin" src="https://cdn.krew.io/assets/audio/Wheel Spin.wav"></audio>
-        <audio id="cannon" src="https://cdn.krew.io/assets/audio/Cannon.wav"></audio>
-        <audio id="cannon-hit" src="https://cdn.krew.io/assets/audio/Cannonball Hit.wav"></audio>
-        <audio id="cast-rod" src="https://cdn.krew.io/assets/audio/Cast Rod.wav"></audio>
-        <audio id="catch-crab" src="https://cdn.krew.io/assets/audio/Catch Crab.wav"></audio>
-        <audio id="catch-fish" src="https://cdn.krew.io/assets/audio/Catch Fish.wav"></audio>
-        <audio id="dock" src="https://cdn.krew.io/assets/audio/Dock.wav"></audio>
-        <audio id="fishing" src="https://cdn.krew.io/assets/audio/Fishing.wav"></audio>
-        <audio id="get-crate" src="https://cdn.krew.io/assets/audio/Get Crate.wav"></audio>
-        <audio id="deposit" src="https://cdn.krew.io/assets/audio/Deposit Money.wav"></audio>
-        <audio id="level-up" src="https://cdn.krew.io/assets/audio/Level Up.wav"></audio>
-        <audio id="island-music" src="https://cdn.krew.io/assets/audio/music - non ocean area loop.wav"></audio>
-        <audio id="ocean-music" src="https://cdn.krew.io/assets/audio/music - ocean area loop.wav"></audio>
-        <audio id="ocean-ambience" src="https://cdn.krew.io/assets/audio/Ocean Ambience Loop.wav"></audio>
-        <audio id="sail" src="https://cdn.krew.io/assets/audio/Sail.wav"></audio>
-        <audio id="select" src="https://cdn.krew.io/assets/audio/Select.wav"></audio>
-        <audio id="sink-crash" src="https://cdn.krew.io/assets/audio/Sink Crash.wav"></audio>
-        <audio id="step-sand01" src="https://cdn.krew.io/assets/audio/Step_Sand_01.wav"></audio>
-        <audio id="step-sand02" src="https://cdn.krew.io/assets/audio/Step_Sand_02.wav"></audio>
-        <audio id="step-wood01" src="https://cdn.krew.io/assets/audio/Step_Wood_01.wav"></audio>
-        <audio id="step-wood02" src="https://cdn.krew.io/assets/audio/Step_Wood_02.wav"></audio>
-        <audio id="switch-rod-cannon" src="https://cdn.krew.io/assets/audio/Switch Rod Cannon.wav"></audio>
-        <audio id="turning" src="https://cdn.krew.io/assets/audio/Turning.wav"></audio> -->
+        <audio id="wheelspin" src="/assets/audio/Wheel Spin.wav"></audio>
+        <audio id="cannon" src="/assets/audio/Cannon.wav"></audio>
+        <audio id="cannon-hit" src="/assets/audio/Cannonball Hit.wav"></audio>
+        <audio id="cast-rod" src="/assets/audio/Cast Rod.wav"></audio>
+        <audio id="catch-crab" src="/assets/audio/Catch Crab.wav"></audio>
+        <audio id="catch-fish" src="/assets/audio/Catch Fish.wav"></audio>
+        <audio id="dock" src="/assets/audio/Dock.wav"></audio>
+        <audio id="fishing" src="/assets/audio/Fishing.wav"></audio>
+        <audio id="get-crate" src="/assets/audio/Get Crate.wav"></audio>
+        <audio id="deposit" src="/assets/audio/Deposit Money.wav"></audio>
+        <audio id="level-up" src="/assets/audio/Level Up.wav"></audio>
+        <audio id="island-music" src="/assets/audio/music - non ocean area loop.wav"></audio>
+        <audio id="ocean-music" src="/assets/audio/music - ocean area loop.wav"></audio>
+        <audio id="ocean-ambience" src="/assets/audio/Ocean Ambience Loop.wav"></audio>
+        <audio id="sail" src="/assets/audio/Sail.wav"></audio>
+        <audio id="select" src="/assets/audio/Select.wav"></audio>
+        <audio id="sink-crash" src="/assets/audio/Sink Crash.wav"></audio>
+        <audio id="step-sand01" src="/assets/audio/Step_Sand_01.wav"></audio>
+        <audio id="step-sand02" src="/assets/audio/Step_Sand_02.wav"></audio>
+        <audio id="step-wood01" src="/assets/audio/Step_Wood_01.wav"></audio>
+        <audio id="step-wood02" src="/assets/audio/Step_Wood_02.wav"></audio>
+        <audio id="switch-rod-cannon" src="/assets/audio/Switch Rod Cannon.wav"></audio>
+        <audio id="turning" src="/assets/audio/Turning.wav"></audio>
+
+        <!-- AdinPlay Ads -->
+        <script>
+            var aiptag = aiptag || {};
+            aiptag.cmd = aiptag.cmd || [];
+            aiptag.cmd.display = aiptag.cmd.display || [];
+            aiptag.cmd.player = aiptag.cmd.player || [];
+
+            aiptag.gdprShowConsentTool = true;
+            aiptag.gdprConsentToolPosition = "bottom";
+        </script>
     </head>
     <body>
         <div class="app">
-            <div class="loading-splash">
-                
+            <div class="loading-splash row justify-content-center">
+                <span class="logged-in">You are logged in as</span>
+                <div class="loading-splash-col wall-of-fame-menu">
+                    <h4 class="splash-header-title">Wall of Fame</h4>
+                    <table class="wall-of-fame">
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Clan</th>
+                            <th>Highscore</th>
+                        </tr>
+                    </table>
+                    <button class="btn-btn-success btn-sm wof-show-more"><i class="icofont icofont-medal"></i> Show More</button>
+                </div>
+                <div class="loading-splash-col main-menu">
+                    <div class="splash-warning-messages">
+                        <small>Try <a href="https://relmz.io" target="_window">relmz.io</a></small>
+                        <br>
+                        <small class="disable-adblock-msg text-danger" style="display: none;">Please support Krew.io by disabling adblock.</small>
+                    </div>
+                    <div class="invite-used alert alert-success" role="alert" style="display: none;">Ahoy! It seems like you're using an invite link!</div>
+                    <div class="select-server form-group">
+                        <select name="server-list" id="server-list" class="custom-select form-control"></select>
+                    </div>
+                    <div class="select-spawn form-group">
+                        <select name="spawn-selection" id="spawn-selection" class="custom-select form-control">
+                            <option value="sea">Spawn in the Sea</option>
+                            <option value="krew">Join a Random Krew</option>
+                            <option value="spain">Spawn on Spain</option>
+                            <option value="guinea">Spawn on Guinea</option>
+                            <option value="brazil">Spawn on Brazil</option>
+                            <option value="labrador">Spawn on Labrador</option>
+                            <option value="island">Spawn on a Random Island</option>
+                        </select>
+                    </div>
+                    <div class="play-menu form-group">
+                        <button class="play-button btn btn-success btn-block" disabled>Loading...</button>
+                        <button class="login-button btn btn-warning btn-block" disabled>Play with an account</button>
+                        <button class="tutorial-button btn btn-primary btn-block" href="https://www.youtube.com/watch?v=kwAydeQL73s?autoplay=1&rel=0">Watch tutorial</button>
+                    </div>
+
+                    <!-- Tutorial popover -->
+                    <script>
+                        $(document).ready(function() {
+                            $('.tutorial-button').magnificPopup({
+                                focus: '',
+                                disableOn: 700,
+                                type: 'iframe',
+                                mainClass: 'mfp-own',
+                                removalDelay: 160,
+                                preloader: false,
+                                fixedContentPos: false
+                            });
+                        });
+                    </script>
+
+                    <div id="cpmstar_ad" style="position: relative; text-align: center; max-width: 50%;">
+                        <script>
+                            let cpmstar_rnd = Math.round(Math.random() * 999999);
+                            let cpmstar_pid = 10016;
+                            
+                            document.writeln("<SCR"+"IPT language='Javascript' src='//server.cpmstar.com/view.aspx?poolid="+cpmstar_pid+"&script=1&rnd="+cpmstar_rnd+"'></SCR"+"IPT>");
+                        </script>
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div class="social-buttons">
+                        <a href="https://discord.krew.io/" target="_window"><img src="/assets/img/discord.jpg" alt="Discord link" class="rounded"></a>
+                        <a href="https://www.reddit.com/r/krewio/" target="_window"><img src="/assets/img/reddit.jpg" alt="Reddit link" class="rounded"></a>
+                        <a href="https://www.facebook.com/krewio/" target="_window"><img src="/assets/img/fb.jpg" alt="Facebook link" class="rounded"></a>
+                        <a href="https://twitter.com/krewio" target="_window"><img src="/assets/img/twitter.jpg" alt="Twitter link" class="rounded"></a>
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <small><a href="./tos.txt" target="_window">TOS & Privacy Policy</a></small>
+                </div>
+                <div class="loading-splash-col changelog-menu">
+                    <h4 class="splash-header-title">Changelog</h4>
+                    <small>Detailed information on <a href="https://discord.krew.io">Discord</a>.</small>
+                    <small>You can view the entire changelog <a href="/changelog.txt">here</a>.</small>
+                    <div id="krew-io_300x250">
+                        <script>
+                            aiptag.cmd.display.push(function() { aipDisplayTag.display('krew-io_300x250' )});
+                        </script>
+                    </div>
+                    <div class="changelogs">
+                        <article class="cl-article">
+                            <h5 class="cl-title">Feature Update - December 15, 2020</h5>
+                            <div class="cl-content">
+                                <ul class="cl-contentlist">
+                                    <li class="cl-new">Remade login.</li>
+                                    <li class="cl-improvement">Revamped UI completely, along with major bug fixes.</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                </div>
             </div>
             <div id="loading-wheel">
                 <img src="/assets/img/wheel.png" style="margin-top:10%" class="wheel">
-                <div style="font-family:caribbean; font-size:20px;">Loading...</div>
+                <div style="font-family: Caribbean; font-size:20px;">Loading...</div>
             </div>
             <div id="spyglass" style="display:none">
                 <img src="/assets/img/spyglass_ocular.png" style="width: 100%; height: 100; position: absolute;">
             </div>
             <div class="game-ui">
-                <!-- Krew Info -->
                 <div class="krew-info">
-                    <div class="btn btn-secondary btn-sm float-sm-right toggle-settings-btn" data-tooltip-location="Open settings menu" data-tooltip-location="right"><i class="icofont icofont-options"></i></div>
+                    <div class="btn btn-secondary btn-sm float-sm-right toggle-settings-btn" data-tooltip="Open settings menu" data-tooltip-location="right"><i class="icofont icofont-options"></i></div>
                     <span class="ship-name">Your krew</span>
                     <div class="krew-stats">
                         <div class="text-danger">
@@ -124,12 +254,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="text-success">
-                                <td>[S.S.]</td>
-                                <td>Vesper
-                                </td>
-                                <td class="float-sm-right">5000</td>
-                            </tr>
+                            <tr></tr>
                         </tbody>
                     </table>
                 </div>
@@ -269,5 +394,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- GameAnalytics -->
+        <script>
+            GameAnalytics("initialize", "ae40c5eb814568c74813aeeb409530bf", "58ae82e5b7a5777dc69b13b1a2f6045fbaf29281");
+            if (document.referrer) {
+                if (window.location != window.parent.location && document.referrer.includes("y8")) {
+                    adEnabled = false;
+                    // loading Y8 SDK
+                    // Load the JS SDK
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = document.location.protocol == 'https:' ? "https://cdn.y8.com/api/sdk.js" : "http://cdn.y8.com/api/sdk.js";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'id-jssdk'));
+                }
+            }
+        </script>
     </body>
 </html>
