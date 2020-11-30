@@ -7,5 +7,13 @@ window.updateInputRange = $input => {
 
     let unity = (max - min) / 100;
     
-    let
+    let val = $input.val();
+    let percent = (val - min) / unity;
+    $output.html(val);
+    $input.attr(`style`, `--value:${percent}`);
+    $output.attr(`style`, `left:${percent}%; transform: translate(-${percent}%);`);
+}
+
+window.inputRange = $input => {
+    $input.on(`input change`, () => updateInputRange($input));
 }
