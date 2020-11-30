@@ -4,7 +4,7 @@ This is the repository for a remake of Krew.io.
 **Running in development** (using grunt-nodemon as a watchscript)
 ``npm run dev``
 
-**Running in production** (using forever to keep process alive and log errors to file)
+**Running in production** (using pm2 to keep process alive)
 ``npm run prod``
 
 Running in production mode serves to ``localhost:443`` (while using ``localhost:80`` as a redirect).
