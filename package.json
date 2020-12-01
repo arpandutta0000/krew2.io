@@ -6,7 +6,8 @@
     "scripts": {
         "dist-test": "grunt-build-dist && grunt webpack:prod",
         "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" pm2 start src/server/app.js",
-        "dev": "grunt build-dev && cross-env NODE_ENV=\"dev\" grunt dev"
+        "dev": "grunt build-dev && cross-env NODE_ENV=\"dev\" grunt dev",
+        "stop": "pm2 kill"
     },
     "repository": {
         "type": "git",

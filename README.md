@@ -110,11 +110,11 @@ Running in dev mode serves to ``localhost:8080``.
  ```
 
  - After running the `tmux a` command you should see the game logs in real time. Be careful what you do whiel connected to the tmux session, it can have massive impact on the game.
- - Press `Control + C` to kill the application (this will stop the game). Then run the following command:
+ - Type `npm run stop` to kill the application (this will stop the game). Then run the following command:
  ```
  npm run prod
  ```
- - Now you shoudl see the game logs arrivign again.
+ - Now you shoudl see the game logs arriving again.
  - To exit the tmux session press `Control + B` and then `D`.
 
 ## Installation Guide for MongoDB
