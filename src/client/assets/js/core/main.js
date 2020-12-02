@@ -4,7 +4,7 @@ const { worldsize } = require("../../../../server/core/postConcat");
 let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight;
 let SERVER = false;
 let playerName = ``;
-let countDown = 10;
+let countDown = 8;
 let threeJSStarted = false;
 let markers = {}
 
@@ -214,5 +214,140 @@ let createGame = () => {
 
     // Render scene.
     lastFrameTime = performance.now();
-    let loop = () => {}
+    let loop = () => {
+        // Calcualte delta time since last frame. (Minimum 0.1s).
+        let thisFrame = performance.now();
+        water.material.uniforms.time.value += 1.0 / 60.0;
+
+        let dt = Math.min((thisFrame - lastFrameTime) / 1e3, 0.1);
+        lastFrameTime = thisFrame;
+
+        // Do engine logic.
+        iterateEntities(dt);
+
+        // Do particle logic.
+        tickParticles(dt);
+        minimap.update();
+
+        // Render the scene.
+        requestAnimationFrame(loop);
+        renderer.clear();
+        renderer.render(scene, camera);
+    }
+    // Execute the loop.
+    loop();
+}
+
+// Show island window for non-kaptains.
+let showIslandMenu = () => {
+    $(`.toggle-shop-menu-btn`).removeClass(`disabled`).addClass(`enabled`);
+    $(`.toggle-krew-list-btn`)/removeClass(`disabled`).addClass(`enabled`);
+    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-menu-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+
+    $(`.exit-island-btn`).hide();
+    ui.updateStore($(`.btn-shopping-modal.active`));
+    ui.updateKrewList();
+}
+
+let enterIsland = data => {
+    if(data.captainId == myPlayerId && myPlayer && myPlayer.parent && myPlayer.parent.shipState != 2) $(`.docking-modal`).show();
+    
+    if($(`.toggle-shop-modal-btn`).hasClass(`enabled`)) $(`.docking-modal`).hide();
+
+    if(myPlayer) {
+        ui.stopAudioFile(`ocean-music`);
+        ui.playAudioFile(true, `island-music`);
+    }
+}
+
+let dockingModalBtn = $(`.docking-modal.btn`);
+let dockingModalBtnTxt = dockingModalBtn.find(`span`);
+
+let portName = $(`.port-name`);
+
+let cancelExitBtn = $(`.cancel-exit.btn`);
+let cancelExitBtnTxt = cancelExitBtn.find(`span`);
+
+let dockingModal = $(`.docking-modal`);
+
+let cleanScene = () => {
+    scene.traverse(node => {
+        if(node instanceof THREE.Mesh) {
+            for(let i in sceneCanBalls) {
+                if(sceneCanBalls[i] == node) {
+                    scene.remove(node);
+                    delete sceneCanBalls[i];
+                }
+            }
+        }
+        if(node instanceof THREE.Line) {
+            for(let i in sceneLines) {
+                let line = sceneLines[i];
+                if(line == node) {
+                    scene.remove(node);
+                    sceneLines[i].geometry.dispose();
+                    delete sceneLines[i];
+                }
+            }
+        }
+    });
+}
+
+// Calculate values for alive timer.
+let pad = val => {
+    let valString = val + ``;
+    if(valString.length < 2) return `0${valString}`;
+    else return valString;
+}
+
+let secondsAlive = 0;
+
+let islandTimer = () => {
+    // Update the alive timer every second.
+    secondsAlive++;
+    $(`.timer-seconds`).html(pad(secondsAlive % 60));
+    $(`.timer-minutes`).html(pad(parseInt(secondsAlive % 3600 / 60)));
+    $(`.timer-hours`).html(pad(parseInt(secondsAlive / 3600)));
+
+    if(myPlayer && myPlayer.parent) {
+        if(myPlayer.parent.shipState == -1 || myPlayer.parent.shipState == 3) {
+            dockingModalBtn.removeClass(`disabled`).addClass(`enabled`);
+            portName.text(entities[myPlayer.parent.anchorIslandId].name);
+
+            dockingModalBtnTxt.text(`Docking...`);
+            cancelExitBtnTxt.text(`Sail (c)`);
+            return;
+        }
+        if(myPlayer.parent.netType == 5) {
+            portName.text(myPlayer.parent.name);
+            if(dockingModal.is(`visible`)) {
+                dockingModal.hide();
+                showIslandMenu();
+            }
+        }
+        if(dockingModal.hasClass(`initial`)) dockingModal.removeClass(`initial`).find(`.you-are-docked-msg`).remove();
+        if(myPlayer.parent.shipState != 1) countDown = 8;
+        if(myPlayer.parent.shipState == 1) {
+            if(countDown == 8) socket.emit(`dock`);
+            cancelExitBtnTxt.text(`Cancel (c)`);
+
+            if(countDown != 0 && countDown > 0) dockingModalBtnTxt.text(`Docking in ${countDown} seconds`);
+            else {
+                dockingModalBtnTxt.text(`Dock (z)`);
+                dockingModalBtn.removeClass(`disabled`).addClass(`enabled`);
+            }
+            countDown--;
+        }
+
+        if(myPlayer.parent.shipState == 4) {
+            $(`.docking-modal`).hide();
+            if(!$(`.departure.modal`).is(`visible`)) $(`.departure-modal`).show();
+
+            $(`.cancel-departure-btn`).find(`span`).text(`${myPLayer && myPlayer.isCaptain ? `Departing in `: `Krew departing in`} ${entities[myPlayer.id].parent.departureTime} seconds`);
+        }
+
+        if(((!myPlayer.isCaptain && myPlayer.parent.shipState != 4) || (myPlayer.isCaptain && myPlayer.parent.shipState == 0)) && $(`.departure-modal`).is(`:visible`)) {
+            
+        }
+    }
 }

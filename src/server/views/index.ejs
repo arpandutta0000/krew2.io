@@ -29,8 +29,8 @@
     
         <!-- THREE.js -->
         <script src="/assets/js/three.min.js"></script>
-        <script src="/assets/js/THREE.TextTexture.es5.js"></script>
-        <script src="/assets/js/THREE.TextSprite.es5.js"></script>
+        <script src="/assets/js/THREE.TextTexture.js"></script>
+        <script src="/assets/js/THREE.TextSprite.js"></script>
 
         <!-- jQuery -->
         <script src="/assets/js/jquery.min.js"></script>
@@ -230,15 +230,15 @@
                 <!-- Top Menu -->
                 <div class="top-ui">
                     <ul>
-                        <li class="btn btn-secondary disabled toggle-shop-menu-btn" data-tooltip="Buy ships, items, and goods" data-tooltip-location="bottom"><i class="icofont icofont-shopping-cart"></i></li>
+                        <li class="btn btn-secondary disabled toggle-shop-menu-btn" data-tooltip-location="bottom"><i class="icofont icofont-shopping-cart"></i></li>
                         <li class="btn btn-secondary disabled toggle-krew-list-btn" data-tooltip="Join a krew" data-tooltip-location="bottom"><i class="icofont icofont-people"></i></li>
-                        <li class="btn btn-secondary disabled toggle-bank-menu-btn" data-tooltip="Bank is available at Labrador" data-tooltip-location="bottom"><i class="icofont icofont-bank"></i></li>
+                        <li class="btn btn-secondary disabled toggle-bank-menu-btn"data-tooltip-location="bottom"><i class="icofont icofont-bank"></i></li>
                         <li class="gold-indicator">
                             <img src="./assets/img/gold.png" alt="Gold image">
                             <span class="text-warning current-gold">5000</span>
                         </li>
-                        <li class="btn btn-secondary disabled toggle-shop-menu-btn" data-tooltip="Hide / show the map" data-tooltip-location="bottom"><i class="icofont icofont-ui-map"></i></li>
-                        <li class="btn btn-secondary disabled toggle-krew-list-btn" data-tooltip="Show player and krew quests" data-tooltip-location="bottom"><i class="icofont icofont-book"></i></li>
+                        <li class="btn btn-secondary toggle-shop-menu-btn" data-tooltip="Hide / show the map" data-tooltip-location="bottom"><i class="icofont icofont-ui-map"></i></li>
+                        <li class="btn btn-secondary toggle-krew-list-btn" data-tooltip="Show player and krew quests" data-tooltip-location="bottom"><i class="icofont icofont-book"></i></li>
                         <li class="btn btn-secondary disabled toggle-bank-menu-btn" data-tooltip="Show hotkeys" data-tooltip-location="bottom"><i class="icofont icofont-question"></i></li>
                     </ul>
                 </div>
@@ -328,7 +328,7 @@
                 <div class="shop-menu modal">
                     <div class="island div">
                         <div class="modal-header">
-                            <h4 class="modal-title">Welcome to the shop of <span class="port-name">Spain</span>!</h4>
+                            <h4 class="modal-title">Welcome to <b><span class="port-name">Spain</span></b>!</h4>
                             <button class="btn btn-secondary float-right btn-sm toggle-shop-btn"></button>
                         </div>
                         <div class="modal-body">
