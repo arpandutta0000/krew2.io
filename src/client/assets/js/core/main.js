@@ -1,3 +1,4 @@
+const { connect } = require("pm2");
 const { worldsize } = require("../../../../server/core/postConcat");
 
 // Setup some global variables that will be used throughout all the engine.
@@ -169,7 +170,7 @@ let timer = setInterval(islandTimer, 1e3);
 let cleanup = setInterval(cleanScene, 9e4);
 
 window.logoutUser = () => {
-    // Remove the player's cookie.
+    // Remove the player`s cookie.
     ui.invalidateCookie(`username`);
     ui.invalidateCookie(`token`);
     window.location.pathname = `/logout`;
@@ -346,8 +347,210 @@ let islandTimer = () => {
             $(`.cancel-departure-btn`).find(`span`).text(`${myPLayer && myPlayer.isCaptain ? `Departing in `: `Krew departing in`} ${entities[myPlayer.id].parent.departureTime} seconds`);
         }
 
-        if(((!myPlayer.isCaptain && myPlayer.parent.shipState != 4) || (myPlayer.isCaptain && myPlayer.parent.shipState == 0)) && $(`.departure-modal`).is(`:visible`)) {
-            
-        }
+        if(((!myPlayer.isCaptain && myPlayer.parent.shipState != 4) || (myPlayer.isCaptain && myPlayer.parent.shipState == 0)) && $(`.departure-modal`).is(`:visible`)) $(`.departure-modal`).hide();
     }
 }
+
+let departure = () => {
+    if(myPlayer && entities[myPlayer.id] & entities[myPlayer.id].parent) {
+        ui.playAudioFile(false, `sail`);
+        $(`.docking-modal`).hide();
+
+        this.departureCounter = this.departureCounter || 0;
+        socket.emit(`depature`, this.departureCounter);
+
+        this.departureCounter++;
+        if(this.depatureCounter > 2) this.departureCounter = 0;
+    }
+}
+
+// Called from connection.js when exitIsland socekt message is received from the server.
+let exitIsland = data => {
+    // Lock mouse.
+    controls.lockMouseLook();
+
+    if(data.captainId == myPlayerId) {
+        $(`.docking-modal`).hide();
+        $(`.departure-modal`).hide();
+    }
+
+    krewListUpdateManually = false;
+    ui.hideSuggestionBox = true;
+
+    if(myPlayer) {
+        ui.stopAudioFile(`island-music`);
+        ui.playAudioFile(true, `ocean-music`);
+    }
+
+    $(`.toggle-bank-menu-btn`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
+
+    $(`.exit-island-btn`).hide();
+    $(`.shopping-menu`).hide();
+    $(`.krew-list-menu`).hide();
+
+    ui.updateStore($(`.btn-shopping-modal.active`));
+
+    $(`.docking-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
+    $(`.toggle-shop-menu-btn`).removeClass(`enabled`).addClass(`disabled`);
+    $(`.toggle-krew-list-menu-btn`).removeClass(`enabled`).addClass(`disabled`);
+}
+
+let login = () => {
+    connect($(`#server-list`).val());
+    ui.setQualitySettings();
+
+    $(`.fps-mode-btn`).attr(`checked`, false);
+    $(`.quality-list`).val(2);
+    $(`.quality-list`).trigger(`change`);
+}
+
+let sendMessage = () => {
+    socket.emit(`chat message`, {
+        message: $(`.chat-message`).val(),
+        recipient: staffChatOn ? `staff`: clanChatOn ? `clan`: localChatOn ? `local`: `global`
+    });
+    $(`.chat-message`).val(``).focus();
+}
+
+let makeDeposit = () => {
+    let deposit = +$(`.make-deposit`).val();
+    let sumDeposits = parseInt($(`.my-deposits`).text()) + deposit;
+
+    if(deposit <= myPlayer.gold && sumDeposits <= 15e4) {
+        socket.emit(`bank`, { deposit });
+        ui.playAudioFile(false, `deposit`);
+
+        $(`.make-deposit`).val(``).focus();
+        $(`.successMakeDepoMess`).show();
+        $(`.errorMakeDepoMess`).hide();
+        $(`.successTakeDepoMess`).hide();
+        $(`.errorTakeDepoMess`).hide();
+        $(`.errorFullDepoMess`).hide();
+    }
+    else if(sumDeposits > 15e4) {
+        $(`.errorFullDepoMess`).show();
+        $(`.successMakeDepoMess`).hide();
+        $(`.errorMakeDepoMess`).hide();
+        $(`.successTakeDepoMess`).hide();
+        $(`.errorTakeDepoMess`).hide();
+    }
+    else {
+        $(`.errorMakeDepoMess`).show();
+        $(`.successMakeDepoMess`).hide();
+        $(`.successTakeDepoMess`).hide();
+        $(`.errorTakeDepoMess`).hide();
+        $(`.errorFullDepoMess`).hide();
+    }
+}
+
+// Share a link and caption on Facebook.
+let fbShare = (message, link) => {
+    FB.login(res => {
+        let token = res.authResponse.accessToken;
+
+        if(res.authResponse) {
+            FB.api(`/me`, `get`, { access_token: token }, res => {});
+            FB.ui({
+                method: `share_open_graph`,
+                action_type: `og.shares`,
+                action_properties: JSON.stringify({
+                    object: {
+                        'og:url': `https://${link}`, // The URL to share.
+                        'og:title': `Krew.io`,
+                        'og:description': message,
+                        'og:image': `https://krew.io/assets/img/logo.png/`
+                    }
+                })
+            });
+        }
+    }, { scope: `publish_actions` });
+}
+
+let isAlphaNumeric = str => {
+    let code;
+
+    for(let i = 0; i < str.length; i++) {
+        code = str.charCodeAt(i);
+        if(!(code > 47 && code < 58) // Numeric (0-9)
+        && !(code > 64 && code < 91) // Upper Alphabet (A-Z)
+        && !(code > 96 && code < 123)) { // Lower Alphabet (a-z) 
+            return false;
+        }
+    }
+    return true;
+}
+
+// Once the document has been fulyl loaded. Start the engine initiation process.
+$(document).ready(() => {
+    loader.loadObjWithMtl(`./assets/models/cannon/cannon.obj`);
+    loader.loadObjWithMtl(`./assets/models/hat_pirate.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/bigship.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/schooner.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/sloop.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/vessel.obj`);
+    loader.loadObjWithMtl(`./assets/models/fish.obj`);
+    loader.loadObjWithMtl(`./assets/models/shell.obj`);
+    loader.loadObjWithMtl(`./assets/models/crab.obj`);
+    loader.loadObjWithMtl(`./assets/models/clam.obj`);
+    loader.loadObjWithMtl(`./assets/models/chest.obj`);
+    loader.loadObjWithMtl(`./assets/models/spyglass.obj`);
+
+    // Christmas tree and snowman.
+    loader.loadObjWithMtl(`./assets/models/elka.obj`);
+    loader.loadObjWithMtl(`./assets/models/snowman.obj`);
+
+    loader.loadModel(`./assets/models/ships/raft.obj`);
+    loader.loadModel(`./assets/models/ships/trader.obj`);
+    loader.loadModel(`./assets/models/ships/boat.obj`);
+    loader.loadModel(`./assets/models/ships/destroyer.obj`);
+    loader.loadModel(`./assets/models/island.obj`);
+    loader.loadModel(`./assets/models/dogs/dog_1.obj`);
+    loader.loadModel(`./assets/models/fishingrod.obj`);
+
+    loader.loadTexture(`./assets/models/colorset.png`);
+    loader.loadTexture(`./assets/models/hook.png`);
+    loader.loadTexture(`./assets/models/dogs/dog_diffuse.tga`);
+    loader.loadTexture(`./assets/models/props_diffuse1.tga`);
+    loader.loadTexture(`./assets/img/water.jpg`);
+    loader.loadTexture(`./assets/img/cannonball.png`);
+    loader.loadTexture(`./assets/img/crate.jpg`);
+    loader.loadTexture(`./assets/models/tex_chest.png`);
+
+    loader.onFinish(() => {
+        // Create materials and game world.
+        createModels();
+        createMaterials();
+        createGame();
+
+        threeJSStarted = true;
+        $(`.play-btn`).text(`Play as guest`).attr(`disabled`, false);
+    });
+
+    $(`.show-more`).on(`click`, () => {
+        if($(`.show-more`).text().indexOf(`Show more`) > -1) {
+            $(`.top20`).show();
+            $(`.show-more`).html(`<i class="icofont icofont-medal"></i> Show less`);
+        }
+        else {
+            $(`.top20`).hide();
+            $(`.show-more`).html(`<i class="icofont icofont-medal</i> Show more`);
+        }
+
+        $(`.chat-message`).on(`keyup`, () => {
+            let $this = $(this);
+            let val = $this.val();
+
+            if(val.trim().length > 150) $this.val(val.slice(0, 150));
+        });
+
+        // Play by pressing login button.
+        $(`.play-btn`).on(`click`, () => {
+            GameAnalytics(`addDesignEvent`, `Game:Session:ClickedPlayButton`);
+            if(threeJSStarted) {
+                login();
+                setUpKeybinds();
+                
+            }
+        })
+    });
+});

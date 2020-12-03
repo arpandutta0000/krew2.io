@@ -1,0 +1,570 @@
+* {
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    user-select: none;
+}
+
+/* Loading Wheel */
+.loading-wheel {
+    position: absolute;
+    z-index: 1060;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.wheel {
+    animation: 3s linear 0s normal none infinite running wheel;
+    width: 150px;
+}
+
+@keyframes wheel {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mainscreen buttons */
+.popup-youtube {
+    z-index: 1070;
+}
+
+.play-btn {
+    font-weight: 900;
+    padding: 1rem;
+}
+
+/* Game UI */
+.game-ui {
+    font-weight: bold;
+    color: #FFF;
+    display: none;
+}
+
+.krew-info {
+    width: 300px;
+    display: inline-block;
+}
+
+.toggle-shop-modal-btn, .toggle-bank-modal-btn, .toggle-krew-list-btn {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem;
+    font-size: 22px;
+}
+
+.glowing {
+    animation: glowing 1500ms infinite;
+}
+
+@keyframes glowing {
+    0% {
+        background-color: #b20000;
+        box-shadow: 0 0 3px #b20000;
+    }
+    50% {
+        background-color: #f00;
+        box-shadow: 0 0 3px #f00;
+    }
+    100% {
+        background-color: #b20000;
+        box-shadow: 0 0 3px #b20000;
+    }
+}
+
+.glow-gold-plus {
+    color: #fff;
+    animation: glow-gold-plus 1s ease-in-out 3 alternate;
+}
+
+.glow-gold-minus {
+    color: #fff;
+    animation: glow-gold-minus 1s ease-in-out 3 alternate;
+}
+
+@keyframes gold-glow-plus {
+    from {
+        text-shadow: 0 0 5px #fff,
+        0 0 10px #f0ad4e,
+        0 0 20px #f0ad4e,
+        0 0 30px #f0ad4e,
+        0 0 70px #f0ad4e,
+        0 0 30px #f0ad4e,
+        0 0 20px #f0ad4e,
+        0 0 10px #f0ad4e,
+        0 0 5px #f0ad4e;
+    }
+    to {
+        text-shadow: 0 0 0px #f0ad4e;
+    }
+}
+
+@keyframes gold-glow-minus {
+    from {
+        text-shadow: 0 0 5px #fff,
+        0 0 10px #f0ad4e,
+        0 0 20px #d9534f,
+        0 0 30px #d9534f,
+        0 0 70px #d9534f,
+        0 0 30px #d9534f,
+        0 0 20px #d9534f,
+        0 0 10px #d9534f,
+        0 0 5px #d9534f;
+    }
+    to {
+        text-shadow: 0 0 0px #d9534f;
+    }
+}
+
+/* Tooltips */
+[data-tooltip] {
+    position: relative;
+}
+
+/* Positioning and visibility settings of the tooltip */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    left: 50%;
+    bottom: calc(100% + 5px);
+    pointer-events: none;
+    transition: 0.2s;
+    will-change: transform;
+    z-index: 10;
+}
+
+/* The actual tooltip with a dynamic width */
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    padding: 10px 18px;
+    min-width: 50px;
+    max-width: 300px;
+    width: max-content;
+    width: -moz-max-content;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: rgba(59, 72, 80, 0.9);
+    box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+    white-space: pre-wrap;
+    transform: translate(-50%, -5px) scale(0.5);
+}
+
+/* Tooltip arrow */
+[data-tooltip]:after {
+    content: '';
+    border-style: solid;
+    border-width: 5px 5px 0px 5px;
+    border-color: rgba(55, 64, 70, 0.9) transparent transparent transparent;
+    transition-duration: 0s; /* If the mouse leaves the element,
+                              the transition effects for the
+                              tooltip arrow are "turned off" */
+    transform-origin: top;   /* Orientation setting for the
+                              slide-down effect */
+    transform: translateX(-50%) scaleY(0);
+}
+
+/* Tooltip becomes visible at hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+/* Scales from 0.5 to 1 -> grow effect */
+[data-tooltip]:hover:before {
+    transition-delay: 0.1s;
+    transform: translate(-50%, -5px) scale(1);
+}
+/* Slide down effect only on mouseenter (NOT on mouseleave) */
+[data-tooltip]:hover:after {
+    transition-delay: 0.1s; /* Starting after the grow effect */
+    transition-duration: 0.2s;
+    transform: translateX(-50%) scaleY(1);
+}
+
+/* LEFT */
+/* Tooltip + arrow */
+[data-tooltip-location="left"]:before,
+[data-tooltip-location="left"]:after {
+    left: auto;
+    right: calc(100% + 5px);
+    bottom: 50%;
+}
+
+/* Tooltip */
+[data-tooltip-location="left"]:before {
+    transform: translate(-5px, 50%) scale(0.5);
+}
+[data-tooltip-location="left"]:hover:before {
+    transform: translate(-5px, 50%) scale(1);
+}
+
+/* Arrow */
+[data-tooltip-location="left"]:after {
+    border-width: 5px 0px 5px 5px;
+    border-color: transparent transparent transparent rgba(55, 64, 70, 0.9);
+    transform-origin: left;
+    transform: translateY(50%) scaleX(0);
+}
+[data-tooltip-location="left"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+
+
+/* RIGHT */
+[data-tooltip-location="right"]:before,
+[data-tooltip-location="right"]:after {
+    left: calc(100% + 5px);
+    bottom: 50%;
+}
+
+[data-tooltip-location="right"]:before {
+    transform: translate(5px, 50%) scale(0.5);
+}
+[data-tooltip-location="right"]:hover:before {
+    transform: translate(5px, 50%) scale(1);
+}
+
+[data-tooltip-location="right"]:after {
+    border-width: 5px 5px 5px 0px;
+    border-color: transparent rgba(55, 64, 70, 0.9) transparent transparent;
+    transform-origin: right;
+    transform: translateY(50%) scaleX(0);
+}
+[data-tooltip-location="right"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+
+/* BOTTOM */
+[data-tooltip-location="bottom"]:before,
+[data-tooltip-location="bottom"]:after {
+    top: calc(100% + 5px);
+    bottom: auto;
+}
+
+[data-tooltip-location="bottom"]:before {
+    transform: translate(-50%, 5px) scale(0.5);
+}
+[data-tooltip-location="bottom"]:hover:before {
+    transform: translate(-50%, 5px) scale(1);
+}
+
+[data-tooltip-location="bottom"]:after {
+    border-width: 0px 5px 5px 5px;
+    border-color: transparent transparent rgba(55, 64, 70, 0.9) transparent;
+    transform-origin: bottom;
+}
+
+/* Changelog */
+.changelog {
+    width: 33%;
+    float: left;
+    padding: 0 15px;
+}
+
+.changelog-title {
+    font-weight: bold;
+    color: #2b2d2f;
+    opacity: .8;
+    margin-bottom: 0;
+}
+
+.changelog-wrapper {
+    overflow-y: auto;
+    scrollbar-width: none;
+    max-height: 558px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.changelog-entry {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(55, 64, 70, 0.2);
+    border-radius: 10px;
+}
+
+.patch-title {
+    font-weight: bold;
+    color: #0074d9;
+    padding-top: 15px;
+}
+
+.patch-content {
+    padding-bottom: 5px;
+}
+
+.patch-content-list {
+    display: block;
+    padding-inline-end: 30px;
+    text-align: left;
+    font-size: .95rem;
+}
+
+/* Toggle Buttons */
+.label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle {
+    isolation: isolate;
+    position: relative;
+    height: 24px;
+    width: 48px;
+    border-radius: 15px;
+    background: #d6d6d6;
+    overflow: hidden;
+}
+
+.toggle-inner {
+    z-index: 2;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 22px;
+    width: 46px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.active-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200%;
+    background: #d9534f;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 0.05s linear 0.17s;
+}
+
+.toggle-state {
+    display: none;
+}
+
+.indicator {
+    height: 100%;
+    width: 200%;
+    background: #fff;
+    border-radius: 13px;
+    transform: translate3d(-75%, 0, 0);
+    transition: transform 0.35s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+}
+
+.toggle-state:checked ~ .active-bg {
+    transform: translate3d(-50%, 0, 0);
+}
+
+.toggle-state:checked ~ .toggle-inner .indicator {
+    transform: translate3d(25%, 0, 0);
+}
+
+.lock-text-info {
+    color: #5bc0de !important;
+}
+
+.lock-text-error {
+    color: #d9534f !important;
+}
+
+.main-menu-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Wall of Fame */
+.wof-dialog {
+    width: 33%;
+    float: left;
+    padding: 0px 15px;
+}
+
+.wof-wrapper {
+    overflow-y: auto;
+    scrollbar-width: none;
+    max-height: 558px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.wall-of-fame th {
+    padding: 10px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    text-align: center;
+}
+
+.wall-of-fame td {
+    padding: 5px;
+    text-align: center;
+}
+
+.wall-of-fame .rank {
+    font-weight: 900;
+}
+
+.wall-of-fame .top-1 {
+    font-weight: 900;
+    color: #ff5722;
+}
+
+.wall-of-fame .top-3 {
+    font-weight: 600;
+    color: #ff5722;
+}
+
+.wall-of-fame, th, td {
+    border-collapse: collapse;
+    opacity: .8;
+}
+
+/* Clans */
+.clan-table-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    height: 225px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.clan-table {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.clan-table th {
+    padding: 7px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    text-align: center;
+    border-collapse: collapse;
+    opacity: .8;
+}
+
+.clan-table td {
+    text-align: center;
+    border-collapse: collapse;
+    opacity: .8;
+}
+
+.clan-btn {
+    margin: 3px;
+    padding: 7px;
+}
+
+/* Chat Coloring */
+.text-staff {
+    color: #bb15eb !important;
+}
+
+a.text-staff:focus, a.text-staff:hover {
+    color: #761e8f !important;
+}
+
+.text-staff {
+    color: #ff9800 !important;
+}
+
+.toggle-map-btn, .toggle-help-btn, .toggle-quest-btn {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem .2rem;
+    font-size: 22px;
+}
+
+.exit-island-btn {
+    margin-right: 4%;
+}
+
+.invite-modal {
+    padding-top: 15px;
+    display: none;
+}
+
+/* Top UI  */
+.top-menu-ui {
+    top: -5px;
+    left: 50%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.top-menu-ui div {
+    margin: 0px 3px;
+}
+
+/* Leaderboard */
+.leaderboard {
+    white-space: nowrap;
+    width: 320px;
+    font-size: 14px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.leaderboard-head {
+    display: grid;
+    grid-gap: 3px;
+    grid-template-columns: 1fr 3fr 1fr;
+    border-bottom: 1px solid;
+}
+
+.leaderboard-data {
+    display: grid;
+    grid-gap: 3px;
+    grid-template-columns: 1fr 3fr 1fr 1.2fr;
+}
+
+/* Player leaderboard */
+.player-leaderboard {
+    white-space: nowrap;
+    width: 550px;
+    font-size: 14px;
+    position: absolute;
+    left: 33%;
+    top: 20%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    padding: 15px;
+    display: none;
+}
+
+

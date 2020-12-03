@@ -119,4 +119,9 @@ document.onkeydown = event => {
 let setUpIslandUI = () => {
     socket.emit(`anchor`);
     lastScore = 0;
+
+    $(`.docking-modal`).hide();
+    $(`.supply`).tooltip(`show`);
+
+    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-menu-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
 }
