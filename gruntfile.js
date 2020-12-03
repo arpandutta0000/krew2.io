@@ -109,7 +109,7 @@ module.exports = (grunt => {
         },
         watch: {
             scripts: {
-                files: [`**/*.js`, `!**/node-modules/**`, `**/*.css`, `**/*.html`],
+                files: [`**/*.js`, `!**/node-modules/**`, `**/*.css`, `**/*.html`, `!**/logs/**`],
                 tasks: [`build-dev`],
                 options: { spawn: false }
             }
