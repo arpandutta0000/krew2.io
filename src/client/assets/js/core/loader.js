@@ -91,9 +91,9 @@ loader.loadObjWithMtl = path => {
         mtlLoader.setPath(folder);
         mtlLoader.load(`${name}.mtl`, materials => {
             materials.preload();
-            objLoader.setmaterials(materials);
+            objLoader.setMaterials(materials);
             objLoader.load(path, object => {
-                models[path.substring(path.lastIndexOf(`/`) + 1, path.length)] = data;
+                models[path.substring(path.lastIndexOf(`/`) + 1, path.length).replace(/\.[^/.]+$/, ``)] = object;
                 resolve();
             });
         });

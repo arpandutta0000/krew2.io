@@ -18,8 +18,8 @@ window.setTimeout(() => {
     testAd.remove();
 
     if(adBlockEnabled) {
-        $(`#KRW_krew-io_300x250_2`).parent().html(`<img src="./assets/img/251sbb.jpg" alt="" style="width: 100%"/>`);
-        $(`#div-gpt-ad-1491569839954-0`).parent().html(`<img src="./assets/img/251s91.jpg" alt="" style="width: 100%"/>`);
+        $(`#KRW_krew-io_300x250_2`).parent().html(`<img src="/assets/img/251sbb.jpg" alt="" style="width: 100%"/>`);
+        $(`#div-gpt-ad-1491569839954-0`).parent().html(`<img src="/assets/img/251s91.jpg" alt="" style="width: 100%"/>`);
         $(`#disable-adblock-message`).show();
     }
 }, 1e3);
@@ -163,8 +163,8 @@ let createMinimap = () => {
     return map;
 }
 
-let timer = setInterval(islandTimer, 1e3);
-let cleanup = setInterval(cleanScene, 9e4);
+let timer = setInterval(() => islandTimer(), 1e3);
+let cleanup = setInterval(() => cleanScene(), 9e4);
 
 window.logoutUser = () => {
     // Remove the player`s cookie.
@@ -479,39 +479,39 @@ let isAlphaNumeric = str => {
 
 // Once the document has been fulyl loaded. Start the engine initiation process.
 $(document).ready(() => {
-    loader.loadObjWithMtl(`./assets/models/cannon/cannon.obj`);
-    loader.loadObjWithMtl(`./assets/models/hat_pirate.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/bigship.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/schooner.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/sloop.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/vessel.obj`);
-    loader.loadObjWithMtl(`./assets/models/fish.obj`);
-    loader.loadObjWithMtl(`./assets/models/shell.obj`);
-    loader.loadObjWithMtl(`./assets/models/crab.obj`);
-    loader.loadObjWithMtl(`./assets/models/clam.obj`);
-    loader.loadObjWithMtl(`./assets/models/chest.obj`);
-    loader.loadObjWithMtl(`./assets/models/spyglass.obj`);
+    loader.loadObjWithMtl(`/assets/models/cannon/cannon.obj`);
+    loader.loadObjWithMtl(`/assets/models/hat_pirate.obj`);
+    loader.loadObjWithMtl(`/assets/models/ships/bigship.obj`);
+    loader.loadObjWithMtl(`/assets/models/ships/schooner.obj`);
+    loader.loadObjWithMtl(`/assets/models/ships/sloop.obj`);
+    loader.loadObjWithMtl(`/assets/models/ships/vessel.obj`);
+    loader.loadObjWithMtl(`/assets/models/fish.obj`);
+    loader.loadObjWithMtl(`/assets/models/shell.obj`);
+    loader.loadObjWithMtl(`/assets/models/crab.obj`);
+    loader.loadObjWithMtl(`/assets/models/clam.obj`);
+    loader.loadObjWithMtl(`/assets/models/chest.obj`);
+    loader.loadObjWithMtl(`/assets/models/spyglass.obj`);
 
     // Christmas tree and snowman.
-    loader.loadObjWithMtl(`./assets/models/elka.obj`);
-    loader.loadObjWithMtl(`./assets/models/snowman.obj`);
+    loader.loadObjWithMtl(`/assets/models/elka.obj`);
+    loader.loadObjWithMtl(`/assets/models/snowman.obj`);
 
-    loader.loadModel(`./assets/models/ships/raft.obj`);
-    loader.loadModel(`./assets/models/ships/trader.obj`);
-    loader.loadModel(`./assets/models/ships/boat.obj`);
-    loader.loadModel(`./assets/models/ships/destroyer.obj`);
-    loader.loadModel(`./assets/models/island.obj`);
-    loader.loadModel(`./assets/models/dogs/dog_1.obj`);
-    loader.loadModel(`./assets/models/fishingrod.obj`);
+    loader.loadModel(`/assets/models/ships/raft.obj`);
+    loader.loadModel(`/assets/models/ships/trader.obj`);
+    loader.loadModel(`/assets/models/ships/boat.obj`);
+    loader.loadModel(`/assets/models/ships/destroyer.obj`);
+    loader.loadModel(`/assets/models/island.obj`);
+    loader.loadModel(`/assets/models/dogs/dog_1.obj`);
+    loader.loadModel(`/assets/models/fishingrod.obj`);
 
-    loader.loadTexture(`./assets/models/colorset.png`);
-    loader.loadTexture(`./assets/models/hook.png`);
-    loader.loadTexture(`./assets/models/dogs/dog_diffuse.tga`);
-    loader.loadTexture(`./assets/models/props_diffuse1.tga`);
-    loader.loadTexture(`./assets/img/water.jpg`);
-    loader.loadTexture(`./assets/img/cannonball.png`);
-    loader.loadTexture(`./assets/img/crate.jpg`);
-    loader.loadTexture(`./assets/models/tex_chest.png`);
+    loader.loadTexture(`/assets/models/colorset.png`);
+    loader.loadTexture(`/assets/models/hook.png`);
+    loader.loadTexture(`/assets/models/dogs/dog_diffuse.tga`);
+    loader.loadTexture(`/assets/models/props_diffuse1.tga`);
+    loader.loadTexture(`/assets/img/water.jpg`);
+    loader.loadTexture(`/assets/img/cannonball.png`);
+    loader.loadTexture(`/assets/img/crate.jpg`);
+    loader.loadTexture(`/assets/models/tex_chest.png`);
 
     loader.onFinish(() => {
         // Create materials and game world.

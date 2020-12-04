@@ -19,8 +19,8 @@ let geometry = {
 let createModels = () => {
     geometry.island = models.island.children[0].geometry;
     geometry.palm = models.island.children[1].geometry;
-    geometry.dog_1 = models.dog1.children[0].geometry;
-    geometry.fishing_rod = models.fishingRod.children[0].geometry;
+    geometry.dog_1 = models.dog_1.children[0].geometry;
+    geometry.fishingrod = models.fishingrod.children[0].geometry;
 
     models.sloop.children[0].name = `sail`;
     models.sloop.children[1].name = `body`;
@@ -68,7 +68,7 @@ let createModels = () => {
 
 let createMaterials = () => {
     materials.cannonball = new THREE.SpriteMaterial({ map: textures.cannonball, color: 0xffffff, fog: true });
-    materials.fishingod = new THREE.MeshPhongMaterial({ color: 0xffffff, map: textures.props_diffuse1 });
+    materials.fishingrod = new THREE.MeshPhongMaterial({ color: 0xffffff, map: textures.props_diffuse1 });
     materials.colorset = new THREE.MeshLambertMaterial({ map: textures.colorset, side: THREE.DoubleSide });
     materials.hook = new THREE.MeshLambertMaterial({ map: textures.hook, side: THREE.DoubleSide, transparent: true });
     materials.colorsetCaptain = new THREE.MeshLambertMaterial({ map: textures.colorset, side: THREE.DoubleSide, emissive: 0x1C1C1C });
