@@ -1,6 +1,3 @@
-const { connect } = require("pm2");
-const { worldsize } = require("../../../../server/core/postConcat");
-
 // Setup some global variables that will be used throughout all the engine.
 let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight;
 let SERVER = false;
@@ -120,7 +117,7 @@ let createMinimap = () => {
                     else {
                         if(element.createTime < performance.now() - 1e4) {
                             map.remove(element);
-                            delete element;
+                            delete map.elements[i];
                         }
                         else {
                             element.r += Math.sin(element.d) * 5;

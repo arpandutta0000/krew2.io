@@ -184,110 +184,111 @@ let setUpEnvironment = () => {
             renderer.setRenderTarget(currentRenderTarget);
         }
     }
-}
 
-THREE.Water.prototype = Object.create(THREE.Mesh.prototype);
-THREE.Water.prototype.constructor = THREE.Water;
+    THREE.Water.prototype = Object.create(THREE.Mesh.prototype);
+    THREE.Water.prototype.constructor = THREE.Water;
 
-const initWater = () => {
-    light = new THREE.DirectionalLight(0xf9f6da, 0.5);
-    light.position.set(0, 100, 0);
-    scene.add(light);
-    
-    let waterGeometry = new THREE.PlaneBufferGEometry(6000, 6000);
-    water = new THREE.Water(
-        waterGeometry,
-        {
-            textureWidth: 512,
-            textureHeight: 512,
-            waterNormals: textures.water,
-            alpha: 1.0,
-            sunDirection: light.position.clone().normalize(),
-            sunColor: 0xffffff,
-            waterColor: 0x8fc3f2,
-            distortionScale: 10,
-            fog: scene.fog != undefined
+
+    const initWater = () => {
+        light = new THREE.DirectionalLight(0xf9f6da, 0.5);
+        light.position.set(0, 100, 0);
+        scene.add(light);
+        
+        let waterGeometry = new THREE.PlaneBufferGeometry(6000, 6000);
+        water = new THREE.Water(
+            waterGeometry,
+            {
+                textureWidth: 512,
+                textureHeight: 512,
+                waterNormals: textures.water,
+                alpha: 1.0,
+                sunDirection: light.position.clone().normalize(),
+                sunColor: 0xffffff,
+                waterColor: 0x8fc3f2,
+                distortionScale: 10,
+                fog: scene.fog != undefined
+            }
+        );
+        water.rotation.x = (-1 * Math.PI)  / 2;
+        scene.add(water);
+    }
+    initWater();
+
+    // Draw water boundaries.
+
+    // West
+    environment.boundaryLeft = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryLeft.position.set(worldsize * 0.5, 1.5, 0);
+    environment.boundaryLeft.scale.set(worldsize, 0.1, 3);
+
+    // East
+    environment.boundaryRight = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryRight.position.set(worldsize * 0.5, 1.5, worldsize);
+    environment.boundaryRight.scale.set(worldsize, 0.1, 3);
+
+    // North
+    environment.boundaryUp = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryUp.position.set(0, 1.5, worldsize * 0.5);
+    environment.boundaryUp.scale.set(worldsize, 0.1, worldsize);
+
+    // South
+    environment.boundaryDown = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryDown.position.set(worldsize, 1.5, worldsize * 0.5);
+    environment.boundaryDown.scale.set(worldsize, 0.1, worldsize);
+
+    // Add boundaries to scene.
+    scene.add(environment.boundaryLeft);
+    scene.add(environment.boundaryRight);
+    scene.add(environment.boundaryUp);
+    scene.add(environment.boundaryDown);
+
+    // Daylight cycle.
+    window.currentTime = 0;
+    doDaylightCycle = time => {
+        if(water && window.currentTime == time) return;
+        let light = water.parent.children.find(f => f instanceof THREE.Light);
+        window.currentTime = time;
+
+        if(time == 1) {
+            let i = 0;
+            let anim = setInterval(() => {
+                i++;
+                light.intensity -= 0.01;
+
+                water.material.uniforms.waterColor.value.r -= 0.004;
+                water.material.uniforms.waterColor.value.g -= 0.006;
+                water.material.uniforms.waterColor.value.b -= 0.008;
+
+                water.parent.fog.color.r -= 0.008;
+                water.parent.fog.color.g -= 0.008;
+                water.parent.fog.color.b -= 0.008;
+
+                if(i == 100) clearInterval(anim);
+            }, 20);
         }
-    );
-    water.rotation.x = (-1 * Math.PI)  / 2;
-    scene.add(water);
-}
-initWater();
+        else {
+            let i = 0;
+            let anim = setInterval(() => {
+                i++;
+                light.intensity += 0.01;
 
-// Draw water boundaries.
+                water.material.uniforms.waterColor.value.r += 0.004;
+                water.material.uniforms.waterColor.value.g += 0.006;
+                water.material.uniforms.waterColor.value.b += 0.008;
 
-// West
-environment.boundaryLeft = new THREE.Mesh(base_geometries.box, materials.boundary);
-environment.boundaryLeft.position.set(worldsize * 0.5, 1.5, 0);
-environment.boundaryLeft.scale.set(worldsize, 0.1, 3);
+                water.parent.fog.color.r += 0.008;
+                water.parent.fog.color.g += 0.008;
+                water.parent.fog.color.b += 0.008;
 
-// East
-environment.boundaryRight = new THREE.Mesh(base_geometries.box, materials.boundary);
-environment.boundaryRight.position.set(worldsize * 0.5, 1.5, worldsize);
-environment.boundaryRight.scale.set(worldsize, 0.1, 3);
-
-// North
-environment.boundaryUp = new THREE.Mesh(base_geometries.box, materials.boundary);
-environment.boundaryUp.position.set(0, 1.5, worldsize * 0.5);
-environment.boundaryUp.scale.set(worldsize, 0.1, worldsize);
-
-// South
-environment.boundaryDown = new THREE.Mesh(base_geometries.box, materials.boundary);
-environment.boundaryDown.position.set(worldsize, 1.5, worldsize * 0.5);
-environment.boundaryDown.scale.set(worldsize, 0.1, worldsize);
-
-// Add boundaries to scene.
-scene.add(environment.boundaryLeft);
-scene.add(environment.boundaryRight);
-scene.add(environment.boundaryUp);
-scene.add(environment.boundaryDown);
-
-// Daylight cycle.
-window.currentTime = 0;
-this.doDaylightCycle = time => {
-    if(water && window.currentTime == time) return;
-    let light = water.parent.children.find(f => f instanceof THREE.Light);
-    window.currentTime = time;
-
-    if(time == 1) {
-        let i = 0;
-        let anim = setInterval(function() {
-            i++;
-            light.intensity -= 0.01;
-
-            water.material.uniforms.waterColor.value.r -= 0.004;
-            water.material.uniforms.waterColor.value.g -= 0.006;
-            water.material.uniforms.waterColor.value.b -= 0.008;
-
-            water.parent.fog.color.r -= 0.008;
-            water.parent.fog.color.g -= 0.008;
-            water.parent.fog.color.b -= 0.008;
-
-            if(i == 100) clearInterval(anim);
-        }, 20);
+                if (i == 100) clearInterval(anim);
+            }, 20);
+        }
     }
-    else {
-        let i = 0;
-        let anim = setInterval(() => {
-            i++;
-            light.intensity += 0.01;
 
-            water.material.uniforms.waterColor.value.r += 0.004;
-            water.material.uniforms.waterColor.value.g += 0.006;
-            water.material.uniforms.waterColor.value.b += 0.008;
-
-            water.parent.fog.color.r += 0.008;
-            water.parent.fog.color.g += 0.008;
-            water.parent.fog.color.b += 0.008;
-
-            if (i == 100) clearInterval(anim);
-        }, 20);
-    }
+    // Do daylight cycle.
+    setInterval(() => {
+        let date = new Date();
+        if(date.getUTCMinutes() > 35 && date.getUTCMinutes() < 55) doDaylightCycle(1);
+        else if(date.getUTCMinutes() < 35 || date.getUTCMinutes() > 55) doDaylightCycle(0);
+    }, 200);
 }
-
-// Do daylight cycle.
-setInterval(() => {
-    let date = new Date();
-    if(date.getUTCMinutes() > 35 && date.getUTCMinutes() < 55) doDaylightCycle(1);
-    else if(date.getUTCMinutes() < 35 || date.getUTCMinutes() > 55) doDaylightCycle(0);
-}, 200);
