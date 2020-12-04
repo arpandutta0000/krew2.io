@@ -757,9 +757,122 @@ $(document).ready(() => {
                     $(`.pirate-progress`).text(jsonData.shipsSank);
                     $(`.crew-pirate-progress`).text(jsonData.overallKills);
 
-                    if(jsonData.shipsSank >= 1) {}
+                    if (json_data.shipsSank >= 1){
+                        // If pirate quest 1 is achieved, display the checkbox icon and show the next quest.
+                        $(`#completed-quest-table`).append($(`#pirate-quest-1`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#pirate-quest-2`).show();
+                        $(`#crew-pirate-quest-1`).show();
+                    }
+                    if (json_data.shipsSank >= 5){
+                        $(`#completed-quest-table`).append($(`#pirate-quest-2`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#pirate-quest-3`).show();
+                    }
+                    if (json_data.shipsSank >= 10){
+                        $(`#completed-quest-table`).append($(`#pirate-quest-3`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#pirate-quest-4`).show();
+                    }
+                    if (json_data.shipsSank >= 20){
+                        $(`#completed-quest-table`).append($(`#pirate-quest-4`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                    }
+                    if (json_data.overall_kills >= 10){
+                        $(`#completed-quest-table`).append($(`#crew-pirate-quest-1`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#crew-pirate-quest-2`).show();
+                    }
+                    if (json_data.overall_kills >= 20){
+                        $(`#completed-quest-table`).append($(`#crew-pirate-quest-2`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#crew-pirate-quest-3`).show();
+                    }
+                    if (json_data.overall_kills >= 50){
+                        $(`#completed-quest-table`).append($(`#crew-pirate-quest-3`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                    }
+
+                    // Trade quests.
+                    $(`.trade-progress`).text(json_data.overall_cargo);
+                    $(`.crew-trade-progress`).text(json_data.crew_overall_cargo);
+
+                    // After completing the quest, display the new status in the quest window.
+                    if (json_data.overall_cargo >= 1000){
+                        $(`#completed-quest-table`).append($(`#trade-quest-1`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#trade-quest-2`).show();
+                        $(`#crew-trade-quest-1`).show();
+                    }
+                    if (json_data.overall_cargo >= 6000){
+                        $(`#completed-quest-table`).append($(`#trade-quest-2`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#trade-quest-3`).show();
+                    }
+                    if (json_data.overall_cargo >= 15000){
+                        $(`#completed-quest-table`).append($(`#trade-quest-3`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#trade-quest-4`).show();
+                    }
+                    if (json_data.overall_cargo >= 30000){
+                        $(`#completed-quest-table`).append($(`#trade-quest-4`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                    }
+                    if (json_data.crew_overall_cargo >= 12000){
+                        $(`#completed-quest-table`).append($(`#crew-trade-quest-1`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#crew-trade-quest-2`).show();
+                    }
+                    if (json_data.crew_overall_cargo >= 50000){
+                        $(`#completed-quest-table`).append($(`#crew-trade-quest-2`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#crew-trade-quest-3`).show();
+                    }
+                    if (json_data.crew_overall_cargo >= 150000){
+                        $(`#completed-quest-table`).append($(`#crew-trade-quest-3`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                    }
+    
+                    // Other quests.
+                    $(`#other-progress-1`).text(myPlayer.jump_count);
+                    if (myPlayer.jump_count >= 50){
+                        $(`#completed-quest-table`).append($(`#other-quest-1`).last());
+                        $(`#completed-quest-table .quest-progress`).html(`<i class="icofont icofont-check-circled"></i>`);
+                        $(`#other-quest-2`).show();
+                    }
                 });
             }
+        });
+
+        $(`.close-quests-btn`).on(`click`, () => $(`.quests-modal`).css(`display`, `none`));
+
+        $(`.cancel-exit-btn`).on(`click`, () => {
+            if(cancelExitBtnTxt.text() == `Cancel (c)`) {
+                socket.emit(`exitIsland`);
+                dockingModalBtnTxt.text(`Countdown...`);
+            }
+        });
+
+        $(`.abandon-ship-btn`).on(`click`, () => {
+            if(myBoat.hp <= 0) return;
+            if(myPlayer.goods && (myBoat.shipState == 3 || myBoat.shipState == 4)) {
+                for(let i in myPlayer.goods) {
+                    if(myPlayer.goods[i] > 0) {
+                        socket.emit(`buyGoods`, {
+                            quantity: myPlayer.goods[i],
+                            action: `sell`,
+                            good: i
+                        }, (err, data) => {
+                            if(err) return console.log(err);
+                            myPlayer.gold = data.gold;
+                            myPlayer.goods = data.goods;
+                        });
+                    }
+                }
+            }
+
+            socket.emit(`abandonShip`);
+            $(`.abandon-ship-btn`).hide();
         });
     });
 });
