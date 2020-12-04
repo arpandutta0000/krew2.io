@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            <div class="main-menu-div">
+            <div class="main-menu-wrapper">
                 <div class="white-bg">
                     <div>
                         <small>Try <a href="https://relmz.io" target="_blank">relmz.io</a></small>
@@ -268,6 +268,25 @@
                         w.document.write('<div style="width:300px;height:250px" class="'+c+'"></div>');
                         w[y]=w[y]||{};(w[y].libcmd=w[y].libcmd||[]).push({kind:'asynctagfetch',pid:pid,pindex:w.document.getElementsByClassName(c).length-1});
                         })(window,78728);
+                    </script>
+                </div>
+                <div class="modal-footer text-sm-center">
+                    <script>
+                        window.fbAsyncInit = function() {
+                            FB.init({
+                                appId: "1167973769983757",
+                                xfbml: true,
+                                version: "v2.10"
+                            });
+                            FB.AppEvents.logPageView();
+                        }
+                        (function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) { return; }
+                            js = d.createElement(s); js.id = id;
+                            js.src = "//connect.facebook.net/en_US/sdk.js";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));
                     </script>
                 </div>
             </div>

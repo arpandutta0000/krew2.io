@@ -549,8 +549,360 @@ $(document).ready(() => {
             if(threeJSStarted) {
                 login();
                 setUpKeybinds();
-                
+                ui.LoadingWheel(`show`);
+                ui.playAudioFile(false, `wheelspin`);
+                ui.playAudioFile(true, `ocean-ambience`);
             }
-        })
+        }).text(`Loading...`).attr(`disabled`, true);
+
+        $(`.play-again-btn`).on(`click`, () => {
+            if(threeJSStarted) {
+                ui.showAdinplayCentered();
+                secondsAlive = 0;
+                socket.emit(`respawn`);
+                myPlayer.itemId = undefined;
+                myPlayer.state = 2;
+
+                $(`.toggle-shop-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
+                $(`.toggle-krew-list-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
+                $(`.toggle-bank-modal-btn`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
+            }
+        });
+
+        $(`.share-link`).on(`click`, () => {
+            let message = `I just had an amazing game of Krew.io and my score was ${lastScore}!`;
+            let link = `${window.location.hostname}/`;
+            fbShare(message, link);
+            ui.showAdinplayCentered();
+            secondsAlive = 0;
+
+            socket.emit(`respawn`);
+            myPlayer.state = 2;
+            myPlayer.itemId = undefined;
+
+            $(`.toggle-shop-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
+            $(`.toggle-krew-list-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
+            $(`.toggle-bank-modal-btn`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
+
+            ui.updateStore($(`.btn-shopping-modal.active`));
+            
+            $(`.krew-list-modal`).show();
+            ui.updateKrewList();
+        });
+
+        $(`.quality-list`).on(`change`, () => {
+            let newW = defaultWidth / 2.5;
+            let newH = defaultHeight / 2.5;
+            switch(parseInt($(`.quality-list`).val())) {
+                case 2: {
+                    newW = defaultWidth / 1.45;
+                    newH = defaultWidth / 1.45;
+                    break;
+                }
+                case 3: {
+                    newW = defaultWidth;
+                    newH = defaultWidth;
+                    break;
+                }
+            }
+            
+            if(gl != undefined) {
+                gl.canvas.height = newH;
+                gl.canvas.width = newW;
+
+                gl.viewport(0, 0, newW, newH); // Originally newW, newW.
+                renderer.setSize(newW, newH, false); // Originally newW, newW.
+            }
+        });
+
+        $(`.share-invite-link`).on(`click`, () => {
+            let message = `Join my krew!`;
+            let link = ui.getInviteLink();
+            fbShare(message, link);
+        });
+
+        // Initialize listeners for the UI.
+        ui.setListeners();
+
+        $(window).on(`unload`, () => {
+            if(socket) socket.close();
+        });
+
+        // Submit on enter key.
+        $(`.chat-message`).on(`keypress`, e => {
+            if(e.keyCode == 13) sendMessage();
+        });
+        $(`.make-deposit`).on(`keypress`, e => {
+            if(e.keyCode == 13) makeDeposit();
+        });
+        $(`.take-deposit`).on(`keypress`, e => {
+            if(e.keyCode == 13) takeDeposit();
+        });
+
+        ui.updateServerList();
+        ui.createWallOfFame();
+
+        // Sen chat message by pressing send message button.
+        $(`.send-message-btn`).on(`click`, () => {
+            sendMessage();
+        });
+
+        if(getUrlVars().sid && getUrlVars().bid) {
+            // If invite link is being used.
+            $(`.invite-is-used`).show();
+            $(`.select-server`).hide();
+            $(`.select-spawn`).hide();
+        }
+
+        $(`.crew-count, .ship-health`).slider();
+
+        $(`.crew-count`).on(`slide`, e => $(`.crew-count-val`).text(e.value));
+        $(`.ship-health`).on(`slide`, e => $(`.ship-health-val`).text(e.value));
+
+        let shoppingModalBtn = $(`.btn-shopping-modal`);
+        shoppingModalBtn.each(() => {
+            let $this = $(this);
+            $this.on(`click`, () => {
+                shoppingModalBtn.removeClass(`active`);
+                $this.addClass(`active`);
+                ui.updateStore($this);
+            });
+        });
+
+        $(`.docking-modal-btn`).on(`click`, () => {
+            if($(`.docking-modal-btn`).hasClass(`enabled`)) {
+                if(myPlayer && myPlayer.parent) {
+                    ui.playAudioFile(false, `dock`);
+                    socket.emit(`anchor`);
+                    shoppingModalBtn.eq(2).trigger(`click`);
+
+                    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-modal-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+                    if(myPlayer.parent.netType == 1 && !$(`.exit-island-btn`).is(`:visible`)) $(`.exit-island-btn`).show();
+                }
+
+                lastScore = 0;
+                controls.unLockMouseLook();
+
+                $(`.docking-modal`).hide();
+                $(`.supply`).tooltip(`show`);
+
+                $(`.toggle-shop-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
+                $(`.toggle-krew-list-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
+
+                ui.updateStore($(`.btn-shopping-modal.active`));
+                $(`.recruiting-wrapper`).fadeIn(`slow`);
+            }
+        });
+
+        $(`.login-modal`).modal({
+            show: true,
+            backdrop: `static`,
+            keyboard: false
+        });
+        $(`.modal-custom`).on(`show.bs.modal`, e => {
+            setTimeout(() => {
+                $(`.modal-backdrop`).addClass(`modal-backdrop-custom`);
+                $(`.modal-custom`).removeClass(`modal-open`);
+            });
+        });
+
+        $(`.game-over-modal`).modal({
+            show: false,
+            backdrop: `static`,
+            keyboard: false
+        });
+
+        $(`.chat-global`).on(`click`, () => toggleGlobalChat());
+        $(`.chat-local`).on(`click`, () => toggleLocalChat());
+        $(`.chat-clan`).on(`click`, () => toggleClanChat());
+        $(`.chat-staff`).on(`click`, () => toggleStaffChat());
+
+        $(`.hide-chat`).on(`click`, () => {
+            $(`.show-chat`).show();
+            $(`.chat-wrapper`).hide();
+        });
+        $(`.show-chat`).on(`click`, () => {
+            $(`.hide-chat`).show();
+            $(`.chat-wrapper`).show();
+        });
+
+        $(`.toggle-invite-link-btn`).on(`click`, () => {
+            if($(`.invite-wrapper`).is(`:visible`)) $(`.invite-wrapper`).hide();
+            else {
+                $(`.invite-link`).val(ui.getInviteLink());
+                $(`.invite-wrapper`).show();
+            }
+        });
+
+        $(`.exit-island-btn`).on(`click`, () => departure());
+
+        $(`.toggle-help-btn`).on(`click`, () => {
+            if($(`.help-modal`).is(`:visible`)) $(`.help-modal`).hide();
+            else {
+                ui.closeAllPagesExcept(`.help-modal`);
+                $(`.help-modal`).show();
+            }
+        });
+
+        $(`.close-help-btn`).on(`click`, () => $(`.help-modal`).hide());
+        $(`.close-bank-btn`).on(`click`, () => $(`.bank-modal`).hide());
+        $(`.btn-make-deposit`).on(`click`, () => makeDeposit());
+        $(`.btn-take-deposit`).on(`click`, () => takeDeposit());
+
+        $(`.toggle-quest.btn`).on(`click`, () => {
+            if($(`.quest-modal`).is(`:visible`)) $(`.quest-modal`).hide();
+            else {
+                // After clicking on the quest button, get all information needed for stats from the server.
+                socket.emit(`getStats`, data => {
+                    let jsonData = JSON.parse(data);
+
+                    // Pirate quests.
+                    $(`.pirate-progress`).text(jsonData.shipsSank);
+                    $(`.crew-pirate-progress`).text(jsonData.overallKills);
+
+                    if(jsonData.shipsSank >= 1) {}
+                });
+            }
+        });
     });
 });
+
+// Bootstrap shows elements inside .tab by default.
+$(`.global-chat-alert`).hide();
+
+let toggleGlobalChat = () => {
+    $(`.chat-global`).addClass(`active`);
+    $(`.chat-local`).removeClass(`active`);
+    $(`.chat-clan`).removeClass(`active`);
+    $(`.chat-staff`).removeClass(`active`);
+
+    $(`.chat-global`).show();
+    $(`.chat-local`).hide();
+    $(`.chat-clan`).hide();
+    $(`.chat-staff`).hide();
+
+    globalChatOn = true;
+    localChatOn = false;
+    clanChatOn = false;
+    staffChatOn = false;
+
+    $(`.global-chat-alert`).hide();
+
+    // Scroll down to the bottom of the chat.
+    $(`.chat-history`).scrollTop(() => {
+        return this.scrollHeight;
+    });
+}
+
+let toggleLocalChat = () => {
+    $(`.chat-global`).removeClass(`active`);
+    $(`.chat-local`).addClass(`active`);
+    $(`.chat-clan`).removeClass(`active`);
+    $(`.chat-staff`).removeClass(`active`);
+
+    $(`.chat-global`).hide();
+    $(`.chat-local`).show();
+    $(`.chat-clan`).hide();
+    $(`.chat-staff`).hide();
+
+    globalChatOn = false;
+    localChatOn = true;
+    clanChatOn = false;
+    staffChatOn = false;
+
+    $(`.local-chat-alert`).hide();
+
+    // Scroll down to the bottom of the chat.
+    $(`.chat-history`).scrollTop(() => {
+        return this.scrollHeight;
+    });
+}
+
+let toggleClanChat = () => {
+    $(`.chat-global`).removeClass(`active`);
+    $(`.chat-local`).removeClass(`active`);
+    $(`.chat-clan`).addClass(`active`);
+    $(`.chat-staff`).removeClass(`active`);
+
+    $(`.chat-global`).hide();
+    $(`.chat-local`).hide();
+    $(`.chat-clan`).show();
+    $(`.chat-staff`).hide();
+
+    globalChatOn = false;
+    localChatOn = false;
+    clanChatOn = true;
+    staffChatOn = false;
+
+    $(`.clan-chat-alert`).hide();
+
+    // Scroll down to the bottom of the chat.
+    $(`.chat-history`).scrollTop(() => {
+        return this.scrollHeight;
+    });
+}
+
+let toggleStaffChat = () => {
+    $(`.chat-global`).addClass(`active`);
+    $(`.chat-local`).removeClass(`active`);
+    $(`.chat-clan`).removeClass(`active`);
+    $(`.chat-staff`).addClass(`active`);
+
+    $(`.chat-global`).hide();
+    $(`.chat-local`).hide();
+    $(`.chat-clan`).hide();
+    $(`.chat-staff`).show();
+
+    globalChatOn = false;
+    localChatOn = false;
+    clanChatOn = false;
+    staffChatOn = true;
+
+    $(`.staff-chat-alert`).hide();
+
+    // Scroll down to the bottom of the chat.
+    $(`.chat-history`).scrollTop(() => {
+        return this.scrollHeight;
+    });
+}
+
+let Ease = {
+    // No easing, no acceleration.
+    linear: function (t) { return t; },
+
+    // Accelerating from zero velocity.
+    easeInQuad: function (t) { return t * t; },
+
+    // Decelerating to zero velocity.
+    easeOutQuad: function (t) { return t * (2 - t); },
+
+    // Acceleration until halfway, then deceleration.
+    easeInOutQuad: function (t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; },
+
+    // Accelerating from zero velocity.
+    easeInCubic: function (t) { return t * t * t; },
+
+    // Decelerating to zero velocity.
+    easeOutCubic: function (t) { return (--t) * t * t + 1; },
+
+    // Acceleration until halfway, then deceleration.
+    easeInOutCubic: function (t) { return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1; },
+
+    // Accelerating from zero velocity.
+    easeInQuart: function (t) { return t * t * t * t; },
+
+    // Decelerating to zero velocity.
+    easeOutQuart: function (t) { return 1 - (--t) * t * t * t; },
+
+    // Acceleration until halfway, then deceleration.
+    easeInOutQuart: function (t) { return t < .5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t; },
+
+    // Accelerating from zero velocity.
+    easeInQuint: function (t) { return t * t * t * t * t; },
+
+    // Decelerating to zero velocity.
+    easeOutQuint: function (t) { return 1 + (--t) * t * t * t * t; },
+
+    // Acceleration until halfway, then deceleration.
+    easeInOutQuint: function (t) { return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t; },
+}
