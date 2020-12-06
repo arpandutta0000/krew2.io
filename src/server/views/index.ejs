@@ -293,6 +293,58 @@
             </div>
         </div>
 
+        <!-- Shopping Modal -->
+        <div class="shopping-modal">
+            <div class="island-wrapper">
+                <div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            Welcome to the shop of 
+                            <span class="port-name"></span>!
+                            <div class="btn btn-secondary float-right btn-sm toggle-shop-modal-btn">
+                                <i class="icofont icofont-ui-close"></i>
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link btn-shopping-modal" id="buy-items">Buy Items</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link btn-shopping-modal" id="buy-ships">Buy Ships</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link btn-shopping-modal" id="buy-goods">Buy Goods</a>
+                            </li>
+                        </ul>
+                        <div class="abandon-existing-krew text-sm-center" style="display: none;">Note: If you purchase a ship, you will abandon your existing krew.</div>
+                        <div class="item-stack text-sm-center" style="display: none;">Note: Items do not stack and purchasing a second item will replace your current one.</div>
+                        <div class="shopping-item-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Krew List Modal -->
+        <div class="krew-list-modal">
+            <div>
+                <div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            Krews docked at 
+                            <span class="port-name"></span>
+                            <div class="btn btn-secondary float-right btn-sm toggle-krew-list-modal-btn">
+                                <i class="icofont icofont-ui-close"></i>
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="krews-list container"></div>
+                    <div class="departing-krews-list container" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Audio -->
         <audio id="wheelspin" src="/assets/audio/Wheel Spin.wav"></audio>
         <audio id="cannon" src="/assets/audio/Cannon.wav"></audio>
