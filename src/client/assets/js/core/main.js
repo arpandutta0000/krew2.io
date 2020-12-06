@@ -873,8 +873,66 @@ $(document).ready(() => {
 
             socket.emit(`abandonShip`);
             $(`.abandon-ship-btn`).hide();
+
+            if(myBoat != undefined) {
+                if(myBoat.shipState == 3 || myBoat.shipState == -1 || myBoat.shipState == 4) {
+                    $(`.supply`).tooltip(`show`);
+
+                    $(`.toggle-shop-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
+                    $(`.toggle-krew-list-modal-btn`).removeClass(`disabled`).addClass(`enabled`)
+
+                    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-modal-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+                    ui.updateStore($(`.btn-shopping-modal.active`));
+                }
+                else if(myBoat.shipState == 1) $(`.docking-modal`).show();
+            }
         });
     });
+
+    $(`.lock-krew-btn`).on(`click`, () => {
+        if($(`.lock-krew-btn`).is(`:checked`)) {
+            $ (`lock-krew-text`).removeClass(`text-info`).addClass(`text-danger`).text(`Unlock krew...`);
+            socket.emit(`lockKrew`, true);
+        }
+        else {
+            $ (`lock-krew-text`).removeClass(`text-info`).addClass(`text-danger`).text(`Lock krew...`);
+            socket.emit(`lockKrew`, false);
+        }
+    });
+    localStorage.setItem(`lastAdTime`, Date.now() - 1e7);
+
+    let aiptag = aiptag || {};
+    aiptag.cmd = aiptag.cmd || [];
+    aiptag.cmd.display = aiptag.cmd.display || [];
+    aiptag.cmd.display.push(() => aipDisplayTag.display(`krew-io_300x250`));
+    aiptag.gdprShowConsentTool = true; // Show the GDPR consent tool.
+    aiptag.gdprShowConsentToolButton = true;
+    initAipPreroll();
+
+    let aipGDPRCallback_OnAccept = googleConsent => {
+        if(googleConsent) initAipPreroll();
+    }
+
+    let initAipPreroll = () => {
+        if(typeof aipPlayer != `undefined`) {
+            adplayer = new aipPlayer({
+                AD_WIDTH: 960,
+                AD_HEIGHT: 540,
+                AD_FULLSCREEN: true,
+                PREROLL_ELEM: document.querySelector(`#preroll`),
+                AIP_COMPLETE: () => {},
+                AIP_REMOVE: () => {}
+            });
+            window.adplayerCentered = new aipPlayer({
+                AD_WIDTH: 560,
+                AD_HEIGHT: 315,
+                AD_FULLSCREEN: false,
+                PREROLL_ELEM: document.querySelector(`#preroll-centered`),
+                AIP_COMPLETE: () => {},
+                AIP_REMOVE: () => {}
+            });
+        }
+    }
 });
 
 // Bootstrap shows elements inside .tab by default.
