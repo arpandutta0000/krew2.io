@@ -12,10 +12,10 @@ window.CONFIG = {
         distanceMultiplier: {
             0: 40,
             1: 160,
-            5: 300,
+            5: 300
         },
         boats: {
-            useMethod: `inRange`, // Options can be 'inVision' or 'inRange'.
+            useMethod: `inRange` // Options can be 'inVision' or 'inRange'.
         }
     }
-};
+}
