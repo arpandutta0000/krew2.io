@@ -4,7 +4,7 @@
  */
 window.CONFIG = {
     setProperties: {
-        inVision: false,
+        inVision: false
     },
     Labels: {
         redrawInterval: 250,
