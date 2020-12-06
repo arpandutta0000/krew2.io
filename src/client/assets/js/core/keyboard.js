@@ -108,7 +108,7 @@ document.onkeydown = event => {
         }
     }
     else if(event.key == `5` || event.key == `6` || event.key == `7`) {
-        let attribute = EXPERIENCEPOINTSCOMPONENT.keys(event.keyCode);
+        let attribute = EXPERIENCEPOINTSCOMPONENT.keys(event.key);
         EXPERIENCEPOINTSCOMPNENT.clearStore().setStore(Store => {
             Store.allocatedPoints[attribute] = 1;
             EXPERIENCEPOINTSCOMPNENT.allocatePoints(() => ui.updateUiExperience());
@@ -124,4 +124,114 @@ let setUpIslandUI = () => {
     $(`.supply`).tooltip(`show`);
 
     if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-menu-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+
+    $(`.toggle-shop-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
+    $(`.toggle-krew-list-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
+
+    if(!$(`.exit-island-btn`).is(`:visible`)) $(`.exit-island-btn`).show();
+
+    $(`.recruiting-wrapper`).fadeIn(`slow`);
+    controls.unLockMouseLook();
+}
+
+let setUpKeybinds = () => {
+    keyboard.reset();
+
+    // Movement.
+    keyboard.register_combo({
+        keys: `w`,
+        on_keydown: () => keys_walkFwd = true,
+        on_release: () => keys_walkFwd = false
+    });
+    keyboard.register_combo({
+        keys: `a`,
+        on_keydown: () => keys_walkLeft = true,
+        on_release: () => keys_walkLeft = false
+    });
+    keyboard.register_combo({
+        keys: `s`,
+        on_keydown: () => keys_walkBwd = true,
+        on_release: () => keys_walkBwd = false
+    });
+    keyboard.register_combo({
+        keys: `d`,
+        on_keydown: () => keys_walkRight = true,
+        on_release: () => keys_walkRight = false
+    });
+
+    // Kick krew member.
+    keyboard.register_combo({
+        keys: `k`,
+        on_keydown: () => keys_boot = true,
+        on_release: () => keys_boot = false
+    });
+
+    // Jump.
+    keyboard.register_combo({
+        keys: `space`,
+        on_keydown: () => {
+            keys_jump = true;
+            myPlayer.jump_count++;
+
+            // For christmas event.
+            let playerPosition = myPlayer.geometry.getWorldPosition();
+            if(playerPosition.x >= 850 && playerPosition.x <= 870 && playerPosition.z >= 850 && myPlayer.jump_count < 1e3) socket.emit(`christmas`);
+
+            if(myPlayer.jump_count == 50) ui.showCenterMessage(`Jumping Hero! New quest available`, 3);
+        },
+        on_release: () => keys_jump = false
+    });
+
+    // Sail.
+    keyboard.register_combo({
+        keys: `c`,
+        on_release: () => {
+            if(myPlayer && myPlayer.parent) {
+                if((myPlayer.parent.shipState == 1 || myPlayer.parent.shipState == -1) && cancelExitBtnTxt.text() == `Cancel (c)`) {
+                    socket.emit(`exitIsland`);
+                    dockingModalBtnTxt.text(`Countdown...`);
+                }
+                else if(myPlayer.parent.shipState == 3) departure();
+           }
+        }
+    });
+
+    // Dock.
+    keyboard.register_combo({
+        keys: `z`,
+        on_release: () => {
+            if(myPlayer && myPlayer.parent && (myPlayer.parent.shipState == 1 || myPlayer.parent.shipState == -1) && $(`.docking-modal-btn`).hasClass(`enabled`)) setUpIslandUI();
+        }
+    });
+
+    // Chat tabbing.
+    keyboard.register_combo({
+        keys: `tab`,
+        on_release: () => {
+            if($(`.li-staff-chat`).is(`:visible`) && $(`.li-clan-chat`).is(`:visible`)) {
+                // If the player is both a staff member and in a clan.
+                if(staffChatOn) toggleClanChat();
+                else if(clanChatOn) toggleLocalChat();
+                else if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleStaffChat();
+            }
+            else if($(`.li-staff-chat`).is(`:visible`)) {
+                // If the player is a staff member but not in a clan.
+                if(staffChatOn) toggleLocalChat();
+                else if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleClanChat();
+            }
+            else if($(`.li-clan-chat`).is(`:visible`)) {
+                // If a player is not a staff member but is in a clan.
+                if(clanChatOn) toggleLocalChat();
+                else if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleClanChat();
+            }
+            else {
+                // If the player is neither a staff member nor in a clan.
+                if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleLocalChat();
+            }
+        }
+    });
 }
