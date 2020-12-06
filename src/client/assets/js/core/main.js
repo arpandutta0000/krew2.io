@@ -269,6 +269,7 @@ let cancelExitBtnTxt = cancelExitBtn.find(`span`);
 let dockingModal = $(`.docking-modal`);
 
 let cleanScene = () => {
+    if(!scene) return; // Do not clean the scene if it has not been created yet.
     scene.traverse(node => {
         if(node instanceof THREE.Mesh) {
             for(let i in sceneCanBalls) {
