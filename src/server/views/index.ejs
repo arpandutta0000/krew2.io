@@ -917,6 +917,7 @@
                 </div>
             </div>
 
+            <!-- Top Menu -->
             <div class="top-menu-ui">
                 <ul>
                     <li>
@@ -956,6 +957,108 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- Trading Modal -->
+            <div class="trade-modal modal white-bg">
+                <div class="modal-header">
+                    <h6 class="modal-title">Trading at</h6>
+                    <div class="close-trading-btn btn btn-secondary btn-sm float-right">
+                        <i class="icofont icofont-ui-close"></i>
+                    </div>
+                </div>
+                <div class="modal-content">
+                    <div class="trading-items"></div>
+                </div>
+            </div>
+
+            <div class="krew-hud">
+                <div class="krew-wrapper">
+                    <form class="form-inline h5 crew-name-form">
+                        <div class="toggle-ship-status-btn btn btn-secondary btn-sm float-sm-right" data-tooltip="Krew settings" data-tooltip-location="bottom">
+                            <i class="icofont icofont-options"></i>
+                        </div>
+                        <div class="form-group">
+                            <span class="my-krew-name"></span>
+                        </div>
+                    </form>
+
+                    <div class="text-center">
+                        <span class="text-danger">
+                            <i class="icofont icofont-heart"></i>
+                            <span class="ship-hp"></span> / 
+                            <span class="ship-max-hp"></span>
+                        </span>
+                        <span class="text-success">
+                            <i class="icofont icofont-speed-meter"></i>
+                            <span class="ship-speed"></span>
+                        </span>
+                        <span class="text-info">
+                            <i class="icofont icofont-people"></i>
+                            <span class="ship-krew-count"></span> / 
+                            <span class="ship-max-capacity"></span>
+                        </span>
+                        <span class="text-warning">
+                            <i class="icofont icofont-cube"></i>
+                            <span class="ship-cargo"></span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="exit-island-btn btn btn-success btn-sm" data-tooltip="Depart to sea" data-tooltip-location="right" style="display: none;">
+                            <i class="icofont icofont-ship-wheel"></i>
+                            Sail
+                        </span>
+                        <span class="exit-island-btn btn btn-primary btn-sm" data-tooltip="Invite friends to your krew" data-tooltip-location="right">
+                            <i class="icofont icofont-link"></i>
+                            Invite
+                        </span>
+                        <span class="exit-island-btn btn btn-warning btn-sm" data-tooltip="Abandon the ship" data-tooltip-location="bottom" style="display: none;">
+                            <i class="icofont icofont-anchor"></i>
+                            Abandon Ship
+                        </span>
+                    </div>
+                    <div class="invite-wrapper">
+                        <input type="text" class="invite-link form-control" maxlength="30">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docking Modal -->
+            <div class="docking-modal modal absolute-center initial">
+                <div class="docking-modal-btn btn btn-primary btn-lg disabled">
+                    <i class="icofont icofont-boat"></i>
+                    <span>Countdown...</span>
+                </div>
+                <div class="cancel-exit-btn btn btn-success btn-lg">
+                    <i class="icofont icofont-ship-wheel"></i>
+                    <span>Sail (c)</span>
+                </div>
+            </div>
+
+            <!-- Departure Modal -->
+            <div class="departure-modal absolute-center">
+                <div class="cancel-departure-btn btn btn-primary btn-lg disabled">
+                    <i class="icofont-ship-wheel"></i>
+                    <span>Departing in 5 seconds...<span>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="notification-wrapper text-sm center"></div>
+
+            <!-- Shopping Button -->
+            <div class="text-sm-center">
+                <div class="show-shopping-modal-btn btn btn-primary" data-toggle="modal" data-target="#shopping-modal">Open Shopping Modal</div>
+                <div class="center-div"></div>
+            </div>
+
+            <!-- Minimap -->
+            <div class="minimap-container">
+                <canvas class="minimap" width="200" height="200"></canvas>
+            </div>
+
+            <!-- Ad stuff -->
+            <div id="preroll"></div>
+            <div id="preroll-centered" class="absolute-center"></div>
         </div>
 
         <!-- Audio -->
@@ -986,4 +1089,35 @@
 
     <!-- Client JS -->
     <script src="/assets/js/dist.min.js"></script>
+
+    <!-- GameAnalytics -->
+    <script>
+       (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-88411681-1', 'auto');
+        ga('send', 'pageview');
+
+        // If loaded from CrazyGames, update backlink to Crazy Games.
+        if (window.location != window.parent.location) {
+            console.log("inside iframe of ", document.referrer)
+            if (document.referrer.includes("crazygames")) {
+                $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
+            }
+        }
+
+        // hide ads if in y8
+        if (adEnabled == false) {
+            $(".ad-div").each(function() {
+                console.log("hide!");
+                $(this).hide();
+            });
+
+            $("#portal-backlink").hide();
+        }
+    </script>
 </html>
