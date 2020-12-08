@@ -1103,20 +1103,19 @@
         ga('send', 'pageview');
 
         // If loaded from CrazyGames, update backlink to Crazy Games.
-        if (window.location != window.parent.location) {
+        if(window.location != window.parent.location) {
             console.log("inside iframe of ", document.referrer)
-            if (document.referrer.includes("crazygames")) {
+            if(document.referrer.includes("crazygames")) {
                 $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
             }
         }
 
-        // hide ads if in y8
-        if (adEnabled == false) {
+        // Hide ads if in y8.
+        if(adEnabled == false) {
             $(".ad-div").each(function() {
                 console.log("hide!");
                 $(this).hide();
             });
-
             $("#portal-backlink").hide();
         }
     </script>
