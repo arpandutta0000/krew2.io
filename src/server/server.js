@@ -11,13 +11,20 @@ const dotenv = require(`dotenv`).config();
 const express = require(`express`);
 const http = require(`http`);
 const https = require(`https`);
+
+const compression = require(`compression`);
+const flash = require(`connect-flash`);
 const bodyParser = require(`body-parser`);
+
 const fs = require(`fs`);
 const socketIO = require(`socket.io`);
 
-const connection = require(`./utils/mongoConnection.js`);
 const User = require(`./models/user.model.js`);
 const log = require(`./utils/log.js`);
+
+const Rollbar = require(`rollbar`);
+const rollbar = new Rollbar(`fa0cd86c64f446c4bac992595be24831`);
+
 
 // Create app.
 let app = express();
@@ -26,7 +33,10 @@ let app = express();
 const indexRouter = require(`./routes/index.js`);
 app.use(`/`, indexRouter);
 
-// Enable body parser.
+// Enable middleware.
+app.use(compression());
+app.use(flash());
+
 app.use(bodyParser.json({ limit: `50mb` }));
 app.use(bodyParser.urlencoded({ limit: `50mb`, extended: true }));
 
@@ -80,6 +90,9 @@ app.get(`/wall-of-fame`, async(req, res) => {
 
 // Admin panel.
 app.get(`/thug_life`, (req, res) => res.render(`index_thuglife.ejs`));
+
+// Rollbar handler for errors in production.
+app.use(rollbar.errorHandler());
 
 // Listen on port for incoming requests.
 server.listen(config.port, () => log(`green`, `Server is running on port ${config.port}.`));

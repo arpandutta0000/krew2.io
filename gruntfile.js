@@ -54,23 +54,23 @@ module.exports = (grunt => {
                     `src/client/assets/js/core/keyboard.js`,
                     `src/client/assets/js/core/controls.js`,
 
-                    `src/client/assets/js/core/core.js`,
-                    `src/client/assets/js/core/utils.js`,
-                    `src/client/assets/js/core/entity.js`,
-                    `src/client/assets/js/core/goodsTypes.js`,
-                    `src/client/assets/js/core/client/parseSnap.js`,
-                    `src/client/assets/js/core/boatTypes.js`,
-                    `src/client/assets/js/core/boat.js`,
-                    `src/client/assets/js/core/item.js`,
-                    `src/client/assets/js/core/player.js`,
-                    `src/client/assets/js/core/impact.js`,
-                    `src/client/assets/js/core/pickup.js`,
-                    `src/client/assets/js/core/landmark.js`,
-                    `src/client/assets/js/core/projectile.js`,
+                    `src/client/assets/js/core/_core/core.js`,
+                    `src/client/assets/js/core/_core/utils.js`,
+                    `src/client/assets/js/core/_core/entity.js`,
+                    `src/client/assets/js/core/_core/goodsTypes.js`,
+                    `src/client/assets/js/core/_core/client/parseSnap.js`,
+                    `src/client/assets/js/core/_core/boatTypes.js`,
+                    `src/client/assets/js/core/_core/boat.js`,
+                    `src/client/assets/js/core/_core/item.js`,
+                    `src/client/assets/js/core/_core/player.js`,
+                    `src/client/assets/js/core/_core/impact.js`,
+                    `src/client/assets/js/core/_core/pickup.js`,
+                    `src/client/assets/js/core/_core/landmark.js`,
+                    `src/client/assets/js/core/_core/projectile.js`,
 
-                    `src/client/assets/js/core/client/entity.js`,
-                    `src/client/assets/js/core/client/boat.js`,
-                    `src/client/assets/js/core/client/player.js`,
+                    `src/client/assets/js/core/_core/client/entity.js`,
+                    `src/client/assets/js/core/_core/client/boat.js`,
+                    `src/client/assets/js/core/_core/client/player.js`,
 
                     `src/client/assets/js/core/uiSuggestion.js`,
                     `src/client/assets/js/core/uiKrewList.js`,
@@ -87,7 +87,6 @@ module.exports = (grunt => {
         },
         clean: {
             dist: [`_compiled/`, `dist/`],
-            dev: [`_compiled/`, `dist/`, `logs/`]
         },
         copy: {
             dist: {
@@ -109,7 +108,7 @@ module.exports = (grunt => {
         },
         watch: {
             scripts: {
-                files: [`**/*.js`, `!**/node-modules/**`, `**/*.css`, `**/*.html`, `!**/logs/**`],
+                files: [`**/*.js`, `!**/node-modules/**`, `**/*.css`, `**/*.html`],
                 tasks: [`build-dev`],
                 options: { spawn: false }
             }
@@ -126,7 +125,7 @@ module.exports = (grunt => {
                 script: `src/server/app.js`, 
                 options: {
                     args: [`dev`],
-                    nodeArgs: [`--inspect`, `--trace-uncaught`]
+                    nodeArgs: [`--inspect`]
                 }
             }
         },
@@ -134,8 +133,7 @@ module.exports = (grunt => {
             options: {
                 stats: !process.env.NODE_ENV || process.env.NODE_ENV == `dev`
             },
-            prod: webpackConfig,
-            dev: Object.assign({ watch: true }, webpackConfig)
+            prod: webpackConfig
         }
     });
 
@@ -147,7 +145,7 @@ module.exports = (grunt => {
         `webpack:prod`
     ]);
     grunt.registerTask(`build-dev`, [
-        `clean:dev`,
+        `clean:dist`,
         `copy:dist`,
         `concat:server_core`,
         `concat:dist_scripts`,

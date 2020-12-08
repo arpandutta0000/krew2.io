@@ -4,13 +4,6 @@ const config = require(`../config/config.js`);
 const path = require(`path`);
 
 module.exports = (color, content) => {
-    // Create file.
-    let logPath = path.resolve(__dirname, `../../../logs/game`);
-    let logPathTree = path.resolve(__dirname, `../../../logs`);
-
-    if(!fs.existsSync(logPathTree)) fs.mkdirSync(logPathTree);
-    if(!fs.existsSync(logPath)) fs.mkdirSync(logPath);
-
     // Set timing variables.
     let time = new Date();
     let second = time.getSeconds().toString();
@@ -20,8 +13,6 @@ module.exports = (color, content) => {
     let month = (time.getMonth() + 1).toString().padStart(2, `0`);
     let year = time.getFullYear().toString();
     let formattedTime = `${month}-${day}-${year} ${hour}:${minute}:${second}`;
-
-    let logFile = fs.createWriteStream(`${logPath}/game.log`);
 
     // Get specified color.
     let logColor;
@@ -38,7 +29,5 @@ module.exports = (color, content) => {
 
     // If no color specified, throw an error.
     if(!logColor) throw `Did not specify a valid color`;
-
-    logFile.write(`[${formattedTime}] >> ${content}`.replace(/\r?\n|\r/g, ``) + `\n`);
     return console.log(logColor, content);
 }
