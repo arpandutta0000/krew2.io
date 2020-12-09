@@ -1,10 +1,10 @@
 @media (max-width: 900px) {
-    .modal-dialog {
+    #modal-dialog {
         width: 100%;
     }
 }
 @media (min-width: 900px) {
-    .modal-dialog {
+    #modal-dialog {
         width: 80%;
     }
 }
@@ -53,7 +53,7 @@ body {
 }
 
 /* Loading Wheel */
-.loading-wheel {
+#loading-wheel {
     position: absolute;
     z-index: 1060;
     width: 100%;
@@ -63,7 +63,7 @@ body {
     display: none;
 }
 
-.wheel {
+#wheel {
     animation: 3s linear 0s normal none infinite running wheel;
     width: 150px;
 }
@@ -82,24 +82,33 @@ body {
     z-index: 1070;
 }
 
-.play-btn {
+#play-button {
     font-weight: 900;
     padding: 1rem;
 }
 
 /* Game UI */
-.game-ui {
+#game-ui {
     font-weight: bold;
     color: #FFF;
     display: none;
 }
 
-.krew-info {
+#krew-hud {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin: 5px;
+    font-size: 13px;
+    z-index: 1051;
+}
+
+#krew-div {
     width: 300px;
     display: inline-block;
 }
 
-.toggle-shop-modal-btn, .toggle-bank-modal-btn, .toggle-krew-list-btn {
+#toggle-shop-modal-button, #toggle-bank-modal-button, #toggle-krew-list-button {
     color: #fff;
     background-color: rgba(0, 0, 0, 0.8);
     line-height: 1.0;
@@ -315,7 +324,7 @@ body {
 }
 
 /* Changelog */
-.changelog {
+.changelog-box {
     width: 33%;
     float: left;
     padding: 0 15px;
@@ -328,7 +337,7 @@ body {
     margin-bottom: 0;
 }
 
-.changelog-wrapper {
+.changelog-div {
     overflow-y: auto;
     scrollbar-width: none;
     max-height: 558px;
@@ -336,7 +345,7 @@ body {
     border-radius: 10px;
 }
 
-.changelog-entry {
+.changelog-article {
     margin-top: 10px;
     margin-bottom: 20px;
     background-color: rgba(55, 64, 70, 0.2);
@@ -428,19 +437,19 @@ body {
     color: #d9534f !important;
 }
 
-.main-menu-wrapper {
+.main-menu-div {
     margin-left: auto;
     margin-right: auto;
 }
 
 /* Wall of Fame */
-.wof-dialog {
+.wall-of-fame-div {
     width: 33%;
     float: left;
     padding: 0px 15px;
 }
 
-.wof-wrapper {
+#wall-of-fame-table-div {
     overflow-y: auto;
     scrollbar-width: none;
     max-height: 558px;
@@ -448,39 +457,45 @@ body {
     border-radius: 10px;
 }
 
-.wall-of-fame th {
+#wall-of-fame-table {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#wall-of-fame-table th {
     padding: 10px;
     border-top: 1px solid;
     border-bottom: 1px solid;
     text-align: center;
 }
 
-.wall-of-fame td {
+#wall-of-fame-table td {
     padding: 5px;
     text-align: center;
 }
 
-.wall-of-fame .rank {
+#wall-of-fame-table .rank {
     font-weight: 900;
 }
 
-.wall-of-fame .top-1 {
+#wall-of-fame-table .top-1 {
     font-weight: 900;
     color: #ff5722;
 }
 
-.wall-of-fame .top-3 {
+#wall-of-fame-table .top-3 {
     font-weight: 600;
     color: #ff5722;
 }
 
-.wall-of-fame, th, td {
+#wall-of-fame-table, th, td {
     border-collapse: collapse;
     opacity: .8;
 }
 
 /* Clans */
-.clan-table-wrapper {
+#clan-table-div {
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -510,25 +525,25 @@ body {
     opacity: .8;
 }
 
-.clan-btn {
+.clan-button {
     margin: 3px;
     padding: 7px;
 }
 
 /* Chat Coloring */
-.text-staff {
+.text-mod-color {
     color: #bb15eb !important;
 }
 
-a.text-staff:focus, a.text-staff:hover {
+a.text-mod-color:focus, a.text-mod-color:hover {
     color: #761e8f !important;
 }
 
-.text-staff {
+.text-clan-color {
     color: #ff9800 !important;
 }
 
-.toggle-map-btn, .toggle-help-btn, .toggle-quest-btn {
+#toggle-map-button, #toggle-help-button, #toggle-quest-button {
     color: #fff;
     background-color: rgba(0, 0, 0, 0.8);
     line-height: 1.0;
@@ -536,17 +551,17 @@ a.text-staff:focus, a.text-staff:hover {
     font-size: 22px;
 }
 
-.exit-island-btn {
+#exit-island-button {
     margin-right: 4%;
 }
 
-.invite-modal {
+#invite-div {
     padding-top: 15px;
     display: none;
 }
 
 /* Top UI  */
-.top-menu-ui {
+#top-menu-ui {
     top: -5px;
     left: 50%;
     position: absolute;
@@ -555,12 +570,12 @@ a.text-staff:focus, a.text-staff:hover {
     border-radius: 5px;
 }
 
-.top-menu-ui div {
+#top-menu-ui div {
     margin: 0px 3px;
 }
 
 /* Leaderboard */
-.leaderboard {
+#leaderboard {
     white-space: nowrap;
     width: 320px;
     font-size: 14px;
@@ -573,20 +588,20 @@ a.text-staff:focus, a.text-staff:hover {
     padding: 10px;
 }
 
-.leaderboard-head {
+#leaderboard-head {
     display: grid;
     grid-gap: 3px;
     grid-template-columns: 1fr 3fr 1fr;
     border-bottom: 1px solid;
 }
 
-.leaderboard-data {
+#leaderboard-data-div {
     display: grid;
     grid-gap: 3px;
     grid-template-columns: 1fr 3fr 1fr 1.2fr;
 }
 
-.leaderboard-logo {
+.leaderbord-logo {
     width: 100%;
     background-image: url("/assets/img/logoleaderboard.png");
     background-size: 50%;
@@ -595,7 +610,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Player leaderboard */
-.player-leaderboard {
+#player-leaderboard {
     white-space: nowrap;
     width: 550px;
     font-size: 14px;
@@ -608,19 +623,32 @@ a.text-staff:focus, a.text-staff:hover {
     display: none;
 }
 
-.player-leaderboard-head {
+#player-leaderboard-head, #player-leaderboard-head2, #player-leaderboard-data {
     display: grid;
     grid-gap: 3px;
+}
+
+#player-leaderbord-head {
+    grid-template-columns: 3fr 1fr;
+    border-bottom: 1px solid;
+}
+
+#player-leaderbord-head2 {
     grid-template-columns: 1fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
     border-bottom: 1px solid;
 }
 
-.scores-list-leaderboard .score-list-leaderboard li {
+#player-leaderbord-data {
+    grid-template-columns: 1fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+
+#scores-list-leaderboard .score-list-leaderboard li {
     margin: 0;
     padding: 0;
 }
 
-.scores-list-leaderboard {
+#scores-list-leaderboard {
     display: block;
     list-style: none;
 }
@@ -643,7 +671,7 @@ a.text-staff:focus, a.text-staff:hover {
     justify-self: end;
 }
 
-.center-wrapper {
+#center-div {
     font-size: 32px;
     position: absolute;
     right: 0px;
@@ -652,30 +680,30 @@ a.text-staff:focus, a.text-staff:hover {
     z-index: 1070;
 }
 
-.quality-wrapper {
+#quality-div {
     border-radius: 5px;
 }
 
-.inventory-container {
+#inventory-container {
     display: inline-block;
     vertical-align: middle;
     width: 177px;
 }
 
-.cannon-item-wrapper, .rod-item-wrapper, .spyglass-item-wrapper {
+#cannon-item-div, #rod-item-div, #spyglass-item-div {
     display: inline-block;
     padding: 5px;
     margin: 5px;
 }
 
-.earn-gold {
+#earn-gold {
     bottom: 340px;
     right: 15px;
     position: absolute;
     margin-top: 255px;
 }
 
-.gold-wrapper, .delta-gold {
+#gold-div, #delta-gold {
     top: 8px;
     left: 62.5%;
     font-size: 20px;
@@ -684,7 +712,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Chat */
-.chat-wrapper {
+#chat-div {
     display: block;
     width: 32%;
     position: absolute;
@@ -694,12 +722,12 @@ a.text-staff:focus, a.text-staff:hover {
     font-size: 12px;
 }
 
-.chat-wrapper a:not(.active) {
+#chat-div a:not(.active) {
     color: #fff;
 }
 
 
-.chat-history {
+#chat-history {
     white-space: pre-line;
     word-wrap: break-word;
     width: 100%;
@@ -710,18 +738,18 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Tables */
-.scrollable-table {
+#scrollable-table {
     font-size: 15px;
     height: 420px;
     overflow: auto;
 }
 
-.scrollable-table th {
+#scrollable-table th {
     border-top: none;
 }
 
 /* Modals */
-.suggestion-ui {
+#suggestion-ui {
     display: none;
     top: 0;
     right: 35%;
@@ -729,7 +757,7 @@ a.text-staff:focus, a.text-staff:hover {
     z-index: 1070;
 }
 
-.trade-menu {
+#trade-menu {
     display: none;
     top: 25%;
     right: 50%;
@@ -737,39 +765,39 @@ a.text-staff:focus, a.text-staff:hover {
     z-index: 1070;
 }
 
-.ship-status-modal, .krew-list-modal, .help-modal, .bank-modal, .quest-modal {
+#ship-status-modal, #krew-list-modal, #help-modal, #bank-modal, #quest-modal {
     display: none;
     position: absolute;
     z-index: 1060;
 }
 
-.ship-status-modal {
+#ship-status-modal {
     width: 500px;
     top: 10%;
     left: 35%;
 }
 
-.krew-list-modal {
+#krew-list-modal {
     width: 500px;
     top: 10%;
     left: 35%;
 }
 
-.help-modal {
+#help-modal {
     width: 700px;
     height: 405px;
     top: 10%;
     left: 29%;
 }
 
-.quest-modal {
+#quest-modal {
     width: 780px;
     height: 500px;
     top: 10%;
     left: 29%;
 }
 
-.island-wrapper {
+#island-div {
     margin-right: 20px;
 }
 
@@ -823,7 +851,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 .modal-title {
-    font-family: caribbean;
+    font-family: Caribbean;
 }
 
 .float-right {
@@ -865,7 +893,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Krew List */
-.krew-list {
+#krew-list {
     height: 120px;
     overflow: auto;
     padding: 0 5px;
@@ -932,7 +960,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Experience bar */
-.experience-ui {
+#experience-ui {
     width: 40%;
     bottom: 5px;
     left: 50%;
@@ -972,7 +1000,7 @@ a.text-staff:focus, a.text-staff:hover {
     font-size: 12px;
 }
 
-.docking-modal.initial {
+#docking-modal.initial {
     background: rgba(255, 255, 255, 0.7);
     color: #28a745;
     font-size: 18px;
@@ -980,11 +1008,11 @@ a.text-staff:focus, a.text-staff:hover {
     border-radius: 7px;
 }
 
-.docking-modal.btn {
+#docking-modal-button {
     margin-right: 10px;
 }
 
-.experience-attribute-container {
+#experience-attribute-container {
     display: inline-block;
     vertical-align: middle;
     width: 200px;
@@ -993,7 +1021,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Shop modal */
-.shopping-modal {
+#shopping-modal {
     display: none;
     position: absolute;
     top: 10%;
@@ -1001,7 +1029,7 @@ a.text-staff:focus, a.text-staff:hover {
     z-index: 1060;
 }
 
-.shopping-modal .modal-body {
+#shopping-modal .modal-body {
     min-height: 300px;
     max-height: 500px;
     overflow: auto;
@@ -1017,7 +1045,7 @@ a.text-staff:focus, a.text-staff:hover {
 }
 
 /* Minimap */
-.minimap-wrapper {
+#minimap-container {
     position: absolute;
     right: 0;
     bottom: -30px;
@@ -1031,19 +1059,19 @@ a.text-staff:focus, a.text-staff:hover {
     transition: all .4s;
 }
 
-.minimap-wrapper:hover {
+#minimap-container:hover {
     opacity: 1;
 }
 
-.minimap {
+#minimap {
     width: 200px;
     height: 200px;
 }
 
-.preroll {
+#preroll {
     background: transparent !important;
 }
 
-.preroll > div {
+#preroll > div {
     background: transparent !important;
 }

@@ -68,8 +68,8 @@ document.onkeydown = event => {
         }
     }
     else if(event.key == `q`) {
-        if(!$(`.quests-modal`).is(`:visible`)) document.querySelector(`.toggle-quest-btn`).click();
-        else $(`.quests-modal`).hide();
+        if(!$(`.quest-modal`).is(`:visible`)) document.querySelector(`.toggle-quest-btn`).click();
+        else $(`.quest-modal`).hide();
     }
     else if(event.key == `m`) {
         let minimap = $(`.minimap-container`);  

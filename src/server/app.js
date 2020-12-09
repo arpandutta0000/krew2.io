@@ -49,15 +49,6 @@ else {
     let game = require(`./game/game.js`);
 
     try {
-        process.send({
-            type: `update-server`,
-            processId: process.pid,
-            data: {
-                ip: (DEV_ENV) ? `127.0.0.1`: `155.138.228.176`,
-                port: process.env.port,
-                playerCount: Object.keys(core.players).length
-            }
-        });
         let gameUpdate = setInterval(() => {
             try {
                 process.send({
