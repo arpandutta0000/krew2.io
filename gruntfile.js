@@ -106,29 +106,6 @@ module.exports = (grunt => {
                 ]
             }
         },
-        watch: {
-            scripts: {
-                files: [`**/*.js`, `!**/node-modules/**`, `**/*.css`, `**/*.html`],
-                tasks: [`build-dev`],
-                options: { spawn: false }
-            }
-        },
-        concurrent: {
-            dev: [
-                `nodemon:dev`,
-                `watch:scripts`
-            ],
-            options: { logConcurrentOutput: true }
-        },
-        nodemon: {
-            dev: {
-                script: `src/server/app.js`, 
-                options: {
-                    args: [`dev`],
-                    nodeArgs: [`--inspect`]
-                }
-            }
-        },
         webpack: {
             options: {
                 stats: !process.env.NODE_ENV || process.env.NODE_ENV == `dev`
@@ -151,13 +128,9 @@ module.exports = (grunt => {
         `concat:dist_scripts`,
         `webpack:prod`
     ]);
-    grunt.registerTask(`dev`, [`concurrent:dev`]);
 
     grunt.loadNpmTasks(`grunt-contrib-concat`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
     grunt.loadNpmTasks(`grunt-contrib-copy`);
-    grunt.loadNpmTasks(`grunt-contrib-watch`);
-    grunt.loadNpmTasks(`grunt-contrib-nodemon`);
-    grunt.loadNpmTasks(`grunt-concurrent`);
     grunt.loadNpmTasks(`grunt-webpack`);
 });
