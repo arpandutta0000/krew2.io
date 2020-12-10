@@ -28,11 +28,12 @@ let createPickup = (size, x, z, type, collisionIsland, specialBonus) => {
 
     // Check if it is in island position.
     if(!collisionIsland) {
-        entities.forEach(entity => {
+        for(let i in entities) {
+            let entity = entities[i];
             if(entity.netType == 5 && (type == 0 || type == 4)) {
                 if(entity.isWithinDockingRadius(x, z)) return;
             }
-        });
+        }
     }
 
     let id;

@@ -291,9 +291,10 @@ Boat.prototype.getTypeDelta = () => {
 // Function to parse a snapshot.
 Boat.prototype.onDestroy = () => {
     // Destroy all the children.
-    this.children.forEach(player => {
+    for(let i in this.children) {
+        let player = this.children[i];
         if(player.netType == 0) if(player.socket != undefined) player.socket.emit(`end`, player.gold, player.shotsFired, player.shotsHit, player.shipsSank);
-    });
+    }
     this.children = {}
 
     // Make sure to also destroy the entity.

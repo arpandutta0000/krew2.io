@@ -342,9 +342,10 @@ Player.prototype.dequip = () => {
 
 Player.prototype.purchaseItem = itemId => {
     let item = null;
-    itemTypes.forEach(f => {
+    for(let i in itemTypes) {
+        let f = itemTypes[i];
         if(f.id == parseInt(itemId)) item = f;
-    });
+    }
 
     // If player can afford the ship / item.
     if(item && this.gold >= item.price) {

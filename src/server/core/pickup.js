@@ -112,7 +112,9 @@ Pickup.prototype.logic = dt => {
     // If pickup should be picked but the picker player is undefined, delete it.
     if(this.picking == true && this.pickerId != `` && entities[this.pickerId] == undefined) {
         // Check for all boats that are within picking distance of pickups.
-        boats.forEach(boat => {
+        for(let i in boats) {
+            let boat = boats[i];
+
             // Don't check against boats that have died.
             if(boat.hp < 1) return;
             let loc = boat.toLocal(this.position);
@@ -124,16 +126,17 @@ Pickup.prototype.logic = dt => {
                 let bonus = this.bonusValues[this.pickupSize];
 
                 let totalScore = 0;
-                boat.children.forEach(player => totalScore += player.score);
+                for(let i in boat.children) totalScore += boat.children[i].score;
 
                 let captainsCut = bonus;
-                boat.children.forEach(player => {
+                for(let i in boat.children) {
+                    let player = boat.children[i];
                     if(player != boat.captain) {
                         let playersCut = (player.score / totalScore ) * (1 - this.captainsCutRatio) * bonus;
                         player.gold += playersCut;
                         captainsCut -= playersCut;
                     }
-                });
+                }
 
                 let captain = boat.children[boat.captainId];
                 if(captain) captain.gold += captainsCut;
@@ -141,11 +144,12 @@ Pickup.prototype.logic = dt => {
                 boat.hp = Math.min(boatTypes[boat.shipclassId].hp, boat.hp + (bonus * 0.2));
                 removeEntity(this);
             }
-        });
+        }
     }
 
     if(this.type == 2 || this.type == 3) {
-        entities.forEach(entity => {
+        for(let i in entities) {
+            let entity = entities[i];
             if(entity.netType == 0) {
                 let playerPosition = entity.worldPos();
                 let distanceFromPlayer = Math.sqrt(
@@ -164,7 +168,7 @@ Pickup.prototype.logic = dt => {
                     player.updateExperience(Math.round(this.bonusValues[this.pickupSize] / 20));
                 }
             }
-        });
+        }
     }
 }
 

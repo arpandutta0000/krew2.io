@@ -73,13 +73,15 @@ Landmark.prototype.logic = dt => {
                         boat.recruiting = boat.isLocked != true;
                         boat.lastMoved = new Date();
 
-                        children.forEach(child => {
+                        for(let i in children) {
+                            let child = children[i];
                             if(child && child.netType == 0 && child.socket && child.id != boat.captainId) child.socket.emit(`showIslandMenu`); 
-                        });
+                        }
                     }
 
                     // Socket emit to crew.
-                    children.forEach(child => {
+                    for(let i in children) {
+                        let child = children[i];
                         // See if child is a player and has a socket.
                         if(child && child.netType == 0 && child.socket) {
                             if(!child.sentDockingMsg) {
@@ -90,7 +92,7 @@ Landmark.prototype.logic = dt => {
                                 child.sentDockingMsg = true;
                             }
                         }
-                    });
+                    }
                 }
             }
         }

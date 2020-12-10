@@ -93,7 +93,7 @@ function Projectile(shooter) {
     }
 }
 
-Projectile.prototype.logic = dt => {
+Projectile.prototype.logic = function(dt) {
     // Remove if the shooter does not exist.
     if(this.shooterid == ``
     || entities[this.shooterid] == undefined
@@ -114,7 +114,7 @@ Projectile.prototype.logic = dt => {
     if(entities[this.shooterid] != undefined) {
         let playerPos = entities[this.shooterid].worldPos();
 
-        // If the player is on a boat, don't destory the fishing rod if they are moving unless it's far from the player.
+        // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from the player.
         if(entities[this.shooterid].parent != undefined && entities[this.shooterid].parent.netType == 5) {
             if(playerPos.z.toFixed(2) != this.shooterStartPos.z.toFixed(2)
             && playerPos.x.toFixed(2) != this.shooterStartPos.x.toFixed(2)) {
@@ -143,7 +143,9 @@ Projectile.prototype.logic = dt => {
                 this.shooter.overallHits = 0;
 
                 // Check against all boats.
-                boats.forEach(boat => {
+                for(let i in boats) {
+                    let boat = boats[i];
+
                     // Don't check against boats that have died or are docked.
                     if(boat.hp < 1 || boat.shipState == 3 || boat.shipState == -1 || boat.shipState == 4) return;
 
@@ -166,7 +168,7 @@ Projectile.prototype.logic = dt => {
 
                         // Sum up all allocated points.
                         let countAllocatedPoints = 0;
-                        this.shooter.points.forEach(point => countAllocatedPoints += point);
+                        for(let i in this.shooter.points) countAllocatedPoints += this.shooter.points[i];
 
                         // Check if player has too many allocated points --> kick.
                         if(countAllocatedPoints > 52) {
@@ -190,7 +192,7 @@ Projectile.prototype.logic = dt => {
                         this.shooter.updateExperience(damage);
                         boat.hp -= damage;
 
-                        boat.children.forEach(child => child.socket.emit(`showDamageMessage`, `- ${parseFloat(damage).toFixed(1)} hit`, 1));
+                        for(let i in boat.children) boat.children[i].socket.emit(`showDamageMessage`, `- ${parseFloat(damage).toFixed(1)} hit`, 1);
 
                         if(boat.hp < 1) {
                             // If player destroyed a boat, increase the score.
@@ -220,23 +222,28 @@ Projectile.prototype.logic = dt => {
 
                             // Calculate the amount of killed ships (by all crew members).
                             let crewKillCount = 0;
-                            core.players.forEach(player => {
+                            for(let i in core.players) {
+                                let player = core.players[i];
                                 if(player.parent != undefined && this.shooter.parent.id == player.parent.id) crewKillCount += player.shipsSank;
-                            });
+                            }
                             this.shooter.parent.overallKills = crewKillCount;
 
                             // Add death to entity of all players on boat which was sunk.
-                            boat.children.forEach(player => {
+                            for(let i in boat.children) {
+                                let player = boat.children[i];
                                 player.deaths = (player.deaths == undefined ? 0: player.deaths);
                                 player.deaths++;
-                            });
+                            }
 
                             // Emit and log kill chain.
                             let killText = `${this.shooter.name} sunk ${boat.crewName}`;
                             io.emit(`showKillMessage`, killText);
 
                             let victimGold = 0;
-                            boat.children.forEach(child => victimGold += child.gold);
+                            for(let i in boat.children) {
+                                let child = boat.children[i];
+                                victimGold += child.gold
+                            }
 
                             log(`${whoKilledWho} | Kill count boat: ${this.shooter.parent.overallKills} | Shooter gold: ${this.shooter.gold} | Victim gold: ${victimGold}`);
 
@@ -247,7 +254,7 @@ Projectile.prototype.logic = dt => {
                             }
                         }
                     }
-                });
+                }
 
                 // Check for 'Sea is lava' hack. If detected, kick the shooter.
                 if(this.shooter.overallHits >= 10) {
@@ -260,7 +267,8 @@ Projectile.prototype.logic = dt => {
             else if(this.shooter.activeWeapon == 1) {
                 // Check against all pickups.
                 let pickupCount = 0;
-                pickups.forEach(pickup => {
+                for(let i in pickups) {
+                    let pickup = pickups[i];
                     if(pickup.type == 0 || pickup.type == 1 || pickup.type == 4 && (pickup.picking != true)) {
                         if(pickupCount > 2) return;
                         let pickLock = pickup.toLocal(this.position);
@@ -285,7 +293,7 @@ Projectile.prototype.logic = dt => {
                             pickupCount++;
                         }
                     }
-                });
+                }
             }
         }
 
