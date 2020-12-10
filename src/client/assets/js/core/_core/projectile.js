@@ -169,7 +169,7 @@ Projectile.prototype.clientlogic = dt => {
     }
     else if(shootingPlayer && shootingPlayer.activeWeapon == 0) {
         this.particletimer -= dt;
-        if (this.particletimer < 0) {
+        if(this.particletimer < 0) {
             let byPlayer = myPlayer && this.shooterid == myPlayer.id;
             let friendly = myPlayer && myPlayer.parent && myPlayer.parent.children[this.shooterid];
             
@@ -196,7 +196,7 @@ Projectile.prototype.clientlogic = dt => {
 }
 
 Projectile.prototype.getTypeDelta = function () {
-    if (!this.spawnPacket) {
+    if(!this.spawnPacket) {
         this.spawnPacket = true;
         return this.getTypeSnap();
     }
@@ -205,14 +205,14 @@ Projectile.prototype.getTypeDelta = function () {
 
 // Function that parses a snapshot.
 Projectile.prototype.parseTypeSnap = function(snap) {
-    if (snap.vx !== undefined) this.velocity.x = parseFloat(snap.vx);
-    if (snap.vy !== undefined) this.velocity.y = parseFloat(snap.vy);
-    if (snap.vz !== undefined) this.velocity.z = parseFloat(snap.vz);
-    if (snap.x !== undefined) this.position.x = parseFloat(snap.x);
-    if (snap.z !== undefined) this.position.z = parseFloat(snap.z);
-    if (snap.y !== undefined) this.position.y = parseFloat(snap.y);
-    if (snap.i !== undefined && snap.i != this.shooterid) this.shooterid = snap.i;
-    if (snap.r !== undefined && snap.r != this.reel) this.reel = parseBool(snap.r);
-    if (snap.sx !== undefined) this.shooterStartPos.x = parseFloat(snap.sx);
-    if (snap.sz !== undefined) this.shooterStartPos.z = parseFloat(snap.sz);
+    if(snap.vx !== undefined) this.velocity.x = parseFloat(snap.vx);
+    if(snap.vy !== undefined) this.velocity.y = parseFloat(snap.vy);
+    if(snap.vz !== undefined) this.velocity.z = parseFloat(snap.vz);
+    if(snap.x !== undefined) this.position.x = parseFloat(snap.x);
+    if(snap.z !== undefined) this.position.z = parseFloat(snap.z);
+    if(snap.y !== undefined) this.position.y = parseFloat(snap.y);
+    if(snap.i !== undefined && snap.i != this.shooterid) this.shooterid = snap.i;
+    if(snap.r !== undefined && snap.r != this.reel) this.reel = parseBool(snap.r);
+    if(snap.sx !== undefined) this.shooterStartPos.x = parseFloat(snap.sx);
+    if(snap.sz !== undefined) this.shooterStartPos.z = parseFloat(snap.sz);
 }
