@@ -109,7 +109,7 @@ Projectile.prototype.logic = function(dt) {
     this.airtime += dt;
 }
 
-Projectile.prototype.clientlogic = dt => {
+Projectile.prototype.clientlogic = function(dt) {
     // Check if we didn't set a model yet.
     let shootingPlayer = entities[this.shooterid];
 
@@ -139,7 +139,7 @@ Projectile.prototype.clientlogic = dt => {
 
             this.linefrustumCulled = false;
             if(entities[this.shooterid].weapon) {
-                let boundaries = new THREE.Box3();
+                let boundariesBox = new THREE.Box3();
                 boundariesBox.setFromObject(entites[this.shooterid].weapon);
                 this.startPoint.set(boundariesox.max.x - 0.5, booundariesBox.max.y, boundariesBox.max.z - 0.5);
             }
