@@ -28,7 +28,7 @@
 }
 @font-face {
     font-family: Caribbean;
-    src: url(assets/fonts/Caribbean.ttf);
+    src: url("/assets/fonts/Caribbean.ttf");
 }
 
 * {
