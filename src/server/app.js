@@ -55,10 +55,11 @@ global.core = core;
                 data: {
                     ip: (DEV_ENV) ? `127.0.0.1`: `155.138.228.176`,
                     port: process.env.port,
-                    playerCount: Object.keys(core.players).length
+                    playerCount: Object.keys(core.players).length,
+                    maxPlayerCount: 100
                 }
             });
-        }, 1e3);
+        });
 
         log(`green`, `Worker ${process.pid} started.`);
         log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);

@@ -15,7 +15,7 @@ let reportIPs = [];
 const config = require(`./config/config.js`);
 const thugConfig = require(`./config/thugConfig.js`);
 
-// Auth login.
+// Player allocation.
 let login = require(`./auth/login.js`);
 
 // Profanity filter.
@@ -39,7 +39,6 @@ const PlayerRestore = require(`./models/playerRestore.model.js`);
 
 // Utils.
 const log = require(`./utils/log.js`);
-const sha256 = require(`./utils/sha256.js`);
 const md5 = require(`./utils/md5.js`);
 const { isSpamming, mutePlayer } = require(`./utils/spam.js`);
 
@@ -438,10 +437,10 @@ io.on(`connection`, async socket => {
                     }
                 }
                 else if(command == `mute` && (isAdmin || isMod)) {
-                    let mutePlayer = args.shift();
+                    let playerToMute = args.shift();
                     let muteReason = args.join(` `);
 
-                    let player = core.players.find(player => player.name == mutePlayer);
+                    let player = core.players.find(player => player.name == playerToMute);
                     if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                     mutePlayer(player);
@@ -1487,10 +1486,7 @@ io.on(`connection`, async socket => {
 
     // Assing player data sent from the client.
     socket.on(`createPlayer`, data => {
-        // Insert serverside login authentication check here.
-        // axios.post(`https://${config.domain}/authorized`, `blah blah blah`).then((req, res) => {
-        //     if(res.data != `Invalid Authentication`) return createThePlayer(res.data);
-        // });
+        console.log(`he has arrived`);
         createThePlayer(res.data);
     });
 

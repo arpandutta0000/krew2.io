@@ -84,12 +84,9 @@ app.get(`/get_servers`, (req, res) => res.jsonp(app.workers));
 
 // Wall of fame data.
 app.get(`/wall-of-fame`, async(req, res) => {
-    let wofPlayers = await User.find({}).sort({ highscore: -1 }).slice(20);
+    let wofPlayers = await User.find({}).sort({ highscore: -1 }).limit(20);
     res.jsonp(wofPlayers);
 });
-
-// Admin panel.
-app.get(`/thug_life`, (req, res) => res.render(`index_thuglife.ejs`));
 
 // Rollbar handler for errors in production.
 app.use(rollbar.errorHandler());

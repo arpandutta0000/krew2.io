@@ -42,8 +42,8 @@ let connect = pid => {
     });
     initSocketBinds();
 
-    $(`.game-ui`).style.display = `block`;
-    $(`.login-ui`).style.display = `none`;
+    $(`#game-ui`).show();
+    $(`#login-modal`).modal(`hide`);
 }
 
 let initSocketBinds = () => {

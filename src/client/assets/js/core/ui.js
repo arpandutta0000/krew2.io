@@ -368,18 +368,6 @@ var ui = {
                 elements[i].volume = 0.1 * range.value/range.max;
               }
         });
-
-        // Check if the player is trying to use local firebase functions
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            // User is signed in.
-            firebase.auth().signOut();
-          } else {
-            //firebase.auth().signOut();
-            // No user is signed in.
-          }
-        });
-
     },
 
     playAudioFile: function(loop, fileId) {
@@ -1580,28 +1568,28 @@ var ui = {
 
     getKrewioData: function () {
 
-        return $.get(baseUrl + '/authenticated').then(function (response) {
-            ui.username = response === 'out' ? undefined : response.username;
-            console.log("MY USERNAME: " + ui.username)
-            loginButton.attr('disabled', false).show()
-            if (ui.username === undefined) {
-                loginButton.on('click', function () {
-                    window.location.pathname = '/login'
-                });
-            }
-            else {
-                ui.setCookie('username', response.username, 1)
-                ui.setCookie('token', response.token, 1)
-                ui.clientAccessToken = response.token
+        // return $.get(baseUrl + '/authenticated').then(function (response) {
+        //     ui.username = response === 'out' ? undefined : response.username;
+        //     console.log("MY USERNAME: " + ui.username)
+        //     loginButton.attr('disabled', false).show()
+        //     if (ui.username === undefined) {
+        //         loginButton.on('click', function () {
+        //             window.location.pathname = '/login'
+        //         });
+        //     }
+        //     else {
+        //         ui.setCookie('username', response.username, 1)
+        //         ui.setCookie('token', response.token, 1)
+        //         ui.clientAccessToken = response.token
 
-                console.log(document.cookie)
+        //         console.log(document.cookie)
 
-                // player is authenticated, so show him personalized login button
-                loginButton.html('Play as <b>' + ui.username + '</b>')
-                ui.isLoggedIn = true;
-                ui.prepareForPlay()
-            }
-        });
+        //         // player is authenticated, so show him personalized login button
+        //         loginButton.html('Play as <b>' + ui.username + '</b>')
+        //         ui.isLoggedIn = true;
+        //         ui.prepareForPlay()
+        //     }
+        // });
     },
 
     prepareForPlay: function(){
@@ -1645,12 +1633,12 @@ var ui = {
 
                     i++;
                     var $option = $('<option/>', {
-                        html: 'Server ' + i + ' (' + server.playerCount + '/' + maxPlayerPerInstance + ')',
+                        html: 'Server ' + i + ' (' + server.playerCount + '/' + server.maxPlayerCount + ')',
                         value: pid,
                     });
 
                     $('#server-list').append($option);
-                    if (!serverSelected && server.playerCount < maxPlayerPerInstance) {
+                    if (!serverSelected && server.playerCount < server.maxPlayerCount) {
                         $('#server-list').val(pid);
                         serverSelected = true;
                     }
