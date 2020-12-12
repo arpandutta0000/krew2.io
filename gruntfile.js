@@ -68,7 +68,7 @@ module.exports = (grunt => {
                     `src/client/assets/js/core/uiGoods.js`,
                     `src/client/assets/js/core/uiExperience.js`,
 
-                    `src/client/assets/js/ui.js`,
+                    `src/client/assets/js/core/ui.js`,
                     `src/client/assets/js/core/main.js`,
                     `src/client/assets/js/core/particles.js`,
                     `src/client/assets/js/core/connection.js`,
