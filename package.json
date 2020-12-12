@@ -20,7 +20,10 @@
     },
     "homepage": "https://github.com/Krew-io/krew2.io#readme",
     "dependencies": {
+        "@babel/core": "^7.12.10",
+        "@babel/preset-env": "^7.12.10",
         "axios": "^0.21.0",
+        "babel-loader": "^8.2.2",
         "bad-words": "^3.0.4",
         "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",

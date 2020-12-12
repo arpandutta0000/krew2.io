@@ -58,7 +58,7 @@ global.core = core;
                     playerCount: Object.keys(core.players).length
                 }
             });
-        });
+        }, 1e3);
 
         log(`green`, `Worker ${process.pid} started.`);
         log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
