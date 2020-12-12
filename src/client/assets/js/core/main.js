@@ -25,7 +25,7 @@ window.setTimeout(() => {
 }, 1e3);
 
 let createMinimap = () => {
-    let map = CanvasMap(document.querySelector(`.minimap`), worldsize, worldsize);
+    let map = CanvasMap(document.querySelector(`#minimap`), worldsize, worldsize);
     map.useRadians = true;
     map.zoom = 0.9;
 
@@ -238,19 +238,19 @@ let createGame = () => {
 
 // Show island window for non-kaptains.
 let showIslandMenu = () => {
-    $(`.toggle-shop-menu-btn`).removeClass(`disabled`).addClass(`enabled`);
-    $(`.toggle-krew-list-btn`)/removeClass(`disabled`).addClass(`enabled`);
-    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-menu-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+    $(`#toggle-shop-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+    $(`#toggle-krew-list-button`)/removeClass(`disabled`).addClass(`enabled`);
+    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`#toggle-bank-modal-button`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
 
-    $(`.exit-island-btn`).hide();
+    $(`#exit-island-button`).hide();
     ui.updateStore($(`.btn-shopping-modal.active`));
     ui.updateKrewList();
 }
 
 let enterIsland = data => {
-    if(data.captainId == myPlayerId && myPlayer && myPlayer.parent && myPlayer.parent.shipState != 2) $(`.docking-modal`).show();
+    if(data.captainId == myPlayerId && myPlayer && myPlayer.parent && myPlayer.parent.shipState != 2) $(`#docking-modal`).show();
     
-    if($(`.toggle-shop-modal-btn`).hasClass(`enabled`)) $(`.docking-modal`).hide();
+    if($(`#toggle-shop-modal-button`).hasClass(`enabled`)) $(`#docking-modal`).hide();
 
     if(myPlayer) {
         ui.stopAudioFile(`ocean-music`);
@@ -258,15 +258,15 @@ let enterIsland = data => {
     }
 }
 
-let dockingModalBtn = $(`.docking-modal.btn`);
+let dockingModalBtn = $(`#docking-modal-button`);
 let dockingModalBtnTxt = dockingModalBtn.find(`span`);
 
 let portName = $(`.port-name`);
 
-let cancelExitBtn = $(`.cancel-exit.btn`);
+let cancelExitBtn = $(`#cancel-exit-button`);
 let cancelExitBtnTxt = cancelExitBtn.find(`span`);
 
-let dockingModal = $(`.docking-modal`);
+let dockingModal = $(`#docking-modal`);
 
 let cleanScene = () => {
     if(!scene) return; // Do not clean the scene if it has not been created yet.
@@ -304,9 +304,9 @@ let secondsAlive = 0;
 let islandTimer = () => {
     // Update the alive timer every second.
     secondsAlive++;
-    $(`.timer-seconds`).html(pad(secondsAlive % 60));
-    $(`.timer-minutes`).html(pad(parseInt(secondsAlive % 3600 / 60)));
-    $(`.timer-hours`).html(pad(parseInt(secondsAlive / 3600)));
+    $(`#seconds`).html(pad(secondsAlive % 60));
+    $(`#minutes`).html(pad(parseInt(secondsAlive % 3600 / 60)));
+    $(`#hours`).html(pad(parseInt(secondsAlive / 3600)));
 
     if(myPlayer && myPlayer.parent) {
         if(myPlayer.parent.shipState == -1 || myPlayer.parent.shipState == 3) {
@@ -324,13 +324,13 @@ let islandTimer = () => {
                 showIslandMenu();
             }
         }
-        if(dockingModal.hasClass(`initial`)) dockingModal.removeClass(`initial`).find(`.you-are-docked-msg`).remove();
+        if(dockingModal.hasClass(`initial`)) dockingModal.removeClass(`initial`).find(`#you-are-docked-message`).remove();
         if(myPlayer.parent.shipState != 1) countDown = 8;
         if(myPlayer.parent.shipState == 1) {
             if(countDown == 8) socket.emit(`dock`);
             cancelExitBtnTxt.text(`Cancel (c)`);
 
-            if(countDown != 0 && countDown > 0) dockingModalBtnTxt.text(`Docking in ${countDown} seconds`);
+            if(countDown != 0 && countDown > 0) dockingModalBtnTxt.text(`Docking in ${countDown} seconds...`);
             else {
                 dockingModalBtnTxt.text(`Dock (z)`);
                 dockingModalBtn.removeClass(`disabled`).addClass(`enabled`);
@@ -339,20 +339,20 @@ let islandTimer = () => {
         }
 
         if(myPlayer.parent.shipState == 4) {
-            $(`.docking-modal`).hide();
-            if(!$(`.departure.modal`).is(`visible`)) $(`.departure-modal`).show();
+            $(`#docking-modal`).hide();
+            if(!$(`#departure.modal`).is(`visible`)) $(`#departure-modal`).show();
 
-            $(`.cancel-departure-btn`).find(`span`).text(`${myPLayer && myPlayer.isCaptain ? `Departing in `: `Krew departing in`} ${entities[myPlayer.id].parent.departureTime} seconds`);
+            $(`#cancel-departure-button`).find(`span`).text(`${myPLayer && myPlayer.isCaptain ? `Departing in `: `Krew departing in`} ${entities[myPlayer.id].parent.departureTime} seconds`);
         }
 
-        if(((!myPlayer.isCaptain && myPlayer.parent.shipState != 4) || (myPlayer.isCaptain && myPlayer.parent.shipState == 0)) && $(`.departure-modal`).is(`:visible`)) $(`.departure-modal`).hide();
+        if(((!myPlayer.isCaptain && myPlayer.parent.shipState != 4) || (myPlayer.isCaptain && myPlayer.parent.shipState == 0)) && $(`#departure-modal`).is(`:visible`)) $(`#departure-modal`).hide();
     }
 }
 
-let departure = () => {
+let departure = function() {
     if(myPlayer && entities[myPlayer.id] & entities[myPlayer.id].parent) {
         ui.playAudioFile(false, `sail`);
-        $(`.docking-modal`).hide();
+        $(`#docking-modal`).hide();
 
         this.departureCounter = this.departureCounter || 0;
         socket.emit(`depature`, this.departureCounter);
@@ -368,8 +368,8 @@ let exitIsland = data => {
     controls.lockMouseLook();
 
     if(data.captainId == myPlayerId) {
-        $(`.docking-modal`).hide();
-        $(`.departure-modal`).hide();
+        $(`#docking-modal`).hide();
+        $(`#departure-modal`).hide();
     }
 
     krewListUpdateManually = false;
@@ -380,64 +380,64 @@ let exitIsland = data => {
         ui.playAudioFile(true, `ocean-music`);
     }
 
-    $(`.toggle-bank-menu-btn`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
+    $(`#toggle-bank-modal-button`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
 
-    $(`.exit-island-btn`).hide();
-    $(`.shopping-menu`).hide();
-    $(`.krew-list-menu`).hide();
+    $(`#exit-island-button`).hide();
+    $(`#shopping-modal`).hide();
+    $(`#krew-list-modal`).hide();
 
     ui.updateStore($(`.btn-shopping-modal.active`));
 
-    $(`.docking-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
-    $(`.toggle-shop-menu-btn`).removeClass(`enabled`).addClass(`disabled`);
-    $(`.toggle-krew-list-menu-btn`).removeClass(`enabled`).addClass(`disabled`);
+    $(`#docking-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+    $(`#toggle-shop-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+    $(`#toggle-krew-list-modal-button`).removeClass(`enabled`).addClass(`disabled`);
 }
 
 let login = () => {
     connect($(`#server-list`).val());
     ui.setQualitySettings();
 
-    $(`.fps-mode-btn`).attr(`checked`, false);
-    $(`.quality-list`).val(2);
-    $(`.quality-list`).trigger(`change`);
+    $(`#fps-mode-btn`).attr(`checked`, false);
+    $(`#quality-list`).val(2);
+    $(`#quality-list`).trigger(`change`);
 }
 
 let sendMessage = () => {
     socket.emit(`chat message`, {
-        message: $(`.chat-message`).val(),
+        message: $(`#chat-message`).val(),
         recipient: staffChatOn ? `staff`: clanChatOn ? `clan`: localChatOn ? `local`: `global`
     });
-    $(`.chat-message`).val(``).focus();
+    $(`#chat-message`).val(``).focus();
 }
 
 let makeDeposit = () => {
-    let deposit = +$(`.make-deposit`).val();
-    let sumDeposits = parseInt($(`.my-deposits`).text()) + deposit;
+    let deposit = +$(`#make-deposit`).val();
+    let sumDeposits = parseInt($(`#my-deposits`).text()) + deposit;
 
     if(deposit <= myPlayer.gold && sumDeposits <= 15e4) {
         socket.emit(`bank`, { deposit });
         ui.playAudioFile(false, `deposit`);
 
-        $(`.make-deposit`).val(``).focus();
-        $(`.successMakeDepoMess`).show();
-        $(`.errorMakeDepoMess`).hide();
-        $(`.successTakeDepoMess`).hide();
-        $(`.errorTakeDepoMess`).hide();
-        $(`.errorFullDepoMess`).hide();
+        $(`#make-deposit`).val(``).focus();
+        $(`#successMakeDepoMess`).show();
+        $(`#errorMakeDepoMess`).hide();
+        $(`#successTakeDepoMess`).hide();
+        $(`#errorTakeDepoMess`).hide();
+        $(`#errorFullDepoMess`).hide();
     }
     else if(sumDeposits > 15e4) {
-        $(`.errorFullDepoMess`).show();
-        $(`.successMakeDepoMess`).hide();
-        $(`.errorMakeDepoMess`).hide();
-        $(`.successTakeDepoMess`).hide();
-        $(`.errorTakeDepoMess`).hide();
+        $(`#errorFullDepoMess`).show();
+        $(`#successMakeDepoMess`).hide();
+        $(`#errorMakeDepoMess`).hide();
+        $(`#successTakeDepoMess`).hide();
+        $(`#errorTakeDepoMess`).hide();
     }
     else {
-        $(`.errorMakeDepoMess`).show();
-        $(`.successMakeDepoMess`).hide();
-        $(`.successTakeDepoMess`).hide();
-        $(`.errorTakeDepoMess`).hide();
-        $(`.errorFullDepoMess`).hide();
+        $(`#errorMakeDepoMess`).show();
+        $(`#successMakeDepoMess`).hide();
+        $(`#successTakeDepoMess`).hide();
+        $(`#errorTakeDepoMess`).hide();
+        $(`#errorFullDepoMess`).hide();
     }
 }
 
@@ -456,7 +456,7 @@ let fbShare = (message, link) => {
                         'og:url': `https://${link}`, // The URL to share.
                         'og:title': `Krew.io`,
                         'og:description': message,
-                        'og:image': `https://krew.io/assets/img/logo.png/`
+                        'og:image': `https://krew.io/assets/img/logo.png`
                     }
                 })
             });
@@ -521,20 +521,26 @@ $(document).ready(() => {
         createGame();
 
         threeJSStarted = true;
-        $(`.play-btn`).text(`Play as guest`).attr(`disabled`, false);
+        $(`#play-button`).text(`Play as guest`).attr(`disabled`, false);
+        if (!(ui.getCookie(`username`) && ui.getCookie(`token`))) ui.getKrewioData();
+        else {
+            ui.clientAccessToken = ui.getCookie(`token`);
+            ui.username = ui.getCookie(`username`);
+            ui.prepareForPlay();
+        }
     });
 
-    $(`.show-more`).on(`click`, () => {
-        if($(`.show-more`).text().indexOf(`Show more`) > -1) {
+    $(`#show-more`).on(`click`, () => {
+        if($(`#show-more`).text().indexOf(`Show more`) > -1) {
             $(`.top20`).show();
-            $(`.show-more`).html(`<i class="icofont icofont-medal"></i> Show less`);
+            $(`#show-more`).html(`<i class="icofont icofont-medal"></i> Show less`);
         }
         else {
             $(`.top20`).hide();
-            $(`.show-more`).html(`<i class="icofont icofont-medal</i> Show more`);
+            $(`#show-more`).html(`<i class="icofont icofont-medal</i> Show more`);
         }
 
-        $(`.chat-message`).on(`keyup`, () => {
+        $(`#chat-message`).on(`keyup`, () => {
             let $this = $(this);
             let val = $this.val();
 
@@ -542,7 +548,7 @@ $(document).ready(() => {
         });
 
         // Play by pressing login button.
-        $(`.play-btn`).on(`click`, () => {
+        $(`#play-button`).on(`click`, () => {
             GameAnalytics(`addDesignEvent`, `Game:Session:ClickedPlayButton`);
             if(threeJSStarted) {
                 login();
@@ -553,7 +559,7 @@ $(document).ready(() => {
             }
         }).text(`Loading...`).attr(`disabled`, true);
 
-        $(`.play-again-btn`).on(`click`, () => {
+        $(`#play-again-button`).on(`click`, () => {
             if(threeJSStarted) {
                 ui.showAdinplayCentered();
                 secondsAlive = 0;
@@ -561,13 +567,13 @@ $(document).ready(() => {
                 myPlayer.itemId = undefined;
                 myPlayer.state = 2;
 
-                $(`.toggle-shop-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
-                $(`.toggle-krew-list-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
-                $(`.toggle-bank-modal-btn`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
+                $(`#toggle-shop-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+                $(`#toggle-krew-list-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+                $(`#toggle-bank-modal-button`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
             }
         });
 
-        $(`.share-link`).on(`click`, () => {
+        $(`#share-link`).on(`click`, () => {
             let message = `I just had an amazing game of Krew.io and my score was ${lastScore}!`;
             let link = `${window.location.hostname}/`;
             fbShare(message, link);
@@ -578,17 +584,17 @@ $(document).ready(() => {
             myPlayer.state = 2;
             myPlayer.itemId = undefined;
 
-            $(`.toggle-shop-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
-            $(`.toggle-krew-list-modal-btn`).removeClass(`enabled`).addClass(`disabled`);
-            $(`.toggle-bank-modal-btn`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
+            $(`#toggle-shop-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+            $(`#toggle-krew-list-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+            $(`#toggle-bank-modal-button`).removeClass(`enabled`).addClass(`disabled`).attr(`data-tooltip`, `Bank is available at Labrador`);
 
             ui.updateStore($(`.btn-shopping-modal.active`));
             
-            $(`.krew-list-modal`).show();
+            $(`#krew-list-modal`).show();
             ui.updateKrewList();
         });
 
-        $(`.quality-list`).on(`change`, () => {
+        $(`#quality-list`).on(`change`, () => {
             let newW = defaultWidth / 2.5;
             let newH = defaultHeight / 2.5;
             switch(parseInt($(`.quality-list`).val())) {
@@ -613,7 +619,7 @@ $(document).ready(() => {
             }
         });
 
-        $(`.share-invite-link`).on(`click`, () => {
+        $(`#share-invite-link`).on(`click`, () => {
             let message = `Join my krew!`;
             let link = ui.getInviteLink();
             fbShare(message, link);
@@ -627,13 +633,13 @@ $(document).ready(() => {
         });
 
         // Submit on enter key.
-        $(`.chat-message`).on(`keypress`, e => {
+        $(`#chat-message`).on(`keypress`, e => {
             if(e.keyCode == 13) sendMessage();
         });
-        $(`.make-deposit`).on(`keypress`, e => {
+        $(`#make-deposit`).on(`keypress`, e => {
             if(e.keyCode == 13) makeDeposit();
         });
-        $(`.take-deposit`).on(`keypress`, e => {
+        $(`#take-deposit`).on(`keypress`, e => {
             if(e.keyCode == 13) takeDeposit();
         });
 
@@ -641,21 +647,21 @@ $(document).ready(() => {
         ui.createWallOfFame();
 
         // Sen chat message by pressing send message button.
-        $(`.send-message-btn`).on(`click`, () => {
+        $(`#send-message-button`).on(`click`, () => {
             sendMessage();
         });
 
         if(getUrlVars().sid && getUrlVars().bid) {
             // If invite link is being used.
-            $(`.invite-is-used`).show();
-            $(`.select-server`).hide();
-            $(`.select-spawn`).hide();
+            $(`#invite-is-used`).show();
+            $(`#select-server`).hide();
+            $(`#select-spawn`).hide();
         }
 
-        $(`.crew-count, .ship-health`).slider();
+        $(`#crew_count, #ship_health`).slider();
 
-        $(`.crew-count`).on(`slide`, e => $(`.crew-count-val`).text(e.value));
-        $(`.ship-health`).on(`slide`, e => $(`.ship-health-val`).text(e.value));
+        $(`#crew_count`).on(`slide`, e => $(`#crew-count-val`).text(e.value));
+        $(`#ship_health`).on(`slide`, e => $(`#ship-health-val`).text(e.value));
 
         let shoppingModalBtn = $(`.btn-shopping-modal`);
         shoppingModalBtn.each(() => {
@@ -667,32 +673,32 @@ $(document).ready(() => {
             });
         });
 
-        $(`.docking-modal-btn`).on(`click`, () => {
-            if($(`.docking-modal-btn`).hasClass(`enabled`)) {
+        $(`#docking-modal-button`).on(`click`, () => {
+            if($(`#docking-modal-button`).hasClass(`enabled`)) {
                 if(myPlayer && myPlayer.parent) {
                     ui.playAudioFile(false, `dock`);
                     socket.emit(`anchor`);
                     shoppingModalBtn.eq(2).trigger(`click`);
 
-                    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-modal-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-                    if(myPlayer.parent.netType == 1 && !$(`.exit-island-btn`).is(`:visible`)) $(`.exit-island-btn`).show();
+                    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`#toggle-bank-modal-button`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+                    if(myPlayer.parent.netType == 1 && !$(`#exit-island-button`).is(`:visible`)) $(`#exit-island-button`).show();
                 }
 
                 lastScore = 0;
                 controls.unLockMouseLook();
 
-                $(`.docking-modal`).hide();
-                $(`.supply`).tooltip(`show`);
+                $(`#docking-modal`).hide();
+                $(`#supply`).tooltip(`show`);
 
-                $(`.toggle-shop-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
-                $(`.toggle-krew-list-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
+                $(`#toggle-shop-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+                $(`#toggle-krew-list-modal-button`).removeClass(`disabled`).addClass(`enabled`);
 
                 ui.updateStore($(`.btn-shopping-modal.active`));
-                $(`.recruiting-wrapper`).fadeIn(`slow`);
+                $(`#recruiting-div`).fadeIn(`slow`);
             }
         });
 
-        $(`.login-modal`).modal({
+        $(`#login-modal`).modal({
             show: true,
             backdrop: `static`,
             keyboard: false
@@ -704,51 +710,51 @@ $(document).ready(() => {
             });
         });
 
-        $(`.game-over-modal`).modal({
+        $(`#game-over-modal`).modal({
             show: false,
             backdrop: `static`,
             keyboard: false
         });
 
-        $(`.chat-global`).on(`click`, () => toggleGlobalChat());
-        $(`.chat-local`).on(`click`, () => toggleLocalChat());
-        $(`.chat-clan`).on(`click`, () => toggleClanChat());
-        $(`.chat-staff`).on(`click`, () => toggleStaffChat());
+        $(`#chat-global`).on(`click`, () => toggleGlobalChat());
+        $(`#chat-local`).on(`click`, () => toggleLocalChat());
+        $(`#chat-clan`).on(`click`, () => toggleClanChat());
+        $(`#chat-staff`).on(`click`, () => toggleStaffChat());
 
-        $(`.hide-chat`).on(`click`, () => {
-            $(`.show-chat`).show();
-            $(`.chat-wrapper`).hide();
+        $(`#hide-chat`).on(`click`, () => {
+            $(`#show-chat`).show();
+            $(`#chat-wrapper`).hide();
         });
-        $(`.show-chat`).on(`click`, () => {
-            $(`.hide-chat`).show();
-            $(`.chat-wrapper`).show();
+        $(`#show-chat`).on(`click`, () => {
+            $(`#hide-chat`).show();
+            $(`#chat-wrapper`).show();
         });
 
-        $(`.toggle-invite-link-btn`).on(`click`, () => {
-            if($(`.invite-wrapper`).is(`:visible`)) $(`.invite-wrapper`).hide();
+        $(`#toggle-invite-link-button`).on(`click`, () => {
+            if($(`#invite-div`).is(`:visible`)) $(`#invite-div`).hide();
             else {
-                $(`.invite-link`).val(ui.getInviteLink());
-                $(`.invite-wrapper`).show();
+                $(`#invite-link`).val(ui.getInviteLink());
+                $(`#invite-div`).show();
             }
         });
 
-        $(`.exit-island-btn`).on(`click`, () => departure());
+        $(`#exit-island-button`).on(`click`, () => departure());
 
-        $(`.toggle-help-btn`).on(`click`, () => {
-            if($(`.help-modal`).is(`:visible`)) $(`.help-modal`).hide();
+        $(`#toggle-help-button`).on(`click`, () => {
+            if($(`#help-modal`).is(`:visible`)) $(`#help-modal`).hide();
             else {
-                ui.closeAllPagesExcept(`.help-modal`);
-                $(`.help-modal`).show();
+                ui.closeAllPagesExcept(`#help-modal`);
+                $(`#help-modal`).show();
             }
         });
 
-        $(`.close-help-btn`).on(`click`, () => $(`.help-modal`).hide());
-        $(`.close-bank-btn`).on(`click`, () => $(`.bank-modal`).hide());
-        $(`.btn-make-deposit`).on(`click`, () => makeDeposit());
-        $(`.btn-take-deposit`).on(`click`, () => takeDeposit());
+        $(`#close-help-btn`).on(`click`, () => $(`.help-modal`).hide());
+        $(`#close-bank-btn`).on(`click`, () => $(`.bank-modal`).hide());
+        $(`#btn-make-deposit`).on(`click`, () => makeDeposit());
+        $(`#btn-take-deposit`).on(`click`, () => takeDeposit());
 
-        $(`.toggle-quest.btn`).on(`click`, () => {
-            if($(`.quest-modal`).is(`:visible`)) $(`.quest-modal`).hide();
+        $(`#toggle-quest-button`).on(`click`, () => {
+            if($(`#quests-modal`).is(`:visible`)) $(`#quests-modal`).hide();
             else {
                 // After clicking on the quest button, get all information needed for stats from the server.
                 socket.emit(`getStats`, data => {
@@ -845,16 +851,16 @@ $(document).ready(() => {
             }
         });
 
-        $(`.close-quests-btn`).on(`click`, () => $(`.quests-modal`).css(`display`, `none`));
+        $(`#close-quests-button`).on(`click`, () => $(`#quests-modal`).css(`display`, `none`));
 
-        $(`.cancel-exit-btn`).on(`click`, () => {
+        $(`#cancel-exit-button`).on(`click`, () => {
             if(cancelExitBtnTxt.text() == `Cancel (c)`) {
                 socket.emit(`exitIsland`);
                 dockingModalBtnTxt.text(`Countdown...`);
             }
         });
 
-        $(`.abandon-ship-btn`).on(`click`, () => {
+        $(`#abandon-ship-button`).on(`click`, () => {
             if(myBoat.hp <= 0) return;
             if(myPlayer.goods && (myBoat.shipState == 3 || myBoat.shipState == 4)) {
                 for(let i in myPlayer.goods) {
@@ -873,30 +879,30 @@ $(document).ready(() => {
             }
 
             socket.emit(`abandonShip`);
-            $(`.abandon-ship-btn`).hide();
+            $(`#abandon-ship-button`).hide();
 
-            if(myBoat != undefined) {
+            if(myBoat) {
                 if(myBoat.shipState == 3 || myBoat.shipState == -1 || myBoat.shipState == 4) {
-                    $(`.supply`).tooltip(`show`);
+                    $(`#supply`).tooltip(`show`);
 
-                    $(`.toggle-shop-modal-btn`).removeClass(`disabled`).addClass(`enabled`);
-                    $(`.toggle-krew-list-modal-btn`).removeClass(`disabled`).addClass(`enabled`)
+                    $(`#toggle-shop-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+                    $(`#toggle-krew-list-modal-button`).removeClass(`disabled`).addClass(`enabled`)
 
-                    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`.toggle-bank-modal-btn`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+                    if(entities[myPlayer.parent.anchorIslandId].name == `Labrador`) $(`#toggle-bank-modal-button`).removeClass(`disabled`).addClass(`enabled`).attr(`data-tooltip`, `Deposit or withdraw gold`);
                     ui.updateStore($(`.btn-shopping-modal.active`));
                 }
-                else if(myBoat.shipState == 1) $(`.docking-modal`).show();
+                else if(myBoat.shipState == 1) $(`#docking-modal`).show();
             }
         });
     });
 
-    $(`.lock-krew-btn`).on(`click`, () => {
-        if($(`.lock-krew-btn`).is(`:checked`)) {
-            $ (`lock-krew-text`).removeClass(`text-info`).addClass(`text-danger`).text(`Unlock krew...`);
+    $(`#lock-krew-button`).on(`click`, () => {
+        if($(`#lock-krew-button`).is(`:checked`)) {
+            $ (`#lock-krew-text`).removeClass(`text-info`).addClass(`text-danger`).text(`Unlock krew...`);
             socket.emit(`lockKrew`, true);
         }
         else {
-            $ (`lock-krew-text`).removeClass(`text-info`).addClass(`text-danger`).text(`Lock krew...`);
+            $ (`#lock-krew-text`).removeClass(`text-info`).addClass(`text-danger`).text(`Lock krew...`);
             socket.emit(`lockKrew`, false);
         }
     });
@@ -937,100 +943,100 @@ $(document).ready(() => {
 });
 
 // Bootstrap shows elements inside .tab by default.
-$(`.global-chat-alert`).hide();
+$(`#global-chat-alert`).hide();
 
 let toggleGlobalChat = () => {
-    $(`.chat-global`).addClass(`active`);
-    $(`.chat-local`).removeClass(`active`);
-    $(`.chat-clan`).removeClass(`active`);
-    $(`.chat-staff`).removeClass(`active`);
+    $(`#chat-global`).addClass(`active`);
+    $(`#chat-local`).removeClass(`active`);
+    $(`#chat-clan`).removeClass(`active`);
+    $(`#chat-staff`).removeClass(`active`);
 
-    $(`.chat-global`).show();
-    $(`.chat-local`).hide();
-    $(`.chat-clan`).hide();
-    $(`.chat-staff`).hide();
+    $(`#chat-global`).show();
+    $(`#chat-local`).hide();
+    $(`#chat-clan`).hide();
+    $(`#chat-staff`).hide();
 
     globalChatOn = true;
     localChatOn = false;
     clanChatOn = false;
     staffChatOn = false;
 
-    $(`.global-chat-alert`).hide();
+    $(`#global-chat-alert`).hide();
 
     // Scroll down to the bottom of the chat.
-    $(`.chat-history`).scrollTop(() => {
+    $(`#chat-history`).scrollTop(() => {
         return this.scrollHeight;
     });
 }
 
 let toggleLocalChat = () => {
-    $(`.chat-global`).removeClass(`active`);
-    $(`.chat-local`).addClass(`active`);
-    $(`.chat-clan`).removeClass(`active`);
-    $(`.chat-staff`).removeClass(`active`);
+    $(`#chat-global`).removeClass(`active`);
+    $(`#chat-local`).addClass(`active`);
+    $(`#chat-clan`).removeClass(`active`);
+    $(`#chat-staff`).removeClass(`active`);
 
-    $(`.chat-global`).hide();
-    $(`.chat-local`).show();
-    $(`.chat-clan`).hide();
-    $(`.chat-staff`).hide();
+    $(`#chat-global`).hide();
+    $(`#chat-local`).show();
+    $(`#chat-clan`).hide();
+    $(`#chat-staff`).hide();
 
     globalChatOn = false;
     localChatOn = true;
     clanChatOn = false;
     staffChatOn = false;
 
-    $(`.local-chat-alert`).hide();
+    $(`#local-chat-alert`).hide();
 
     // Scroll down to the bottom of the chat.
-    $(`.chat-history`).scrollTop(() => {
+    $(`#chat-history`).scrollTop(() => {
         return this.scrollHeight;
     });
 }
 
 let toggleClanChat = () => {
-    $(`.chat-global`).removeClass(`active`);
-    $(`.chat-local`).removeClass(`active`);
-    $(`.chat-clan`).addClass(`active`);
-    $(`.chat-staff`).removeClass(`active`);
+    $(`#chat-global`).removeClass(`active`);
+    $(`#chat-local`).removeClass(`active`);
+    $(`#chat-clan`).addClass(`active`);
+    $(`#chat-staff`).removeClass(`active`);
 
-    $(`.chat-global`).hide();
-    $(`.chat-local`).hide();
-    $(`.chat-clan`).show();
-    $(`.chat-staff`).hide();
+    $(`#chat-global`).hide();
+    $(`#chat-local`).hide();
+    $(`#chat-clan`).show();
+    $(`#chat-staff`).hide();
 
     globalChatOn = false;
     localChatOn = false;
     clanChatOn = true;
     staffChatOn = false;
 
-    $(`.clan-chat-alert`).hide();
+    $(`#clan-chat-alert`).hide();
 
     // Scroll down to the bottom of the chat.
-    $(`.chat-history`).scrollTop(() => {
+    $(`#chat-history`).scrollTop(() => {
         return this.scrollHeight;
     });
 }
 
 let toggleStaffChat = () => {
-    $(`.chat-global`).addClass(`active`);
-    $(`.chat-local`).removeClass(`active`);
-    $(`.chat-clan`).removeClass(`active`);
-    $(`.chat-staff`).addClass(`active`);
+    $(`#chat-global`).addClass(`active`);
+    $(`#chat-local`).removeClass(`active`);
+    $(`#chat-clan`).removeClass(`active`);
+    $(`#chat-staff`).addClass(`active`);
 
-    $(`.chat-global`).hide();
-    $(`.chat-local`).hide();
-    $(`.chat-clan`).hide();
-    $(`.chat-staff`).show();
+    $(`#chat-global`).hide();
+    $(`#chat-local`).hide();
+    $(`#chat-clan`).hide();
+    $(`#chat-staff`).show();
 
     globalChatOn = false;
     localChatOn = false;
     clanChatOn = false;
     staffChatOn = true;
 
-    $(`.staff-chat-alert`).hide();
+    $(`#staff-chat-alert`).hide();
 
     // Scroll down to the bottom of the chat.
-    $(`.chat-history`).scrollTop(() => {
+    $(`#chat-history`).scrollTop(() => {
         return this.scrollHeight;
     });
 }

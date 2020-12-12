@@ -29,11 +29,11 @@ Entity.prototype.createProperties = function() {
         this.last = {}
         this.lastType = {}
 
-        // some entities have muted netcode parts
+        // Some entities have muted netcode parts
         this.muted = [];
 
-        // on client, entities have a model scale and offset (multipied/added with the logical scale/position)
-        // we need that because the 3d geometry model files might not actually fit the logical sizes in the game so we have to bring them up to scale
+        // On the client, entities have a model scale and offset (multipied/added with the logical scale/position)
+        // We need that because the 3d geometry model files might not actually fit the logical sizes in the game so we have to bring them up to scale.
         this.modelscale = new THREE.Vector3(1, 1, 1);
         this.modeloffset = new THREE.Vector3(0, 0, 0);
         this.modelrotation = new THREE.Vector3(0, 0, 0);
@@ -46,39 +46,37 @@ Entity.prototype.tick = function(dt) {
     // Compute the base class logic. This is set by the children classes.
     this.logic(dt);
 
-    // move ourselves by the current speed
+    // Move ourselves by the current speed.
     this.position.x += this.velocity.x * dt;
     this.position.z += this.velocity.z * dt;
 
     this.clientlogic(dt);
 }
 
-// function that generates a snapshot
+// Function that generates a snapshot
 Entity.prototype.getSnap = function(force) {
-    if(!force && !this.sendSnap) {
-        return undefined;
-    }
+    if(!force && !this.sendSnap) return undefined;
 
     // Bots don't have a rotation so this fails.
     if(this.rotation == undefined) console.log(this);
 
     let snap = {
         p: this.parent ? this.parent.id : undefined,
-        n: this.netType, // netcode id is for entity type (e.g. 0 player)
-        x: this.position.x.toFixed(2), // x and z position relative to parent
+        n: this.netType, // Netcode ID is for entity type (e.g. 0 player)
+        x: this.position.x.toFixed(2), // x and z position relative to parent.
         y: this.position.y.toFixed(2),
         z: this.position.z.toFixed(2),
-        r: (this.rotation || 0).toFixed(2), // rotation
-        t: this.getTypeSnap(), // type based snapshot data
+        r: (this.rotation || 0).toFixed(2), // Rotation.
+        t: this.getTypeSnap(), // Type based snapshot data.
     }
 
-    // pass name letiable if we're first time creating this entity
+    // Pass name identifier if we're creating this entity for the first time.
     if(this.netType == 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
 
-        // check if there's been names queued (for names that were recieved prior to player entity creation). set names
-        for (playerId in playerNames) {
+        // Check if there's been names queued (for names that were recieved prior to player entity creation). Then set those names.
+        for(playerId in playerNames) {
             let name = playerNames[playerId];
             if(name && entities[playerId]) entities[playerId].setName(name);
         }
@@ -202,7 +200,7 @@ Entity.prototype.addChildren = function(entity) {
 }
 
 Entity.prototype.hasChild = function(id) {
-    for (key in this.children) if(this.children[key].id == id) return true;
+    for(key in this.children) if(this.children[key].id == id) return true;
     return false;
 }
 
@@ -259,6 +257,6 @@ let isEmpty = function(obj) {
     if(Object.keys(obj).length == 0 && obj.constructor == Object) return true;
 
     // Check if object is full of undefined.
-    for (let i in obj) if(obj.hasOwnProperty(i) && obj[i]) return false;
+    for(let i in obj) if(obj.hasOwnProperty(i) && obj[i]) return false;
     return true;
 }

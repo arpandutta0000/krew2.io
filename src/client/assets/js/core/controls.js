@@ -1,4 +1,4 @@
-let GameControls = () => {
+let GameControls = function() {
     let _this = this;
     let PI_2 = Math.PI / 2;
 
@@ -6,7 +6,7 @@ let GameControls = () => {
 
     this.locked = false;
     this.lmb = false;
-    this.rmb = flase;
+    this.rmb = false;
     this.cameraX = 0;
     this.cameraY = Math.PI;
     this.cameraZoom = 8;
@@ -20,7 +20,7 @@ let GameControls = () => {
     this.lastY = 0;
 
     this.mouseMoveUnlocked = event => {
-        _this.mouseElement = event.target.getAttribute ? event.trarget.getAttribute(`data-infopanel`): null;
+        _this.mouseElement = event.target.getAttribute ? event.target.getAttribute(`data-infopanel`): null;
         _this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         _this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         if(!havePointerLock) {

@@ -38,13 +38,15 @@ module.exports = (grunt => {
                     `src/client/assets/js/core/client/config.js`,
                     `src/client/assets/js/rangeInput.js`,
 
-                    `src/client/assets/js/canvas.map.js`,
-
+                    `src/client/assets/js/libs/canvas.map.js`,
                     `src/client/assets/js/libs/ua.js`,
+
                     `src/client/assets/js/libs/keypress.min.js`,
+
                     `src/client/assets/js/libs/OBJLoader.js`,
                     `src/client/assets/js/libs/TGALoader.js`,
                     `src/client/assets/js/libs/MTLLoader.js`,
+
                     `src/client/assets/js/libs/socket.io.js`,
 
                     `src/client/assets/js/core/environment.js`,
