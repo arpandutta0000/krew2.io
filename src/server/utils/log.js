@@ -1,7 +1,5 @@
 const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
-const config = require(`../config/config.js`);
-const path = require(`path`);
 
 module.exports = (color, content) => {
     // Set timing variables.

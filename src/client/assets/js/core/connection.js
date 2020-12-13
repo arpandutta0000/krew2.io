@@ -34,7 +34,7 @@ let connect = pid => {
 
     // Connect to the gameserver.
     console.log(url);
-    socket = io.connect(`https://krew.io:2001`, {
+    socket = io.connect(url, {
         secure: true,
         rejectUnauthorized: false
     });

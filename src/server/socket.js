@@ -1,7 +1,7 @@
 // Require modules.
 const xssFilters = require(`xss-filters`);
 const axios = require(`axios`);
-const lzString = require(`../client/assets/js/libs/lz-string.min.js`);
+lzString = require(`../client/assets/js/libs/lz-string.min.js`);
 
 // Server startup config.
 global.cratesInSea = {
@@ -25,7 +25,7 @@ let Filter = require(`bad-words`), filter = new Filter();
 let additionalBadWords = [`idiot`, `2chOld`, `Yuquan`];
 filter.addWords(...additionalBadWords);
 
-// Server for socket.io
+// Server for socket.io.
 let http = require(`http`);
 let https = require(`https`);
 
@@ -222,7 +222,7 @@ io.on(`connection`, async socket => {
     });
 
     // Chat message handling.
-    socket.on(`chatMessage`, async msgData => {
+    socket.on(`chat message`, async msgData => {
         // Check for spam.
         if(msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
             log(`cyan`, `Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
@@ -1489,7 +1489,6 @@ io.on(`connection`, async socket => {
 
     // Assing player data sent from the client.
     socket.on(`createPlayer`, data => {
-        console.log(`he has arrived`);
         createThePlayer(res.data);
     });
 
