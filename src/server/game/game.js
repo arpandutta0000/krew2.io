@@ -1,4 +1,5 @@
 let socket = require(`../socket.js`);
+let lzString = require(`../../client/assets/js/libs/lz-string.min.js`);
 
 let chestCount = 0;
 let chestRespawn = undefined;

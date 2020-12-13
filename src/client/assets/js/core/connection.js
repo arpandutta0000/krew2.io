@@ -1,16 +1,13 @@
 // Predefined variables.
 let socket;
-let playerID;
 let address = document.location.host;
 
 // Chat toggle options for where to send a message.
-let chatOptions = {
-    clan: false,
-    local: false,
-    global: false
-}
+let staffChatOn = false;
+let clanChatOn = false;
+let localChatOn = false;
+let globalChatOn = true;
 
-let maxPlayers = 100;
 let intervalUpdate = undefined;
 
 // Define clientside account perms.
@@ -22,12 +19,12 @@ const staff = {
 
 let connect = pid => {
     // If player is already connected to the game.
-    if(socket != undefined) return;
+    if(socket != undefined) return console.log(`Player already connected to the game.`);
 
-    // Connect to each gameserver to get info about it.
+    // Get the selected gameserver.
     if(getUrlVars().pid && ui.serverList[getUrlVars().pid]) pid = getUrlVars().pid;
 
-    // Determine the selected gameserver.
+    // Determine local / prod gameserver.
     let server = ui.servers[pid];
     if(window.location.hostname == `localhost`) server = { ip: `http://localhost`, port: `2001` }
 
@@ -36,7 +33,8 @@ let connect = pid => {
     if(!isNaN(parseInt(server.port)) && parseInt(server.port) != 80) url += `:${server.port}`;
 
     // Connect to the gameserver.
-    socket = io.connect(url, {
+    console.log(url);
+    socket = io.connect(`https://krew.io:2001`, {
         secure: true,
         rejectUnauthorized: false
     });
@@ -46,7 +44,7 @@ let connect = pid => {
     $(`#login-modal`).modal(`hide`);
 }
 
-let initSocketBinds = () => {
+initSocketBinds = () => {
     // Await handshake (recognition from master of client connection to gameserver).
     socket.on(`handshake`, msg => {
         // Send a message before player closes game window.
@@ -58,15 +56,15 @@ let initSocketBinds = () => {
         deleteEverything();
 
         // Assign player ID.
-        myPlayer.id = msg.socketID;
+        myPlayer = undefined;
+        myPlayerId = msg.socketID
 
         // Let the gameserver know to create a player and send data for the player.
         socket.emit(`createPlayer`, {
             boatID: getUrlVars().bid,
             token: ui.token,
             spawn: ui.setSpawnPlace(),
-            cookie: sessionCookie,
-            user: currentUser
+            user: `DamienVesper`
         });
 
         // Reset the alive timer.
@@ -158,7 +156,7 @@ let initSocketBinds = () => {
             if(entities[data.id] != undefined && entities[data.id].netType == 0) {
                 entities[data.id].level = data.level;
 
-                if(data.id == myPlayerID) {
+                if(data.id == myPlayerId) {
                     ui.playAudioFile(false, `level-up`);
 
                     myPlayer.updateExperience();
@@ -190,11 +188,11 @@ let initSocketBinds = () => {
         }, 100);
 
         // Receive chat messages and show them in the chat menu.
-        socket.on(`chatMessage`, data => {
-            if(myPlayer && myPlayer.parent && (myPlayer.parent.hasChild(data.playerID) || data.recipent == `global` || data.recipent == `local` || data.recipient == `clan`) && entities[data.playerID] != undefined) {
-                let chatHistory = $(`.chat-history`);
+        socket.on(`chat message`, data => {
+            if(myPlayer && myPlayer.parent && (myPlayer.parent.hasChild(data.playerID) || data.recipent == `global` || data.recipent == `local` || data.recipient == `clan` || data.recipient == `staff`) && entities[data.playerID] != undefined) {
+                let chatHistory = $(`#chat-history`);
 
-                let isKrewmate = myPlayer.parent.netType == 1 && myPlayer.parent.hasChild(data.myPlayerID);
+                let isKrewmate = myPlayer.parent.netType == 1 && myPlayer.parent.hasChild(data.myPlayerId);
                 let playerClan = entities[data.playerID].clan;
                 let isClanMember = myPlayer.clan != `` && myPlayer.clan != undefined && myPlayer.clan == playerClan && !isPlayer;
                 
@@ -202,51 +200,33 @@ let initSocketBinds = () => {
                 let isMod = staff.mods.includes(data.playerName);
                 let isDev = staff.devs.includes(data.playerName);
 
-                let classRec = `global-chat`;
-                classRec = `${data.recipient}-chat`;
+                let classRec = `${data.recipient}-chat`;
 
-                // Create message data wrappers.
-                let msgWrapper = document.createElement(`span`);
-                let tagWrapper = document.createElement(`span`);
-                let contentWrapper = document.createElement(`span`);
 
-                // Create tag wrappers.
-                let staffTag = document.createElement(`span`);
-                let clanTag = document.createElement(`span`);
-                let krewTag = document.createElement(`span`);
+                let msgDiv = $(`<div>`, {
+                    text: `${(isAdmin ? `[admin] `: isMod ? `[mod] `: isDev ? `[dev] `: ``) + data.playerName}: ${data.message}`,
+                    class: (isAdmin || isMod || isDev) ? `text-mod-color`:
+                    isClanMember ? `text-clan-color`:
+                    isKrewmate ? 
+                        entitites[data.playerId].isCaptain ? `text-danger`:
+                        `text-primary`:
+                        `text-info`
+                });
 
-                // Set the tags and color them.
-                staffTag.html(isAdmin ? `[admin]`: isMod ? `[mod]`: isDev ? `[dev]`: ``);
-                clanTag.html(playerClan ? `[${playerClan}]`: ``);
-                krewTag.html(isKrewmate ? `[krew]`: ``);
-
-                tagWrapper.appendChild(staffTag);
-                tagWrapper.appendChild(clanTag);
-                tagWrapper.appendChild(krewTag);
-
-                if(isAdmin || isMod || isDev) staffTag.addClass(`text-staff`);
-                if(playerClan) clanTag.addClass(`text-warning`);
-                isKrewmate ? entitites[data.playerId].isCaptain ? `text-danger`: `text-primary`: null;
-
-                // Set the content of the message.
-                contentWrapper.html(`${data.playerName}: ${data.message}`);
-
-                // Concatenate both into a wrapper.
-                msgWrapper.appendChild(tagWrapper);
-                msgWrapper.appendChild(contentWrapper);
 
                 // hide message based on what chat is currently selected by the user.
-                if((data.recipient == `global` && !chatOptions.global)
-                || (data.recipient == `local` && !chatOptions.local)
-                || (data.recipient == `clan` && !chatOptions.clan))
-                    msgWrapper.hide();
+                if((data.recipient == `global` && !globalChatOn)
+                || (data.recipient == `local` && !localChatOn)
+                || (data.recipient == `clan` && !clanChatOn)
+                || (data.recipient == `staff` && !staffChatOn))
+                    msgDiv.hide();
 
-                let chatAlerts = document.querySelectorAll(`.chat-alerts`);
-                if(data.recipient == `global` && !chatOptions.global) chatAlerts[2].show();
-                if(data.recipient == `local` && !chatOptions.local) chatAlerts[1].show();
-                if(data.recipient == `clan` && !chatOptions.clan) chatAlerts[0].show();
+                if(data.recipient == `global` && !globalChatOn) $(`#global-chat-alert`).show();
+                else if(data.recipient == `local` && !localChatOn) $(`#local-chat-alert`).show();
+                else if(data.recipient == `clan` && !clanChatOn) $(`#clan-chat-alert`).show();
+                else if(data.recipient == `staff` && !staffChatOn) $(`#staff-chat-alert`).show();
 
-                chatHistory.appendChild(msgWrapper);
+                chatHistory.appendChild(msgDiv);
             }
         });
     });

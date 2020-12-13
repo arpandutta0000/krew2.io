@@ -20,8 +20,8 @@ let setUpKeyboard = renderer => {
 
     // Stop listening when an input or textarea is focused.
     $(`input, textarea`)
-        .bind(`focus`, keyboard.stop_listening())
-        .bind(`blur`, keyboard.listen());
+        .bind(`focus`, () => keyboard.stop_listening())
+        .bind(`blur`, () => keyboard.listen());
 
     // Escape keybind.
     document.onkeyup = event => {

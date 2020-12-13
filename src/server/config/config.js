@@ -5,7 +5,8 @@ const config = {
     port: process.env.NODE_ENV == `prod` ? 443: 8080,
     mode: process.env.NODE_ENV,
     domain: `beta.krew.io`,
-    logging: true
+    logging: true,
+    serverIP: `155.138.228.176`
 }
 
 config.ssl = {

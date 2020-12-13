@@ -53,7 +53,7 @@ global.core = core;
                 type: `update-server`,
                 processId: process.pid,
                 data: {
-                    ip: (DEV_ENV) ? `127.0.0.1`: `155.138.228.176`,
+                    ip: (DEV_ENV) ? `127.0.0.1`: config.serverIP,
                     port: process.env.port,
                     playerCount: Object.keys(core.players).length,
                     maxPlayerCount: 100
