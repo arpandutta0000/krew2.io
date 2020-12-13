@@ -87,21 +87,6 @@ let Config = {
                 spice: 40,
                 silk: 240
             }
-        },
-        {
-            type: 0,
-            x: 350,
-            y: 350,
-            name: `Guinea`,
-            dockRadius: 80,
-            spawnPlayers: true,
-            onlySellOwnShips: false,
-            goodsPrice: {
-                rum: 0,
-                coffee: 0,
-                spice: 0,
-                silk: 0
-            }
         }
     ]
 }

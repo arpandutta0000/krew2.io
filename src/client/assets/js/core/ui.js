@@ -1411,9 +1411,9 @@ var ui = {
                                 "<span class='krewName' style='margin-left:2px;font-size: 13px'></span>" +
                                 '</div>' +
                                 '<div class="grid-middle">' +
-                                '<img src="https://cdn.krew.io/assets/img/medal_' + (tradecount >= 150000 ? 'gold' : tradecount >= 50000 ? 'silver' : 'bronze') + '.png"' + (tradecount >= 12000 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
-                                '<img src="https://cdn.krew.io/assets/img/medal_' + (killcount >= 50 ? 'gold' : killcount >= 20 ? 'silver' : 'bronze') + '.png"' + (killcount >= 10 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
-                                '<img src="https://cdn.krew.io/assets/img/medal_' + (other_lvl === 3 ? 'gold' : other_lvl === 2 ? 'silver' : 'bronze') + '.png"' + (other_lvl > 0 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
+                                '<img src="/assets/img/medal_' + (tradecount >= 150000 ? 'gold' : tradecount >= 50000 ? 'silver' : 'bronze') + '.png"' + (tradecount >= 12000 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
+                                '<img src="/assets/img/medal_' + (killcount >= 50 ? 'gold' : killcount >= 20 ? 'silver' : 'bronze') + '.png"' + (killcount >= 10 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
+                                '<img src="/assets/img/medal_' + (other_lvl === 3 ? 'gold' : other_lvl === 2 ? 'silver' : 'bronze') + '.png"' + (other_lvl > 0 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
                                 '</div>' +
                                 '<div' + (boatsListSortedByGold[scoreIndex].id === myBoat.id ? ' class="text-success grid-right"' : ' class="grid-right"') + '>' + display_gold + '</div>');
                 entry.find('.krewName').text(boatsListSortedByGold[scoreIndex].cN);

@@ -28,7 +28,7 @@
 }
 @font-face {
     font-family: Caribbean;
-    src: url(assets/fonts/Caribbean.ttf);
+    src: url("/assets/fonts/Caribbean.ttf");
    }
 body {
     margin: 0;
@@ -138,6 +138,7 @@ body {
 }
 
 .glowing {
+    border-radius: 5px;
     -webkit-border-radius: 5px;
     -webkit-animation: glowing 1500ms infinite;
     -moz-animation: glowing 1500ms infinite;
@@ -175,7 +176,7 @@ body {
   animation: glow-gold-plus 1s ease-in-out 3 alternate;
 }
 
-@-webkit-keyframes glow-gold-plus {
+@keyframes glow-gold-plus {
   from {
     text-shadow: 0 0 5px #fff,
                  0 0 10px #f0ad4e,
@@ -202,7 +203,7 @@ body {
   animation: glow-gold-minus 1s ease-in-out 3 alternate;
 }
 
-@-webkit-keyframes glow-gold-minus {
+@keyframes glow-gold-minus {
   from {
     text-shadow: 0 0 5px #fff,
                  0 0 10px #f0ad4e,
@@ -619,10 +620,6 @@ a.text-mod-color:hover {
     font-size: 22px;
 }
 
-#toggle-invite-link-button {
-  /* display: none; */
-}
-
 #invite-div {
   padding-top: 15px;
   display: none;
@@ -933,7 +930,7 @@ a.text-mod-color:hover {
 
 .leaderbord-logo{
   width: 100%;
-  background-image: url(/assets/img/logoleaderboard.png);
+  background-image: url("/assets/img/logoleaderboard.png");
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
@@ -1079,7 +1076,7 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     position: absolute;
     right: 0;
     bottom: -30px;
-    background-image: url('assets/img/map.png');
+    background-image: url("/assets/img/map.png");
     border-radius: 5px;
     background-size: contain;
     background-position: center;

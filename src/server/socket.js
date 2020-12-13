@@ -1,7 +1,7 @@
 // Require modules.
 const xssFilters = require(`xss-filters`);
 const axios = require(`axios`);
-const lzString = require(`lz-string`);
+const lzString = require(`../client/assets/js/libs/lz-string.min.js`);
 
 // Server startup config.
 global.cratesInSea = {
@@ -9,10 +9,12 @@ global.cratesInSea = {
     max: 1100
 }
 let { worldsize } = require(`./config/gameConfig.js`);
+
 let reportIPs = [];
+let gameCookies = {}
 
 // Admin panel.
-const config = require(`./config/config.js`);
+let config = require(`./config/config.js`);
 const thugConfig = require(`./config/thugConfig.js`);
 
 // Player allocation.
@@ -48,9 +50,10 @@ log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
 // Configure the socket.
 if(!global.io) {
+    log(`green`, `Global IO is undefined.`)
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
-        key: fs.existsSync(config.ssl.key) ? fs.readFileSync(config.ssl.key): null,
-        cert: fs.existsSync(config.ssl.cert) ? fs.readFileSync(config.ssl.cert): null,
+        key: fs.readFileSync(config.ssl.keyPath),
+        cert: fs.readFileSync(config.ssl.certPath),
         requestCert: false,
         rejectUnauthorized: false
     }): http.createServer();
@@ -69,7 +72,7 @@ const isAlphanumeric = str => {
 const webhook = require(`webhook-discord`);
 let Hook = new webhook.Webhook(process.env.WEBHOOK_URL);
 
-log(`green`, `Socket.IO is running on port ${process.env.port}.`);
+log(`green`, `Socket.IO is listening at port ${process.env.port}.`);
 
 // Define serverside account perms.
 const staff = {
@@ -91,7 +94,7 @@ io.on(`connection`, async socket => {
     // Define the player entity that stores all data for the player.
     let playerEntity;
 
-    let initPlayerSocket = async data => {
+    let initSocketForPlayer = async data => {
         // Player entity already exists, so don't create another one else it will duplicate itself.
         if(playerEntity) return;
 
@@ -1491,9 +1494,8 @@ io.on(`connection`, async socket => {
     });
 
     let createThePlayer = data => {
-        // Insert serverside login get data here.
         data.name = undefined;
-        initPlayerSocket(data);
+        initSocketForPlayer(data);
     }
 
     // Send full world information - force full dta. First snapshot (compress with lz-string).
