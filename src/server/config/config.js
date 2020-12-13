@@ -6,7 +6,13 @@ const config = {
     mode: process.env.NODE_ENV,
     domain: `beta.krew.io`,
     logging: true,
-    serverIP: `155.138.228.176`
+    serverIP: `155.138.228.176`,
+    discord: {
+        chatLogs: `785986912765739039`,
+        reports: `785986728648245269`,
+        commands: `785986872777113610`,
+        footer: `KrewBot | v1.0.0`
+    }
 }
 
 config.ssl = {

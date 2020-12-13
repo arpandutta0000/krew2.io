@@ -1,7 +1,8 @@
 // Require modules.
 const xssFilters = require(`xss-filters`);
 const axios = require(`axios`);
-lzString = require(`../client/assets/js/libs/lz-string.min.js`);
+const lzString = require(`../client/assets/js/libs/lz-string.min.js`);
+const bus = require(`./utils/messageBus.js`);
 
 // Server startup config.
 global.cratesInSea = {
@@ -347,7 +348,7 @@ io.on(`connection`, async socket => {
                     });
 
                     log(`blue`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                    return Hook.warn(`Permanently Ban Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    return bus.emit(`report`, `Permanently Ban Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                 }
                 else if(command == `tempban` && (isAdmin || isMod)) {
                     let tempbanUser = args.shift();
@@ -369,7 +370,7 @@ io.on(`connection`, async socket => {
                     });
 
                     log(`blue`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                    return Hook.warn(`Temporary Ban Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    return bus.emit(`report`, `Temporary Ban Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                 }
                 else if(command == `save` && (isAdmin || isDev)) {
                     playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
@@ -425,7 +426,7 @@ io.on(`connection`, async socket => {
                         player.socket.emit(`showCenterMessage`, `You have been warned...`, 1);
 
                         log(`blue`, `Reporter ${playerEntity.name} reported ${player.name} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        Hook.warn(`Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} for the second time --> kick | ${reportReason ? `Reason: ${reportReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        bus.emit(`report`, `Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} for the second time --> kick | ${reportReason ? `Reason: ${reportReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
 
                         playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
                         return player.socket.disconnect();
@@ -436,7 +437,7 @@ io.on(`connection`, async socket => {
                         playerEntity.socket.emit(`showCenterMessage`, `You reported ${player.name}`, 3, 1e4);
 
                         log(`blue`, `Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        return Hook.warn(`Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} | ${reportReason ? `Reason: ${reportReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                        return bus.emit(`report`, `Second Report --> Kick`, `${getTimestamp()} Reporter ${playerEntity.name} reported ${reportedPlayer} | ${reportReason ? `Reason: ${reportReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                     }
                 }
                 else if(command == `mute` && (isAdmin || isMod)) {
@@ -451,7 +452,7 @@ io.on(`connection`, async socket => {
                     playerEntity.socket.emit(`showCenterMessage`, `You muted ${player.name}`, 3);
 
                     log(`blue`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                    return Hook.warn(`Muted Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    return bus.emit(`report`, `Muted Player`, `${getTimestamp()} Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | ${muteReason ? `Reason: ${muteReason} | `: ``}IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                 }
             }
         }
@@ -466,6 +467,7 @@ io.on(`connection`, async socket => {
                     recipient: `global`,
                     message: charLimit(msg, 150)
                 });
+                bus.emit(`msg`, playerEntity.id, playerEntity.name, charLimit(msg, 150));
             }
             else if(msgData.recipient == `local` && entities[playerEntity.parent.id]) {
                 entities[playerEntity.parent.id].children.forEach(player => {

@@ -11,11 +11,14 @@ global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
 (() => {
-    // Master cluster! Serves the client.
+    // Master cluster! Serves the site.
     if(cluster.isMaster) {
         // Start server.
         let server = require(`./server.js`);
         server.app.workers = {}
+
+        // Start bot.
+        let discordBot = require(`./bot.js`);
 
         // Development environment.
         if(DEV_ENV) {
