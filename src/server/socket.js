@@ -596,8 +596,8 @@ io.on(`connection`, async socket => {
     socket.on(`removeAllCrates`, () => {
         for(let i in entities) if(entities[i].type == 0) core.removeEntity(core.entities[i]);
     });
-    socket.on(`minCratesInSea`, amount => cratesInSea.min = amount);
-    socket.on(`maxCratesInSea`, amount => cratesInSea.max = amount);
+    socket.on(`minAmountCratesInSea`, amount => cratesInSea.min = amount);
+    socket.on(`maxAmountCratesInSea`, amount => cratesInSea.max = amount);
 
     socket.on(`departure`, departureCounter => {
         // Check if player who sends exitIslandc ommand is docked at island.

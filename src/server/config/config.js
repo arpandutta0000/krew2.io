@@ -8,9 +8,17 @@ const config = {
     logging: true,
     serverIP: `155.138.228.176`,
     discord: {
-        chatLogs: `785986912765739039`,
-        reports: `785986728648245269`,
-        commands: `785986872777113610`,
+        prefix: `k!`,
+        channels: {
+            chatLogs: `785986912765739039`,
+            reports: `785986728648245269`,
+            commands: `785986872777113610`
+        },
+        roles: {
+            admin: `255703060020592641`,
+            mod: `257153880029134848`,
+            dev: `255703028160528384`
+        },
         footer: `KrewBot | v1.0.0`
     }
 }
