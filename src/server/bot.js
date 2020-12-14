@@ -13,6 +13,9 @@ const client = new Discord.Client({
 client.on(`ready`, () => {
     log(`green`, `Connected to Discord.`);
 
+    client.user.setActivity(`Krew.io`);
+    client.channels.get(config.discord.chatLogs).setTopic(`Server has been up since ${new Date()}.`);
+
     let sEmbed = new Discord.RichEmbed()
         .setAuthor(`Server Start`)
         .setColor(0x00ff00)
@@ -25,6 +28,7 @@ client.on(`ready`, () => {
 bus.on(`msg`, (id, name, message) => {
     client.channels.get(config.discord.chatLogs).send(`[${id}] ${name} » ${message}`);
 });
+
 bus.on(`report`, (title, description) => {
     let sEmbed = new Discord.RichEmbed()
         .setAuthor(title)
@@ -33,16 +37,6 @@ bus.on(`report`, (title, description) => {
         .setTimestamp(new Date())
         .setFooter(config.discord.footer);
     client.channels.get(config.discord.reports).send(sEmbed);
-});
-
-process.on(`SIGINT`, () => {
-    let sEmbed = new Discord.RichEmbed()
-        .setAuthor(`Server Stop`)
-        .setColor(0xff0000)
-        .setDescription(`Disconnected from Discord.`)
-        .setTimestamp(new Date())
-        .setFooter(config.discord.footer);
-    client.channels.get(config.discord.chatLogs).send(sEmbed);
 });
 
 client.login(process.env.DISCORD_TOKEN).catch(err => log(`red`, `Failed to connect to Discord.`));
