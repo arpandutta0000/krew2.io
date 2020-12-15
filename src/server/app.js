@@ -52,16 +52,21 @@ global.core = core;
         let game = require(`./game/game.js`);
 
         setInterval(() => {
-            process.send({
-                type: `update-server`,
-                processId: process.pid,
-                data: {
-                    ip: (DEV_ENV) ? `127.0.0.1`: config.serverIP,
-                    port: process.env.port,
-                    playerCount: Object.keys(core.players).length,
-                    maxPlayerCount: 100
-                }
-            });
+            try {
+                process.send({
+                    type: `update-server`,
+                    processId: process.pid,
+                    data: {
+                        ip: (DEV_ENV) ? `127.0.0.1`: config.serverIP,
+                        port: process.env.port,
+                        playerCount: Object.keys(core.players).length,
+                        maxPlayerCount: 100
+                    }
+                });
+            }
+            catch(err) {
+                log(`red`, err);
+            }
         });
 
         log(`green`, `Worker ${process.pid} started.`);

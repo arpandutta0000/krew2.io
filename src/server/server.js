@@ -64,9 +64,7 @@ let server = config.port == 8080 ? http.createServer(app): https.createServer({
     rejectUnauthorized: false
 }, app);
 
-global.io = process.env.NODE_ENV == `test-server` ? require(`socket.io`)(server, { origins: `*:*` }): require(`socket.io`)(server, { origins: `*:*` }).listen(2001);
-
-console.log(global.io);
+global.io = process.env.NODE_ENV == `test-server` ? require(`socket.io`)(server, { origins: `*:*` }): require(`socket.io`)(server, { origins: `*:*` }).listen(2000);
 
 let httpServer = express();
 httpServer.get(`*`, (req, res, next) => res.redirect(`https://${req.headers.host + req.url}`));

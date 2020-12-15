@@ -49,8 +49,7 @@
         "path": "^0.12.7",
         "pm2": "^4.5.0",
         "rollbar": "^2.19.4",
-        "socket.io": "^3.0.4",
-        "webhook-discord": "^3.7.7",
+        "socket.io": "^2.2.0",
         "webpack": "^4.44.2",
         "xss-filters": "^1.2.7"
     }
