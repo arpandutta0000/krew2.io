@@ -1,6 +1,6 @@
 let events = {}
 
-module.exports.getSnapShot = force => {
+module.exports.getSnapshot = force => {
     let snap = {}
     for(let i in entities) if(entities.hasOwnProperty(i)) snap[i] = entities[i].getSnap(force);
     return snap;
