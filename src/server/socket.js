@@ -56,7 +56,14 @@ if(!global.io) {
         rejectUnauthorized: false
     }): http.createServer();
 
-    global.io = require(`socket.io`)(server, { origins: `*:*` });
+    console.log(server);
+
+    global.io = require(`socket.io`)(server, {
+        cors: {
+            origin: config.mode == `dev` ? `http://localhost:8080`: `https://${config.domain}`,
+            methods: [`GET`, `POST`]
+        }
+    });
     server.listen(process.env.port);
 }
 

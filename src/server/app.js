@@ -18,7 +18,7 @@ global.core = core;
         server.app.workers = {}
 
         // Start bot.
-        let discordBot = require(`./bot.js`);
+        // let discordBot = require(`./bot.js`);
 
         // Development environment.
         if(DEV_ENV) {
