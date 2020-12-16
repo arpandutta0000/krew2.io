@@ -4,11 +4,10 @@ const axios = require(`axios`);
 const lzString = require(`../client/assets/js/lz-string.min.js`);
 const bus = require(`./utils/messageBus.js`);
 
-// Server startup config.
-global.cratesInSea = {
-    min: 480,
-    max: 1100
-}
+// Server crates config.
+global.minAmountCratesInSea = 480;
+global.maxAmountCratesInSea = 1100;
+
 let { worldsize } = require(`./config/gameConfig.js`);
 
 let reportIPs = [];
