@@ -1,13 +1,9 @@
-/*
-This is the Express app setup file. It controls what is served from the server.
-Note that the app must be exported to be used by socket.io.
-*/
-
 let config = require(`./config/config.js`);
 let log = require(`./utils/log.js`);
 
-const fs = require(`fs`);
 let express = require(`express`);
+
+const fs = require(`fs`);
 const User = require(`./models/user.model.js`);
 
 let https = require(`https`);
@@ -19,7 +15,7 @@ let compression = require(`compression`);
 let flash = require(`connect-flash`);
 
 let Rollbar = require(`rollbar`);
-let rollbar = new Rollbar(`fa0cd86c64f446c4bac992595be24831`);
+let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
 const bodyParser = require(`body-parser`);
 const dotenv = require(`dotenv`).config();
@@ -47,13 +43,13 @@ app.use(compression());
 app.use(flash());
 
 app.use(bodyParser.json({ limit: `50mb` }));
-app.use(bodyParser.urlencoded({ limit: `5mb`, extended: true }));
+app.use(bodyParser.urlencoded({ limit: `50mb`, extended: true }));
 
 app.set(`views`, path.resolve(__dirname, `views`));
 app.set(`view engine`, `ejs`);
 
 // Serve static files.
-app.use(express.static(`${__dirname}/../../dist`));
+app.use(express.static(config.staticDir));
 app.use(`/ads.txt`, express.static(`ads.txt`));
 
 // Create server.
@@ -67,7 +63,7 @@ let server = config.port == 8080 ? http.createServer(app): https.createServer({
 global.io = process.env.NODE_ENV == `test-server` ? require(`socket.io`)(server, { origins: `*:*` }): require(`socket.io`)(server, { origins: `*:*` }).listen(2000);
 
 let httpServer = express();
-httpServer.get(`*`, (req, res, next) => res.redirect(`https://${req.headers.host + req.url}`));
+httpServer.get(`*`, (req, res) => res.redirect(`https://${req.headers.host + req.url}`));
 httpServer.listen(80);
 
 // Get servers.

@@ -41,6 +41,7 @@ config.servers = config.mode == `dev` ?
     `155.138.228.176:89`
 ]
 
+config.staticDir = config.mode == `prod` ? `${__dirname}/../client/`: `${__dirname}/../../dist/`;
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,
