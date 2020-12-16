@@ -1,8 +1,9 @@
 // Require modules.
 const xssFilters = require(`xss-filters`);
 const axios = require(`axios`);
-const lzString = require(`../client/assets/js/lz-string.min.js`);
 const bus = require(`./utils/messageBus.js`);
+
+global.lzString = require(`../client/assets/js/lz-string.min.js`);
 
 // Server crates config.
 global.minAmountCratesInSea = 480;
