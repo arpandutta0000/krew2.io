@@ -1,7 +1,7 @@
 const dotenv = require(`dotenv`).config();
 
 const config = {
-    appName: `Krew.io`,
+    appname: `Krew.io`,
     port: process.env.NODE_ENV == `prod` ? 443: 8080,
     mode: process.env.NODE_ENV,
     domain: `beta.krew.io`,
@@ -20,8 +20,27 @@ const config = {
             dev: `255703028160528384`
         },
         footer: `KrewBot | v1.0.0`
-    }
+    },
 }
+
+// In development, we don't serve the production server list.
+config.servers = config.mode == `dev` ?
+[`localhost:${config.port}`]:
+
+// Otherwise, using the official server list.
+[
+    `155.138.228.176:80`,
+    `155.138.228.176:81`,
+    `155.138.228.176:82`,
+    `155.138.228.176:83`,
+    `155.138.228.176:84`,
+    `155.138.228.176:85`,
+    `155.138.228.176:86`,
+    `155.138.228.176:87`,
+    `155.138.228.176:88`,
+    `155.138.228.176:89`
+]
+
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,

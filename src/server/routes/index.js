@@ -1,7 +1,14 @@
-const express = require(`express`);
-let router = new express.Router();
+// routes/index.js
 
-// GET home page.
-router.get(`/`, (req, res, next) => res.render(`index.ejs`));
+var express = require('express');
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', function (req, res, next) {
+    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test-server') {
+        return res.render('index_dist.ejs');
+    }
+    res.render('index.ejs');
+});
 
 module.exports = router;

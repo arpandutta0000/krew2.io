@@ -47,7 +47,7 @@ let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
 // Configure the socket.
-if(!global.io) {
+if(global.io === undefined) {
     log(`green`, `Global IO is undefined.`)
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
         key: fs.readFileSync(config.ssl.keyPath),
@@ -61,16 +61,16 @@ if(!global.io) {
 }
 
 // Alphanumeric string checker.
-const isAlphanumeric = str => {
+const isAlphaNumeric = str => {
     let regex = /^[a-z0-9]+$/i;
-    return regex.test(str);
+    return regex.test(str.toString().toLowerCase());
 }
 
 log(`green`, `Socket.IO is listening at port ${process.env.port}.`);
 
 // Define serverside account perms.
 const staff = {
-    admins: [`devclied`, `LeoLeoLeo`, `DamienVesper`, `ITSDABOMB`, `harderman`],
+    admins: [`devclied`, `DamienVesper`, `LeoLeoLeo`],
     mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
     devs: [`Yaz_`]
 }
@@ -80,17 +80,18 @@ io.on(`connection`, async socket => {
     let krewioData;
 
     // Get socket ID (player ID).
-    let socketID = serializeId(socket.id);
+    let socketId = serializeId(socket.id);
 
     // Let the client know the socket ID and that we have succesfully established a connection.
-    socket.emit(`handshake`, { socketID });
+    socket.emit(`handshake`, { socketId });
 
     // Define the player entity that stores all data for the player.
     let playerEntity;
 
     let initSocketForPlayer = async data => {
-        // Player entity already exists, so don't create another one else it will duplicate itself.
-        if(playerEntity) return;
+        // If the player entity already exists, don't create another one else it will duplicate itself.
+        // If the data is undefined (reconnect on disconnect), ignore the request.
+        if(playerEntity || !data) return;
 
         // Check if the player IP is in the ban list.
         let isIPBanned = await Ban.findOne({ IP: socket.handshake.address });
@@ -124,11 +125,11 @@ io.on(`connection`, async socket => {
         // Check if cookie has been blocked.
         if(data.cookie != undefined && data.cookie != ``) {
             if(Object.values(gameCookies).includes(data.cookie)) return log(`cyan`, `Trying to spam multiple players... ${socket.handshake.address}.`);
-            gameCookies[socketID] = data.cookie;
+            gameCookies[socketId] = data.cookie;
         }
 
         // Create player in the world.
-        data.socketID = socketID;
+        data.socketId = socketId;
         playerEntity = core.createPlayer(data);
         playerEntity.socket = socket;
 
@@ -502,7 +503,7 @@ io.on(`connection`, async socket => {
             }
         });
 
-        socket.emit(`playerNames`, playerNames, socketID);
+        socket.emit(`playerNames`, playerNames, socketId);
 
         socket.on(`changeWeapon`, index => {
             index = xssFilters.inHTMLData(index);

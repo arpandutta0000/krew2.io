@@ -1,75 +1,97 @@
-const config = require(`./config/config.js`);
-
-const cluster = require(`cluster`);
-const log = require(`./utils/log.js`);
-
-const numCPUs = require(`os`).cpus().length;
-
-let core = require(`../../_compiled/core.js`);
-global.TEST_ENV = process.env.NODE_ENV == `test`;
+const cluster = require('cluster');
+const numCPUs = 3;
+var core = require('./core/core_concatenated.js');
+global.TEST_ENV = process.env.NODE_ENV === 'test';
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
-(() => {
-    // Master cluster! Serves the site.
-    if(cluster.isMaster) {
-        // Start server.
-        let server = require(`./server.js`);
-        server.app.workers = {}
+var mongoUtil = require( './core/core_mongo_connection' );
 
-        // Start bot.
-        // let discordBot = require(`./bot.js`);
+// open a single connection to mongo (and keep it open) for all transactions
+mongoUtil.connectToServer( function( err, client ) {
+    if (err) console.log(err);
+    if (cluster.isMaster) { // master cluster! runs the website
+        // start server
+        var server = require('./server.js');
 
-        // Development environment.
-        if(DEV_ENV) {
+        server.app.workers = {};
+
+        // This will create just one server for better testing and monitoring
+        if (DEV_ENV){
             process.env.port = 2001;
-
-            let worker = cluster.fork();
-            worker.on(`message`, msg => {
-                if(msg.type == `update-server`) {
+            var worker = cluster.fork();
+            worker.on('message', (msg) => {
+                if (msg.type === 'update-server') {
                     const { data, processId } = msg;
                     server.app.workers[processId] = data;
                 }
             });
-            return log(`green`, `Creating a worker in development: ${server.app.workers}.`);
+            console.log("creating a worker in DEV_ENV", server.app.workers)
+            return;
         }
-        // Fork worker processors.
-        for(let i = 0; i < numCPUs; i++) {
-            process.env.port = 2001 + i;
 
-            let worker = cluster.fork();
-            worker.on(`message`, msg =>  {
-                if(msg.type == `update-server`) {
+        // fork worker processors based on the number of cores the CPU has
+        for (var i = 0; i < numCPUs; i++) {
+
+            process.env.port = 2000 + i + 1;
+
+            var worker = cluster.fork();
+            worker.on('message', (msg) => {
+                if (msg.type === 'update-server') {
                     const { data, processId } = msg;
                     server.app.workers[processId] = data;
                 }
             });
         }
-    }
-    else {
-        // Game servers. Serve each individual socket connection.
-        let socket = require(`./socket.js`);
-        let game = require(`./game/game.js`);
+    } else {// gameServers
+        // let MemwatchFactoryFunction = require('./memwatch');
 
-        setInterval(() => {
-            try {
-                process.send({
-                    type: `update-server`,
-                    processId: process.pid,
-                    data: {
-                        ip: (DEV_ENV) ? `127.0.0.1`: config.serverIP,
-                        port: process.env.port,
-                        playerCount: Object.keys(core.players).length,
-                        maxPlayerCount: 100
-                    }
-                });
+        // start socket
+        var socket = require('./socketForClients.js');
+
+        // start game logic
+        var game = require('./game/game.js');
+        var Rollbar = require('rollbar');
+        var rollbar = new Rollbar('fa0cd86c64f446c4bac992595be24831');
+
+        // MemwatchFactoryFunction(rollbar);
+
+        process.on('uncaughtException', function (e) {
+            if (!DEV_ENV) {
+                console.log(e);
+                return rollbar.error(e);
             }
-            catch(err) {
-                log(`red`, err);
-            }
+
+            console.log(e);
         });
 
-        log(`green`, `Worker ${process.pid} started.`);
-        log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
+        try {
+            var everySecond = setInterval(function () {
+                try {
+                    // this.socket.emit(msgType, data);
+                    process.send({
+                        type: 'update-server',
+                        processId: process.pid,
+                        data: {
+                            ip: (DEV_ENV) ? '192.168.1.35' : '155.138.228.176',
+                            port: process.env.port,
+                            playerCount: Object.keys(core.players).length,
+                        },
+                    });
+                }
+                catch (err) {
+                    console.log(err, err.stack);
+                    ige.log('emit error at', msgType, data, err);
+                }
+
+            }, 1000);
+        }
+
+        catch (e) {
+            console.log('e', e);
+        }
+
+        console.log(`Worker ${process.pid} started`);
+        console.log('Server has been up since: ', new Date().toISOString().slice(0, 10));
     }
-})();
+} );

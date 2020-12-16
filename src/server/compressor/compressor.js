@@ -1,37 +1,49 @@
-let events = {}
+var events = {};
 
-module.exports.getSnapshot = force => {
-    let snap = {}
-    for(let i in entities) if(entities.hasOwnProperty(i)) snap[i] = entities[i].getSnap(force);
+// returns a full snapshot of the world
+// force = force the entities to return snapshot, even if they are usually disabled (stuff like pickups)
+exports.getSnapshot = function (force) {
+    var snap = {};
+    for (e in entities) {
+        if (entities.hasOwnProperty(e)) {
+            snap[e] = entities[e].getSnap(force);
+        }
+    }
+
     return snap;
-}
-module.exports.getDelta = () => {
-    let delta = {}
-    for(let i in entities) {
-        let entity = entities[i];
-        let d = entity.getDelta();
-        if(d) delta[i] = d;
+};
+
+// returns a delta snapshot
+exports.getDelta = function () {
+    var delta = {};
+    for (e in entities) {
+        if (entities.hasOwnProperty(e)) {
+            var d = entities[e].getDelta();
+            if (d) {delta[e] = d;}
+        }
     }
 
-    if(!isEmpty(events)) {
+    if (!isEmpty(events)) {
         Object.assign(delta, events);
-        events = {}
-        module.exports.events = events;
-    }
+        events = {};
+        exports.events = events;
+    };
 
-    if(isEmpty(delta)) delta = undefined;
+    if (isEmpty(delta)) {delta = undefined;}
+
     return delta;
-}
+};
 
-let isEmpty = obj => {
-    // Check if object is completely empty.
-    if(Object.keys(obj).length == 0 && obj.constructor == Object) return true;
+var isEmpty = function (obj) {
+    // check if object is completely empty
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) {return true;}
 
-    // Check of object is full of undefined.
-    for(let i in obj) {
-        if(obj.hasOwnProperty(i) && obj[i] != undefined) return false;
+    // check if object is full of undefined
+    for (p in obj) {
+        if (obj.hasOwnProperty(p) && obj[p] !== undefined) {return false;}
     }
-    return true;
-}
 
-module.exports.events = events;
+    return true;
+};
+
+exports.events = events;
