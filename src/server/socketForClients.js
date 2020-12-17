@@ -25,8 +25,8 @@ filter.addWords(...newBadWords);
 // configure socket
 if(global.io === undefined) {
   let server = process.env.NODE_ENV === 'prod'? https.createServer({
-       key: fs.readFileSync('/etc/letsencrypt/live/krew.io/privkey.pem'),
-       cert: fs.readFileSync('/etc/letsencrypt/live/krew.io/fullchain.pem'),
+       key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
+       cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
        requestCert: false,
        rejectUnauthorized: false
       }) : http.createServer();
