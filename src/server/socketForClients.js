@@ -650,7 +650,7 @@ io.on(`connection`, async socket => {
                         boat.shipState = 4;
                         boat.lastMoved = new Date();
                         boat.recruiting = true;
-                        boat.dockCountdown = undefined;
+                        boat.dock_countdown = undefined;
 
                         if(departureCounter == 1) {
                             boat.departureTime = 25;
@@ -1032,7 +1032,7 @@ io.on(`connection`, async socket => {
 
         // When ship enters docking area.
         socket.on(`dock`, () => {
-            if(playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.dockCountdown = new Date();
+            if(playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.dock_countdown = new Date();
         });
 
         // When ship docks completely (anchors) in the island.

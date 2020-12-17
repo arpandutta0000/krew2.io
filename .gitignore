@@ -117,6 +117,6 @@ dist
 
 # Autocompiled files
 dist/
-_compiled/
+src/server/core/core_concatenated.js
 logs/
 package-lock.json

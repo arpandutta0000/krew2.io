@@ -24,7 +24,7 @@ client.on(`ready`, () => {
         .setDescription(`Succesfully connected to Discord.`)
         .setTimestamp(new Date())
         .setFooter(config.discord.footer);
-    client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
+    if(config.mode == `prod`) client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
 });
 
 bus.on(`msg`, (id, name, message) => {
