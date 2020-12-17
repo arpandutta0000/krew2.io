@@ -1037,7 +1037,7 @@ io.on(`connection`, async socket => {
 
         // When ship docks completely (anchors) in the island.
         socket.on(`anchor`, () => {
-            if(playerEntity.parent.dock_countDown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
+            if(playerEntity.parent.dock_countdown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
         });
 
         // When player buys an item.
