@@ -554,7 +554,7 @@ io.on(`connection`, async socket => {
                 await User.updateOne({ name: playerEntity.name }, { highscore: playerEntity.gold });
             }
 
-            if(playerEntity.parent.netType == 1 && playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3 && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHP) {
+            if(playerEntity.parent.netType == 1 && playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3 && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
                 log(`magenta`, `Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Make the ship a one-hitter and remove it from the game after fifteen seconds.
