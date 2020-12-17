@@ -73,7 +73,7 @@ var initSocketBinds = function () {
     socket.emit('createPlayer', {
       boatId: getUrlVars().bid,
       token: ui.clientAccessToken,
-      name: `DamienVesper`,
+      name: ui.username === undefined ? undefined : ui.username,
       spawn: ui.setSpawnPlace(),
       // TODO: fix session token (so players can't join with multiple seadogs)
       // cookie: sessionCookie,
