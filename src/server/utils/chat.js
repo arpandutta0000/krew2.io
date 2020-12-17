@@ -87,4 +87,12 @@ let mutePlayer = playerEntity => {
     playerEntity.lastMessageSentAt = new Date(now.getTime() + 15e3);
 }
 
-module.exports = { isSpamming, mutePlayer }
+let charLimit = (text, chars, suffix) => {
+    chars = chars || 140;
+    suffix = suffix || ``;
+    text = (`` + text).replace(/(\t|\n)/gi, ``).replace(/\s\s/gi, ` `);
+    
+    if(text.length > chars) return text.slice(0, chars - suffix.length).replace(/(\.|\,|:|-)?\s?\w+\s?(\.|\,|:|-)?$/, suffix);
+}
+
+module.exports = { isSpamming, mutePlayer, charLimit }

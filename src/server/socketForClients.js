@@ -12,7 +12,8 @@ lzString = require(`./../client/assets/js/lz-string.min`);
 // Utils.
 let log = require(`./utils/log.js`);
 let md5 = require(`./utils/md5.js`);
-let { isSpamming, mutePlayer } = require(`./utils/spam.js`);
+let { isSpamming, mutePlayer, charLimit } = require(`./utils/chat.js`);
+let bus = require(`./utils/messageBus.js`);
 
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
