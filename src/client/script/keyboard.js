@@ -240,12 +240,14 @@ var setUpKeybinds = function () {
         keys: 'space',
         on_keydown: function () {
             keys_jump = true;
-            myPlayer.jump_count += 1;
+            myPlayer.jump_count++;
+
             // code for christmas event
-            // var playerPosition = myPlayer.geometry.getWorldPosition();
-            // if (playerPosition.x >= 850 && playerPosition.x <= 870 && playerPosition.z >= 850 && playerPosition.z <= 870 && myPlayer.jump_count < 1000){
-            //    socket.emit('christmas')
-            // }
+            var playerPosition = myPlayer.geometry.getWorldPosition();
+
+            if (playerPosition.x >= 850 && playerPosition.x <= 870 && playerPosition.z >= 850 && playerPosition.z <= 870 && myPlayer.jump_count < 1000){
+               socket.emit('christmas')
+            }
             if (myPlayer.jump_count === 50){
                 ui.showCenterMessage("Jumping Hero! New quest available", 3)
             }

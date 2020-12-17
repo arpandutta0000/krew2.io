@@ -94,6 +94,8 @@ if(TEST_ENV) {
 const reportedIps = [];
 const gameCookies = {};
 
+let lastJumpCount = 1;
+
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
     let krewioData;
@@ -544,7 +546,7 @@ io.on(`connection`, async socket => {
 
         // Fired when player disconnects from the game.
         socket.on(`disconnect`, async data => {
-            log(`magenta`, `Player: ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`magenta`, `Player ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             if(!DEV_ENV) delete gameCookies[playerEntity.id];
 
             if(playerEntity.isLoggedIn && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
@@ -554,7 +556,7 @@ io.on(`connection`, async socket => {
                 await User.updateOne({ name: playerEntity.name }, { highscore: playerEntity.gold });
             }
 
-            if(playerEntity.parent.netType == 1 && playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3 && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
+            if(playerEntity.parent.netType == 1 && (playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
                 log(`magenta`, `Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Make the ship a one-hitter and remove it from the game after fifteen seconds.
@@ -575,7 +577,7 @@ io.on(`connection`, async socket => {
                     // If the player was on a boat, physically delete it from the boat.
                     if(playerEntity.parent.netType == 1) {
                         playerEntity.parent.updateProps();
-                        if(Object.keys(playerEntity.parent.children).length == 0) core.removeEntity(playerEntity.parent());
+                        if(Object.keys(playerEntity.parent.children).length == 0) core.removeEntity(playerEntity.parent);
                     }
                 }
             }
@@ -1502,6 +1504,18 @@ io.on(`connection`, async socket => {
                     }
                 }
             }
+        });
+
+        socket.on(`christmas`, () => {
+            if(lastJumpCount == playerEntity.jump_count) {
+                log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                return playerEntity.socket.disconnect();
+            }
+
+            playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
+            playerEntity.gold += 10;
+ 
+            lastJumpCount = playerEntity.jump_count;
         });
     }
 

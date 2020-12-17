@@ -647,8 +647,8 @@ $(document).ready(function () {
     loader.loadObjWithMtl('./assets/models/spyglass.obj');
 
     // christmas tree & snowman
-    // loader.loadObjWithMtl('./assets/models/elka.obj');
-    // loader.loadObjWithMtl('./assets/models/snowman.obj');
+    loader.loadObjWithMtl('./assets/models/elka.obj');
+    loader.loadObjWithMtl('./assets/models/snowman.obj');
 
     loader.loadModel('./assets/models/ships/raft.obj');
     loader.loadModel('./assets/models/ships/trader.obj');
