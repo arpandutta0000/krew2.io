@@ -324,8 +324,8 @@ io.on(`connection`, async socket => {
                             let player = core.boats.find(boat => boat.crewName == user);
                             if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
-                            log(`blue`, `ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainID} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                            output = player.captainID;
+                            log(`blue`, `ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainId} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                            output = player.captainId;
                         }
                         return playerEntity.socket.emit(`showCenterMessage`, output, 4, 1e4);
                     }
@@ -605,7 +605,7 @@ io.on(`connection`, async socket => {
 
                     // Make sure that the player is the captain of the krew.
                     let boat = playerEntity.parent;
-                    if(core.boats[boat.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainID == playerEntity.id) {
+                    if(core.boats[boat.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainId == playerEntity.id) {
                         if(krewioData) krewioService.save(krewioData.user, { krewname: name }).then(data => krewioData = data);
                         core.boats[boat.id].crewName = name;
                     }
@@ -1037,7 +1037,7 @@ io.on(`connection`, async socket => {
 
         // When ship docks completely (anchors) in the island.
         socket.on(`anchor`, () => {
-            if(playerEntity.parent.dockCountdown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.aprent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
+            if(playerEntity.parent.dock_countDown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
         });
 
         // When player buys an item.
