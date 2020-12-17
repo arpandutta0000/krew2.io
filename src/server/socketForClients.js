@@ -1177,7 +1177,7 @@ io.on(`connection`, async socket => {
                 if(!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not in an island.`));
 
                 for(let i in core.itemTypes) {
-                    let itemProp = Math.random().toFixed(2);
+                    let itemProb = Math.random().toFixed(2);
 
                     if(playerEntity.itemId == core.itemTypes[i].id || (playerEntity.checkedItemsList && playerEntity.rareItemsFound.includes(core.itemTypes[i].id))) itemProb = 0;
                     if(playerEntity.checkedItemsList && !playerEntity.rareItemsFound.includes(core.itemTypes[i].id)) itemProb = 1;
