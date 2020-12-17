@@ -1192,7 +1192,7 @@ io.on(`connection`, async socket => {
                         if(!playerEntity.checkedItemsList && core.itemTypes[i].rarity != 1) playerEntity.rareItemsFound.push(core.itemTypes[i].id);
                         items[i].purchasable = false;
 
-                        if(playerEntity.gold >= item[i].price) items[i].purchasable = true;
+                        if(playerEntity.gold >= items[i].price) items[i].purchasable = true;
                     }
                 }
                 playerEntity.checkedItemsList = true;
