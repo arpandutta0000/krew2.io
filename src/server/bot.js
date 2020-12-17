@@ -6,6 +6,7 @@ const { exec } = require(`child_process`);
 const os = require(`os`);
 
 const bus = require(`./utils/messageBus.js`);
+const { discordFilter } = require(`./utils/chat.js`);
 
 const client = new Discord.Client({
     disableEveryone: true,
@@ -28,6 +29,7 @@ client.on(`ready`, () => {
 });
 
 bus.on(`msg`, (id, name, message) => {
+    message = discordFilter(message);
     client.channels.get(config.discord.channels.chatLogs).send(`[${id}] ${name} » ${message}`);
 });
 

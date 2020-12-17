@@ -96,4 +96,12 @@ let charLimit = (text, chars, suffix) => {
     return text;
 }
 
-module.exports = { isSpamming, mutePlayer, charLimit }
+let discordFilter = message => {
+    return message
+        .replace(`\``, `\\\``)
+        .replace(`||`, `\\\|\\\|`)
+        .replace(`_`, `\\_`)
+        .replace(`*`, `\\*`);
+}
+
+module.exports = { isSpamming, mutePlayer, charLimit, discordFilter }
