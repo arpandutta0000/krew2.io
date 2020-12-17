@@ -258,8 +258,8 @@ Player.prototype.logic = function (dt) {
     // collisions (movement restriction when on boat and not anchored/docked yet)
     if (this.parent) {
         if (this.parent.netType === 5 || this.parent.shipState === 3 || this.parent.shipState === -1) {
-            this.velocity.x *= 20;
-            this.velocity.z *= 20;
+            this.velocity.x *= 2;
+            this.velocity.z *= 2;
         }
 
         if (this.parent.netType !== 5 && this.parent.shipState !== 3 && this.parent.shipState !== 2 && this.parent.shipState !== -1 && this.parent.shipState !== 4) {
