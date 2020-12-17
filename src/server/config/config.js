@@ -20,7 +20,7 @@ const config = {
             dev: `255703028160528384`
         },
         footer: `KrewBot | v1.0.0`
-    },
+    }
 }
 
 // In development, we don't serve the production server list.

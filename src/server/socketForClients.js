@@ -264,7 +264,6 @@ io.on(`connection`, async socket => {
                 let args = msgData.message.toString().slice(2).split(/+/g);
                 let command = args.shift();
 
-
                 // If the user has not authenticated, only give them access to login command.
                 if(!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                     let pwd = await md5(args[0]);
@@ -478,7 +477,7 @@ io.on(`connection`, async socket => {
 
                 if(msgData.recipient == `global`) {
                     io.emit(`chat message`, {
-                        playerID: playerEntity.id,
+                        playerId: playerEntity.id,
                         playerName: playerEntity.name,
                         recipient: `global`,
                         message: charLimit(msg, 150)

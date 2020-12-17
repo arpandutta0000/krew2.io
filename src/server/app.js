@@ -5,11 +5,7 @@ global.TEST_ENV = process.env.NODE_ENV === 'test';
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
-var mongoUtil = require( './core/core_mongo_connection' );
 
-// open a single connection to mongo (and keep it open) for all transactions
-mongoUtil.connectToServer( function( err, client ) {
-    if (err) console.log(err);
     if (cluster.isMaster) { // master cluster! runs the website
         // start server
         var server = require('./server.js');
@@ -47,6 +43,7 @@ mongoUtil.connectToServer( function( err, client ) {
         // let MemwatchFactoryFunction = require('./memwatch');
 
         // start socket
+        var bot = require(`./bot.js`);
         var socket = require('./socketForClients.js');
 
         // start game logic
@@ -94,4 +91,3 @@ mongoUtil.connectToServer( function( err, client ) {
         console.log(`Worker ${process.pid} started`);
         console.log('Server has been up since: ', new Date().toISOString().slice(0, 10));
     }
-} );

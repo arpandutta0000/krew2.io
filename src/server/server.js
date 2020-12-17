@@ -95,7 +95,7 @@ const mongoose = require(`mongoose`);
 mongoose.connect(`mongodb://localhost:27017/localKrewDB`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => console.log(`User authentication has connected to database.`));
+}).then(() => log(`green`, `User authentication has connected to database.`));
 
 const passport = require(`passport`);
 
