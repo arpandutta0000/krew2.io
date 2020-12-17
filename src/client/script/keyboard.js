@@ -278,6 +278,7 @@ var setUpKeybinds = function () {
                 (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
                 $('#docking-modal-button').hasClass('enabled')
             ) {
+                ui.playAudioFile(false,'dock');
                 setUpIslandUI();
             }
 

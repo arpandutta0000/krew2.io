@@ -1160,7 +1160,7 @@ io.on(`connection`, async socket => {
                     if((!island.onlySellOwnShips && (core.boatTypes[i].availableAt == undefined || core.boatTypes[i].availableAt.indexOf(island.name) != -1))
                     || (core.boatTypes[i].availableAt && core.boatTypes[i].availableAt.indexOf(island.name) != -1)) {
                         ships[i] = core.boatTypes[i];
-                        ships[i].purchaseable = 
+                        ships[i].purchasable = 
                             playerEntity.gold >= ships[i].price
                             && ships[i].cargoSize >= playerEntity.cargoUsed;
                     }
@@ -1190,9 +1190,9 @@ io.on(`connection`, async socket => {
                         items[i] = core.itemTypes[i];
 
                         if(!playerEntity.checkedItemsList && core.itemTypes[i].rarity != 1) playerEntity.rareItemsFound.push(core.itemTypes[i].id);
-                        items[i].purchaseable = false;
+                        items[i].purchasable = false;
 
-                        if(playerEntity.gold >= item[i].price) items[i].purchaseable = true;
+                        if(playerEntity.gold >= item[i].price) items[i].purchasable = true;
                     }
                 }
                 playerEntity.checkedItemsList = true;
