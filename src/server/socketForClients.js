@@ -1202,7 +1202,7 @@ io.on(`connection`, async socket => {
         });
 
         // Get goods in shop.
-        socket.on(`getGoods`, callback => {
+        socket.on(`getGoodsStore`, callback => {
             if(playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
                 if(core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it sems you dont' have an anchored boat.`);
             }
@@ -1211,7 +1211,7 @@ io.on(`connection`, async socket => {
                 cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                 gold: playerEntity.gold,
                 goods: playerEntity.goods,
-                goodsPrice: core.entnties[playerEntity.parent.anchorIslandId].goodsPrice,
+                goodsPrice: core.entities[playerEntity.parent.anchorIslandId].goodsPrice,
                 cargoUsed: 0
             }
 
