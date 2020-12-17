@@ -1151,7 +1151,7 @@ io.on(`connection`, async socket => {
                 if(!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not at an island.`));
 
                 let cargoUsed = 0;
-                for(let i in playerEntity.goods) cargoused += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
+                for(let i in playerEntity.goods) cargoUsed += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
                 playerEntity.cargoUsed = cargoUsed;
 
                 for(let i in core.boatTypes) {
@@ -1217,7 +1217,7 @@ io.on(`connection`, async socket => {
                 let child = playerEntity.parent.children[i];
                 if(child && child.netType == 0 && core.entities[child.id] != undefined) {
                     let cargoUsed = 0;
-                    for(let i in child.goods) cargoused += child.goods[i] * core.goodsTypes[i].cargoSpace;
+                    for(let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                     data.cargoUsed += cargoUsed;
 
                     if(core.entities[child.id]) core.entities[child.id].cargoUsed = cargoUsed;
