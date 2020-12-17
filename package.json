@@ -3,7 +3,7 @@
     "version": "1.4.2",
     "scripts": {
         "dist-test": "grunt build-dist && cross-env NODE_ENV=\"dev\" node src/server/app.js",
-        "prod": "grunt build-dist && cross-env NODE_ENV=\"production\" forever -o out-history_$(date +%F_%R).log -e err.log src/server/app.js --p=443",
+        "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" forever -o out-history_$(date +%F_%R).log -e err.log src/server/app.js --p=443",
         "dev": "grunt build-dist && cross-env NODE_ENV=\"dev\" grunt dev",
         "test": "cross-env NODE_ENV=\"test\" grunt dev",
         "now-start": "cross-env NODE_ENV=\"test-server\" forever src/server/app-test-server.js",
@@ -53,7 +53,9 @@
         "os": "^0.1.1",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0",
+        "passport-local-mongoose": "^6.0.1",
         "path": "^0.12.7",
+        "request": "^2.88.2",
         "rollbar": "^2.19.4",
         "socket.io": "^1.7.1",
         "validator": "^13.1.17",

@@ -1,81 +1,98 @@
-// Require modules.
-const xssFilters = require(`xss-filters`);
-const axios = require(`axios`);
-const bus = require(`./utils/messageBus.js`);
-
-global.lzString = require(`../client/assets/js/lz-string.min.js`);
-
-// Server crates config.
-global.minAmountCratesInSea = 480;
 global.maxAmountCratesInSea = 1100;
-
-let { worldsize } = require(`./config/gameConfig.js`);
-
-let reportIPs = [];
-let gameCookies = {}
-
-// Admin panel.
-let config = require(`./config/config.js`);
-const thugConfig = require(`./config/thugConfig.js`);
-
-// Player allocation.
+global.minAmountCratesInSea = 480;
+// let serverjs = require('./server')
 let login = require(`./auth/login.js`);
-
-// Profanity filter.
-let Filter = require(`bad-words`), filter = new Filter();
-let additionalBadWords = [`idiot`, `2chOld`, `Yuquan`];
-filter.addWords(...additionalBadWords);
-
-// Server for socket.io.
-let http = require(`http`);
+let xssFilters = require(`xss-filters`);
 let https = require(`https`);
-
-// Mongoose Models
-const User = require(`./models/user.model.js`);
-const Clan = require(`./models/clan.model.js`);
-const Ban = require(`./models/ban.model.js`);
-const Hacker = require(`./models/hacker.model.js`);
-const PlayerRestore = require(`./models/playerRestore.model.js`);
+let http = require(`http`);
+let fs = require(`fs`);
+let Filter = require(`bad-words`), filter = new Filter();
+lzString = require(`./../client/assets/js/lz-string.min`);
 
 // Utils.
-const log = require(`./utils/log.js`);
-const md5 = require(`./utils/md5.js`);
-const { isSpamming, mutePlayer } = require(`./utils/spam.js`);
+let log = require(`./utils/log.js`);
+let md5 = require(`./utils/md5.js`);
+let { isSpamming, mutePlayer } = require(`./utils/spam.js`);
 
-// Log the time that the server started up.
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
-// Configure the socket.
+// additional bad words which need to be filtered
+let newBadWords = ['idiot', '2chOld', 'Yuquan'];
+filter.addWords(...newBadWords);
+
+// configure socket
 if(global.io === undefined) {
-    log(`green`, `Global IO is undefined.`)
-    let server = process.env.NODE_ENV == `prod` ? https.createServer({
-        key: fs.readFileSync(config.ssl.keyPath),
-        cert: fs.readFileSync(config.ssl.certPath),
-        requestCert: false,
-        rejectUnauthorized: false
-    }): http.createServer();
+  let server = process.env.NODE_ENV === 'production'? https.createServer({
+       key: fs.readFileSync('/etc/letsencrypt/live/krew.io/privkey.pem'),
+       cert: fs.readFileSync('/etc/letsencrypt/live/krew.io/fullchain.pem'),
+       requestCert: false,
+       rejectUnauthorized: false
+      }) : http.createServer();
 
-    global.io = require(`socket.io`)(server, { origins: `*:*` });
-    server.listen(process.env.port);
+  global.io = require('socket.io')(server, { origins: '*:*' });
+  server.listen(process.env.port);
 }
 
-// Alphanumeric string checker.
-const isAlphaNumeric = str => {
-    let regex = /^[a-z0-9]+$/i;
-    return regex.test(str.toString().toLowerCase());
+const mongoose = require(`mongoose`);
+
+mongoose.connect(`mongodb://localhost:27017/localKrewDB`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => log(`green`, `Socket.IO server has connected to database.`));
+
+const axios = require(`axios`);
+
+// Mongoose Models
+let User = require(`./models/user.model.js`);
+let Clan = require(`./models/clan.model.js`);
+let Ban = require(`./models/ban.model.js`);
+let Hacker = require(`./models/hacker.model.js`);
+let PlayerRestore = require(`./models/playerRestore.model.js`);
+
+// function to check if a string is alphanumeric
+function isAlphaNumeric(str) {
+  let code, i, len;
+
+  for (i = 0, len = str.length; i < len; i++) {
+    code = str.charCodeAt(i);
+    if(
+      !(code > 47 && code < 58) && // numeric (0-9)
+      !(code > 64 && code < 91) && // upper alpha (A-Z)
+      !(code > 96 && code < 123)
+    ) {
+      // lower alpha (a-z)
+      return false;
+    }
+  }
+  return true;
 }
 
-log(`green`, `Socket.IO is listening at port ${process.env.port}.`);
+log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
+//io = require('socket.io').listen(process.env.port);
 
-// Define serverside account perms.
-const staff = {
-    admins: [`devclied`, `DamienVesper`, `LeoLeoLeo`],
-    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
-    devs: [`Yaz_`]
+// define here (for server side) who is Admin and/or Mod
+Admins = [`devclied`, `DamienVesper`, `LeoLeoLeo`],
+Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
+Devs = [`Yaz_`]
+
+// create player in the world
+// Test environment
+if(TEST_ENV) {
+  setTimeout(function () {
+    let playerEntity;
+    for (let i = 0; i < 100; i++) {
+      playerEntity = core.createPlayer({});
+      login.allocatePlayerToBoat(playerEntity);
+    }
+  }, 5000);
 }
 
-// Socket connection between client and server.
+// Array for reported IPs
+const reportedIps = [];
+const gameCookies = {};
+
+// Socket connection handling on server.
 io.on(`connection`, async socket => {
     let krewioData;
 
@@ -89,9 +106,9 @@ io.on(`connection`, async socket => {
     let playerEntity;
 
     let initSocketForPlayer = async data => {
-        // If the player entity already exists, don't create another one else it will duplicate itself.
-        // If the data is undefined (reconnect on disconnect), ignore the request.
-        if(playerEntity || !data) return;
+        // If the player entity already exists, ignore reconnect.
+        if(playerEntity) return;
+        if(!data.name) data.name = ``;
 
         // Check if the player IP is in the ban list.
         let isIPBanned = await Ban.findOne({ IP: socket.handshake.address });
@@ -105,7 +122,6 @@ io.on(`connection`, async socket => {
 
         // Check to see if the player is using a VPN.
         axios.get(`http://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
-            if(err) return log(`red`, err);
             if(!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
             if(res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
@@ -122,10 +138,12 @@ io.on(`connection`, async socket => {
             }
         });
 
-        // Check if cookie has been blocked.
-        if(data.cookie != undefined && data.cookie != ``) {
-            if(Object.values(gameCookies).includes(data.cookie)) return log(`cyan`, `Trying to spam multiple players... ${socket.handshake.address}.`);
-            gameCookies[socketId] = data.cookie;
+        if(!DEV_ENV) { 
+            // Check if cookie has been blocked.
+            if(data.cookie != undefined && data.cookie != ``) {
+                if(Object.values(gameCookies).includes(data.cookie)) return log(`cyan`, `Trying to spam multiple players... ${socket.handshake.address}.`);
+                gameCookies[socketId] = data.cookie;
+            }
         }
 
         // Create player in the world.
@@ -134,7 +152,7 @@ io.on(`connection`, async socket => {
         playerEntity.socket = socket;
 
         // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
-        if(data.lastIP && !(playerEntity.socket.handshake.address.includes(data.lastIP))) {
+        if(!DEV_ENV && data.last_ip && !(playerEntity.socket.handshake.address.includes(data.lastip))) {
             log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             return playerEntity.socket.disconnect();
         }
@@ -143,7 +161,7 @@ io.on(`connection`, async socket => {
         playerEntity.serverNumber = playerEntity.socket.handshake.headers.host.substr(-4) == `2001` ? 1: 2;
         playerEntity.sellCounter = 0;
 
-        if(playerEntity.socket.request.headers.user-agent && playerEntity.socket.handshake.address) log(`magenta`, `Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers.user-agent} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
+        if(playerEntity.socket.request.headers[`user-agent`] && playerEntity.socket.handshake.address) log(`magenta`, `Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers[`user-agent`]} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
 
         // Log hackers if detected.
         if(data.hacker) {
@@ -153,12 +171,13 @@ io.on(`connection`, async socket => {
                 IP: socket.handshake.address
             });
             hacker.save(err => err ? log(`red`, err): playerEntity.socket.disconnect());
+            return;
         }
 
         // Only start the restore process if the server start was less than 5 minutes ago.
         if(Date.now() - serverStartTimestamp < 3e5) {
             let playerSave = await PlayerRestore.findOne({ IP: socket.handshake.address });
-            if(playerStore && Date.now() - playerStore.timestamp < 3e5) {
+            if(playerSave && Date.now() - playerSave.timestamp < 3e5) {
                 // If username is seadog, set the name to proper seadog.
                 if(playerEntity.name.startsWith(`seadog`)) playerEntity.name = playerSave.name;
 
@@ -192,8 +211,8 @@ io.on(`connection`, async socket => {
             }
         }
 
-            // Allocate player to the game.
-        login.allocatePlayerToBoat(playerEntity, data.boatID, data.spawn);
+         // Allocate player to the game.
+        login.allocatePlayerToBoat(playerEntity, data.boatId, data.spawn);
 
         // Get snapshot.
         socket.on(`u`, data => playerEntity.parseSnap(data));
@@ -234,11 +253,11 @@ io.on(`connection`, async socket => {
             // Staff commands.
             if((msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`)) && playerEntity.isLoggedIn) {
                 // If the player is not a staff member, disregard the command usage.
-                if(!staff.admins.includes(playerEntity.name) && !staff.mods.includes(playerEntity.name) && !staff.devs.includes(playerEntity.name)) return;
+                if(!Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Devs.includes(playerEntity.name)) return;
 
                 // Respective prefixes.
-                if(msgData.message.startsWith(`!!`) && !staff.admins.includes(playerEntity.name) && !staff.devs.includes(playerEntity.name)) return;
-                if(msgData.message.startsWith(`//`) && !staff.mods.includes(playerEntity.name)) return;
+                if(msgData.message.startsWith(`!!`) && !Admins.includes(playerEntity.name) && !Devs.includes(playerEntity.name)) return;
+                if(msgData.message.startsWith(`//`) && !Mods.includes(playerEntity.name)) return;
 
                 // Parse the message for arguments and set the command.
                 let args = msgData.message.toString().slice(2).split(/+/g);
@@ -249,9 +268,9 @@ io.on(`connection`, async socket => {
                 if(!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                     let pwd = await md5(args[0]);
                     if(command == `login`) {
-                        let isAdmin = thugConfig.staff.admins[playerEntity.name] == pwd;
-                        let isMod = thugConfig.staff.mods[playerEntity.name] == pwd;
-                        let isDev = thugConfig.staff.devs[playerEntity.name] == pwd;
+                        let isAdmin = thugConfig.Admins[playerEntity.name] == pwd;
+                        let isMod = thugConfig.Mods[playerEntity.name] == pwd;
+                        let isDev = thugConfig.Devs[playerEntity.name] == pwd;
             
                         // Log the player login and send them a friendly message confirming it.
                         log(!isAdmin && !isMod && !isDev ? `cyan`: `blue`, `${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
@@ -368,7 +387,9 @@ io.on(`connection`, async socket => {
                     }
                     else if(command == `save` && (isAdmin || isDev)) {
                         playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
-                        core.players.forEach(async player => {
+                        for(let i in core.players) {
+                            let player = core.players[i];
+
                             // Delete existing outstanding data if any.
                             let oldPlayerData = await PlayerRestore.findOne({ IP: socket.handshake.address });
                             if(oldPlayerData) oldPlayerData.delete();
@@ -407,7 +428,7 @@ io.on(`connection`, async socket => {
                                 log(`blue`, `Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                                 player.socket.disconnect();
                             });
-                        });
+                        }
                     }
                     else if(command == `report` && (isAdmin || isMod)) {
                         let reportUser = args.shift();
@@ -503,6 +524,12 @@ io.on(`connection`, async socket => {
             }
         });
 
+        playerNames = {}
+        for(let id in core.players) {
+            let playerName = xssFilters.inHTMLData(core.players[id].name);
+            playerName = filter.clean(playerName);
+            playerNames[id] = playerName;
+        }
         socket.emit(`playerNames`, playerNames, socketId);
 
         socket.on(`changeWeapon`, index => {
@@ -1480,7 +1507,7 @@ io.on(`connection`, async socket => {
     // Catch players with local script modification.
     socket.on(`createPIayer`, data => {
         data.hacker = true;
-        log(`Possible exploit detected (modified client script). Player name: ${data.name} | IP: ${socket.handshake.address}`)
+        log(`Possible exploit detected (modified client script). Player name: ${data.name} | IP: ${socket.handshake.address}`);
         createThePlayer(data); // If hackers appear once again, can be changed to ban.
     });
 
@@ -1490,37 +1517,103 @@ io.on(`connection`, async socket => {
     });
 
     let createThePlayer = data => {
-        data.name = undefined;
-        initSocketForPlayer(data);
+            if (data.token && data.name) {
+              // decode base64 token
+              let buff = new Buffer.from(data.token, 'base64');
+              let decodedToken = buff.toString('ascii');
+        
+              const options = {
+                url: 'https://' + process.env.AUTH0_DOMAIN + '/api/v2/users/' + decodedToken,
+                headers: {"Content-Type": "application/json", "Authorization": "Bearer " + auth0AccessToken}
+              }
+        
+              function callback (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                  try {
+                    let info = JSON.parse(body);
+                    // validate if user sent the correct token
+                    if (info.user_id === decodedToken) {
+                      var name = info.username;
+                      if(!info.username || info.username === '') {
+                        name = info.name;
+                        if(!info.name || info.name === '') {
+                          name = info.nickname;
+                        }
+                      }
+        
+                      name = xssFilters.inHTMLData(name);
+                      name = filter.clean(name);
+                      name = name.substring(0, 24);
+                      data.name = name;
+                      data.last_ip = info.last_ip
+                      if (Object.keys(core.players).length !== 0) {
+                        for (let player in core.players) {
+                          if (core.players[player].name === name) {
+                            log(`cyan`, `Player ${name} tried to login multiple times`);
+                            return;
+                          }
+                        }
+                        initSocketForPlayer(data);
+                      } else {
+                        initSocketForPlayer(data);
+                      }
+                    }
+                    else {
+                      data.name = undefined
+                      initSocketForPlayer(data);    
+                      log(`cyan`, `Player tried to login with invalid username. Creating player as seadog`);
+                    }
+                  } catch (e) {
+                    log(`red`, `Error IN AUTH0 CALLBACK`, e);
+                  }
+                }
+                else {
+                  data.name = undefined
+                  initSocketForPlayer(data);
+                  // TODO: add proper logging
+                  log(`cyan`, `Player passed wrong cookie or Auth0 get user info failed. Creating player as seadog`);
+                }
+              }
+        
+              function somes() {
+                types = request(options, callback);
+              }
+              somes()
+            }
+            else {
+              initSocketForPlayer(data)
+            }
     }
 
     // Send full world information - force full dta. First snapshot (compress with lz-string).
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 });
 
-// Check if string is an integer greater than 0.
-let isNormalInteger = str => {
-    let n = ~~Number(str);
-    return String(n) === str && n >= 0;
-}
-let serializeId = id => {
-    return id.substring(2, 6);
-}
 
-// Emit a snapshot every 100ms.
+// check if string is an integer greater than 0
+let isNormalInteger = function (str) {
+  let n = ~~Number(str);
+  return String(n) === str && n >= 0;
+};
+
+let serializeId = function (id) {
+  return id.substring(2, 6);
+};
+
+// emit a snapshot every 100 ms
 let snapCounter = 0;
-module.exports.send = () => {
-    snapCounter = snapCounter > 10 ? 0: snapCounter + 1;
-    let msg;
+exports.send = function () {
+  snapCounter = snapCounter > 10 ? 0 : snapCounter + 1;
+  let msg;
 
-    // If more than 10 snapshots are queued, then send the entire world's snapshot. Otherwise, send delta.
-    msg = snapCounter == 10 ? core.compressor.getSnapshot(false): core.compressor.getDelta();
+  // if more than 10 snapShots are queued, then send the entire world's Snapshot. Otherwise, send delta
+  msg = snapCounter === 10 ? core.compressor.getSnapshot(false) : core.compressor.getDelta();
 
-    if(msg) {
-        // Compress snapshot data with lz-string.
-        msg = lzString.compress(JSON.stringify(msg));
-        io.emit(`s`, msg);
-    }
+  if(msg) {
+    // compress snapshot data with lz-string
+    msg = lzString.compress(JSON.stringify(msg));
+    io.emit('s', msg);
+  }
 }
 
-module.exports.io = io;
+exports.io = io;
