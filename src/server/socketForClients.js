@@ -1,6 +1,7 @@
 global.maxAmountCratesInSea = 1100;
 global.minAmountCratesInSea = 480;
-// let serverjs = require('./server')
+
+let config = require(`./config/config.js`);
 let login = require(`./auth/login.js`);
 let xssFilters = require(`xss-filters`);
 let https = require(`https`);
