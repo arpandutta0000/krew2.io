@@ -1203,7 +1203,9 @@ io.on(`connection`, async socket => {
 
         // Get goods in shop.
         socket.on(`getGoodsStore`, callback => {
-            if(playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId && !core.entities[playerEntity.parent.anchorIslandId]) return callback && callback.call && callback(`Oops, it sems you don't have an anchored boat.`);
+            if(playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
+                if(core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it sems you don't have an anchored boat.`);
+            }
 
             let data = {
                 cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
@@ -1228,7 +1230,7 @@ io.on(`connection`, async socket => {
         });
 
         // When player buys goods.
-        socket.on(`buyGoods`, async(transaction, callback) => {
+        socket.on(`buy-goods`, (transaction, callback) => {
             // Add a timestamp to stop hackers from spamming buy / sell emits.
             if(Date.now() - playerEntity.goodsTimestamp < 800) {
                 playerEntity.sellCounter++;
@@ -1241,12 +1243,12 @@ io.on(`connection`, async socket => {
             playerEntity.goodsTimestamp = Date.now();
             
             checkPlayerStatus();
-            log(`magenta`, `Operation: ${transation.action} - ${transaction} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`magenta`, `Operation: ${transaction.action} - ${transaction} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             
             if(playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId && (playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4)) {
                 Object.assign(transaction, {
                     goodsPrice: entities[playerEntity.parent.anchorIslandId].goodsPrice,
-                    gold: playerEntity.god,
+                    gold: playerEntity.gold,
                     goods: playerEntity.goods,
                     cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                     cargoUsed: 0
@@ -1267,11 +1269,11 @@ io.on(`connection`, async socket => {
                 if(transaction.action == `buy`) {
                     playerEntity.lastIsland = island.name;
                     let max = parseInt(transaction.gold / transaction.goodsPrice[transaction.good]);
-                    let maxCargo = (transaction.cargo - transaciton.cargoUsed) / core.goodsTypes[transactino.good].cargoSpace;
+                    let maxCargo = (transaction.cargo - transaction.cargoUsed) / core.goodsTypes[transaction.good].cargoSpace;
 
                     if(max > maxCargo) max = maxCargo;
                     max = Math.floor(max);
-                    if(transactionaction.quantity > max) transaction.quantity = max;
+                    if(transaction.action.quantity > max) transaction.quantity = max;
                 }
                 if(transaction.quantity.action == `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
                 if(transaction.quantity < 0) transaction.quantity = 0;
