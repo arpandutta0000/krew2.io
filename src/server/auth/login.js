@@ -136,7 +136,7 @@ var allocatePlayerToBoat = function (playerEntity, boatId, spawnPoint) {
     }
     setTimeout(function (){
       playerEntity.disableSnapAndDelta = false;
-      playerEntity.socket.emit('startGame');
+      if(playerEntity.socket) playerEntity.socket.emit('startGame');
     }, 1000);
 };
 
