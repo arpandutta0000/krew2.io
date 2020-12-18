@@ -94,7 +94,7 @@ if(TEST_ENV) {
 const reportedIps = [];
 const gameCookies = {};
 
-let lastJumpCount = 1;
+let lastJumpCount = -1;
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
@@ -1509,7 +1509,7 @@ io.on(`connection`, async socket => {
         socket.on(`christmas`, () => {
             if(lastJumpCount == playerEntity.jump_count) {
                 log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                return playerEntity.socket.disconnect();
+                // return playerEntity.socket.disconnect();
             }
 
             playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
