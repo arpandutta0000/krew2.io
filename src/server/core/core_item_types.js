@@ -3,24 +3,24 @@
 // Rarity maybe?
 
 var itemTypes = [
-{
-    id: 0,
-    name: "Cannon",
-    Description: 'Cannon for seadog',
-    price: 500,
-    rarity: 1,
-    availableAt: [],
-    // availableAt: ['Spain', 'Brazil','Labrador','Guinea'],
-},
-{
-    id: 1,
-    name: "Fishing rod",
-    Description: 'Fishing rod for seadog (used for fishing)',
-    price: 500,
-    rarity: 1,
-    availableAt: [],
-    // availableAt: ['Spain', 'Brazil','Labrador','Guinea'],
-},
+// {
+//     id: 0,
+//     name: "Cannon",
+//     Description: 'Cannon for seadog',
+//     price: 500,
+//     rarity: 1,
+//     availableAt: [],
+//     // availableAt: ['Spain', 'Brazil','Labrador','Guinea'],
+// },
+// {
+//     id: 1,
+//     name: "Fishing rod",
+//     Description: 'Fishing rod for seadog (used for fishing)',
+//     price: 500,
+//     rarity: 1,
+//     availableAt: [],
+//     // availableAt: ['Spain', 'Brazil','Labrador','Guinea'],
+// },
 /*{
     id: 2,
     name: "Rapid cannon",
