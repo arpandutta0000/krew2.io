@@ -1404,7 +1404,7 @@ io.on(`connection`, async socket => {
 
             // Check if player has available points and if he has already allocated 51 points.
             if(playerEntity && playerEntity.parent  && playerEntity.availablePoints > 0 && playerEntity.availablePoints <= 50 && countPoints < 51) {
-                log(`magenta`, `Points allocated: ${points} | Overall allocated Points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                log(`magenta`, `Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
 
                 let countAllocatedPoints = 0;
                 for(let i in points) {
@@ -1412,7 +1412,7 @@ io.on(`connection`, async socket => {
                     countAllocatedPoints += point;
 
                     if(point < 0 || !Number.isInteger(point) || !(i == `fireRate` || i == `distance` || i == `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
-                    else if(point != undefined && typeof points == `number` && playerEntityy.availablePoints > 0 && point <= playerEntity.availablePoints) {
+                    else if(point != undefined && typeof point == `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
                         playerEntity.points[i] += point;
                         playerEntity.availablePoints -= point;
                     }
