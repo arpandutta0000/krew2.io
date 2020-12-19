@@ -1,9 +1,3 @@
-// function for creating timestamp (for logging)
-function get_timestamp() {
-    return (new Date()).toUTCString() + " | ";
-}
-
-// PLayers are entities, check core_entity.js for the base class
 Projectile.prototype = new Entity();
 Projectile.prototype.constructor = Projectile;
 
@@ -191,7 +185,7 @@ Projectile.prototype.logic = function (dt) {
 
                         // check if player has too many allocated points --> kick
                         if (countAllocatedPoints > 52){
-                            console.log(get_timestamp() + "Exploit (stats hacking), allocated stats: " + countAllocatedPoints + " | IP " + this.shooter.socket.handshake.address);
+                            log(`cyan`, `Exploit (stats hacking), allocated stats: ${countAllocatedPoints} | IP ${this.shooter.socket.handshake.address}`);
                             this.shooter.socket.disconnect()
                         }
 
@@ -258,17 +252,6 @@ Projectile.prototype.logic = function (dt) {
                             for (p in boat.children){
                                 boat.children[p].deaths = (boat.children[p].deaths === undefined ? 0 : boat.children[p].deaths);
                                 boat.children[p].deaths += 1;
-
-                                // update death count in mongo DB
-                                if (boat.children[p].isLoggedIn === true) {
-                                    let deathQuery = { playerName: boat.children[p].name };
-                                    let deathObj = { $inc: { deaths: 1 } };
-                                    core.UpdateOneWithQuery('players', deathQuery, deathObj, false, function (res) {
-                                        if (res['modifiedCount'] !== 1) {
-                                            console.log(get_timestamp() + "Mongo Error: Increase player's deaths FAILED")
-                                        }
-                                    })
-                                }
                             }
 
                             // emit + log kill chain
@@ -278,25 +261,19 @@ Projectile.prototype.logic = function (dt) {
                             for (let p in boat.children) {
                                 victimGold += boat.children[p].gold
                             }
-                            console.log(get_timestamp() + whoKilledWho + " | Kill count boat: " + this.shooter.parent.overall_kills, "| Shooter gold:", this.shooter.gold, "| Victim gold:", victimGold);
+                            log(`magenta`, `${whoKilledWho} | Kill count boat: ${this.shooter.parent.overall_kills} | Shooter gold: ${this.shooter.gold} | Victim gold: ${victimGold}`);
                             
                             // update kill count and player highscore in mongo db
                             if (this.shooter.isLoggedIn === true && this.shooter.serverNumber === 1){
                                 if (this.shooter.gold > this.shooter.highscore) {
                                     this.shooter.highscore = this.shooter.gold;
-                                    var myobj = { $set: { highscore: Math.round(this.shooter.highscore) }, $inc: { overall_kills: 1 } };
-                                    console.log(get_timestamp() + "Update highscore for player:", this.shooter.name, "| Old highscore:", this.shooter.highscore, "| New highscore:", + this.shooter.gold, "| IP:", this.shooter.socket.handshake.address);
+
                                 }
                                 else {
                                     myobj = { $inc: { overall_kills: 1 } };
                                 }
-                                var query = { playerName: this.shooter.name };
-
-                                core.UpdateOneWithQuery('players', query, myobj, false, function (res) {
-                                    if (res['modifiedCount'] !== 1) {
-                                        console.log(get_timestamp() + "Mongo Error: Increase player's kill count FAILED")
-                                    }
-                                })
+                                User.updateOne({ name: this.shooter.name }, { highscore: this.shooter.gold });
+                                log(`magenta`, `Update highscore for player: ${this.shooter.name} | Old highscore: ${this.shooter.highscore} | New highscore: ${this.shooter.gold} | IP: ${this.shooter.socket.handshake.address}`);
                             }
                         }
                     }
