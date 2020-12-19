@@ -95,11 +95,11 @@ if(TEST_ENV) {
 const reportedIps = [];
 const gameCookies = {};
 
-let lastJumpCount = -1;
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
     let krewioData;
+    let christmasGold = 0;
 
     // Get socket ID (player ID).
     let socketId = serializeId(socket.id);
@@ -126,6 +126,7 @@ io.on(`connection`, async socket => {
         }
 
         // Check to see if the player is using a VPN.
+        // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip. 
         axios.get(`http://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if(!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
@@ -477,7 +478,9 @@ io.on(`connection`, async socket => {
             }
             if(!isSpamming(playerEntity, msgData.message)) {
                 let msg = xssFilters.inHTMLData(msgData.message);
+                console.log(msg);
                 msg = filter.clean(msg);
+                console.log(msg);
 
                 if(msgData.recipient == `global`) {
                     io.emit(`chat message`, {
@@ -1509,15 +1512,14 @@ io.on(`connection`, async socket => {
         });
 
         socket.on(`christmas`, () => {
-            if(lastJumpCount == playerEntity.jump_count) {
+            if(!((playerEntity.position.x >= 850 && playerEntity.position.x <= 870 && playerEntity.position.z >= 850 && playerEntity.position.z <= 870) || christmasGold > 1e4)) {
                 log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                // return playerEntity.socket.disconnect();
+                return playerEntity.socket.disconnect();
             }
 
             playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
             playerEntity.gold += 10;
- 
-            lastJumpCount = playerEntity.jump_count;
+            christmasGold += 10; 
         });
     }
 
