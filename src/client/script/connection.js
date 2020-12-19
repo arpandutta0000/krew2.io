@@ -30,7 +30,7 @@ var connect = function (pid) {
   var server = ui.servers[pid];
 
   if (window.location.hostname === 'localhost')
-    server = { ip: 'http://localhost', port: '2001' };
+    server = { ip: 'http://localhost', port: '2053' };
 
   // Since we are passing the url on the server object, we dont need to process the window.location
   // just put the url to the server.ip property and add the port

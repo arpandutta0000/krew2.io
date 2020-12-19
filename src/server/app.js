@@ -1,4 +1,5 @@
 const log = require(`./utils/log.js`);
+const config = require(`./config/config.js`);
 
 const cluster = require('cluster');
 const numCPUs = 3;
@@ -16,7 +17,7 @@ global.core = core;
 
         // This will create just one server for better testing and monitoring
         if (DEV_ENV){
-            process.env.port = 2001;
+            process.env.port = config.gamePorts[0];
             var worker = cluster.fork();
             worker.on('message', (msg) => {
                 if (msg.type === 'update-server') {
@@ -31,7 +32,7 @@ global.core = core;
         // fork worker processors based on the number of cores the CPU has
         for (var i = 0; i < numCPUs; i++) {
 
-            process.env.port = 2000 + i + 1;
+            process.env.port = config.gamePorts[i];
 
             var worker = cluster.fork();
             worker.on('message', (msg) => {

@@ -73,10 +73,11 @@ function isAlphaNumeric(str) {
 log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
 //io = require('socket.io').listen(process.env.port);
 
-// define here (for server side) who is Admin and/or Mod
+// Define serverside admins / mods / devs.
 Admins = [`devclied`, `DamienVesper`, `LeoLeoLeo`],
 Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
 Devs = [`Yaz_`]
+
 
 // create player in the world
 // Test environment
@@ -162,7 +163,7 @@ io.on(`connection`, async socket => {
         }
 
         // Identify the server that the player is playing on.
-        playerEntity.serverNumber = playerEntity.socket.handshake.headers.host.substr(-4) == `2001` ? 1: 2;
+        playerEntity.serverNumber = config.gamePorts.indexOf(parseInt(playerEntity.socket.handshake.headers.host.substr(-4))) + 1;
         playerEntity.sellCounter = 0;
 
         if(playerEntity.socket.request.headers[`user-agent`] && playerEntity.socket.handshake.address) log(`magenta`, `Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers[`user-agent`]} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
