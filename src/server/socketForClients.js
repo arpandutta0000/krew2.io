@@ -477,10 +477,12 @@ io.on(`connection`, async socket => {
                 }
             }
             if(!isSpamming(playerEntity, msgData.message)) {
-                let msg = xssFilters.inHTMLData(msgData.message);
-                console.log(msg);
+                let msg = msgData.message.toString();
+                
+                if(msg.length == 0) return;
+
+                msg = xssFilters.inHTMLData(msgData.message);
                 msg = filter.clean(msg);
-                console.log(msg);
 
                 if(msgData.recipient == `global`) {
                     io.emit(`chat message`, {
