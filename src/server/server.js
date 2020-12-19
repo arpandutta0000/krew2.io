@@ -85,6 +85,7 @@ app.get(`/thug_life`, function (req, res) {
 });
 
 server.listen(config.port);
+log(`green`, `Webfront bound to port ${config.port}.`);
 
 // Use the rollbar error handler to send exceptions to your rollbar account
 app.use(rollbar.errorHandler());
