@@ -1212,7 +1212,7 @@ io.on(`connection`, async socket => {
                 cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                 gold: playerEntity.gold,
                 goods: playerEntity.goods,
-                goodsPrice: core.entities[playerEntity.parent.anchorIslandId].goodsPrice,
+                goodsPrice: core.entities[playerEntity.parent.anchorIslandId] ? core.entities[playerEntity.parent.anchorIslandId].goodsPrice: 0,
                 cargoUsed: 0
             }
 
@@ -1244,7 +1244,7 @@ io.on(`connection`, async socket => {
             playerEntity.goodsTimestamp = Date.now();
             
             checkPlayerStatus();
-            log(`magenta`, `Operation: ${transaction.action} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`magenta`, `Operation: ${transaction.action} - `, transaction, ` | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             
             if(playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId && (playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4)) {
                 Object.assign(transaction, {
@@ -1372,7 +1372,7 @@ io.on(`connection`, async socket => {
                         if(child.id != playerEntity.id) child.socket.emit(`cargoUpdated`);
                     }
                 }
-                return log(`cyan`, `After Operation ${transaction.action} - | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+                return log(`cyan`, `After Operation ${transaction.action} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
             }
             callback && callback.call && callback(new Error(`Oops, it seems that you don't have a boat.`));
         });
@@ -1405,7 +1405,7 @@ io.on(`connection`, async socket => {
 
             // Check if player has available points and if he has already allocated 51 points.
             if(playerEntity && playerEntity.parent  && playerEntity.availablePoints > 0 && playerEntity.availablePoints <= 50 && countPoints < 51) {
-                log(`magenta`, `Points allocated: `, points, ` Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
 
                 let countAllocatedPoints = 0;
                 for(let i in points) {
