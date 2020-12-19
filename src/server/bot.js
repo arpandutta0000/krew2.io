@@ -39,7 +39,7 @@ client.on(`ready`, () => {
 
 bus.on(`msg`, (id, name, message) => {
     message = discordFilter(message);
-    client.channels.get(config.discord.channels.chatLogs).send(`[${id}] ${name} » ${message}`);
+    client.channels.get(config.discord.channels.chatLogs).send(`${name} » ${message}`);
 });
 
 bus.on(`report`, (title, description) => {

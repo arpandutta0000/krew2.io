@@ -1,12 +1,12 @@
 const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
 
-module.exports = (color, content) => {
+module.exports = (color, ...content) => {
     // Set timing variables.
     let time = new Date();
-    let second = time.getSeconds().toString();
-    let minute = time.getMinutes().toString();
-    let hour = time.getHours().toString();
+    let second = time.getSeconds().toString().padStart(2, `0`);;
+    let minute = time.getMinutes().toString().padStart(2, `0`);;
+    let hour = time.getHours().toString().padStart(2, `0`);;
     let day = time.getDate().toString().padStart(2, `0`);
     let month = (time.getMonth() + 1).toString().padStart(2, `0`);
     let year = time.getFullYear().toString();
@@ -25,7 +25,13 @@ module.exports = (color, content) => {
         case `white`: logColor = `\x1b[37m`; break;
     }
 
+    let logContent = ``;
+    content.forEach(arg => {
+        if(typeof arg == `object`) logContent += JSON.stringify(arg);
+        else logContent += arg.toString();
+    });
+
     // If no color specified, throw an error.
     if(!logColor) throw `Did not specify a valid color`;
-    return console.log(logColor, formattedTime, content);
+    return console.log(logColor, formattedTime, logContent);
 }

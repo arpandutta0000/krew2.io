@@ -1045,7 +1045,7 @@ io.on(`connection`, async socket => {
         // When player buys an item.
         socket.on(`purchase`, (item, callback) => {
             checkPlayerStatus();
-            log(`magenta`, `Player ${playerEntity.name} is buying `, item, ` while having ${playerEntity.gold} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            log(`magenta`, `Player ${playerEntity.name} is buying `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             // Check if id is an integer > 0.
             if(!isNormalInteger(item.id)) return;
@@ -1110,7 +1110,7 @@ io.on(`connection`, async socket => {
                 if(item.id == `11` &&  playerEntity.gold >= 1e5) {
                     if(playerEntity.overallCargo >= 1e3 && playerEntity.shipsSank >= 10) {
                         playerEntity.purchaseItem(item.id);
-                        log(`magenta`, `Player ${playerEntity.name} is buying item`, item, ` (Demolisher) while having ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`magenta`, `Player ${playerEntity.name} is buying item`, item, ` (Demolisher) while having ${Math.floor(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     }
                 }
                 else if(item.id == `14` && playerEntity.gold >= 15e4) {
@@ -1121,12 +1121,12 @@ io.on(`connection`, async socket => {
                         playerEntity.availablepoints = playerEntity.level;
                         playerEntity.statsReset = true;
                         playerEntity.purchaseItem(item.id);
-                        log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` (Fountain of Youth) while having ${playerEntity.gold} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` (Fountain of Youth) while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     }
                 }
                 else {
                     playerEntity.purchaseItem(item.id);
-                    log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` while having ${playerEntity.gold} gold | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
                 }
             }
 
