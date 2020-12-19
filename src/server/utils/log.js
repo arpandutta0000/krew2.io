@@ -10,7 +10,7 @@ module.exports = (color, content) => {
     let day = time.getDate().toString().padStart(2, `0`);
     let month = (time.getMonth() + 1).toString().padStart(2, `0`);
     let year = time.getFullYear().toString();
-    let formattedTime = `${month}-${day}-${year} ${hour}:${minute}:${second}`;
+    let formattedTime = `[${month}-${day}-${year} ${hour}:${minute}:${second}]`;
 
     // Get specified color.
     let logColor;
@@ -27,5 +27,5 @@ module.exports = (color, content) => {
 
     // If no color specified, throw an error.
     if(!logColor) throw `Did not specify a valid color`;
-    return console.log(logColor, content);
+    return console.log(logColor, formattedTime, content);
 }

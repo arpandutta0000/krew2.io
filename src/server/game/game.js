@@ -1,7 +1,9 @@
 var socket = require('../socketForClients.js');
 var amountChests = 0;
 var respawnChestsDate = undefined;
-console.log('game listening at port', process.env.port);
+
+let log = require(`../utils/log.js`);
+log(`green`, `Game is listening at port ${process.env.port}.`);
 
 // create islands
 for (let i in core.config.landmarks) {

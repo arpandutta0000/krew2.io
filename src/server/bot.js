@@ -16,8 +16,17 @@ const client = new Discord.Client({
 client.on(`ready`, () => {
     log(`green`, `Connected to Discord.`);
 
+    let time = new Date();
+    let second = time.getSeconds().toString();
+    let minute = time.getMinutes().toString();
+    let hour = time.getHours().toString();
+    let day = time.getDate().toString().padStart(2, `0`);
+    let month = (time.getMonth() + 1).toString().padStart(2, `0`);
+    let year = time.getFullYear().toString();
+    let formattedTime = `${month}-${day}-${year} ${hour}:${minute}:${second}`;
+
     client.user.setActivity(`Krew.io`);
-    client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${new Date()}.`);
+    client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${formattedTime}.`);
 
     let sEmbed = new Discord.RichEmbed()
         .setAuthor(`Server Start`)
@@ -44,6 +53,8 @@ bus.on(`report`, (title, description) => {
 });
 
 client.on(`message`, message => {
+    return; // Currently not working.
+
     const m = `${message.author} » `;
 
     if(message.author.bot || message.channel.type == `dm`) return;

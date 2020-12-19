@@ -1,3 +1,5 @@
+const log = require(`./utils/log.js`);
+
 const cluster = require('cluster');
 const numCPUs = 3;
 var core = require('./core/core_concatenated.js');
@@ -22,7 +24,7 @@ global.core = core;
                     server.app.workers[processId] = data;
                 }
             });
-            console.log("creating a worker in DEV_ENV", server.app.workers)
+            log(`green`, `Creating a worker in DEV_ENV`, server.app.workers);
             return;
         }
 
@@ -55,11 +57,11 @@ global.core = core;
 
         process.on('uncaughtException', function (e) {
             if (!DEV_ENV) {
-                console.log(e);
+                log(`red`, e);
                 return rollbar.error(e);
             }
 
-            console.log(e);
+            console.log(`red`, e);
         });
 
         try {
@@ -77,7 +79,7 @@ global.core = core;
                     });
                 }
                 catch (err) {
-                    console.log(err, err.stack);
+                    log(`red`, err, err.stack);
                     ige.log('emit error at', msgType, data, err);
                 }
 
@@ -85,9 +87,9 @@ global.core = core;
         }
 
         catch (e) {
-            console.log('e', e);
+            log(`red`, `e`, e);
         }
 
-        console.log(`Worker ${process.pid} started`);
-        console.log('Server has been up since: ', new Date().toISOString().slice(0, 10));
+        log(`green`, `Worker ${process.pid} started`);
+        log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
     }
