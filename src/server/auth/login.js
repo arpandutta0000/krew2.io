@@ -70,6 +70,8 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
         setTimeout(() => {
             playerEntity.disableSnapAndDelta = false;
             playerEntity.socket.emit(`startGame`);
+
+            if(DEV_ENV) playerEntity.gold += 1e9;
         }, 1e3);
     }
 }
