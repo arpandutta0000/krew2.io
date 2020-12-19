@@ -158,7 +158,7 @@ Pickup.prototype.logic = function (dt) {
             var boat = boats[b];
 
             // dont check against boats that have died
-            if (boat.hp <= 0) {
+            if (boat.hp < 1) {
                 continue;
             }
 

@@ -1303,6 +1303,7 @@ var ui = {
         // set correct overall_kills / overall_cargo number
         if (scores.boats.length > 0){
             for (p in scores.boats){
+                if(!myBoat) return;
                 if (scores.boats[p] && scores.boats[p].id === myBoat.id) {
                     myBoat.overall_kills = scores.boats[p].ok;
                     myBoat.overall_cargo = scores.boats[p].oc;

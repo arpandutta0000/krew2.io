@@ -78,7 +78,7 @@ Landmark.prototype.logic = function (dt) {
             var boat = boats[b];
 
             // dont check against boats that have died
-            if (boat.hp <= 0 || boat.shipState == 3) {continue;}
+            if (boat.hp < 1 || boat.shipState == 3) {continue;}
 
             if (this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
                 boat.enterIsland(this.id);

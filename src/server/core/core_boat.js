@@ -283,7 +283,7 @@ Boat.prototype.logic = function (dt) {
     }*/
 
     // if our hp is low (we died)
-    if (this.hp <= 0) {
+    if (this.hp < 1) {
         if (!this.hasDoneDeathDrops) {
 
             // create debris based on score of the captain and ship

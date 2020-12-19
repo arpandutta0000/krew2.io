@@ -833,7 +833,7 @@ io.on(`connection`, async socket => {
 
         // Respawn.
         socket.on(`respawn`, callback => {
-            if(playerEntity.parent.hp >= 1) return log(`cyan`, `Player ${playerEntity.name} tried to respawn while his boat is still alive | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            if(playerEntity.parent.hp >= 1) return log(`cyan`, `Player ${playerEntity.name} tried to respawn while his boat still has health | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             // Check for timestamp of last respawn and ban if it was less than 2 seconds ago.
             if(socket.timestamp != undefined && Date.now() - socket.timestamp < 2e3) {
@@ -862,7 +862,7 @@ io.on(`connection`, async socket => {
                 for(let i in playerEntity.goods) playerEntity.goods[i] = 0;
 
                 // Respawn player on the sea (on raft 2).
-                login.allocatePlayerToBoat(playerEntity, data.boatId);
+                login.allocatePlayerToBoat(playerEntity, data.boatId, `sea`);
                 playerEntity.sentDockingMsg = false;
 
                 // Set timestamp for next respawn.

@@ -38,7 +38,7 @@ function Projectile(shooter) {
     if (
         !shooter || shooter.activeWeapon === -1 || shooter.activeWeapon === 2 ||
         (shooter.parent.netType === 5 && shooter.activeWeapon === 0) ||
-        shooter.parent.hp <= 0 ||
+        shooter.parent.hp < 1 ||
         (
             shooter.activeWeapon === 0 &&
             (
@@ -156,7 +156,7 @@ Projectile.prototype.logic = function (dt) {
                     var boat = boats[b];
 
                     // dont check against boats that have died or are docked
-                    if (boat.hp <= 0 || boat.shipState === 3 || boat.shipState === -1 || boat.shipState === 4) {
+                    if (boat.hp < 1 || boat.shipState === 3 || boat.shipState === -1 || boat.shipState === 4) {
                         continue;
                     }
 
@@ -213,7 +213,7 @@ Projectile.prototype.logic = function (dt) {
                           boat.children[s].socket.emit('showDamageMessage', '- ' + parseFloat(damage).toFixed(1) + ' hit', 1);
                         }
 
-                        if (boat.hp <= 0) {
+                        if (boat.hp < 1) {
                             // if player destroyed a boat, increase the score
                             this.shooter.shipsSank += 1;
                             // levels for pirate quests

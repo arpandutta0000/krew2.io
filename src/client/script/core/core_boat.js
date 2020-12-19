@@ -284,7 +284,7 @@ Boat.prototype.logic = function (dt) {
     }*/
 
     // if our hp is low (we died)
-    if (this.hp <= 0) {
+    if (this.hp < 1) {
 
         // on client, disconnect the camera from the player
         if (myPlayer && myPlayer.parent == this) {
