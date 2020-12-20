@@ -480,8 +480,6 @@ io.on(`connection`, async socket => {
             if(!isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
 
-                if(msg.length <= 1) return;
-
                 msg = xssFilters.inHTMLData(msg);
                 msg = filter.clean(msg);
 
@@ -492,13 +490,13 @@ io.on(`connection`, async socket => {
                         recipient: `global`,
                         message: charLimit(msg, 150)
                     });
-                    bus.emit(`msg`, playerEntity.id, playerEntity.name, charLimit(msg, 150));
+                    if(config.mode == `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, charLimit(msg, 150));
                 }
                 else if(msgData.recipient == `local` && entities[playerEntity.parent.id]) {
                     for(let i in entities[playerEntity.parent.id].children) {
                         let player = entities[playerEntity.parent.id].children[i];
                         player.socket.emit(`chat message`, {
-                            playerID: playerEntity.id,
+                            playerId: playerEntity.id,
                             playerName: playerEntity.name,
                             recipient: `local`,
                             message: charLimit(msg, 150)
@@ -511,7 +509,7 @@ io.on(`connection`, async socket => {
                         let entity = entities[i];
                         if(entity.netType == 0 && entity.clan == clan) {
                             entity.socket.emit(`chat message`, {
-                                playerID: playerEntity.id,
+                                playerId: playerEntity.id,
                                 playerName: playerEntity.name,
                                 recipient: `clan`,
                                 message: charLimit(msg, 150)
@@ -523,7 +521,7 @@ io.on(`connection`, async socket => {
                     for(let i in core.players) {
                         let player = core.players[i];
                         if(player.isAdmin || player.isMod || player.isDev) player.socket.emit(`chat message`, {
-                            playerID: playerEntity.id,
+                            playerId: playerEntity.id,
                             playerName: playerEntity.name,
                             recipient: `staff`,
                             message: charLimit(msg, 150)
