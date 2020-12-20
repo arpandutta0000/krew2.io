@@ -266,7 +266,7 @@ io.on(`connection`, async socket => {
                 if(msgData.message.startsWith(`//`) && !Mods.includes(playerEntity.name)) return;
 
                 // Parse the message for arguments and set the command.
-                let args = msgData.message.toString().slice(2).split(/+/g);
+                let args = msgData.message.toString().slice(2).split(` `);
                 let command = args.shift();
 
                 // If the user has not authenticated, only give them access to login command.
