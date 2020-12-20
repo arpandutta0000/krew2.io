@@ -1,5 +1,5 @@
 module.exports.staff = {
-    admins: [
+    Admins: [
         {
             name: `ITSDABOMB`,
             hash: `c699a0d37840edcc12be7975e47f86d3`            
@@ -21,7 +21,7 @@ module.exports.staff = {
             hash: `85278e7a17c0f9d3af915746df605017`
         },
     ],
-    mods: [
+    Mods: [
         {
             name: `Fiftyyyyyy`,
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
@@ -39,7 +39,7 @@ module.exports.staff = {
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         }
     ],
-    devs: [
+    Devs: [
         {
             name: `Yaz_`,
             hash: `9b134a9d2d554752a94590f48209a9e3`
