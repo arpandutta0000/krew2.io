@@ -61,24 +61,5 @@
         "socket.io": "^1.7.1",
         "validator": "^13.1.17",
         "xss-filters": "^1.2.7"
-    },
-    "jscsConfig": {
-        "preset": "airbnb",
-        "requireSemicolons": true,
-        "maximumLineLength": {
-            "value": 180,
-            "tabSize": 4,
-            "comments": true
-        },
-        "disallowNewlineBeforeBlockStatements": true,
-        "requireCurlyBraces": true,
-        "validateIndentation": {
-            "value": 4,
-            "allExcept": [
-                "emptyLines"
-            ]
-        },
-        "requireCamelCaseOrUpperCaseIdentifiers": true,
-        "validateLineBreaks": true
     }
 }
