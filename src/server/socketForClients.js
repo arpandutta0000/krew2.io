@@ -609,18 +609,18 @@ io.on(`connection`, async socket => {
                         });
                         return ban.save(err => err ? log(`red`, err): playerEntity.socket.disconnect());
                     }
+                }
 
-                    // Filter the ship name.
-                    name = xssFilters.inHTMLData(name);
-                    name = filter.clean(name);
-                    name = name.substring(0, 20);
+                // Filter the ship name.
+                name = xssFilters.inHTMLData(name);
+                name = filter.clean(name);
+                name = name.substring(0, 20);
 
-                    // Make sure that the player is the captain of the krew.
-                    let boat = playerEntity.parent;
-                    if(core.boats[boat.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainId == playerEntity.id) {
-                        if(krewioData) krewioService.save(krewioData.user, { krewname: name }).then(data => krewioData = data);
-                        core.boats[boat.id].crewName = name;
-                    }
+                // Make sure that the player is the captain of the krew.
+                let boat = playerEntity.parent;
+                if(core.boats[boat.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainId == playerEntity.id) {
+                    if(krewioData) krewioService.save(krewioData.user, { krewname: name }).then(data => krewioData = data);
+                    core.boats[boat.id].crewName = name;
                 }
             }
         });
