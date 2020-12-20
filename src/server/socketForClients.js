@@ -1545,7 +1545,7 @@ io.on(`connection`, async socket => {
                 return playerEntity.socket.disconnect();
             }
 
-            playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
+            if(christmasGold == 0) playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
             playerEntity.gold += 10;
             christmasGold += 10;
         });
