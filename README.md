@@ -4,11 +4,13 @@ This is the repository for a remake of Krew.io.
 **Running in development** (using grunt-nodemon as a watchscript)
 ``npm run dev``
 
-**Running in production** (using pm2 to keep process alive)
+**Running in production** (using forever to keep process alive)
 ``npm run prod``
 
-Running in production mode serves to ``localhost:443`` (while using ``localhost:80`` as a redirect).
+Running in production mode serves to ``localhost:8200``.
 Running in dev mode serves to ``localhost:8080``.
+
+In production, Nginx proxies the local webfront port to 443 and redirects 80 to 443. 
 
 ### Admin Commands
  ```
