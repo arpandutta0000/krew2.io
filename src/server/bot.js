@@ -25,16 +25,18 @@ client.on(`ready`, () => {
     let year = time.getFullYear().toString();
     let formattedTime = `${month}-${day}-${year} ${hour}:${minute}:${second}`;
 
-    client.user.setActivity(`Krew.io`);
-    client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${formattedTime}.`);
+    client.user.setPresence({
+        game: {
+            type: `WATCHING`,
+            name: `Krew.io`
+        },
+        status: `dnd`
+    });
 
-    let sEmbed = new Discord.RichEmbed()
-        .setAuthor(`Server Start`)
-        .setColor(0x00ff00)
-        .setDescription(`Succesfully connected to Discord.`)
-        .setTimestamp(new Date())
-        .setFooter(config.discord.footer);
-    if(config.mode == `prod`) client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
+    if(config.mode == `prod`) {
+        client.channels.get(config.discord.channels.chatLogs).send(`A server has started.`);
+        client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${formattedTime}.`);
+    }
 });
 
 bus.on(`msg`, (id, name, message) => {
