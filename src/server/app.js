@@ -68,8 +68,6 @@ if (cluster.isMaster) { // master cluster! runs the website
             log(`red`, e);
             return rollbar.error(e);
         }
-
-        log(`red`, e);
     });
 
     try {
