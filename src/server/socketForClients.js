@@ -260,8 +260,8 @@ io.on(`connection`, async socket => {
                 shotsFired: playerEntity.shotsFired,
                 shotsHit: playerEntity.shotsHit,
                 shotAccuracy: playerEntity.shotsHit / playerEntity.shotsFired,
-                overallCargo: playerEntity.overallCargo,
-                crewOverallCargo: playerEntity.parent.overallCargo,
+                overall_cargo: playerEntity.overall_cargo,
+                crewOverallCargo: playerEntity.parent.overall_cargo,
                 overallKills: playerEntity.parent.overallKills
             }
             return fn(JSON.stringify(stats));
@@ -744,11 +744,11 @@ io.on(`connection`, async socket => {
                         let player = core.players[i];
                         if (player.parent != undefined && motherShip.id == player.parent.id) {
                             crewKillCount += player.shipsSank;
-                            crewTradeCount += player.overallCargo;
+                            crewTradeCount += player.overall_cargo;
                         }
                     }
                     motherShip.overallKills = crewKillCount;
-                    motherShip.overallCargo = crewTradeCount;
+                    motherShip.overall_cargo = crewTradeCount;
                 }
             }
         });
@@ -934,11 +934,11 @@ io.on(`connection`, async socket => {
                             let player = core.players[i];
                             if (player.parent != undefined && motherShip.id == otherPlayer.parent.id) {
                                 crewKillCount += player.shipsSank;
-                                crewTradeCount += player.overallCargo;
+                                crewTradeCount += player.overall_cargo;
                             }
                         }
                         motherShip.overallKills = crewKillCount;
-                        motherShip.overallCargo = crewOverallCargo;
+                        motherShip.overall_cargo = crewOverallCargo;
                     }
                 }
             }
@@ -1051,11 +1051,11 @@ io.on(`connection`, async socket => {
                             let player = core.players[i];
                             if (player.parent != undefined && playerEntity.parent.id == player.parent.id) {
                                 crewKillCount += player.shipsSank;
-                                crewTradeCount += player.overallCargo;
+                                crewTradeCount += player.overall_cargo;
                             }
                         }
                         playerEntity.parent.overallKills = crewKillCount;
-                        playerEntity.parent.overallCargo = crewTradeCount;
+                        playerEntity.parent.overall_cargo = crewTradeCount;
                     }
                 }
             }
@@ -1136,7 +1136,7 @@ io.on(`connection`, async socket => {
 
                 // Check conditions for buying demolisher.
                 if (item.id == `11` && playerEntity.gold >= 1e5) {
-                    if (playerEntity.overallCargo >= 1e3 && playerEntity.shipsSank >= 10) {
+                    if (playerEntity.overall_cargo >= 1e3 && playerEntity.shipsSank >= 10) {
                         playerEntity.purchaseItem(item.id);
                         log(`magenta`, `Player ${playerEntity.name} is buying item`, item, ` (Demolisher) while having ${Math.floor(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     }
@@ -1164,11 +1164,11 @@ io.on(`connection`, async socket => {
                 let player = core.players[i];
                 if (player.parent != undefined && playerEntity.parent.id == player.parent.id) {
                     crewKillCount += player.shipsSank;
-                    crewTradeCount += player.overallCargo;
+                    crewTradeCount += player.overall_cargo;
                 }
             }
             playerEntity.parent.overallKills = crewKillCount;
-            playerEntity.parent.overallCargo = crewTradeCount;
+            playerEntity.parent.overall_cargo = crewTradeCount;
         });
 
         // Get ships in shop.
@@ -1322,38 +1322,38 @@ io.on(`connection`, async socket => {
                     transaction.gold += gold;
                     transaction.goods[transaction.good] -= transaction.quantity;
 
-                    if (playerEntity.lastIsland != island.name) playerEntity.overallCargo += gold;
+                    if (playerEntity.lastIsland != island.name) playerEntity.overall_cargo += gold;
                     if (transaction.goods[transaction.good] < 0 || playerEntity.goods[transaction.good] < 0) {
                         log(`cyan`, `Exploit detected (sell wrong goods) | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return playerEntity.socket.disconnect();
                     }
 
                     // Trading achievement.
-                    playerEntity.tradeLevel = playerEntity.tradeLevel == undefined ? 0 : playerEntity.tradeLevel;
-                    if (playerEntity.overallCargo >= 1e3 && playerEntity.tradeLevel == 0) {
+                    playerEntity.trade_level = playerEntity.trade_level == undefined ? 0 : playerEntity.trade_level;
+                    if (playerEntity.overall_cargo >= 1e3 && playerEntity.trade_level == 0) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading beginner: +1,000 Gold +100 XP`, 3);
                         transaction.gold += 1e3;
 
                         playerEntity.experience += 100;
-                        playerEntity.tradeLevel++;
-                    } else if (playerEntity.overallCargo >= 6e3 && playerEntity.tradeLevel == 1) {
+                        playerEntity.trade_level++;
+                    } else if (playerEntity.overall_cargo >= 6e3 && playerEntity.trade_level == 1) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading master: +2,000 Gold +200 XP`, 3);
                         transaction.gold += 2e3;
 
                         playerEntity.experience += 200;
-                        playerEntity.tradeLevel++;
-                    } else if (playerEntity.overallCargo >= 15e3 && playerEntity.tradeLevel == 2) {
+                        playerEntity.trade_level++;
+                    } else if (playerEntity.overall_cargo >= 15e3 && playerEntity.trade_level == 2) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading master: +2,000 Gold +200 XP`, 3);
                         transaction.gold += 5e3;
 
                         playerEntity.experience += 500;
-                        playerEntity.tradeLevel++;
-                    } else if (playerEntity.overallCargo >= 3e4 && playerEntity.tradeLevel == 3) {
+                        playerEntity.trade_level++;
+                    } else if (playerEntity.overall_cargo >= 3e4 && playerEntity.trade_level == 3) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading master: +2,000 Gold +200 XP`, 3);
                         transaction.gold += 1e4;
 
                         playerEntity.experience += 1e3;
-                        playerEntity.tradeLevel++;
+                        playerEntity.trade_level++;
                     }
                 }
 
@@ -1361,9 +1361,9 @@ io.on(`connection`, async socket => {
                 let crewTradeCount = 0;
                 for (let i in core.players) {
                     let player = core.players[i];
-                    if (player.parent != undefined && playerEntity.parent.id == player.parent.id) crewTradeCount += player.overallCargo;
+                    if (player.parent != undefined && playerEntity.parent.id == player.parent.id) crewTradeCount += player.overall_cargo;
                 }
-                playerEntity.parent.overallCargo = crewTradeCount;
+                playerEntity.parent.overall_cargo = crewTradeCount;
 
                 // Update player.
                 playerEntity.gold = transaction.gold;
