@@ -1,4 +1,4 @@
-const getTimestamp = require(`./log.js`);
+const log = require(`./log.js`);
 
 let isSpamming = (playerEntity, message) => {
     if(typeof message != `string`) return true;

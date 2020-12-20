@@ -1541,72 +1541,8 @@ io.on(`connection`, async socket => {
     });
 
     let createThePlayer = data => {
-            if (data.token && data.name) {
-              // decode base64 token
-              let buff = new Buffer.from(data.token, 'base64');
-              let decodedToken = buff.toString('ascii');
-        
-              const options = {
-                url: 'https://' + process.env.AUTH0_DOMAIN + '/api/v2/users/' + decodedToken,
-                headers: {"Content-Type": "application/json", "Authorization": "Bearer " + auth0AccessToken}
-              }
-        
-              function callback (error, response, body) {
-                if (!error && response.statusCode === 200) {
-                  try {
-                    let info = JSON.parse(body);
-                    // validate if user sent the correct token
-                    if (info.user_id === decodedToken) {
-                      var name = info.username;
-                      if(!info.username || info.username === '') {
-                        name = info.name;
-                        if(!info.name || info.name === '') {
-                          name = info.nickname;
-                        }
-                      }
-        
-                      name = xssFilters.inHTMLData(name);
-                      name = filter.clean(name);
-                      name = name.substring(0, 24);
-                      data.name = name;
-                      data.last_ip = info.last_ip
-                      if (Object.keys(core.players).length !== 0) {
-                        for (let player in core.players) {
-                          if (core.players[player].name === name) {
-                            log(`cyan`, `Player ${name} tried to login multiple times`);
-                            return;
-                          }
-                        }
-                        initSocketForPlayer(data);
-                      } else {
-                        initSocketForPlayer(data);
-                      }
-                    }
-                    else {
-                      data.name = undefined
-                      initSocketForPlayer(data);    
-                      log(`cyan`, `Player tried to login with invalid username. Creating player as seadog`);
-                    }
-                  } catch (e) {
-                    log(`red`, `Error IN AUTH0 CALLBACK`, e);
-                  }
-                }
-                else {
-                  data.name = undefined
-                  initSocketForPlayer(data);
-                  // TODO: add proper logging
-                  log(`cyan`, `Player passed wrong cookie or Auth0 get user info failed. Creating player as seadog`);
-                }
-              }
-        
-              function somes() {
-                types = request(options, callback);
-              }
-              somes()
-            }
-            else {
-              initSocketForPlayer(data)
-            }
+        data.username = undefined;
+        initSocketForPlayer(data);
     }
 
     // Send full world information - force full dta. First snapshot (compress with lz-string).

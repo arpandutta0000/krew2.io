@@ -26,7 +26,7 @@ if (cluster.isMaster) { // master cluster! runs the website
                 server.app.workers[processId] = data;
             }
         });
-        log(`green`, `Creating a worker in DEV_ENV`, server.app.workers);
+        log(`green`, `Creating a worker in development.`);
         return;
     }
 
