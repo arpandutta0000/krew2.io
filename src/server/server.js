@@ -59,9 +59,6 @@ app.use((req, res, next) => {
     req.method.toLowerCase() == `options`
         ? res.sendStatus(200)
         : next();
-    
-    console.log(`yes`);
-    log(`yes`);
 });
 
 app.use(compression());
