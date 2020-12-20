@@ -600,8 +600,6 @@ io.on(`connection`, async socket => {
             console.log(name);
 
             if(name != null && name.length > 1) {
-                log(`magenta`, `Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-
                 if(name.length > 60) {
                     log(`cyan`, `Exploit detected (crew name length). Player ${playerEntity.name} kicked | Adding IP ${playerEntity.socket.handshake.address} to the ban list | Server ${playerEntity.serverNumber}.`);
                     if(playerEntity.socket.handshake.address.length > 5) {
@@ -618,11 +616,10 @@ io.on(`connection`, async socket => {
                 name = filter.clean(name);
                 name = name.substring(0, 20);
 
-                console.log(playerEntity.captainId);
-                console.log(playerEntity.id);
+                log(`magenta`, `Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Make sure that the player is the captain of the krew.
-                if(core.boats[playerEntity.parent.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainId == playerEntity.id) {
+                if(core.boats[playerEntity.parent.id] != undefined && playerEntity && playerEntity.parent && playerEntity.parent.captainId == playerEntity.id) {
                     if(krewioData) krewioService.save(krewioData.user, { krewname: name }).then(data => krewioData = data);
                     core.boats[playerEntity.parent.id].crewName = name;
                 }
