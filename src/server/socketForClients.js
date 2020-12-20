@@ -271,6 +271,7 @@ io.on(`connection`, async socket => {
         socket.on(`chat message`, async msgData => {
             // Check for spam.
             if (msgData.message.length < 1) return;
+
             if (msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                 log(`cyan`, `Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
                 log(`cyan`, `Spam message: ${msgData.message}`);

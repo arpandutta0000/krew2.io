@@ -305,7 +305,6 @@ var setUpKeybinds = function () {
                 else if (localChatOn) toggleGlobalChat();
                 else if (globalChatOn) toggleStaffChat();
             } else if ($('#li-staff-chat').is(':visible')) {
-                console.log('this is the case');
                 // If the player is a staff member but not in a clan.
                 if (staffChatOn) toggleLocalChat();
                 else if (localChatOn) toggleGlobalChat();
@@ -317,11 +316,17 @@ var setUpKeybinds = function () {
                 else if (globalChatOn) toggleClanChat();
             } else {
                 // If the player is neither a staff member nor in a clan.
-                console.log('this is not the case');
                 if (localChatOn) toggleGlobalChat();
                 else if (globalChatOn) toggleLocalChat();
             }
         }
+    });
+    keyboard.register_combo({
+        keys: 'h',
+        on_release: function () {
+            if ($('#help-modal').is(':visible')) $('#help-modal').hide();
+            else $('#help-modal').show();
+        },
     });
     /*keyboard.register_combo({
         keys: 'f',
