@@ -569,7 +569,7 @@ io.on(`connection`, async socket => {
             if(playerEntity.parent.netType == 1 && (playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
                 log(`magenta`, `Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
-                // Make the ship a one-hitter and remove it from the game after fifteen seconds.
+                // Lower the boat HP and remove it from the game.
                 playerEntity.parent.hp = 1;
                 setTimeout(() => {
                     core.removeEntity(playerEntity);
@@ -595,7 +595,9 @@ io.on(`connection`, async socket => {
 
         socket.on(`updateKrewName`, name => {
             // Do not allow any form of brackets in the name.
+            console.log(name);
             name = name.replace(/[\[\]{}()/\\]/g, ``);
+            console.log(name);
 
             if(name != null && name.length > 1) {
                 log(`magenta`, `Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -616,11 +618,13 @@ io.on(`connection`, async socket => {
                 name = filter.clean(name);
                 name = name.substring(0, 20);
 
+                console.log(playerEntity.captainId);
+                console.log(playerEntity.id);
+
                 // Make sure that the player is the captain of the krew.
-                let boat = playerEntity.parent;
-                if(core.boats[boat.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainId == playerEntity.id) {
+                if(core.boats[playerEntity.parent.id] != undefined && playerEntity && playerEntity.parent && playerEntity.captainId == playerEntity.id) {
                     if(krewioData) krewioService.save(krewioData.user, { krewname: name }).then(data => krewioData = data);
-                    core.boats[boat.id].crewName = name;
+                    core.boats[playerEntity.parent.id].crewName = name;
                 }
             }
         });
