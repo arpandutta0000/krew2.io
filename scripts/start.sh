@@ -1,2 +1,2 @@
 cd /opt/krew2.io
-npm run prod
+sudo npm run prod
