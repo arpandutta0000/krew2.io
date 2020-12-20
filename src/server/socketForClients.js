@@ -1522,7 +1522,7 @@ io.on(`connection`, async socket => {
 
             playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
             playerEntity.gold += 10;
-            christmasGold += 10; 
+            christmasGold += 10;
         });
     }
 
