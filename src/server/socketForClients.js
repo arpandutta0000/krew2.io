@@ -153,6 +153,18 @@ io.on(`connection`, async socket => {
             }
         }
 
+        // No alternate IP connection.
+        let sameIPPlayerCount = 0;
+        for(let i in core.players) {
+            let player = core.players[i];
+            if(player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
+            if(sameIPPlayerCount > 2) {
+                socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
+                log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
+                return socket.disconnect();
+            }
+        }
+
         // Create player in the world.
         data.socketId = socketId;
         playerEntity = core.createPlayer(data);
