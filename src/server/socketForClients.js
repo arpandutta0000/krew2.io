@@ -480,7 +480,6 @@ io.on(`connection`, async socket => {
             if(!isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
 
-                console.log(msg, typeof msg, msg.length);
                 if(msg.length <= 1) return;
 
                 msg = xssFilters.inHTMLData(msg);
@@ -496,18 +495,20 @@ io.on(`connection`, async socket => {
                     bus.emit(`msg`, playerEntity.id, playerEntity.name, charLimit(msg, 150));
                 }
                 else if(msgData.recipient == `local` && entities[playerEntity.parent.id]) {
-                    entities[playerEntity.parent.id].children.forEach(player => {
+                    for(let i in entities[playerEntity.parent.id].children) {
+                        let player = entities[playerEntity.parent.id].children[i];
                         player.socket.emit(`chat message`, {
                             playerID: playerEntity.id,
                             playerName: playerEntity.name,
                             recipient: `local`,
                             message: charLimit(msg, 150)
                         });
-                    });
+                    }
                 }
                 else if(msgData.recipient == `clan` && playerEntity.clan != `` && typeof playerEntity.clan != `undefined`) {
                     let clan = playerEntity.clan;
-                    entities.forEach(entity => {
+                    for(let i in entities) {
+                        let entity = entities[i];
                         if(entity.netType == 0 && entity.clan == clan) {
                             entity.socket.emit(`chat message`, {
                                 playerID: playerEntity.id,
@@ -516,17 +517,18 @@ io.on(`connection`, async socket => {
                                 message: charLimit(msg, 150)
                             });
                         }
-                    });
+                    }
                 }
                 else if(msgData.recipient == `staff` && (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev)) {
-                    core.players.forEach(player => {
+                    for(let i in core.players) {
+                        let player = core.players[i];
                         if(player.isAdmin || player.isMod || player.isDev) player.socket.emit(`chat message`, {
                             playerID: playerEntity.id,
                             playerName: playerEntity.name,
                             recipient: `staff`,
                             message: charLimit(msg, 150)
                         });
-                    });
+                    }
                 }
                 else if(msgData.message.length > 1) {
                     socket.emit(`showCenterMessage`, `You have been muted`, 1);
@@ -1516,7 +1518,7 @@ io.on(`connection`, async socket => {
         });
 
         socket.on(`christmas`, () => {
-            if(!(playerEntity.position.x >= 850 && playerEntity.position.x <= 870 && playerEntity.position.z >= 850 && playerEntity.position.z <= 870) || christmasGold > 1e4) {
+            if(christmasGold > 1e4) {
                 log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 return playerEntity.socket.disconnect();
             }

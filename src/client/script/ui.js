@@ -1130,6 +1130,7 @@ var ui = {
       if (myPlayer.clan !== '' && myPlayer.clan !== undefined) {
           $('#li-clan-chat').show();
       }
+      if(Admins.includes(myPlayer.name) || Mods.includes(myPlayer.name) || Devs.includes(myPlayer.name)) $('#li-staff-chat').show();
       if (entities[id].netType === 5){
           $('#toggle-krew-list-modal-button').removeClass().addClass('btn btn-md enabled toggle-krew-list-modal-button');
           $('#toggle-shop-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button');

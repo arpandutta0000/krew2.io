@@ -288,18 +288,33 @@ var setUpKeybinds = function () {
     keyboard.register_combo({
         keys: 'tab',
         on_release: function () {
-            if (globalChatOn) {
-                if ($('#li-clan-chat').is(":visible")) {
-                    toggleClanChat();
-                } else {
-                    toggleLocalChat()
-                }
-            } else if (clanChatOn) {
-                toggleLocalChat();
-            } else {
-                toggleGlobalChat()
+            if($('#li-staff-chat').is(':visible') && $('#li-clan-chat').is(':visible')) {
+                // If the player is both a staff member and in a clan.
+                if(staffChatOn) toggleClanChat();
+                else if(clanChatOn) toggleLocalChat();
+                else if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleStaffChat();
             }
-        },
+            else if($('#li-staff-chat').is(':visible')) {
+                console.log('this is the case');
+                // If the player is a staff member but not in a clan.
+                if(staffChatOn) toggleLocalChat();
+                else if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleStaffChat();
+            }
+            else if($('#li-clan-chat').is(':visible')) {
+                // If a player is not a staff member but is in a clan.
+                if(clanChatOn) toggleLocalChat();
+                else if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleClanChat();
+            }
+            else {
+                // If the player is neither a staff member nor in a clan.
+                console.log('this is not the case');
+                if(localChatOn) toggleGlobalChat();
+                else if(globalChatOn) toggleLocalChat();
+            }
+        }
     });
     /*keyboard.register_combo({
         keys: 'f',

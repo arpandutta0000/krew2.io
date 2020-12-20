@@ -527,7 +527,7 @@ var login = function () {
 var sendMessage = function () {
     socket.emit('chat message', {
         message: $('#chat-message').val(),
-        recipient: localChatOn ? 'local' : clanChatOn ? 'clan' : 'global'
+        recipient: localChatOn ? 'local' : clanChatOn ? 'clan' : staffChatOn ? 'staff': 'global'
     });
     $('#chat-message').val('').focus();
 };
@@ -965,6 +965,9 @@ $(document).ready(function () {
     $('#chat-clan').on('click', function () {
         toggleClanChat();
     });
+    $('#chat-staff').on('click', function () {
+        toggleStaffChat();
+    });
 
     $('#hide-chat').on('click', function () {
         $('#show-chat').show();
@@ -1235,10 +1238,13 @@ var toggleGlobalChat = function () {
     $('#chat-global').addClass('active');
     $('#chat-local').removeClass('active');
     $('#chat-clan').removeClass('active');
+    $('#chat-staff').removeClass('active');
 
     $('.global-chat').show();
     $('.local-chat').hide();
     $('.clan-chat').hide();
+    $('.staff-chat').hide();
+    staffChatOn = false;
     clanChatOn = false;
     localChatOn = false;
     globalChatOn = true;
@@ -1253,10 +1259,13 @@ var toggleLocalChat = function () {
     $('#chat-global').removeClass('active');
     $('#chat-clan').removeClass('active');
     $('#chat-local').addClass('active');
+    $('#chat-staff').removeClass('active');
 
     $('.global-chat').hide();
-    $('.clan-chat').hide();
     $('.local-chat').show();
+    $('.clan-chat').hide();
+    $('.staff-chat').hide();
+    staffChatOn = false;
     clanChatOn = false;
     localChatOn = true;
     globalChatOn = false;
@@ -1271,13 +1280,38 @@ var toggleClanChat = function () {
     $('#chat-global').removeClass('active');
     $('#chat-local').removeClass('active');
     $('#chat-clan').addClass('active');
+    $('#chat-staff').removeClass('active');
+
     $('.global-chat').hide();
     $('.local-chat').hide();
     $('.clan-chat').show();
+    $('.staff-chat').hide();
+    staffChatOn = false;
     clanChatOn = true;
     localChatOn = false;
     globalChatOn = false;
     $('#clan-chat-alert').hide();
+    // scroll down to the bottom of the chat
+    $('#chat-history').scrollTop(function() {
+        return this.scrollHeight;
+    });
+};
+
+var toggleStaffChat = function () {
+    $('#chat-global').removeClass('active');
+    $('#chat-local').removeClass('active');
+    $('#chat-clan').removeClass('active');
+    $('#chat-staff').addClass('active');
+
+    $('.global-chat').hide();
+    $('.local-chat').hide();
+    $('.clan-chat').hide();
+    $('.staff-chat').show();
+    staffChatOn = true;
+    clanChatOn = false;
+    localChatOn = false;
+    globalChatOn = false;
+    $('#staff-chat-alert').hide();
     // scroll down to the bottom of the chat
     $('#chat-history').scrollTop(function() {
         return this.scrollHeight;

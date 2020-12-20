@@ -1,6 +1,7 @@
 var socket;
 var address = document.location.host;
 var playerid; // my player ID
+var staffChatOn = false;
 var clanChatOn = false;
 var localChatOn = false;
 var globalChatOn = true;
@@ -368,7 +369,8 @@ var initSocketBinds = function () {
       (myPlayer.parent.hasChild(msgData.playerId) ||
         msgData.recipient === 'global' ||
         msgData.recipient === 'local' ||
-        msgData.recipient === 'clan') &&
+        msgData.recipient === 'clan' ||
+        msgData.recipient === 'staff') &&
       entities[msgData.playerId] !== undefined
     ) {
       var isKrewmate =
@@ -389,7 +391,10 @@ var initSocketBinds = function () {
         classRec = 'global-chat';
       } else if (msgData.recipient === 'local') {
         classRec = 'local-chat';
-      } else {
+      } else if (msgData.recipient === 'staff') {
+        classRec = 'staff-chat';
+      }
+      else {
         classRec = 'clan-chat';
       }
       var $msgDiv = $('<div/>', {
@@ -414,7 +419,7 @@ var initSocketBinds = function () {
             : 'white'),
       });
 
-      messageTypes = ['clan-chat', 'local-chat', 'global-chat'];
+      messageTypes = ['staff-chat', 'clan-chat', 'local-chat', 'global-chat'];
       for (var i = 0; i < messageTypes.length; i++) {
         var messageType = messageTypes[i];
 
@@ -438,6 +443,10 @@ var initSocketBinds = function () {
 
       if (msgData.recipient === 'clan' && !clanChatOn) {
         $('#clan-chat-alert').show();
+        $msgDiv.hide();
+      }
+      if (msgData.recipient === 'staff' && !staffChatOn) {
+        $('#staff-chat-alert').show();
         $msgDiv.hide();
       }
 
