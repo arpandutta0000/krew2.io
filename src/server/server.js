@@ -59,6 +59,9 @@ app.use((req, res, next) => {
     req.method.toLowerCase() == `options`
         ? res.sendStatus(200)
         : next();
+    
+    console.log(`yes`);
+    log(`yes`);
 });
 
 app.use(compression());
@@ -79,15 +82,15 @@ app.get(`/get_servers`, (req, res) => res.jsonp(app.workers));
 
 // Create the webfront server.
 let server = config.mode == `dev` ? http.createServer(app): https.createServer({
-         key: fs.readFileSync(config.ssl.keyPath),
-         cert: fs.readFileSync(config.ssl.certPath),
-         requestCert: false,
-         rejectUnauthorized: false
+    key: fs.readFileSync(config.ssl.keyPath),
+    cert: fs.readFileSync(config.ssl.certPath),
+    requestCert: false,
+    rejectUnauthorized: false
 }, app); 
 
 // Direct socket.io for admins.
-if(process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server,{origins: `*:*`});
-else global.io = require(`socket.io`)(server,{origins: `*:*`}).listen(`2000`);
+if(process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server, { origins: `*:*` });
+else global.io = require(`socket.io`)(server, { origins: `*:*` }).listen(`2000`);
 
 
 // Use the rollbar error handler to send exceptions to your rollbar account

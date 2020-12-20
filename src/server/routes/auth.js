@@ -7,19 +7,23 @@ const User = require(`../models/user.model.js`);
 
 router.post(`/login`, (req, res, next) => {
     passport.authenticate(`local`, (err, user, info) => {
-        if(err) return next(err);
-        if(!user) return res.redirect(`/login`);
+        if (err) return next(err);
+        if (!user) return res.redirect(`/login`);
 
         req.logIn(user, err => {
-            if(err) return next(err);
+            if (err) return next(err);
             return res.redirect(`/`);
         });
     })(req, res, next);
 });
 
 router.post(`/register`, (req, res, next) => {
-    if(!req.username || !req.password) return;
-    User.register({ username: req.username, password: req.password, active: false }, req.username);
+    if (!req.username || !req.password) return;
+    User.register({
+        username: req.username,
+        password: req.password,
+        active: false
+    }, req.username);
 });
 
 module.exports = router;

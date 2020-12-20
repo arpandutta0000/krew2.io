@@ -39,7 +39,7 @@
         },
 
         setStore: function (callback) {
-            if (myPlayer && myPlayer.parent && (myPlayer.parent.netType == 5 || myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0 )){
+            if (myPlayer && myPlayer.parent && (myPlayer.parent.netType == 5 || myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0)) {
                 socket.emit('getGoodsStore', function (err, data) {
                     if (err) {
                         console.warn(err);
@@ -58,13 +58,13 @@
             var $html = $('<div class="stock"/>');
 
             if (
-              Object.keys(Store.goodsPrice).length === 0  &&
-              (myPlayer.parent && myPlayer.parent.netType !== 1)
+                Object.keys(Store.goodsPrice).length === 0 &&
+                (myPlayer.parent && myPlayer.parent.netType !== 1)
             ) {
                 $html.append(
-                  '<div class="col-xs-12 trading">' +
-                  '<h5 class="text-warning">You must own a ship, or join a krew before buying supplies</h5>' +
-                  '</div>'
+                    '<div class="col-xs-12 trading">' +
+                    '<h5 class="text-warning">You must own a ship, or join a krew before buying supplies</h5>' +
+                    '</div>'
                 );
             }
 
@@ -99,18 +99,18 @@
             var $slider = $tr.find('.ui-slider');
             var $handle = $slider.find('.ui-slider-handle');
             var options = {
-                    create: function () {
-                        $handle.text($slider.slider('value'));
-                    },
+                create: function () {
+                    $handle.text($slider.slider('value'));
+                },
 
-                    slide: function (event, ui) {
-                        $handle.text(ui.value);
-                        var val = (+ui.value * Store.goodsPrice[good]);
-                        var sign = (action === 'sell' ?  '+' : '-');
+                slide: function (event, ui) {
+                    $handle.text(ui.value);
+                    var val = (+ui.value * Store.goodsPrice[good]);
+                    var sign = (action === 'sell' ? '+' : '-');
 
-                        $btn.html((val > 0 ? sign : '') + val);
-                    },
-                };
+                    $btn.html((val > 0 ? sign : '') + val);
+                },
+            };
 
             if (action === 'sell') {
                 options.max = Store.goods[good];
@@ -161,13 +161,13 @@
             var $tbody;
 
             html += '<div class="col-xs-12 col-sm-6 trading">',
-            html += '    <h6>Your ship\'s cargo ' + Store.cargoUsed + '/' + Store.cargo + '</h6>',
-            html += '    <table class="table table-sm">',
-            html += '        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Sell</th></tr></thead>',
-            html += '        <tbody></tbody>',
-            html += '    </table>',
-            html += '    <br>',
-            html += '</div>';
+                html += '    <h6>Your ship\'s cargo ' + Store.cargoUsed + '/' + Store.cargo + '</h6>',
+                html += '    <table class="table table-sm">',
+                html += '        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Sell</th></tr></thead>',
+                html += '        <tbody></tbody>',
+                html += '    </table>',
+                html += '    <br>',
+                html += '</div>';
 
             $html = $(html);
             $tbody = $html.find('tbody');
@@ -206,13 +206,13 @@
             var $tbody;
 
             html += '<div class="col-xs-12 col-sm-6 trading">',
-            html += '    <h6>Merchant</h6>',
-            html += '    <table class="table table-sm">',
-            html += '        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Buy</th></tr></thead>',
-            html += '        <tbody></tbody>',
-            html += '    </table>',
-            html += '    <br>',
-            html += '</div>';
+                html += '    <h6>Merchant</h6>',
+                html += '    <table class="table table-sm">',
+                html += '        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Buy</th></tr></thead>',
+                html += '        <tbody></tbody>',
+                html += '    </table>',
+                html += '    <br>',
+                html += '</div>';
 
             $html = $(html);
             $tbody = $html.find('tbody');

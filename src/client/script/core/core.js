@@ -15,6 +15,8 @@ var iterateEntities = function (dt) {
 
     // tick each entity
     for (e in entities) {
-        if (entities.hasOwnProperty(e)) {entities[e].tick(dt);}
+        if (entities.hasOwnProperty(e)) {
+            entities[e].tick(dt);
+        }
     }
 };

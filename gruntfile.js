@@ -35,7 +35,7 @@ module.exports = function (grunt) {
                     'src/client/script/rangeInput.js',
                     'src/client/assets/js/canvas.map.js',
                     'src/client/libs/ua.js',
-					'src/client/libs/firebase.js',
+                    'src/client/libs/firebase.js',
                     'src/client/libs/keypress.min.js',
                     'src/client/libs/OBJLoader.js',
                     'src/client/libs/TGALoader.js',
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
                     'src/client/script/core/core_client/core_client_entity.js',
                     'src/client/script/core/core_client/core_client_boat.js',
                     'src/client/script/core/core_client/core_client_player.js',
-					'src/client/script/ui_suggestion.js',
+                    'src/client/script/ui_suggestion.js',
                     'src/client/script/ui_krewlist.js',
                     'src/client/script/ui_goods.js',
                     'src/client/script/ui_experience.js',
@@ -76,35 +76,33 @@ module.exports = function (grunt) {
             },
         },
 
-        anonymous:
-            {
-                dist: {
-                    options: {
-                        params: [
-                            ['window', 'w'],
-                            ['document', 'd'],
-                        ],
-                    },
-                    files: {
-                        'dist/script/dist.anonym.js': ['dist/script/dist.js'],
-                    },
+        anonymous: {
+            dist: {
+                options: {
+                    params: [
+                        ['window', 'w'],
+                        ['document', 'd'],
+                    ],
+                },
+                files: {
+                    'dist/script/dist.anonym.js': ['dist/script/dist.js'],
                 },
             },
+        },
 
         // uglification
-        uglify:
-            {
-                options: {
-                    mangle: {
-                        reserved: ['jQuery', 'THREE'],
-                    },
-                },
-                dist: {
-                    files: {
-                        'dist/script/dist.min.js': ['dist/script/dist.anonym.js'],
-                    },
+        uglify: {
+            options: {
+                mangle: {
+                    reserved: ['jQuery', 'THREE'],
                 },
             },
+            dist: {
+                files: {
+                    'dist/script/dist.min.js': ['dist/script/dist.anonym.js'],
+                },
+            },
+        },
 
         // watch for file changes
         watch: {
@@ -147,18 +145,102 @@ module.exports = function (grunt) {
                     // copy texture / image files etc
                     /*  { expand: true, nonull: true, flatten: true, src: ['src/client/index_dist.html'], dest: 'dist/', rename: function (dest, src) { return 'dist/index.html'; } }, */
 
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/*', '!src/client/*.html'], dest: 'dist/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/css/*'], dest: 'dist/assets/css/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/fonts/*'], dest: 'dist/assets/fonts/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/img/*'], dest: 'dist/assets/img/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/js/*'], dest: 'dist/assets/js/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/models/*'], dest: 'dist/assets/models/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/models/dogs/*'], dest: 'dist/assets/models/dogs/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/models/cannon/*'], dest: 'dist/assets/models/cannon/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/audio/*'], dest: 'dist/assets/audio/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/models/ships/*'], dest: 'dist/assets/models/ships/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/error-pages/*'], dest: 'dist/assets/error-pages/', filter: 'isFile' },
-                    { expand: true, nonull: true, flatten: true, src: ['src/client/assets/models/sea_animals/*'], dest: 'dist/assets/models/sea_animals/', filter: 'isFile' },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/*', '!src/client/*.html'],
+                        dest: 'dist/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/css/*'],
+                        dest: 'dist/assets/css/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/fonts/*'],
+                        dest: 'dist/assets/fonts/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/img/*'],
+                        dest: 'dist/assets/img/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/js/*'],
+                        dest: 'dist/assets/js/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/models/*'],
+                        dest: 'dist/assets/models/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/models/dogs/*'],
+                        dest: 'dist/assets/models/dogs/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/models/cannon/*'],
+                        dest: 'dist/assets/models/cannon/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/audio/*'],
+                        dest: 'dist/assets/audio/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/models/ships/*'],
+                        dest: 'dist/assets/models/ships/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/error-pages/*'],
+                        dest: 'dist/assets/error-pages/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: ['src/client/assets/models/sea_animals/*'],
+                        dest: 'dist/assets/models/sea_animals/',
+                        filter: 'isFile'
+                    },
                 ],
             },
         },

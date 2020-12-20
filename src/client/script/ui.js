@@ -117,7 +117,7 @@ var ui = {
         });
 
         $('#toggle-map-button').on('click', function () {
-            if ($('#minimap-container').is(':visible')){
+            if ($('#minimap-container').is(':visible')) {
                 $('#minimap-container').hide();
             } else {
                 $('#minimap-container').show();
@@ -149,8 +149,7 @@ var ui = {
         $('.toggle-admin-panel-button').on('click', function () {
             if ($('#panel-modal').is(':visible')) {
                 $('#panel-modal').hide();
-            }
-            else {
+            } else {
                 $('#panel-modal').show();
             }
         });
@@ -169,14 +168,13 @@ var ui = {
                     $('#ship-status-container').hide();
                     ui.setClanData('force');
                 }
-            }
-            else {
+            } else {
                 $('#ship-status-container').hide();
                 $('#notLoggedIn-container').show();
             }
         });
 
-        $('#leave-clan-button').on('click', function() {
+        $('#leave-clan-button').on('click', function () {
             socket.emit('clan', 'leave', function (callback) {
                 if (callback === true) {
                     ui.showCenterMessage('You successfully left the clan', 3, 5000);
@@ -186,7 +184,7 @@ var ui = {
             myPlayer.clan = "";
             ui.setClanData();
         });
-        
+
         $('#request-clan-button').on('click', function () {
             $('#clan-table').hide();
             $('#clan-request-table').show();
@@ -209,21 +207,20 @@ var ui = {
             var clanRequest = $('#clan-request').val();
             if (isAlphaNumeric(clanRequest) !== true) {
                 $('#errorInput').show();
-            }
-            else if (clanRequest.length < 1 || clanRequest.length > 4) {
+            } else if (clanRequest.length < 1 || clanRequest.length > 4) {
                 $('#errorLength').show();
-            }
-            else if (!myPlayer.clanRequest || myPlayer.clanRequest === "") {
-                socket.emit('clan', {action: 'join', id: clanRequest}, function (callback) {
+            } else if (!myPlayer.clanRequest || myPlayer.clanRequest === "") {
+                socket.emit('clan', {
+                    action: 'join',
+                    id: clanRequest
+                }, function (callback) {
                     if (callback === true) {
                         myPlayer.clanRequest = clanRequest;
                         ui.showCenterMessage('Your request was sent to the clan leader(s)', 3, 5000);
                         ui.setClanData('force')
-                    }
-                    else if (callback === 404) {
+                    } else if (callback === 404) {
                         $('#error404').show()
-                    }
-                    else {
+                    } else {
                         $('#errorUndefined').show();
                     }
                 })
@@ -235,25 +232,23 @@ var ui = {
             var clanRequest = $('#clan-request').val();
             if (isAlphaNumeric(clanRequest) !== true) {
                 $('#errorInput').show();
-            }
-            else if (clanRequest.length < 1 || clanRequest.length > 4) {
+            } else if (clanRequest.length < 1 || clanRequest.length > 4) {
                 $('#errorLength').show();
-            }
-            else {
-                socket.emit('clan', {action: 'create', id: clanRequest}, function (callback) {
+            } else {
+                socket.emit('clan', {
+                    action: 'create',
+                    id: clanRequest
+                }, function (callback) {
                     if (callback === true) {
                         ui.showCenterMessage('You successfully created your own clan', 3, 5000);
                         myPlayer.clan = clanRequest;
                         myPlayer.clanLeader = true;
                         ui.setClanData('force')
-                    }
-                    else if (callback === 409) {
+                    } else if (callback === 409) {
                         $('#errorExists').show()
-                    }
-                    else if (callback === 403) {
+                    } else if (callback === 403) {
                         $('#errorUnauthorized').show()
-                    }
-                    else {
+                    } else {
                         $('#errorUndefined').show();
                     }
                 })
@@ -265,24 +260,27 @@ var ui = {
             var clanId = e.target.getAttribute('data-id');
 
             if (clanEvent === 'promote-clan') {
-                socket.emit('clan', {action: 'promote', id: clanId}, function (callback) {
+                socket.emit('clan', {
+                    action: 'promote',
+                    id: clanId
+                }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
                         ui.showCenterMessage('You promoted ' + clanId + ' to be a clan leader', 3, 5000)
-                    }
-                    else {
+                    } else {
                         ui.showCenterMessage('Promoting ' + clanId + ' to be a clan leader FAILED', 1, 5000)
                     }
                 });
                 ui.setClanData()
-            }
-            else if (clanEvent === 'kick-clan') {
-                socket.emit('clan', {action: 'kick', id: clanId}, function (callback) {
+            } else if (clanEvent === 'kick-clan') {
+                socket.emit('clan', {
+                    action: 'kick',
+                    id: clanId
+                }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
                         ui.showCenterMessage('You kicked ' + clanId + ' from the clan', 4, 5000)
-                    }
-                    else {
+                    } else {
                         ui.showCenterMessage('Kicking ' + clanId + ' from your clan FAILED', 1, 5000)
                     }
                 });
@@ -294,15 +292,20 @@ var ui = {
             var requestPlayer = e.target.getAttribute('data-id');
 
             if (requestEvent === 'accept-request') {
-                socket.emit('clan', {action: 'accept', id: requestPlayer}, function (callback) {
+                socket.emit('clan', {
+                    action: 'accept',
+                    id: requestPlayer
+                }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
                         ui.showCenterMessage('You accepted ' + requestPlayer + ' to join the clan', 4, 5000)
                     }
                 })
-            }
-            else if (requestEvent === 'decline-request') {
-                socket.emit('clan', {action: 'decline', id: requestPlayer}, function (callback) {
+            } else if (requestEvent === 'decline-request') {
+                socket.emit('clan', {
+                    action: 'decline',
+                    id: requestPlayer
+                }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
                         ui.showCenterMessage('You declined ' + requestPlayer + ' to join the clan', 4, 5000)
@@ -315,7 +318,10 @@ var ui = {
             var cancelRequestEvent = e.target.getAttribute('data-event');
             if (cancelRequestEvent === 'cancel-request') {
                 if (myPlayer.clanRequest && myPlayer.clanRequest !== "") {
-                    socket.emit('clan', {action: 'cancel-request', id: myPlayer.clanRequest}, function (callback) {
+                    socket.emit('clan', {
+                        action: 'cancel-request',
+                        id: myPlayer.clanRequest
+                    }, function (callback) {
                         if (callback === true) {
                             myPlayer.clanRequest = "";
                             ui.setClanData('force');
@@ -327,12 +333,15 @@ var ui = {
         });
 
         $('#minimap').on('click', function (e) {
-          if (markerMapCount < performance.now() - 5000 ){
-              markerMapCount = performance.now();
-              var x = (e.offsetX==undefined?e.layerX:e.offsetX) * 9.4 - 94;
-              var y = (e.offsetY==undefined?e.layerY:e.offsetY) * 9.4 - 94;
-              socket.emit('addMarker',{'x':x, 'y':y});
-          }
+            if (markerMapCount < performance.now() - 5000) {
+                markerMapCount = performance.now();
+                var x = (e.offsetX == undefined ? e.layerX : e.offsetX) * 9.4 - 94;
+                var y = (e.offsetY == undefined ? e.layerY : e.offsetY) * 9.4 - 94;
+                socket.emit('addMarker', {
+                    'x': x,
+                    'y': y
+                });
+            }
         });
 
 
@@ -349,61 +358,60 @@ var ui = {
          */
         $('#krew-list').on('click', function (e) {
             var dataEvent = e.target.getAttribute('data-event');
-            if (dataEvent == "kick"){
-              var dataId = e.target.getAttribute('data-id');
-              if (typeof dataId === 'string' && dataId.length > 0) {
-                  socket.emit('bootMember', dataId);
-                  $(e.target).closest('.player-list-item').remove();
-                  if ($('#buy-goods').hasClass('active')) {
-                      GOODSCOMPONENT.getList();
-                  }
-              }
-            }
-            else if (dataEvent == "transfer"){
-              var dataId = e.target.getAttribute('data-id');
-              if (typeof dataId === 'string' && dataId.length > 0) {
-                  socket.emit('transferShip', dataId);
-                  if ($('#buy-goods').hasClass('active')) {
-                      GOODSCOMPONENT.getList();
-                  }
-              }
+            if (dataEvent == "kick") {
+                var dataId = e.target.getAttribute('data-id');
+                if (typeof dataId === 'string' && dataId.length > 0) {
+                    socket.emit('bootMember', dataId);
+                    $(e.target).closest('.player-list-item').remove();
+                    if ($('#buy-goods').hasClass('active')) {
+                        GOODSCOMPONENT.getList();
+                    }
+                }
+            } else if (dataEvent == "transfer") {
+                var dataId = e.target.getAttribute('data-id');
+                if (typeof dataId === 'string' && dataId.length > 0) {
+                    socket.emit('transferShip', dataId);
+                    if ($('#buy-goods').hasClass('active')) {
+                        GOODSCOMPONENT.getList();
+                    }
+                }
             }
         });
 
-        $('#music-control').on('change', function() {
-              var elements = document.querySelectorAll('audio');
-              const range = document.getElementById("music-control");
-              for (var i = 0; i < elements.length; i++) {
-                elements[i].volume = 0.1 * range.value/range.max;
-              }
+        $('#music-control').on('change', function () {
+            var elements = document.querySelectorAll('audio');
+            const range = document.getElementById("music-control");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].volume = 0.1 * range.value / range.max;
+            }
         });
 
         // Check if the player is trying to use local firebase functions
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            // User is signed in.
-            firebase.auth().signOut();
-          } else {
-            //firebase.auth().signOut();
-            // No user is signed in.
-          }
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                firebase.auth().signOut();
+            } else {
+                //firebase.auth().signOut();
+                // No user is signed in.
+            }
         });
 
     },
 
-    playAudioFile: function(loop, fileId) {
+    playAudioFile: function (loop, fileId) {
         const musicValue = document.getElementById("music-control");
         const sfxValue = document.getElementById("sfx-control");
 
         document.getElementById(fileId).loop = loop;
-        if(fileId == 'cannon')
-                document.getElementById(fileId).currentTime = 0;
+        if (fileId == 'cannon')
+            document.getElementById(fileId).currentTime = 0;
 
         document.getElementById(fileId).play();
-        document.getElementById(fileId).volume = loop? 0.1 * musicValue.value/musicValue.max
-        : 0.45 * sfxValue.value/sfxValue.max;
+        document.getElementById(fileId).volume = loop ? 0.1 * musicValue.value / musicValue.max :
+            0.45 * sfxValue.value / sfxValue.max;
     },
-    stopAudioFile: function(fileId) {
+    stopAudioFile: function (fileId) {
 
         document.getElementById(fileId).pause();
     },
@@ -454,8 +462,7 @@ var ui = {
 
             if (level === myPlayer.experienceMaxLevel) {
                 $progressbar.attr('style', 'width: 100%');
-            }
-            else {
+            } else {
                 $progressbar.attr('style', 'width: ' + percent + '%');
             }
         });
@@ -529,10 +536,12 @@ var ui = {
         switch (typeId) {
             case undefined:
             case 1: {
-                color = '#a94442'; break;
+                color = '#a94442';
+                break;
             } // ship damage
             case 2: {
-                color = '#3c763d'; break;
+                color = '#3c763d';
+                break;
             } // shooter damage
         }
         var msgInterval = 3000;
@@ -559,11 +568,13 @@ var ui = {
         if (timeLastAd != 0 && timeLastAd != undefined && timeSinceLastAd > (5 * 60 * 1000)) {
             console.log('Showing ad');
             localStorage.setItem('lastAdTime', timeNow);
-            if (adplayer){
+            if (adplayer) {
                 adplayer.startPreRoll();
             }
         } else {
-            if (timeLastAd == null || timeLastAd === undefined) { localStorage.setItem('lastAdTime', 1); }
+            if (timeLastAd == null || timeLastAd === undefined) {
+                localStorage.setItem('lastAdTime', 1);
+            }
 
             console.log('Last ad recent. Not showing ad');
         }
@@ -578,11 +589,10 @@ var ui = {
         // $('#toggle-shop-modal-button').popover('hide');
         // krewListUpdateManually = false;
         // $('#toggle-krew-list-modal-button').popover('hide');
-        if (typeof(adplayer) !== 'undefined' && adEnabled) {
+        if (typeof (adplayer) !== 'undefined' && adEnabled) {
             adplayerCentered.startPreRoll();
-        }
-        else {
-          console.log('adplayer is not defined');
+        } else {
+            console.log('adplayer is not defined');
         }
     },
 
@@ -598,95 +608,95 @@ var ui = {
     // },
 
     // getKrewList: function (boatsList) {
-        // 	var div = $("<div/>", {});
-        //
-        // 	var tableContainer = '<table class="table table-sm">'
-        //     tableContainer += '<thead class="thead-inverse">'
-        //     tableContainer += '<tr>'
-        //     tableContainer += '<th> Krew Name </th>'
-        //     tableContainer += '<th> Capacity </th>'
-        //     tableContainer += '<th></th>'
-        //     tableContainer += '</tr>'
-        //     tableContainer += '</thead>'
-        //     tableContainer += '<tbody></tbody>'
-        //     tableContainer += '</table>'
-        //
-        //
-        //     $tableContainer = $(tableContainer)
-        //     $tbody = $tableContainer.find('tbody');
-        //
-        // 	for (l in boatsList)
-        // 	{
-        //    		var boat = boatsList[l]
-        //
-        // 		if (myBoat === undefined || boat === undefined || entities[boat.captainId] === undefined)
-        // 			continue;
-        //
-        //         var tr = '<tr>'
-        //
-        //         boat.shipState == 4?
-        //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')<br/><small>Departing in '+Math.round(boat.departureTime)+' seconds</small></td>' :
-        //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')</td>'
-        //
-        //         tr += '<td>' + boat.krewCount +'/'+ boatTypes[boat.shipclassId].maxKrewCapacity+' </td>'
-        //         //tableContainer += '<td><button id="' + boat.id + '" type="button"  onclick="ui.joinKrew(this.id)" class="btn btn-primary">Join Krew!</button></td>'
-        //         if (boat.id == myBoat.id)
-        //         	tr += '<td>My Krew</td>'
-        //
-        //         tr += '</tr>'
-        //         $tbody.append($(tr));
-        //
-        //         if (boat.id != myBoat.id && boat.krewCount < boatTypes[boat.shipclassId].maxKrewCapacity)
-        //         {
-        //         	var ButtonDiv = $("<button/>", {
-        // 	            id: boat.id,
-        // 	            class: "btn btn-primary btn-md",
-        // 	            role: "button",
-        // 	            style: boat.shipState == 4? "position: absolute;right: 20px; margin-top:-50px;" :
-        //                 "position: absolute;right: 20px; margin-top:-35px;",
-        // 	            html: "Join"
-        // 	        }).on("click", function() {
-        // 		        var id = $(this).attr('id');
-        // 				if (entities[id] === undefined || entities[id].maxKrewCapacity == entities[id].krewCount ||
-        //                     entities[id].captainId === myPlayerId)
-        //                     return;
-        //
-        //
-        // 				socket.emit("joinKrew",id);
-        //
-        //                 $("#island-menu-div").show();
-        //                 $("#exit-island-button").hide();
-        //
-        //                 if($("#departure-modal").is(':visible'))
-        //                 {
-        //                     $("#departure-modal").hide();
-        //                 }
-        // 				$("#abandon-ship-button").show();
-        // 		    })
-        //
-        // 		    $tbody.append(ButtonDiv);
-        //         }
-        //         else
-        //         {
-        //         	// $tbody.append($("<span/>", {html: "my krew"}));
-        //         }
-        //
-        //    }
-        //
-        // /*$tbody.find('tr').sort(function (a, b) {
-        //         var tda = parseInt($(a).find('td:eq(' + 1 + ')').text());
-        //         var tdb = parseInt($(b).find('td:eq(' + 1 + ')').text());
-        //
-        //         return tda > tdb ? 1
-        //                : tda < tdb ? -1
-        //                : 0;
-        //     }).appendTo($tbody);*/
-        //     div.append($tableContainer)
-        //     return div;
+    // 	var div = $("<div/>", {});
+    //
+    // 	var tableContainer = '<table class="table table-sm">'
+    //     tableContainer += '<thead class="thead-inverse">'
+    //     tableContainer += '<tr>'
+    //     tableContainer += '<th> Krew Name </th>'
+    //     tableContainer += '<th> Capacity </th>'
+    //     tableContainer += '<th></th>'
+    //     tableContainer += '</tr>'
+    //     tableContainer += '</thead>'
+    //     tableContainer += '<tbody></tbody>'
+    //     tableContainer += '</table>'
+    //
+    //
+    //     $tableContainer = $(tableContainer)
+    //     $tbody = $tableContainer.find('tbody');
+    //
+    // 	for (l in boatsList)
+    // 	{
+    //    		var boat = boatsList[l]
+    //
+    // 		if (myBoat === undefined || boat === undefined || entities[boat.captainId] === undefined)
+    // 			continue;
+    //
+    //         var tr = '<tr>'
+    //
+    //         boat.shipState == 4?
+    //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')<br/><small>Departing in '+Math.round(boat.departureTime)+' seconds</small></td>' :
+    //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')</td>'
+    //
+    //         tr += '<td>' + boat.krewCount +'/'+ boatTypes[boat.shipclassId].maxKrewCapacity+' </td>'
+    //         //tableContainer += '<td><button id="' + boat.id + '" type="button"  onclick="ui.joinKrew(this.id)" class="btn btn-primary">Join Krew!</button></td>'
+    //         if (boat.id == myBoat.id)
+    //         	tr += '<td>My Krew</td>'
+    //
+    //         tr += '</tr>'
+    //         $tbody.append($(tr));
+    //
+    //         if (boat.id != myBoat.id && boat.krewCount < boatTypes[boat.shipclassId].maxKrewCapacity)
+    //         {
+    //         	var ButtonDiv = $("<button/>", {
+    // 	            id: boat.id,
+    // 	            class: "btn btn-primary btn-md",
+    // 	            role: "button",
+    // 	            style: boat.shipState == 4? "position: absolute;right: 20px; margin-top:-50px;" :
+    //                 "position: absolute;right: 20px; margin-top:-35px;",
+    // 	            html: "Join"
+    // 	        }).on("click", function() {
+    // 		        var id = $(this).attr('id');
+    // 				if (entities[id] === undefined || entities[id].maxKrewCapacity == entities[id].krewCount ||
+    //                     entities[id].captainId === myPlayerId)
+    //                     return;
+    //
+    //
+    // 				socket.emit("joinKrew",id);
+    //
+    //                 $("#island-menu-div").show();
+    //                 $("#exit-island-button").hide();
+    //
+    //                 if($("#departure-modal").is(':visible'))
+    //                 {
+    //                     $("#departure-modal").hide();
+    //                 }
+    // 				$("#abandon-ship-button").show();
+    // 		    })
+    //
+    // 		    $tbody.append(ButtonDiv);
+    //         }
+    //         else
+    //         {
+    //         	// $tbody.append($("<span/>", {html: "my krew"}));
+    //         }
+    //
+    //    }
+    //
+    // /*$tbody.find('tr').sort(function (a, b) {
+    //         var tda = parseInt($(a).find('td:eq(' + 1 + ')').text());
+    //         var tdb = parseInt($(b).find('td:eq(' + 1 + ')').text());
+    //
+    //         return tda > tdb ? 1
+    //                : tda < tdb ? -1
+    //                : 0;
+    //     }).appendTo($tbody);*/
+    //     div.append($tableContainer)
+    //     return div;
     // },
 
     getShips: function (callback) {
-        if (myPlayer && myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0 ){
+        if (myPlayer && myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
             socket.emit('getShips', function (err, ships) {
                 if (err) {
                     console.warn(err);
@@ -757,26 +767,29 @@ var ui = {
                             myPlayer.position.z = 0;
                         }
 
-                        socket.emit('purchase', { type: 0, id: id }, function (callback) {
-                            var quest_2_list = ['04','05','06','07','015','016'];
-                            var quest_3_list = ['08','09','010','012','013','018','019'];
-                            var quest_4_list = ['014','020'];
+                        socket.emit('purchase', {
+                            type: 0,
+                            id: id
+                        }, function (callback) {
+                            var quest_2_list = ['04', '05', '06', '07', '015', '016'];
+                            var quest_3_list = ['08', '09', '010', '012', '013', '018', '019'];
+                            var quest_4_list = ['014', '020'];
                             // other-quest-2
-                            if (quest_2_list.includes(callback)){
+                            if (quest_2_list.includes(callback)) {
                                 $('#shopping-modal').hide();
                                 $('#completed-quest-table').append($('#other-quest-2').last());
                                 $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                                 $('#other-quest-3').show();
                             }
                             // other-quest-3
-                            if (quest_3_list.includes(callback)){
+                            if (quest_3_list.includes(callback)) {
                                 $('#shopping-modal').hide();
                                 $('#completed-quest-table').append($('#other-quest-3').last());
                                 $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                                 $('#other-quest-4').show();
                             }
                             // other-quest-4
-                            if (quest_4_list.includes(callback)){
+                            if (quest_4_list.includes(callback)) {
                                 $('#shopping-modal').hide();
                                 $('#completed-quest-table').append($('#other-quest-4').last());
                                 $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
@@ -785,8 +798,7 @@ var ui = {
 
                         $("#krew-div").show();
 
-                        if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType !== 1)
-                        {
+                        if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType !== 1) {
                             GameAnalytics("addDesignEvent", "Game:Session:PurchasedBoat");
                             $('#raft-shop-div').hide();
                             if (krewListUpdateManually)
@@ -809,7 +821,7 @@ var ui = {
     },
 
     getItems: function (callback) {
-        if (myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0 ){
+        if (myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
             socket.emit('getItems', function (err, items) {
                 if (err) {
                     console.warn(err);
@@ -837,8 +849,7 @@ var ui = {
                     var item = items[i];
                     if (item.id === 11 && (myPlayer.overall_kills < 10 || myPlayer.overall_cargo < 100000 || !myPlayer.shipsSank || !myPlayer.overall_cargo)) {
                         item.purchasable = false
-                    }
-                    else if (item.id === 14 && myPlayer.statsReset === true) {
+                    } else if (item.id === 14 && myPlayer.statsReset === true) {
                         item.purchasable = false;
                     }
 
@@ -859,7 +870,10 @@ var ui = {
                         html: (myPlayer && myPlayer.itemId == item.id) ? 'Equipped' : 'Buy',
                     }).on('click', function () {
                         var id = $(this).attr('id');
-                        socket.emit('purchase', { type: 1,  id: id }, function (callback) {
+                        socket.emit('purchase', {
+                            type: 1,
+                            id: id
+                        }, function (callback) {
                             // update experience if player buys "Fountain of youth"
                             if (callback === '14') {
                                 ui.updateUiExperience();
@@ -1075,19 +1089,23 @@ var ui = {
         deltaGold = gold - lastGold;
         lastGold = gold;
         if (deltaGold > 0) {
-            myPlayer.notifiscationHeap[Math.random().toString(36).substring(6, 10)] = {'text':'+ '+deltaGold+' Gold!','type':1,'isNew':true };
-            if (!$('#gold').hasClass('glow-gold-plus') && glowGoldTimeout == 0){
+            myPlayer.notifiscationHeap[Math.random().toString(36).substring(6, 10)] = {
+                'text': '+ ' + deltaGold + ' Gold!',
+                'type': 1,
+                'isNew': true
+            };
+            if (!$('#gold').hasClass('glow-gold-plus') && glowGoldTimeout == 0) {
                 $('#gold').addClass('glow-gold-plus');
                 glowGoldTimeout = 1;
-                setTimeout(function (){
-                  $('#gold').removeClass('glow-gold-plus');
-                  glowGoldTimeout = 0;
-                },3500);
+                setTimeout(function () {
+                    $('#gold').removeClass('glow-gold-plus');
+                    glowGoldTimeout = 0;
+                }, 3500);
             }
             // shorten gold number by using K for thousand and M for million
-            if (gold > 99999 && gold < 999999){
+            if (gold > 99999 && gold < 999999) {
                 var gold_short = Math.floor(gold / 1000) + " K"
-            } else if (gold > 999999){
+            } else if (gold > 999999) {
                 gold_short = (Math.floor(gold / 1000) / 1000) + " M"
             } else {
                 gold_short = gold
@@ -1095,18 +1113,18 @@ var ui = {
             // update gold value
             $('.my-gold').text(gold_short);
         } else if (deltaGold < 0) {
-          if (!$('#gold').hasClass('glow-gold-minus') && glowGoldTimeout == 0){
-              $('#gold').addClass('glow-gold-minus');
-              glowGoldTimeout = 1;
-              setTimeout(function (){
-                $('#gold').removeClass('glow-gold-minus');
-                glowGoldTimeout = 0;
-              },3500);
-          }
+            if (!$('#gold').hasClass('glow-gold-minus') && glowGoldTimeout == 0) {
+                $('#gold').addClass('glow-gold-minus');
+                glowGoldTimeout = 1;
+                setTimeout(function () {
+                    $('#gold').removeClass('glow-gold-minus');
+                    glowGoldTimeout = 0;
+                }, 3500);
+            }
             // shorten gold number by using K for thousand and M for million
-            if (gold > 99999 && gold < 999999){
+            if (gold > 99999 && gold < 999999) {
                 var gold_short = Math.floor(gold / 1000) + " K"
-            } else if (gold > 999999){
+            } else if (gold > 999999) {
                 gold_short = (Math.floor(gold / 1000) / 1000) + " M"
             } else {
                 gold_short = gold
@@ -1116,82 +1134,82 @@ var ui = {
         }
     },
 
-   checkScoreDelta: function (score) {
-       deltaScore = score - lastScore;
+    checkScoreDelta: function (score) {
+        deltaScore = score - lastScore;
 
-       if (deltaScore > 0) {
-           this.showDamageMessage('+ ' + parseFloat(deltaScore).toFixed(1) + ' hit', 2);
-           lastScore = score;
+        if (deltaScore > 0) {
+            this.showDamageMessage('+ ' + parseFloat(deltaScore).toFixed(1) + ' hit', 2);
+            lastScore = score;
 
-       }
-   },
+        }
+    },
 
-   setActiveBtn: function(id){
-      if (myPlayer.clan !== '' && myPlayer.clan !== undefined) {
-          $('#li-clan-chat').show();
-      }
-      if(Admins.includes(myPlayer.name) || Mods.includes(myPlayer.name) || Devs.includes(myPlayer.name)) $('#li-staff-chat').show();
-      if (entities[id].netType === 5){
-          $('#toggle-krew-list-modal-button').removeClass().addClass('btn btn-md enabled toggle-krew-list-modal-button');
-          $('#toggle-shop-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button');
+    setActiveBtn: function (id) {
+        if (myPlayer.clan !== '' && myPlayer.clan !== undefined) {
+            $('#li-clan-chat').show();
+        }
+        if (Admins.includes(myPlayer.name) || Mods.includes(myPlayer.name) || Devs.includes(myPlayer.name)) $('#li-staff-chat').show();
+        if (entities[id].netType === 5) {
+            $('#toggle-krew-list-modal-button').removeClass().addClass('btn btn-md enabled toggle-krew-list-modal-button');
+            $('#toggle-shop-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button');
 
-          if (entities[id].name === "Labrador"){
-              $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip','Deposit or withdraw gold');
-          }
-          else{
-              $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md disabled toggle-bank-modal-button').attr('data-tooltip','Bank is available at Labrador');
-          }
-      }
-      else if (entities[id].netType === 1) {
-          if (entities[id].shipState === 3){
-              $('#toggle-krew-list-modal-button').removeClass().addClass('btn btn-md enabled toggle-krew-list-modal-button');
-              $('#toggle-shop-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button');
+            if (entities[id].name === "Labrador") {
+                $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip', 'Deposit or withdraw gold');
+            } else {
+                $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md disabled toggle-bank-modal-button').attr('data-tooltip', 'Bank is available at Labrador');
+            }
+        } else if (entities[id].netType === 1) {
+            if (entities[id].shipState === 3) {
+                $('#toggle-krew-list-modal-button').removeClass().addClass('btn btn-md enabled toggle-krew-list-modal-button');
+                $('#toggle-shop-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button');
 
-              if (entities[entities[id].anchorIslandId].name === "Labrador"){
-                  $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip','Deposit or withdraw gold');
-              }
-              else{
-                  $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md disabled toggle-bank-modal-button').attr('data-tooltip','Bank is available at Labrador');
-              }
-          }
+                if (entities[entities[id].anchorIslandId].name === "Labrador") {
+                    $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip', 'Deposit or withdraw gold');
+                } else {
+                    $('#toggle-bank-modal-button').removeClass().addClass('btn btn-md disabled toggle-bank-modal-button').attr('data-tooltip', 'Bank is available at Labrador');
+                }
+            }
 
-      }
+        }
 
-   },
+    },
 
-   closeAllPagesExcept: function(pageId){
+    closeAllPagesExcept: function (pageId) {
         allPagesId = ["#help-modal", "#bank-modal", "#krew-list-modal", "#shopping-modal", "#quests-modal", "#ship-status-modal"];
         for (var i = 0; i < allPagesId.length; i++) {
-            if(pageId !== allPagesId[i]){
+            if (pageId !== allPagesId[i]) {
                 $(allPagesId[i]).hide();
             }
         }
-   },
-   setBankData: function(data){
-        if (data.warn){
+    },
+    setBankData: function (data) {
+        if (data.warn) {
             $('#bankContainer').hide();
             $('#nabankContainer').show();
-        }
-        else{
+        } else {
             $('#bankContainer').show();
             $('#nabankContainer').hide();
             $('#my-deposits').text(data.my);
-            if (data.total >= 1000 && data.total.toString().length <= 6){
+            if (data.total >= 1000 && data.total.toString().length <= 6) {
                 var goldTotalScore = Math.floor(data.total / 1000) + " K";
                 $('#total-deposits').text(goldTotalScore);
-            } else if (data.total.toString().length >= 7){
+            } else if (data.total.toString().length >= 7) {
                 goldTotalScore = (Math.floor(data.total / 1000) / 1000) + " M";
                 $('#total-deposits').text(goldTotalScore);
             } else {
                 goldTotalScore = data.total;
                 $('#total-deposits').text(goldTotalScore);
             }
-            $('#make-deposit').attr({'max':myPlayer.gold});
-            $('#take-deposit').attr({'max':data.my});
+            $('#make-deposit').attr({
+                'max': myPlayer.gold
+            });
+            $('#take-deposit').attr({
+                'max': data.my
+            });
         }
-   },
+    },
 
-    setClanData: function(option){
+    setClanData: function (option) {
         // if player has no clan and did not send join request yet
         if ((myPlayer.clan === undefined || myPlayer.clan === "") && (!myPlayer.clanRequest || myPlayer.clanRequest === "")) {
             $('#clan-name').text("You don't have any clan yet");
@@ -1250,8 +1268,7 @@ var ui = {
                         if (callback['clanRequests']) {
                             if (callback['clanRequests'].length > 0) {
                                 requestClanButton.removeClass('btn-warning disabled').addClass('btn-success').text('View requests (' + callback['clanRequests'].length + ')')
-                            }
-                            else if (callback['clanRequests'].length === 0) {
+                            } else if (callback['clanRequests'].length === 0) {
                                 requestClanButton.removeClass('btn-success').addClass('btn-warning disabled').text('View requests (' + callback['clanRequests'].length + ')')
                             }
                             var clanRequestTable = $('#clan-request-table');
@@ -1302,9 +1319,9 @@ var ui = {
         }
 
         // set correct overall_kills / overall_cargo number
-        if (scores.boats.length > 0){
-            for (p in scores.boats){
-                if(!myBoat) return;
+        if (scores.boats.length > 0) {
+            for (p in scores.boats) {
+                if (!myBoat) return;
                 if (scores.boats[p] && scores.boats[p].id === myBoat.id) {
                     myBoat.overall_kills = scores.boats[p].ok;
                     myBoat.overall_cargo = scores.boats[p].oc;
@@ -1358,14 +1375,14 @@ var ui = {
                 var deathScore = playersListSortedByGold[playerScoreIndex].d;
                 var playerLevel = playersListSortedByGold[playerScoreIndex].l;
                 var clan = (playersListSortedByGold[playerScoreIndex].c !== undefined && playersListSortedByGold[playerScoreIndex].c !== "") ? '[' + playersListSortedByGold[playerScoreIndex].c + ']' : "";
-                if (playersListSortedByGold[playerScoreIndex].s >= 1050 && playersListSortedByGold[playerScoreIndex].s.length <= 6){
+                if (playersListSortedByGold[playerScoreIndex].s >= 1050 && playersListSortedByGold[playerScoreIndex].s.length <= 6) {
                     var damageScore = Math.floor((playersListSortedByGold[playerScoreIndex].s - 50) / 1000) + " K";
                 } else {
                     damageScore = playersListSortedByGold[playerScoreIndex].s - 50;
                 }
-                if (playersListSortedByGold[playerScoreIndex].g >= 1000 && playersListSortedByGold[playerScoreIndex].g.toString().length <= 6){
+                if (playersListSortedByGold[playerScoreIndex].g >= 1000 && playersListSortedByGold[playerScoreIndex].g.toString().length <= 6) {
                     var goldScore = Math.floor(playersListSortedByGold[playerScoreIndex].g / 1000) + " K";
-                } else if (playersListSortedByGold[playerScoreIndex].g.toString().length >= 7){
+                } else if (playersListSortedByGold[playerScoreIndex].g.toString().length >= 7) {
                     goldScore = (Math.floor(playersListSortedByGold[playerScoreIndex].g / 1000) / 1000) + " M";
                 } else {
                     goldScore = playersListSortedByGold[playerScoreIndex].g;
@@ -1421,24 +1438,24 @@ var ui = {
                 var tradecount = boatsListSortedByGold[scoreIndex].oc;
                 var clan = (boatsListSortedByGold[scoreIndex].c !== undefined && boatsListSortedByGold[scoreIndex].c !== "") ? '[' + boatsListSortedByGold[scoreIndex].c + ']' : "";
                 var other_lvl = boatsListSortedByGold[scoreIndex].oql;
-                if (boatsListSortedByGold[scoreIndex].g >= 1000 && boatsListSortedByGold[scoreIndex].g.toString().length <= 6){
+                if (boatsListSortedByGold[scoreIndex].g >= 1000 && boatsListSortedByGold[scoreIndex].g.toString().length <= 6) {
                     var display_gold = Math.floor(boatsListSortedByGold[scoreIndex].g / 1000) + " K";
-                } else if (boatsListSortedByGold[scoreIndex].g.toString().length >= 7){
+                } else if (boatsListSortedByGold[scoreIndex].g.toString().length >= 7) {
                     display_gold = (Math.floor(boatsListSortedByGold[scoreIndex].g / 1000) / 1000) + " M";
                 } else {
                     display_gold = boatsListSortedByGold[scoreIndex].g;
                 }
                 var entry = $('<div' + (boatsListSortedByGold[scoreIndex].id === myBoat.id ? ' class="text-success grid-left"' : ' class="grid-left"') + '>' + clan + '</div>' +
-                                '<div style="max-width: 100%;"' +
-                                (boatsListSortedByGold[scoreIndex].id === myBoat.id ? ' class="text-success grid-middle"' : ' class="grid-middle"') + '>' +
-                                "<span class='krewName' style='margin-left:2px;font-size: 13px'></span>" +
-                                '</div>' +
-                                '<div class="grid-middle">' +
-                                '<img src="https://cdn.krew.io/assets/img/medal_' + (tradecount >= 150000 ? 'gold' : tradecount >= 50000 ? 'silver' : 'bronze') + '.png"' + (tradecount >= 12000 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
-                                '<img src="https://cdn.krew.io/assets/img/medal_' + (killcount >= 50 ? 'gold' : killcount >= 20 ? 'silver' : 'bronze') + '.png"' + (killcount >= 10 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
-                                '<img src="https://cdn.krew.io/assets/img/medal_' + (other_lvl === 3 ? 'gold' : other_lvl === 2 ? 'silver' : 'bronze') + '.png"' + (other_lvl > 0 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
-                                '</div>' +
-                                '<div' + (boatsListSortedByGold[scoreIndex].id === myBoat.id ? ' class="text-success grid-right"' : ' class="grid-right"') + '>' + display_gold + '</div>');
+                    '<div style="max-width: 100%;"' +
+                    (boatsListSortedByGold[scoreIndex].id === myBoat.id ? ' class="text-success grid-middle"' : ' class="grid-middle"') + '>' +
+                    "<span class='krewName' style='margin-left:2px;font-size: 13px'></span>" +
+                    '</div>' +
+                    '<div class="grid-middle">' +
+                    '<img src="https://cdn.krew.io/assets/img/medal_' + (tradecount >= 150000 ? 'gold' : tradecount >= 50000 ? 'silver' : 'bronze') + '.png"' + (tradecount >= 12000 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
+                    '<img src="https://cdn.krew.io/assets/img/medal_' + (killcount >= 50 ? 'gold' : killcount >= 20 ? 'silver' : 'bronze') + '.png"' + (killcount >= 10 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
+                    '<img src="https://cdn.krew.io/assets/img/medal_' + (other_lvl === 3 ? 'gold' : other_lvl === 2 ? 'silver' : 'bronze') + '.png"' + (other_lvl > 0 ? ' style="height: 17px"' : 'style="height: 17px; display:none"') + '>' +
+                    '</div>' +
+                    '<div' + (boatsListSortedByGold[scoreIndex].id === myBoat.id ? ' class="text-success grid-right"' : ' class="grid-right"') + '>' + display_gold + '</div>');
                 entry.find('.krewName').text(boatsListSortedByGold[scoreIndex].cN);
                 $leaderboard_data.append(entry);
             }
@@ -1485,8 +1502,8 @@ var ui = {
             playerListItem += '' + playerName + ((player.id === myPlayerId) ? ' (ME)' : '');
             if (player.id !== myPlayerId && myPlayer.isCaptain === true) {
                 playerListItem += '<span class="btn btn-danger btn-kick-player float-sm-right" data-event="kick" data-id="' +
-                    player.id +'"><i data-event="kick" data-id="' +player.id +'" class="icofont icofont-delete"></i></span><span class="btn btn-warning btn-transfer-ship float-sm-right" data-event="transfer" data-id="' +
-                    player.id +'"><i data-event="transfer" data-id="' +player.id +'" class="icofont icofont-ship-wheel"></i></span>';
+                    player.id + '"><i data-event="kick" data-id="' + player.id + '" class="icofont icofont-delete"></i></span><span class="btn btn-warning btn-transfer-ship float-sm-right" data-event="transfer" data-id="' +
+                    player.id + '"><i data-event="transfer" data-id="' + player.id + '" class="icofont icofont-ship-wheel"></i></span>';
             }
 
             playerListItem += '<span class="float-sm-right">';
@@ -1497,8 +1514,7 @@ var ui = {
                     }
                 }
                 playerListItem += ' ' + '<i class="text-warning icofont icofont-cube"></i>' + ' ' + player.cU;
-            }
-            else {
+            } else {
                 playerListItem += ' ' + '<i class="text-warning icofont icofont-cube"></i>' + ' ' + player.cU;
             }
             playerListItem += '</span>';
@@ -1522,22 +1538,19 @@ var ui = {
                 myPlayer.clan = player.c;
                 myPlayer.clanLeader = player.cL;
                 myPlayer.clanOwner = player.cO;
-                if(myPlayer.clanRequest != player.cR)
-                {
+                if (myPlayer.clanRequest != player.cR) {
                     myPlayer.clanRequest = player.cR;
                     ui.setClanData('force');
-                }
-                else
+                } else
                     myPlayer.clanRequest = player.cR;
-                
+
                 myPlayer.gold = parseInt(player.g);
-                if(myPlayer.gold >= goldMultiplier)
-                {
+                if (myPlayer.gold >= goldMultiplier) {
                     //console.log('goldMultiplier is: ',goldMultiplier);
-                    miniplaySend2API('gold',goldMultiplier);
+                    miniplaySend2API('gold', goldMultiplier);
                     goldMultiplier *= 2;
                 }
-                
+
                 myPlayer.score = parseInt(player.s);
                 myPlayer.shipsSank = parseInt(player.sS);
                 myPlayer.overall_cargo = parseInt(player.oc);
@@ -1559,14 +1572,14 @@ var ui = {
     },
 
     // function for creating the login cookie
-    setCookie: function(cname, cvalue, exdays) {
+    setCookie: function (cname, cvalue, exdays) {
         var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+ d.toUTCString();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     },
 
-    getCookie: function(cname) {
+    getCookie: function (cname) {
         var cookies = document.cookie.split(";");
         for (var i in cookies) {
             var cookie = cookies[i];
@@ -1578,7 +1591,7 @@ var ui = {
         }
     },
 
-    invalidateCookie: function(cname) {
+    invalidateCookie: function (cname) {
         var cookies = document.cookie.split(";");
         for (var i in cookies) {
             var cookie = cookies[i];
@@ -1599,8 +1612,7 @@ var ui = {
                 loginButton.on('click', function () {
                     window.location.pathname = '/login'
                 });
-            }
-            else {
+            } else {
                 ui.setCookie('username', response.username, 1)
                 ui.setCookie('token', response.token, 1)
                 ui.clientAccessToken = response.token
@@ -1615,22 +1627,22 @@ var ui = {
         });
     },
 
-    prepareForPlay: function(){
+    prepareForPlay: function () {
         loginButton.hide();
-        playButton.removeClass('btn-success').addClass('btn-warning').text('Play as ' +  ui.username);
+        playButton.removeClass('btn-success').addClass('btn-warning').text('Play as ' + ui.username);
 
         // show the player that he is logged in (top right corner) and show logout button
         $('#logged-in').html('You are logged in as <b>' + ui.username + '</b>').show();
         $('#login-link').attr('href', '/logout').html('Logout').show();
     },
 
-    setSpawnPlace: function (){
+    setSpawnPlace: function () {
         spawn = $('#spawn-selection').val();
-        if(spawn === 0 || spawn === 1)
-            ui.playAudioFile(true,'ocean-music');
+        if (spawn === 0 || spawn === 1)
+            ui.playAudioFile(true, 'ocean-music');
         else
-            ui.playAudioFile(true,'island-music');
-        
+            ui.playAudioFile(true, 'island-music');
+
         return spawn;
     },
 
@@ -1640,7 +1652,9 @@ var ui = {
         // construct server-list
         $.ajax({
             url: baseUrl + '/get_servers',
-            data: { gameId: '59a714c837cc44805415df18' },
+            data: {
+                gameId: '59a714c837cc44805415df18'
+            },
             dataType: 'jsonp',
             type: 'GET',
             success: function (servers) {
@@ -1678,7 +1692,7 @@ var ui = {
     },
 
     createWallOfFame: function () {
-        $.get("wall-of-fame", function(data, status){
+        $.get("wall-of-fame", function (data, status) {
             if (status === "success") {
                 var tableContent = '';
                 for (var p in data) {
@@ -1691,9 +1705,9 @@ var ui = {
                     }
                     if (p == 0) {
                         tableContent = '<tr><td class="rank">' + (parseInt(p) + 1) + '</td><td class="top-1">' + data[p]["playerName"] + '</td><td class="top-1">' + clan + '</td><td class="top-1">' + highscore + '</td></tr>';
-                    } else if (p <= 2){
+                    } else if (p <= 2) {
                         tableContent = '<tr><td class="rank">' + (parseInt(p) + 1) + '</td><td class="top-2-3">' + data[p]["playerName"] + '</td><td class="top-2-3">' + clan + '</td><td class="top-2-3">' + highscore + '</td></tr>';
-                    } else if (p <= 9){
+                    } else if (p <= 9) {
                         tableContent = '<tr><td class="rank">' + (parseInt(p) + 1) + '</td><td>' + data[p]["playerName"] + '</td><td>' + clan + '</td><td>' + highscore + '</td></tr>';
                     } else {
                         tableContent = '<tr class="top20" style="display:none"><td class="rank">' + (parseInt(p) + 1) + '</td><td>' + data[p]["playerName"] + '</td><td>' + clan + '</td><td>' + highscore + '</td></tr>';
@@ -1760,7 +1774,7 @@ var ui = {
     },
 
     LoadingWheel: function (event) {
-        if (event === 'show'){
+        if (event === 'show') {
             $('#loading-wheel').show();
         } else {
             $('#loading-wheel').hide();
@@ -1768,7 +1782,7 @@ var ui = {
     },
 
     showHideSpyglassBlackout: function (event) {
-        if (event === 'show'){
+        if (event === 'show') {
             $('#spyglass').show();
         } else {
             $('#spyglass').hide();

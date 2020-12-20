@@ -2,7 +2,7 @@
 Landmark.prototype = new Entity();
 Landmark.prototype.constructor = Landmark;
 
-function Landmark(type, x, z, config) {
+function Landmark (type, x, z, config) {
 
     this.createProperties();
 
@@ -45,12 +45,12 @@ function Landmark(type, x, z, config) {
         // scene.add(this.palm);
     }
     // Christmas stuff (add snowman and christmas tree on Jamaica)
-    models.elka.position.set(860,2,860);
+    models.elka.position.set(860, 2, 860);
     models.elka.scale.x = 0.35;
     models.elka.scale.y = 0.35;
     models.elka.scale.z = 0.35;
-    models.snowman.position.set(880,38,885);
-    models.snowman.rotation.set(0,-500,0);
+    models.snowman.position.set(880, 38, 885);
+    models.snowman.rotation.set(0, -500, 0);
     models.snowman.scale.x = 0.17;
     models.snowman.scale.y = 0.17;
     models.snowman.scale.z = 0.17;
@@ -61,7 +61,7 @@ function Landmark(type, x, z, config) {
     this.modeloffset.set(0, 1, 0);
 
     this.visualCue = new THREE.Mesh(new THREE.RingBufferGeometry(this.dockRadius - 1, this.dockRadius, 30), materials.islandradius);
-    this.visualCue.rotation.x = - Math.PI / 2;
+    this.visualCue.rotation.x = -Math.PI / 2;
     //this.visualCue.scale.set(this.dockRadius, 1, this.dockRadius);
     this.visualCue.position.set(this.position.x, 1, this.position.z);
     this.wavetimer = 0;
@@ -110,14 +110,16 @@ Landmark.prototype.getTypeSnap = function () {
 
 // function that parses a snapshot
 Landmark.prototype.parseTypeSnap = function (snap) {
-    if (snap.t !== undefined) {this.pickupSize = parseInt(snap.t);}
+    if (snap.t !== undefined) {
+        this.pickupSize = parseInt(snap.t);
+    }
 };
 
 Landmark.prototype.clientlogic = function (dt) {
 
     this.wavetimer += dt;
     var scale = 0.5 + Math.sin(this.wavetimer) * 0.5;
-  //  this.visualCue.scale.y = scale;
+    //  this.visualCue.scale.y = scale;
     //this.visualCue.position.y = 0.1 + scale * 0.5;
     water.position.y = 0.1 + scale * 0.5;
 
@@ -135,11 +137,13 @@ Landmark.prototype.clientlogic = function (dt) {
 Landmark.prototype.logic = function (dt) {
 
     // if this landmark is a dockable thing (rocks etc dont have docks)
-    if (this.dockType > 0) {
-    }
+    if (this.dockType > 0) {}
 
 };
 
 Landmark.prototype.isWithinDockingRadius = function (x, z) {
-    return distance({ x: x, z: z }, this.position) < this.dockRadius - 2;
+    return distance({
+        x: x,
+        z: z
+    }, this.position) < this.dockRadius - 2;
 };

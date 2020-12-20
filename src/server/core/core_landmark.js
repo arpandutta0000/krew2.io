@@ -2,7 +2,7 @@
 Landmark.prototype = new Entity();
 Landmark.prototype.constructor = Landmark;
 
-function Landmark(type, x, z, config) {
+function Landmark (type, x, z, config) {
 
     this.createProperties();
 
@@ -47,20 +47,19 @@ Landmark.prototype.getTypeSnap = function () {
 
 // function that parses a snapshot
 Landmark.prototype.parseTypeSnap = function (snap) {
-    if (snap.t !== undefined) {this.pickupSize = parseInt(snap.t);}
+    if (snap.t !== undefined) {
+        this.pickupSize = parseInt(snap.t);
+    }
 };
 
 Landmark.prototype.logic = function (dt) {
 
-    for (c in this.children)
-    {
+    for (c in this.children) {
         var child = this.children[c];
         if (child.netType !== 0)
             continue;
-        else
-        {
-            if (child.parent !== this)
-            {
+        else {
+            if (child.parent !== this) {
                 this.children[child.id] = undefined;
                 delete this.children[child.id];
             }
@@ -78,7 +77,9 @@ Landmark.prototype.logic = function (dt) {
             var boat = boats[b];
 
             // dont check against boats that have died
-            if (boat.hp < 1 || boat.shipState == 3) {continue;}
+            if (boat.hp < 1 || boat.shipState == 3) {
+                continue;
+            }
 
             if (this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
                 boat.enterIsland(this.id);
@@ -108,7 +109,10 @@ Landmark.prototype.logic = function (dt) {
                     // see if child is a player and has a socket
                     if (child && child.netType === 0 && child.socket) {
                         if (!child.sentDockingMsg) {
-                            child.socket.emit('enterIsland', { gold: child.gold, captainId: boat.captainId });
+                            child.socket.emit('enterIsland', {
+                                gold: child.gold,
+                                captainId: boat.captainId
+                            });
                             child.sentDockingMsg = true;
                         }
                     }
@@ -120,5 +124,8 @@ Landmark.prototype.logic = function (dt) {
 };
 
 Landmark.prototype.isWithinDockingRadius = function (x, z) {
-    return distance({ x: x, z: z }, this.position) < this.dockRadius - 2;
+    return distance({
+        x: x,
+        z: z
+    }, this.position) < this.dockRadius - 2;
 };

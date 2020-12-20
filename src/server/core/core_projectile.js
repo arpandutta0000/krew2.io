@@ -1,7 +1,7 @@
 Projectile.prototype = new Entity();
 Projectile.prototype.constructor = Projectile;
 
-function Projectile(shooter) {
+function Projectile (shooter) {
     this.createProperties();
 
     // netcode type
@@ -48,7 +48,7 @@ function Projectile(shooter) {
             )
         )
     ) {
-        if(this.impact) this.impact.destroy = true;
+        if (this.impact) this.impact.destroy = true;
         removeEntity(this);
         return;
     }
@@ -96,16 +96,15 @@ Projectile.prototype.logic = function (dt) {
         this.shooterid === '' ||
         entities[this.shooterid] === undefined ||
         (entities[this.shooterid] !== undefined &&
-        this.type != -1 && this.type != entities[this.shooterid].activeWeapon)
+            this.type != -1 && this.type != entities[this.shooterid].activeWeapon)
     ) {
-        if(this.impact) this.impact.destroy = true;
+        if (this.impact) this.impact.destroy = true;
         removeEntity(this);
         return;
     }
 
 
-    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use == false)
-    {
+    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use == false) {
         entities[this.shooterid].isFishing = false;
     }
 
@@ -120,16 +119,13 @@ Projectile.prototype.logic = function (dt) {
 
         // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from player
         if (entities[this.shooterid].parent !== undefined &&
-            entities[this.shooterid].parent.netType == 5)
-        {
+            entities[this.shooterid].parent.netType == 5) {
             if (playerPos.z.toFixed(2) != this.shooterStartPos.z.toFixed(2) &&
                 playerPos.x.toFixed(2) != this.shooterStartPos.x.toFixed(2)) {
                 this.reel = true;
                 entities[this.shooterid].isFishing = false;
             }
-        }
-        else
-        {
+        } else {
             var fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
             //var fromPlayertoRod = distance(playerPos,this.shooterStartPos)
             if (fromPlayertoRod >= 40) {
@@ -140,7 +136,7 @@ Projectile.prototype.logic = function (dt) {
 
     }
 
-    if (this.position.y < 10) {// if the cannon ball is below surface level, remove it
+    if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
         var hasHitBoat = false;
 
         // on the server, we will spawn an impact
@@ -184,7 +180,7 @@ Projectile.prototype.logic = function (dt) {
                         }
 
                         // check if player has too many allocated points --> kick
-                        if (countAllocatedPoints > 52){
+                        if (countAllocatedPoints > 52) {
                             log(`cyan`, `Exploit (stats hacking), allocated stats: ${countAllocatedPoints} | IP ${this.shooter.socket.handshake.address}`);
                             this.shooter.socket.disconnect()
                         }
@@ -196,12 +192,12 @@ Projectile.prototype.logic = function (dt) {
 
                         var damage = 8 + attackDamageBonus + attackDistanceBonus;
                         if (entities[boat.captainId]) {
-                            damage = damage + (damage * attackSpeedBonus) - (damage * entities[boat.captainId].armorBonus)/100;
+                            damage = damage + (damage * attackSpeedBonus) - (damage * entities[boat.captainId].armorBonus) / 100;
                         }
 
-                        if (this.shooter.parent.crewName !== undefined){
-                                this.shooter.socket.emit('showDamageMessage', '+ ' + parseFloat(damage).toFixed(1) + ' hit', 2);
-                                this.shooter.addScore(damage);
+                        if (this.shooter.parent.crewName !== undefined) {
+                            this.shooter.socket.emit('showDamageMessage', '+ ' + parseFloat(damage).toFixed(1) + ' hit', 2);
+                            this.shooter.addScore(damage);
                         }
 
                         // Update the player experience based on the damage dealt
@@ -209,31 +205,31 @@ Projectile.prototype.logic = function (dt) {
 
                         boat.hp -= damage;
 
-                        for (var s in boat.children){
-                          boat.children[s].socket.emit('showDamageMessage', '- ' + parseFloat(damage).toFixed(1) + ' hit', 1);
+                        for (var s in boat.children) {
+                            boat.children[s].socket.emit('showDamageMessage', '- ' + parseFloat(damage).toFixed(1) + ' hit', 1);
                         }
 
                         if (boat.hp < 1) {
                             // if player destroyed a boat, increase the score
                             this.shooter.shipsSank += 1;
                             // levels for pirate quests
-                            if (this.shooter.shipsSank === 1){
-                                this.shooter.socket.emit('showCenterMessage', "Achievement ship teaser: +1,000 gold +100 XP" , 3);
+                            if (this.shooter.shipsSank === 1) {
+                                this.shooter.socket.emit('showCenterMessage', "Achievement ship teaser: +1,000 gold +100 XP", 3);
                                 this.shooter.gold += 1000;
                                 this.shooter.experience += 100;
                             }
-                            if (this.shooter.shipsSank === 5){
-                                this.shooter.socket.emit('showCenterMessage', "Achievement ship sinker: +5,000 gold +500 XP" , 3);
+                            if (this.shooter.shipsSank === 5) {
+                                this.shooter.socket.emit('showCenterMessage', "Achievement ship sinker: +5,000 gold +500 XP", 3);
                                 this.shooter.gold += 5000;
                                 this.shooter.experience += 500;
                             }
-                            if (this.shooter.shipsSank === 10){
-                                this.shooter.socket.emit('showCenterMessage', "Achievement ship killer: +10,000 gold +1,000 XP" , 3);
+                            if (this.shooter.shipsSank === 10) {
+                                this.shooter.socket.emit('showCenterMessage', "Achievement ship killer: +10,000 gold +1,000 XP", 3);
                                 this.shooter.gold += 10000;
                                 this.shooter.experience += 1000;
                             }
-                            if (this.shooter.shipsSank === 20){
-                                this.shooter.socket.emit('showCenterMessage', "Achievement ship slayer: +20,000 gold +1,000 XP" , 3);
+                            if (this.shooter.shipsSank === 20) {
+                                this.shooter.socket.emit('showCenterMessage', "Achievement ship slayer: +20,000 gold +1,000 XP", 3);
                                 this.shooter.gold += 20000;
                                 this.shooter.experience += 1000;
                             }
@@ -242,14 +238,14 @@ Projectile.prototype.logic = function (dt) {
                             var crew_kill_count = 0;
                             for (y in core.players) {
                                 var otherPlayer = core.players[y];
-                                if (otherPlayer.parent !== undefined && this.shooter.parent.id === otherPlayer.parent.id){
+                                if (otherPlayer.parent !== undefined && this.shooter.parent.id === otherPlayer.parent.id) {
                                     crew_kill_count += otherPlayer.shipsSank;
                                 }
                             }
                             this.shooter.parent.overall_kills = crew_kill_count;
 
                             // add death to entity of all players on boat which was sunk
-                            for (p in boat.children){
+                            for (p in boat.children) {
                                 boat.children[p].deaths = (boat.children[p].deaths === undefined ? 0 : boat.children[p].deaths);
                                 boat.children[p].deaths += 1;
                             }
@@ -262,24 +258,31 @@ Projectile.prototype.logic = function (dt) {
                                 victimGold += boat.children[p].gold
                             }
                             log(`magenta`, `${whoKilledWho} | Kill count boat: ${this.shooter.parent.overall_kills} | Shooter gold: ${this.shooter.gold} | Victim gold: ${victimGold}`);
-                            
+
                             // update kill count and player highscore in mongo db
-                            if (this.shooter.isLoggedIn === true && this.shooter.serverNumber === 1){
+                            if (this.shooter.isLoggedIn === true && this.shooter.serverNumber === 1) {
                                 if (this.shooter.gold > this.shooter.highscore) {
                                     this.shooter.highscore = this.shooter.gold;
 
+                                } else {
+                                    myobj = {
+                                        $inc: {
+                                            overall_kills: 1
+                                        }
+                                    };
                                 }
-                                else {
-                                    myobj = { $inc: { overall_kills: 1 } };
-                                }
-                                User.updateOne({ name: this.shooter.name }, { highscore: this.shooter.gold });
+                                User.updateOne({
+                                    name: this.shooter.name
+                                }, {
+                                    highscore: this.shooter.gold
+                                });
                                 log(`magenta`, `Update highscore for player: ${this.shooter.name} | Old highscore: ${this.shooter.highscore} | New highscore: ${this.shooter.gold} | IP: ${this.shooter.socket.handshake.address}`);
                             }
                         }
                     }
                 }
                 // Check for "Sea-is-lava-hack". If detected, kick the shooter
-                if (this.shooter.overall_hits >= 10){
+                if (this.shooter.overall_hits >= 10) {
                     console.log(get_timestamp() + "Exploit detected: Sea-is-lava-hack | Player: " + this.shooter.name + " | Adding IP " + this.shooter.socket.handshake.address + " to bannedIPs");
                     // kick the hacker
                     this.shooter.socket.disconnect();
@@ -305,7 +308,7 @@ Projectile.prototype.logic = function (dt) {
                                 this.shooter.isFishing = false;
                                 bonus = bonus * 3;
                             }
-                            if (pickup.type === 4){
+                            if (pickup.type === 4) {
                                 pickupReward = bonus;
                             } else {
                                 pickupReward = Math.floor(Math.random() * bonus) + 20;
@@ -331,7 +334,9 @@ Projectile.prototype.logic = function (dt) {
 
             // give the impact some random id
             var id;
-            while (!id || entities[id] !== undefined) { id = 'i' + Math.round(Math.random() * 5000); }
+            while (!id || entities[id] !== undefined) {
+                id = 'i' + Math.round(Math.random() * 5000);
+            }
             entities[id] = this.impact;
             this.impact.id = id;
 
@@ -347,7 +352,7 @@ Projectile.prototype.logic = function (dt) {
                 this.position.x < 0 ||
                 this.position.z < 0
             ) {
-                if(this.impact) this.impact.destroy = true;
+                if (this.impact) this.impact.destroy = true;
                 removeEntity(this);
             } else {
                 this.velocity.x = 0;

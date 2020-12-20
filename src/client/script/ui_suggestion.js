@@ -1,12 +1,11 @@
 var uiSuggest = {
     setItems: function () {
-        
-        if (myPlayer !== undefined && myPlayer.gold > 500 && 
+
+        if (myPlayer !== undefined && myPlayer.gold > 500 &&
             (!myPlayer.ownsCannon || !myPlayer.ownsFishingRod || (myPlayer.parent !== undefined &&
                 myPlayer.parent.netType != 1))
-            )
-        {
-           /* if ($('#earn-gold').is(':visible'))
+        ) {
+            /* if ($('#earn-gold').is(':visible'))
                 $('#earn-gold').hide();
 
         	if (myPlayer.ownsCannon)
@@ -22,7 +21,7 @@ var uiSuggest = {
         	
 
         	$('#suggestion-ui').show();*/
-            
+
         }
     }
 };

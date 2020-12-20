@@ -18,7 +18,7 @@ const MemwatchFactoryFunction = function (rollbar) {
 
     /**
      * Check for memory leaks
-      */
+     */
     let hd = null;
     let oldEntities = null;
     Memwatch.on('leak', (info) => {

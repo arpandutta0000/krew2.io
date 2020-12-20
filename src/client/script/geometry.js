@@ -62,14 +62,41 @@ var createMaterials = function () {
     // items
     //textures['items'].minFilter = THREE.LinearMipMapLinearFilter;
     //textures['items'].magFilter = THREE.LinearMipMapLinearFilter;
-    materials.cannonball = new THREE.SpriteMaterial( { map: textures.cannonball, color:0xffffff, fog: true } );
-    materials.fishingrod = new THREE.MeshPhongMaterial({ color: 0xffffff, map: textures.props_diffuse1 });
-    materials.colorset = new THREE.MeshLambertMaterial({ map: textures.colorset, side: THREE.DoubleSide });
-    materials.hook = new THREE.MeshLambertMaterial({ map: textures.hook, side: THREE.DoubleSide, transparent: true });
-    materials.colorset_captain = new THREE.MeshLambertMaterial({ map: textures.colorset, side: THREE.DoubleSide, emissive: 0x1C1C1C });
-    materials.transparentDetails = new THREE.MeshLambertMaterial({ map: textures.colorset, side: THREE.DoubleSide, opacity: 0.025, transparent: true });
-    materials.crate = new THREE.MeshLambertMaterial({ map: textures.crate});
-    materials.chest = new THREE.MeshLambertMaterial({ map: textures.chest});
+    materials.cannonball = new THREE.SpriteMaterial({
+        map: textures.cannonball,
+        color: 0xffffff,
+        fog: true
+    });
+    materials.fishingrod = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        map: textures.props_diffuse1
+    });
+    materials.colorset = new THREE.MeshLambertMaterial({
+        map: textures.colorset,
+        side: THREE.DoubleSide
+    });
+    materials.hook = new THREE.MeshLambertMaterial({
+        map: textures.hook,
+        side: THREE.DoubleSide,
+        transparent: true
+    });
+    materials.colorset_captain = new THREE.MeshLambertMaterial({
+        map: textures.colorset,
+        side: THREE.DoubleSide,
+        emissive: 0x1C1C1C
+    });
+    materials.transparentDetails = new THREE.MeshLambertMaterial({
+        map: textures.colorset,
+        side: THREE.DoubleSide,
+        opacity: 0.025,
+        transparent: true
+    });
+    materials.crate = new THREE.MeshLambertMaterial({
+        map: textures.crate
+    });
+    materials.chest = new THREE.MeshLambertMaterial({
+        map: textures.chest
+    });
     //old wave repeat
     /*textures.wave.repeat.set(500, 500);
     textures.wave.wrapT = THREE.RepeatWrapping;
@@ -82,27 +109,80 @@ var createMaterials = function () {
 
 // create a bunch of reusable materials
 var materials = {};
-materials.player = new THREE.MeshLambertMaterial({ color: 0xF9A022 });
-materials.boat = new THREE.MeshLambertMaterial({ color: 0x8A503E });
+materials.player = new THREE.MeshLambertMaterial({
+    color: 0xF9A022
+});
+materials.boat = new THREE.MeshLambertMaterial({
+    color: 0x8A503E
+});
 materials.boat.side = THREE.DoubleSide;
 // set color for the sail of traders
-materials.sail = new THREE.MeshLambertMaterial({ color: 0xffffff });
+materials.sail = new THREE.MeshLambertMaterial({
+    color: 0xffffff
+});
 materials.sail.side = THREE.DoubleSide;
 // set color for the sail of boats
-materials.sailRed = new THREE.MeshLambertMaterial({ color: 0xd9534f });
+materials.sailRed = new THREE.MeshLambertMaterial({
+    color: 0xd9534f
+});
 materials.sailRed.side = THREE.DoubleSide;
-materials.splinter = new THREE.MeshLambertMaterial({ color: 0xCDAC8F, flatShading: true });
-materials.projectile = new THREE.MeshPhongMaterial({ color: 0x1E1A28, shininess: 0.9, flatShading: true });
-materials.boundary = new THREE.MeshLambertMaterial({ color: 0xB4EBFF, flatShading: true, opacity: 0.8, transparent: true });
-materials.impact_water = new THREE.MeshBasicMaterial({ color: 0xE9F1FF, flatShading: true, opacity: 0.9, transparent: true });
-materials.islandradius = new THREE.MeshBasicMaterial({ color: 0xbbf3ff, flatShading: false, opacity: 0.2, transparent: true });
+materials.splinter = new THREE.MeshLambertMaterial({
+    color: 0xCDAC8F,
+    flatShading: true
+});
+materials.projectile = new THREE.MeshPhongMaterial({
+    color: 0x1E1A28,
+    shininess: 0.9,
+    flatShading: true
+});
+materials.boundary = new THREE.MeshLambertMaterial({
+    color: 0xB4EBFF,
+    flatShading: true,
+    opacity: 0.8,
+    transparent: true
+});
+materials.impact_water = new THREE.MeshBasicMaterial({
+    color: 0xE9F1FF,
+    flatShading: true,
+    opacity: 0.9,
+    transparent: true
+});
+materials.islandradius = new THREE.MeshBasicMaterial({
+    color: 0xbbf3ff,
+    flatShading: false,
+    opacity: 0.2,
+    transparent: true
+});
 
-materials.smoke_enemy = new THREE.MeshBasicMaterial({ color: 0xFFCACA, flatShading: true, opacity: 0.7, transparent: true });
-materials.smoke_friendly = new THREE.MeshBasicMaterial({ color: 0xCDE6FF, flatShading: true, opacity: 0.7, transparent: true });
-materials.smoke_player = new THREE.MeshBasicMaterial({ color: 0xE01E1E, flatShading: true, opacity: 0.5, transparent: true });
-materials.fishing_line = new THREE.MeshBasicMaterial({ color: 0x000000, flatShading: true, opacity: 0.5, transparent: true });
+materials.smoke_enemy = new THREE.MeshBasicMaterial({
+    color: 0xFFCACA,
+    flatShading: true,
+    opacity: 0.7,
+    transparent: true
+});
+materials.smoke_friendly = new THREE.MeshBasicMaterial({
+    color: 0xCDE6FF,
+    flatShading: true,
+    opacity: 0.7,
+    transparent: true
+});
+materials.smoke_player = new THREE.MeshBasicMaterial({
+    color: 0xE01E1E,
+    flatShading: true,
+    opacity: 0.5,
+    transparent: true
+});
+materials.fishing_line = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    flatShading: true,
+    opacity: 0.5,
+    transparent: true
+});
 
-materials.sky = new THREE.MeshBasicMaterial({ color: 0x0AD1FA, side: THREE.BackSide });
+materials.sky = new THREE.MeshBasicMaterial({
+    color: 0x0AD1FA,
+    side: THREE.BackSide
+});
 
 // colors for text labels for player & boat names
 var labelcolors = {};

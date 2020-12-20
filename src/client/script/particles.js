@@ -1,7 +1,6 @@
-
 var particles = [];
 
-function Particle(params) {
+function Particle (params) {
 
     // parse parameters
     this.vx = params.vx;
@@ -41,14 +40,14 @@ Particle.prototype.tick = function (dt) {
         this.geometry.position.x + this.vx * dt,
         this.geometry.position.y + this.vy * dt,
         this.geometry.position.z + this.vz * dt
-        );
+    );
 
     // update rotation
     this.geometry.rotation.set(
         this.geometry.rotation.x + this.rotaSpeed * dt,
         this.geometry.rotation.y + this.rotaSpeed * dt,
         this.geometry.rotation.z + this.rotaSpeed * dt
-        );
+    );
 
     // update scale
     this.globalscale += this.sizeSpeed * dt;
@@ -56,7 +55,7 @@ Particle.prototype.tick = function (dt) {
         this.w * this.globalscale,
         this.h * this.globalscale,
         this.d * this.globalscale
-        );
+    );
 
     this.timeleft -= dt;
     if (this.timeleft <= 0 || this.globalscale <= 0) {
@@ -68,7 +67,7 @@ Particle.prototype.tick = function (dt) {
 
 // creeating a new particle
 var createParticle = function (params) {
-    if (!myPlayer ||  !myPlayer.parent || ((Math.pow(params.x - myPlayer.parent.position.x, 2) + Math.pow(params.z - myPlayer.parent.position.z, 2)) > 10000)) {
+    if (!myPlayer || !myPlayer.parent || ((Math.pow(params.x - myPlayer.parent.position.x, 2) + Math.pow(params.z - myPlayer.parent.position.z, 2)) > 10000)) {
         return;
     }
 

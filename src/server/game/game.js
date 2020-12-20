@@ -32,11 +32,9 @@ setInterval(function () {
 setInterval(function () {
 
     // Delete residing impacts, pickups, and projectiles
-    for (e in core.entities)
-    {
+    for (e in core.entities) {
         var entity = core.entities[e];
-        if (entity.netType == 2 || entity.netType == 3 || entity.netType == 4)
-        {
+        if (entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
             if (entity.netType == 4 && entity.type != 1)
                 continue;
 
@@ -115,7 +113,9 @@ setInterval(function () {
                 for (i in boat.children) {
                     var boatMember = boat.children[i];
                     if (boatMember !== undefined && boatMember.netType === 0) {
-                        boatMember.socket.emit('exitIsland', { captainId: boat.captainId });
+                        boatMember.socket.emit('exitIsland', {
+                            captainId: boat.captainId
+                        });
                         boatMember.sentDockingMsg = false;
                         boatMember.checkedItemsList = false;
                         boatMember.rareItemsFound = [];
@@ -179,7 +179,10 @@ setInterval(function () {
             let size = roll > 0.9 ? 2 : roll > 0.6 ? 1 : 0;
             let type = roll > 0.4 ? 3 : 2;
 
-            let pickupPosition = { x: 0, z: 0 };
+            let pickupPosition = {
+                x: 0,
+                z: 0
+            };
             let distanceFromCenter = 0;
 
             while (
@@ -217,14 +220,13 @@ setInterval(function () {
     // fill up the world to the brink with supplies
     var pickUpAmount = Object.keys(core.pickups).length;
     amountChests = 0;
-    for (x in core.pickups){
-        if (core.pickups[x].type === 4){
+    for (x in core.pickups) {
+        if (core.pickups[x].type === 4) {
             amountChests++;
         }
     }
-    if (pickUpAmount > maxAmountCratesInSea){
-        for (p in core.pickups)
-        {
+    if (pickUpAmount > maxAmountCratesInSea) {
+        for (p in core.pickups) {
             var pickup = core.pickups[p];
             core.removeEntity(pickup);
         }
@@ -241,8 +243,8 @@ setInterval(function () {
         core.createPickup(size, core.worldsize * Math.random(), core.worldsize * Math.random(), 0, false);
     }
 
-    if (amountChests === 0){
-        if (respawnChestsDate < Date.now()){
+    if (amountChests === 0) {
+        if (respawnChestsDate < Date.now()) {
             var size = 4;
             core.createPickup(size, core.worldsize * Math.random(), core.worldsize * Math.random(), 4, false, (10000 + Math.random() * (60000 - 10000)));
             io.emit('showCenterMessage', 'The old pirate threw his treasure chest! Hurry to pick up the gold first!', 4, 5000);

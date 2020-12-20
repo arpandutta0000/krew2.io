@@ -1,50 +1,50 @@
-function Entity() {
+function Entity () {
 
 }
 
 Entity.prototype.createProperties = function () {
-        // Each and every thing in the game has a position and a velocity
-        this.position = new THREE.Vector3(0, 0, 0);
-        this.velocity = new THREE.Vector3(0, 0, 0);
+    // Each and every thing in the game has a position and a velocity
+    this.position = new THREE.Vector3(0, 0, 0);
+    this.velocity = new THREE.Vector3(0, 0, 0);
 
-        // Everything has a size and rotation (y axis), and in terms of logic, everything is a box
-        this.size = new THREE.Vector3(1, 1, 1);
-        this.rotation = 0;
-        this.collisionRadius = 1;
+    // Everything has a size and rotation (y axis), and in terms of logic, everything is a box
+    this.size = new THREE.Vector3(1, 1, 1);
+    this.rotation = 0;
+    this.collisionRadius = 1;
 
-        // Things can have a parent entity, for example a boat, which is a relative anchor in the world. things that dont have a parent, float freely
-        this.parent = undefined;
-        this.children = {};
+    // Things can have a parent entity, for example a boat, which is a relative anchor in the world. things that dont have a parent, float freely
+    this.parent = undefined;
+    this.children = {};
 
-        this.isNew = true; // if this is a new guy entering the server
+    this.isNew = true; // if this is a new guy entering the server
 
-        // Things have a unique ID, which is used to identify things in the engine and via netcode
-        // this.id = "";
+    // Things have a unique ID, which is used to identify things in the engine and via netcode
+    // this.id = "";
 
-        // things have a netcode type
-        this.netType = -1;
+    // things have a netcode type
+    this.netType = -1;
 
-        // last snap, stores info to be able to get delta snaps
-        this.sendSnap = true;   // decide if we want to send the snapshots (full entity info) once a second
-        this.sendDelta = true;  // decide if we want to send the delta information if there is a change (up to 10 times a second)
+    // last snap, stores info to be able to get delta snaps
+    this.sendSnap = true; // decide if we want to send the snapshots (full entity info) once a second
+    this.sendDelta = true; // decide if we want to send the delta information if there is a change (up to 10 times a second)
 
-        // if this is set to true, but sendSnap isnt, then it will simply send the first delta
-        // as a full snap (good for things that only sned their creation)
-        this.sendCreationSnapOnDelta = true;
-        this.last = {};
-        this.lastType = {};
+    // if this is set to true, but sendSnap isnt, then it will simply send the first delta
+    // as a full snap (good for things that only sned their creation)
+    this.sendCreationSnapOnDelta = true;
+    this.last = {};
+    this.lastType = {};
 
-        // some entities have muted netcode parts
-        this.muted = [];
+    // some entities have muted netcode parts
+    this.muted = [];
 
-        // on client, entities have a model scale and offset (multipied/added with the logical scale/position)
-        // we need that because the 3d geometry model files might not actually fit the logical sizes in the game so we have to bring them up to scale
-        this.modelscale = new THREE.Vector3(1, 1, 1);
-        this.modeloffset = new THREE.Vector3(0, 0, 0);
-        this.modelrotation = new THREE.Vector3(0, 0, 0);
-        this.baseGeometry = undefined;
-        this.baseMaterial = undefined;
-    };
+    // on client, entities have a model scale and offset (multipied/added with the logical scale/position)
+    // we need that because the 3d geometry model files might not actually fit the logical sizes in the game so we have to bring them up to scale
+    this.modelscale = new THREE.Vector3(1, 1, 1);
+    this.modeloffset = new THREE.Vector3(0, 0, 0);
+    this.modelrotation = new THREE.Vector3(0, 0, 0);
+    this.baseGeometry = undefined;
+    this.baseMaterial = undefined;
+};
 
 Entity.prototype.tick = function (dt) {
 
@@ -134,8 +134,8 @@ Entity.prototype.parseSnap = function (snap, id) {
     if (snap.p && entities[snap.p] && this.parent != entities[snap.p]) {
         var newparent = entities[snap.p];
         var oldparent = this.parent;
-        if (myPlayerId === id && newparent !== oldparent){
-          ui.setActiveBtn(snap.p);
+        if (myPlayerId === id && newparent !== oldparent) {
+            ui.setActiveBtn(snap.p);
         }
         if (newparent.netType !== 5) {
             if (
@@ -188,13 +188,21 @@ Entity.prototype.parseSnap = function (snap, id) {
     }
 
     if (!this.isPlayer) {
-        if (snap.x !== undefined) {this.position.x = parseFloat(snap.x);}
+        if (snap.x !== undefined) {
+            this.position.x = parseFloat(snap.x);
+        }
 
-        if (snap.y !== undefined) {this.position.y = parseFloat(snap.y);}
+        if (snap.y !== undefined) {
+            this.position.y = parseFloat(snap.y);
+        }
 
-        if (snap.z !== undefined) {this.position.z = parseFloat(snap.z);}
+        if (snap.z !== undefined) {
+            this.position.z = parseFloat(snap.z);
+        }
 
-        if (snap.r !== undefined) {this.rotation = parseFloat(snap.r);}
+        if (snap.r !== undefined) {
+            this.rotation = parseFloat(snap.r);
+        }
     }
 
     // parse deletion packets
@@ -237,13 +245,13 @@ Entity.prototype.parseSnap = function (snap, id) {
 
 Entity.prototype.addChildren = function (entity) {
     // remove entity from its previous parent
-        /*if (entity !== undefined &&
-            entity.parent !== undefined
-         && entity.parent.children[entity.id] !== undefined)
-            entity.parent.children[entity.id] = undefined;*/
+    /*if (entity !== undefined &&
+        entity.parent !== undefined
+     && entity.parent.children[entity.id] !== undefined)
+        entity.parent.children[entity.id] = undefined;*/
 
-        this.children[entity.id] = entity;
-        entity.parent = this;
+    this.children[entity.id] = entity;
+    entity.parent = this;
 };
 
 Entity.prototype.hasChild = function (id) {

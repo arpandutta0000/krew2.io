@@ -2,7 +2,7 @@
 Pickup.prototype = new Entity();
 Pickup.prototype.constructor = Pickup;
 
-function Pickup(size, x, z, type, specialBonus) {
+function Pickup (size, x, z, type, specialBonus) {
     this.createProperties();
 
     // netcode type
@@ -35,7 +35,7 @@ function Pickup(size, x, z, type, specialBonus) {
     if (type === 3 || type === 2) {
         scale = 0.02;
     }
-    
+
     if (type === 4) {
         scale = 2;
     }
@@ -46,7 +46,7 @@ function Pickup(size, x, z, type, specialBonus) {
     this.position.z = z;
     this.pickerId = '';
     this.type = type;
-    this.picking = type == 1? true : false;
+    this.picking = type == 1 ? true : false;
     this.catchingFish = false;
     this.timeout = 1;
     /**
@@ -66,7 +66,7 @@ Pickup.prototype.randomMovementLogic = function () {
     this.randomMovementLogicTime = this.randomMovementLogicTime || Date.now();
     this.randomMovementTime = this.randomMovementTime || this.randomTime(5, 10);
     if (Date.now() - this.randomMovementLogicTime > this.randomMovementTime) {
-        var move =  Math.round(Math.random());
+        var move = Math.round(Math.random());
         if (move) {
             var landmark = false;
             for (var landmarkId in core.Landmarks) {
@@ -93,18 +93,18 @@ Pickup.prototype.randomMovementLogic = function () {
                     distanceFromCenter < landmark.dockRadius - 40
                 ) {
                     pickupPosition.x = Math.floor(
-                            Math.random() * (
-                                (this.position.x + 6) -
-                                (this.position.x - 6)
-                            )
-                        ) + (this.position.x - 6);
+                        Math.random() * (
+                            (this.position.x + 6) -
+                            (this.position.x - 6)
+                        )
+                    ) + (this.position.x - 6);
 
                     pickupPosition.z = Math.floor(
-                            Math.random() * (
-                                (this.position.z + 6) -
-                                (this.position.z - 6)
-                            )
-                        ) + (this.position.z - 6);
+                        Math.random() * (
+                            (this.position.z + 6) -
+                            (this.position.z - 6)
+                        )
+                    ) + (this.position.z - 6);
 
                     distanceFromPickup = Math.sqrt(
                         (pickupPosition.x - this.position.x) *
@@ -133,10 +133,9 @@ Pickup.prototype.randomMovementLogic = function () {
 
 Pickup.prototype.logic = function (dt) {
 
-    if (this.picking)
-    {
+    if (this.picking) {
         this.timeout -= dt * 0.5;
-        if(this.timeout <= 0 || this.timeout === 1)
+        if (this.timeout <= 0 || this.timeout === 1)
             removeEntity(this);
     }
 
@@ -166,7 +165,7 @@ Pickup.prototype.logic = function (dt) {
 
             // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
             if (!isNaN(loc.x) && !(Math.abs(loc.x) > Math.abs(boat.size.x * 0.6 + 3) ||
-                Math.abs(loc.z) > Math.abs(boat.size.z * 0.6 + 3))) {
+                    Math.abs(loc.z) > Math.abs(boat.size.z * 0.6 + 3))) {
 
                 // if (
                 //     boat.supply < boatTypes[boat.shipclassId].cargoSize ||
@@ -252,24 +251,23 @@ Pickup.prototype.getTypeSnap = function () {
 
 Pickup.prototype.getTypeDelta = function () {
 
-    if (this.type == 1)
-    {
+    if (this.type == 1) {
         if (!this.spawnPacket) {
             this.spawnPacket = true;
             return this.getTypeSnap();
         }
 
         return undefined;
-    }
-    else
-    {
+    } else {
         var delta = {
             s: this.deltaTypeCompare('s', this.pickupSize),
             p: this.deltaTypeCompare('p', this.picking),
             i: this.deltaTypeCompare('i', this.pickerId),
             t: this.deltaTypeCompare('t', this.type),
         };
-        if (isEmpty(delta)) {delta = undefined;}
+        if (isEmpty(delta)) {
+            delta = undefined;
+        }
 
         return delta;
     }
@@ -278,13 +276,21 @@ Pickup.prototype.getTypeDelta = function () {
 
 // function that parses a snapshot
 Pickup.prototype.parseTypeSnap = function (snap) {
-    if (snap.s !== undefined && snap.s != this.pickupSize) {this.pickupSize = parseInt(snap.s);}
+    if (snap.s !== undefined && snap.s != this.pickupSize) {
+        this.pickupSize = parseInt(snap.s);
+    }
 
-    if (snap.p !== undefined && snap.p != this.picking) {this.picking = parseBool(snap.p);}
+    if (snap.p !== undefined && snap.p != this.picking) {
+        this.picking = parseBool(snap.p);
+    }
 
-    if (snap.i !== undefined && snap.i != this.pickerId) {this.pickerId = snap.i;}
+    if (snap.i !== undefined && snap.i != this.pickerId) {
+        this.pickerId = snap.i;
+    }
 
-    if (snap.t !== undefined && snap.t != this.type) {this.type = parseInt(snap.t);}
+    if (snap.t !== undefined && snap.t != this.type) {
+        this.type = parseInt(snap.t);
+    }
 
 };
 

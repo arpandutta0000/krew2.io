@@ -13,8 +13,7 @@
                     for (id in entities) {
                         boat = entities[id];
 
-                        if (krewListUpdateManually)
-                        {
+                        if (krewListUpdateManually) {
                             if (
                                 myPlayer &&
                                 boat &&
@@ -30,9 +29,7 @@
                                     boats.push(boat);
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             if (
                                 myPlayer &&
                                 boat &&
@@ -65,14 +62,20 @@
                 if (boats.length == 0)
                     $('#toggle-krew-list-modal-button').popover('hide');
                 //$('#docked-krews-count').html(boats.length);
-                return { boats: boats };
+                return {
+                    boats: boats
+                };
             };
         },
     };
     var view = function (state, actions) {
         return h('div', {}, [
-            h('table', { class: 'table table-sm' }, [
-                h('thead', { class: 'thead-inverse' }, [
+            h('table', {
+                class: 'table table-sm'
+            }, [
+                h('thead', {
+                    class: 'thead-inverse'
+                }, [
                     h('tr', {}, [
                         h('th', {}, 'Krew Name'),
                         h('th', {}, 'Capacity'),
@@ -82,55 +85,57 @@
                 h('tbody', {}, state.boats.map(function (boat) {
                     if (myPlayer !== undefined && myPlayer.parent !== undefined && boat !== undefined && entities[boat.captainId] !== undefined) {
 
-                    var test = "'#"+boat.id+"'";
-                    $(document).on('click',"#"+boat.id, function() {
+                        var test = "'#" + boat.id + "'";
+                        $(document).on('click', "#" + boat.id, function () {
 
-                        var id = boat.id;
-                        if (
-                                           entities[id] === undefined ||
-                                           entities[id].maxKrewCapacity == entities[id].krewCount ||
-                                           entities[id].captainId === myPlayerId
-                                       ) {
-                            return;
-                        }
-                        socket.emit('joinKrew', id, function (callback) {
-                            if (callback === 0) {
-                                // $('#island-menu-div').show();
-                                $('#exit-island-button').hide();
-                                $('#toggle-invite-link-button').hide();
-                                $('#invite-div').hide();
-
-                                if ($('#departure-modal').is(':visible')) {
-                                    $('#departure-modal').hide();
-                                }
-
-                                GameAnalytics("addDesignEvent", "Game:Session:JoinedBoat");
-
-                                $("#krew-div").show();
-                                $('#abandon-ship-button').show();
-
-                                // if (krewListUpdateManually)
-                                // {
-                                //     DEPARTINGKREWLISTCOMPONENT.boats();
-                                //     $('#toggle-krew-list-modal-button').popover('show');
-                                // }
-                                // else
-                                //     KREWLISTCOMPONENT.boats();
-                                //
-                                // if ((myPlayer !== undefined && myPlayer.gold > 500  &&
-                                // (!myPlayer.ownsCannon || !myPlayer.ownsFishingRod ||
-                                //     (myPlayer.parent !== undefined &&
-                                //     myPlayer.parent.netType != 1))
-                                // ))
-                                //     $('#toggle-shop-modal-button').popover('show');
+                            var id = boat.id;
+                            if (
+                                entities[id] === undefined ||
+                                entities[id].maxKrewCapacity == entities[id].krewCount ||
+                                entities[id].captainId === myPlayerId
+                            ) {
+                                return;
                             }
-                            // } else {
-                            //     ui.showCenterMessage('You can not join (too much cargo)', 1)
-                            // }
-                        });
-                    });
+                            socket.emit('joinKrew', id, function (callback) {
+                                if (callback === 0) {
+                                    // $('#island-menu-div').show();
+                                    $('#exit-island-button').hide();
+                                    $('#toggle-invite-link-button').hide();
+                                    $('#invite-div').hide();
 
-                        return h('tr', { key: boat.id }, [
+                                    if ($('#departure-modal').is(':visible')) {
+                                        $('#departure-modal').hide();
+                                    }
+
+                                    GameAnalytics("addDesignEvent", "Game:Session:JoinedBoat");
+
+                                    $("#krew-div").show();
+                                    $('#abandon-ship-button').show();
+
+                                    // if (krewListUpdateManually)
+                                    // {
+                                    //     DEPARTINGKREWLISTCOMPONENT.boats();
+                                    //     $('#toggle-krew-list-modal-button').popover('show');
+                                    // }
+                                    // else
+                                    //     KREWLISTCOMPONENT.boats();
+                                    //
+                                    // if ((myPlayer !== undefined && myPlayer.gold > 500  &&
+                                    // (!myPlayer.ownsCannon || !myPlayer.ownsFishingRod ||
+                                    //     (myPlayer.parent !== undefined &&
+                                    //     myPlayer.parent.netType != 1))
+                                    // ))
+                                    //     $('#toggle-shop-modal-button').popover('show');
+                                }
+                                // } else {
+                                //     ui.showCenterMessage('You can not join (too much cargo)', 1)
+                                // }
+                            });
+                        });
+
+                        return h('tr', {
+                            key: boat.id
+                        }, [
                             h('td', {}, [
                                 boat.crewName + '(' + boatTypes[boat.shipclassId].name + ')',
                                 h('br'),
@@ -153,6 +158,6 @@
         ]);
     };
 
-        window.KREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById('krews-list'));
-        window.DEPARTINGKREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById('departing-krews-list'));
+    window.KREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById('krews-list'));
+    window.DEPARTINGKREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById('departing-krews-list'));
 })(window);

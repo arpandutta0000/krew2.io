@@ -2,7 +2,7 @@
 Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
-function Boat(captainId, krewName, spawnBool) {
+function Boat (captainId, krewName, spawnBool) {
     var captainsName = '';
     var spawnIslandId = undefined;
 
@@ -77,9 +77,9 @@ function Boat(captainId, krewName, spawnBool) {
     // Boats have a crew name, by default it's the captains name or the passed krew name,
     // this is setted on the update function, so initially is set to undefined
     captainsName = typeof captainsName === 'string' ? captainsName : '';
-    this.crewName = typeof krewName === 'string'
-        ? krewName
-        : (
+    this.crewName = typeof krewName === 'string' ?
+        krewName :
+        (
             captainsName + "'" +
             (captainsName.charAt(captainsName.length - 1) === 's' ? '' : 's') +
             ' krew'
@@ -102,19 +102,16 @@ function Boat(captainId, krewName, spawnBool) {
     if (spawnBool === true) {
         //used for respawn near the edge of the map
         var roll = Math.floor(Math.random() * Math.floor(4));
-        if (roll === 0){
+        if (roll === 0) {
             this.position.x = Math.floor(Math.random() * 250);
             this.position.z = Math.floor(Math.random() * worldsize);
-        }
-        else if (roll === 1){
+        } else if (roll === 1) {
             this.position.x = Math.floor(Math.random() * worldsize);
             this.position.z = Math.floor(Math.random() * (worldsize - (worldsize - 250)) + (worldsize - 250));
-        }
-        else if (roll === 2){
+        } else if (roll === 2) {
             this.position.x = Math.floor(Math.random() * (worldsize - (worldsize - 250)) + (worldsize - 250));
             this.position.z = Math.floor(Math.random() * worldsize);
-        }
-        else if (roll === 3){
+        } else if (roll === 3) {
             this.position.x = Math.floor(Math.random() * worldsize);
             this.position.z = Math.floor(Math.random() * 250);
         }
@@ -122,21 +119,21 @@ function Boat(captainId, krewName, spawnBool) {
         // calculate the spawn position. If spawn position collides with an island, recalculate
         //var spawnResult = false;
         //while (spawnResult !== true) {
-            //this.position.x = worldsize * 0.8 * Math.random() + worldsize * 0.1;
-            //this.position.z = worldsize * 0.8 * Math.random() + worldsize * 0.1;
-            //for (var l in core.config.landmarks) {
-                // spawn must be at least 5 fields away from the island
-                //var xCoord1 = core.config.landmarks[l]['x'] - (core.config.landmarks[l]['dockRadius'] + 5);
-                //var xCoord2 = core.config.landmarks[l]['x'] + (core.config.landmarks[l]['dockRadius'] + 5);
-                //var yCoord1 = core.config.landmarks[l]['y'] - (core.config.landmarks[l]['dockRadius'] + 5);
-                //var yCoord2 = core.config.landmarks[l]['y'] + (core.config.landmarks[l]['dockRadius'] + 5);
-                //if (this.position.x > xCoord1 && this.position.x < xCoord2 && this.position.z > yCoord1 && this.position.z < yCoord2) {
-                    //spawnResult = false;
-                    //break;
-                //} else {
-                    //spawnResult = true;
-                //}
-            //}
+        //this.position.x = worldsize * 0.8 * Math.random() + worldsize * 0.1;
+        //this.position.z = worldsize * 0.8 * Math.random() + worldsize * 0.1;
+        //for (var l in core.config.landmarks) {
+        // spawn must be at least 5 fields away from the island
+        //var xCoord1 = core.config.landmarks[l]['x'] - (core.config.landmarks[l]['dockRadius'] + 5);
+        //var xCoord2 = core.config.landmarks[l]['x'] + (core.config.landmarks[l]['dockRadius'] + 5);
+        //var yCoord1 = core.config.landmarks[l]['y'] - (core.config.landmarks[l]['dockRadius'] + 5);
+        //var yCoord2 = core.config.landmarks[l]['y'] + (core.config.landmarks[l]['dockRadius'] + 5);
+        //if (this.position.x > xCoord1 && this.position.x < xCoord2 && this.position.z > yCoord1 && this.position.z < yCoord2) {
+        //spawnResult = false;
+        //break;
+        //} else {
+        //spawnResult = true;
+        //}
+        //}
         //}
     } else if (spawnBool === false) {
         // code for spawning on islands instead of on rafts (in the sea)
@@ -144,9 +141,7 @@ function Boat(captainId, krewName, spawnBool) {
             var spawnIsland = Landmarks[this.anchorIslandId];
             this.position.x = spawnIsland.position.x + (Math.random() * 60) - 60;
             this.position.z = spawnIsland.position.z + (Math.random() * 60) - 60;
-        }
-        else
-        {
+        } else {
             spawnIsland = Landmarks[Object.keys(core.Landmarks)[0]];
             this.position.x = spawnIsland.position.x + (Math.random() * 60) - 60;
             this.position.z = spawnIsland.position.z + (Math.random() * 60) - 60;
@@ -175,7 +170,7 @@ Boat.prototype.updateProps = function () {
     }
 
     this.krewCount = krewCount;
-    if(this.krewCount == 0)
+    if (this.krewCount == 0)
         removeEntity(this);
 
 };
@@ -218,7 +213,7 @@ Boat.prototype.logic = function (dt) {
 
         // if the steering button is pressed, the rotation changes slowly
         (kaptain !== undefined) ?
-            this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)) :
+        this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)):
             this.rotation += this.steering * dt * 0.4 * this.turnspeed;
 
         // we rotate the movement vector depending on the current rotation

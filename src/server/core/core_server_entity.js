@@ -31,7 +31,7 @@ var createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
     var x = Math.min(Math.max(0, x), worldsize);
     var z = Math.min(Math.max(0, z), worldsize);
     // check if it is in island position
-    if (!collisionIsland){
+    if (!collisionIsland) {
         for (l in entities) {
             if (entities[l].netType == 5 && (type == 0 || type == 4)) {
                 if (entities[l].isWithinDockingRadius(x, z)) {
@@ -44,7 +44,9 @@ var createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
 
     //core.createPickup
     var id;
-    while (!id || entities[id] !== undefined) { id = randomid(); }
+    while (!id || entities[id] !== undefined) {
+        id = randomid();
+    }
 
     var p = new Pickup(size, x, z, type, specialBonus);
     p.id = id;
@@ -57,7 +59,9 @@ var createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
 
 var createBoat = function (captainId, krewName, spawnBool) {
     var id;
-    while (!id || entities[id] !== undefined) { id = randomid(); }
+    while (!id || entities[id] !== undefined) {
+        id = randomid();
+    }
 
     let err = new Error();
 
@@ -71,7 +75,9 @@ var createBoat = function (captainId, krewName, spawnBool) {
 
 var createLandmark = function (type, x, z, name) {
     var id;
-    while (!id || entities[id] !== undefined) { id = randomid(); }
+    while (!id || entities[id] !== undefined) {
+        id = randomid();
+    }
 
     var l = new Landmark(type, x, z, name);
     l.id = id;
@@ -82,7 +88,9 @@ var createLandmark = function (type, x, z, name) {
 
 var createBot = function () {
     var id;
-    while (!id || entities[id] !== undefined) { id = randomid(); }
+    while (!id || entities[id] !== undefined) {
+        id = randomid();
+    }
 
     var b = new Bot();
     b.id = id;
@@ -96,7 +104,9 @@ var removeEntity = function (entity) {
     // remove it from entities object
     if (entity && entities.hasOwnProperty(entity.id)) {
         entity.onDestroy();
-        compressor.events[entity.id] = { del: true };
+        compressor.events[entity.id] = {
+            del: true
+        };
         var id = entity.id;
         delete entities[id];
     }

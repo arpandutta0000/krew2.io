@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,45 +14,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 
     <style>
-        body{
-          display: grid;
-          background-color: #7c7d86;
+        body {
+            display: grid;
+            background-color: #7c7d86;
         }
-        #welcome_div{
+
+        #welcome_div {
             justify-self: center;
         }
-        #login-div{
+
+        #login-div {
             text-align: center;
         }
-        #login{
+
+        #login {
             margin: 5px;
         }
-        #password{
+
+        #password {
             margin: 5px;
         }
-        #login-btn{
+
+        #login-btn {
             margin: 5px;
             width: 50%;
         }
-        #status-message{
+
+        #status-message {
             font-size: 20px;
         }
-        #main{
+
+        #main {
             display: none;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
             grid-template-areas: ". .";
         }
-        #online-players{
-            color:white;
+
+        #online-players {
+            color: white;
         }
-        #online-boats{
-            color:white;
+
+        #online-boats {
+            color: white;
         }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div id="welcome_div">
         <div id="logo">
@@ -63,61 +74,62 @@
             <input id="login-btn" value="Login" type="button"><br>
             <div id="status-message"></div>
         </div>
-  </div>
-  <div id="main">
-      <div id="online-players">
-      </div>
-      <div id="online-boats">
-      </div>
-      <input type="button" value="Players" id="get-players-btn">
-      <input type="button" value="Boats" id="get-boats-btn">
-  </div>
-  <script>
-      var socket = io("krew.io:2000");
-      $("#login-btn").click(function(){
-          let login = $("#login").val();
-          let password = $("#password").val();
-              socket.emit("loginInAdminPanel", {login:login, password:password});
-              socket.on("loginStatus",(data)=>{
-                  if (data){
-                      $("#status-message").text(data).css("color", "green");
-                      setTimeout(()=>{
-                          $("#welcome_div").hide()
-                          $("#main").css("display", "grid");
-                      }, 3000);
-                  }
-                  else {
-                      $("#status-message").text(data).css("color", "red");
-                  }
+    </div>
+    <div id="main">
+        <div id="online-players">
+        </div>
+        <div id="online-boats">
+        </div>
+        <input type="button" value="Players" id="get-players-btn">
+        <input type="button" value="Boats" id="get-boats-btn">
+    </div>
+    <script>
+        var socket = io("krew.io:2000");
+        $("#login-btn").click(function () {
+            let login = $("#login").val();
+            let password = $("#password").val();
+            socket.emit("loginInAdminPanel", {
+                login: login,
+                password: password
+            });
+            socket.on("loginStatus", (data) => {
+                if (data) {
+                    $("#status-message").text(data).css("color", "green");
+                    setTimeout(() => {
+                        $("#welcome_div").hide()
+                        $("#main").css("display", "grid");
+                    }, 3000);
+                } else {
+                    $("#status-message").text(data).css("color", "red");
+                }
 
-              });
+            });
 
 
-      });
-      $("#get-players-btn").click(function(){
-          socket.emit("getPlayers");
+        });
+        $("#get-players-btn").click(function () {
+            socket.emit("getPlayers");
 
-      });
-      $("#get-boats-btn").click(function(){
-          socket.emit("getBoats");
+        });
+        $("#get-boats-btn").click(function () {
+            socket.emit("getBoats");
 
-      });
-      socket.on("players", function (data){
-          $("#online-players").empty();
-          for(let z in data){
-              $("#online-players").html($("#online-players").html()+data[z].name + ' ' + data[z].parent + ' ' + data[z].ip + ' ' + '<br>');
+        });
+        socket.on("players", function (data) {
+            $("#online-players").empty();
+            for (let z in data) {
+                $("#online-players").html($("#online-players").html() + data[z].name + ' ' + data[z].parent + ' ' + data[z].ip + ' ' + '<br>');
 
-          }
-      });
-      socket.on("boats", function (data){
-          $("#online-boats").empty();
-          for(let z in data){
-              $("#online-boats").html($("#online-boats").html()+data[z].crewname + ' ' + data[z].id + ' ' + data[z].captainid + ' ' + '<br>');
+            }
+        });
+        socket.on("boats", function (data) {
+            $("#online-boats").empty();
+            for (let z in data) {
+                $("#online-boats").html($("#online-boats").html() + data[z].crewname + ' ' + data[z].id + ' ' + data[z].captainid + ' ' + '<br>');
 
-          }
-      });
-
-  </script>
+            }
+        });
+    </script>
 </body>
 
 </html>

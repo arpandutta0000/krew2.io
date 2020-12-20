@@ -45,7 +45,7 @@ var parseSnap = function (id, data) {
                 break;
             }
 
-            case 5: {// its a
+            case 5: { // its a
                 entities[id] = new Landmark(parseInt(data.t.t), parseFloat(data.x), parseFloat(data.z), data.t);
                 break;
             }

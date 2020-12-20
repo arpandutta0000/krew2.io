@@ -2,7 +2,7 @@
 Impact.prototype = new Entity();
 Impact.prototype.constructor = Impact;
 
-function Impact(type, x, z) {
+function Impact (type, x, z) {
 
     this.createProperties();
 
@@ -58,5 +58,7 @@ Impact.prototype.getTypeDelta = function () {
 
 // function that parses a snapshot
 Impact.prototype.parseTypeSnap = function (snap) {
-    if (snap.a !== undefined) {this.impactType = parseFloat(snap.a);}
+    if (snap.a !== undefined) {
+        this.impactType = parseFloat(snap.a);
+    }
 };

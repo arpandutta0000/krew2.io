@@ -19,7 +19,9 @@ exports.getDelta = function () {
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
             var d = entities[e].getDelta();
-            if (d) {delta[e] = d;}
+            if (d) {
+                delta[e] = d;
+            }
         }
     }
 
@@ -29,18 +31,24 @@ exports.getDelta = function () {
         exports.events = events;
     };
 
-    if (isEmpty(delta)) {delta = undefined;}
+    if (isEmpty(delta)) {
+        delta = undefined;
+    }
 
     return delta;
 };
 
 var isEmpty = function (obj) {
     // check if object is completely empty
-    if (Object.keys(obj).length === 0 && obj.constructor === Object) {return true;}
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) {
+        return true;
+    }
 
     // check if object is full of undefined
     for (p in obj) {
-        if (obj.hasOwnProperty(p) && obj[p] !== undefined) {return false;}
+        if (obj.hasOwnProperty(p) && obj[p] !== undefined) {
+            return false;
+        }
     }
 
     return true;

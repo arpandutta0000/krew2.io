@@ -2,7 +2,7 @@
 Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
-function Player(data) {
+function Player (data) {
 
     this.name = data !== undefined ?
         (data.name || '') :
@@ -35,7 +35,10 @@ function Player(data) {
     this.last_island = ""; // last island the seadog bought goods on
     this.gold = (data.startingItems || {}).gold || 0; // player gold
 
-    this.islandBoundary = { x: 0, z: 0 }; // to limit  boundaries around island
+    this.islandBoundary = {
+        x: 0,
+        z: 0
+    }; // to limit  boundaries around island
     this.shipsSank = 0; //Number of ships player has sunk
     this.shotsFired = 0; //Number of projectiles player has used
     this.shotsHit = 0; //Number of projectiles that hit other ships
@@ -102,10 +105,9 @@ function Player(data) {
     this.experienceNeedsUpdate = true;
     //Bank and casino
     this.bank = {
-      deposit: 0,
+        deposit: 0,
     };
-    this.casino = {
-    };
+    this.casino = {};
     this.clan = data.t.cl === "" ? undefined : data.t.cl;
     this.clanLeader = data.t.cll;
     this.clanOwner = data.t.clo;
@@ -114,7 +116,16 @@ function Player(data) {
 
     // Build an object with the levels from 0 to max level for future references
     this.experienceNeededForLevels = (function (entity) {
-        var levels = { 0: { amount: 0, total: 0 }, 1: { amount: entity.experienceBase, total: entity.experienceBase } };
+        var levels = {
+            0: {
+                amount: 0,
+                total: 0
+            },
+            1: {
+                amount: entity.experienceBase,
+                total: entity.experienceBase
+            }
+        };
 
         for (var i = 1; i < entity.experienceMaxLevel + 1; i++) {
             levels[i + 1] = {};
@@ -165,7 +176,7 @@ function Player(data) {
     this.crossHair();
 }
 
-Player.prototype.notifiscation = function (){
+Player.prototype.notifiscation = function () {
     for (var z in this.notifiscationHeap) {
         if (this.notifiscationHeap[z].isNew) {
             this.notifiscationHeap[z].sprite = new THREE.TextSprite({
@@ -181,18 +192,18 @@ Player.prototype.notifiscation = function (){
                     opacity: 0.0,
                 },
             });
-        this.notifiscationHeap[z].sprite.position.set(3, 1, 0);
-        this.geometry.add(this.notifiscationHeap[z].sprite);
-        this.notifiscationHeap[z].isNew = false;
-      } else {
-            this.notifiscationHeap[z].sprite.position.y +=0.05;
+            this.notifiscationHeap[z].sprite.position.set(3, 1, 0);
+            this.geometry.add(this.notifiscationHeap[z].sprite);
+            this.notifiscationHeap[z].isNew = false;
+        } else {
+            this.notifiscationHeap[z].sprite.position.y += 0.05;
             if (this.notifiscationHeap[z].sprite.position.y > 6) {
                 this.geometry.remove(this.notifiscationHeap[z].sprite);
                 delete this.notifiscationHeap[z];
             } else if (this.notifiscationHeap[z].sprite.position.y < 3) {
-                this.notifiscationHeap[z].sprite.material.opacity +=0.025;
+                this.notifiscationHeap[z].sprite.material.opacity += 0.025;
             }
-      }
+        }
     }
 };
 
@@ -263,41 +274,41 @@ Player.prototype.logic = function (dt) {
         }
 
         if (this.parent.netType !== 5 && this.parent.shipState !== 3 && this.parent.shipState !== 2 && this.parent.shipState !== -1 && this.parent.shipState !== 4) {
-            if (this.position.x > this.parent.size.x / 2) 
-            { 
+            if (this.position.x > this.parent.size.x / 2) {
                 this.position.x = this.parent.size.x / 2;
-                if(this.isPlayer)
-                    ui.playAudioFile(false,'turning');
+                if (this.isPlayer)
+                    ui.playAudioFile(false, 'turning');
             }
 
-            if (this.position.z > this.parent.size.z / 2) 
-            { 
+            if (this.position.z > this.parent.size.z / 2) {
                 this.position.z = this.parent.size.z / 2;
-                if(this.isPlayer)
-                    ui.playAudioFile(false,'turning');
+                if (this.isPlayer)
+                    ui.playAudioFile(false, 'turning');
             }
 
-            if (this.position.x < -this.parent.size.x / 2) 
-            { 
+            if (this.position.x < -this.parent.size.x / 2) {
                 this.position.x = -this.parent.size.x / 2;
-                if(this.isPlayer)
-                    ui.playAudioFile(false,'turning');
+                if (this.isPlayer)
+                    ui.playAudioFile(false, 'turning');
             }
 
-            if (this.position.z < -this.parent.size.z / 2) 
-            { 
+            if (this.position.z < -this.parent.size.z / 2) {
                 this.position.z = -this.parent.size.z / 2;
-                if(this.isPlayer)
-                    ui.playAudioFile(false,'turning');
+                if (this.isPlayer)
+                    ui.playAudioFile(false, 'turning');
             }
 
             // oval boat shape collision
             if (this.parent.arcFront > 0 && this.position.z > 0) {
                 var bound = this.parent.size.x / 2 - this.position.z * this.parent.arcFront; //this.parent.size.z/2 -
                 if (this.position.x > 0) {
-                    if (this.position.x > bound) { this.position.x = bound;}
+                    if (this.position.x > bound) {
+                        this.position.x = bound;
+                    }
                 } else {
-                    if (this.position.x < -bound) { this.position.x = -bound;}
+                    if (this.position.x < -bound) {
+                        this.position.x = -bound;
+                    }
                 }
             }
 
@@ -305,17 +316,19 @@ Player.prototype.logic = function (dt) {
     }
 
     // use active thing (e.g. cannonbann fire)
-    if (this.cooldown > 0) { this.cooldown -= dt;}
+    if (this.cooldown > 0) {
+        this.cooldown -= dt;
+    }
 
     if (this.use === true && this.cooldown <= 0) {
         var attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
         this.cooldown = this.activeWeapon === 1 ? 2 : (1.5 - attackSpeedBonus).toFixed(2);
-        
-        if(this.activeWeapon === 0 && this.isPlayer && this.parent && this.parent.shipState !== 3 && this.parent.shipState !== 4)
-            ui.playAudioFile(false,'cannon')
-        
-        else if(this.isPlayer && this.activeWeapon === 1)
-            ui.playAudioFile(false,'cast-rod');
+
+        if (this.activeWeapon === 0 && this.isPlayer && this.parent && this.parent.shipState !== 3 && this.parent.shipState !== 4)
+            ui.playAudioFile(false, 'cannon')
+
+        else if (this.isPlayer && this.activeWeapon === 1)
+            ui.playAudioFile(false, 'cast-rod');
     }
     if (!this.isPlayer) {
         this.geometry.rotation.x = this.pitch + this.rotationOffset;
@@ -371,7 +384,9 @@ Player.prototype.getTypeDelta = function () {
         r: this.deltaTypeCompare('r', this.ownsFishingRod),
         v: this.deltaTypeCompare('v', this.availablePoints),
     };
-    if (isEmpty(delta)) { delta = undefined;}
+    if (isEmpty(delta)) {
+        delta = undefined;
+    }
 
     return delta;
 };
@@ -379,7 +394,7 @@ Player.prototype.getTypeDelta = function () {
 Player.prototype.setName = function (name) {
     var clan = '';
     if (this.clan !== undefined && this.clan !== '') {
-        clan = '['+this.clan+'] ';
+        clan = '[' + this.clan + '] ';
     }
     if (this.geometry !== undefined) {
         if (this.label === undefined) {
@@ -393,10 +408,8 @@ Player.prototype.setName = function (name) {
                 },
                 material: {
                     color: this.isPlayer ?
-                        labelcolors.myself :
-                        this.isCaptain ?
-                            labelcolors.captain :
-                            labelcolors.player,
+                        labelcolors.myself : this.isCaptain ?
+                        labelcolors.captain : labelcolors.player,
                     fog: false,
                 },
             });
@@ -418,23 +431,41 @@ Player.prototype.getName = function () {
 
 // function that parses a snapshot
 Player.prototype.parseTypeSnap = function (snap) {
-    if (snap.f !== undefined) {this.walkForward = parseInt(snap.f);}
+    if (snap.f !== undefined) {
+        this.walkForward = parseInt(snap.f);
+    }
 
-    if (snap.s !== undefined) {this.walkSideward = parseInt(snap.s);}
+    if (snap.s !== undefined) {
+        this.walkSideward = parseInt(snap.s);
+    }
 
-    if (snap.u !== undefined) {this.use = parseBool(snap.u);}
+    if (snap.u !== undefined) {
+        this.use = parseBool(snap.u);
+    }
 
-    if (snap.p !== undefined) {this.pitch = parseFloat(snap.p);}
+    if (snap.p !== undefined) {
+        this.pitch = parseFloat(snap.p);
+    }
 
-    if (snap.j !== undefined) {this.jumping = parseInt(snap.j);}
+    if (snap.j !== undefined) {
+        this.jumping = parseInt(snap.j);
+    }
 
-    if (snap.fl !== undefined && snap.fl !== this.fly ) {this.fly = parseInt(snap.fl);}
+    if (snap.fl !== undefined && snap.fl !== this.fly) {
+        this.fly = parseInt(snap.fl);
+    }
 
-    if (snap.ww !== undefined && snap.ww !== this.waterWalk ) {this.waterWalk = parseInt(snap.ww);}
+    if (snap.ww !== undefined && snap.ww !== this.waterWalk) {
+        this.waterWalk = parseInt(snap.ww);
+    }
 
-    if (snap.m !== undefined) {this.movementSpeedBonus = parseInt(snap.m);}
+    if (snap.m !== undefined) {
+        this.movementSpeedBonus = parseInt(snap.m);
+    }
 
-    if (snap.v !== undefined && snap.v !== this.availablePoints) {this.availablePoints = parseInt(snap.v);}
+    if (snap.v !== undefined && snap.v !== this.availablePoints) {
+        this.availablePoints = parseInt(snap.v);
+    }
 
     if (snap.o !== undefined && snap.o !== this.ownsCannon) {
         this.ownsCannon = parseBool(snap.o);
@@ -449,7 +480,9 @@ Player.prototype.parseTypeSnap = function (snap) {
             ui.updateStore($('.btn-shopping-modal.active'));
     }
 
-    if (snap.c !== undefined && snap.c !== this.checkedItemsList) {this.checkedItemsList = parseBool(snap.c);}
+    if (snap.c !== undefined && snap.c !== this.checkedItemsList) {
+        this.checkedItemsList = parseBool(snap.c);
+    }
 
     if (snap.d !== undefined && snap.d != this.itemId) {
         this.itemId = parseInt(snap.d);
@@ -483,8 +516,7 @@ Player.prototype.onDestroy = function () {
 
     if (this.parent) {
         delete this.parent.children[this.id];
-        if (this.parent.netType === 1)
-        {
+        if (this.parent.netType === 1) {
             this.parent.updateProps();
             if (Object.keys(this.parent.children).length === 0) {
                 removeEntity(this.parent);
@@ -540,8 +572,8 @@ Player.prototype.changeWeapon = function () {
     if (this.weapon && this.activeWeapon === 0) {
         this.geometry.remove(this.weapon);
         this.weapon = models.cannon.clone();
-        if(this.isPlayer)
-            ui.playAudioFile(false,'switch-rod-cannon');
+        if (this.isPlayer)
+            ui.playAudioFile(false, 'switch-rod-cannon');
 
         this.weapon.scale.set(0.05, 0.05, 0.05);
         this.weapon.position.set(0, 0.1, -0.4);
@@ -551,8 +583,8 @@ Player.prototype.changeWeapon = function () {
     } else if (this.weapon && this.activeWeapon === 1) {
         this.geometry.remove(this.weapon);
         var fishingModel = new THREE.Mesh(geometry.fishingrod, materials.fishingrod);
-        if(this.isPlayer)
-            ui.playAudioFile(false,'switch-rod-cannon');
+        if (this.isPlayer)
+            ui.playAudioFile(false, 'switch-rod-cannon');
         this.weapon = fishingModel.clone();
         this.weapon.scale.set(0.03, 0.03, 0.03);
         this.weapon.position.set(0, 0.1, -0.2);
@@ -564,7 +596,7 @@ Player.prototype.changeWeapon = function () {
         this.weapon = models.spyglass.clone();
         this.weapon.scale.set(0.7, 0.7, 0.7);
         this.weapon.position.set(0, 0.5, 0.3);
-        this.weapon.rotation.set(0.5, Math.PI/2 + 0.07, 0.5);
+        this.weapon.rotation.set(0.5, Math.PI / 2 + 0.07, 0.5);
         this.weapon.name = 'body';
         this.geometry.add(this.weapon);
     }

@@ -120,3 +120,5 @@ dist/
 src/server/core/core_concatenated.js
 logs/
 package-lock.json
+.jsbeautifyrc
+.vscode

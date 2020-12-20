@@ -7,7 +7,10 @@ var playerModels = [];
 var PlayerRaycaster = new THREE.Raycaster();
 
 var setPlayerModels = function () {
-    materials.dog_1 = new THREE.MeshPhongMaterial({ color: 0xffffff, map: textures.dog_diffuse});
+    materials.dog_1 = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        map: textures.dog_diffuse
+    });
 
     playerModels.push({
         body: new THREE.Mesh(geometry.dog_1, materials.dog_1),
@@ -49,9 +52,9 @@ Player.prototype.namesLogic = function () {
                         entities[id].netType === 5
                     ) {
                         var actualDistance = distance(
-                                cameraWorldPosition,
-                                entities[id].geometry.getWorldPosition()
-                            );
+                            cameraWorldPosition,
+                            entities[id].geometry.getWorldPosition()
+                        );
                         var length = CONFIG.Labels.distanceMultiplier[entities[id].netType];
 
                         entities[id].inRange = actualDistance <= length;
@@ -123,7 +126,7 @@ Player.prototype.dockedLogic = function () {
                     if (_this.parent.anchorIslandId && entities[_this.parent.anchorIslandId]) {
                         objects.push(entities[_this.parent.anchorIslandId].geometry.children[0]);
                         if (entities[_this.parent.anchorIslandId].palm) {
-                          objects.push(entities[_this.parent.anchorIslandId].palm);
+                            objects.push(entities[_this.parent.anchorIslandId].palm);
 
                         }
                     }
@@ -132,7 +135,7 @@ Player.prototype.dockedLogic = function () {
                         if (entities[_this.parent.id].netType === 5) {
                             objects.push(entities[_this.parent.id].geometry.children[0]);
                             if (entities[_this.parent.id].palm) {
-                              objects.push(entities[_this.parent.id].palm);
+                                objects.push(entities[_this.parent.id].palm);
 
                             }
                         }
@@ -200,7 +203,7 @@ Player.prototype.dockedLogic = function () {
 
 Player.prototype.clientlogic = function (dt) {
 
-    if (this.isPlayer && !isEmpty(this.notifiscationHeap)){
+    if (this.isPlayer && !isEmpty(this.notifiscationHeap)) {
         this.notifiscation();
     }
     this.namesLogic();
@@ -212,13 +215,21 @@ Player.prototype.clientlogic = function (dt) {
         this.walkForward = 0;
         this.walkSideward = 0;
 
-        if (keys_walkFwd) { this.walkForward = 1; }
+        if (keys_walkFwd) {
+            this.walkForward = 1;
+        }
 
-        if (keys_walkBwd) { this.walkForward = -1; }
+        if (keys_walkBwd) {
+            this.walkForward = -1;
+        }
 
-        if (keys_walkRight) { this.walkSideward = 1; }
+        if (keys_walkRight) {
+            this.walkSideward = 1;
+        }
 
-        if (keys_walkLeft) { this.walkSideward = -1; }
+        if (keys_walkLeft) {
+            this.walkSideward = -1;
+        }
 
         this.jumping = keys_jump ? 1 : 0;
 
@@ -238,28 +249,25 @@ Player.prototype.clientlogic = function (dt) {
         }
 
         if (camera.parent == this.geometry) {
-          var lookingDownOffset;
-          var cameraPosition = new THREE.Vector3();
-            if (this.activeWeapon !== 2){
-              // to overcome discrepancy between cannon's angle of aim, and the actual angle of projectile
-                if($('#fps-mode-button').is(':checked'))
-                {
+            var lookingDownOffset;
+            var cameraPosition = new THREE.Vector3();
+            if (this.activeWeapon !== 2) {
+                // to overcome discrepancy between cannon's angle of aim, and the actual angle of projectile
+                if ($('#fps-mode-button').is(':checked')) {
                     lookingDownOffset = 2 - Math.max(controls.cameraX, 2);
                     cameraPosition = new THREE.Vector3(
                         camera.position.x,
                         1.5 + Math.min(8, Math.max(0, controls.cameraX * 0.5)),
-                        1.21 + (lookingDownOffset * 0.21));                    
-                }
-                else
-                {
+                        1.21 + (lookingDownOffset * 0.21));
+                } else {
                     lookingDownOffset = 0.2 - Math.max(controls.cameraX, 0.2);
                     cameraPosition = new THREE.Vector3(
                         camera.position.x,
                         2 + Math.min(8, Math.max(0, controls.cameraX * 10)),
                         8 + (lookingDownOffset * 8));
                 }
-                
-                if (camera.zoom == 2){
+
+                if (camera.zoom == 2) {
                     camera.zoom = 1;
                     camera.updateProjectionMatrix();
                     scene.fog.density = 0.007;
@@ -297,7 +305,7 @@ Player.prototype.clientlogic = function (dt) {
 
         if (controls.isMouseLookLocked) {
             this.use = controls.lmb;
-        }else {
+        } else {
             this.use = false;
         }
 
@@ -308,36 +316,28 @@ Player.prototype.clientlogic = function (dt) {
         this.tryJump();
     }
 
-    this.jumpVel = this.fly == 0 ? this.jumpVel - 80 * dt: Math.max(0, this.jumpVel - 80 * dt);
+    this.jumpVel = this.fly == 0 ? this.jumpVel - 80 * dt : Math.max(0, this.jumpVel - 80 * dt);
     this.jump += this.jumpVel * dt;
 
     if (this.jump < 0) {
         this.jump = 0.0;
     }
 
-    if(this.isPlayer && this.parent)
-    {
-        if(this.parent.shipState === 0 || this.parent.shipState === 1)
-        {
+    if (this.isPlayer && this.parent) {
+        if (this.parent.shipState === 0 || this.parent.shipState === 1) {
 
-            if(this.walkForward != 0)
-            {
-                ui.playAudioFile(false,'step-wood01');
+            if (this.walkForward != 0) {
+                ui.playAudioFile(false, 'step-wood01');
             }
-            if(this.walkSideward != 0)
-            {
-                ui.playAudioFile(false,'step-wood02');
+            if (this.walkSideward != 0) {
+                ui.playAudioFile(false, 'step-wood02');
             }
-        }
-        else
-        {
-            if(this.walkForward != 0)
-            {
-                ui.playAudioFile(false,'step-sand01');
+        } else {
+            if (this.walkForward != 0) {
+                ui.playAudioFile(false, 'step-sand01');
             }
-            if(this.walkSideward != 0)
-            {
-                ui.playAudioFile(false,'step-sand02');
+            if (this.walkSideward != 0) {
+                ui.playAudioFile(false, 'step-sand02');
             }
         }
     }
@@ -361,10 +361,8 @@ Player.prototype.clientlogic = function (dt) {
         ui.updateKrewList();
 
 
-        if(!ui.hideSuggestionBox)
-        {
-            if (!$('#shopping-modal').is(':visible') && myPlayer.gold > 500)
-            {
+        if (!ui.hideSuggestionBox) {
+            if (!$('#shopping-modal').is(':visible') && myPlayer.gold > 500) {
                 if ($('#earn-gold').is(':visible'))
                     $('#earn-gold').hide();
 
@@ -423,8 +421,7 @@ Player.prototype.clientlogic = function (dt) {
     );
     this.geometry.rotation.y = this.rotation;
 
-    if (this.weapon !== undefined)
-    {
+    if (this.weapon !== undefined) {
         if (this.activeWeapon == 1) {
             this.weapon.rotation.x += dt * this.rodRotationSpeed;
 
@@ -441,7 +438,7 @@ Player.prototype.clientlogic = function (dt) {
 
     // check if we turned into the captain (or lost captainship)
     if (this.isCaptain != this.oldCaptainState) {
-        if (this.parent && this.isPlayer && !this.isCaptain){
+        if (this.parent && this.isPlayer && !this.isCaptain) {
             ui.showCenterMessage('You are not the captain anymore!', 4, 4000);
             if (this.parent.shipState === 3 || this.parent.shipState === 4 || this.parent.shipState === -1) {
                 // $('#island-menu-div').show();
@@ -450,11 +447,11 @@ Player.prototype.clientlogic = function (dt) {
                 $('#exit-island-button').hide();
                 $('#toggle-invite-link-button').show();
                 $('#quests-button').show();
-              } else if (this.parent.shipState === 1) {
+            } else if (this.parent.shipState === 1) {
                 $('#docking-modal').hide();
-              }
+            }
 
-          $('#abandon-ship-button').show();
+            $('#abandon-ship-button').show();
         }
         if (this.parent && this.isPlayer && this.isCaptain) {
             ui.showCenterMessage('You are the captain now!', 4, 4000);
@@ -480,8 +477,8 @@ Player.prototype.clientlogic = function (dt) {
                 this.label.material.color = this.isPlayer ?
                     labelcolors.myself :
                     this.isCaptain ?
-                        labelcolors.captain :
-                        labelcolors.player;
+                    labelcolors.captain :
+                    labelcolors.player;
             }
         } else {
             this.playerBody.remove(this.playerBody.getObjectByName('captainHat'));
@@ -490,8 +487,8 @@ Player.prototype.clientlogic = function (dt) {
                 this.label.material.color = this.isPlayer ?
                     labelcolors.myself :
                     this.isCaptain ?
-                        labelcolors.captain :
-                        labelcolors.player;
+                    labelcolors.captain :
+                    labelcolors.player;
             }
         }
     }

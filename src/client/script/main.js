@@ -50,12 +50,56 @@ var createMinimap = function () {
     var time = performance.now();
 
     var compass = {
-        x: map.text({ x: middle, y: middle, text: '+', fill: 'rgba(84,48,13,0.7)', size: 260, baseline: 'middle' }),
-        n: map.text({ x: middle, y: middle - 300, text: 'N', fill: 'rgba(84,48,13,0.7)', size: 160, baseline: 'middle' }),
-        s: map.text({ x: middle, y: middle + 300, text: 'S', fill: 'rgba(84,48,13,0.7)', size: 160, baseline: 'middle' }),
-        w: map.text({ x: middle - 300, y: middle, text: 'W', fill: 'rgba(84,48,13,0.7)', size: 160, baseline: 'middle' }),
-        e: map.text({ x: middle + 300, y: middle, text: 'E', fill: 'rgba(84,48,13,0.7)', size: 160, baseline: 'middle' }),
-        boundary: map.rect({ x: 0, y: 0, width: worldsize, height: worldsize, stroke: { color: 'rgba(84,48,13,1)', width: 8 } }),
+        x: map.text({
+            x: middle,
+            y: middle,
+            text: '+',
+            fill: 'rgba(84,48,13,0.7)',
+            size: 260,
+            baseline: 'middle'
+        }),
+        n: map.text({
+            x: middle,
+            y: middle - 300,
+            text: 'N',
+            fill: 'rgba(84,48,13,0.7)',
+            size: 160,
+            baseline: 'middle'
+        }),
+        s: map.text({
+            x: middle,
+            y: middle + 300,
+            text: 'S',
+            fill: 'rgba(84,48,13,0.7)',
+            size: 160,
+            baseline: 'middle'
+        }),
+        w: map.text({
+            x: middle - 300,
+            y: middle,
+            text: 'W',
+            fill: 'rgba(84,48,13,0.7)',
+            size: 160,
+            baseline: 'middle'
+        }),
+        e: map.text({
+            x: middle + 300,
+            y: middle,
+            text: 'E',
+            fill: 'rgba(84,48,13,0.7)',
+            size: 160,
+            baseline: 'middle'
+        }),
+        boundary: map.rect({
+            x: 0,
+            y: 0,
+            width: worldsize,
+            height: worldsize,
+            stroke: {
+                color: 'rgba(84,48,13,1)',
+                width: 8
+            }
+        }),
     };
 
     map
@@ -64,8 +108,7 @@ var createMinimap = function () {
         .add(compass.s)
         .add(compass.w)
         .add(compass.e)
-        .add(compass.boundary)
-        ;
+        .add(compass.boundary);
 
     var loop = function () {
         if (performance.now() - time > 1000 / fps) {
@@ -106,16 +149,16 @@ var createMinimap = function () {
                     if (entities[id].netType === 4 && entities[id].type === 4) {
                         if (map.elements[id] === undefined) {
                             map
-                              .add(map.text({
-                                  x: entities[id].position.x,
-                                  y: entities[id].position.z,
-                                  text: 'x',
-                                  fill: 'rgba(204, 10, 10, 1)',
-                                  font: 'sans-serif',
-                                  id: id,
-                                  size: 140,
-                                  netType: 4
-                              }));
+                                .add(map.text({
+                                    x: entities[id].position.x,
+                                    y: entities[id].position.z,
+                                    text: 'x',
+                                    fill: 'rgba(204, 10, 10, 1)',
+                                    font: 'sans-serif',
+                                    id: id,
+                                    size: 140,
+                                    netType: 4
+                                }));
                         }
                     }
                 }
@@ -123,21 +166,21 @@ var createMinimap = function () {
                 for (var id in markers) {
                     if (map.elements[id] === undefined) {
                         map.add(map.point({
-                                x: markers[id].x,
-                                y: markers[id].y,
-                                r: 30,
-                                d: 0.5,
-                                id: id,
-                                creatTime: performance.now(),
-                                fill: 'rgba(255, 0, 0, 0.5)',
-                            }));
+                            x: markers[id].x,
+                            y: markers[id].y,
+                            r: 30,
+                            d: 0.5,
+                            id: id,
+                            creatTime: performance.now(),
+                            fill: 'rgba(255, 0, 0, 0.5)',
+                        }));
                     }
                     if (map.elements[id] !== undefined) {
                         if (map.elements[id].creatTime < performance.now() - 10000) {
-                          map.remove(map.elements[id]);
-                          delete markers[id];
+                            map.remove(map.elements[id]);
+                            delete markers[id];
                         } else {
-                            map.elements[id].r = map.elements[id].r + Math.sin(map.elements[id].d)*5;
+                            map.elements[id].r = map.elements[id].r + Math.sin(map.elements[id].d) * 5;
                             map.elements[id].d += 0.2;
                         }
                     }
@@ -190,8 +233,12 @@ var createMinimap = function () {
     return map;
 };
 
-var timer = setInterval(function () { islandTimer(); }, 1000);
-var cleanup = setInterval(function() { cleanScene();}, 90000);
+var timer = setInterval(function () {
+    islandTimer();
+}, 1000);
+var cleanup = setInterval(function () {
+    cleanScene();
+}, 90000);
 //var deletingbots = setInterval(function() { deleteBots();}, 10000);
 
 //var departureTimer = setInterval(function() { departure(); }, 1000);
@@ -203,7 +250,7 @@ window.logoutUser = function () {
     window.location.pathname = '/logout'
 };
 
-window.userFirebaseRegister = function(e) {
+window.userFirebaseRegister = function (e) {
 
     if (e) {
         e.preventDefault();
@@ -212,7 +259,7 @@ window.userFirebaseRegister = function(e) {
     firebaseRegister();
 };
 
-window.userFirebaseLogin = function(e) {
+window.userFirebaseLogin = function (e) {
 
     if (e) {
         e.preventDefault();
@@ -225,7 +272,9 @@ var createGame = function () {
     var minimap = createMinimap();
 
     // Create three.js renderer object
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
 
     // Add renderer to the document
     document.body.appendChild(renderer.domElement);
@@ -239,7 +288,7 @@ var createGame = function () {
 
     // camera
     camera = new THREE.PerspectiveCamera(75, 1.8, 0.1, 10000);
-    camera.position.set(0,10,0);
+    camera.position.set(0, 10, 0);
     //scene.add(camera);
 
     // Raycaster
@@ -268,7 +317,7 @@ var createGame = function () {
         //  calculate delta time since last frame. (Minimum 0.1 s)
         var thisFrame = performance.now();
 
-				water.material.uniforms['time'].value += 1.0 / 60.0;
+        water.material.uniforms['time'].value += 1.0 / 60.0;
         var dt = Math.min((thisFrame - lastFrameTime) / 1000, 0.1);
         lastFrameTime = thisFrame;
 
@@ -296,8 +345,8 @@ var showIslandMenu = function () {
     // $('#island-menu-div').show();
     $('#toggle-shop-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button');
     $('#toggle-krew-list-modal-button').removeClass('btn btn-md disabled toggle-krew-list-modal-button').addClass('btn btn-md enabled toggle-krew-list-modal-button');
-    if(entities[myPlayer.parent.anchorIslandId].name === "Labrador"){
-        $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip','Deposit or withdraw gold');
+    if (entities[myPlayer.parent.anchorIslandId].name === "Labrador") {
+        $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip', 'Deposit or withdraw gold');
     }
     $('#exit-island-button').hide();
     ui.updateStore($('.btn-shopping-modal.active'));
@@ -315,14 +364,13 @@ var enterIsland = function (data) {
 
     }
     // if ($('#island-menu-div').is(':visible')) {
-    if ($('#toggle-shop-modal-button').hasClass('enabled')){
+    if ($('#toggle-shop-modal-button').hasClass('enabled')) {
         $('#docking-modal').hide();
     }
 
-    if(myPlayer)
-    {
+    if (myPlayer) {
         ui.stopAudioFile('ocean-music');
-        ui.playAudioFile(true,'island-music');        
+        ui.playAudioFile(true, 'island-music');
     }
 
 };
@@ -334,28 +382,22 @@ var $cancelExitButton = $('#cancel-exit-button');
 var $cancelExitButtonSpan = $cancelExitButton.find('span');
 var $dockingModal = $('#docking-modal');
 
-var cleanScene = function() {
-    scene.traverse( function(node){
-        if (node instanceof THREE.Mesh)
-        {
-            for (o in sceneCanBalls)
-            {
+var cleanScene = function () {
+    scene.traverse(function (node) {
+        if (node instanceof THREE.Mesh) {
+            for (o in sceneCanBalls) {
                 var cannonBall = sceneCanBalls[o];
-                if (cannonBall == node)
-                {
+                if (cannonBall == node) {
                     scene.remove(node);
                     delete sceneCanBalls[o];
                 }
 
             }
         }
-        if (node instanceof THREE.Line)
-        {
-            for (l in sceneLines)
-            {
+        if (node instanceof THREE.Line) {
+            for (l in sceneLines) {
                 var line = sceneLines[l];
-                if (line == node)
-                {
+                if (line == node) {
                     scene.remove(node);
                     sceneLines[l].geometry.dispose();
                     delete sceneLines[l];
@@ -464,7 +506,7 @@ var islandTimer = function () {
 
 var departure = function () {
     if (myPlayer && entities[myPlayer.id] && entities[myPlayer.id].parent) {
-        ui.playAudioFile(false,'sail');
+        ui.playAudioFile(false, 'sail');
         $('#docking-modal').hide();
         this.departureCounter = this.departureCounter || 0;
         socket.emit('departure', this.departureCounter);
@@ -496,14 +538,13 @@ var exitIsland = function (data) {
     // $('#toggle-shop-modal-button').popover('hide');
     krewListUpdateManually = false;
     ui.hideSuggestionBox = true;
-    if(myPlayer)
-    {
+    if (myPlayer) {
         ui.stopAudioFile('island-music');
-        ui.playAudioFile(true,'ocean-music');       
+        ui.playAudioFile(true, 'ocean-music');
     }
 
     // $('#island-menu-div').hide();
-    $('#toggle-bank-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button').attr('data-tooltip','Bank is available at Labrador');
+    $('#toggle-bank-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button').attr('data-tooltip', 'Bank is available at Labrador');
     $('#exit-island-button').hide();
     $('#shopping-modal').hide();
     $('#krew-list-modal').hide();
@@ -527,7 +568,7 @@ var login = function () {
 var sendMessage = function () {
     socket.emit('chat message', {
         message: $('#chat-message').val(),
-        recipient: localChatOn ? 'local' : clanChatOn ? 'clan' : staffChatOn ? 'staff': 'global'
+        recipient: localChatOn ? 'local' : clanChatOn ? 'clan' : staffChatOn ? 'staff' : 'global'
     });
     $('#chat-message').val('').focus();
 };
@@ -535,24 +576,24 @@ var sendMessage = function () {
 var makeDeposit = function () {
     var deposit = +$('#make-deposit').val();
     var sumDeposits = parseInt($('#my-deposits').text()) + deposit;
-    if (deposit <= myPlayer.gold && sumDeposits <= 150000){
-        socket.emit('bank', {deposit: deposit});
-        ui.playAudioFile(false,'deposit');
+    if (deposit <= myPlayer.gold && sumDeposits <= 150000) {
+        socket.emit('bank', {
+            deposit: deposit
+        });
+        ui.playAudioFile(false, 'deposit');
         $('#make-deposit').val('').focus();
         $('#successMakeDepoMess').show();
         $('#errorMakeDepoMess').hide();
         $('#successTakeDepoMess').hide();
         $('#errorTakeDepoMess').hide();
         $('#errorFullDepoMess').hide();
-    }
-    else if (sumDeposits > 150000){
+    } else if (sumDeposits > 150000) {
         $('#errorFullDepoMess').show();
         $('#successMakeDepoMess').hide();
         $('#errorMakeDepoMess').hide();
         $('#successTakeDepoMess').hide();
         $('#errorTakeDepoMess').hide();
-    }
-    else{
+    } else {
         $('#errorMakeDepoMess').show();
         $('#successMakeDepoMess').hide();
         $('#successTakeDepoMess').hide();
@@ -561,62 +602,67 @@ var makeDeposit = function () {
     }
 };
 var getBankData = function () {
-  socket.emit('bank');
+    socket.emit('bank');
 };
 var takeDeposit = function () {
-  var deposit = +$('#take-deposit').val();
-  if (deposit <= +$('#my-deposits').text()){
-    socket.emit('bank', {takedeposit: deposit});
-    $('#take-deposit').val('').focus();
-    $('#successTakeDepoMess').show();
-    $('#successMakeDepoMess').hide();
-    $('#errorMakeDepoMess').hide();
-    $('#errorTakeDepoMess').hide();
-    $('#errorFullDepoMess').hide();
-  }
-  else{
-    $('#errorTakeDepoMess').show();
-    $('#successTakeDepoMess').hide();
-    $('#successMakeDepoMess').hide();
-    $('#errorMakeDepoMess').hide();
-    $('#errorFullDepoMess').hide();
-  }
+    var deposit = +$('#take-deposit').val();
+    if (deposit <= +$('#my-deposits').text()) {
+        socket.emit('bank', {
+            takedeposit: deposit
+        });
+        $('#take-deposit').val('').focus();
+        $('#successTakeDepoMess').show();
+        $('#successMakeDepoMess').hide();
+        $('#errorMakeDepoMess').hide();
+        $('#errorTakeDepoMess').hide();
+        $('#errorFullDepoMess').hide();
+    } else {
+        $('#errorTakeDepoMess').show();
+        $('#successTakeDepoMess').hide();
+        $('#successMakeDepoMess').hide();
+        $('#errorMakeDepoMess').hide();
+        $('#errorFullDepoMess').hide();
+    }
 };
 
 // Share a link and caption on Facebook
 var fbShare = function (message, link) {
     FB.login(function (response) {
-        var token = response.authResponse.accessToken;
+            var token = response.authResponse.accessToken;
 
-        if (response.authResponse) {
-            FB.api('/me', 'get', { access_token: token }, function (response) {
-                //console.log(response);
-            });
+            if (response.authResponse) {
+                FB.api('/me', 'get', {
+                    access_token: token
+                }, function (response) {
+                    //console.log(response);
+                });
 
-            /*FB.api('/me/feed', 'post', params, function(response) {
-              //console.log(response);
-            });*/
-            FB.ui({
-                method: 'share_open_graph',
-                action_type: 'og.shares',
-                action_properties: JSON.stringify({
-                    object: {
-                        'og:url': 'http://' + link, // your url to share
-                        'og:title': 'Krew dev',
-                        'og:description': message,
-                        'og:image': 'https://krew.io/assets/img/logo.png',
-                    },
-                }),
-            });
+                /*FB.api('/me/feed', 'post', params, function(response) {
+                  //console.log(response);
+                });*/
+                FB.ui({
+                    method: 'share_open_graph',
+                    action_type: 'og.shares',
+                    action_properties: JSON.stringify({
+                        object: {
+                            'og:url': 'http://' + link, // your url to share
+                            'og:title': 'Krew dev',
+                            'og:description': message,
+                            'og:image': 'https://krew.io/assets/img/logo.png',
+                        },
+                    }),
+                });
 
+            }
+        },
+
+        {
+            scope: 'publish_actions'
         }
-    },
-
-        { scope: 'publish_actions' }
     );
 };
 
-function isAlphaNumeric(str) {
+function isAlphaNumeric (str) {
     var code, i, len;
 
     for (i = 0, len = str.length; i < len; i++) {
@@ -677,8 +723,7 @@ $(document).ready(function () {
         $('#play-button').text('Play as guest').attr('disabled', false);
         if (!(ui.getCookie('username') && ui.getCookie('token'))) {
             ui.getKrewioData()
-        }
-        else {
+        } else {
             ui.clientAccessToken = ui.getCookie('token')
             ui.username = ui.getCookie('username')
             ui.prepareForPlay()
@@ -689,8 +734,7 @@ $(document).ready(function () {
         if ($('#show-more').text().indexOf('Show more') > -1) {
             $('.top20').show();
             $('#show-more').html('<i class="icofont icofont-medal"></i> Show less')
-        }
-        else {
+        } else {
             $('.top20').hide();
             $('#show-more').html('<i class="icofont icofont-medal"></i> Show more')
         }
@@ -705,23 +749,25 @@ $(document).ready(function () {
         }
     });
 
-    $('#close-admin-panel-btn').on('click', function (){
+    $('#close-admin-panel-btn').on('click', function () {
         $('#panel-modal').hide();
     });
 
-    $('#verify-panel-button').on('click', function() {
-        socket.emit('openAdminPanel', function(callback) {
-            if(callback === true)
-            {
+    $('#verify-panel-button').on('click', function () {
+        socket.emit('openAdminPanel', function (callback) {
+            if (callback === true) {
                 $('#panel-modal').show();
             }
         });
     });
 
-    $('#submit-pincode-btn').on('click', function() {
+    $('#submit-pincode-btn').on('click', function () {
         let pincode = $('#admin-pincode').val();
-        if(pincode !== '')
-            socket.emit('loginWithPin', { username: ui.username, pincode: pincode });
+        if (pincode !== '')
+            socket.emit('loginWithPin', {
+                username: ui.username,
+                pincode: pincode
+            });
     });
 
     // login by pressing login button
@@ -733,8 +779,8 @@ $(document).ready(function () {
             login();
             setUpKeybinds();
             ui.LoadingWheel('show');
-            ui.playAudioFile(false,'wheelspin');
-            ui.playAudioFile(true,'ocean-ambience');
+            ui.playAudioFile(false, 'wheelspin');
+            ui.playAudioFile(true, 'ocean-ambience');
         }
     }).text('Loading...').attr('disabled', true);
 
@@ -748,7 +794,7 @@ $(document).ready(function () {
             // $('#island-menu-div').show();
             $('#toggle-shop-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button');
             $('#toggle-krew-list-modal-button').removeClass('btn btn-md enabled toggle-krew-list-modal-button').addClass('btn btn-md disabled toggle-krew-list-modal-button');
-            $('#toggle-bank-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button').attr('data-tooltip','Bank is available at Labrador');
+            $('#toggle-bank-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button').attr('data-tooltip', 'Bank is available at Labrador');
             // as long as we spawn on the water, do not show the krew list modal, do not update the Store and do not update the krew list
             // ui.updateStore($('.btn-shopping-modal.active'));
             // $('#krew-list-modal').show();
@@ -770,7 +816,7 @@ $(document).ready(function () {
         // $('#island-menu-div').show();
         $('#toggle-shop-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button');
         $('#toggle-krew-list-modal-button').removeClass('btn btn-md enabled toggle-krew-list-modal-button').addClass('btn btn-md disabled toggle-krew-list-modal-button');
-        $('#toggle-bank-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button').attr('data-tooltip','Bank is available at Labrador');
+        $('#toggle-bank-modal-button').removeClass('btn btn-md enabled toggle-shop-modal-button').addClass('btn btn-md disabled toggle-shop-modal-button').attr('data-tooltip', 'Bank is available at Labrador');
         ui.updateStore($('.btn-shopping-modal.active'));
         $('#krew-list-modal').show();
         ui.updateKrewList();
@@ -909,11 +955,11 @@ $(document).ready(function () {
     $('#docking-modal-button').on('click', function () {
         if ($('#docking-modal-button').hasClass('enabled')) {
             if (myPlayer && myPlayer.parent) {
-                ui.playAudioFile(false,'dock');
+                ui.playAudioFile(false, 'dock');
                 socket.emit('anchor');
                 $btnShoppingModal.eq(2).trigger('click');
-                if(entities[myPlayer.parent.anchorIslandId].name === "Labrador"){
-                  $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip','Deposit or withdraw gold');
+                if (entities[myPlayer.parent.anchorIslandId].name === "Labrador") {
+                    $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip', 'Deposit or withdraw gold');
                 }
                 if (myPlayer.parent.netType == 1 && !$('#exit-island-button').is(':visible')) {
                     $('#exit-island-button').show();
@@ -980,10 +1026,9 @@ $(document).ready(function () {
     });
 
     $('#toggle-invite-link-button').on('click', function () {
-        if ($('#invite-div').is(':visible')){
+        if ($('#invite-div').is(':visible')) {
             $('#invite-div').hide();
-        }
-        else {
+        } else {
             $('#invite-link').val(ui.getInviteLink());
             $('#invite-div').show();
         }
@@ -994,7 +1039,7 @@ $(document).ready(function () {
     });
 
     $('#toggle-help-button').on('click', function () {
-        if ($('#help-modal').is(':visible')){
+        if ($('#help-modal').is(':visible')) {
             $('#help-modal').hide();
         } else {
             ui.closeAllPagesExcept("#help-modal");
@@ -1016,7 +1061,7 @@ $(document).ready(function () {
     });
 
     $('#toggle-quest-button').on('click', function () {
-        if ($('#quests-modal').is(':visible')){
+        if ($('#quests-modal').is(':visible')) {
             $('#quests-modal').hide();
         } else {
             // after clicking on the quest button, get all information needed for stats from the server
@@ -1025,38 +1070,38 @@ $(document).ready(function () {
                 // pirate quests
                 $('.pirate-progress').text(json_data.shipsSank);
                 $('.crew-pirate-progress').text(json_data.overall_kills);
-                if (json_data.shipsSank >= 1){
+                if (json_data.shipsSank >= 1) {
                     // if pirate quest 1 is achieved, display checkbox icon and show next quest
                     $('#completed-quest-table').append($('#pirate-quest-1').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#pirate-quest-2').show();
                     $('#crew-pirate-quest-1').show();
                 }
-                if (json_data.shipsSank >= 5){
+                if (json_data.shipsSank >= 5) {
                     $('#completed-quest-table').append($('#pirate-quest-2').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#pirate-quest-3').show();
                 }
-                if (json_data.shipsSank >= 10){
+                if (json_data.shipsSank >= 10) {
                     $('#completed-quest-table').append($('#pirate-quest-3').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#pirate-quest-4').show();
                 }
-                if (json_data.shipsSank >= 20){
+                if (json_data.shipsSank >= 20) {
                     $('#completed-quest-table').append($('#pirate-quest-4').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                 }
-                if (json_data.overall_kills >= 10){
+                if (json_data.overall_kills >= 10) {
                     $('#completed-quest-table').append($('#crew-pirate-quest-1').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#crew-pirate-quest-2').show();
                 }
-                if (json_data.overall_kills >= 20){
+                if (json_data.overall_kills >= 20) {
                     $('#completed-quest-table').append($('#crew-pirate-quest-2').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#crew-pirate-quest-3').show();
                 }
-                if (json_data.overall_kills >= 50){
+                if (json_data.overall_kills >= 50) {
                     $('#completed-quest-table').append($('#crew-pirate-quest-3').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                 }
@@ -1065,44 +1110,44 @@ $(document).ready(function () {
                 $('.trade-progress').text(json_data.overall_cargo);
                 $('.crew-trade-progress').text(json_data.crew_overall_cargo);
                 // after completing quest display new status in quest window
-                if (json_data.overall_cargo >= 1000){
+                if (json_data.overall_cargo >= 1000) {
                     $('#completed-quest-table').append($('#trade-quest-1').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#trade-quest-2').show();
                     $('#crew-trade-quest-1').show();
                 }
-                if (json_data.overall_cargo >= 6000){
+                if (json_data.overall_cargo >= 6000) {
                     $('#completed-quest-table').append($('#trade-quest-2').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#trade-quest-3').show();
                 }
-                if (json_data.overall_cargo >= 15000){
+                if (json_data.overall_cargo >= 15000) {
                     $('#completed-quest-table').append($('#trade-quest-3').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#trade-quest-4').show();
                 }
-                if (json_data.overall_cargo >= 30000){
+                if (json_data.overall_cargo >= 30000) {
                     $('#completed-quest-table').append($('#trade-quest-4').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                 }
-                if (json_data.crew_overall_cargo >= 12000){
+                if (json_data.crew_overall_cargo >= 12000) {
                     $('#completed-quest-table').append($('#crew-trade-quest-1').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#crew-trade-quest-2').show();
                 }
-                if (json_data.crew_overall_cargo >= 50000){
+                if (json_data.crew_overall_cargo >= 50000) {
                     $('#completed-quest-table').append($('#crew-trade-quest-2').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#crew-trade-quest-3').show();
                 }
-                if (json_data.crew_overall_cargo >= 150000){
+                if (json_data.crew_overall_cargo >= 150000) {
                     $('#completed-quest-table').append($('#crew-trade-quest-3').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                 }
 
                 // other quests
                 $('#other-progress-1').text(myPlayer.jump_count);
-                if (myPlayer.jump_count >= 50){
+                if (myPlayer.jump_count >= 50) {
                     $('#completed-quest-table').append($('#other-quest-1').last());
                     $('#completed-quest-table .quest-progress').html('<i class="icofont icofont-check-circled"></i>');
                     $('#other-quest-2').show();
@@ -1128,7 +1173,9 @@ $(document).ready(function () {
 
     $('#abandon-ship-button').on('click', function () {
 
-        if (myBoat.hp <= 0) { return; }
+        if (myBoat.hp <= 0) {
+            return;
+        }
 
         if (myPlayer.goods && (myBoat.shipState === 3 || myBoat.shipState === 4)) {
             for (var k in myPlayer.goods) {
@@ -1159,8 +1206,8 @@ $(document).ready(function () {
                 // $('#island-menu-div').show();
                 $('#toggle-shop-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button');
                 $('#toggle-krew-list-modal-button').removeClass('btn btn-md disabled toggle-krew-list-modal-button').addClass('btn btn-md enabled toggle-krew-list-modal-button');
-                if(entities[myPlayer.parent.anchorIslandId].name === "Labrador"){
-                    $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip','Deposit or withdraw gold');
+                if (entities[myPlayer.parent.anchorIslandId].name === "Labrador") {
+                    $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip', 'Deposit or withdraw gold');
                 }
                 ui.updateStore($('.btn-shopping-modal.active'));
             } else if (myBoat.shipState === 1) {
@@ -1169,8 +1216,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#lock-krew-button').on('click', function() {
-        if($('#lock-krew-button').is(':checked')) {
+    $('#lock-krew-button').on('click', function () {
+        if ($('#lock-krew-button').is(':checked')) {
             $('#lock-krew-text').removeClass('lock-text-info').addClass('lock-text-error').text('Unlock krew...');
             socket.emit('lock-krew', true)
         } else {
@@ -1179,8 +1226,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#fps-mode-button').on('click', function() {
-        if($('#fps-mode-button').is(':checked')) {
+    $('#fps-mode-button').on('click', function () {
+        if ($('#fps-mode-button').is(':checked')) {
             $('#fps-mode-text').removeClass('lock-text-info').addClass('lock-text-error').text('FP Camera (Enabled)');
         } else {
             $('#fps-mode-text').removeClass('lock-text-error').addClass('lock-text-info').text('FP Camera (Disabled)');
@@ -1188,23 +1235,25 @@ $(document).ready(function () {
     });
 
 
-    localStorage.setItem('lastAdTime', Date.now()-10000000);
+    localStorage.setItem('lastAdTime', Date.now() - 10000000);
 
     var aiptag = aiptag || {};
     aiptag.cmd = aiptag.cmd || [];
     aiptag.cmd.display = aiptag.cmd.display || [];
-    aiptag.cmd.display.push(function () { aipDisplayTag.display('krew-io_300x250'); });
+    aiptag.cmd.display.push(function () {
+        aipDisplayTag.display('krew-io_300x250');
+    });
     aiptag.gdprShowConsentTool = true; // Show GDPR consent tool
     aiptag.gdprShowConsentToolButton = true;
     initAipPreroll();
 
-    function aipGDPRCallback_OnAccept(googleConsent) {
-        if(googleConsent === true) {
+    function aipGDPRCallback_OnAccept (googleConsent) {
+        if (googleConsent === true) {
             initAipPreroll();
         }
     }
 
-    function initAipPreroll() {
+    function initAipPreroll () {
         // console.log("adplayer set?!");
         if (typeof aipPlayer != "undefined") {
             adplayer = new aipPlayer({
@@ -1212,20 +1261,16 @@ $(document).ready(function () {
                 AD_HEIGHT: 540,
                 AD_FULLSCREEN: true,
                 PREROLL_ELEM: document.getElementById('preroll'),
-                AIP_COMPLETE: function () {
-                },
-                AIP_REMOVE: function () {
-                }
+                AIP_COMPLETE: function () {},
+                AIP_REMOVE: function () {}
             });
             window.adplayerCentered = new aipPlayer({
                 AD_WIDTH: 560,
                 AD_HEIGHT: 315,
                 AD_FULLSCREEN: false,
                 PREROLL_ELEM: document.getElementById('preroll-centered'),
-                AIP_COMPLETE: function () {
-                },
-                AIP_REMOVE: function () {
-                }
+                AIP_COMPLETE: function () {},
+                AIP_REMOVE: function () {}
             });
         }
     }
@@ -1250,7 +1295,7 @@ var toggleGlobalChat = function () {
     globalChatOn = true;
     $('#global-chat-alert').hide();
     // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function() {
+    $('#chat-history').scrollTop(function () {
         return this.scrollHeight;
     });
 };
@@ -1271,7 +1316,7 @@ var toggleLocalChat = function () {
     globalChatOn = false;
     $('#local-chat-alert').hide();
     // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function() {
+    $('#chat-history').scrollTop(function () {
         return this.scrollHeight;
     });
 };
@@ -1292,7 +1337,7 @@ var toggleClanChat = function () {
     globalChatOn = false;
     $('#clan-chat-alert').hide();
     // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function() {
+    $('#chat-history').scrollTop(function () {
         return this.scrollHeight;
     });
 };
@@ -1313,48 +1358,74 @@ var toggleStaffChat = function () {
     globalChatOn = false;
     $('#staff-chat-alert').hide();
     // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function() {
+    $('#chat-history').scrollTop(function () {
         return this.scrollHeight;
     });
 };
 
 var Ease = {
     // no easing, no acceleration
-    linear: function (t) { return t; },
+    linear: function (t) {
+        return t;
+    },
 
     // accelerating from zero velocity
-    easeInQuad: function (t) { return t * t; },
+    easeInQuad: function (t) {
+        return t * t;
+    },
 
     // decelerating to zero velocity
-    easeOutQuad: function (t) { return t * (2 - t); },
+    easeOutQuad: function (t) {
+        return t * (2 - t);
+    },
 
     // acceleration until halfway, then deceleration
-    easeInOutQuad: function (t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; },
+    easeInOutQuad: function (t) {
+        return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    },
 
     // accelerating from zero velocity
-    easeInCubic: function (t) { return t * t * t; },
+    easeInCubic: function (t) {
+        return t * t * t;
+    },
 
     // decelerating to zero velocity
-    easeOutCubic: function (t) { return (--t) * t * t + 1; },
+    easeOutCubic: function (t) {
+        return (--t) * t * t + 1;
+    },
 
     // acceleration until halfway, then deceleration
-    easeInOutCubic: function (t) { return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1; },
+    easeInOutCubic: function (t) {
+        return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    },
 
     // accelerating from zero velocity
-    easeInQuart: function (t) { return t * t * t * t; },
+    easeInQuart: function (t) {
+        return t * t * t * t;
+    },
 
     // decelerating to zero velocity
-    easeOutQuart: function (t) { return 1 - (--t) * t * t * t; },
+    easeOutQuart: function (t) {
+        return 1 - (--t) * t * t * t;
+    },
 
     // acceleration until halfway, then deceleration
-    easeInOutQuart: function (t) { return t < .5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t; },
+    easeInOutQuart: function (t) {
+        return t < .5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t;
+    },
 
     // accelerating from zero velocity
-    easeInQuint: function (t) { return t * t * t * t * t; },
+    easeInQuint: function (t) {
+        return t * t * t * t * t;
+    },
 
     // decelerating to zero velocity
-    easeOutQuint: function (t) { return 1 + (--t) * t * t * t * t; },
+    easeOutQuint: function (t) {
+        return 1 + (--t) * t * t * t * t;
+    },
 
     // acceleration until halfway, then deceleration
-    easeInOutQuint: function (t) { return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t; },
+    easeInOutQuint: function (t) {
+        return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t;
+    },
 };

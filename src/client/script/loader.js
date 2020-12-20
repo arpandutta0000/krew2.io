@@ -149,6 +149,8 @@ loader.loadJSON = function (path) {
 
 loader.onFinish = function (fn) {
     Promise.all(loader.promises).then(function (results) {
-        if (fn) {fn();}
+        if (fn) {
+            fn();
+        }
     });
 };

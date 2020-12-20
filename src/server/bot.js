@@ -2,11 +2,15 @@ const config = require(`./config/config.js`);
 const Discord = require(`discord.js`);
 const dotenv = require(`dotenv`).config();
 const log = require(`./utils/log.js`);
-const { exec } = require(`child_process`);
+const {
+    exec
+} = require(`child_process`);
 const os = require(`os`);
 
 const bus = require(`./utils/messageBus.js`);
-const { discordFilter } = require(`./utils/chat.js`);
+const {
+    discordFilter
+} = require(`./utils/chat.js`);
 
 const client = new Discord.Client({
     disableEveryone: true,
@@ -39,7 +43,7 @@ client.on(`ready`, () => {
         .setTimestamp(new Date())
         .setFooter(config.discord.footer);
 
-    if(config.mode == `prod`) {
+    if (config.mode == `prod`) {
         client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
         client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${formattedTime}.`);
     }
@@ -65,22 +69,22 @@ client.on(`message`, message => {
 
     const m = `${message.author} » `;
 
-    if(message.author.bot || message.channel.type == `dm`) return;
-    if(!message.channel.name.split(`-`).includes(`commands`)) return;
+    if (message.author.bot || message.channel.type == `dm`) return;
+    if (!message.channel.name.split(`-`).includes(`commands`)) return;
 
-    if(message.content.slice(0, config.discord.prefix.length).toString().toLowerCase() != config.discord.prefix) return;
+    if (message.content.slice(0, config.discord.prefix.length).toString().toLowerCase() != config.discord.prefix) return;
 
     const args = message.content.slice(config.discord.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    if(command == `restart`) {
-        if(!message.member.roles.has(config.discord.roles.dev)) return;
+    if (command == `restart`) {
+        if (!message.member.roles.has(config.discord.roles.dev)) return;
 
         message.channel.send(`Server restart queued.`);
 
         bus.emit(`restart`, `Server is restarting in 1 minute.`)
         client.channels.get(config.discord.channels.chatLogs).send(`Server is restarting in 1 minute.`);
-    
+
         setTimeout(() => {
             bus.emit(`restart`, `Server is restarting in 30 seconds.`)
             client.channels.get(config.discord.channels.chatLogs).send(`Server is restarting in 30 seconds.`);
@@ -98,13 +102,12 @@ client.on(`message`, message => {
                 .setDescription(`Server is restarting...`)
                 .setTimestamp(new Date())
                 .setFooter(config.discord.footer);
-            config.mode == `dev` ? client.channels.get(config.discord.channels.chatLogs).send(`Failed to auto-restart: Server is running in a development environment. Autorestarter can only be used in a production environment.`): client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
+            config.mode == `dev` ? client.channels.get(config.discord.channels.chatLogs).send(`Failed to auto-restart: Server is running in a development environment. Autorestarter can only be used in a production environment.`) : client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
 
-            if(config.mode == `prod`) {
+            if (config.mode == `prod`) {
                 bus.emit(`restart`, `Server is restarting...`)
                 exec(`./scripts/restart.${os.platform() == `win32` ? `bat`: `sh`}`);
-            }
-            else bus.emit(`restart`, `Failed to restart server.`);
+            } else bus.emit(`restart`, `Failed to restart server.`);
         }, 1e3 * 60);
     }
 });

@@ -20,8 +20,12 @@ var setUpKeyboard = function (renderer) {
 
     // stop listening when foxusing a text field
     $('input[type=text], input[type=number], input[type=password], input[type=email]')
-        .bind('focus', function () { keyboard.stop_listening(); })
-        .bind('blur', function () { keyboard.listen(); });
+        .bind('focus', function () {
+            keyboard.stop_listening();
+        })
+        .bind('blur', function () {
+            keyboard.listen();
+        });
 
     // escape keybind. we cant use keyboard js because it doesnt regster escape with mouslock
     document.onkeyup = function (evt) {
@@ -58,58 +62,44 @@ var setUpKeyboard = function (renderer) {
 
 document.onkeydown = function (evt) {
     evt = evt || window.event;
-    if (evt.keyCode === 38 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {// Up arrow to move forward
+    if (evt.keyCode === 38 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) { // Up arrow to move forward
         keys_walkFwd = true;
-    } else if (evt.keyCode === 39 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {// Right arrow to move right
+    } else if (evt.keyCode === 39 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) { // Right arrow to move right
         keys_walkRight = true;
-    } else if (evt.keyCode === 40 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {// Down arrow to move backwards
+    } else if (evt.keyCode === 40 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) { // Down arrow to move backwards
         keys_walkBwd = true;
-    } else if (evt.keyCode === 37 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {// Left arrow to move left
+    } else if (evt.keyCode === 37 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) { // Left arrow to move left
         keys_walkLeft = true;
-    }
-
-    else if (!$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && (evt.keyCode === 49 || evt.keyCode === 97) && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (!$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && (evt.keyCode === 49 || evt.keyCode === 97) && !$('#crew-name-edit-input').is(':focus')) {
         if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 0) {
             socket.emit('changeWeapon', 0);
             myPlayer.isFishing = false;
         }
-    }
-
-    else if (!$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && (evt.keyCode === 50 || evt.keyCode === 98) && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (!$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && (evt.keyCode === 50 || evt.keyCode === 98) && !$('#crew-name-edit-input').is(':focus')) {
         if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 1) {
             socket.emit('changeWeapon', 1);
             myPlayer.isFishing = false;
         }
-    }
-
-    else if (!$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && (evt.keyCode === 51 || evt.keyCode === 99) && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (!$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && (evt.keyCode === 51 || evt.keyCode === 99) && !$('#crew-name-edit-input').is(':focus')) {
         if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 2) {
             socket.emit('changeWeapon', 2);
             myPlayer.isFishing = false;
         }
-    }
-
-    else if (evt.keyCode === 77 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (evt.keyCode === 77 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
         if (!$('#minimap-container').is(':visible')) {
             $('#minimap-container').show();
         } else {
             $('#minimap-container').hide();
         }
-    }
-
-    else if (evt.keyCode === 16 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (evt.keyCode === 16 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
         $('#player-leaderboard').show();
-    }
-
-    else if (evt.keyCode === 81 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (evt.keyCode === 81 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
         if (!$('#quests-modal').is(':visible')) {
             document.getElementById("toggle-quest-button").click();
         } else {
             $('#quests-modal').hide();
         }
-    }
-
-    else if (evt.keyCode === 188 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
+    } else if (evt.keyCode === 188 && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#crew-name-edit-input').is(':focus')) {
         if (!$('#show-chat').is(':visible')) {
             $('#show-chat').show();
             $('#chat-div').hide();
@@ -126,28 +116,26 @@ document.onkeydown = function (evt) {
     //         $('#krew-div').show();
     //     }
     // }
-
-    else if (evt.keyCode === 51 || evt.keyCode === 99)
-    {
-        if (ui.hideSuggestionBox  &&
+    else if (evt.keyCode === 51 || evt.keyCode === 99) {
+        if (ui.hideSuggestionBox &&
             myPlayer !== undefined && myPlayer.parent !== undefined &&
-            myPlayer.parent.netType !== 1)
-        {
-            socket.emit('purchase', { type: 0,  id: '1' }, function (err) {
+            myPlayer.parent.netType !== 1) {
+            socket.emit('purchase', {
+                type: 0,
+                id: '1'
+            }, function (err) {
                 if (err) {
                     console.warn(err);
                 }
             });
 
-            if (myPlayer.gold > 500)
-            {
+            if (myPlayer.gold > 500) {
                 GameAnalytics("addDesignEvent", "Game:Session:PurchasedBoat");
                 $('#raft-shop-div').hide();
                 $('#krew-div').show();
                 var shop = document.getElementById('suggestion-ui').innerHTML;
-                var shopPopover = $('#toggle-shop-modal-button').attr('data-content',shop).data('bs.popover');
-                if (shopPopover !== undefined)
-                {
+                var shopPopover = $('#toggle-shop-modal-button').attr('data-content', shop).data('bs.popover');
+                if (shopPopover !== undefined) {
                     shopPopover.setContent();
                     $('#toggle-shop-modal-button').popover('hide');
                 }
@@ -157,7 +145,7 @@ document.onkeydown = function (evt) {
     }
     // For experience points allocation
     else if (evt.keyCode >= 53 && evt.keyCode <= 55 &&
-     myPlayer && myPlayer.geometry && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#make-deposit').is(':focus') && !$('#take-deposit').is(':focus')) {
+        myPlayer && myPlayer.geometry && !$('#chat-message').is(':focus') && !$('#clan-request').is(':focus') && !$('#make-deposit').is(':focus') && !$('#take-deposit').is(':focus')) {
 
         var attribute = EXPERIENCEPOINTSCOMPONENT.keys[evt.keyCode];
         EXPERIENCEPOINTSCOMPONENT.clearStore().setStore(function (Store) {
@@ -180,8 +168,8 @@ var setUpIslandUI = function () {
 
     // $("#shopping-modal").show();
     // $('#island-menu-div').show();
-    if(entities[myPlayer.parent.anchorIslandId].name === "Labrador"){
-      $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip','Deposit or withdraw gold');
+    if (entities[myPlayer.parent.anchorIslandId].name === "Labrador") {
+        $('#toggle-bank-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button').attr('data-tooltip', 'Deposit or withdraw gold');
     }
 
     $('#toggle-shop-modal-button').removeClass('btn btn-md disabled toggle-shop-modal-button').addClass('btn btn-md enabled toggle-shop-modal-button');
@@ -203,37 +191,57 @@ var setUpKeybinds = function () {
     // movement
     keyboard.register_combo({
         keys: 'w',
-        on_keydown: function () { keys_walkFwd = true; },
+        on_keydown: function () {
+            keys_walkFwd = true;
+        },
 
-        on_release: function () { keys_walkFwd = false; },
+        on_release: function () {
+            keys_walkFwd = false;
+        },
     });
 
     keyboard.register_combo({
         keys: 's',
-        on_keydown: function () { keys_walkBwd = true; },
+        on_keydown: function () {
+            keys_walkBwd = true;
+        },
 
-        on_release: function () { keys_walkBwd = false; },
+        on_release: function () {
+            keys_walkBwd = false;
+        },
     });
 
     keyboard.register_combo({
         keys: 'd',
-        on_keydown: function () { keys_walkRight = true; },
+        on_keydown: function () {
+            keys_walkRight = true;
+        },
 
-        on_release: function () { keys_walkRight = false; },
+        on_release: function () {
+            keys_walkRight = false;
+        },
     });
 
     keyboard.register_combo({
         keys: 'a',
-        on_keydown: function () { keys_walkLeft = true; },
+        on_keydown: function () {
+            keys_walkLeft = true;
+        },
 
-        on_release: function () { keys_walkLeft = false; },
+        on_release: function () {
+            keys_walkLeft = false;
+        },
     });
 
     keyboard.register_combo({
         keys: 'k',
-        on_keydown: function () { keys_boot = true; },
+        on_keydown: function () {
+            keys_boot = true;
+        },
 
-        on_release: function () { keys_boot = false; },
+        on_release: function () {
+            keys_boot = false;
+        },
     });
 
     keyboard.register_combo({
@@ -245,15 +253,17 @@ var setUpKeybinds = function () {
             // code for christmas event
             var playerPosition = myPlayer.geometry.getWorldPosition();
 
-            if (playerPosition.x >= 850 && playerPosition.x <= 870 && playerPosition.z >= 850 && playerPosition.z <= 870 && myPlayer.jump_count < 1000){
-               socket.emit('christmas')
+            if (playerPosition.x >= 850 && playerPosition.x <= 870 && playerPosition.z >= 850 && playerPosition.z <= 870 && myPlayer.jump_count < 1000) {
+                socket.emit('christmas')
             }
-            if (myPlayer.jump_count === 50){
+            if (myPlayer.jump_count === 50) {
                 ui.showCenterMessage("Jumping Hero! New quest available", 3)
             }
-            },
+        },
 
-        on_release: function () { keys_jump = false; },
+        on_release: function () {
+            keys_jump = false;
+        },
     });
 
     keyboard.register_combo({
@@ -278,7 +288,7 @@ var setUpKeybinds = function () {
                 (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
                 $('#docking-modal-button').hasClass('enabled')
             ) {
-                ui.playAudioFile(false,'dock');
+                ui.playAudioFile(false, 'dock');
                 setUpIslandUI();
             }
 
@@ -288,31 +298,28 @@ var setUpKeybinds = function () {
     keyboard.register_combo({
         keys: 'tab',
         on_release: function () {
-            if($('#li-staff-chat').is(':visible') && $('#li-clan-chat').is(':visible')) {
+            if ($('#li-staff-chat').is(':visible') && $('#li-clan-chat').is(':visible')) {
                 // If the player is both a staff member and in a clan.
-                if(staffChatOn) toggleClanChat();
-                else if(clanChatOn) toggleLocalChat();
-                else if(localChatOn) toggleGlobalChat();
-                else if(globalChatOn) toggleStaffChat();
-            }
-            else if($('#li-staff-chat').is(':visible')) {
+                if (staffChatOn) toggleClanChat();
+                else if (clanChatOn) toggleLocalChat();
+                else if (localChatOn) toggleGlobalChat();
+                else if (globalChatOn) toggleStaffChat();
+            } else if ($('#li-staff-chat').is(':visible')) {
                 console.log('this is the case');
                 // If the player is a staff member but not in a clan.
-                if(staffChatOn) toggleLocalChat();
-                else if(localChatOn) toggleGlobalChat();
-                else if(globalChatOn) toggleStaffChat();
-            }
-            else if($('#li-clan-chat').is(':visible')) {
+                if (staffChatOn) toggleLocalChat();
+                else if (localChatOn) toggleGlobalChat();
+                else if (globalChatOn) toggleStaffChat();
+            } else if ($('#li-clan-chat').is(':visible')) {
                 // If a player is not a staff member but is in a clan.
-                if(clanChatOn) toggleLocalChat();
-                else if(localChatOn) toggleGlobalChat();
-                else if(globalChatOn) toggleClanChat();
-            }
-            else {
+                if (clanChatOn) toggleLocalChat();
+                else if (localChatOn) toggleGlobalChat();
+                else if (globalChatOn) toggleClanChat();
+            } else {
                 // If the player is neither a staff member nor in a clan.
                 console.log('this is not the case');
-                if(localChatOn) toggleGlobalChat();
-                else if(globalChatOn) toggleLocalChat();
+                if (localChatOn) toggleGlobalChat();
+                else if (globalChatOn) toggleLocalChat();
             }
         }
     });

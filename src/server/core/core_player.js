@@ -2,7 +2,7 @@
 Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
-function Player(data) {
+function Player (data) {
 
     this.isLoggedIn = true;
     this.name = data !== undefined ?
@@ -47,7 +47,10 @@ function Player(data) {
     this.last_island = ""; // last island the seadog bought goods on
     this.gold = (data.startingItems || {}).gold || 0; // player gold
 
-    this.islandBoundary = { x: 0, z: 0 }; // to limit  boundaries around island
+    this.islandBoundary = {
+        x: 0,
+        z: 0
+    }; // to limit  boundaries around island
     this.shipsSank = 0; //Number of ships player has sunk
     this.shotsFired = 0; //Number of projectiles player has used
     this.shotsHit = 0; //Number of projectiles that hit other ships
@@ -111,15 +114,23 @@ function Player(data) {
     this.experienceNeedsUpdate = true;
     //Bank and casino
     this.bank = {
-      deposit: 0,
+        deposit: 0,
     };
-    this.casino = {
-    };
+    this.casino = {};
     this.markerMapCount = new Date();
 
     // Build an object with the levels from 0 to max level for future references
     this.experienceNeededForLevels = (function (entity) {
-        var levels = { 0: { amount: 0, total: 0 }, 1: { amount: entity.experienceBase, total: entity.experienceBase } };
+        var levels = {
+            0: {
+                amount: 0,
+                total: 0
+            },
+            1: {
+                amount: entity.experienceBase,
+                total: entity.experienceBase
+            }
+        };
 
         for (var i = 1; i < entity.experienceMaxLevel + 1; i++) {
             levels[i + 1] = {};
@@ -185,7 +196,10 @@ Player.prototype.updateExperience = function (damage) {
 
     if (level !== this.level) {
         if (this.socket) {
-            this.socket.emit('levelUpdate', { id: this.id, level: level });
+            this.socket.emit('levelUpdate', {
+                id: this.id,
+                level: level
+            });
         }
     }
 
@@ -234,21 +248,33 @@ Player.prototype.logic = function (dt) {
         }
 
         if (this.parent.netType !== 5 && this.parent.shipState !== 3 && this.parent.shipState !== 2 && this.parent.shipState !== -1 && this.parent.shipState !== 4) {
-            if (this.position.x > this.parent.size.x / 2) { this.position.x = this.parent.size.x / 2;}
+            if (this.position.x > this.parent.size.x / 2) {
+                this.position.x = this.parent.size.x / 2;
+            }
 
-            if (this.position.z > this.parent.size.z / 2) { this.position.z = this.parent.size.z / 2;}
+            if (this.position.z > this.parent.size.z / 2) {
+                this.position.z = this.parent.size.z / 2;
+            }
 
-            if (this.position.x < -this.parent.size.x / 2) { this.position.x = -this.parent.size.x / 2;}
+            if (this.position.x < -this.parent.size.x / 2) {
+                this.position.x = -this.parent.size.x / 2;
+            }
 
-            if (this.position.z < -this.parent.size.z / 2) { this.position.z = -this.parent.size.z / 2;}
+            if (this.position.z < -this.parent.size.z / 2) {
+                this.position.z = -this.parent.size.z / 2;
+            }
 
             // oval boat shape collision
             if (this.parent.arcFront > 0 && this.position.z > 0) {
                 var bound = this.parent.size.x / 2 - this.position.z * this.parent.arcFront; //this.parent.size.z/2 -
                 if (this.position.x > 0) {
-                    if (this.position.x > bound) { this.position.x = bound;}
+                    if (this.position.x > bound) {
+                        this.position.x = bound;
+                    }
                 } else {
-                    if (this.position.x < -bound) { this.position.x = -bound;}
+                    if (this.position.x < -bound) {
+                        this.position.x = -bound;
+                    }
                 }
             }
 
@@ -256,7 +282,9 @@ Player.prototype.logic = function (dt) {
     }
 
     // use active thing (e.g. cannonbann fire)
-    if (this.cooldown > 0) { this.cooldown -= dt;}
+    if (this.cooldown > 0) {
+        this.cooldown -= dt;
+    }
 
     if (this.use === true && this.cooldown <= 0) {
         var attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
@@ -271,8 +299,8 @@ Player.prototype.logic = function (dt) {
             projectile.id = this.id + '' + this.useid;
             if (this.activeWeapon === 1) {
                 this.isFishing = true;
-                if (entities[this.id + '' + (this.useid-1)] !== undefined)
-                        removeEntity(entities[this.id + '' + (this.useid-1)]);
+                if (entities[this.id + '' + (this.useid - 1)] !== undefined)
+                    removeEntity(entities[this.id + '' + (this.useid - 1)]);
             }
         }
     }
@@ -328,26 +356,40 @@ Player.prototype.getTypeDelta = function () {
         r: this.deltaTypeCompare('r', this.ownsFishingRod),
         v: this.deltaTypeCompare('v', this.availablePoints),
     };
-    if (isEmpty(delta)) { delta = undefined;}
+    if (isEmpty(delta)) {
+        delta = undefined;
+    }
 
     return delta;
 };
 
 // function that parses a snapshot
 Player.prototype.parseTypeSnap = function (snap) {
-    if (snap.f !== undefined) {this.walkForward = parseInt(snap.f);}
+    if (snap.f !== undefined) {
+        this.walkForward = parseInt(snap.f);
+    }
 
-    if (snap.s !== undefined) {this.walkSideward = parseInt(snap.s);}
+    if (snap.s !== undefined) {
+        this.walkSideward = parseInt(snap.s);
+    }
 
-    if (snap.u !== undefined) {this.use = parseBool(snap.u);}
+    if (snap.u !== undefined) {
+        this.use = parseBool(snap.u);
+    }
 
-    if (snap.p !== undefined) {this.pitch = parseFloat(snap.p);}
+    if (snap.p !== undefined) {
+        this.pitch = parseFloat(snap.p);
+    }
 
-    if (snap.j !== undefined) {this.jumping = parseInt(snap.j);}
+    if (snap.j !== undefined) {
+        this.jumping = parseInt(snap.j);
+    }
 
     //if (snap.m !== undefined) {this.movementSpeedBonus = parseInt(snap.m);}
 
-    if (snap.v !== undefined && snap.v !== this.availablePoints) {this.availablePoints = parseInt(snap.v);}
+    if (snap.v !== undefined && snap.v !== this.availablePoints) {
+        this.availablePoints = parseInt(snap.v);
+    }
 
     if (snap.o !== undefined && snap.o !== this.ownsCannon) {
         this.ownsCannon = parseBool(snap.o);
@@ -357,7 +399,9 @@ Player.prototype.parseTypeSnap = function (snap) {
         this.ownsFishingRod = parseBool(snap.r);
     }
 
-    if (snap.c !== undefined && snap.c !== this.checkedItemsList) {this.checkedItemsList = parseBool(snap.c);}
+    if (snap.c !== undefined && snap.c !== this.checkedItemsList) {
+        this.checkedItemsList = parseBool(snap.c);
+    }
 
     if (snap.d !== undefined && snap.d !== this.itemId) {
         this.itemId = parseInt(snap.d);
@@ -451,7 +495,7 @@ Player.prototype.purchaseShip = function (itemId, krewName) {
     }
 
     // check if crewCount is larger than maxKrewCapacity and if player is captain
-    if (item && this.parent.krewCount > item.maxKrewCapacity && this.isCaptain){
+    if (item && this.parent.krewCount > item.maxKrewCapacity && this.isCaptain) {
         this.socket.emit('showCenterMessage', "This boat doesn't have enough space for your krew!", 1);
     }
 
@@ -504,8 +548,7 @@ Player.prototype.onDestroy = function () {
 
     if (this.parent) {
         delete this.parent.children[this.id];
-        if (this.parent.netType === 1)
-        {
+        if (this.parent.netType === 1) {
             this.parent.updateProps();
             if (Object.keys(this.parent.children).length === 0) {
                 core.removeEntity(this.parent);

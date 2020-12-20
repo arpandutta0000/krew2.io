@@ -17,13 +17,13 @@ var entityDistance = function (a, b) {
     return Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 };
 
-function distance(p1, p2) {
+function distance (p1, p2) {
     var dx = p2.x - p1.x;
     var dz = p2.z - p1.z;
     return Math.sqrt(dx * dx + dz * dz);
 }
 
-function worldAngle(vector) {
+function worldAngle (vector) {
     var result = vector.angle() + Math.PI * 0.5;
     if (result > Math.PI * 2) {
         result -= Math.PI * 2;
@@ -33,40 +33,44 @@ function worldAngle(vector) {
     return result;
 }
 
-function anglediff(firstAngle, secondAngle) {
+function anglediff (firstAngle, secondAngle) {
     var difference = secondAngle - firstAngle;
-    while (difference < -Math.PI) {difference += Math.PI * 2.0;}
+    while (difference < -Math.PI) {
+        difference += Math.PI * 2.0;
+    }
 
-    while (difference > Math.PI) {difference -= Math.PI * 2.0;}
+    while (difference > Math.PI) {
+        difference -= Math.PI * 2.0;
+    }
 
     return difference;
 }
 
-function angleToVector(angle) {
+function angleToVector (angle) {
     return new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
 }
 
-function rotationToPosition(origin, target) {
+function rotationToPosition (origin, target) {
     return worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
 }
 
-function rotationToObject(origin, target) {
+function rotationToObject (origin, target) {
     return worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z));
 }
 
-function distanceToPosition(origin, target) {
+function distanceToPosition (origin, target) {
     return origin.position.distanceTo(target);
 }
 
-function distanceToPositionSquared(origin, target) {
+function distanceToPositionSquared (origin, target) {
     return origin.position.distanceToSquared(target);
 }
 
-function distanceToObject(origin, target) {
+function distanceToObject (origin, target) {
     return origin.position.distanceTo(target.position);
 }
 
-function distanceToObjectSquared(origin, target) {
+function distanceToObjectSquared (origin, target) {
     return origin.position.distanceToSquared(target.position);
 }
 
@@ -85,31 +89,31 @@ var inPlayersVision = (function () {
      * @return {Boolean}            Returns true if the player sees the object or false on the contrary
      */
     var inPlayersVision = function (object3d, camera) {
-            // If the object has no position property just return false
-            if (object3d.position === undefined) {
-                return false;
-            }
+        // If the object has no position property just return false
+        if (object3d.position === undefined) {
+            return false;
+        }
 
-            camera.updateMatrix();
-            camera.updateMatrixWorld();
+        camera.updateMatrix();
+        camera.updateMatrixWorld();
 
-            frustum.setFromMatrix(
-                new THREE.Matrix4()
-                    .multiplyMatrices(
-                        camera.projectionMatrix,
-                        camera.matrixWorldInverse
-                    )
-            );
+        frustum.setFromMatrix(
+            new THREE.Matrix4()
+            .multiplyMatrices(
+                camera.projectionMatrix,
+                camera.matrixWorldInverse
+            )
+        );
 
-            // Return if the object is in the frustum
-            return frustum.containsPoint(object3d.position);
-        };
+        // Return if the object is in the frustum
+        return frustum.containsPoint(object3d.position);
+    };
 
     // Returns the final function
     return inPlayersVision;
 })();
 
-function getFixedFrameRateMethod(fps, callback) {
+function getFixedFrameRateMethod (fps, callback) {
     fps = fps || 5;
     var time = performance.now();
     var previousTime = performance.now();

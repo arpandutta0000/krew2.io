@@ -17,12 +17,15 @@ if (cluster.isMaster) { // master cluster! runs the website
     server.app.workers = {};
 
     // This will create just one server for better testing and monitoring
-    if (DEV_ENV){
+    if (DEV_ENV) {
         process.env.port = config.gamePorts[0];
         var worker = cluster.fork();
         worker.on('message', (msg) => {
             if (msg.type === 'update-server') {
-                const { data, processId } = msg;
+                const {
+                    data,
+                    processId
+                } = msg;
                 server.app.workers[processId] = data;
             }
         });
@@ -38,12 +41,15 @@ if (cluster.isMaster) { // master cluster! runs the website
         var worker = cluster.fork();
         worker.on('message', (msg) => {
             if (msg.type === 'update-server') {
-                const { data, processId } = msg;
+                const {
+                    data,
+                    processId
+                } = msg;
                 server.app.workers[processId] = data;
             }
         });
     }
-} else {// gameServers
+} else { // gameServers
     // let MemwatchFactoryFunction = require('./memwatch');
 
     // start socket
@@ -74,22 +80,19 @@ if (cluster.isMaster) { // master cluster! runs the website
                     type: 'update-server',
                     processId: process.pid,
                     data: {
-                        ip: DEV_ENV ? `127.0.0.1`: config.serverIP,
+                        ip: DEV_ENV ? `127.0.0.1` : config.serverIP,
                         port: process.env.port,
                         playerCount: Object.keys(core.players).length,
                         maxPlayerCount: 100
                     },
                 });
-            }
-            catch (err) {
+            } catch (err) {
                 log(`red`, err, err.stack);
                 ige.log('emit error at', msgType, data, err);
             }
 
         }, 1000);
-    }
-
-    catch (e) {
+    } catch (e) {
         log(`red`, `e`, e);
     }
 

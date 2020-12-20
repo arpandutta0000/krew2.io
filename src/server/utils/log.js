@@ -14,24 +14,40 @@ module.exports = (color, ...content) => {
 
     // Get specified color.
     let logColor;
-    switch(color) {
-        case `black`: logColor = `\x1b[30m`; break;
-        case `red`: logColor = `\x1b[31m`; break;
-        case `green`: logColor = `\x1b[32m`; break;
-        case `yellow`: logColor = `\x1b[33m`; break;
-        case `blue`: logColor = `\x1b[34m`; break;
-        case `magenta`: logColor = `\x1b[35m`; break;
-        case `cyan`: logColor = `\x1b[36m`; break;
-        case `white`: logColor = `\x1b[37m`; break;
+    switch (color) {
+        case `black`:
+            logColor = `\x1b[30m`;
+            break;
+        case `red`:
+            logColor = `\x1b[31m`;
+            break;
+        case `green`:
+            logColor = `\x1b[32m`;
+            break;
+        case `yellow`:
+            logColor = `\x1b[33m`;
+            break;
+        case `blue`:
+            logColor = `\x1b[34m`;
+            break;
+        case `magenta`:
+            logColor = `\x1b[35m`;
+            break;
+        case `cyan`:
+            logColor = `\x1b[36m`;
+            break;
+        case `white`:
+            logColor = `\x1b[37m`;
+            break;
     }
 
     let logContent = ``;
     content.forEach(arg => {
-        if(typeof arg == `object`) logContent += JSON.stringify(arg);
+        if (typeof arg == `object`) logContent += JSON.stringify(arg);
         else logContent += arg.toString();
     });
 
     // If no color specified, throw an error.
-    if(!logColor) throw `Did not specify a valid color`;
+    if (!logColor) throw `Did not specify a valid color`;
     return console.log(logColor, formattedTime, logContent);
 }

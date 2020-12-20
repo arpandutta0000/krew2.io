@@ -2,7 +2,7 @@
 Projectile.prototype = new Entity();
 Projectile.prototype.constructor = Projectile;
 
-function Projectile(shooter) {
+function Projectile (shooter) {
     this.createProperties();
 
     // netcode type
@@ -41,16 +41,14 @@ function Projectile(shooter) {
 Projectile.prototype.logic = function (dt) {
 
     // Remove if the soooter does not exists
-    if (this.shooterid === '' || entities[this.shooterid] === undefined || (entities[this.shooterid] !== undefined && this.type != -1 && this.type != entities[this.shooterid].activeWeapon))
-    {
-        if(this.impact) this.impact.destroy = true;
+    if (this.shooterid === '' || entities[this.shooterid] === undefined || (entities[this.shooterid] !== undefined && this.type != -1 && this.type != entities[this.shooterid].activeWeapon)) {
+        if (this.impact) this.impact.destroy = true;
         removeEntity(this);
         return;
     }
 
 
-    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use == false)
-    {
+    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use == false) {
         entities[this.shooterid].isFishing = false;
     }
 
@@ -60,21 +58,18 @@ Projectile.prototype.logic = function (dt) {
         this.position.y += this.velocity.y * dt;
     }
 
-    if (entities[this.shooterid] !== undefined  && entities[this.shooterid].parent !== undefined) {
+    if (entities[this.shooterid] !== undefined && entities[this.shooterid].parent !== undefined) {
         var playerPos = entities[this.shooterid].worldPos();
 
         // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from player
         if (entities[this.shooterid].parent !== undefined &&
-            entities[this.shooterid].parent.netType === 5)
-        {
+            entities[this.shooterid].parent.netType === 5) {
             if (playerPos.z.toFixed(2) != this.shooterStartPos.z.toFixed(2) &&
                 playerPos.x.toFixed(2) != this.shooterStartPos.x.toFixed(2)) {
                 this.reel = true;
                 entities[this.shooterid].isFishing = false;
             }
-        }
-        else
-        {
+        } else {
             var fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
             //var fromPlayertoRod = distance(playerPos,this.shooterStartPos)
             if (fromPlayertoRod >= 40) {
@@ -84,7 +79,7 @@ Projectile.prototype.logic = function (dt) {
         }
     }
 
-    if (this.position.y < 10) {// if the cannon ball is below surface level, remove it
+    if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
 
         var hasHitBoat = false;
 
@@ -103,13 +98,13 @@ Projectile.prototype.logic = function (dt) {
                 this.position.x < 0 ||
                 this.position.z < 0
             ) {
-                if(this.impact) this.impact.destroy = true;
+                if (this.impact) this.impact.destroy = true;
                 removeEntity(this);
             } else {
                 this.velocity.x = 0;
                 this.velocity.z = 0;
-                if(myPlayer && this.shooterid == myPlayer.id)
-                    ui.playAudioFile(false,'fishing');
+                if (myPlayer && this.shooterid == myPlayer.id)
+                    ui.playAudioFile(false, 'fishing');
 
                 entities[this.shooterid].isFishing = true;
             }
@@ -125,8 +120,7 @@ Projectile.prototype.clientlogic = function (dt) {
     var shootingPlayer = entities[this.shooterid];
 
     if (shootingPlayer === undefined ||
-        (shootingPlayer && shootingPlayer.parent && shootingPlayer.parent.hp <= 0))
-    {
+        (shootingPlayer && shootingPlayer.parent && shootingPlayer.parent.hp <= 0)) {
         scene.remove(this.geometry);
         if (this.line !== undefined) {
             scene.remove(this.line);
@@ -143,7 +137,7 @@ Projectile.prototype.clientlogic = function (dt) {
         if (shootingPlayer.activeWeapon === 0) {
             //this.baseGeometry = geometry.projectile;
             //this.baseMaterial = materials.projectile;
-            this.geometry = new THREE.Sprite( materials.cannonball );
+            this.geometry = new THREE.Sprite(materials.cannonball);
         } else if (shootingPlayer.activeWeapon === 1) {
             this.baseGeometry = geometry.hook;
             this.baseMaterial = materials.hook;
@@ -152,7 +146,9 @@ Projectile.prototype.clientlogic = function (dt) {
             lineGeometry.vertices.push(this.startPoint);
             lineGeometry.vertices.push(this.endPoint);
 
-            this.line = new THREE.Line(lineGeometry, new THREE.MeshBasicMaterial({ color: 0x000 }));
+            this.line = new THREE.Line(lineGeometry, new THREE.MeshBasicMaterial({
+                color: 0x000
+            }));
             sceneLines[this.id] = this.line;
 
             //this.line.name = shootingPlayer.id + "fishing_line";
@@ -249,24 +245,44 @@ Projectile.prototype.getTypeDelta = function () {
 
 // function that parses a snapshot
 Projectile.prototype.parseTypeSnap = function (snap) {
-    if (snap.vx !== undefined) {this.velocity.x = parseFloat(snap.vx);}
+    if (snap.vx !== undefined) {
+        this.velocity.x = parseFloat(snap.vx);
+    }
 
-    if (snap.vy !== undefined) {this.velocity.y = parseFloat(snap.vy);}
+    if (snap.vy !== undefined) {
+        this.velocity.y = parseFloat(snap.vy);
+    }
 
-    if (snap.vz !== undefined) {this.velocity.z = parseFloat(snap.vz);}
+    if (snap.vz !== undefined) {
+        this.velocity.z = parseFloat(snap.vz);
+    }
 
-    if (snap.x !== undefined) {this.position.x = parseFloat(snap.x);}
+    if (snap.x !== undefined) {
+        this.position.x = parseFloat(snap.x);
+    }
 
-    if (snap.z !== undefined) {this.position.z = parseFloat(snap.z);}
+    if (snap.z !== undefined) {
+        this.position.z = parseFloat(snap.z);
+    }
 
-    if (snap.y !== undefined) {this.position.y = parseFloat(snap.y);}
+    if (snap.y !== undefined) {
+        this.position.y = parseFloat(snap.y);
+    }
 
-    if (snap.i !== undefined && snap.i != this.shooterid) {this.shooterid = snap.i;}
+    if (snap.i !== undefined && snap.i != this.shooterid) {
+        this.shooterid = snap.i;
+    }
 
-    if (snap.r !== undefined && snap.r != this.reel) {this.reel = parseBool(snap.r);}
+    if (snap.r !== undefined && snap.r != this.reel) {
+        this.reel = parseBool(snap.r);
+    }
 
-    if (snap.sx !== undefined) {this.shooterStartPos.x = parseFloat(snap.sx);}
+    if (snap.sx !== undefined) {
+        this.shooterStartPos.x = parseFloat(snap.sx);
+    }
 
-    if (snap.sz !== undefined) {this.shooterStartPos.z = parseFloat(snap.sz);}
+    if (snap.sz !== undefined) {
+        this.shooterStartPos.z = parseFloat(snap.sz);
+    }
 
 };

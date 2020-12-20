@@ -12,8 +12,7 @@ let Config = {
         }
     },
     drainers: {},
-    landmarks: [
-        {
+    landmarks: [{
             type: 0,
             x: 350,
             y: 350,

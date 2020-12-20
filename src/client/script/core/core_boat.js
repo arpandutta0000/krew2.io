@@ -2,7 +2,7 @@
 Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
-function Boat(captainId, krewName, spawnBool) {
+function Boat (captainId, krewName, spawnBool) {
     var captainsName = '';
     var spawnIslandId = undefined;
 
@@ -74,7 +74,7 @@ function Boat(captainId, krewName, spawnBool) {
     // If there is no captain, the id is: ""
     if (captainId && entities[captainId]) {
         this.captainId = captainId;
-        this.clan = entities[captainId].clan; 
+        this.clan = entities[captainId].clan;
     } else {
         this.captainId = "";
         this.clan = "";
@@ -83,9 +83,9 @@ function Boat(captainId, krewName, spawnBool) {
     // Boats have a crew name, by default it's the captains name or the passed krew name,
     // this is setted on the update function, so initially is set to undefined
     captainsName = typeof captainsName === 'string' ? captainsName : '';
-    this.crewName = typeof krewName === 'string'
-        ? krewName
-        : (
+    this.crewName = typeof krewName === 'string' ?
+        krewName :
+        (
             captainsName + "'" +
             (captainsName.charAt(captainsName.length - 1) === 's' ? '' : 's') +
             ' krew'
@@ -129,7 +129,7 @@ Boat.prototype.updateProps = function () {
 Boat.prototype.setName = function (crewName) {
     var clan = '';
     if (this.clan !== undefined && this.clan !== '') {
-        clan = '['+this.clan+'] ';
+        clan = '[' + this.clan + '] ';
     }
     if (this.geometry !== undefined) {
         if (this.label === undefined) {
@@ -206,7 +206,7 @@ Boat.prototype.logic = function (dt) {
 
         // if the steering button is pressed, the rotation changes slowly
         (kaptain !== undefined) ?
-            this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)) :
+        this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)):
             this.rotation += this.steering * dt * 0.4 * this.turnspeed;
 
         // we rotate the movement vector depending on the current rotation
@@ -288,7 +288,7 @@ Boat.prototype.logic = function (dt) {
 
         // on client, disconnect the camera from the player
         if (myPlayer && myPlayer.parent == this) {
-            ui.playAudioFile(false,'sink-crash');
+            ui.playAudioFile(false, 'sink-crash');
             THREE.SceneUtils.detach(camera, camera.parent, scene);
             $('#shopping-modal').hide();
             $('#show-shopping-modal-button').hide();

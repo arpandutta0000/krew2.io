@@ -2,7 +2,7 @@ const dotenv = require(`dotenv`).config();
 
 const config = {
     appname: `Krew.io`,
-    port: process.env.NODE_ENV == `prod` ? 8200: 8080,
+    port: process.env.NODE_ENV == `prod` ? 8200 : 8080,
     mode: process.env.NODE_ENV,
     domain: `beta.krew.io`,
     logging: true,
@@ -27,7 +27,7 @@ const config = {
     ]
 }
 
-config.staticDir = config.mode == `dev` ? `${__dirname}/../../client/`: `${__dirname}/../../../dist/`;
+config.staticDir = config.mode == `dev` ? `${__dirname}/../../client/` : `${__dirname}/../../../dist/`;
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,

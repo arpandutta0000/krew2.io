@@ -5,8 +5,20 @@ var goodsTypes = {
     // gunpowder: { drainRate: 1, cargoSpace: 1 },
 
     // Current trading goods starts here
-    rum: { drainRate: 0, cargoSpace: 5 },
-    coffee: { drainRate: 0, cargoSpace: 8 },
-    spice: { drainRate: 0, cargoSpace: 8 },
-    silk: { drainRate: 0, cargoSpace: 12 },
+    rum: {
+        drainRate: 0,
+        cargoSpace: 5
+    },
+    coffee: {
+        drainRate: 0,
+        cargoSpace: 8
+    },
+    spice: {
+        drainRate: 0,
+        cargoSpace: 8
+    },
+    silk: {
+        drainRate: 0,
+        cargoSpace: 12
+    },
 };
