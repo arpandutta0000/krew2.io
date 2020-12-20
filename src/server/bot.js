@@ -32,9 +32,15 @@ client.on(`ready`, () => {
         },
         status: `dnd`
     });
+    let sEmbed = new Discord.RichEmbed()
+        .setAuthor(`Server Start`)
+        .setColor(0x00ff00)
+        .setDescription(`Succesfully connected to Discord.`)
+        .setTimestamp(new Date())
+        .setFooter(config.discord.footer);
 
     if(config.mode == `prod`) {
-        client.channels.get(config.discord.channels.chatLogs).send(`A server has started.`);
+        client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
         client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${formattedTime}.`);
     }
 });
