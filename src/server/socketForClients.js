@@ -20,19 +20,19 @@ let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
 // additional bad words which need to be filtered
-let newBadWords = ['idiot', '2chOld', 'Yuquan'];
+let newBadWords = [`idiot`, `2chOld`, `Yuquan`];
 filter.addWords(...newBadWords);
 
 // configure socket
 if(global.io === undefined) {
-  let server = process.env.NODE_ENV === 'prod'? https.createServer({
+  let server = process.env.NODE_ENV == `prod` ? https.createServer({
        key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
        cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
        requestCert: false,
        rejectUnauthorized: false
-      }) : http.createServer();
+      }): http.createServer();
 
-  global.io = require('socket.io')(server, { origins: '*:*' });
+  global.io = require(`socket.io`)(server, { origins: `*:*` });
   server.listen(process.env.port);
 }
 
@@ -318,7 +318,7 @@ io.on(`connection`, async socket => {
                         let user = args[0];
                         let output = `That player does not exist.`;
                         if(user.startsWith(`seadog`)) {
-                            let player = core.players.find(player => player.name == user);
+                            let player = Object.values(core.players).find(player => player.name == user);
                             if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                             log(`blue`, `ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
@@ -337,7 +337,7 @@ io.on(`connection`, async socket => {
                         let kickUser = args.shift();
                         let kickReason = args.join(` `);
 
-                        let player = core.players.find(player => player.name == kickUser);
+                        let player = Object.values(core.players).find(player => player.name == kickUser);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
                         if(!kickReason || kickReason == ``) kickReason == `No reason specified`;
 
@@ -351,7 +351,7 @@ io.on(`connection`, async socket => {
                         let banUser = args.shift();
                         let banReason = args.join(` `);
 
-                        let player = core.players.find(player => player.name == kickUser);
+                        let player = Object.values(core.players).find(player => player.name == banUser);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
                         if(!banReason || banReason == ``) banReason == `No reason specified`;
 
@@ -372,7 +372,7 @@ io.on(`connection`, async socket => {
                         let tempbanUser = args.shift();
                         let tempbanReason = args.join(` `);
 
-                        let player = core.players.find(player => player.name == tempbanUser);
+                        let player = Object.values(core.players).find(player => player.name == tempbanUser);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
                         if(!tempbanReason || tempbanReason == ``) tempbanReason == `No reason specified`;
 
@@ -439,7 +439,7 @@ io.on(`connection`, async socket => {
                         let reportUser = args.shift();
                         let reportReason = args.join(` `);
 
-                        let player = core.players.find(player => player.name == reportUser);
+                        let player = Object.values(core.players).find(player => player.name == reportUser);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                         if(reportIPs.includes(player.socket.handshake.address)) {
@@ -464,7 +464,7 @@ io.on(`connection`, async socket => {
                         let playerToMute = args.shift();
                         let muteReason = args.join(` `);
 
-                        let player = core.players.find(player => player.name == playerToMute);
+                        let player = Object.values(core.players).find(player => player.name == playerToMute);
                         if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                         mutePlayer(player);
@@ -478,10 +478,11 @@ io.on(`connection`, async socket => {
             }
             if(!isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
-                
-                if(msg.length == 0) return;
 
-                msg = xssFilters.inHTMLData(msgData.message);
+                console.log(msg, typeof msg, msg.length);
+                if(msg.length <= 1) return;
+
+                msg = xssFilters.inHTMLData(msg);
                 msg = filter.clean(msg);
 
                 if(msgData.recipient == `global`) {
@@ -796,7 +797,7 @@ io.on(`connection`, async socket => {
                 // From this point on there should be a player passed to the emit.
                 if(player && playerEntity.clanLeader || playerEntity.clanOwner || playerEntity.clanAssistant) {
                     let otherUser = User.findOne({ name: player });
-                    let otherPlayer = core.players.find(entity => entity.name == player);
+                    let otherPlayer = Object.values(core.players).find(entity => entity.name == player);
 
                     // If the player is nonexistent or is not in the same clan.
                     if(!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
@@ -1514,7 +1515,7 @@ io.on(`connection`, async socket => {
         });
 
         socket.on(`christmas`, () => {
-            if(!((playerEntity.position.x >= 850 && playerEntity.position.x <= 870 && playerEntity.position.z >= 850 && playerEntity.position.z <= 870) || christmasGold > 1e4)) {
+            if(!(playerEntity.position.x >= 850 && playerEntity.position.x <= 870 && playerEntity.position.z >= 850 && playerEntity.position.z <= 870) || christmasGold > 1e4) {
                 log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 return playerEntity.socket.disconnect();
             }
