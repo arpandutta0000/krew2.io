@@ -1196,8 +1196,8 @@ io.on(`connection`, async socket => {
                     if(playerEntity.checkedItemsList && !playerEntity.rareItemsFound.includes(core.itemTypes[i].id)) itemProb = 1;
 
                     if(itemProb <= core.itemTypes[i].rarity
-                    && (core.itemTypes[i].availableAt == undefined || core.itemTypes[i].availableAt.indexOf(island.name) != 1
-                    || (core.itemTypes[i].availableAt && core.itemTypes[i].availableAt.indexOf(island.name) != 1))) {
+                    && (core.itemTypes[i].availableAt == undefined || core.itemTypes[i].availableAt.indexOf(island.name) != -1
+                    || (core.itemTypes[i].availableAt && core.itemTypes[i].availableAt.indexOf(island.name) != -1))) {
                         items[i] = core.itemTypes[i];
 
                         if(!playerEntity.checkedItemsList && core.itemTypes[i].rarity != 1) playerEntity.rareItemsFound.push(core.itemTypes[i].id);
