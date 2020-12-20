@@ -274,9 +274,9 @@ io.on(`connection`, async socket => {
                 if(!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                     let pwd = await md5(args[0]);
                     if(command == `login`) {
-                        let isAdmin = thugConfig.Admins[playerEntity.name] == pwd;
-                        let isMod = thugConfig.Mods[playerEntity.name] == pwd;
-                        let isDev = thugConfig.Devs[playerEntity.name] == pwd;
+                        let isAdmin = thugConfig.admins[playerEntity.name] == pwd;
+                        let isMod = thugConfig.mods[playerEntity.name] == pwd;
+                        let isDev = thugConfig.devs[playerEntity.name] == pwd;
             
                         // Log the player login and send them a friendly message confirming it.
                         log(!isAdmin && !isMod && !isDev ? `cyan`: `blue`, `${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
@@ -484,7 +484,7 @@ io.on(`connection`, async socket => {
                 if(msg.length <= 1) return;
 
                 msg = xssFilters.inHTMLData(msg);
-                msg = filter.clean(msg);
+                msg = filter.clean(msg).catch(err => log(`red`, err));
 
                 if(msgData.recipient == `global`) {
                     io.emit(`chat message`, {
