@@ -3,7 +3,6 @@ const config = require(`./config/config.js`);
 
 const bus = require(`./utils/messageBus.js`);
 const cluster = require(`cluster`);
-const numCPUs = 3;
 const core = require(`./core/core_concatenated.js`);
 global.TEST_ENV = process.env.NODE_ENV === `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
@@ -34,7 +33,7 @@ if (cluster.isMaster) {
     }
 
     // Distribute work onto number of cores a system has
-    for (let i = 0; i < numCPUs; i++) {
+    for (let i = 0; i < config.serverCount; i++) {
 
         process.env.port = config.gamePorts[i];
 

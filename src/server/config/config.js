@@ -6,6 +6,7 @@ const config = {
     mode: process.env.NODE_ENV,
     domain: `beta.krew.io`,
     logging: true,
+    serverCount: 3,
     discord: {
         prefix: `k!`,
         channels: {
