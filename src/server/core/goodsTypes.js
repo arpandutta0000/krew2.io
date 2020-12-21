@@ -1,10 +1,4 @@
 let goodsTypes = {
-    // water: { drainRate: 1, cargoSpace: 1 },
-    // food: { drainRate: 1, cargoSpace: 1 },
-    // wood: { drainRate: 1, cargoSpace: 1 },
-    // gunpowder: { drainRate: 1, cargoSpace: 1 },
-
-    // Current trading goods starts here
     rum: {
         drainRate: 0,
         cargoSpace: 5
@@ -20,5 +14,5 @@ let goodsTypes = {
     silk: {
         drainRate: 0,
         cargoSpace: 12
-    },
-};
+    }
+}
