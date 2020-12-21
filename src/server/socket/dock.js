@@ -16,15 +16,17 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
     christmasGold,
+    
     data,
     filter,
     gameCookies,
     ,
+    isNormalInteger,
     krewioData,
     playerEntity,
     reportedIps,
@@ -32,7 +34,7 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* When ship enters docking area */
+module.exports = (socket) => {
+    if (playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.dock_countdown = new Date();
 }

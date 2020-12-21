@@ -16,15 +16,17 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
     christmasGold,
+    
     data,
     filter,
     gameCookies,
     ,
+    isNormalInteger,
     krewioData,
     playerEntity,
     reportedIps,
@@ -32,7 +34,11 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* If a player transfers their ship */
+module.exports = (socket, playerId) => {
+    let player = core.players[playerId];
+    if (player) {
+        let motherShip = playerEntity.parent;
+        if (motherShip.captainId == playerEntity.id && playerEntity.id != player.id && player.parent.id == motherShip.id) playerEntity.parent.captainId = playerId;
+    }
 }

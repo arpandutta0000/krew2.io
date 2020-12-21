@@ -16,15 +16,17 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
     christmasGold,
+    
     data,
     filter,
     gameCookies,
     ,
+    isNormalInteger,
     krewioData,
     playerEntity,
     reportedIps,
@@ -32,7 +34,14 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* Christmas Event */
+module.exports = (socket) => {
+    if (christmasGold > 1e4) {
+        log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        return playerEntity.socket.disconnect();
+    }
+
+    if (christmasGold == 0) playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
+    playerEntity.gold += 10;
+    christmasGold += 10;
 }

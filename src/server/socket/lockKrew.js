@@ -16,7 +16,7 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
@@ -32,7 +32,13 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* If a player locks their krew */
+module.exports = (socket, lockBool) => {
+    if (playerEntity.isCaptain && lockBool) {
+        playerEntity.parent.isLocked = true;
+        playerEntity.parent.recruiting = false;
+    } else if (playerEntity.isCaptain && !lockBool) {
+        playerEntity.parent.isLocked = false;
+        if (playerEntity.parent.shipState == 2 || playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4) playerEntity.parent.recruiting = true;
+    }
 }

@@ -16,15 +16,17 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
     christmasGold,
+    
     data,
     filter,
     gameCookies,
     ,
+    isNormalInteger,
     krewioData,
     playerEntity,
     reportedIps,
@@ -32,7 +34,18 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* Returns experience points to player */
+module.exports = (socket, callback) => {
+    if (playerEntity && playerEntity.parent) {
+        playerEntity.updateExperience();
+
+        let obj = {
+            experience: playerEntity.experience,
+            points: playerEntity.points,
+            availablePoints: playerEntity.availablePoints
+        }
+
+        callback && callback.call && callback(undefined, obj);
+    }
+    callback && callback.call && callback(`Oops, it seems that you don't have a boat.`);
 }

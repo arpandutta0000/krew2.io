@@ -16,7 +16,7 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
@@ -32,7 +32,9 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* Removes all crates */
+module.exports = (socket) => {
+    for (let i in entities) {
+        if (entities[i].type == 0) core.removeEntity(core.entities[i]);
+    }
 }

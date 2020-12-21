@@ -16,7 +16,7 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
@@ -32,7 +32,22 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* If a player decides to leave an island */
+module.exports = (socket, data) => {
+    let boat = playerEntity.parent;
+
+    // If captains ends to exit island request.
+    if (playerEntity && playerEntity.parent && playerEntity.parent.captainId == playerEntity.id) {
+        boat.exitIsland();
+
+        for (let i in boat.children) {
+            let player = boat.children[i];
+            if (player != undefined && player.netType == 0) {
+                player.socket.emit(`exitIsland`, {
+                    captainId: boat.captainId
+                });
+                player.sentDockingMsg = false;
+            }
+        }
+    }
 }

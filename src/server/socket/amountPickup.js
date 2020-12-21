@@ -16,7 +16,7 @@ let User = require(`../models/user.model.js`);
 let Clan = require(`../models/clan.model.js`);
 let Ban = require(`../models/ban.model.js`);
 let Hacker = require(`../models/hacker.model.js`);
-let PlayerRestore = require(`../models/playerRestore.model.js`);
+let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 
 let {
     checkPlayerStatus,
@@ -32,7 +32,12 @@ let {
 
 
 
-/* Get Snapshot */
-module.exports = (socket, u) => {
-    playerEntity.parseSnap(data);
+/* For testing performance */
+module.exports = (socket, type) => {
+    let typeEntity = type;
+    let count = 0;
+    for (let i in entities) {
+        if (entities[i].type == typeEntity) count++;
+    }
+    socket.emit(count);
 }

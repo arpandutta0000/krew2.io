@@ -24,11 +24,11 @@ let {
     data,
     filter,
     gameCookies,
-    initSocketForPlayer,
+    isNormalInteger,
     krewioData,
     playerEntity,
     reportedIps,
-} = require(`../socketForClients.js`);
+} = require(`../socketForClients.js`).socketEvents;
 
 
 
