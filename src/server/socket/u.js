@@ -24,7 +24,6 @@ let {
     data,
     filter,
     gameCookies,
-    ,
     krewioData,
     playerEntity,
     reportedIps,
