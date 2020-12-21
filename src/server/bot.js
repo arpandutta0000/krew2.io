@@ -1,3 +1,5 @@
+/* TODO: Update to Discord js v12 */
+
 const config = require(`./config/config.js`);
 const Discord = require(`discord.js`);
 const dotenv = require(`dotenv`).config();
