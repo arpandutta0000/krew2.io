@@ -4,12 +4,12 @@ const config = require(`./config/config.js`);
 const bus = require(`./utils/messageBus.js`);
 const cluster = require(`cluster`);
 const numCPUs = 3;
-let core = require(`./core/core_concatenated.js`);
+const core = require(`./core/core_concatenated.js`);
 global.TEST_ENV = process.env.NODE_ENV === `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
-/* Master CLuster */
+/* Master Cluster */
 if (cluster.isMaster) {
 
     // Start the server
