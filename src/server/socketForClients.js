@@ -282,7 +282,6 @@ io.on(`connection`, async socket => {
             log(`yellow`, `Loaded Event ${eventName}`)
             socket.on(eventName, event.bind(socket, null));
         }
-                            playerEntity.bankDeposit -= integerDeposit;
     }
 
     // Catch players with local script modification.
@@ -311,7 +310,7 @@ let serializeId = function (id) {
 
 // emit a snapshot every 100 ms
 let snapCounter = 0;
-exports.send = function () {
+module.exports.send = function () {
     snapCounter = snapCounter > 10 ? 0 : snapCounter + 1;
     let msg;
 
