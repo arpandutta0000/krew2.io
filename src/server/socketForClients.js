@@ -248,7 +248,7 @@ io.on(`connection`, async socket => {
             if (playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) log(`cyan`, `Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         }
 
-        export default {
+        module.exports = {
             checkPlayerStatus,
             christmasGold,
             data,

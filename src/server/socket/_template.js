@@ -13,7 +13,7 @@ let Ban = require(`./models/ban.model.js`);
 let Hacker = require(`./models/hacker.model.js`);
 let PlayerRestore = require(`./models/playerRestore.model.js`);
 
-import {
+let {
     checkPlayerStatus,
     christmasGold,
     data,
@@ -25,7 +25,7 @@ import {
     playerEntity,
     reportedIps,
     server
-} from `../socketForClients.js`;
+} = require(`../socketForClients.js`);
 
 
 
