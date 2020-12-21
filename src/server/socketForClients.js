@@ -279,7 +279,7 @@ io.on(`connection`, async socket => {
         for (const file of eventFiles) {
             const event = require(`./socket/${file}`);
             let eventName = file.split(`.`)[0];
-            log(`yellow`, `Loaded Event ${eventName}`)
+            log(`yellow`, `Loaded Socket Event: ${eventName}.`)
             socket.on(eventName, event.bind(socket, null));
         }
     }
