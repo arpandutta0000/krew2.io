@@ -79,7 +79,7 @@ let Config = {
             name: `Jamaica`,
             dockRadius: 100,
             spawnPlayers: true,
-            onlySellOwnShips: false,
+            onlySellOwnShips: true,
             goodsPrice: {
                 rum: 32,
                 coffee: 70,

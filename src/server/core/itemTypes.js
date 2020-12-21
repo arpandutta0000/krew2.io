@@ -1,28 +1,29 @@
-let itemTypes = [{
-        id: 0,
-        name: `Cannon`,
-        Description: `Cannon for seadog`,
-        price: 500,
-        rarity: 1,
-        availableAt: []
-    },
-    {
-        id: 1,
-        name: `Fishing rod`,
-        Description: `Fishing rod for seadog`,
-        price: 500,
-        rarity: 1,
-        availableAt: []
-    },
+let itemTypes = [
+    /*{
+            id: 0,
+            name: `Cannon`,
+            Description: `Cannon for seadog`,
+            price: 500,
+            rarity: 1,
+            availableAt: []
+        },
+        {
+            id: 1,
+            name: `Fishing rod`,
+            Description: `Fishing rod for seadog`,
+            price: 500,
+            rarity: 1,
+            availableAt: []
+        },*/
     {
         id: 2,
         name: `Sinker's Gloves`,
-        Description: `+45 cannon fire rate`, // Insanely buffed.
+        Description: `+40 cannon fire rate`, // Insanely buffed.
         price: 45e3,
         rarity: 0.2,
         availableAt: [`Spain`, `Brazil`],
         attributes: {
-            attackSpeed: 45
+            attackSpeed: `40`
         }
     },
     {
@@ -33,7 +34,7 @@ let itemTypes = [{
         rarity: 0.6,
         availableAt: [`Labrador`],
         attributes: {
-            attackDistance: 30
+            attackDistance: `30`
         }
     },
     {
@@ -44,7 +45,7 @@ let itemTypes = [{
         rarity: 0.3,
         availableAt: [`Jamaica`],
         attributes: {
-            movementSpeed: 100
+            movementSpeed: `100`
         }
     },
     {
@@ -55,7 +56,7 @@ let itemTypes = [{
         rarity: 0.25,
         availableAt: [`Jamaica`],
         attributes: {
-            attackDamage: 8
+            attackDamage: `8`
         }
     },
     {
@@ -65,7 +66,7 @@ let itemTypes = [{
         price: 4e3,
         rarity: 1,
         attributes: {
-            attackDistance: 5
+            attackDistance: `5`
         }
     },
     {
@@ -75,7 +76,7 @@ let itemTypes = [{
         price: 2e3,
         rarity: 1,
         attributes: {
-            attackSpeed: 5
+            attackSpeed: `5`
         }
     },
     {
@@ -85,7 +86,7 @@ let itemTypes = [{
         price: 5e3,
         rarity: 1,
         attributes: {
-            attackDamage: 5
+            attackDamage: `5`
         }
     },
     {
@@ -95,7 +96,7 @@ let itemTypes = [{
         price: 3e3,
         rarity: 1,
         attributes: {
-            movementSpeed: 20
+            movementSpeed: `20`
         }
     },
     {
@@ -106,8 +107,8 @@ let itemTypes = [{
         rarity: 0.35,
         availableAt: [`Spain, Brazil`],
         attributes: {
-            attackSpeed: 10,
-            attackDamage: 2
+            attackSpeed: `10`,
+            attackDamage: `2`
         }
     },
     {
@@ -118,8 +119,8 @@ let itemTypes = [{
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
-            attackSpeed: 25,
-            attackDamage: 6 // Slightly buffed.
+            attackSpeed: `25`,
+            attackDamage: `6` // Slightly buffed.
         }
     },
     {
@@ -130,8 +131,8 @@ let itemTypes = [{
         rarity: 0.45,
         availableAt: [`Guinea`, `Labrador`],
         attributes: {
-            attackDamage: 2,
-            movementSpeed: 50
+            attackDamage: `2`,
+            movementSpeed: `50`
         }
     },
     {
@@ -142,7 +143,7 @@ let itemTypes = [{
         rarity: 0.45,
         availableAt: [`Brazil`],
         attributes: {
-            armor: 25
+            armor: `25`
         }
     },
     {
