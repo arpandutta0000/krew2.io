@@ -25,7 +25,13 @@ const config = {
         2053, // Server 1
         2083, // Server 2
         2087 // Server 3
-    ]
+    ],
+    newBadWords: [`idiot`, `2chOld`, `Yuquan`],
+    admins: [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`],
+    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
+    devs: [`Yaz_`],
+    maxAmountCratesInSea: 1100,
+    minAmountCratesInSea: 480
 }
 
 config.staticDir = config.mode == `dev` ? `${__dirname}/../../client/` : `${__dirname}/../../../dist/`;

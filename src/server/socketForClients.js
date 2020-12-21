@@ -1,6 +1,3 @@
-global.maxAmountCratesInSea = 1100;
-global.minAmountCratesInSea = 480;
-
 let thugConfig = require(`./config/thugConfig.js`);
 let config = require(`./config/config.js`);
 let login = require(`./auth/login.js`);
@@ -11,6 +8,9 @@ let fs = require(`fs`);
 let Filter = require(`bad-words`),
     filter = new Filter();
 lzString = require(`./../client/assets/js/lz-string.min`);
+
+global.maxAmountCratesInSea = config.maxAmountCratesInSea;
+global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 // Utils.
 let log = require(`./utils/log.js`);
@@ -25,11 +25,10 @@ let bus = require(`./utils/messageBus.js`);
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
-// additional bad words which need to be filtered
-let newBadWords = [`idiot`, `2chOld`, `Yuquan`];
-filter.addWords(...newBadWords);
+// Additional bad words which need to be filtered
+filter.addWords(...config.newBadWords);
 
-// configure socket
+// Configure socket
 if (global.io === undefined) {
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
         key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
@@ -82,9 +81,9 @@ log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`
 //io = require('socket.io').listen(process.env.port);
 
 // Define serverside admins / mods / devs.
-Admins = [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`]
-Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`]
-Devs = [`Yaz_`]
+Admins = config.admins
+Mods = config.mods
+Devs = config.devs
 
 
 // create player in the world
@@ -245,26 +244,32 @@ io.on(`connection`, async socket => {
         // Allocate player to the game.
         login.allocatePlayerToBoat(playerEntity, data.boatId, data.spawn);
 
-        // Get snapshot.
-        socket.on(`u`, data => playerEntity.parseSnap(data));
-
         let checkPlayerStatus = () => {
             if (playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) log(`cyan`, `Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         }
 
-        // Gather all stats and return them to the client.
-        socket.on(`get-stats`, fn => {
-            let stats = {
-                shipsSank: playerEntity.shipsSank,
-                shotsFired: playerEntity.shotsFired,
-                shotsHit: playerEntity.shotsHit,
-                shotAccuracy: playerEntity.shotsHit / playerEntity.shotsFired,
-                overall_cargo: playerEntity.overall_cargo,
-                crewOverallCargo: playerEntity.parent.overall_cargo,
-                overallKills: playerEntity.parent.overallKills
-            }
-            return fn(JSON.stringify(stats));
-        });
+        export default {
+            checkPlayerStatus,
+            christmasGold,
+            data,
+            filter,
+            gameCookies,
+            initSocketForPlayer,
+            krewIoData,
+            msgData,
+            playerEntity,
+            reportedIps,
+            server
+        };
+
+        const eventFiles = fs.readdirSync(`./src/socket`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+        for (const file of eventFiles) {
+            const event = require(`./socket/${file}`);
+            let eventName = file.split(`.`)[0];
+            log(`yellow`, `Loaded event ${eventName}`);
+            socket.on(eventName, event.bind(null, socket));
+        }
+        log(`green`, `Finished loading events!`);
 
         // Chat message handling.
         socket.on(`chat message`, async msgData => {
