@@ -10,18 +10,17 @@ global.core = core;
 
 /* Master Cluster */
 if (cluster.isMaster) {
-
-    // Start the server
-    const server = require(`./server.js`);
+    // start server
+    let server = require('./server.js');
 
     server.app.workers = {};
 
-    // If running development only create one server
+    // This will create just one server for better testing and monitoring
     if (DEV_ENV) {
         process.env.port = config.gamePorts[0];
         let worker = cluster.fork();
-        worker.on(`message`, (msg) => {
-            if (msg.type === `update-server`) {
+        worker.on('message', (msg) => {
+            if (msg.type === 'update-server') {
                 const {
                     data,
                     processId
@@ -29,7 +28,8 @@ if (cluster.isMaster) {
                 server.app.workers[processId] = data;
             }
         });
-        return log(`green`, `Creating a worker in development.`);
+        log(`green`, `Creating a worker in development.`);
+        return;
     }
 
     // Distribute work onto number of cores a system has
@@ -38,8 +38,8 @@ if (cluster.isMaster) {
         process.env.port = config.gamePorts[i];
 
         let worker = cluster.fork();
-        worker.on(`message`, (msg) => {
-            if (msg.type === `update-server`) {
+        worker.on('message', (msg) => {
+            if (msg.type === 'update-server') {
                 const {
                     data,
                     processId
@@ -48,34 +48,33 @@ if (cluster.isMaster) {
             }
         });
     }
+} else { // gameServers
+    // let MemwatchFactoryFunction = require('./memwatch');
 
-/* If the custer isn't master */
-} else {
-    // Start Discord bot
+    // start socket
     let bot = require(`./bot.js`);
+    let socket = require('./socketForClients.js');
 
-    // Start socket
-    let socket = require(`./socketForClients.js`);
+    // start game logic
+    let game = require('./game/game.js');
+    let Rollbar = require('rollbar');
+    let rollbar = new Rollbar('fa0cd86c64f446c4bac992595be24831');
 
-    // Start game logic
-    let game = require(`./game/game.js`);
-    let Rollbar = require(`rollbar`);
-    let rollbar = new Rollbar(`fa0cd86c64f446c4bac992595be24831`);
+    // MemwatchFactoryFunction(rollbar);
 
-    // If there is an uncaught error
-    process.on(`uncaughtException`, function (e) {
+    process.on('uncaughtException', function (e) {
         if (!DEV_ENV) {
             log(`red`, e);
             return rollbar.error(e);
         }
     });
 
-    // Run the game
     try {
         let everySecond = setInterval(function () {
             try {
+                // this.socket.emit(msgType, data);
                 process.send({
-                    type: `update-server`,
+                    type: 'update-server',
                     processId: process.pid,
                     data: {
                         ip: DEV_ENV ? `127.0.0.1` : config.serverIP,
@@ -86,7 +85,7 @@ if (cluster.isMaster) {
                 });
             } catch (err) {
                 log(`red`, err, err.stack);
-                ige.log(`emit error at`, msgType, data, err);
+                ige.log('emit error at', msgType, data, err);
             }
 
         }, 1000);
@@ -94,7 +93,6 @@ if (cluster.isMaster) {
         log(`red`, `e`, e);
     }
 
-    // Log starts
     log(`green`, `Worker ${process.pid} started`);
     log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
 }
