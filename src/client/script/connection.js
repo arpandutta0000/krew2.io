@@ -44,7 +44,7 @@ var connect = function (pid) {
         url += ':' + server.port;
     }
 
-    socket = io.connect('https://krew.io:2001', {
+    socket = io.connect(url, {
         secure: true,
         rejectUnauthorized: false,
     }); // establish socket connection!
@@ -77,7 +77,7 @@ var initSocketBinds = function () {
         socket.emit('createPlayer', {
             boatId: getUrlVars().bid,
             token: ui.clientAccessToken,
-            name: 'DamienVesper',
+            name: ui.username == undefined ? undefined : ui.username,
             spawn: ui.setSpawnPlace(),
             // TODO: fix session token (so players can't join with multiple seadogs)
             // cookie: sessionCookie,
