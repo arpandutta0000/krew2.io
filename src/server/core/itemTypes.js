@@ -1,16 +1,28 @@
-// Make a clone of get ships function
-// items to be available at specific islands
-// Rarity maybe?
-
 let itemTypes = [{
+        id: 0,
+        name: `Cannon`,
+        Description: `Cannon for seadog`,
+        price: 500,
+        rarity: 1,
+        availableAt: []
+    },
+    {
+        id: 1,
+        name: `Fishing rod`,
+        Description: `Fishing rod for seadog`,
+        price: 500,
+        rarity: 1,
+        availableAt: []
+    },
+    {
         id: 2,
         name: `Sinker's Gloves`,
-        Description: `+25 cannon fire rate`,
+        Description: `+45 cannon fire rate`, // Insanely buffed.
         price: 45e3,
         rarity: 0.2,
         availableAt: [`Spain`, `Brazil`],
         attributes: {
-            attackSpeed: `25`
+            attackSpeed: 45
         }
     },
     {
@@ -21,18 +33,18 @@ let itemTypes = [{
         rarity: 0.6,
         availableAt: [`Labrador`],
         attributes: {
-            attackDistance: `30`
+            attackDistance: 30
         }
     },
     {
         id: 4,
         name: `Air Pegleg`,
-        Description: `+1 ship speed (only works if you are captain)`,
+        Description: `+1 ship speed`,
         price: 22e3,
         rarity: 0.3,
         availableAt: [`Jamaica`],
         attributes: {
-            movementSpeed: `100`
+            movementSpeed: 100
         }
     },
     {
@@ -43,7 +55,7 @@ let itemTypes = [{
         rarity: 0.25,
         availableAt: [`Jamaica`],
         attributes: {
-            attackDamage: `8`,
+            attackDamage: 8
         }
     },
     {
@@ -53,7 +65,7 @@ let itemTypes = [{
         price: 4e3,
         rarity: 1,
         attributes: {
-            attackDistance: `5`
+            attackDistance: 5
         }
     },
     {
@@ -63,7 +75,7 @@ let itemTypes = [{
         price: 2e3,
         rarity: 1,
         attributes: {
-            attackSpeed: `5`
+            attackSpeed: 5
         }
     },
     {
@@ -73,17 +85,17 @@ let itemTypes = [{
         price: 5e3,
         rarity: 1,
         attributes: {
-            attackDamage: `5`
+            attackDamage: 5
         }
     },
     {
         id: 9,
-        name: `Ship Speed Upgrade`,
-        Description: `+0.2 ship speed (only works if you are captain)`,
+        name: `Ship speed upgrade`,
+        Description: `+0.2 ship speed`,
         price: 3e3,
         rarity: 1,
         attributes: {
-            movementSpeed: `20`
+            movementSpeed: 20
         }
     },
     {
@@ -92,53 +104,53 @@ let itemTypes = [{
         Description: `+2 cannon damage<br/>+10 cannon fire rate`,
         price: 2e4,
         rarity: 0.35,
-        availableAt: [`Spain`, `Brazil`],
+        availableAt: [`Spain, Brazil`],
         attributes: {
-            attackSpeed: `10`,
-            attackDamage: `2`
+            attackSpeed: 10,
+            attackDamage: 2
         }
     },
     {
         id: 11,
         name: `Demolisher`,
-        Description: `+4 cannon damage<br/>+25 cannon fire rate<br/><br/>Requirements:<br/>- Sink 10 ships<br/>- Trade goods worth 100,e3 gold`,
+        Description: `+6 cannon damage<br/>+25 cannon fire rate<br/>Requirements<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
         price: 1e5,
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
-            attackSpeed: `25`,
-            attackDamage: `4`
+            attackSpeed: 25,
+            attackDamage: 6 // Slightly buffed.
         }
     },
     {
         id: 12,
         name: `Drifter`,
-        Description: `+2 cannon damage<br/>+0.5 ship speed (only works if you are captain)`,
+        Description: `+2 cannon damage<br/>+0.5 ship speed`,
         price: 25e3,
         rarity: 0.45,
         availableAt: [`Guinea`, `Labrador`],
         attributes: {
-            attackDamage: `2`,
-            movementSpeed: `50`
+            attackDamage: 2,
+            movementSpeed: 50
         }
     },
     {
         id: 13,
         name: `Reinforced Planks`,
-        Description: `+25% to protect your ship (only works if you are captain)`,
+        Description: `Additional 25% HP`,
         price: 35e3,
         rarity: 0.45,
         availableAt: [`Brazil`],
         attributes: {
-            armor: `25`
+            armor: 25
         }
     },
     {
         id: 14,
-        name: `Fountain of youth`,
-        Description: `New chance to allocate all your skill points.<br/>Can only be bought once`,
+        name: `Fountain of Youth`,
+        Description: `Reset your skill points and allow them to be reallocated.<br/>Can only be bought once.`,
         price: 15e4,
         rarity: 0.33,
         availableAt: [`Jamaica`]
     }
-];
+]
