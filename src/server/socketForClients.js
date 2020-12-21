@@ -310,7 +310,7 @@ let serializeId = function (id) {
 
 // emit a snapshot every 100 ms
 let snapCounter = 0;
-module.exports.send = function () {
+module.exports.send = () => {
     snapCounter = snapCounter > 10 ? 0 : snapCounter + 1;
     let msg;
 
