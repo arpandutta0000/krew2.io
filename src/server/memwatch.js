@@ -16,17 +16,10 @@ const MemwatchFactoryFunction = function (rollbar) {
         return count;
     };
 
-    /**
-     * Check for memory leaks
-     */
+    /* Check for memory leaks */
     let hd = null;
     let oldEntities = null;
     Memwatch.on('leak', (info) => {
-        //console.log('memwatch::leak');
-        /*heapdump.writeSnapshot(function (err, filename) {
-                    console.log('dump written to', filename);
-        });*/
-        //console.error(info);
         if (!hd) {
             oldEntities = countEntities();
             hd = new Memwatch.HeapDiff();
@@ -51,19 +44,9 @@ const MemwatchFactoryFunction = function (rollbar) {
             }
         }
 
-        //console.log(util.inspect(diff, { showHidden: false, depth: 4 }));
         hd = null;
         oldEntities = null;
     });
-
-    /*if (!DEV_ENV) {
-        Memwatch.on('stats', (stats) => {
-            console.log('memwatch::stats');
-            console.log(countEntities());
-            console.log(util.inspect(stats, { showHidden: false, depth: 4 }));
-        });
-    }*/
-
 };
 
 module.exports = MemwatchFactoryFunction;
