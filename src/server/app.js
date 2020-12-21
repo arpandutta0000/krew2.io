@@ -2,26 +2,27 @@ const log = require(`./utils/log.js`);
 const config = require(`./config/config.js`);
 
 const bus = require(`./utils/messageBus.js`);
-const cluster = require('cluster');
+const cluster = require(`cluster`);
 const numCPUs = 3;
-let core = require('./core/core_concatenated.js');
-global.TEST_ENV = process.env.NODE_ENV === 'test';
+let core = require(`./core/core_concatenated.js`);
+global.TEST_ENV = process.env.NODE_ENV === `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
+/* Master CLuster */
+if (cluster.isMaster) {
 
-if (cluster.isMaster) { // master cluster! runs the website
-    // start server
-    let server = require('./server.js');
+    // Start the server
+    const server = require(`./server.js`);
 
     server.app.workers = {};
 
-    // This will create just one server for better testing and monitoring
+    // If running development only create one server
     if (DEV_ENV) {
         process.env.port = config.gamePorts[0];
         let worker = cluster.fork();
-        worker.on('message', (msg) => {
-            if (msg.type === 'update-server') {
+        worker.on(`message`, (msg) => {
+            if (msg.type === `update-server`) {
                 const {
                     data,
                     processId
@@ -29,18 +30,17 @@ if (cluster.isMaster) { // master cluster! runs the website
                 server.app.workers[processId] = data;
             }
         });
-        log(`green`, `Creating a worker in development.`);
-        return;
+        return log(`green`, `Creating a worker in development.`);
     }
 
-    // fork worker processors based on the number of cores the CPU has
+    // Distribute work onto number of cores a system has
     for (let i = 0; i < numCPUs; i++) {
 
         process.env.port = config.gamePorts[i];
 
         let worker = cluster.fork();
-        worker.on('message', (msg) => {
-            if (msg.type === 'update-server') {
+        worker.on(`message`, (msg) => {
+            if (msg.type === `update-server`) {
                 const {
                     data,
                     processId
@@ -49,33 +49,34 @@ if (cluster.isMaster) { // master cluster! runs the website
             }
         });
     }
-} else { // gameServers
-    // let MemwatchFactoryFunction = require('./memwatch');
 
-    // start socket
+/* If the custer isn't master */
+} else {
+    // Start Discord bot
     let bot = require(`./bot.js`);
-    let socket = require('./socketForClients.js');
 
-    // start game logic
-    let game = require('./game/game.js');
-    let Rollbar = require('rollbar');
-    let rollbar = new Rollbar('fa0cd86c64f446c4bac992595be24831');
+    // Start socket
+    let socket = require(`./socketForClients.js`);
 
-    // MemwatchFactoryFunction(rollbar);
+    // Start game logic
+    let game = require(`./game/game.js`);
+    let Rollbar = require(`rollbar`);
+    let rollbar = new Rollbar(`fa0cd86c64f446c4bac992595be24831`);
 
-    process.on('uncaughtException', function (e) {
+    // If there is an uncaught error
+    process.on(`uncaughtException`, function (e) {
         if (!DEV_ENV) {
             log(`red`, e);
             return rollbar.error(e);
         }
     });
 
+    // Run the game
     try {
         let everySecond = setInterval(function () {
             try {
-                // this.socket.emit(msgType, data);
                 process.send({
-                    type: 'update-server',
+                    type: `update-server`,
                     processId: process.pid,
                     data: {
                         ip: DEV_ENV ? `127.0.0.1` : config.serverIP,
@@ -86,7 +87,7 @@ if (cluster.isMaster) { // master cluster! runs the website
                 });
             } catch (err) {
                 log(`red`, err, err.stack);
-                ige.log('emit error at', msgType, data, err);
+                ige.log(`emit error at`, msgType, data, err);
             }
 
         }, 1000);
@@ -94,6 +95,7 @@ if (cluster.isMaster) { // master cluster! runs the website
         log(`red`, `e`, e);
     }
 
+    // Log starts
     log(`green`, `Worker ${process.pid} started`);
     log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
 }
