@@ -11,7 +11,7 @@ var maxPlayerPerInstance = 100;
 var interval_update = undefined;
 
 // define here who is Mod or Admin (for client side)
-var Admins = ['devclied', 'LeoLeoLeo', 'itsdabomb', 'harderman', 'DamienVesper'];
+var Admins = ['devclied', 'LeoLeoLeo', 'DamienVesper', 'BR88C', 'itsdabomb', 'harderman'];
 var Mods = ['Fiftyyyyy', 'Sloth', 'Sjmun', 'TheChoco', 'Kekmw', 'Headkeeper'];
 var Devs = ['yaz'];
 

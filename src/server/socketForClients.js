@@ -82,7 +82,7 @@ log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`
 //io = require('socket.io').listen(process.env.port);
 
 // Define serverside admins / mods / devs.
-Admins = [`devclied`, `DamienVesper`, `LeoLeoLeo`]
+Admins = [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`]
 Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`]
 Devs = [`Yaz_`]
 
