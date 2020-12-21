@@ -21,11 +21,9 @@ let PlayerRestore = require(`.,/models/playerRestore.model.js`);
 let {
     checkPlayerStatus,
     christmasGold,
-    
     data,
     filter,
     gameCookies,
-    ,
     isNormalInteger,
     krewioData,
     playerEntity,
