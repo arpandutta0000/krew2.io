@@ -82,9 +82,9 @@ log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`
 //io = require('socket.io').listen(process.env.port);
 
 // Define serverside admins / mods / devs.
-Admins = [`devclied`, `DamienVesper`, `LeoLeoLeo`],
-    Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
-    Devs = [`Yaz_`]
+Admins = [`devclied`, `DamienVesper`, `LeoLeoLeo`]
+Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`]
+Devs = [`Yaz_`]
 
 
 // create player in the world
@@ -102,7 +102,6 @@ if (TEST_ENV) {
 // Array for reported IPs
 const reportedIps = [];
 const gameCookies = {};
-
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
@@ -269,9 +268,11 @@ io.on(`connection`, async socket => {
 
         // Chat message handling.
         socket.on(`chat message`, async msgData => {
-            // Check for spam.
+            // Catch client modifications.
+            if (!msgData.message || !msgData.recipient || typeof msgData.message != `string` || typeof msgData.recipient != `string`) return;
             if (msgData.message.length < 1) return;
 
+            // Check for spam.
             if (msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                 log(`cyan`, `Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
                 log(`cyan`, `Spam message: ${msgData.message}`);

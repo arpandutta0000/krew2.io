@@ -28,6 +28,7 @@
         "connect-mongo": "^3.2.0",
         "cookie-parser": "^1.4.5",
         "cross-env": "^7.0.2",
+        "discord-oauth2": "^2.6.0",
         "discord.js": "^11.5.1",
         "dotenv": "^8.2.0",
         "ejs": "^3.1.5",
@@ -58,6 +59,7 @@
         "path": "^0.12.7",
         "request": "^2.88.2",
         "rollbar": "^2.19.4",
+        "simple-oauth2": "^4.2.0",
         "socket.io": "^1.7.1",
         "validator": "^13.1.17",
         "xss-filters": "^1.2.7"

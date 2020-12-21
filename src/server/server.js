@@ -48,7 +48,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    if(req.path.includes(`/assets/img/`)){ // Caching pictures. (Maybe someone knows a better option)
+    if (req.path.includes(`/assets/img/`)) { // Caching pictures. (Maybe someone knows a better option)
         res.header(`Cache-Control`, `public, max-age=86400`);
     }
     res.header(`Access-Control-Allow-Credentials`, true);
@@ -56,16 +56,21 @@ app.use((req, res, next) => {
     // res.header(`Access-Control-Allow-Origin`, req.headers.origin);
     res.header(`Access-Control-Allow-Methods`, `POST, GET, OPTIONS, PUT, DELETE, PATCH, HEAD`);
     res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept`);
-    req.method.toLowerCase() == `options`
-        ? res.sendStatus(200)
-        : next();
+    req.method.toLowerCase() == `options` ?
+        res.sendStatus(200) :
+        next();
 });
 
 app.use(compression());
 app.use(flash());
 
-app.use(bodyParser.json({ limit: `50mb` }));
-app.use(bodyParser.urlencoded({ limit: `50mb`, extended: true }));
+app.use(bodyParser.json({
+    limit: `50mb`
+}));
+app.use(bodyParser.urlencoded({
+    limit: `50mb`,
+    extended: true
+}));
 
 app.set(`views`, `${__dirname}/views`);
 app.set(`view engine`, `ejs`);
@@ -78,16 +83,20 @@ app.use(`/ads.txt`, express.static(`ads.txt`)); // Static ad loader.
 app.get(`/get_servers`, (req, res) => res.jsonp(app.workers));
 
 // Create the webfront server.
-let server = config.mode == `dev` ? http.createServer(app): https.createServer({
+let server = config.mode == `dev` ? http.createServer(app) : https.createServer({
     key: fs.readFileSync(config.ssl.keyPath),
     cert: fs.readFileSync(config.ssl.certPath),
     requestCert: false,
     rejectUnauthorized: false
-}, app); 
+}, app);
 
 // Direct socket.io for admins.
-if(process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server, { origins: `*:*` });
-else global.io = require(`socket.io`)(server, { origins: `*:*` }).listen(`2000`);
+if (process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server, {
+    origins: `*:*`
+});
+else global.io = require(`socket.io`)(server, {
+    origins: `*:*`
+}).listen(`2000`);
 
 
 // Use the rollbar error handler to send exceptions to your rollbar account

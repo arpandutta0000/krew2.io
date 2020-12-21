@@ -1,6 +1,7 @@
 const Mongoose = require(`mongoose`);
 
 const plMongoose = require(`passport-local-mongoose`);
+
 let userSchema = Mongoose.Schema({
     username: {
         type: String,
