@@ -1,4 +1,4 @@
-var goodsTypes = {
+let goodsTypes = {
     // water: { drainRate: 1, cargoSpace: 1 },
     // food: { drainRate: 1, cargoSpace: 1 },
     // wood: { drainRate: 1, cargoSpace: 1 },

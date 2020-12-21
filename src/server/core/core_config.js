@@ -1,4 +1,4 @@
-var Config = {
+let Config = {
     startingItems: {
         gold: 0,
 
@@ -107,7 +107,7 @@ var Config = {
 // ultimately, restructure files into this structure
 
 // core_goods.js
-// var goods_types = {
+// let goods_types = {
 //     water: {
 //         drainRate: 1, // every day, how fast is it draining while saling?
 //         cargoSpace: 1 // how much cargo space does this good use per unit?
@@ -124,7 +124,7 @@ var Config = {
 // }
 
 // core_landmarks_types.js
-// var landmarks = [
+// let landmarks = [
 //     {
 //         name: 'Labrador',
 //         type: 0,

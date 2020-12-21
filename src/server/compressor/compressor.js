@@ -1,9 +1,9 @@
-var events = {};
+let events = {};
 
 // returns a full snapshot of the world
 // force = force the entities to return snapshot, even if they are usually disabled (stuff like pickups)
 exports.getSnapshot = function (force) {
-    var snap = {};
+    let snap = {};
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
             snap[e] = entities[e].getSnap(force);
@@ -15,10 +15,10 @@ exports.getSnapshot = function (force) {
 
 // returns a delta snapshot
 exports.getDelta = function () {
-    var delta = {};
+    let delta = {};
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
-            var d = entities[e].getDelta();
+            let d = entities[e].getDelta();
             if (d) {
                 delta[e] = d;
             }
@@ -38,7 +38,7 @@ exports.getDelta = function () {
     return delta;
 };
 
-var isEmpty = function (obj) {
+let isEmpty = function (obj) {
     // check if object is completely empty
     if (Object.keys(obj).length === 0 && obj.constructor === Object) {
         return true;

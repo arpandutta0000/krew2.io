@@ -3,8 +3,8 @@ Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
 function Boat (captainId, krewName, spawnBool) {
-    var captainsName = '';
-    var spawnIslandId = undefined;
+    let captainsName = '';
+    let spawnIslandId = undefined;
 
     if (entities[captainId] !== undefined) {
         captainsName = entities[captainId].name;
@@ -90,7 +90,7 @@ function Boat (captainId, krewName, spawnBool) {
 
     this.steering = 1;
 
-    // var spawnIsland = spawnIslandId ? Landmarks[spawnIslandId] :
+    // let spawnIsland = spawnIslandId ? Landmarks[spawnIslandId] :
     //     Landmarks[
     //         Object.keys(Landmarks)[
     //             Math.round(Math.random() * (Object.keys(Landmarks).length - 1))
@@ -101,7 +101,7 @@ function Boat (captainId, krewName, spawnBool) {
 
     if (spawnBool === true) {
         //used for respawn near the edge of the map
-        var roll = Math.floor(Math.random() * Math.floor(4));
+        let roll = Math.floor(Math.random() * Math.floor(4));
         if (roll === 0) {
             this.position.x = Math.floor(Math.random() * 250);
             this.position.z = Math.floor(Math.random() * worldsize);
@@ -117,16 +117,16 @@ function Boat (captainId, krewName, spawnBool) {
         }
         //used for respawn anywhere on the map
         // calculate the spawn position. If spawn position collides with an island, recalculate
-        //var spawnResult = false;
+        //let spawnResult = false;
         //while (spawnResult !== true) {
         //this.position.x = worldsize * 0.8 * Math.random() + worldsize * 0.1;
         //this.position.z = worldsize * 0.8 * Math.random() + worldsize * 0.1;
-        //for (var l in core.config.landmarks) {
+        //for (let l in core.config.landmarks) {
         // spawn must be at least 5 fields away from the island
-        //var xCoord1 = core.config.landmarks[l]['x'] - (core.config.landmarks[l]['dockRadius'] + 5);
-        //var xCoord2 = core.config.landmarks[l]['x'] + (core.config.landmarks[l]['dockRadius'] + 5);
-        //var yCoord1 = core.config.landmarks[l]['y'] - (core.config.landmarks[l]['dockRadius'] + 5);
-        //var yCoord2 = core.config.landmarks[l]['y'] + (core.config.landmarks[l]['dockRadius'] + 5);
+        //let xCoord1 = core.config.landmarks[l]['x'] - (core.config.landmarks[l]['dockRadius'] + 5);
+        //let xCoord2 = core.config.landmarks[l]['x'] + (core.config.landmarks[l]['dockRadius'] + 5);
+        //let yCoord1 = core.config.landmarks[l]['y'] - (core.config.landmarks[l]['dockRadius'] + 5);
+        //let yCoord2 = core.config.landmarks[l]['y'] + (core.config.landmarks[l]['dockRadius'] + 5);
         //if (this.position.x > xCoord1 && this.position.x < xCoord2 && this.position.z > yCoord1 && this.position.z < yCoord2) {
         //spawnResult = false;
         //break;
@@ -138,7 +138,7 @@ function Boat (captainId, krewName, spawnBool) {
     } else if (spawnBool === false) {
         // code for spawning on islands instead of on rafts (in the sea)
         if (Landmarks[this.anchorIslandId] !== undefined) {
-            var spawnIsland = Landmarks[this.anchorIslandId];
+            let spawnIsland = Landmarks[this.anchorIslandId];
             this.position.x = spawnIsland.position.x + (Math.random() * 60) - 60;
             this.position.z = spawnIsland.position.z + (Math.random() * 60) - 60;
         } else {
@@ -152,8 +152,8 @@ function Boat (captainId, krewName, spawnBool) {
 
 Boat.prototype.updateProps = function () {
 
-    var krewCount = 0;
-    for (var id in this.children) {
+    let krewCount = 0;
+    for (let id in this.children) {
         if (
             entities[id] === undefined ||
             entities[id].parent === undefined ||
@@ -163,7 +163,7 @@ Boat.prototype.updateProps = function () {
             continue;
         }
 
-        var child = this.children[id];
+        let child = this.children[id];
         if (child && child.netType === 0) {
             krewCount += 1;
         }
@@ -178,7 +178,7 @@ Boat.prototype.updateProps = function () {
 Boat.prototype.logic = function (dt) {
 
     // world boundaries
-    var boundaryCollision = false;
+    let boundaryCollision = false;
     if (this.position.x > worldsize) {
         this.position.x = worldsize;
         boundaryCollision = true;
@@ -199,14 +199,14 @@ Boat.prototype.logic = function (dt) {
         boundaryCollision = true;
     }
 
-    var kaptain = entities[this.captainId];
+    let kaptain = entities[this.captainId];
 
     // the boat movement is simple. it always moves forward, and rotates if the captain is steering
     if (kaptain !== undefined && this.crewName !== undefined) {
         this.speed = boatTypes[this.shipclassId].speed + parseFloat(kaptain.movementSpeedBonus / 100);
     }
 
-    var moveVector = new THREE.Vector3(0, 0, (this.speed));
+    let moveVector = new THREE.Vector3(0, 0, (this.speed));
 
     // if boat is not anchored or not in docking state, we will move
     if (this.shipState == 0) {
@@ -229,7 +229,7 @@ Boat.prototype.logic = function (dt) {
     // find out who the captain is
     // if captain is not defined, assign the first crew member as a captain
     if (this.children[this.captainId] == undefined) {
-        for (var playerId in this.children) {
+        for (let playerId in this.children) {
             this.captainId = playerId;
             break;
         }
@@ -265,12 +265,12 @@ Boat.prototype.logic = function (dt) {
     {
         if(entities[e] != this && entities[e].netType == 5)
         {
-            var dist = entityDistance(this, entities[e]) - (entities[e].collisionRadius + this.collisionRadius );
+            let dist = entityDistance(this, entities[e]) - (entities[e].collisionRadius + this.collisionRadius );
 
             if(dist < 10)
             {
-                var local = this.toLocal(entities[e].position);
-                //var power = entities[e].inertia/this.inertia;
+                let local = this.toLocal(entities[e].position);
+                //let power = entities[e].inertia/this.inertia;
                    // either add it to rotation, or to the steering
                 this.rotation += -((local.x > 0 ? (10-local.x) : (10+local.x) )*(10-dist)*(local.z+10))*dt*0.0005;
             }
@@ -282,7 +282,7 @@ Boat.prototype.logic = function (dt) {
         if (!this.hasDoneDeathDrops) {
 
             // create debris based on score of the captain and ship
-            var value = 300;
+            let value = 300;
             if (boatTypes[this.shipclassId] && this.captain) {
                 let baseValue = boatTypes[this.shipclassId].price + this.captain.gold;
                 let multiplier = baseValue < 5e5 ? 5.5 : baseValue < 7.5e5 ? 5 : 4.5;
@@ -294,19 +294,19 @@ Boat.prototype.logic = function (dt) {
             this.hasDoneDeathDrops = true;
 
             if (value > 5000) {
-                var specialBonus = value / 50;
+                let specialBonus = value / 50;
                 for (i = 0; i < 50; i++) {
-                    var x = this.position.x - this.size.x * 1;
-                    var z = this.position.z - this.size.z * 1;
-                    var pickup = createPickup(4, x + Math.random() * this.size.x, z + Math.random() * this.size.z, 0, true, specialBonus);
+                    let x = this.position.x - this.size.x * 1;
+                    let z = this.position.z - this.size.z * 1;
+                    let pickup = createPickup(4, x + Math.random() * this.size.x, z + Math.random() * this.size.z, 0, true, specialBonus);
                 }
             } else {
-                for (var i = 0; i < value;) {
+                for (let i = 0; i < value;) {
                     x = this.position.x - this.size.x * 1;
                     z = this.position.z - this.size.z * 1;
                     pickup = createPickup(2, x + Math.random() * this.size.x, z + Math.random() * this.size.z, 0, true);
                     if (pickup) {
-                        var bonus = pickup.bonus;
+                        let bonus = pickup.bonus;
                         i += bonus;
                     } else {
                         break;
@@ -341,23 +341,23 @@ Boat.prototype.logic = function (dt) {
 
     // if (this.captain)
     // {
-    //     var totalScore = 0;
+    //     let totalScore = 0;
     //     for (id in this.children)
     //     {
-    //         var krewMember = this.children[id];
+    //         let krewMember = this.children[id];
     //         totalScore += krewMember.score;
     //     }
 
-    //     var totalSalary = 0;
-    //     var captainsCut = 0;
+    //     let totalSalary = 0;
+    //     let captainsCut = 0;
     //     if (totalScore > 0)
     //     {
     //         // then, determine the salary
     //         for (id in this.children)
     //         {
 
-    //             var krewMember = this.children[id];
-    //             var salary = (krewMember.score / totalScore) * (this.supply * .7)
+    //             let krewMember = this.children[id];
+    //             let salary = (krewMember.score / totalScore) * (this.supply * .7)
     //             if (this.captainId == id)
     //             {
     //                 captainsCut = salary;
@@ -376,7 +376,7 @@ Boat.prototype.logic = function (dt) {
 Boat.prototype.setShipClass = function (classId) {
     this.shipclassId = classId;
 
-    var currentShipClass = boatTypes[classId];
+    let currentShipClass = boatTypes[classId];
 
     this.maxHp = currentShipClass.hp;
     this.hp = this.maxHp;
@@ -411,7 +411,7 @@ Boat.prototype.getTypeSnap = function () {
 
 // function that generates boat specific delta data
 Boat.prototype.getTypeDelta = function () {
-    var delta = {
+    let delta = {
         h: this.deltaTypeCompare('h', this.hp),
         s: this.deltaTypeCompare('s', this.steering.toFixed(4)),
         c: this.deltaTypeCompare('c', this.shipclassId),
@@ -441,7 +441,7 @@ Boat.prototype.getTypeDelta = function () {
 Boat.prototype.onDestroy = function () {
 
     // all the children - destroy them too
-    for (var a in this.children) {
+    for (let a in this.children) {
         // on the server, tell all the players on the boat that the show is over
         if (this.children[a].netType === 0) {
             if (this.children[a].socket !== undefined) {
@@ -479,7 +479,7 @@ Boat.prototype.enterIsland = function (islandId) {
     // pay everyone salary
     // for (id in this.children)
     // {
-    //     var krewMember = this.children[id]
+    //     let krewMember = this.children[id]
     //     krewMember.gold += krewMember.salary;
     //     this.children[id].salary = 0;
     //     this.children[id].score = 0;
@@ -499,7 +499,7 @@ Boat.prototype.exitIsland = function () {
         this.rotation = rotationToObject(this, entities[this.anchorIslandId]);
 
         // make a tiny jump so we dont instantly anchor again
-        var outward = angleToVector(this.rotation);
+        let outward = angleToVector(this.rotation);
         this.position.x = entities[this.anchorIslandId].position.x - outward.x * (entities[this.anchorIslandId].dockRadius + 5);
         this.position.z = entities[this.anchorIslandId].position.z - outward.y * (entities[this.anchorIslandId].dockRadius + 5); // <- careful. y value!
     }
@@ -514,7 +514,7 @@ Boat.prototype.exitMotherShip = function (mothership) {
     this.rotation = rotationToObject(this, mothership);
 
     // make a tiny jump away from mothership
-    var outward = angleToVector(this.rotation);
+    let outward = angleToVector(this.rotation);
     this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
     this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
 

@@ -1,4 +1,4 @@
-var boatTypes = {
+let boatTypes = {
     0: {
         id: 0,
         name: 'Wood Plank',

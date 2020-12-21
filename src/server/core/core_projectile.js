@@ -55,7 +55,7 @@ function Projectile (shooter) {
 
     this.shooterid = shooter.id;
     this.shooter = shooter;
-    var pos = shooter.worldPos();
+    let pos = shooter.worldPos();
     this.position.x = pos.x;
     this.position.z = pos.z;
     if (shooter.parent.netType === 1) {
@@ -66,19 +66,19 @@ function Projectile (shooter) {
     //this.position.y = shooter.parent.netType == 5 ? 2.4 : this.shooter.parent.getHeightAboveWater() + 0.5;
     this.rotation = shooter.rotation + (shooter.parent ? shooter.parent.rotation : 0);
     this.shooterStartPos = new THREE.Vector3(pos.x, pos.y, pos.z);
-    var moveVector = new THREE.Vector3(0, 0, -1);
+    let moveVector = new THREE.Vector3(0, 0, -1);
     moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
     this.velocity = moveVector;
 
     if (this.shooter && this.shooter.activeWeapon === 1) {
-        var vertspeed = Math.cos(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
-        var upspeed = Math.sin(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
+        let vertspeed = Math.cos(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
+        let upspeed = Math.sin(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
         this.velocity.x *= vertspeed;
         this.velocity.z *= vertspeed;
         this.velocity.y = upspeed;
         this.type = 1;
     } else if (this.shooter && this.shooter.activeWeapon === 0) {
-        var attackDistanceBonus = (1 + (parseFloat(shooter.attackDistanceBonus) + shooter.pointsFormula.getDistance()) / 100);
+        let attackDistanceBonus = (1 + (parseFloat(shooter.attackDistanceBonus) + shooter.pointsFormula.getDistance()) / 100);
         vertspeed = Math.cos(shooter.pitch * attackDistanceBonus) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
         upspeed = Math.sin(shooter.pitch * attackDistanceBonus) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
         this.velocity.x *= vertspeed * attackDistanceBonus;
@@ -115,7 +115,7 @@ Projectile.prototype.logic = function (dt) {
     }
 
     if (entities[this.shooterid] !== undefined) {
-        var playerPos = entities[this.shooterid].worldPos();
+        let playerPos = entities[this.shooterid].worldPos();
 
         // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from player
         if (entities[this.shooterid].parent !== undefined &&
@@ -126,8 +126,8 @@ Projectile.prototype.logic = function (dt) {
                 entities[this.shooterid].isFishing = false;
             }
         } else {
-            var fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
-            //var fromPlayertoRod = distance(playerPos,this.shooterStartPos)
+            let fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
+            //let fromPlayertoRod = distance(playerPos,this.shooterStartPos)
             if (fromPlayertoRod >= 40) {
                 this.reel = true;
                 entities[this.shooterid].isFishing = false;
@@ -137,7 +137,7 @@ Projectile.prototype.logic = function (dt) {
     }
 
     if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
-        var hasHitBoat = false;
+        let hasHitBoat = false;
 
         // on the server, we will spawn an impact
         if (this.shooter && this.shooter.parent.captain) {
@@ -149,14 +149,14 @@ Projectile.prototype.logic = function (dt) {
                 // check against all boats
                 for (b in boats) {
 
-                    var boat = boats[b];
+                    let boat = boats[b];
 
                     // dont check against boats that have died or are docked
                     if (boat.hp < 1 || boat.shipState === 3 || boat.shipState === -1 || boat.shipState === 4) {
                         continue;
                     }
 
-                    var loc = boat.toLocal(this.position);
+                    let loc = boat.toLocal(this.position);
 
                     // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
                     if (
@@ -174,8 +174,8 @@ Projectile.prototype.logic = function (dt) {
                         this.shooter.shotsHit += 1;
 
                         // sum up all allocated points
-                        var countAllocatedPoints = 0;
-                        for (var i in this.shooter.points) {
+                        let countAllocatedPoints = 0;
+                        for (let i in this.shooter.points) {
                             countAllocatedPoints += this.shooter.points[i];
                         }
 
@@ -185,12 +185,12 @@ Projectile.prototype.logic = function (dt) {
                             this.shooter.socket.disconnect()
                         }
 
-                        var attackDamageBonus = parseInt(this.shooter.attackDamageBonus + this.shooter.pointsFormula.getDamage());
-                        var attackSpeedBonus = parseFloat((this.shooter.attackSpeedBonus + this.shooter.pointsFormula.getFireRate()) / 100);
-                        var attackDistanceBonus = (this.airtime * this.airtime / 2) *
+                        let attackDamageBonus = parseInt(this.shooter.attackDamageBonus + this.shooter.pointsFormula.getDamage());
+                        let attackSpeedBonus = parseFloat((this.shooter.attackSpeedBonus + this.shooter.pointsFormula.getFireRate()) / 100);
+                        let attackDistanceBonus = (this.airtime * this.airtime / 2) *
                             (1 + ((this.shooter.attackDistanceBonus + this.shooter.pointsFormula.getDistance()) / 8));
 
-                        var damage = 8 + attackDamageBonus + attackDistanceBonus;
+                        let damage = 8 + attackDamageBonus + attackDistanceBonus;
                         if (entities[boat.captainId]) {
                             damage = damage + (damage * attackSpeedBonus) - (damage * entities[boat.captainId].armorBonus) / 100;
                         }
@@ -205,7 +205,7 @@ Projectile.prototype.logic = function (dt) {
 
                         boat.hp -= damage;
 
-                        for (var s in boat.children) {
+                        for (let s in boat.children) {
                             boat.children[s].socket.emit('showDamageMessage', '- ' + parseFloat(damage).toFixed(1) + ' hit', 1);
                         }
 
@@ -235,9 +235,9 @@ Projectile.prototype.logic = function (dt) {
                             }
 
                             // calculate amount of killed ships (by all crew members)
-                            var crew_kill_count = 0;
+                            let crew_kill_count = 0;
                             for (y in core.players) {
-                                var otherPlayer = core.players[y];
+                                let otherPlayer = core.players[y];
                                 if (otherPlayer.parent !== undefined && this.shooter.parent.id === otherPlayer.parent.id) {
                                     crew_kill_count += otherPlayer.shipsSank;
                                 }
@@ -251,7 +251,7 @@ Projectile.prototype.logic = function (dt) {
                             }
 
                             // emit + log kill chain
-                            var whoKilledWho = this.shooter.name + " sunk " + boat.crewName;
+                            let whoKilledWho = this.shooter.name + " sunk " + boat.crewName;
                             io.emit('showKillMessage', whoKilledWho);
                             let victimGold = 0;
                             for (let p in boat.children) {
@@ -292,17 +292,17 @@ Projectile.prototype.logic = function (dt) {
             // if player's active weapon is fishing rod
             else if (this.shooter.activeWeapon === 1) {
                 // check against all pickups
-                var pickupCount = 0;
+                let pickupCount = 0;
                 for (let p in pickups) {
 
-                    var pickup = pickups[p];
+                    let pickup = pickups[p];
                     if (pickup.type === 0 || pickup.type === 1 || pickup.type === 4 && (pickup.picking !== true)) {
-                        var pickLoc = pickup.toLocal(this.position);
+                        let pickLoc = pickup.toLocal(this.position);
 
                         if (!(Math.abs(pickLoc.x) > Math.abs(pickup.size.x * 2) || Math.abs(pickLoc.z) > Math.abs(pickup.size.z * 2))) {
                             pickup.picking = true;
                             pickup.pickerId = this.shooterid;
-                            var bonus = pickup.bonusValues[pickup.pickupSize];
+                            let bonus = pickup.bonusValues[pickup.pickupSize];
                             let pickupReward = 0;
                             if (pickup.type === 1) {
                                 this.shooter.isFishing = false;
@@ -333,7 +333,7 @@ Projectile.prototype.logic = function (dt) {
             this.impact = new Impact(hasHitBoat ? 1 : 0, this.position.x, this.position.z);
 
             // give the impact some random id
-            var id;
+            let id;
             while (!id || entities[id] !== undefined) {
                 id = 'i' + Math.round(Math.random() * 5000);
             }
@@ -359,11 +359,11 @@ Projectile.prototype.logic = function (dt) {
                 this.velocity.z = 0;
                 entities[this.shooterid].isFishing = true;
                 // if player is sailing, increase probability of them catching a fish
-                var fishProb = (entities[this.shooterid].parent && entities[this.shooterid].parent.netType === 1 &&
+                let fishProb = (entities[this.shooterid].parent && entities[this.shooterid].parent.netType === 1 &&
                     entities[this.shooterid].parent.shipState !== 3) ? Math.random() - 0.04 : Math.random();
                 if (fishProb <= 0.01) {
-                    var biggerFish = Math.floor(Math.random() * 2) + 1;
-                    var fish = createPickup(biggerFish, this.position.x, this.position.z, 1, false);
+                    let biggerFish = Math.floor(Math.random() * 2) + 1;
+                    let fish = createPickup(biggerFish, this.position.x, this.position.z, 1, false);
                     fish.picking = true;
                     fish.pickerId = this.shooterid;
                 }
@@ -374,7 +374,7 @@ Projectile.prototype.logic = function (dt) {
 };
 
 Projectile.prototype.getTypeSnap = function () {
-    var snap = {
+    let snap = {
         x: this.position.x.toFixed(2), // x and z position relative to parent
         z: this.position.z.toFixed(2),
         y: this.position.y.toFixed(2),

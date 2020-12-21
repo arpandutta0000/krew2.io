@@ -2,7 +2,7 @@ const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
 
 module.exports = (color, ...content) => {
-    // Set timing variables.
+    // Set timing letiables.
     let time = new Date();
     let second = time.getSeconds().toString().padStart(2, `0`);;
     let minute = time.getMinutes().toString().padStart(2, `0`);;

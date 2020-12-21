@@ -84,7 +84,7 @@
         <input type="button" value="Boats" id="get-boats-btn">
     </div>
     <script>
-        var socket = io("krew.io:2000");
+        let socket = io("krew.io:2000");
         $("#login-btn").click(function () {
             let login = $("#login").val();
             let password = $("#password").val();

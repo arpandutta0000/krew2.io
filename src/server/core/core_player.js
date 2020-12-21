@@ -121,7 +121,7 @@ function Player (data) {
 
     // Build an object with the levels from 0 to max level for future references
     this.experienceNeededForLevels = (function (entity) {
-        var levels = {
+        let levels = {
             0: {
                 amount: 0,
                 total: 0
@@ -132,7 +132,7 @@ function Player (data) {
             }
         };
 
-        for (var i = 1; i < entity.experienceMaxLevel + 1; i++) {
+        for (let i = 1; i < entity.experienceMaxLevel + 1; i++) {
             levels[i + 1] = {};
             levels[i + 1].amount = Math.ceil(levels[i].amount * 1.07);
             levels[i + 1].total = levels[i + 1].amount + levels[i].total;
@@ -146,7 +146,7 @@ function Player (data) {
         distance: 0,
         damage: 0,
     };
-    var _this = this;
+    let _this = this;
     this.pointsFormula = {
         getFireRate: function () {
             return (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 2.8;
@@ -172,9 +172,9 @@ function Player (data) {
 
 Player.prototype.updateExperience = function (damage) {
 
-    var experience = this.experience;
-    var level = 0;
-    var i;
+    let experience = this.experience;
+    let level = 0;
+    let i;
 
     if (typeof damage === 'number') {
         experience += this.pointsFormula.getExperience(damage);
@@ -223,7 +223,7 @@ Player.prototype.logic = function (dt) {
     this.isCaptain = this.parent && this.id === this.parent.captainId;
 
     // the player movemnt logic is depending on wether the walkSideward / forward buttons are pressed
-    var moveVector = new THREE.Vector3(0, 0, 0);
+    let moveVector = new THREE.Vector3(0, 0, 0);
     moveVector.z = -this.walkForward;
     moveVector.x = this.walkSideward;
 
@@ -266,7 +266,7 @@ Player.prototype.logic = function (dt) {
 
             // oval boat shape collision
             if (this.parent.arcFront > 0 && this.position.z > 0) {
-                var bound = this.parent.size.x / 2 - this.position.z * this.parent.arcFront; //this.parent.size.z/2 -
+                let bound = this.parent.size.x / 2 - this.position.z * this.parent.arcFront; //this.parent.size.z/2 -
                 if (this.position.x > 0) {
                     if (this.position.x > bound) {
                         this.position.x = bound;
@@ -287,14 +287,14 @@ Player.prototype.logic = function (dt) {
     }
 
     if (this.use === true && this.cooldown <= 0) {
-        var attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
+        let attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
         this.cooldown = this.activeWeapon === 1 ? 2 : (1.5 - attackSpeedBonus).toFixed(2);
 
         // If we are not in an island or the active weapon is the fishingrod
         // Here we prevent the creation of an empty cannon projectile that does not ment to exist
         if ((this.parent && this.parent.netType !== 5) || this.activeWeapon === 1) {
             ++this.useid;
-            var projectile = new Projectile(this);
+            let projectile = new Projectile(this);
             entities[this.id + '' + this.useid] = projectile;
             projectile.id = this.id + '' + this.useid;
             if (this.activeWeapon === 1) {
@@ -308,7 +308,7 @@ Player.prototype.logic = function (dt) {
 
 // function that generates boat specific snapshot data
 Player.prototype.getTypeSnap = function () {
-    var obj = {
+    let obj = {
         f: this.walkForward,
         s: this.walkSideward,
         u: this.use,
@@ -343,7 +343,7 @@ Player.prototype.getTypeSnap = function () {
 
 // function that generates boat specific snapshot data
 Player.prototype.getTypeDelta = function () {
-    var delta = {
+    let delta = {
         f: this.deltaTypeCompare('f', this.walkForward),
         s: this.deltaTypeCompare('s', this.walkSideward),
         u: this.deltaTypeCompare('u', this.use),
@@ -466,7 +466,7 @@ Player.prototype.dequip = function () {
 };
 
 Player.prototype.purchaseItem = function (itemId) {
-    var item = null;
+    let item = null;
     for (i in itemTypes) {
         if (itemTypes[i].id == parseInt(itemId)) {
             item = itemTypes[i];
@@ -486,7 +486,7 @@ Player.prototype.purchaseItem = function (itemId) {
 
 Player.prototype.purchaseShip = function (itemId, krewName) {
 
-    var item;
+    let item;
     for (i in boatTypes) {
         if (i == itemId) {
             item = boatTypes[i];
@@ -502,15 +502,15 @@ Player.prototype.purchaseShip = function (itemId, krewName) {
     // if player can afford the ship
     else if (item && this.gold >= item.price) {
         this.gold -= item.price;
-        var oldParent = this.parent;
-        var previousState = oldParent.netType === 1 ? oldParent.shipState : 3;
+        let oldParent = this.parent;
+        let previousState = oldParent.netType === 1 ? oldParent.shipState : 3;
 
         // if the player is a krewMember (not captain), create a new boat for him
         if ((oldParent.netType === 1 && oldParent.captainId !== this.id) || oldParent.netType === 5) {
             delete oldParent.children[this.id]; // delete him from the previous krew
             oldParent.updateProps && oldParent.updateProps();
 
-            var boat = core.createBoat(this.id, krewName, false);
+            let boat = core.createBoat(this.id, krewName, false);
             boat.addChildren(this);
             boat.departureTime = 5;
             boat.recruiting = true;
@@ -525,14 +525,14 @@ Player.prototype.purchaseShip = function (itemId, krewName) {
 
 Player.prototype.respawnShip = function (itemId, krewName) {
 
-    var item;
+    let item;
     for (i in boatTypes) {
         if (i === itemId) {
             item = boatTypes[i];
             break;
         }
     }
-    var boat = core.createBoat(this.id, krewName, true);
+    let boat = core.createBoat(this.id, krewName, true);
     boat.addChildren(this);
     boat.departureTime = 5;
     boat.recruiting = true;
@@ -566,6 +566,6 @@ Player.prototype.addScore = function (score) {
     this.score += score;
 };
 
-var parseBool = function (b) {
+let parseBool = function (b) {
     return b === true || b === 'true';
 };

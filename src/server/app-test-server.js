@@ -1,20 +1,20 @@
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-var core = require('./core/core_concatenated.js');
+let core = require('./core/core_concatenated.js');
 global.TEST_ENV = process.env.NODE_ENV === 'test';
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
 process.env.port = 80;
 
-var server = require('./server.js');
+let server = require('./server.js');
 
 server.app.workers = {};
 
 require('./memwatch')();
 
-var socket = require('./socketForClients.js');
-var game = require('./game/game.js');
+let socket = require('./socketForClients.js');
+let game = require('./game/game.js');
 
 setInterval(function () {
     if (server.app.workers[process.pid] === undefined) {

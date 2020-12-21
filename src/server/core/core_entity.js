@@ -60,7 +60,7 @@ Entity.prototype.getSnap = function (force) {
         console.log(this); // Bots don't have a rotation so this fails
     }
 
-    var snap = {
+    let snap = {
         p: this.parent ? this.parent.id : undefined,
         n: this.netType, // netcode id is for entity type (e.g. 0 player)
         x: this.position.x.toFixed(2), // x and z position relative to parent
@@ -69,7 +69,7 @@ Entity.prototype.getSnap = function (force) {
         r: (this.rotation || 0).toFixed(2), // rotation
         t: this.getTypeSnap(), // type based snapshot data
     };
-    // pass name variable if we're first time creating this entity
+    // pass name letiable if we're first time creating this entity
     if (this.netType === 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
@@ -87,12 +87,12 @@ Entity.prototype.getDelta = function () {
 
     // send a full snapshot on the delta data, for creation?
     if (this.sendCreationSnapOnDelta) {
-        var result = this.getSnap(true);
+        let result = this.getSnap(true);
         this.sendCreationSnapOnDelta = false;
         return result;
     }
 
-    var delta = {
+    let delta = {
         p: this.deltaCompare('p', this.parent ? this.parent.id : undefined),
         n: this.deltaCompare('n', this.netType),
         x: this.deltaCompare('x', this.position.x.toFixed(2)),
@@ -174,7 +174,7 @@ Entity.prototype.deltaTypeCompare = function (old, fresh) {
 };
 
 Entity.prototype.worldPos = function () {
-    var pos = new THREE.Vector3();
+    let pos = new THREE.Vector3();
     pos.copy(this.position);
     if (this.parent !== undefined) {
         pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.parent.rotation);
@@ -186,7 +186,7 @@ Entity.prototype.worldPos = function () {
 
 // turns a world coordinate into our local coordinate space (subtract rotation, set relative)
 Entity.prototype.toLocal = function (coord) {
-    var pos = new THREE.Vector3();
+    let pos = new THREE.Vector3();
     pos.copy(coord);
     pos.sub(this.position);
     pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), -this.rotation);
@@ -197,14 +197,14 @@ Entity.prototype.onDestroy = function () {
 
     if (this.parent != undefined) {
 
-        var parent = this.parent;
+        let parent = this.parent;
         if (parent.children[this.id] != undefined) {
             delete parent.children[this.id];
         }
     }
 };
 
-var isEmpty = function (obj) {
+let isEmpty = function (obj) {
     // check if object is completely empty
     if (Object.keys(obj).length === 0 && obj.constructor === Object) {
         return true;

@@ -1,6 +1,6 @@
-var socket = require('../socketForClients.js');
-var amountChests = 0;
-var respawnChestsDate = undefined;
+let socket = require('../socketForClients.js');
+let amountChests = 0;
+let respawnChestsDate = undefined;
 
 let log = require(`../utils/log.js`);
 log(`green`, `Game is listening at port ${process.env.port}.`);
@@ -14,8 +14,8 @@ for (let i in core.config.landmarks) {
 // the main game loop.
 lastFrameTime = Date.now();
 setInterval(function () {
-    var thisFrame = Date.now();
-    var dt = (thisFrame - lastFrameTime) / 1000;
+    let thisFrame = Date.now();
+    let dt = (thisFrame - lastFrameTime) / 1000;
     lastFrameTime = thisFrame;
 
     core.iterateEntities(dt);
@@ -33,7 +33,7 @@ setInterval(function () {
 
     // Delete residing impacts, pickups, and projectiles
     for (e in core.entities) {
-        var entity = core.entities[e];
+        let entity = core.entities[e];
         if (entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
             if (entity.netType == 4 && entity.type != 1)
                 continue;
@@ -48,14 +48,14 @@ setInterval(function () {
 setInterval(function () {
 
     // push player scores to all players every second
-    var scores = {
+    let scores = {
         players: [],
         boats: [],
     };
-    var now = new Date();
+    let now = new Date();
 
     for (i in core.players) {
-        var player = core.players[i];
+        let player = core.players[i];
         scores.players.push({
             id: player.id,
             n: player.name,
@@ -89,7 +89,7 @@ setInterval(function () {
 
     // remove crewless boats and add the boat scores
     for (j in core.boats) {
-        var boat = core.boats[j];
+        let boat = core.boats[j];
 
         //boat.updateProps();
 
@@ -111,7 +111,7 @@ setInterval(function () {
 
                 // make all krew members close their shopping windows
                 for (i in boat.children) {
-                    var boatMember = boat.children[i];
+                    let boatMember = boat.children[i];
                     if (boatMember !== undefined && boatMember.netType === 0) {
                         boatMember.socket.emit('exitIsland', {
                             captainId: boat.captainId
@@ -218,7 +218,7 @@ setInterval(function () {
     }
 
     // fill up the world to the brink with supplies
-    var pickUpAmount = Object.keys(core.pickups).length;
+    let pickUpAmount = Object.keys(core.pickups).length;
     amountChests = 0;
     for (x in core.pickups) {
         if (core.pickups[x].type === 4) {
@@ -227,16 +227,16 @@ setInterval(function () {
     }
     if (pickUpAmount > maxAmountCratesInSea) {
         for (p in core.pickups) {
-            var pickup = core.pickups[p];
+            let pickup = core.pickups[p];
             core.removeEntity(pickup);
         }
     }
 
     while (pickUpAmount < minAmountCratesInSea) { //Constant amount of crates at sea
         ++pickUpAmount;
-        var size = 2;
+        let size = 2;
         //random crates size
-        //var roll = Math.random();
+        //let roll = Math.random();
         //if (roll > 0.6) { size = 1; }
         //if (roll > 0.9) { size = 2; }
 
@@ -245,7 +245,7 @@ setInterval(function () {
 
     if (amountChests === 0) {
         if (respawnChestsDate < Date.now()) {
-            var size = 4;
+            let size = 4;
             core.createPickup(size, core.worldsize * Math.random(), core.worldsize * Math.random(), 4, false, (10000 + Math.random() * (60000 - 10000)));
             io.emit('showCenterMessage', 'The old pirate threw his treasure chest! Hurry to pick up the gold first!', 4, 5000);
             respawnChestsDate = undefined;

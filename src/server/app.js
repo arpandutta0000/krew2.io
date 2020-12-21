@@ -4,7 +4,7 @@ const config = require(`./config/config.js`);
 const bus = require(`./utils/messageBus.js`);
 const cluster = require('cluster');
 const numCPUs = 3;
-var core = require('./core/core_concatenated.js');
+let core = require('./core/core_concatenated.js');
 global.TEST_ENV = process.env.NODE_ENV === 'test';
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
@@ -12,14 +12,14 @@ global.core = core;
 
 if (cluster.isMaster) { // master cluster! runs the website
     // start server
-    var server = require('./server.js');
+    let server = require('./server.js');
 
     server.app.workers = {};
 
     // This will create just one server for better testing and monitoring
     if (DEV_ENV) {
         process.env.port = config.gamePorts[0];
-        var worker = cluster.fork();
+        let worker = cluster.fork();
         worker.on('message', (msg) => {
             if (msg.type === 'update-server') {
                 const {
@@ -34,11 +34,11 @@ if (cluster.isMaster) { // master cluster! runs the website
     }
 
     // fork worker processors based on the number of cores the CPU has
-    for (var i = 0; i < numCPUs; i++) {
+    for (let i = 0; i < numCPUs; i++) {
 
         process.env.port = config.gamePorts[i];
 
-        var worker = cluster.fork();
+        let worker = cluster.fork();
         worker.on('message', (msg) => {
             if (msg.type === 'update-server') {
                 const {
@@ -53,13 +53,13 @@ if (cluster.isMaster) { // master cluster! runs the website
     // let MemwatchFactoryFunction = require('./memwatch');
 
     // start socket
-    var bot = require(`./bot.js`);
-    var socket = require('./socketForClients.js');
+    let bot = require(`./bot.js`);
+    let socket = require('./socketForClients.js');
 
     // start game logic
-    var game = require('./game/game.js');
-    var Rollbar = require('rollbar');
-    var rollbar = new Rollbar('fa0cd86c64f446c4bac992595be24831');
+    let game = require('./game/game.js');
+    let Rollbar = require('rollbar');
+    let rollbar = new Rollbar('fa0cd86c64f446c4bac992595be24831');
 
     // MemwatchFactoryFunction(rollbar);
 
@@ -71,7 +71,7 @@ if (cluster.isMaster) { // master cluster! runs the website
     });
 
     try {
-        var everySecond = setInterval(function () {
+        let everySecond = setInterval(function () {
             try {
                 // this.socket.emit(msgType, data);
                 process.send({

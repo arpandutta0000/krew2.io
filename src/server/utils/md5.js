@@ -4,21 +4,21 @@ let md5 = d => {
     return result.toLowerCase();
 };
 let M = d => {
-    for (var _, m = "0123456789ABCDEF", f = "", r = 0; r < d.length; r++) _ = d.charCodeAt(r), f += m.charAt(_ >>> 4 & 15) + m.charAt(15 & _);
+    for (let _, m = "0123456789ABCDEF", f = "", r = 0; r < d.length; r++) _ = d.charCodeAt(r), f += m.charAt(_ >>> 4 & 15) + m.charAt(15 & _);
     return f;
 }
 let X = d => {
-    for (var _ = Array(d.length >> 2), m = 0; m < _.length; m++) _[m] = 0;
+    for (let _ = Array(d.length >> 2), m = 0; m < _.length; m++) _[m] = 0;
     for (m = 0; m < 8 * d.length; m += 8) _[m >> 5] |= (255 & d.charCodeAt(m / 8)) << m % 32;
     return _;
 }
 let V = d => {
-    for (var _ = "", m = 0; m < 32 * d.length; m += 8) _ += String.fromCharCode(d[m >> 5] >>> m % 32 & 255);
+    for (let _ = "", m = 0; m < 32 * d.length; m += 8) _ += String.fromCharCode(d[m >> 5] >>> m % 32 & 255);
     return _;
 }
 let Y = (d, _) => {
     d[_ >> 5] |= 128 << _ % 32, d[14 + (_ + 64 >>> 9 << 4)] = _;
-    for (var m = 1732584193, f = -271733879, r = -1732584194, i = 271733878, n = 0; n < d.length; n += 16) {
+    for (let m = 1732584193, f = -271733879, r = -1732584194, i = 271733878, n = 0; n < d.length; n += 16) {
         let h = m,
             t = f,
             g = r,
@@ -43,7 +43,7 @@ let md5_ii = (d, _, m, f, r, i, n) => {
     return md5_cmn(m ^ (_ | ~f), d, _, r, i, n);
 }
 let safe_add = (d, _) => {
-    var m = (65535 & d) + (65535 & _);
+    let m = (65535 & d) + (65535 & _);
     return (d >> 16) + (_ >> 16) + (m >> 16) << 16 | 65535 & m;
 }
 let bit_rol = (d, _) => {

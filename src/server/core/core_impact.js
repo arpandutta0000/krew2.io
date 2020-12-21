@@ -41,7 +41,7 @@ Impact.prototype.logic = function (dt) {
 };
 
 Impact.prototype.getTypeSnap = function () {
-    var snap = {
+    let snap = {
         a: this.impactType,
     };
     return snap;

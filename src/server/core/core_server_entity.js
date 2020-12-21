@@ -1,12 +1,12 @@
 global.entities = entities;
-var compressor = require('../compressor/compressor.js');
+let compressor = require('../compressor/compressor.js');
 
-var createPlayer = function (data) {
+let createPlayer = function (data) {
     data = data || {};
     data.startingItems = Object.assign({}, Config.startingItems);
     data.disableSnapAndDelta = true;
 
-    var player = new Player(data);
+    let player = new Player(data);
 
     // real player
     if (TEST_ENV) {
@@ -20,16 +20,16 @@ var createPlayer = function (data) {
         player.id = data.socketId;
     }
 
-    // add player to global array variables
+    // add player to global array letiables
     players[player.id] = player;
     entities[player.id] = player;
     return player;
 };
 
-var createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
+let createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
 
-    var x = Math.min(Math.max(0, x), worldsize);
-    var z = Math.min(Math.max(0, z), worldsize);
+    let x = Math.min(Math.max(0, x), worldsize);
+    let z = Math.min(Math.max(0, z), worldsize);
     // check if it is in island position
     if (!collisionIsland) {
         for (l in entities) {
@@ -43,12 +43,12 @@ var createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
     }
 
     //core.createPickup
-    var id;
+    let id;
     while (!id || entities[id] !== undefined) {
         id = randomid();
     }
 
-    var p = new Pickup(size, x, z, type, specialBonus);
+    let p = new Pickup(size, x, z, type, specialBonus);
     p.id = id;
 
     pickups[id] = p;
@@ -57,15 +57,15 @@ var createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
     return p;
 };
 
-var createBoat = function (captainId, krewName, spawnBool) {
-    var id;
+let createBoat = function (captainId, krewName, spawnBool) {
+    let id;
     while (!id || entities[id] !== undefined) {
         id = randomid();
     }
 
     let err = new Error();
 
-    var b = new Boat(captainId, krewName, spawnBool);
+    let b = new Boat(captainId, krewName, spawnBool);
     b.id = id;
 
     boats[id] = b;
@@ -73,33 +73,33 @@ var createBoat = function (captainId, krewName, spawnBool) {
     return b;
 };
 
-var createLandmark = function (type, x, z, name) {
-    var id;
+let createLandmark = function (type, x, z, name) {
+    let id;
     while (!id || entities[id] !== undefined) {
         id = randomid();
     }
 
-    var l = new Landmark(type, x, z, name);
+    let l = new Landmark(type, x, z, name);
     l.id = id;
     Landmarks[id] = l;
     entities[id] = l;
     return l;
 };
 
-var createBot = function () {
-    var id;
+let createBot = function () {
+    let id;
     while (!id || entities[id] !== undefined) {
         id = randomid();
     }
 
-    var b = new Bot();
+    let b = new Bot();
     b.id = id;
     bots[id] = b;
     entities[id] = b;
     return b;
 };
 
-var removeEntity = function (entity) {
+let removeEntity = function (entity) {
 
     // remove it from entities object
     if (entity && entities.hasOwnProperty(entity.id)) {
@@ -107,12 +107,12 @@ var removeEntity = function (entity) {
         compressor.events[entity.id] = {
             del: true
         };
-        var id = entity.id;
+        let id = entity.id;
         delete entities[id];
     }
 
 };
 
-var randomid = function () {
+let randomid = function () {
     return Math.random().toString(36).substring(6, 10);
 };

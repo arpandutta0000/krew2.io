@@ -23,7 +23,7 @@ function Pickup (size, x, z, type, specialBonus) {
     this.spawnPacket = false;
 
     // // size of a Pickup
-    var scale = 1;
+    let scale = 1;
     if (type === 0) {
         scale = parseInt(size) + 1;
     }
@@ -66,10 +66,10 @@ Pickup.prototype.randomMovementLogic = function () {
     this.randomMovementLogicTime = this.randomMovementLogicTime || Date.now();
     this.randomMovementTime = this.randomMovementTime || this.randomTime(5, 10);
     if (Date.now() - this.randomMovementLogicTime > this.randomMovementTime) {
-        var move = Math.round(Math.random());
+        let move = Math.round(Math.random());
         if (move) {
-            var landmark = false;
-            for (var landmarkId in core.Landmarks) {
+            let landmark = false;
+            for (let landmarkId in core.Landmarks) {
                 if (
                     core.Landmarks[landmarkId].pickups !== undefined &&
                     core.Landmarks[landmarkId].pickups[this.id] !== undefined
@@ -80,13 +80,13 @@ Pickup.prototype.randomMovementLogic = function () {
             }
 
             if (landmark !== false) {
-                var pickupPosition = {
+                let pickupPosition = {
                     x: 0,
                     z: 0,
                 };
 
-                var distanceFromCenter = 0;
-                var distanceFromPickup = 0;
+                let distanceFromCenter = 0;
+                let distanceFromPickup = 0;
                 while (
                     distanceFromPickup < 2 ||
                     distanceFromCenter > landmark.dockRadius - 30 ||
@@ -154,14 +154,14 @@ Pickup.prototype.logic = function (dt) {
         // check for all boats that's within pickup distance of pickups
         for (b in boats) {
 
-            var boat = boats[b];
+            let boat = boats[b];
 
             // dont check against boats that have died
             if (boat.hp < 1) {
                 continue;
             }
 
-            var loc = boat.toLocal(this.position);
+            let loc = boat.toLocal(this.position);
 
             // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
             if (!isNaN(loc.x) && !(Math.abs(loc.x) > Math.abs(boat.size.x * 0.6 + 3) ||
@@ -171,28 +171,28 @@ Pickup.prototype.logic = function (dt) {
                 //     boat.supply < boatTypes[boat.shipclassId].cargoSize ||
                 //     boat.hp < boatTypes[boat.shipclassId].hp
                 // ) {
-                var bonus = this.bonusValues[this.pickupSize];
+                let bonus = this.bonusValues[this.pickupSize];
 
                 // boat.supply = Math.min(boatTypes[boat.shipclassId].cargoSize, boat.supply + bonus);
-                var totalScore = 0;
+                let totalScore = 0;
                 for (id in boat.children) {
-                    var player = boat.children[id];
+                    let player = boat.children[id];
                     totalScore += player.score;
                 }
 
                 // console.log("totalscore", totalScore)
                 // distribute gold accordingly to each players' score
-                var captainsCut = bonus;
+                let captainsCut = bonus;
                 for (id in boat.children) {
-                    var player = boat.children[id];
+                    let player = boat.children[id];
                     if (player != boat.captain) {
-                        var playersCut = (player.score / totalScore) * (1 - this.captainsCutRatio) * bonus;
+                        let playersCut = (player.score / totalScore) * (1 - this.captainsCutRatio) * bonus;
                         player.gold += playersCut;
                         captainsCut -= playersCut;
                     }
                 }
 
-                var captain = boat.children[boat.captainId];
+                let captain = boat.children[boat.captainId];
 
                 if (captain) {
                     captain.gold += captainsCut;
@@ -210,11 +210,11 @@ Pickup.prototype.logic = function (dt) {
     }
 
     if (this.type === 2 || this.type === 3) {
-        for (var playerId in entities) {
+        for (let playerId in entities) {
             if (entities[playerId].netType === 0) {
-                var player = entities[playerId];
-                var playerPosition = player.worldPos();
-                var distanceFromPlayer = Math.sqrt(
+                let player = entities[playerId];
+                let playerPosition = player.worldPos();
+                let distanceFromPlayer = Math.sqrt(
                     (this.position.x - playerPosition.x) *
                     (this.position.x - playerPosition.x) +
                     (this.position.z - playerPosition.z) *
@@ -239,7 +239,7 @@ Pickup.prototype.logic = function (dt) {
 };
 
 Pickup.prototype.getTypeSnap = function () {
-    var snap = {
+    let snap = {
         s: this.pickupSize,
         p: this.picking,
         i: this.pickerId,
@@ -259,7 +259,7 @@ Pickup.prototype.getTypeDelta = function () {
 
         return undefined;
     } else {
-        var delta = {
+        let delta = {
             s: this.deltaTypeCompare('s', this.pickupSize),
             p: this.deltaTypeCompare('p', this.picking),
             i: this.deltaTypeCompare('i', this.pickerId),

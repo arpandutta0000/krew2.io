@@ -37,7 +37,7 @@ function Landmark (type, x, z, config) {
 }
 
 Landmark.prototype.getTypeSnap = function () {
-    var snap = {
+    let snap = {
         t: this.landmarkType,
         name: this.name,
         dockRadius: this.dockRadius,
@@ -55,7 +55,7 @@ Landmark.prototype.parseTypeSnap = function (snap) {
 Landmark.prototype.logic = function (dt) {
 
     for (c in this.children) {
-        var child = this.children[c];
+        let child = this.children[c];
         if (child.netType !== 0)
             continue;
         else {
@@ -74,7 +74,7 @@ Landmark.prototype.logic = function (dt) {
         // check against all boats
         for (b in boats) {
 
-            var boat = boats[b];
+            let boat = boats[b];
 
             // dont check against boats that have died
             if (boat.hp < 1 || boat.shipState == 3) {
@@ -93,7 +93,7 @@ Landmark.prototype.logic = function (dt) {
                     boat.recruiting = boat.isLocked !== true;
                     boat.lastMoved = new Date();
                     for (let c in boat.children) {
-                        var child = boat.children[c];
+                        let child = boat.children[c];
                         if (child && child.netType === 0) {
                             if (child.socket && child.id !== boat.captainId) {
                                 child.socket.emit('showIslandMenu');

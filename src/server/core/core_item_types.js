@@ -2,7 +2,7 @@
 // items to be available at specific islands
 // Rarity maybe?
 
-var itemTypes = [
+let itemTypes = [
     // {
     //     id: 0,
     //     name: "Cannon",
