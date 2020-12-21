@@ -28,8 +28,9 @@ let createPlayer = function (data) {
 
 let createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
 
-    let x = Math.min(Math.max(0, x), worldsize);
-    let z = Math.min(Math.max(0, z), worldsize);
+    x = Math.min(Math.max(0, x), worldsize);
+    z = Math.min(Math.max(0, z), worldsize);
+
     // check if it is in island position
     if (!collisionIsland) {
         for (l in entities) {
