@@ -7,7 +7,7 @@ const log = require(`../utils/log.js`);
 log(`green`, `Game is listening at port ${process.env.port}.`);
 
 // Create islands.
-for(landmark of core.config.landmarks) core.createLandmark(landmark.type, landmark.x, landmark.y, landmark);
+for (landmark of core.config.landmarks) core.createLandmark(landmark.type, landmark.x, landmark.y, landmark);
 
 // Create the main game loop.
 lastFrameTime = Date.now();
@@ -26,7 +26,8 @@ setInterval(() => {
     // Delete residing impacts, pickups, and projectiles every 15 minutes.
     for (entity of core.entities) {
         if (entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
-            if (entity.netType == 4 && entity.type != 1) core.removeEntity(entity);
+            if (entity.netType == 4 && entity.type != 1) continue;
+            core.removeEntity(entity);
         }
     }
 }, 9e5);
@@ -47,12 +48,12 @@ setInterval(() => {
             s: parseFloat(player.score).toFixed(0),
             pI: player.parent ? player.parent.id : undefined,
             g: parseFloat(player.gold).toFixed(0),
-            cU: player.cargoused,
+            cU: player.cargoUsed,
             sS: player.shipsSank,
             ok: player.parent ? player.parent.overall_kills : undefined,
             oc: player.parent ? player.parent.overall_cargo : undefined,
             oql: player.parent ? player.parent.other_quest_level : undefined,
-            d: (!player.deaths ? 0 : player.deaths),
+            d: (player.deaths === undefined ? 0 : player.deaths),
             l: player.level,
             c: player.clan,
             cL: player.clanLeader,
@@ -71,11 +72,13 @@ setInterval(() => {
     }
 
     // Remove crewless boats and add the boat scores.
-    for (let i in core.boats) {
-        let boat = core.boats[i];
+    for (boat of core.boats) {
         // Remove any bots / ghost ships (ships without krew).
         if (boat.krewCount < 1) return core.removeEntity(boat);
+
+        // Prevent recruiting if boat has been anchored for long time.
         if ((now - boat.lastMoved) > 6e5) boat.recruiting = false;
+
         if (boat.shipState == 4 & boat.departureTime > 0 && (now - boat.lastMoved) > 1e3) {
             boat.departureTime--;
             boat.lastMoved = new Date();
@@ -84,9 +87,8 @@ setInterval(() => {
                 boat.exitIsland();
 
                 // Make all krew members close their shopping windows.
-                for (let i in boat.children) {
-                    let boatMember = boat.children[i];
-                    if (boatMember != undefined && boatMember.netType == 0) {
+                for (boatMember of boat.children) {
+                    if (boatMember && boatMember.netType == 0) {
                         boatMember.socket.emit(`exitIsland`, {
                             captainId: boat.captainId
                         });
@@ -107,12 +109,12 @@ setInterval(() => {
                 s: 0,
                 g: 0,
                 cI: boat.captainId,
-                ok: boat.overallKills,
-                oc: boat.overallCargo,
-                oql: boat.otherQuestLevel
+                ok: boat.overall_kills,
+                oc: boat.overall_cargo,
+                oql: boat.other_quest_level
             }
-            for (let i in boat.children) {
-                let player = boat.children[i];
+
+            for (player of boat.children) {
                 let playerObj = {
                     id: player.id,
                     name: player.name,
@@ -122,19 +124,20 @@ setInterval(() => {
                     gold: parseFloat(boat.gold).toFixed(0),
                     cargoused: boat.cargoUsed
                 }
-                if (boatScoreObj.players.length > 0) scores.boats.push(boatScoreObj);
+
+                boatScoreObj.s += parseInt(playerObj.score);
+                boatScoreObj.g += parseInt(playerObj.gold);
+                boatScoreObj.players.push(playerObj);
             }
+
+            if (boatScoreObj.players.length > 0) scores.boats.push(boatScoreObj);
         }
     }
 
-    for (let i in core.Landmarks) {
-        let landmark = core.Landmarks[i];
-
-        if (landmark.pickups == undefined) landmark.pickups = {}
-        for (let i in landmark.pickups) {
-            let pickup = landmark.pickups[i];
-            if (pickup == undefined) delete pickup;
-        }
+    for (landmark of core.Landmarks) {
+        if (!landmark.pickups) landmark.pickups = {}
+        for (pickup of landmark.pickups)
+            if (!pickup) delete pickup;
 
         while (Object.keys(landmark.pickups).length < 20) {
             let roll = Math.random();
