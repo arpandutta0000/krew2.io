@@ -24,10 +24,10 @@ let isSpamming = (playerEntity, message) => {
         let totalTimeElapsed = 0;
         let charCount = 0;
 
-        playerEntity.sentMessages.forEach(message => {
+        for (const message of playerEntity.sentMessages) {
             totalTimeElapsed += now - message.time;
             charCount += Math.max(message.length, 20);
-        });
+        }
 
         if (charCount > 80 && totalTimeElapsed < 6e3) {
             log(`cyan`, `Spam detected for player ${playerEntity.name} sending ${charCount} characters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);

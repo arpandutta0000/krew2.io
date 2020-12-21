@@ -329,7 +329,9 @@ io.on(`connection`, async socket => {
                         let amt = args[0];
 
                         if (!amt || isNaN(parseInt(amt))) return;
-                        core.players.forEach(player => player.gold += parseInt(amt));
+                        for (const player of core.players) {
+                            player.gold += parseInt(amt)
+                        }
 
                         log(`blue`, `ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return io.emit(`showAdminMessage`, `You have been recompensed for the server restart!`);
@@ -792,8 +794,12 @@ io.on(`connection`, async socket => {
                     let clanRequests = [];
 
                     // Only push members to the members list (to prevent duplicates).
-                    clanMemberDocs.forEach(document => !clan.leader.includes(document.name) && !clan.owners.includes(document.name) && !clan.assistants.includes(document.name) ? clanMembers.push(document.name) : null);
-                    clanRequestDocs.forEach(document => clanRequests.push(document.name));
+                    for (const document of clanMemberDocs) {
+                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name) && !clan.assistants.includes(document.name)) clanMembers.push(document.name)
+                    }
+                    for (const document of clanRequestDocs) {
+                        clanRequests.push(document.name)
+                    }
 
                     let clanData = {
                         name: clan.name,
@@ -1463,7 +1469,9 @@ io.on(`connection`, async socket => {
 
                         // Get the sum of all bank accounts from MongoDB.
                         let users = await User.find({}).filter(bankDeposit > 5e4);
-                        users.forEach(document => bankData.totalGold += document.bankDeposit - 5e4);
+                        for (const document of users) {
+                            bankData.totalGold += document.bankDeposit - 5e4
+                        }
                         socket.emit(`setBankData`, bankData);
                     }
 

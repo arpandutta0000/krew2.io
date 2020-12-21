@@ -42,10 +42,13 @@ module.exports = (color, ...content) => {
     }
 
     let logContent = ``;
-    content.forEach(arg => {
-        if (typeof arg == `object`) logContent += JSON.stringify(arg);
-        else logContent += arg.toString();
-    });
+    for (const arg of content) {
+        if (typeof arg == `object`) {
+            logContent += JSON.stringify(arg);
+        } else {
+            logContent += arg.toString();
+        }
+    }
 
     // If no color specified, throw an error.
     if (!logColor) throw `Did not specify a valid color`;

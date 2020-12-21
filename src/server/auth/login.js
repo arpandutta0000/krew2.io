@@ -11,7 +11,9 @@ let spawnNewPlayerOnSea = (boat, playerEntity) => {
 
 let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
     let islandNames = [];
-    Object.values(core.Landmarks).forEach(landmark => islandNames.push(landmark.name.toString().toLowerCase()));
+    for (landmark of Object.values(core.Landmarks)) {
+        islandNames.push(landmark.name.toString().toLowerCase())
+    }
 
     let boat = core.boats[boatId];
 
