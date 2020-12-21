@@ -24,8 +24,7 @@ setInterval(() => {
 
 setInterval(() => {
     // Delete residing impacts, pickups, and projectiles every 15 minutes.
-    for (let i in core.entities) {
-        let entity = core.entities[i];
+    for (entity of core.entities) {
         if (entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
             if (entity.netType == 4 && entity.type != 1) continue;
             core.removeEntity(entity);
@@ -42,8 +41,7 @@ setInterval(() => {
     }
     let now = new Date();
 
-    for (let i in core.players) {
-        let player = core.players[i];
+    for (player of core.players) {
         scores.players.push({
             id: player.id,
             n: player.name,
@@ -62,7 +60,6 @@ setInterval(() => {
             cO: player.clanOwner,
             cR: player.clanRequest
         });
-        console.log(`pushed player`);
 
         // If the player has been afk for more than 30 minutes.
         if ((now - player.lastMoved) > 18e5 && !Admins.includes(player.name) && !Mods.includes(player.name) && Devs.includes(player.name)) {
@@ -75,9 +72,7 @@ setInterval(() => {
     }
 
     // Remove crewless boats and add the boat scores.
-    for (let i in core.boats) {
-        let boat = core.boats[i];
-
+    for (boat of core.boats) {
         // Remove any bots / ghost ships (ships without krew).
         if (boat.krewCount < 1) return core.removeEntity(boat);
 
@@ -92,9 +87,7 @@ setInterval(() => {
                 boat.exitIsland();
 
                 // Make all krew members close their shopping windows.
-                for (let i in boat.children) {
-                    let boatMember = boat.children[i];
-
+                for (boatMember of boat.children) {
                     if (boatMember && boatMember.netType == 0) {
                         boatMember.socket.emit(`exitIsland`, {
                             captainId: boat.captainId
@@ -121,8 +114,7 @@ setInterval(() => {
                 oql: boat.other_quest_level
             }
 
-            for (let i in boat.children) {
-                let player = boat.children[i];
+            for (player of boat.children) {
                 let playerObj = {
                     id: player.id,
                     name: player.name,
@@ -142,13 +134,10 @@ setInterval(() => {
         }
     }
 
-    for (let i in core.Landmarks) {
-        let landmark = core.Landmarks[i];
+    for (landmark of core.Landmarks) {
         if (!landmark.pickups) landmark.pickups = {}
-        for (let i in landmark.pickups) {
-            let pickup = core.pickups[i];
+        for (pickup of landmark.pickups)
             if (!pickup) delete pickup;
-        }
 
         while (Object.keys(landmark.pickups).length < 20) {
             let roll = Math.random();
@@ -201,6 +190,4 @@ setInterval(() => {
     // Compress the snapshot.
     scores = lzString.compress(JSON.stringify(scores));
     socket.io.emit(`scores`, scores);
-
-    console.log(scores);
 }, 1e3);
