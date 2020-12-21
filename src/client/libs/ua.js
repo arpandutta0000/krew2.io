@@ -18,13 +18,13 @@
 
     var userAgent = (window.navigator && navigator.userAgent) || '';
 
-    function detect(pattern) {
+    function detect (pattern) {
         return function () {
             return (pattern).test(userAgent);
         };
     }
 
-    var UA =  {
+    var UA = {
         /**
          * Return true if the browser is Chrome or compatible.
          *

@@ -9,12 +9,12 @@
             4: 64,
             5: 128
         },
-         /**
-          * Find the nearest pow of two
-          * @param  {Number} number Number to be scaled to the nearest pow of two
-          * @return {Number}        The nearest pow of two relative to the passed number
-          */
-         nextPowOfTwo = function nextPowOfTwo(number) {
+        /**
+         * Find the nearest pow of two
+         * @param  {Number} number Number to be scaled to the nearest pow of two
+         * @return {Number}        The nearest pow of two relative to the passed number
+         */
+        nextPowOfTwo = function nextPowOfTwo (number) {
             var i = 0;
             if (number < 2) {
                 return 1;
@@ -28,67 +28,67 @@
         };
 
     /**
-      * Text Mesh Factory function
-      * This will create a text mesh available to be added to the scene or to another object
-      * @param       {String} text       The initial text of the mesh
-      * @param       {Object} options    The initial options
-      * @return      {Object} mesh       The created mesh
-      */
+     * Text Mesh Factory function
+     * This will create a text mesh available to be added to the scene or to another object
+     * @param       {String} text       The initial text of the mesh
+     * @param       {Object} options    The initial options
+     * @return      {Object} mesh       The created mesh
+     */
     window.TextMesh = function (text, options) {
         // Default options
         var o = Object.assign({
-            quality: 3, // Quality of the text
-            limit: 20, // Character limit
-            fontName: "Arial", // Font name
-            fontStyle: "Normal", // Font Style
-            size: 1, // Text Size
-            fillStyle: "rgba(255,255,255,1)", // Fill style
-            text: text, // Current text
-            lookAt: undefined, // Object to lookAt, must have the quaternion property
-            follow: undefined // Objecto to follow, must have the position property
-        }, options),
-         // canvas element
-         canvas = document.createElement('canvas'),
-         // context
-         context = canvas.getContext('2d'),
-         // Texture placeholder
-         texture = undefined,
-         // Material placeholder
-         material = undefined,
-         // Geometry placeholder
-         geometry = undefined,
-         // Mesh placeholder
-         mesh = undefined,
-         /**
-          * Animate function to be called on every frame
-          * @return {Void}
-          */
-         animate = function animate() {
-            requestAnimationFrame(animate);
-            // If lookAt, copy quaternion
-            // This is usefull to set the text to always look at the camera
-            if (
-             o.lookAt !== undefined &&
-             o.lookAt.quaternion !== undefined &&
-             mesh.quaternion !== undefined
-            ) {
-                mesh.quaternion.copy(o.lookAt.quaternion);
-            }
+                quality: 3, // Quality of the text
+                limit: 20, // Character limit
+                fontName: "Arial", // Font name
+                fontStyle: "Normal", // Font Style
+                size: 1, // Text Size
+                fillStyle: "rgba(255,255,255,1)", // Fill style
+                text: text, // Current text
+                lookAt: undefined, // Object to lookAt, must have the quaternion property
+                follow: undefined // Objecto to follow, must have the position property
+            }, options),
+            // canvas element
+            canvas = document.createElement('canvas'),
+            // context
+            context = canvas.getContext('2d'),
+            // Texture placeholder
+            texture = undefined,
+            // Material placeholder
+            material = undefined,
+            // Geometry placeholder
+            geometry = undefined,
+            // Mesh placeholder
+            mesh = undefined,
+            /**
+             * Animate function to be called on every frame
+             * @return {Void}
+             */
+            animate = function animate () {
+                requestAnimationFrame(animate);
+                // If lookAt, copy quaternion
+                // This is usefull to set the text to always look at the camera
+                if (
+                    o.lookAt !== undefined &&
+                    o.lookAt.quaternion !== undefined &&
+                    mesh.quaternion !== undefined
+                ) {
+                    mesh.quaternion.copy(o.lookAt.quaternion);
+                }
 
-            // If follow, copy the position of the object to follow plus
-            // the position modifiers passed relative to the object
-            if (
-             o.follow !== undefined &&
-             o.follow.object.position !== undefined &&
-             mesh.position !== undefined
-            ) {
-                mesh.position.set(
-                 o.follow.object.position.x + o.follow.x,
-                 o.follow.object.position.y + o.follow.y,
-                 o.follow.object.position.z + o.follow.z
-                );
-            }
-        };
+                // If follow, copy the position of the object to follow plus
+                // the position modifiers passed relative to the object
+                if (
+                    o.follow !== undefined &&
+                    o.follow.object.position !== undefined &&
+                    mesh.position !== undefined
+                ) {
+                    mesh.position.set(
+                        o.follow.object.position.x + o.follow.x,
+                        o.follow.object.position.y + o.follow.y,
+                        o.follow.object.position.z + o.follow.z
+                    );
+                }
+            };
 
         // Set the initial font and style to get the max width of the canvas
         context.font = o.fontStyle + " " + quality[o.quality] + "px " + o.fontName;
@@ -104,7 +104,10 @@
         texture = new THREE.Texture(canvas);
 
         // Create the material
-        material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+        material = new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.DoubleSide
+        });
         material.transparent = true;
 
         // Create the geometry
@@ -133,7 +136,9 @@
             delete newOptions.limit;
 
             // Assign the new options
-            Object.assign(o, newOptions, { text: text });
+            Object.assign(o, newOptions, {
+                text: text
+            });
 
             // Set again the font and style
             context.font = o.fontStyle + " " + quality[o.quality] + "px " + o.fontName;

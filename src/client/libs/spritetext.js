@@ -12,39 +12,39 @@ var textAlign = {
 
 const fontHeightCache = {};
 
-function getFontHeight(fontStyle) {
+function getFontHeight (fontStyle) {
     let result = fontHeightCache[fontStyle];
 
     if (!result) {
-    var body = document.getElementsByTagName('body')[0];
-           var dummy = document.createElement('div');
-           var dummyText = document.createTextNode('MÉq');
-          dummy.appendChild(dummyText);
-           dummy.setAttribute('style', "font:" + fontStyle + ";position:absolute;top:0;left:0");
-          body.appendChild(dummy);
-           result = dummy.offsetHeight;
-          fontHeightCache[fontStyle] = result;
-          body.removeChild(dummy);
+        var body = document.getElementsByTagName('body')[0];
+        var dummy = document.createElement('div');
+        var dummyText = document.createTextNode('MÉq');
+        dummy.appendChild(dummyText);
+        dummy.setAttribute('style', "font:" + fontStyle + ";position:absolute;top:0;left:0");
+        body.appendChild(dummy);
+        result = dummy.offsetHeight;
+        fontHeightCache[fontStyle] = result;
+        body.removeChild(dummy);
     }
 
     return result;
 }
 
 // -------------------------------- canvas text
-function CanvasText() {
+function CanvasText () {
     this.textWidth = null
     this.textHeight = null
     this.canvas = document.createElement('canvas')
     this.ctx = this.canvas.getContext('2d')
     return this;
 }
-CanvasText.prototype.width = function() {
+CanvasText.prototype.width = function () {
     return this.canvas.width;
 }
-CanvasText.prototype.height = function() {
+CanvasText.prototype.height = function () {
     return this.canvas.height;
 }
-CanvasText.prototype.drawText = function(text, ctxOptions) {
+CanvasText.prototype.drawText = function (text, ctxOptions) {
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.font = ctxOptions.font
@@ -79,8 +79,9 @@ CanvasText.prototype.drawText = function(text, ctxOptions) {
 // -------------------------------- SpriteText2d
 SpriteText2D.prototype = new THREE.Object3D();
 SpriteText2D.prototype.constructor = SpriteText2D;
-function SpriteText2D(text, options) {
-  THREE.Object3D.call(this);
+
+function SpriteText2D (text, options) {
+    THREE.Object3D.call(this);
     this._font = options.font || '30px Arial';
     this._fillStyle = options.fillStyle || '#FFFFFF';
     this._outlineSize = options.outlineSize || 0;
@@ -89,52 +90,52 @@ function SpriteText2D(text, options) {
 
     this.align = options.align || textAlign.center
 
-    this.antialias = typeof(options.antialias === "undefined") ? true : options.antialias
+    this.antialias = typeof (options.antialias === "undefined") ? true : options.antialias
     this.setText(text);
 }
 
-SpriteText2D.prototype.width = function() {
+SpriteText2D.prototype.width = function () {
     return this.canvas.textWidth
 }
 
-SpriteText2D.prototype.height = function() {
+SpriteText2D.prototype.height = function () {
     return this.canvas.textHeight
 }
 
-SpriteText2D.prototype.getText = function() {
+SpriteText2D.prototype.getText = function () {
     return this._text;
 }
 
-SpriteText2D.prototype.setText = function(value) {
+SpriteText2D.prototype.setText = function (value) {
     if (this._text !== value) {
         this._text = value;
         this.updateText();
     }
 }
 
-SpriteText2D.prototype.getFont = function() {
+SpriteText2D.prototype.getFont = function () {
     return this._font;
 }
 
-SpriteText2D.prototype.setFont = function(value) {
+SpriteText2D.prototype.setFont = function (value) {
     if (this._font !== value) {
         this._font = value;
         this.updateText();
     }
 }
 
-SpriteText2D.prototype.getFillStyle = function() {
+SpriteText2D.prototype.getFillStyle = function () {
     return this._fillStyle;
 }
 
-SpriteText2D.prototype.setFillStyle = function(value) {
+SpriteText2D.prototype.setFillStyle = function (value) {
     if (this._fillStyle !== value) {
         this._fillStyle = value;
         this.updateText();
     }
 }
 
-SpriteText2D.prototype.updateText = function() {
+SpriteText2D.prototype.updateText = function () {
     this.canvas.drawText(this._text, {
         font: this._font,
         fillStyle: this._fillStyle,
@@ -150,7 +151,9 @@ SpriteText2D.prototype.updateText = function() {
     this.applyAntiAlias()
 
     if (!this.material) {
-        this.material = new THREE.SpriteMaterial({ map: this.texture });
+        this.material = new THREE.SpriteMaterial({
+            map: this.texture
+        });
     } else {
         this.material.map = this.texture
     }
@@ -162,26 +165,24 @@ SpriteText2D.prototype.updateText = function() {
     this.sprite.scale.set(this.canvas.width(), this.canvas.height(), 1)
 }
 
-SpriteText2D.prototype.cleanUp = function() {
+SpriteText2D.prototype.cleanUp = function () {
     if (this.texture) {
         this.texture.dispose()
     }
 }
-SpriteText2D.prototype.finalCleanUp = function() {
+SpriteText2D.prototype.finalCleanUp = function () {
     this.cleanUp()
-      if (this.material) {
-      this.material.dispose();
+    if (this.material) {
+        this.material.dispose();
     }
     if (this.sprite) {
-      this.remove(this.sprite);
-      this.sprite = undefined;
+        this.remove(this.sprite);
+        this.sprite = undefined;
     }
 }
-SpriteText2D.prototype.applyAntiAlias = function() {
+SpriteText2D.prototype.applyAntiAlias = function () {
     if (this.antialias === false) {
         this.texture.magFilter = THREE.NearestFilter
         this.texture.minFilter = THREE.LinearMipMapLinearFilter
     }
 }
-
-

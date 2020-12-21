@@ -65,8 +65,8 @@
 
                 canvas.context.rotate(
                     canvas.useRadians ?
-                        canvas.world.rotation :
-                        Math.PI / 180 * canvas.world.rotation
+                    canvas.world.rotation :
+                    Math.PI / 180 * canvas.world.rotation
                 );
 
                 canvas.context.translate(-canvas.context.canvas.width / 2, -canvas.context.canvas.height / 2);
@@ -116,8 +116,8 @@
             if (obj.rotation && obj.rotation !== 0) {
                 result.rotation =
                     canvas.useRadians ?
-                        obj.rotation :
-                        Math.PI / 180 * obj.rotation;
+                    obj.rotation :
+                    Math.PI / 180 * obj.rotation;
             }
 
             delete result.draw;
@@ -128,8 +128,7 @@
         };
 
         canvas.point = function (options) {
-            var el = Object.assign(
-                {
+            var el = Object.assign({
                     id: undefined,
                     x: 0,
                     y: 0,
@@ -153,12 +152,12 @@
                     canvas.context.fillStyle = el.fill;
                     canvas.context.beginPath();
                     canvas.context.arc(
-                      worldPosition.x,
-                      worldPosition.y,
-                      worldPosition.r,
-                      0,
-                      Math.PI * 2,
-                      true
+                        worldPosition.x,
+                        worldPosition.y,
+                        worldPosition.r,
+                        0,
+                        Math.PI * 2,
+                        true
                     );
                     canvas.context.fill();
                 }
@@ -168,12 +167,12 @@
                     canvas.context.lineWidth = el.stroke.width * canvas.scale.width;
                     canvas.context.beginPath();
                     canvas.context.arc(
-                      worldPosition.x,
-                      worldPosition.y,
-                      worldPosition.r,
-                      0,
-                      Math.PI * 2,
-                      true
+                        worldPosition.x,
+                        worldPosition.y,
+                        worldPosition.r,
+                        0,
+                        Math.PI * 2,
+                        true
                     );
                     canvas.context.stroke();
                 }
@@ -183,8 +182,7 @@
         };
 
         canvas.rect = function (options) {
-            var el = Object.assign(
-                {
+            var el = Object.assign({
                     id: undefined,
                     x: 0,
                     y: 0,
@@ -222,8 +220,7 @@
         };
 
         canvas.triangle = function (options) {
-            var el = Object.assign(
-                {
+            var el = Object.assign({
                     id: undefined,
                     x: 0,
                     y: 0,
@@ -278,8 +275,7 @@
         };
 
         canvas.text = function (options) {
-            var el = Object.assign(
-                {
+            var el = Object.assign({
                     id: undefined,
                     x: 0,
                     y: 0,
