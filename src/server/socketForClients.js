@@ -104,7 +104,6 @@ const gameCookies = {};
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
-    console.log(`yes`)
     let krewioData;
     let christmasGold = 0;
 
@@ -279,7 +278,6 @@ io.on(`connection`, async socket => {
         for (const file of eventFiles) {
             const event = require(`./socket/${file}`);
             let eventName = file.split(`.`)[0];
-            log(`yellow`, `Loaded Socket Event: ${eventName}.`)
             socket.on(eventName, event.bind(socket, null));
         }
     }
@@ -320,7 +318,7 @@ module.exports.send = () => {
     if (msg) {
         // compress snapshot data with lz-string
         msg = lzString.compress(JSON.stringify(msg));
-        io.emit('s', msg);
+        io.emit(`s`, msg);
     }
 }
 

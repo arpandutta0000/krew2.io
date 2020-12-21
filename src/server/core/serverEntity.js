@@ -20,7 +20,7 @@ let createPlayer = function (data) {
         player.id = data.socketId;
     }
 
-    // add player to global array letiables
+    // add player to global array variables
     players[player.id] = player;
     entities[player.id] = player;
     return player;

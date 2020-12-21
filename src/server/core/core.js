@@ -12,7 +12,6 @@ let bots = {};
 let worldsize = 1700; // 1000 is default
 
 let iterateEntities = function (dt) {
-
     // tick each entity
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
