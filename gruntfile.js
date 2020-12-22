@@ -92,21 +92,6 @@ module.exports = (grunt => {
             preMinified: [`dist/script/dist.js`]
         },
 
-        // Wrap in anonymous function.
-        anonymous: {
-            dist: {
-                options: {
-                    params: [
-                        [`window`, `w`],
-                        [`document`, `d`]
-                    ]
-                },
-                files: {
-                    'dist/script/dist.anonym.js': `dist/script/dist.js`
-                }
-            }
-        },
-
         // Minify - ES5.
         uglify: {
             options: {
@@ -301,5 +286,4 @@ module.exports = (grunt => {
     grunt.loadNpmTasks(`grunt-contrib-watch`);
     grunt.loadNpmTasks(`grunt-nodemon`);
     grunt.loadNpmTasks(`grunt-concurrent`);
-    grunt.loadNpmTasks(`grunt-anonymous`);
 });
