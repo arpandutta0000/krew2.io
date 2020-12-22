@@ -21,7 +21,7 @@ let PlayerRestore = require(`../models/playerRestore.model.js`);
 let {
     checkPlayerStatus,
     christmasGold,
-    socketData,
+    data,
     filter,
     gameCookies,
     isNormalInteger,
@@ -34,5 +34,5 @@ let {
 
 /* Get Snapshot */
 module.exports = (u) => {
-    playerEntity.parseSnap(socketData);
+    playerEntity.parseSnap(data);
 }

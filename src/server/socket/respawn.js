@@ -21,7 +21,7 @@ let PlayerRestore = require(`../models/playerRestore.model.js`);
 let {
     checkPlayerStatus,
     christmasGold,
-    socketData,
+    data,
     filter,
     gameCookies,
     isNormalInteger,
@@ -62,7 +62,7 @@ module.exports = (callback) => {
         for (let i in playerEntity.goods) playerEntity.goods[i] = 0;
 
         // Respawn player on the sea (on raft 2).
-        login.allocatePlayerToBoat(playerEntity, socketData.boatId, `sea`);
+        login.allocatePlayerToBoat(playerEntity, data.boatId, `sea`);
         playerEntity.sentDockingMsg = false;
 
         // Set timestamp for next respawn.
