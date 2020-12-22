@@ -21,7 +21,7 @@ let PlayerRestore = require(`../models/playerRestore.model.js`);
 let {
     checkPlayerStatus,
     christmasGold,
-    data,
+    socketData,
     filter,
     gameCookies,
     isNormalInteger,

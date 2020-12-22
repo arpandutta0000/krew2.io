@@ -265,7 +265,7 @@ io.on(`connection`, async socket => {
         module.exports.socketEvents = {
             checkPlayerStatus,
             christmasGold,
-            data,
+            socketData: data,
             filter,
             gameCookies,
             isNormalInteger,
