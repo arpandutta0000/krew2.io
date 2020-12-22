@@ -13,7 +13,7 @@ module.exports = {
         `./src/client/libs/keypress.min.js`,
         `./src/client/libs/OBJLoader.js`,
         `./src/client/libs/TGALoader.js`,
-        `./src/client/libs/MTLLoader/js`,
+        `./src/client/libs/MTLLoader.js`,
         `./src/client/libs/socket.js`,
 
         `./src/client/script/environment.js`,
