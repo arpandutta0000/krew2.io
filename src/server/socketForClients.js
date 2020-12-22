@@ -82,7 +82,7 @@ log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`
 //io = require('socket.io').listen(process.env.port);
 
 // Define serverside admins / mods / devs.
-Admins = [`devclied`, `DamienVesper`, `LeoLeoLeo`]
+Admins = [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`]
 Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`]
 Devs = [`Yaz_`]
 
@@ -1596,7 +1596,7 @@ let serializeId = function (id) {
 
 // emit a snapshot every 100 ms
 let snapCounter = 0;
-exports.send = function () {
+exports.send = () => {
     snapCounter = snapCounter > 10 ? 0 : snapCounter + 1;
     let msg;
 
