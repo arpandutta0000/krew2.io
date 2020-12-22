@@ -1,27 +1,29 @@
-let thugConfig = require(`./config/thugConfig.js`);
-let config = require(`./config/config.js`);
-let login = require(`./auth/login.js`);
-let xssFilters = require(`xss-filters`);
-let https = require(`https`);
-let http = require(`http`);
-let fs = require(`fs`);
-let Filter = require(`bad-words`),
+/* Import Modules */
+const bus = require(`./utils/messageBus.js`);
+const config = require(`./config/config.js`);
+const Filter = require(`bad-words`),
     filter = new Filter();
+const fs = require(`fs`);
+const http = require(`http`);
+const https = require(`https`);
+const log = require(`./utils/log.js`);
+const login = require(`./auth/login.js`);
 lzString = require(`./../client/assets/js/lz-string.min`);
+const md5 = require(`./utils/md5.js`);
+const thugConfig = require(`./config/thugConfig.js`);
+const xssFilters = require(`xss-filters`);
 
-global.maxAmountCratesInSea = config.maxAmountCratesInSea;
-global.minAmountCratesInSea = config.minAmountCratesInSea;
-
-// Utils.
-let log = require(`./utils/log.js`);
-let md5 = require(`./utils/md5.js`);
-let {
+const {
     isSpamming,
     mutePlayer,
     charLimit
 } = require(`./utils/chat.js`);
-let bus = require(`./utils/messageBus.js`);
 
+global.maxAmountCratesInSea = config.maxAmountCratesInSea;
+global.minAmountCratesInSea = config.minAmountCratesInSea;
+
+
+// Log when server Starts
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
