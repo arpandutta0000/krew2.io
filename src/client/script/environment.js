@@ -1,5 +1,5 @@
 var environment = {};
-let water;
+var water;
 
 var setUpEnvironment = function () {
     // fog
