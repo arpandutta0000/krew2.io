@@ -1,7 +1,7 @@
 /* TODO: Update to Discord js v12 */
 
 const config = require(`./config/config.js`);
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const dotenv = require(`dotenv`).config();
 const log = require(`./utils/log.js`);
 const {
@@ -15,11 +15,22 @@ const {
 } = require(`./utils/chat.js`);
 
 const client = new Discord.Client({
+    cacheChannels: false,
+    cacheGuilds: true,
+    cachePresences: false,
+    cacheRoles: true,
+    cacheOverwrites: false,
+    cacheEmojis: false,
+    disabledEvents: [],
+    messageEditHistoryMaxSize: 1,
     disableEveryone: true,
     sync: true
 });
 
-client.on(`ready`, () => {
+let chatLogChannel;
+client.on(`ready`, async () => {
+    chatLogChannel = await client.channels.fetch(config.discord.channels.chatLogs);
+
     log(`green`, `Connected to Discord.`);
 
     let time = new Date();
@@ -46,14 +57,14 @@ client.on(`ready`, () => {
         .setFooter(config.discord.footer);
 
     if (config.mode == `prod`) {
-        client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
-        client.channels.get(config.discord.channels.chatLogs).setTopic(`Server has been up since ${formattedTime}.`);
+        chatLogChannel.send(sEmbed);
+        chatLogChannel.setTopic(`Server has been up since ${formattedTime}.`);
     }
 });
 
 bus.on(`msg`, (id, name, message) => {
     message = discordFilter(message);
-    client.channels.get(config.discord.channels.chatLogs).send(`${name} » ${message}`);
+    chatLogChannel.send(`${name} » ${message}`);
 });
 
 bus.on(`report`, (title, description) => {
@@ -63,7 +74,7 @@ bus.on(`report`, (title, description) => {
         .setDescription(description)
         .setTimestamp(new Date())
         .setFooter(config.discord.footer);
-    client.channels.get(config.discord.channels.reports).send(sEmbed);
+        chatLogChannel.send(sEmbed);
 });
 
 client.on(`message`, message => {
