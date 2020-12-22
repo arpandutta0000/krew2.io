@@ -36,10 +36,6 @@ window.setTimeout(function () {
 
 }, 1000);
 
-if (UA !== undefined && !UA.isFirefox() && !UA.isMobile()) {
-    $('#we-play-better-on-firefox').show();
-}
-
 var createMinimap = function () {
     var map = CanvasMap(document.getElementById('minimap'), worldsize, worldsize);
     map.useRadians = true;
