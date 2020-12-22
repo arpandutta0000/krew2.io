@@ -1,6 +1,3 @@
-global.maxAmountCratesInSea = 1100;
-global.minAmountCratesInSea = 480;
-
 let thugConfig = require(`./config/thugConfig.js`);
 let config = require(`./config/config.js`);
 let login = require(`./auth/login.js`);
@@ -11,6 +8,9 @@ let fs = require(`fs`);
 let Filter = require(`bad-words`),
     filter = new Filter();
 lzString = require(`./../client/assets/js/lz-string.min`);
+
+global.maxAmountCratesInSea = config.maxAmountCratesInSea;
+global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 // Utils.
 let log = require(`./utils/log.js`);
@@ -82,9 +82,9 @@ log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`
 //io = require('socket.io').listen(process.env.port);
 
 // Define serverside admins / mods / devs.
-Admins = [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`]
-Mods = [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`]
-Devs = [`Yaz_`]
+Admins = config.admins;
+Mods = config.mods;
+Devs = config.devs;
 
 
 // create player in the world
