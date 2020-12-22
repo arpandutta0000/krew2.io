@@ -101,7 +101,7 @@ module.exports = (grunt => {
             },
             dist: {
                 files: {
-                    'dist/script/dist.min.js': [`dist/script/dist.anonym.js`]
+                    'dist/script/dist.min.js': [`dist/script/dist.min.js`]
                 }
             }
         },
@@ -262,7 +262,6 @@ module.exports = (grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
-        `anonymous:dist`
         `uglify:dist`,
         `clean:preMinified`,
         `copy:dist`
