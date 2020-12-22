@@ -1596,7 +1596,7 @@ let serializeId = function (id) {
 
 // emit a snapshot every 100 ms
 let snapCounter = 0;
-exports.send = function () {
+exports.send = () => {
     snapCounter = snapCounter > 10 ? 0 : snapCounter + 1;
     let msg;
 
@@ -1606,7 +1606,7 @@ exports.send = function () {
     if (msg) {
         // compress snapshot data with lz-string
         msg = lzString.compress(JSON.stringify(msg));
-        io.emit('s', msg);
+        io.emit(`s`, msg);
     }
 }
 
