@@ -113,10 +113,10 @@ module.exports = (grunt => {
                 mangle: {
                     except: [`jQuery`, `THREE`]
                 },
-                dist: {
-                    files: {
-                        'dist/script/dist.min.js': [`dist/script/dist.anonym.js`]
-                    }
+            },
+            dist: {
+                files: {
+                    'dist/script/dist.min.js': [`dist/script/dist.anonym.js`]
                 }
             }
         },
