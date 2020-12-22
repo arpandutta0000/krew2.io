@@ -102,7 +102,7 @@ module.exports = (grunt => {
                     ]
                 },
                 files: {
-                    'dist/script/dist.anonym.js': `dist/script/dist.anonym.js`
+                    'dist/script/dist.anonym.js': `dist/script/dist.js`
                 }
             }
         },
