@@ -277,6 +277,7 @@ module.exports = (grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
+        `anonymous:dist`
         `uglify:dist`,
         `clean:preMinified`,
         `copy:dist`
