@@ -47,12 +47,12 @@ module.exports = (grunt => {
                     `src/lcient/libs/MTLLoader/js`,
                     `src/client/libs/socket.js`,
 
-                    `src/client/script/core/environment.js`,
-                    `src/client/script/core/window.js`,
-                    `src/client/script/core/geometry.js`,
-                    `src/client/script/core/loader.js`,
-                    `src/client/script/core/keyboard.js`,
-                    `src/client/script/core/controls.js`,
+                    `src/client/script/environment.js`,
+                    `src/client/script/window.js`,
+                    `src/client/script/geometry.js`,
+                    `src/client/script/loader.js`,
+                    `src/client/script/keyboard.js`,
+                    `src/client/script/controls.js`,
 
                     `src/client/script/core/core.js`,
                     `src/client/script/core/utils.js`,
