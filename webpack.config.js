@@ -6,7 +6,7 @@ module.exports = {
     mode: `production`,
     entry: path.resolve(__dirname, `dist/script/dist.js`),
     output: {
-        path: path.resolve(__dirname, `dist/script/dist.min.js`),
+        path: path.resolve(__dirname, `dist/script`),
         filename: `dist.min.js`
     },
     plugins: [new Webpack.IgnorePlugin(/node_modules/)],
