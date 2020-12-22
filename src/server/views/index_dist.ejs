@@ -121,13 +121,13 @@
                     }
                     js = d.createElement(s);
                     js.id = id;
-                    js.src = document.location.protocol == 'https:' ? "https://cdn.y8.com/api/sdk.js" : "http://cdn.y8.com/api/sdk.js";
+                    js.src = document.location.protocol == 'https:' ? "https://cdn.y8.com/api/sdk.js" : "https://cdn.y8.com/api/sdk.js";
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, 'script', 'id-jssdk'));
             }
         }
     </script>
-    <script async src='http://download.gameanalytics.com/js/GameAnalytics-3.0.1.min.js'></script>
+    <script async src='https://download.gameanalytics.com/js/GameAnalytics-3.0.1.min.js'></script>
     <!-- End GameAnalytics -->
     <div id="loading-wheel">
         <img src="/assets/img/wheel.png" style="margin-top:10%" id="wheel">
@@ -1400,7 +1400,7 @@
         if (window.location != window.parent.location) {
             console.log("inside iframe of ", document.referrer)
             if (document.referrer.includes("crazygames")) {
-                $("#portal-backlink").html("<a href='http://www.crazygames.com' target='_window'>Crazy Games</a>")
+                $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
             }
         }
 
