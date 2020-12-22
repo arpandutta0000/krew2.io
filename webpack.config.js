@@ -13,7 +13,7 @@ module.exports = {
         `./src/client/libs/keypress.min.js`,
         `./src/client/libs/OBJLoader.js`,
         `./src/client/libs/TGALoader.js`,
-        `src/lcient/libs/MTLLoader/js`,
+        `./src/client/libs/MTLLoader/js`,
         `./src/client/libs/socket.js`,
 
         `./src/client/script/environment.js`,
@@ -27,7 +27,7 @@ module.exports = {
         `./src/client/script/core/utils.js`,
         `./src/client/script/core/entity.js`,
         `./src/client/script/core/goodsTypes.js`,
-        `./src/client/script/core/client/parseSnap.js`,
+        `./src/client/script/core/core_client/parseSnap.js`,
         `./src/client/script/core/boatTypes.js`,
         `./src/client/script/core/boat.js`,
         `./src/client/script/core/item.js`,
