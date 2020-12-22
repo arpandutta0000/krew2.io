@@ -18,12 +18,12 @@ let itemTypes = [
     {
         id: 2,
         name: `Sinker's Gloves`,
-        Description: `+40 cannon fire rate`, // Insanely buffed.
+        Description: `+30 cannon fire rate`, // Sort of buffed.
         price: 45e3,
         rarity: 0.2,
         availableAt: [`Spain`, `Brazil`],
         attributes: {
-            attackSpeed: `40`
+            attackSpeed: `30`
         }
     },
     {
