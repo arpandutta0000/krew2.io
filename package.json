@@ -19,7 +19,7 @@
         "connect-mongo": "^3.2.0",
         "cookie-parser": "^1.4.5",
         "cross-env": "^7.0.3",
-        "discord.js": "^12.5.1",
+        "discord.js": "^11.5.1",
         "dotenv": "^8.2.0",
         "ejs": "^3.1.5",
         "events": "^3.2.0",
