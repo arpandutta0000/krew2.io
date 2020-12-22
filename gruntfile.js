@@ -169,6 +169,14 @@ module.exports = (grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
+                        src: [`src/client/libs/*`],
+                        dest: `dist/assets/js/`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
                         src: [`src/client/assets/models/*`],
                         dest: `dist/assets/models/`,
                         filter: `isFile`
