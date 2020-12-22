@@ -1,4 +1,4 @@
-const webpackConfig = require(`./webpack.config.js`);
+// const webpackConfig = require(`./webpack.config.js`);
 
 module.exports = (grunt => {
     grunt.initConfig({
@@ -92,10 +92,39 @@ module.exports = (grunt => {
             preMinified: [`dist/script/dist.js`]
         },
 
-        // Minify the source.
-        webpack: {
-            prod: webpackConfig
+        // Wrap in anonymous function.
+        anonymous: {
+            dist: {
+                options: {
+                    params: [
+                        [`window`, `w`],
+                        [`document`, `d`]
+                    ]
+                },
+                files: {
+                    'dist/script/dist.anonym.js': `dist/script/dist.anonym.js`
+                }
+            }
         },
+
+        // Minify - ES5.
+        uglify: {
+            options: {
+                mangle: {
+                    except: [`jQuery`, `THREE`]
+                },
+                dist: {
+                    files: {
+                        'dist/script/dist.min.js': [`dist/script/dist.anonym.js`]
+                    }
+                }
+            }
+        },
+
+        // TODO: Minify the source with webpack.
+        // webpack: {
+        //     prod: webpackConfig
+        // },
 
         // Watch for file changes.
         watch: {
@@ -248,7 +277,7 @@ module.exports = (grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
-        `webpack:prod`,
+        `uglify:dist`,
         `clean:preMinified`,
         `copy:dist`
     ]);
@@ -265,10 +294,11 @@ module.exports = (grunt => {
 
     // Load required npm tasks.
     grunt.loadNpmTasks(`grunt-contrib-concat`);
-    grunt.loadNpmTasks(`grunt-webpack`);
+    grunt.loadNpmTasks(`grunt-contrib-uglify`);
     grunt.loadNpmTasks(`grunt-contrib-copy`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
     grunt.loadNpmTasks(`grunt-contrib-watch`);
     grunt.loadNpmTasks(`grunt-nodemon`);
+    grunt.loadNpmTasks(`grunt-anonymous`);
     grunt.loadNpmTasks(`grunt-concurrent`);
 });
