@@ -101,7 +101,7 @@ module.exports = (grunt => {
             },
             dist: {
                 files: {
-                    'dist/script/dist.min.js': [`dist/script/dist.min.js`]
+                    'dist/script/dist.min.js': [`dist/script/dist.js`]
                 }
             }
         },
