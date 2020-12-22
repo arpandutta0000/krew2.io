@@ -27,9 +27,8 @@ global.minAmountCratesInSea = config.minAmountCratesInSea;
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
-// additional bad words which need to be filtered
-let newBadWords = [`idiot`, `2chOld`, `Yuquan`];
-filter.addWords(...newBadWords);
+// Additional bad words which need to be filtered
+filter.addWords(...config.additionalBadWords);
 
 // configure socket
 if (global.io === undefined) {

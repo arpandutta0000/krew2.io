@@ -26,7 +26,7 @@ const config = {
         2083, // Server 2
         2087 // Server 3
     ],
-    newBadWords: [`idiot`, `2chOld`, `Yuquan`],
+    additionalBadWords: [`idiot`, `2chOld`, `Yuquan`],
     admins: [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`],
     mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
     devs: [`Yaz_`],
