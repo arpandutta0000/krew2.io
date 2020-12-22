@@ -96,7 +96,7 @@ module.exports = (grunt => {
         uglify: {
             options: {
                 mangle: {
-                    except: [`jQuery`, `THREE`]
+                    reserved: [`jQuery`, `THREE`]
                 },
             },
             dist: {
