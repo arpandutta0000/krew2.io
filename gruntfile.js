@@ -257,19 +257,18 @@ module.exports = grunt => {
     });
 
     // register our task chains
-    grunt.registerTask(`build-dist`, [`clean:dist`,
+    grunt.registerTask(`build-dist`, [
+        `clean:dist`,
         `concat:servercore`,
         `concat:dist_scripts`,
         `anonymous:dist`,
         `uglify:dist`,
-
-        //`concat:dist_scripts_post`,
-        //`concat:dist_index`,
         `clean:preUglified`,
         `copy:dist`,
     ]);
 
-    grunt.registerTask(`build-dev`, [`concat:servercore`,
+    grunt.registerTask(`build-dev`, [
+        `concat:servercore`,
         `concat:dev_index`,
     ]);
 
