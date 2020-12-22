@@ -149,7 +149,7 @@ function Player (data) {
     let _this = this;
     this.pointsFormula = {
         getFireRate: function () {
-            return (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 2.8;
+            return (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 1.8;
         },
 
         getDistance: function () {
