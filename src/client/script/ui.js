@@ -385,18 +385,6 @@ var ui = {
                 elements[i].volume = 0.1 * range.value / range.max;
             }
         });
-
-        // Check if the player is trying to use local firebase functions
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                // User is signed in.
-                firebase.auth().signOut();
-            } else {
-                //firebase.auth().signOut();
-                // No user is signed in.
-            }
-        });
-
     },
 
     playAudioFile: function (loop, fileId) {

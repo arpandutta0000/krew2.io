@@ -31,7 +31,7 @@ router.get(`/authenticated`, (req, res, next) => {
         isLoggedIn: true,
         user: req.user
     });
-    else return res.status(400).json({
+    else return res.status(200).json({
         isLoggedIn: false
     });
 });

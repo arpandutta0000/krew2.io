@@ -39,6 +39,14 @@ module.exports = (grunt => {
                     `src/client/script/core/core_client/config.js`,
                     `src/client/script/rangeInput.js`,
 
+                    `src/client/assets/js/canvas.map.js`,
+                    `src/client/libs/ua.js`,
+                    `src/client/libs/keypress.min.js`,
+                    `src/client/libs/OBJLoader.js`,
+                    `src/client/libs/TGALoader.js`,
+                    `src/lcient/libs/MTLLoader/js`,
+                    `src/client/libs/socket.js`,
+
                     `src/client/script/core/environment.js`,
                     `src/client/script/core/window.js`,
                     `src/client/script/core/geometry.js`,
@@ -72,7 +80,7 @@ module.exports = (grunt => {
                     `src/client/script/ui.js`,
                     `src/client/script/main.js`,
                     `src/client/script/particles.js`,
-                    `src/client/script/connection.js`,
+                    `src/client/script/connection.js`
                 ],
                 dest: `dist/script/dist.js`
             }
