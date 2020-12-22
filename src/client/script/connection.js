@@ -76,11 +76,9 @@ var initSocketBinds = function () {
         // create player entity
         socket.emit('createPlayer', {
             boatId: getUrlVars().bid,
-            token: ui.clientAccessToken,
-            name: ui.username == undefined ? undefined : ui.username,
-            spawn: ui.setSpawnPlace(),
-            // TODO: fix session token (so players can't join with multiple seadogs)
-            // cookie: sessionCookie,
+            name: !ui.username ? undefined : ui.username,
+            // pass: !ui.password ? undefined : ui.password,
+            spawn: ui.setSpawnPlace()
         });
         secondsAlive = 0;
 
@@ -91,14 +89,6 @@ var initSocketBinds = function () {
                 4,
                 15000
             );
-
-            if (Admins.includes(ui.username) || Mods.includes(ui.username) || Devs.includes(ui.username)) {
-                $('#panel-modal').show();
-                $('#verify-login').show();
-            } else $('#verify-login').hide();
-
-
-            firebase.auth().signOut();
         });
 
         $('#submit-pincode-btn').on('onclick', function () {
@@ -111,116 +101,6 @@ var initSocketBinds = function () {
             playerNames = data;
         });
 
-        // access admin panel
-        socket.on('accessAdminPanel', function (result) {
-            console.log(result);
-            if (result == 401) {
-                ui.showCenterMessage('Mod Logged in successfully', 3, 10000);
-                $('#admin-verification-login').hide();
-                $('mod-commands').show();
-            } else if (result == 402 || result == 403) {
-                ui.showCenterMessage(result == 402 ? 'Dev' : 'Admin' + ' Logged in successfully', 3, 10000);
-                $('#admin-verification-login').hide();
-                $('#dev-commands').show();
-
-                var html = document.getElementById('dev-commands');
-                html.innerHTML += '<button id="server-save-btn" type="button" class="btn btn-primary btn-md">Server Save</button></br></br> \
-        <div id = "defog-div"> \
-        <label id="defog-label" class="label">\
-        <div id="defog-text" class="lock-text-info" style="padding-right:10px">De-fog</div>\
-              <div class="toggle">\
-                   <input class="toggle-state" type="checkbox" name="check" value="check" id="defog-button"/>\
-                  <div class="toggle-inner">\
-                     <div class="indicator"></div>\
-                   </div><div class="active-bg"></div>\
-              </div>\
-           </label>\
-        </div>\
-        <div id = "fly-div">\
-           <label id="fly-label" class="label">\
-              <div id="fly-text" class="lock-text-info" style="padding-right:10px">Fly</div>\
-              <div class="toggle">\
-                  <input class="toggle-state" type="checkbox" name="check" value="check" id="fly-button"/>\
-                <div class="toggle-inner">\
-                   <div class="indicator"></div>\
-               </div><div class="active-bg"></div>\
-           </div>\
-         </label>\
-         </div>\
-        <div id = "walk-underwater-div">\
-           <label id="fly-label" class="label">\
-              <div id="fly-text" class="lock-text-info" style="padding-right:10px">Dive under water</div>\
-              <div class="toggle">\
-                  <input class="toggle-state" type="checkbox" name="check" value="check" id="walk-uderwater-button"/>\
-                <div class="toggle-inner">\
-                   <div class="indicator"></div>\
-               </div><div class="active-bg"></div>\
-           </div>\
-         </label>\
-         </div>\
-        <div id = "fastwalk-div">\
-           <label id="fly-label" class="label">\
-              <div id="fly-text" class="lock-text-info" style="padding-right:10px">Super Speed on island</div>\
-              <div class="toggle">\
-                  <input class="toggle-state" type="checkbox" name="check" value="check" id="fast-walk-button"/>\
-                <div class="toggle-inner">\
-                   <div class="indicator"></div>\
-               </div><div class="active-bg"></div>\
-           </div>\
-         </label>\
-         </div>\
-        <div id="walteralk-div">\
-           <label id="fast-walk-label" class="label">\
-              <div id="fast-walk-text" class="lock-text-info" style="padding-right:10px">Walk on Water</div>\
-              <div class="toggle">\
-                 <input class="toggle-state" type="checkbox" name="check" value="check" id="water-walk-button"/>\
-                  <div class="toggle-inner">\
-                      <div class="indicator"></div>\
-                  </div><div class="active-bg"></div>\
-               </div>\
-           </label>\
-        </div>';
-            }
-        });
-
-        $(document).on('click', '#server-save-btn', function () {
-            if (!myPlayer.isAdmin && !myPlayer.isMod && !myPlayer.isDev) return;
-        });
-
-        $(document).on('change', '#defog-button', function () {
-            if (!myPlayer.isAdmin && !myPlayer.isMod && !myPlayer.isDev) return;
-            if (scene.fog.density == 0)
-                scene.fog.density = 0.007;
-            else
-                scene.fog.density = 0;;
-        });
-
-        $(document).on('change', '#fly-button', function () {
-            if (myPlayer && myPlayer.fly == 0)
-                socket.emit('fly', 1);
-            else if (myPlayer && myPlayer.fly == 1)
-                socket.emit('fly', 0);
-        });
-        $(document).on('change', '#walk-uderwater-button', function () {
-            if (myPlayer && myPlayer.fly == 0)
-                socket.emit('dive', -1);
-            else if (myPlayer && myPlayer.fly == -1)
-                socket.emit('dive', 0);
-        });
-        $(document).on('change', '#fast-walk-button', function () {
-            //console.log('is water walk working? ', $('#fly-button').is(':checked'));
-            if (myPlayer && myPlayer.waterWalk == 0)
-                socket.emit('fastWalk', 1);
-            else if (myPlayer && myPlayer.waterWalk == 1)
-                socket.emit('fastWalk', 0);
-        });
-        $(document).on('change', '#water-walk-button', function () {
-            //console.log('is water walk working? ', $('#fly-button').is(':checked'));
-            if (myPlayer && myPlayer.waterWalk == 0)
-                socket.emit('waterWalk', 1);
-            else if (myPlayer && myPlayer.waterWalk == 1)
-                socket.emit('waterWalk', 0);
-        });
         // when the server sends a snapshot
         socket.on('s', function (data) {
             // decompress snapshot data

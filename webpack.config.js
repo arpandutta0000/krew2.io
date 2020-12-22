@@ -4,9 +4,9 @@ const dotenv = require(`dotenv`).config();
 
 module.exports = {
     mode: `production`,
-    entry: path.resolve(__dirname, `_compiled/dist.js`),
+    entry: path.resolve(__dirname, `dist/script/dist.js`),
     output: {
-        path: path.resolve(__dirname, `dist/assets/js`),
+        path: path.resolve(__dirname, `dist/script/dist.min.js`),
         filename: `dist.min.js`
     },
     plugins: [new Webpack.IgnorePlugin(/node_modules/)],

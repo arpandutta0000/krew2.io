@@ -1,10 +1,11 @@
-module.exports = grunt => {
+const webpackConfig = require(`./webpack.config.js`);
+
+module.exports = (grunt => {
     grunt.initConfig({
         pkg: grunt.file.readJSON(`package.json`),
-
-        // add all files, libs etc together
         concat: {
-            servercore: {
+            // Add together server core.
+            server: {
                 src: [
                     `src/server/core/preConcat.js`,
                     `src/server/core/core.js`,
@@ -28,127 +29,103 @@ module.exports = grunt => {
 
                     `src/server/config/gameConfig.js`,
                     `src/server/core/serverEntity.js`,
-                    `src/server/core/postConcat.js`,
+                    `src/server/core/postConcat.js`
                 ],
-                dest: `src/server/core/core_concatenated.js`,
+                dest: `src/server/core/core_concatenated.js`
             },
-            dist_scripts: {
+            // Add together client core.
+            client: {
                 src: [
-                    `src/client/script/core/core_client/core_client_config.js`,
+                    `src/client/script/core/core_client/config.js`,
                     `src/client/script/rangeInput.js`,
-                    `src/client/assets/js/canvas.map.js`,
-                    `src/client/libs/ua.js`,
-                    `src/client/libs/firebase.js`,
-                    `src/client/libs/keypress.min.js`,
-                    `src/client/libs/OBJLoader.js`,
-                    `src/client/libs/TGALoader.js`,
-                    `src/client/libs/MTLLoader.js`,
-                    `src/client/libs/socket.js`,
-                    `src/client/script/environment.js`,
-                    `src/client/script/window.js`,
-                    `src/client/script/geometry.js`,
-                    `src/client/script/loader.js`,
-                    `src/client/script/keyboard.js`,
-                    `src/client/script/controls.js`,
+
+                    `src/client/script/core/environment.js`,
+                    `src/client/script/core/window.js`,
+                    `src/client/script/core/geometry.js`,
+                    `src/client/script/core/loader.js`,
+                    `src/client/script/core/keyboard.js`,
+                    `src/client/script/core/controls.js`,
+
                     `src/client/script/core/core.js`,
-                    `src/client/script/core/core_utils.js`,
-                    `src/client/script/core/core_entity.js`,
-                    `src/client/script/core/core_goods_types.js`,
-                    `src/client/script/core/core_client/core_client_parseSnap.js`,
-                    `src/client/script/core/core_boat_types.js`,
-                    `src/client/script/core/core_boat.js`,
-                    `src/client/script/core/core_item.js`,
-                    `src/client/script/core/core_player.js`,
-                    `src/client/script/core/core_impact.js`,
-                    `src/client/script/core/core_pickup.js`,
-                    `src/client/script/core/core_landmark.js`,
-                    `src/client/script/core/core_projectile.js`,
-                    `src/client/script/core/core_client/core_client_entity.js`,
-                    `src/client/script/core/core_client/core_client_boat.js`,
-                    `src/client/script/core/core_client/core_client_player.js`,
-                    `src/client/script/ui_suggestion.js`,
-                    `src/client/script/ui_krewlist.js`,
-                    `src/client/script/ui_goods.js`,
-                    `src/client/script/ui_experience.js`,
+                    `src/client/script/core/utils.js`,
+                    `src/client/script/core/entity.js`,
+                    `src/client/script/core/goodsTypes.js`,
+                    `src/client/script/core/client/parseSnap.js`,
+                    `src/client/script/core/boatTypes.js`,
+                    `src/client/script/core/boat.js`,
+                    `src/client/script/core/item.js`,
+                    `src/client/script/core/player.js`,
+                    `src/client/script/core/impact.js`,
+                    `src/client/script/core/pickup.js`,
+                    `src/client/script/core/landmark.js`,
+                    `src/client/script/core/projectile.js`,
+
+                    `src/client/script/core/core_client/entity.js`,
+                    `src/client/script/core/core_client/boat.js`,
+                    `src/client/script/core/core_client/player.js`,
+
+                    `src/client/script/uiSuggestion.js`,
+                    `src/client/script/uiKrewList.js`,
+                    `src/client/script/uiGoods.js`,
+                    `src/client/script/uiExperience.js`,
+
                     `src/client/script/ui.js`,
                     `src/client/script/main.js`,
                     `src/client/script/particles.js`,
                     `src/client/script/connection.js`,
                 ],
-                dest: `dist/script/dist.js`,
-            },
+                dest: `dist/script/dist.js`
+            }
         },
 
-        anonymous: {
-            dist: {
-                options: {
-                    params: [
-                        [`window`, `w`],
-                        [`document`, `d`],
-                    ],
-                },
-                files: {
-                    'dist/script/dist.anonym.js': [`dist/script/dist.js`],
-                },
-            },
+        // Clean up static folder and unminified client source.
+        clean: {
+            dist: [`dist/*`],
+            preMinified: [`dist/script/dist.js`]
         },
 
-        // uglification
-        uglify: {
-            options: {
-                mangle: {
-                    reserved: [`jQuery`, `THREE`],
-                },
-            },
-            dist: {
-                files: {
-                    'dist/script/dist.min.js': [`dist/script/dist.anonym.js`],
-                },
-            },
+        // Minify the source.
+        webpack: {
+            prod: webpackConfig
         },
 
-        // watch for file changes
+        // Watch for file changes.
         watch: {
             scripts: {
                 files: [`**/*.js`, `!**/node_modules/**`, `**/*.css`, `**/*.html`],
                 tasks: [`build-dev`],
                 options: {
-                    spawn: false,
-                },
-            },
+                    spawn: false
+                }
+            }
         },
 
-        // concurrently runs several tasks
+        // Concurrently run watch and nodemon.
         concurrent: {
             dev: [
                 `nodemon:dev`,
-                `watch:scripts`,
+                `watch:scripts`
             ],
             options: {
-                logConcurrentOutput: true,
-            },
+                logConcurrentOutput: true
+            }
         },
 
-        // keeps node task running and restarts on watch
+        // Use nodemon to restart the app.
         nodemon: {
             dev: {
                 script: `src/server/app.js`,
                 options: {
                     args: [`dev`],
                     nodeArgs: [`--inspect`]
-                },
-            },
+                }
+            }
         },
 
-        // copy files
+        // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [
-
-                    // copy texture / image files etc
-                    /*  { expand: true, nonull: true, flatten: true, src: [`src/client/index_dist.html`], dest: `dist/`, rename: function (dest, src) { return `dist/index.html`; } }, */
-
-                    {
+                files: [{
                         expand: true,
                         nonull: true,
                         flatten: true,
@@ -184,7 +161,7 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
-                        src: [`src/client/assets/js/*`],
+                        src: [`src/client/assets/js/libs/*`],
                         dest: `dist/assets/js/`,
                         filter: `isFile`
                     },
@@ -243,44 +220,39 @@ module.exports = grunt => {
                         src: [`src/client/assets/models/sea_animals/*`],
                         dest: `dist/assets/models/sea_animals/`,
                         filter: `isFile`
-                    },
-                ],
-            },
-        },
-
-        // clean up
-        clean: {
-            preUglified: [`dist/script/dist.js`, `dist/script/dist.anonym.js`],
-            dist: `dist/*`,
-        },
-
+                    }
+                ]
+            }
+        }
     });
 
-    // register our task chains
+    // Register task chains.
+    // Build production.
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
-        `concat:servercore`,
-        `concat:dist_scripts`,
-        `anonymous:dist`,
-        `uglify:dist`,
-        `clean:preUglified`,
-        `copy:dist`,
+        `concat:server`,
+        `concat:client`,
+        `webpack:prod`,
+        `clean:preMinified`,
+        `copy:dist`
     ]);
 
+    // Build dev.
     grunt.registerTask(`build-dev`, [
-        `concat:servercore`,
-        `concat:dev_index`,
+        `clean:dist`,
+        `concat:server`,
+        `copy:dist`
     ]);
 
+    // Run in dev.
     grunt.registerTask(`dev`, [`concurrent:dev`]);
 
-    // load all needed npm tasks
+    // Load required npm tasks.
     grunt.loadNpmTasks(`grunt-contrib-concat`);
-    grunt.loadNpmTasks(`grunt-contrib-uglify`);
+    grunt.loadNpmTasks(`grunt-webpack`);
     grunt.loadNpmTasks(`grunt-contrib-copy`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
     grunt.loadNpmTasks(`grunt-contrib-watch`);
     grunt.loadNpmTasks(`grunt-nodemon`);
     grunt.loadNpmTasks(`grunt-concurrent`);
-    grunt.loadNpmTasks(`grunt-anonymous`);
-};
+});
