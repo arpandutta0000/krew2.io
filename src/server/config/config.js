@@ -1,4 +1,5 @@
 const dotenv = require(`dotenv`).config();
+const thugConfig = require(`./thugConfig.js`);
 
 const config = {
     appname: `Krew.io`,
@@ -27,14 +28,18 @@ const config = {
         2087 // Server 3
     ],
     additionalBadWords: [`idiot`, `2chOld`, `Yuquan`],
-    admins: [`devclied`, `DamienVesper`, `BR88C`, `LeoLeoLeo`],
-    mods: [`Fiftyyyyyy`, `Sloth`, `Sj`, `TheChoco`, `Kekmw`, `Headkeeper`],
-    devs: [`Yaz_`],
+    admins: [],
+    mods: [],
+    devs: [],
     maxAmountCratesInSea: 1100,
     minAmountCratesInSea: 480
 }
 
 config.staticDir = config.mode == `dev` ? `${__dirname}/../../client/` : `${__dirname}/../../../dist/`;
+
+for(const admin of thugConfig.admins) config.admins.push(admin.name);
+for(const mod of thugConfig.mods) config.mods.push(mod.name);
+for(const dev of thugConfig.devs) config.devs.push(dev.name);
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,
