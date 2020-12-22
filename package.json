@@ -3,7 +3,7 @@
     "version": "1.4.2",
     "scripts": {
         "dist-test": "grunt build-dist && cross-env NODE_ENV=\"dev\" node src/server/app.js",
-        "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" forever -o out-history_$(date +%F_%R).log -e err.log src/server/app.js --p=443",
+        "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" pm2 src/server/config/krew2.js --env prod",
         "dev": "grunt build-dist && cross-env NODE_ENV=\"dev\" grunt dev",
         "test": "cross-env NODE_ENV=\"test\" grunt dev",
         "watch": "cross-env NODE_ENV=\"test\" node-gc-viewer src/server/app.js"
