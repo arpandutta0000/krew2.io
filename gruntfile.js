@@ -161,7 +161,7 @@ module.exports = (grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
-                        src: [`src/client/assets/js/libs/*`],
+                        src: [`src/client/assets/js/*`],
                         dest: `dist/assets/js/`,
                         filter: `isFile`
                     },
