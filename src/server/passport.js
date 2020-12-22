@@ -15,50 +15,65 @@ passport.deserializeUser((id, done) => {
 });
 
 // Strategy.
-passport.use(
-    new LocalStrategy({
-        usernameField: `username`
-    }, (username, password, done) => {
-        User.findOne({
-            username
-        }).then(user => {
-            if (!user) {
-                // Register a user.
-                let registerUser = new User({
-                    username,
-                    creationIP: null,
-                    lastIP: null,
-                    creationDate: new Date(),
-                    password,
-                    highscore: 0,
-                    clan: null,
-                    clanRequest: null
-                });
-                bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
-                    if (err) return log(`red`, err);
-
-                    registerUser.password = hash;
-                    registerUser.save().then(user => done(null, user))
-                        .catch(err => done(null, false, {
-                            message: err
-                        }));
-                }));
-            } else {
-                // Login a user.
-                bcrypt.compare(password, user.password, (err, isMatch) => {
-                    if (err) return log(`red`, err);
-
-                    if (isMatch) return done(null, user);
-                    else return done(null, false, {
-                        message: `Incorrect username / password`
-                    })
-                });
-            }
-        }).catch(err => {
+passport.use(`login`, new LocalStrategy((username, password, done) => {
+    User.findOne({
+        username
+    }).then((err, user) => {
+        if (err) return done(err);
+        if (!user) {
             return done(null, false, {
-                message: err
+                message: `Incorrect username or password`
             });
+        }
+
+        // Login a user.
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) return log(`red`, err);
+
+            if (isMatch) return done(null, user);
+            else return done(null, false, {
+                message: `Incorrect username / password`
+            })
         });
-    }));
+    }).catch(err => {
+        return done(null, false, {
+            message: err
+        });
+    });
+}));
+
+// Registration.
+passport.use(`register`, new LocalStrategy((username, password, done) => {
+    User.findOne({
+        username
+    }).then((err, user) => {
+        if (err) return done(err);
+        if (user) return done(null, false, {
+            message: `User already exists`
+        });
+        else {
+            let registerUser = new User({
+                username,
+                creationIP: null,
+                lastIP: null,
+                creationDate: new Date(),
+                password,
+                highscore: 0,
+                clan: null,
+                clanRequest: null
+            });
+
+            bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
+                if (err) return done(err);
+                registerUser.password = hash;
+                registerUser.save().then(user => () => {
+                    return done(null, user);
+                }).catch(err => {
+                    return done(err);
+                });
+            }))
+        }
+    });
+}));
 
 module.exports = passport;

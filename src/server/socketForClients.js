@@ -102,7 +102,12 @@ io.on(`connection`, async socket => {
     let initSocketForPlayer = async data => {
         // If the player entity already exists, ignore reconnect.
         if (playerEntity) return;
+
         if (!data.name) data.name = ``;
+        else {
+            data.name = xssFilters.inHTMLData(data.name);
+            data.name = filter.clean(data.name);
+        }
 
         // Check if the player IP is in the ban list.
         let isIPBanned = await Ban.findOne({
@@ -1556,17 +1561,19 @@ io.on(`connection`, async socket => {
 
     let createThePlayer = data => {
         if (data.name && data.password) {
+            if (typeof data.name != `string` || typeof data.password != `string`) return log(`cyan`, `Exploit detected: Fradulent credential type. Refusing IP: ${playerEntity.socket.handshake.address}`);
+
             User.findOne({
                 username: data.name
             }).then(user => {
-                if (!user) log(`cyan`, `Exploit detected: Fradulent user. Disconnecting IP: ${playerEntity.socket.handshake.address}.`);
+                if (!user) log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${playerEntity.socket.handshake.address}.`);
                 bcrypt.compare(data.password, user.password, (err, isMatch) => {
                     if (err) return log(`red`, err);
 
-                    if (isMatch) data.username = data.name;
+                    if (isMatch) data.name = data.name.toString();
                     else data.username = undefined;
 
-                    initSocketForPlayer();
+                    initSocketForPlayer(data);
                 });
             });
         }

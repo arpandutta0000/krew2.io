@@ -6,13 +6,25 @@ let router = express.Router();
 const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
 
+router.post(`/register`, (req, res, next) => {
+    passport.authenticate(`register`, (err, user, info) => {
+        if(err) return res.status(400).json({
+            errors: err
+        });
+        if(user) return res.status(400).json({
+            errors: `User already exists`
+        });
+                
+    });
+})
+
 router.post(`/login`, (req, res, next) => {
-    passport.authenticate(`local`, (err, user, info) => {
+    passport.authenticate(`login`, (err, user, info) => {
         if (err) return res.status(400).json({
             errors: err
         });
         if (!user) return res.status(400).json({
-            errors: `No user found`
+            errors: `User does not exist`
         });
 
         req.logIn(user, err => {
@@ -24,6 +36,11 @@ router.post(`/login`, (req, res, next) => {
             });
         });
     })(req, res, next);
+});
+
+router.get(`/logout`, (req, res, next) => {
+    if(req.isAuthenticated()) req.logOut();
+    res.redirect(`/`);
 });
 
 router.get(`/authenticated`, (req, res, next) => {
