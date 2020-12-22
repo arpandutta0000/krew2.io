@@ -291,7 +291,7 @@ var setUpEnvironment = function () {
 
 
 window.currentTime = 0;
-this.doDaylightCycle = function (time) {
+let doDaylightCycle = function (time) {
     var light = water.parent.children.find(function (c) {
         return c instanceof THREE.Light;
     });
