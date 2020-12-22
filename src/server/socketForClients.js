@@ -1,4 +1,5 @@
 /* Import Modules */
+const axios = require(`axios`);
 const bus = require(`./utils/messageBus.js`);
 const config = require(`./config/config.js`);
 const Filter = require(`bad-words`),
@@ -10,6 +11,7 @@ const log = require(`./utils/log.js`);
 const login = require(`./auth/login.js`);
 lzString = require(`./../client/assets/js/lz-string.min`);
 const md5 = require(`./utils/md5.js`);
+const mongoose = require(`mongoose`);
 const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
 
@@ -23,6 +25,7 @@ global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 
+
 // Log when server Starts
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
@@ -30,7 +33,7 @@ log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 // Additional bad words which need to be filtered
 filter.addWords(...config.additionalBadWords);
 
-// configure socket
+// Configure socket
 if (global.io === undefined) {
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
         key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
@@ -45,14 +48,11 @@ if (global.io === undefined) {
     server.listen(process.env.port);
 }
 
-const mongoose = require(`mongoose`);
-
+// Connect to db
 mongoose.connect(`mongodb://localhost:27017/localKrewDB`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => log(`green`, `Socket.IO server has connected to database.`));
-
-const axios = require(`axios`);
 
 // Mongoose Models
 let User = require(`./models/user.model.js`);
@@ -61,35 +61,15 @@ let Ban = require(`./models/ban.model.js`);
 let Hacker = require(`./models/hacker.model.js`);
 let PlayerRestore = require(`./models/playerRestore.model.js`);
 
-// function to check if a string is alphanumeric
-function isAlphaNumeric (str) {
-    let code, i, len;
-
-    for (i = 0, len = str.length; i < len; i++) {
-        code = str.charCodeAt(i);
-        if (
-            !(code > 47 && code < 58) && // numeric (0-9)
-            !(code > 64 && code < 91) && // upper alpha (A-Z)
-            !(code > 96 && code < 123)
-        ) {
-            // lower alpha (a-z)
-            return false;
-        }
-    }
-    return true;
-}
-
+// Log socket.io starting
 log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
-//io = require('socket.io').listen(process.env.port);
 
-// Define serverside admins / mods / devs.
+// Globally define serverside admins / mods / devs.
 Admins = config.admins;
 Mods = config.mods;
 Devs = config.devs;
 
-
-// create player in the world
-// Test environment
+// If test environment, create player in world
 if (TEST_ENV) {
     setTimeout(function () {
         let playerEntity;
@@ -100,8 +80,6 @@ if (TEST_ENV) {
     }, 5000);
 }
 
-// Array for reported IPs
-const reportedIps = [];
 const gameCookies = {};
 
 // Socket connection handling on server.
