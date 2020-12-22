@@ -192,7 +192,7 @@ Projectile.prototype.logic = function (dt) {
 
                         let damage = 8 + attackDamageBonus + attackDistanceBonus;
                         if (entities[boat.captainId]) {
-                            damage = damage + (damage * attackSpeedBonus) - (damage * entities[boat.captainId].armorBonus) / 100;
+                            damage -= (damage * entities[boat.captainId].armorBonus) / 100;
                         }
 
                         if (this.shooter.parent.crewName !== undefined) {

@@ -1605,12 +1605,11 @@ var ui = {
     getKrewioData: function () {
 
         return $.get(baseUrl + '/authenticated').then(function (response) {
-            ui.username = response === 'out' ? undefined : response.username;
-            console.log("MY USERNAME: " + ui.username)
+            ui.username = !response.isLoggedIn  ? undefined : response.username;
+            ui.password = !response.isLoggedIn ? undefined : response.password;
             loginButton.attr('disabled', false).show()
             if (ui.username === undefined) {
                 loginButton.on('click', function () {
-                    window.location.pathname = '/login'
                 });
             } else {
                 ui.setCookie('username', response.username, 1)
