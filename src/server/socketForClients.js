@@ -14,6 +14,7 @@ const md5 = require(`./utils/md5.js`);
 const mongoose = require(`mongoose`);
 const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
+const bcrypt = require(`bcryptjs`);
 
 const {
     isSpamming,
@@ -1554,8 +1555,21 @@ io.on(`connection`, async socket => {
     });
 
     let createThePlayer = data => {
-        data.username = undefined;
-        initSocketForPlayer(data);
+        if (data.name && data.password) {
+            User.findOne({
+                username: data.name
+            }).then(user => {
+                if (!user) log(`cyan`, `Exploit detected: Fradulent user. Disconnecting IP: ${playerEntity.socket.handshake.address}.`);
+                bcrypt.compare(data.password, user.password, (err, isMatch) => {
+                    if (err) return log(`red`, err);
+
+                    if (isMatch) data.username = data.name;
+                    else data.username = undefined;
+
+                    initSocketForPlayer();
+                });
+            });
+        }
     }
 
     // Send full world information - force full dta. First snapshot (compress with lz-string).
