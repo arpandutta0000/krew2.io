@@ -33,7 +33,7 @@ let {
 
 
 /* Christmas Event */
-module.exports = (socket) => {
+module.exports = () => {
     if (christmasGold > 1e4) {
         log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         return playerEntity.socket.disconnect();

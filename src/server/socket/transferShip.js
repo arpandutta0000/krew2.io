@@ -33,7 +33,7 @@ let {
 
 
 /* If a player transfers their ship */
-module.exports = (socket, playerId) => {
+module.exports = (playerId) => {
     let player = core.players[playerId];
     if (player) {
         let motherShip = playerEntity.parent;

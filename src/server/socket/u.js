@@ -33,6 +33,6 @@ let {
 
 
 /* Get Snapshot */
-module.exports = (socket, u) => {
+module.exports = (u) => {
     playerEntity.parseSnap(data);
 }

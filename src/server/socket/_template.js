@@ -33,6 +33,6 @@ let {
 
 
 /* Description */
-module.exports = (socket) => {
+module.exports = () => {
 
 }

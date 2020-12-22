@@ -33,7 +33,7 @@ let {
 
 
 /* When a player buys an item */
-module.exports = (socket, callback) => {
+module.exports = (callback) => {
     checkPlayerStatus();
     log(`magenta`, `Player ${playerEntity.name} is buying `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 

@@ -33,7 +33,7 @@ let {
 
 
 /* When a clan marker is made */
-module.exports = (socket, data) => {
+module.exports = (data) => {
     if (playerEntity.clan != `` && playerEntity.clan != undefined) {
         if (playerEntity.markermapCount < new Date - 5e3) {
             if (data.x && data.y && typeof data.x == `number` && typeof data.y == `number` && data.x > 0 && data.y > 0 && data.x < worldsize && data.y < worldsize) {

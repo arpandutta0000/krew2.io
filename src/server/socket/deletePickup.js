@@ -33,6 +33,6 @@ let {
 
 
 /* Delete Pickup Entity */
-module.exports = (socket, pickupId) => {
+module.exports = (pickupId) => {
     core.removeEntity(core.entities[pickupId]);
 }

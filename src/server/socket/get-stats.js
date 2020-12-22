@@ -33,7 +33,7 @@ let {
 
 
 /* Gather all stats and return them to the client */
-module.exports = (socket, fn) => {
+module.exports = (fn) => {
     let stats = {
         shipsSank: playerEntity.shipsSank,
         shotsFired: playerEntity.shotsFired,

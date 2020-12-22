@@ -33,7 +33,7 @@ let {
 
 
 /* Removes all crates */
-module.exports = (socket) => {
+module.exports = () => {
     for (let i in entities) {
         if (entities[i].type == 0) core.removeEntity(core.entities[i]);
     }

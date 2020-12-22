@@ -278,7 +278,7 @@ io.on(`connection`, async socket => {
         for (const file of eventFiles) {
             const event = require(`./socket/${file}`);
             let eventName = file.split(`.`)[0];
-            socket.on(eventName, event.bind(socket, null));
+            socket.on(eventName, event.bind(null));
         }
     }
 

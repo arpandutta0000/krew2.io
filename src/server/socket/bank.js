@@ -30,10 +30,10 @@ let {
     reportedIps,
 } = require(`../socketForClients.js`).socketEvents;
 
-
+// Socket
 
 /* Bank data */
-module.exports = async (socket, data) => {
+module.exports = async (data) => {
     if (playerEntity.isLoggedIn) {
         if (playerEntity.parent.name == `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name == `Labrador`)) {
             let setBankData = async () => {

@@ -33,7 +33,7 @@ let {
 
 
 /* Clan event */
-module.exports = async (socket, player, callback) => {
+module.exports = async (player, callback) => {
     // Only logged in players can perform clan actions.
     if (!playerEntity.isLoggedIn) return log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 

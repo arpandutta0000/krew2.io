@@ -33,7 +33,7 @@ let {
 
 
 /* When a player buys goods */
-module.exports = (socket, transaction, callback) => {
+module.exports = (transaction, callback) => {
     // Add a timestamp to stop hackers from spamming buy / sell emits.
     if (Date.now() - playerEntity.goodsTimestamp < 800) {
         playerEntity.sellCounter++;
