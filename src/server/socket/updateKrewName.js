@@ -30,10 +30,10 @@ let {
     reportedIps,
 } = require(`../socketForClients.js`).socketEvents;
 
-// Socket
+
 
 /* When a user changes their name */
-module.exports = (name) => {
+module.exports = (socket, name) => {
     // Do not allow any form of brackets in the name.
     name = name.replace(/[\[\]{}()/\\]/g, ``);
 

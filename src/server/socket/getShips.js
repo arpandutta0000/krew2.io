@@ -33,7 +33,7 @@ let {
 
 
 /* Get ships in shop */
-module.exports = (callback) => {
+module.exports = (socket, callback) => {
     if (playerEntity && playerEntity.parent) {
         let ships = {}
         let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];

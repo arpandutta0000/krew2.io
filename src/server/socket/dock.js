@@ -33,6 +33,6 @@ let {
 
 
 /* When ship enters docking area */
-module.exports = () => {
+module.exports = (socket) => {
     if (playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.dock_countdown = new Date();
 }

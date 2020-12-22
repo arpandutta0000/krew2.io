@@ -33,6 +33,6 @@ let {
 
 
 /* Sets minimum crates allowed */
-module.exports = (amount) => {
+module.exports = (socket, amount) => {
     cratesInSea.min = amount
 }

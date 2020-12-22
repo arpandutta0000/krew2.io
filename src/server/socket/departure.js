@@ -33,7 +33,7 @@ let {
 
 
 /* If a player decides to depart from an island */
-module.exports = (departureCounter) => {
+module.exports = (socket, departureCounter) => {
     // Check if player who sends exitIsland command is docked at island.
     if (playerEntity.parent.anchorIslandId == undefined) log(`cyan`, `Exploit detected (docking at sea). Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
     else {

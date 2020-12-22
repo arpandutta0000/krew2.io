@@ -33,7 +33,7 @@ let {
 
 
 /* If a player abandons ship */
-module.exports = (data) => {
+module.exports = (socket, data) => {
     let motherShip = playerEntity.parent;
 
     // Only non-captains can abandon ship.

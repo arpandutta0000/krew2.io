@@ -33,7 +33,7 @@ let {
 
 
 /* Gets goods in shop */
-module.exports = (callback) => {
+module.exports = (socket, callback) => {
     if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
         if (core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it sems you don't have an anchored boat.`);
     }

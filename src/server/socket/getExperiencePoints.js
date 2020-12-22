@@ -33,7 +33,7 @@ let {
 
 
 /* Returns experience points to player */
-module.exports = (callback) => {
+module.exports = (socket, callback) => {
     if (playerEntity && playerEntity.parent) {
         playerEntity.updateExperience();
 

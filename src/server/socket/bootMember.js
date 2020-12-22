@@ -33,7 +33,7 @@ let {
 
 
 /* If a player kicks a krew member */
-module.exports = (playerId) => {
+module.exports = (socket, playerId) => {
     let player = core.players[playerId];
 
     if (player) {

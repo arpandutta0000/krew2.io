@@ -33,7 +33,7 @@ let {
 
 
 /* If a player locks their krew */
-module.exports = (lockBool) => {
+module.exports = (socket, lockBool) => {
     if (playerEntity.isCaptain && lockBool) {
         playerEntity.parent.isLocked = true;
         playerEntity.parent.recruiting = false;

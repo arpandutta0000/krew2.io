@@ -33,6 +33,6 @@ let {
 
 
 /* Description */
-module.exports = () => {
+module.exports = (socket) => {
     if (playerEntity.parent.dock_countdown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
 }

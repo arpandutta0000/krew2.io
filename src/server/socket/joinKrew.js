@@ -33,7 +33,7 @@ let {
 
 
 /* If a player joins a krew */
-module.exports = (boatId, callback) => {
+module.exports = (socket, boatId, callback) => {
     let boat = core.boats[boatId];
     if (boat != undefined && boat.isLocked != true) {
         let playerBoat = playerEntity.parent; // Player's boat, or anchored island if they do not own a boat.

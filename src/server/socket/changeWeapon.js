@@ -33,7 +33,7 @@ let {
 
 
 /* When player changes weapon */
-module.exports = (index) => {
+module.exports = (socket, index) => {
     index = xssFilters.inHTMLData(index);
     index = parseInt(index);
     if (playerEntity != undefined && (index == 0 || index == 1 || index == 2)) {

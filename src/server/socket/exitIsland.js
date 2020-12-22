@@ -33,7 +33,7 @@ let {
 
 
 /* If a player decides to leave an island */
-module.exports = (data) => {
+module.exports = (socket, data) => {
     let boat = playerEntity.parent;
 
     // If captains ends to exit island request.

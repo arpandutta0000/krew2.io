@@ -30,10 +30,10 @@ let {
     reportedIps,
 } = require(`../socketForClients.js`).socketEvents;
 
-// Socket
+
 
 /* Event fired when a player respawns */
-module.exports = (callback) => {
+module.exports = (socket, callback) => {
     if (playerEntity.parent.hp >= 1) return log(`cyan`, `Player ${playerEntity.name} tried to respawn while his boat still has health | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
     // Check for timestamp of last respawn and ban if it was less than 2 seconds ago.

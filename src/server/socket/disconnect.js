@@ -33,7 +33,7 @@ let {
 
 
 /* Fired when player disconnects from the game */
-module.exports = async (data) => {
+module.exports = async (socket, data) => {
     log(`magenta`, `Player ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
     if (!DEV_ENV) delete gameCookies[playerEntity.id];
 

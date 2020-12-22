@@ -30,10 +30,10 @@ let {
     reportedIps,
 } = require(`../socketForClients.js`).socketEvents;
 
-// Socket
+
 
 /* For testing performance */
-module.exports = (type) => {
+module.exports = (socket, type) => {
     let typeEntity = type;
     let count = 0;
     for (let i in entities) {

@@ -33,7 +33,7 @@ let {
 
 
 /* Allocates points to a player */
-module.exports = (points, callback) => {
+module.exports = (socket, points, callback) => {
     // Check amount of already allocated points.
     let countPoints = 0;
     for (let i in playerEntity.points) countPoints += playerEntity.points[i];

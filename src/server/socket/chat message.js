@@ -30,10 +30,10 @@ let {
     reportedIps,
 } = require(`../socketForClients.js`).socketEvents;
 
-// Socket
+
 
 /* Message Handler */
-module.exports = async (msgData) => {
+module.exports = async (socket, msgData) => {
     // Catch client modifications.
     if (!msgData.message || !msgData.recipient || typeof msgData.message != `string` || typeof msgData.recipient != `string`) return;
     if (msgData.message.length < 1) return;
