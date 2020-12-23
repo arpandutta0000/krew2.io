@@ -8,11 +8,11 @@ let userSchema = Mongoose.Schema({
     },
     creationIP: {
         type: String,
-        required: true
+        required: false
     },
     lastIP: {
         type: String,
-        required: true
+        required: false
     },
     creationDate: {
         type: Date,
@@ -28,11 +28,11 @@ let userSchema = Mongoose.Schema({
     },
     clan: {
         type: String,
-        required: true
+        required: false
     },
     clanRequest: {
         type: String,
-        required: true
+        required: false
     }
 });
 

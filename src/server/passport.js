@@ -24,9 +24,7 @@ passport.use(`login`, new LocalStrategy({
     }).then((err, user) => {
         if (err) return done(err);
         if (!user) {
-            return done(null, false, {
-                message: `Incorrect username or password`
-            });
+            return done(`Incorrect username or password`, false);
         }
 
         // Login a user.
@@ -34,14 +32,12 @@ passport.use(`login`, new LocalStrategy({
             if (err) return log(`red`, err);
 
             if (isMatch) return done(null, user);
-            else return done(null, false, {
-                message: `Incorrect username / password`
-            })
+            else return done(`Incorrect username / password`, false)
         });
     }).catch(err => {
-        return done(null, false, {
+        return done({
             message: err
-        });
+        }, false);
     });
 }));
 
@@ -52,21 +48,14 @@ passport.use(`register`, new LocalStrategy({
 }, (username, password, done) => {
     User.findOne({
         username
-    }).then((err, user) => {
-        if (err) return done(err);
-        if (user) return done(null, false, {
-            message: `User already exists`
-        });
+    }).then(user => {
+        if (user) return done(`User already exists`, false);
         else {
             let registerUser = new User({
                 username,
-                creationIP: null,
-                lastIP: null,
                 creationDate: new Date(),
                 password,
                 highscore: 0,
-                clan: null,
-                clanRequest: null
             });
 
             bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {

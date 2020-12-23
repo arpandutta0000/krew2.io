@@ -1,4 +1,8 @@
 // routes/auth.js
+
+// Log utility.
+const log = require(`../utils/log.js`);
+
 const express = require(`express`);
 let router = express.Router();
 
@@ -16,29 +20,37 @@ router.post(`/register`, (req, res, next) => {
         errors: `Bad request`
     });
 
-    console.log(`1`);
     passport.authenticate(`register`, (err, user, info) => {
-        console.log(`2`);
-        if (err) return res.json({
-            errors: err
-        });
+        if (err) {
+            log(`red`, err);
+            return res.json({
+                errors: err
+            });
+        }
+
         if (user) return res.json({
             errors: `User already exists`
+        });
+        else return res.json({
+            success: `Succesfully logged in`
         });
     })(req, res, next);
 })
 
 router.post(`/login`, (req, res, next) => {
-    console.log(`3`);
     if (!req.body[`login-user`] || !req.body[`login-password`] ||
         typeof req.body[`login-user`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
         errors: `Bad request`
     });
-    
+
     passport.authenticate(`login`, (err, user, info) => {
-        if (err) return res.json({
-            errors: err
-        });
+        if (err) {
+            log(`red`, err);
+            return res.json({
+                errors: `There was an error in logging into your account`
+            });
+        }
+
         if (!user) return res.json({
             errors: `User does not exist`
         });
