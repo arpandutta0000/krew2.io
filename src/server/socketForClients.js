@@ -1568,16 +1568,23 @@ io.on(`connection`, async socket => {
     });
 
     let createThePlayer = data => {
-        if (data.name && data.password) {
-            if (typeof data.name != `string` || typeof data.password != `string`) return log(`cyan`, `Exploit detected: Fradulent credential type. Refusing IP: ${playerEntity.socket.handshake.address}`);
+        if (data.name) {
+            if (!data.password || typeof data.name != `string` || typeof data.password != `string`) {
+                log(`cyan`, `Exploit detected: Fradulent credential type. Refusing IP: ${socket.handshake.address}`);
+                socket.emit(`showCenterMessage`, `Failed to verify credentials`, 1, 6e4);
+                return socket.disconnect(); 
+            }
 
             User.findOne({
                 username: data.name
             }).then(user => {
-                if (!user) log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${playerEntity.socket.handshake.address}.`);
+                if (!user) log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${socket.handshake.address}.`);
                 if (data.password == user.password) data.name = data.name.toString();
-                else data.name = undefined;
-
+                else {
+                    log(`cyan`, `Exploit detected: Incorrect password with username. Spawning IP as seadog: ${socket.handshake.address}`);
+                    data.name = undefined;
+                    data.password = undefined;
+                }
                 initSocketForPlayer(data);
             });
         } else {
