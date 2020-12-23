@@ -36,14 +36,23 @@ router.post(`/register`, (req, res, next) => {
             });
         }
 
-        if (user) return res.json({
-            errors: `User already exists`
-        });
-        else return res.json({
-            success: `Succesfully registered`
-        });
+        if (info) {
+            User.findOne({ username }).then(user => {
+                if(!user) return log(`red`, err);
+
+                user.email = req.body[`register-email`];
+                user.creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+                user.lastIP = user.creationIP;
+                
+                user.save();
+
+                return res.json({
+                    success: `Succesfully registered`
+                });
+            });
+        }
     })(req, res, next);
-})
+});
 
 router.post(`/login`, (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -60,7 +69,7 @@ router.post(`/login`, (req, res, next) => {
         if (err) {
             log(`red`, err);
             return res.json({
-                errors: err`There was an error in logging into your account`
+                errors: err `There was an error in logging into your account`
             });
         }
 

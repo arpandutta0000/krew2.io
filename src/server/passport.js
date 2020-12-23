@@ -60,7 +60,7 @@ passport.use(`register`, new LocalStrategy({
 
                 registerUser.password = hash;
                 registerUser.save().then(user => () => {
-                    return done(null, user);
+                    return done(null, user, `success`);
                 }).catch(err => {
                     return done(err);
                 });
