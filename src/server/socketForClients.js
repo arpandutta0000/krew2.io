@@ -1577,8 +1577,10 @@ io.on(`connection`, async socket => {
                 });
             });
         }
-        data.name = undefined;
-        initSocketForPlayer(data);
+        else {
+            data.name = undefined;
+            initSocketForPlayer(data);
+        }
     }
 
     // Send full world information - force full dta. First snapshot (compress with lz-string).
