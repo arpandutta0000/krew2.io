@@ -376,7 +376,7 @@ io.on(`connection`, async socket => {
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
+                        return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${banReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
                     } else if (command == `tempban` && (isAdmin || isMod)) {
                         let tempbanUser = args.shift();
                         let tempbanReason = args.join(` `);
