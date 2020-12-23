@@ -14,7 +14,6 @@ const md5 = require(`./utils/md5.js`);
 const mongoose = require(`mongoose`);
 const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
-const bcrypt = require(`bcryptjs`);
 
 const {
     isSpamming,
