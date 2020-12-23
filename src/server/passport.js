@@ -21,8 +21,7 @@ passport.use(`login`, new LocalStrategy({
 }, (username, password, done) => {
     User.findOne({
         username
-    }).then((err, user) => {
-        if (err) return done(err);
+    }).then(user => {
         if (!user) {
             return done(`Incorrect username or password`, false);
         }
@@ -35,9 +34,7 @@ passport.use(`login`, new LocalStrategy({
             else return done(`Incorrect username / password`, false)
         });
     }).catch(err => {
-        return done({
-            message: err
-        }, false);
+        return done(err, false);
     });
 }));
 
