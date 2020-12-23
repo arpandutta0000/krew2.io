@@ -113,15 +113,6 @@ router.post(`/login`, (req, res, next) => {
         errors: `Please fill out all fields`
     });
 
-
-});
-
-router.post(`/changeusername`, (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return res.json({
-            success: `Changed username`
-        });
-    }
     if (!req.body[`login-user`] || !req.body[`login-password`] ||
         typeof req.body[`login-user`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
         errors: `Please fill out all fields`
