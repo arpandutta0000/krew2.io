@@ -17,10 +17,6 @@ router.post(`/register`, (req, res, next) => {
         errors: `Please fill out all fields`
     });
 
-    if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
-        errors: `Password must be between 7 and 48 characters`
-    });
-
     if(!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
         errors: `Your username must contain at least one letter`
     });
@@ -39,6 +35,10 @@ router.post(`/register`, (req, res, next) => {
 
     if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
         errors: `Passwords do not match`
+    });
+
+    if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
+        errors: `Password must be between 7 and 48 characters`
     });
 
     passport.authenticate(`register`, (err, user, info) => {
