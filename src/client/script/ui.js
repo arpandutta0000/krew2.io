@@ -1687,8 +1687,46 @@ var ui = {
                 ui.prepareForPlay()
 
                 loginButton.on('click', function () {
-                    $('#manage-account-box').modal('show')
-                })
+                    $('#manage-account-box').modal('show');
+                    $('#current-username').text(ui.username);
+                });
+
+                $('#username-edit-button').on('click', function () {
+                    $('#change-username-error').addClass('hidden');
+                    $('#current-username-container').addClass('hidden');
+                    $('#change-username').removeClass('hidden');
+                });
+
+                $('#submit-change-username').on('click', function (e) {
+                    e.preventDefault();
+
+                    window.location.href = '/logout';
+
+                    $('#submit-change-username').attr('disabled', true);
+
+                    $('#change-username-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/changeusername',
+                        data: $('#change-username-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-change-username').attr('disabled', false);
+                            $('#shange-username-error').removeClass('hidden');
+                            $('#change-username-err-msg').text(res.errors);
+                            return;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            $('#submit-change-username').attr('disabled', false);
+                            $('#change-username').modal('hide');
+                            $('#current-username').text(ui.username);
+                            window.location.href = '/logout';
+                            return;
+                        }
+                    })
+                });
             }
         });
     },
