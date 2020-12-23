@@ -1,7 +1,8 @@
 // routes/auth.js
 
-// Log utility.
+// Log utility and request.
 const log = require(`../utils/log.js`);
+const axios = require(`axios`);
 
 const express = require(`express`);
 let router = express.Router();
@@ -41,22 +42,6 @@ router.post(`/register`, (req, res, next) => {
         errors: `Password must be between 7 and 48 characters`
     });
 
-    let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
-    User.findOne({
-        creationIP
-    }).then(user => {
-        if (user) return res.json({
-            errors: `You can only create one account`
-        });
-        User.findOne({
-            lastIP: creationIP
-        }).then(user => {
-            if (user) return res.json({
-                errors: `You can only create one account`
-            });
-        });
-    });
-
     passport.authenticate(`register`, (err, user, info) => {
         if (err) return res.json({
             errors: err
@@ -70,15 +55,46 @@ router.post(`/register`, (req, res, next) => {
             }).then(user => {
                 if (!user) return log(`red`, err);
 
+                let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+
                 user.email = req.body[`register-email`];
-                user.creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+                user.creationIP = creationIP;
                 user.lastIP = user.creationIP;
 
-                user.save();
+                User.findOne({
+                    creationIP
+                }).then(user => {
+                    if (user) return res.json({
+                        errors: `You can only create one account`
+                    });
+                    User.findOne({
+                        lastIP: creationIP
+                    }).then(user => {
+                        if (user) return res.json({
+                            errors: `You can only create one account`
+                        });
 
-                console.log(`got here bro`);
-                return res.json({
-                    success: `Succesfully registered`
+                        axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(req, res => {
+                            if (!res) {
+                                log(`red`, `There was an error checking while performing the VPN check request.`);
+                                return res.json({
+                                    errors: `There was an error in creating your account`
+                                });
+                            }
+
+                            if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
+                                log(`cyan`, `VPN connection. Preventing account creation by IP: ${socket.handshake.address}.`);
+                                return res.json({
+                                    errors: `Disable VPN to create an account`
+                                });
+                            } else {
+                                user.save();
+                                return res.json({
+                                    success: `Succesfully registered`
+                                });
+                            }
+                        });
+                    });
                 });
             });
         }
