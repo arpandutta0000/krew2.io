@@ -337,7 +337,7 @@ io.on(`connection`, async socket => {
                             log(`blue`, `ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             output = player.id;
                         } else {
-                            let player = core.boats.find(boat => boat.crewName == user);
+                            let player = Object.values(core.boats).find(boat => boat.crewName == user);
                             if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                             log(`blue`, `ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainId} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
@@ -415,7 +415,7 @@ io.on(`connection`, async socket => {
                                 timestamp: new Date(),
 
                                 gold: player.gold,
-                                xp: player.experience,
+                                experience: player.experience,
                                 points: {
                                     fireRate: player.fireRate,
                                     distance: player.distance,
