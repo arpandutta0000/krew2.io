@@ -1705,7 +1705,7 @@ var ui = {
                     $('#change-username-error').addClass('hidden');
                     $.ajax({
                         type: 'post',
-                        url: '/changeusername',
+                        url: '/change_username',
                         data: $('#change-username-form').serialize(),
                     }).then(function (res) {
                         // If there is an error, return an error
