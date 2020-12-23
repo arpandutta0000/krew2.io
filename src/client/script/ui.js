@@ -1604,10 +1604,12 @@ var ui = {
                     $('#open-register').on('click', function () {
                         $('#login-box').modal('hide');
                         $('#register-box').modal('show');
+                        $('#register-error').addClass('hidden');
                     });
                     $('#open-login').on('click', function () {
                         $('#register-box').modal('hide');
                         $('#login-box').modal('show');
+                        $('#login-error').addClass('hidden');
                     });
 
                     $('#submit-login').on('click', function (e) {
