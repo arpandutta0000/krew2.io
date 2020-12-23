@@ -1593,8 +1593,8 @@ var ui = {
     getKrewioData: function () {
 
         return $.get(baseUrl + '/authenticated').then(function (response) {
-            ui.username = !response.isLoggedIn ? undefined : response.username;
-            ui.password = !response.isLoggedIn ? undefined : response.password;
+            ui.username = !response.isLoggedIn ? undefined : response.user.username;
+            ui.password = !response.isLoggedIn ? undefined : response.user.password;
             loginButton.attr('disabled', false).show()
 
             if (ui.username === undefined) {
@@ -1667,11 +1667,8 @@ var ui = {
                     });
                 });
             } else {
-                ui.setCookie('username', response.username, 1)
-                ui.setCookie('token', response.token, 1)
-                ui.clientAccessToken = response.token
-
-                console.log(document.cookie)
+                ui.setCookie('username', response.user.username, 1)
+                ui.setCookie('password', response.user.password, 1)
 
                 // player is authenticated, so show him personalized login button
                 loginButton.html('Play as <b>' + ui.username + '</b>')

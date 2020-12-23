@@ -38,6 +38,11 @@ router.post(`/register`, (req, res, next) => {
 })
 
 router.post(`/login`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return res.json({
+            success: `Logged in`
+        });
+    }
     if (!req.body[`login-user`] || !req.body[`login-password`] ||
         typeof req.body[`login-user`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
         errors: `Bad request`
@@ -60,7 +65,7 @@ router.post(`/login`, (req, res, next) => {
                 errors: err
             });
             return res.json({
-                success: `Logged in as ${user.id}`
+                success: `Logged in`
             });
         });
     })(req, res, next);
