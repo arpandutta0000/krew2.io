@@ -519,10 +519,10 @@ io.on(`connection`, async socket => {
                             });
                         }
                     }
-                } else if (msgData.recipient == `staff` && (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev)) {
+                } else if (msgData.recipient == `staff` && (Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Devs.includes(playerEntity.name))) {
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.isAdmin || player.isMod || player.isDev) player.socket.emit(`chat message`, {
+                        if (Admins.includes(player.name) || Mods.includes(player.name) || Devs.includes(player.name)) player.socket.emit(`chat message`, {
                             playerId: playerEntity.id,
                             playerName: playerEntity.name,
                             recipient: `staff`,
@@ -531,7 +531,7 @@ io.on(`connection`, async socket => {
                     }
                 } else if (msgData.message.length > 1) {
                     socket.emit(`showCenterMessage`, `You have been muted`, 1);
-                    log(`blue`, `Player ${playerEntity.name} was auto-muted | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    log(`blue`, `Player ${playerEntity.name} was auto-muted | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 }
             }
         });
@@ -1566,9 +1566,9 @@ io.on(`connection`, async socket => {
                 username: data.name
             }).then(user => {
                 if (!user) log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${playerEntity.socket.handshake.address}.`);
-                if(data.password == user.password) data.name = data.name.toString();
+                if (data.password == user.password) data.name = data.name.toString();
                 else data.name = undefined;
-                
+
                 initSocketForPlayer(data);
             });
         } else {
