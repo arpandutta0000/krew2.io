@@ -1620,7 +1620,7 @@ var ui = {
                             data: $('#login-form').serialize(),
                         });
                     });
-                    $('#submit-register').on('click', function () {
+                    $('#submit-register').on('click', function (e) {
                         e.preventDefault();
                         $('#register-box').modal('hide');
 
