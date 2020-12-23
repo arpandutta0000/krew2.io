@@ -59,7 +59,7 @@ let playerRestoreSchema = Mongoose.Schema({
         type: Boolean,
         required: true
     },
-    itemID: {
+    itemId: {
         type: Number,
         required: true
     },
