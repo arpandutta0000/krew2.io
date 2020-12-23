@@ -1114,9 +1114,10 @@ io.on(`connection`, async socket => {
                     playerEntity.purchaseShip(item.id, (krewioData || {}).krewname);
 
                     // Calculate other quest level of captain.
+                    let other_quest_level;
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.parent != undefined && playerEntity.parent.id == player.parent.id && player.isCaptain) playerEntity.parent.other_quest_level = other_quest_level;
+                        if (player.parent && playerEntity.parent.id == player.parent.id && player.isCaptain) other_quest_level = player.other_quest_level;
                     }
                     playerEntity.parent.other_quest_level = other_quest_level;
                 }
