@@ -922,13 +922,13 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.parent != undefined && motherShip.id == otherPlayer.parent.id) {
+                            if (player.parent != undefined && motherShip.id == player.parent.id) {
                                 crewKillCount += player.shipsSank;
                                 crewTradeCount += player.overall_cargo;
                             }
                         }
                         motherShip.overallKills = crewKillCount;
-                        motherShip.overall_cargo = crewOverallCargo;
+                        motherShip.overall_cargo = crewTradeCount;
                     }
                 }
             }
@@ -1116,7 +1116,7 @@ io.on(`connection`, async socket => {
                     // Calculate other quest level of captain.
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (otherPlayer.parent != undefined && playerEntity.parent.id == player.parent.id && player.isCaptain) playerEntity.parent.otherQuestLevel = otherQuestLevel;
+                        if (player.parent != undefined && playerEntity.parent.id == player.parent.id && player.isCaptain) playerEntity.parent.otherQuestLevel = otherQuestLevel;
                     }
                     playerEntity.parent.otherQuestLevel = otherQuestLevel;
                 }
