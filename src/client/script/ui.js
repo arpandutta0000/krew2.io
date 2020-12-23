@@ -1596,38 +1596,74 @@ var ui = {
             ui.username = !response.isLoggedIn ? undefined : response.username;
             ui.password = !response.isLoggedIn ? undefined : response.password;
             loginButton.attr('disabled', false).show()
+
             if (ui.username === undefined) {
 
+                // When a user opens the login menu
                 loginButton.on('click', function () {
+                    // Show login box
                     $('#login-box').modal('show');
                 });
+
+                // If register menu button is clicked, close login menu and open register menu
                 $('#open-register').on('click', function () {
                     $('#login-box').modal('hide');
                     $('#register-box').modal('show');
+                    $('#register-error').addClass('hidden');
                 });
+
+                // If login menu button is clicked, close register menu and open logub menu
                 $('#open-login').on('click', function () {
                     $('#register-box').modal('hide');
                     $('#login-box').modal('show');
+                    $('#login-error').addClass('hidden');
                 });
 
+                // If a user submits a login
                 $('#submit-login').on('click', function (e) {
                     e.preventDefault();
-                    $('#login-box').modal('hide');
 
+                    $('#login-error').addClass('hidden');
                     $.ajax({
                         type: 'post',
                         url: '/login',
                         data: $('#login-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#login-error').removeClass('hidden');
+                            $('#login-err-msg').text(res.errors);
+                            return;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            $('#login-box').modal('hide');
+                            return;
+                        }
                     });
                 });
+
+                // If a user attempts to register
                 $('#submit-register').on('click', function (e) {
                     e.preventDefault();
-                    $('#register-box').modal('hide');
 
+                    $('#register-error').addClass('hidden');
                     $.ajax({
                         type: 'post',
                         url: '/register',
                         data: $('#register-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#register-error').removeClass('hidden');
+                            $('#register-err-msg').text(res.errors);
+                            return;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            $('#register-box').modal('hide');
+                            return;
+                        }
                     });
                 });
             } else {
