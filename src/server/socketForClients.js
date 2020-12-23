@@ -1566,14 +1566,10 @@ io.on(`connection`, async socket => {
                 username: data.name
             }).then(user => {
                 if (!user) log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${playerEntity.socket.handshake.address}.`);
-                bcrypt.compare(data.password, user.password, (err, isMatch) => {
-                    if (err) return log(`red`, err);
-
-                    if (isMatch) data.name = data.name.toString();
-                    else data.name = undefined;
-
-                    initSocketForPlayer(data);
-                });
+                if(data.password == user.password) data.name = data.name.toString();
+                else data.name = undefined;
+                
+                initSocketForPlayer(data);
             });
         } else {
             data.name = undefined;
