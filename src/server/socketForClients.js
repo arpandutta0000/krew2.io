@@ -160,6 +160,15 @@ io.on(`connection`, async socket => {
             }
         }
 
+        // No same account usage.
+        for (let i in core.players) {
+            let player = core.players[i];
+            if (player.name == data.name) {
+                log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
+                return socket.disconnect();
+            }
+        }
+
         // Create player in the world.
         data.socketId = socketId;
         playerEntity = core.createPlayer(data);

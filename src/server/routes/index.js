@@ -14,7 +14,7 @@ router.get(`/admin`, (req, res, next) => {
     if(!req.user) return res.redirect(`/`);
     
     let name = req.user.username;
-    if(!thuglife.admins.includes(name) || !thuglife.mods.includes(name) || !thuglife.devs.includes(name)) return res.redirect(`/`);
+    if(!config.admins.includes(name) || !config.mods.includes(name) || !config.devs.includes(name)) return res.redirect(`/`);
     
     res.render(`admin.ejs`);
 });
