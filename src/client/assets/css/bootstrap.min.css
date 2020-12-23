@@ -6183,7 +6183,8 @@ button.close {
     -webkit-transform: translate(0, -25%);
     -ms-transform: translate(0, -25%);
     -o-transform: translate(0, -25%);
-    transform: translate(0, -25%)
+    transform: translate(0, -25%);
+    box-shadow: 0px 0px 1px 5000px rgba(0,0,0,0.8);
 }
 
 .modal.in .modal-dialog {

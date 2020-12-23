@@ -1598,6 +1598,7 @@ var ui = {
             loginButton.attr('disabled', false).show()
             if (ui.username === undefined) {
                 loginButton.on('click', function () {
+                    $('#login-box').modal('show');
                 });
             } else {
                 ui.setCookie('username', response.username, 1)
