@@ -1,4 +1,4 @@
-module.exports.staff = {
+module.exports = {
     Admins: [{
             name: `ITSDABOMB`,
             hash: `c699a0d37840edcc12be7975e47f86d3`

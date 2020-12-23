@@ -37,9 +37,9 @@ const config = {
 
 config.staticDir = config.mode == `dev` ? `${__dirname}/../../client/` : `${__dirname}/../../../dist/`;
 
-for(const admin of thugConfig.admins) config.admins.push(admin.name);
-for(const mod of thugConfig.mods) config.mods.push(mod.name);
-for(const dev of thugConfig.devs) config.devs.push(dev.name);
+for(const admin of thugConfig.Admins) config.admins.push(admin.name);
+for(const mod of thugConfig.Mods) config.mods.push(mod.name);
+for(const dev of thugConfig.Devs) config.devs.push(dev.name);
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,
