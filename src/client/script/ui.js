@@ -1612,22 +1612,42 @@ var ui = {
 
                     $('#submit-login').on('click', function (e) {
                         e.preventDefault();
-                        $('#login-box').modal('hide');
 
+                        $('#login-error').addClass('hidden');
                         $.ajax({
                             type: 'post',
                             url: '/login',
                             data: $('#login-form').serialize(),
+                        }).then(function (res) {
+                            if (res.errors) {
+                                $('#login-error').removeClass('hidden');
+                                $('#login-err-msg').text(res.errors);
+                                return;
+                            }
+                            if (res.success) {
+                                $('#login-box').modal('hide');
+                                return;
+                            }
                         });
                     });
                     $('#submit-register').on('click', function (e) {
                         e.preventDefault();
-                        $('#register-box').modal('hide');
 
+                        $('#register-error').addClass('hidden');
                         $.ajax({
                             type: 'post',
                             url: '/register',
                             data: $('#register-form').serialize(),
+                        }).then(function (res) {
+                            if (res.errors) {
+                                $('#register-error').removeClass('hidden');
+                                $('#register-err-msg').text(res.errors);
+                                return;
+                            }
+                            if (res.success) {
+                                $('#register-box').modal('hide');
+                                return;
+                            }
                         });
                     });
                 });
