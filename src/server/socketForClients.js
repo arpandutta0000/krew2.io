@@ -293,11 +293,10 @@ io.on(`connection`, async socket => {
 
                 // If the user has not authenticated, only give them access to login command.
                 if (!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
-                    let pwd = await md5(args[0]);
                     if (command == `login`) {
-                        let isAdmin = thugConfig.Admins[playerEntity.name] == pwd;
-                        let isMod = thugConfig.Mods[playerEntity.name] == pwd;
-                        let isDev = thugConfig.Devs[playerEntity.name] == pwd;
+                        let isAdmin = thugConfig.Admins[playerEntity.name];
+                        let isMod = thugConfig.Mods[playerEntity.name];
+                        let isDev = thugConfig.Devs[playerEntity.name];
 
                         // Log the player login and send them a friendly message confirming it.
                         log(!isAdmin && !isMod && !isDev ? `cyan` : `blue`, `${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
