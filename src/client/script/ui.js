@@ -1788,7 +1788,7 @@ var ui = {
     },
 
     createWallOfFame: function () {
-        $.get("wall-of-fame", function (data, status) {
+        $.get("wall_of_fame", function (data, status) {
             if (status === "success") {
                 var tableContent = '';
                 for (var p in data) {
