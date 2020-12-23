@@ -323,7 +323,7 @@ io.on(`connection`, async socket => {
                         return io.emit(`showAdminMessage`, `You have been recompensed for the server restart!`);
                     } else if (command == `nick` && isAdmin) {
                         let nick = args[0];
-                        if (!nick) {
+                        if (nick) {
                             playerEntity.name = nick;
                             return log(`blue`, `ADMIN NICK: ${nick} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         }
