@@ -597,9 +597,7 @@ io.on(`connection`, async socket => {
 
         socket.on(`updateKrewName`, name => {
             // Do not allow any form of brackets in the name.
-            console.log(name);
             name = name.replace(/[\[\]{}()/\\]/g, ``);
-            console.log(name);
 
             if (name != null && name.length > 1) {
                 if (name.length > 60) {
