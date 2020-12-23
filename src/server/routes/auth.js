@@ -20,6 +20,14 @@ router.post(`/register`, (req, res, next) => {
         errors: `Bad request`
     });
 
+    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body[`register-email`])) return res.json({
+        errors: `Invalid email`
+    });
+
+    if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
+        errors: `Password must be between 7 and 48 characters`
+    });
+
     passport.authenticate(`register`, (err, user, info) => {
         if (err) {
             log(`red`, err);
