@@ -1600,35 +1600,34 @@ var ui = {
 
                 loginButton.on('click', function () {
                     $('#login-box').modal('show');
+                });
+                $('#open-register').on('click', function () {
+                    $('#login-box').modal('hide');
+                    $('#register-box').modal('show');
+                });
+                $('#open-login').on('click', function () {
+                    $('#register-box').modal('hide');
+                    $('#login-box').modal('show');
+                });
 
-                    $('#open-register').on('click', function () {
-                        $('#login-box').modal('hide');
-                        $('#register-box').modal('show');
+                $('#submit-login').on('click', function (e) {
+                    e.preventDefault();
+                    $('#login-box').modal('hide');
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/login',
+                        data: $('#login-form').serialize(),
                     });
-                    $('#open-login').on('click', function () {
-                        $('#register-box').modal('hide');
-                        $('#login-box').modal('show');
-                    });
+                });
+                $('#submit-register').on('click', function (e) {
+                    e.preventDefault();
+                    $('#register-box').modal('hide');
 
-                    $('#submit-login').on('click', function (e) {
-                        e.preventDefault();
-                        $('#login-box').modal('hide');
-
-                        $.ajax({
-                            type: 'post',
-                            url: '/login',
-                            data: $('#login-form').serialize(),
-                        });
-                    });
-                    $('#submit-register').on('click', function (e) {
-                        e.preventDefault();
-                        $('#register-box').modal('hide');
-
-                        $.ajax({
-                            type: 'post',
-                            url: '/register',
-                            data: $('#register-form').serialize(),
-                        });
+                    $.ajax({
+                        type: 'post',
+                        url: '/register',
+                        data: $('#register-form').serialize(),
                     });
                 });
             } else {
