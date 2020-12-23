@@ -32,7 +32,7 @@ router.post(`/register`, (req, res, next) => {
             errors: `User already exists`
         });
         else return res.json({
-            success: `Succesfully logged in`
+            success: `Succesfully registered`
         });
     })(req, res, next);
 })
@@ -79,7 +79,8 @@ router.get(`/logout`, (req, res, next) => {
 router.get(`/authenticated`, (req, res, next) => {
     if (req.isAuthenticated()) return res.json({
         isLoggedIn: true,
-        user: req.user
+        username: req.user.username,
+        password: req.user.password
     });
     else return res.json({
         isLoggedIn: false
