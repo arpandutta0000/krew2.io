@@ -5,6 +5,10 @@ let banSchema = Mongoose.Schema({
         type: Date,
         required: false
     },
+    username: {
+        type: String,
+        required: true
+    },
     IP: {
         type: String,
         required: true

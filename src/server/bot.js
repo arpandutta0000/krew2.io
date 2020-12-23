@@ -25,9 +25,10 @@ const client = new Discord.Client({
     sync: true
 });
 
-let chatLogChannel;
+let chatLogChannel, reportChannel;
 client.on(`ready`, async () => {
     chatLogChannel = await client.channels.fetch(config.discord.channels.chatLogs);
+    reportChanel = await client.channels.fetch(config.discord.channels.reports);
 
     log(`green`, `Connected to Discord.`);
 
@@ -71,7 +72,7 @@ client.on(`ready`, async () => {
             .setDescription(description)
             .setTimestamp(new Date())
             .setFooter(config.discord.footer);
-        chatLogChannel.send(sEmbed);
+        reportChannel.send(sEmbed);
     });
 });
 

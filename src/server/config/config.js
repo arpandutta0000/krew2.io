@@ -12,7 +12,7 @@ const config = {
         prefix: `k!`,
         channels: {
             chatLogs: `785986912765739039`,
-            reports: `785986728648245269`,
+            reports: `791402349909901314`,
             commands: `785986872777113610`
         },
         roles: {
@@ -33,11 +33,11 @@ const config = {
     devs: [],
     maxAmountCratesInSea: 1100,
     minAmountCratesInSea: 480,
-    whitespaceCharacters: [' ', '  ',
-        '\b', '\t', '\n', '\v', '\f', '\r', `\"`, `\'`, `\\`,
-        '\u0008', '\u0009', '\u000A', '\u000B', '\u000C',
-        '\u000D', '\u0020', '\u0022', '\u0027', '\u005C',
-        '\u00A0', '\u2028', '\u2029', '\uFEFF'
+    whitespaceCharacters: [` `, `  `,
+        `\b`, `\t`, `\n`, `\v`, `\f`, `\r`, `\"`, `\``, `\\`,
+        `\u0008`, `\u0009`, `\u000A`, `\u000B`, `\u000C`,
+        `\u000D`, `\u0020`, `\u0022`, `\u0027`, `\u005C`,
+        `\u00A0`, `\u2028`, `\u2029`, `\uFEFF`
     ]
 }
 

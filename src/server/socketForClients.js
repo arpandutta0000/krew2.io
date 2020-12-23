@@ -123,6 +123,7 @@ io.on(`connection`, async socket => {
 
                 // Ban the IP.
                 let ban = new Ban({
+                    username: data.name,
                     timestamp: new Date(),
                     IP: socket.handshake.address,
                     comment: `Auto VPN temp ban`
@@ -263,6 +264,7 @@ io.on(`connection`, async socket => {
                 log(`cyan`, `Spam message: ${msgData.message}`);
 
                 let ban = new Ban({
+                    username: playerEntity.name,
                     timestamp: new Date(),
                     IP: playerEntity.socket.handshake.address,
                     comment: `Auto chat spam temp ban`
@@ -366,6 +368,7 @@ io.on(`connection`, async socket => {
                         if (!banReason || banReason == ``) banReason == `No reason specified`;
 
                         let ban = new Ban({
+                            username: player.name,
                             IP: player.socket.handshake.address,
                             comment: banReason
                         });
@@ -386,6 +389,7 @@ io.on(`connection`, async socket => {
                         if (!tempbanReason || tempbanReason == ``) tempbanReason == `No reason specified`;
 
                         let ban = new Ban({
+                            username: player.name,
                             IP: player.socket.handshake.address,
                             timestamp: new Date(),
                             comment: tempbanReason
@@ -398,6 +402,22 @@ io.on(`connection`, async socket => {
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         return bus.emit(`report`, `Temporary Ban Player`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
+                    } else if (command == `unban` && (isAdmin || isMod)) {
+                        let unbanUser = args.shift();
+
+                        let player = await Ban.findOne({
+                            username: unbanUser
+                        });
+
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+
+                        Ban.delete(err => err ? log(`red`, err) : () => {
+                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${username}.`);
+                        });
+
+                        log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
+                        return bus.emit(`report`, `Unban player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
+
                     } else if (command == `save` && (isAdmin || isDev)) {
                         playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
                         for (let i in core.players) {
@@ -411,7 +431,7 @@ io.on(`connection`, async socket => {
 
                             let playerSaveData = new PlayerRestore({
                                 name: player.name,
-                                ip: player.socket.handshake.address,
+                                IP: player.socket.handshake.address,
                                 timestamp: new Date(),
 
                                 gold: player.gold,
@@ -604,7 +624,8 @@ io.on(`connection`, async socket => {
                     log(`cyan`, `Exploit detected (crew name length). Player ${playerEntity.name} kicked | Adding IP ${playerEntity.socket.handshake.address} to the ban list | Server ${playerEntity.serverNumber}.`);
                     if (playerEntity.socket.handshake.address.length > 5) {
                         let ban = new Ban({
-                            ip: socket.handshake.address,
+                            username: player.name,
+                            IP: socket.handshake.address,
                             comment: `Exploit: crew name length`
                         });
                         return ban.save(err => err ? log(`red`, err) : playerEntity.socket.disconnect());
@@ -863,6 +884,7 @@ io.on(`connection`, async socket => {
                 log(`cyan`, `Exploit detected: multiple respawn | Player: ${playerEntity.name} | Adding IP ${playerEntity.socket.handshake.address} to bannedIPs | Server: ${playerEntity.serverNumber}.`);
                 if (playerEntity.socket.handshake.address.length > 5) {
                     let ban = new Ban({
+                        username: player.name,
                         IP: socket.handshake.address,
                         comment: `Exploit: multiple respawn`
                     });
