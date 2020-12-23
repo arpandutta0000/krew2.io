@@ -58,21 +58,21 @@ client.on(`ready`, async () => {
         chatLogChannel.send(sEmbed);
         chatLogChannel.setTopic(`Server has been up since ${formattedTime}.`);
     }
-});
 
-bus.on(`msg`, (id, name, message) => {
-    message = discordFilter(message);
-    chatLogChannel.send(`${name} » ${message}`);
-});
+    bus.on(`msg`, (id, name, message) => {
+        message = discordFilter(message);
+        chatLogChannel.send(`${name} » ${message}`);
+    });
 
-bus.on(`report`, (title, description) => {
-    let sEmbed = new Discord.MessageEmbed()
-        .setAuthor(title)
-        .setColor(0xffff00)
-        .setDescription(description)
-        .setTimestamp(new Date())
-        .setFooter(config.discord.footer);
+    bus.on(`report`, (title, description) => {
+        let sEmbed = new Discord.MessageEmbed()
+            .setAuthor(title)
+            .setColor(0xffff00)
+            .setDescription(description)
+            .setTimestamp(new Date())
+            .setFooter(config.discord.footer);
         chatLogChannel.send(sEmbed);
+    });
 });
 
 client.on(`message`, message => {
