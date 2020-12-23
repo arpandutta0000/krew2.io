@@ -495,6 +495,28 @@
                         <br>
                         <h1>Manage Account</h1>
                     </div>
+                    <br>
+                    <form class="form-inline form-group h5" id="change-username-form">
+                        <h3>Username</h3>
+
+                        <div id="current-username-container" display="inline">
+                            <a id="current-username">Username</a>
+                            <div id="username-edit-button" class="btn btn-secondary btn-sm float-sm-right">
+                                <i class="icofont icofont-edit"></i>
+                            </div>
+                        </div>
+
+                        <div id="change-username" class="hidden" display="inline">
+                            <input type="text" id="change-username-input" name="change-username-input" class="form-control" placeholder="New Username">
+                            <input type="submit" id="submit-change-username" class="btn btn-success btn-md" value="Change Username"></input>
+                            <br>
+                            <a>You will be logged out after you change your username.</a>
+                            <div id="change-username-error" class="hidden">
+                                <br>
+                                <div class="form-error" id="change-username-err-msg">Invailid Data</div>
+                            </div>
+                        </div>
+                    </form>
                     <br><br><br>
                 </div>
             </div>
