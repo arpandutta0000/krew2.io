@@ -17,11 +17,11 @@ router.post(`/register`, (req, res, next) => {
         errors: `Please fill out all fields`
     });
 
-    if(!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
+    if (!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
         errors: `Your username must contain at least one letter`
     });
 
-    if(req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`])) return res.json({
+    if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`])) return res.json({
         errors: `Invalid Username`
     });
 
@@ -29,7 +29,7 @@ router.post(`/register`, (req, res, next) => {
         errors: `Invalid email`
     });
 
-    if(req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
+    if (req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
         errors: `Invalid Password`
     });
 
@@ -41,24 +41,42 @@ router.post(`/register`, (req, res, next) => {
         errors: `Password must be between 7 and 48 characters`
     });
 
-    passport.authenticate(`register`, (err, user, info) => {
-        if (err) {
-            log(`red`, err);
-            return res.json({
-                errors: err
+    let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+    User.findOne({
+        creationIP
+    }).then(user => {
+        if (user) return res.json({
+            errors: `You can only create one account`
+        });
+        User.findOne({
+            lastIP: creationIP
+        }).then(user => {
+            if (user) return res.json({
+                errors: `You can only create one account`
             });
-        }
+        });
+    });
+
+    passport.authenticate(`register`, (err, user, info) => {
+        if (err) return res.json({
+            errors: err
+        });
+
+        let username = user.username ? user.username : ``;
 
         if (info) {
-            User.findOne({ username }).then(user => {
-                if(!user) return log(`red`, err);
+            User.findOne({
+                username
+            }).then(user => {
+                if (!user) return log(`red`, err);
 
                 user.email = req.body[`register-email`];
                 user.creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
                 user.lastIP = user.creationIP;
-                
+
                 user.save();
 
+                console.log(`got here bro`);
                 return res.json({
                     success: `Succesfully registered`
                 });

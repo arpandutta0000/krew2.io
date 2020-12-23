@@ -52,19 +52,18 @@ passport.use(`register`, new LocalStrategy({
                 username,
                 creationDate: new Date(),
                 password,
-                highscore: 0,
+                highscore: 0
             });
 
             bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
                 if (err) return done(err);
 
                 registerUser.password = hash;
-                registerUser.save().then(user => () => {
-                    return done(null, user, `success`);
-                }).catch(err => {
-                    return done(err);
+                registerUser.save(err => {
+                    if (err) return done(err);
+                    return done(null, registerUser, `success`);
                 });
-            }))
+            }));
         }
     });
 }));
