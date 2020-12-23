@@ -94,7 +94,7 @@ router.post(`/register`, (req, res, next) => {
                                 });
                             }
                         });
-                     });
+                    });
                 });
             });
         }
@@ -148,6 +148,30 @@ router.get(`/authenticated`, (req, res, next) => {
     });
     else return res.json({
         isLoggedIn: false
+    });
+});
+
+router.post(`/change_username`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You are not logged in`
+    });
+    if (!req.body[`change-username-input`] || typeof req.body[`change-username-input`] != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+    if (!/[a-zA-Z]/.test(req.body[`change-username-input`])) return res.json({
+        errors: `Your username must contain at least one letter`
+    });
+
+    if (req.body[`change-username-input`] != xssFilters.inHTMLData(req.body[`change-username-input`]) || /[^\w\s]/.test(req.body[`change-username-input`])) return res.json({
+        errors: `Invalid Username`
+    });
+
+    User.findOne({
+        username: req.user.username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `There was an error in changing your username`
+        });
     });
 });
 
