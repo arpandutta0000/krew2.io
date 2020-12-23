@@ -1610,11 +1610,25 @@ var ui = {
                         $('#login-box').modal('show');
                     });
 
-                    $('#submit-login').on('click', function () {
+                    $('#submit-login').on('click', function (e) {
+                        e.preventDefault();
                         $('#login-box').modal('hide');
+
+                        $.ajax({
+                            type: 'post',
+                            url: '/login',
+                            data: $('#login-form').serialize(),
+                        });
                     });
                     $('#submit-register').on('click', function () {
+                        e.preventDefault();
                         $('#register-box').modal('hide');
+
+                        $.ajax({
+                            type: 'post',
+                            url: '/register',
+                            data: $('#register-form').serialize(),
+                        });
                     });
                 });
             } else {
