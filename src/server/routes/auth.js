@@ -94,7 +94,7 @@ router.post(`/register`, (req, res, next) => {
                                 });
                             }
                         });
-                    });
+                     });
                 });
             });
         }

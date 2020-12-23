@@ -1642,7 +1642,7 @@ var ui = {
                         if (res.success) {
                             $('#submit-login').attr('disabled', false);
                             $('#login-box').modal('hide');
-                            getKrewioData();
+                            window.location.reload();
                             return;
                         }
                     });
@@ -1671,7 +1671,7 @@ var ui = {
                         if (res.success) {
                             $('#submit-register').attr('disabled', false);
                             $('#register-box').modal('hide');
-                            getKrewioData();
+                            window.location.reload();
                             return;
                         }
                     });
