@@ -1623,6 +1623,8 @@ var ui = {
                 $('#submit-login').on('click', function (e) {
                     e.preventDefault();
 
+                    $('#submit-login').attr('disabled', true);
+
                     $('#login-error').addClass('hidden');
                     $.ajax({
                         type: 'post',
@@ -1631,12 +1633,14 @@ var ui = {
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
+                            $('#submit-login').attr('disabled', false);
                             $('#login-error').removeClass('hidden');
                             $('#login-err-msg').text(res.errors);
                             return;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
+                            $('#submit-login').attr('disabled', false);
                             $('#login-box').modal('hide');
                             window.location.reload();
                             return;
@@ -1648,6 +1652,8 @@ var ui = {
                 $('#submit-register').on('click', function (e) {
                     e.preventDefault();
 
+                    $('#submit-register').attr('disabled', true);
+
                     $('#register-error').addClass('hidden');
                     $.ajax({
                         type: 'post',
@@ -1656,12 +1662,14 @@ var ui = {
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
+                            $('#submit-register').attr('disabled', false);
                             $('#register-error').removeClass('hidden');
                             $('#register-err-msg').text(res.errors);
                             return;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
+                            $('#submit-register').attr('disabled', false);
                             $('#register-box').modal('hide');
                             return;
                         }
