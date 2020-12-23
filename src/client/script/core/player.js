@@ -407,10 +407,10 @@ Player.prototype.setName = function (name) {
                     fontFamily: CONFIG.Labels.fontFamily,
                 },
                 material: {
-                    color: this.isPlayer ?
+                    color: Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ? labelcolors.staff : this.isPlayer ?
                         labelcolors.myself : this.isCaptain ?
                         labelcolors.captain : labelcolors.player,
-                    fog: false,
+                    fog: false
                 },
             });
 

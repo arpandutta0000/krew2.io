@@ -186,6 +186,7 @@ materials.sky = new THREE.MeshBasicMaterial({
 
 // colors for text labels for player & boat names
 var labelcolors = {};
+labelcolors.staff = new THREE.Color(0xbb15eb);
 labelcolors.myself = new THREE.Color(0x00ff00);
 labelcolors.player = new THREE.Color(0xffffff);
 labelcolors.captain = new THREE.Color(0xff0000);
