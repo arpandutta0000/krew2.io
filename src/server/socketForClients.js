@@ -309,7 +309,7 @@ io.on(`connection`, async socket => {
                         let msg = args.join(` `);
                         if (!msg) return;
 
-                        log(`blue`, `ADMIN SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`blue`, `${(isAdmin || isDev) ? `ADMIN`: `MOD`} SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return io.emit(`showAdminMessage`, msg);
                     } else if (command == `recompense` && (isAdmin || isDev)) {
                         let amt = args[0];
