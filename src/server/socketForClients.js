@@ -24,7 +24,7 @@ const {
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
 
-
+global.now = new Date();
 
 // Log when server Starts
 let serverStartTimestamp = Date.now();
