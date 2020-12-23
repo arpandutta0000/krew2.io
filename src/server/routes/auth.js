@@ -3,6 +3,7 @@
 // Log utility and request.
 const log = require(`../utils/log.js`);
 const axios = require(`axios`);
+const config = require(`../config/config.js`);
 
 const express = require(`express`);
 let router = express.Router();
@@ -22,7 +23,7 @@ router.post(`/register`, (req, res, next) => {
         errors: `Your username must contain at least one letter`
     });
 
-    if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`])) return res.json({
+    if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || req.body[`register-username`].indexOf(config.whitespaceCharacters) > -1) return res.json({
         errors: `Invalid Username`
     });
 
@@ -94,7 +95,7 @@ router.post(`/register`, (req, res, next) => {
                                 });
                             }
                         });
-                     });
+                    });
                 });
             });
         }
@@ -105,6 +106,20 @@ router.post(`/login`, (req, res, next) => {
     if (req.isAuthenticated()) {
         return res.json({
             success: `Logged in`
+        });
+    }
+    if (!req.body[`login-user`] || !req.body[`login-password`] ||
+        typeof req.body[`login-user`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
+
+});
+
+router.post(`/changeusername`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return res.json({
+            success: `Changed username`
         });
     }
     if (!req.body[`login-user`] || !req.body[`login-password`] ||

@@ -32,14 +32,20 @@ const config = {
     mods: [],
     devs: [],
     maxAmountCratesInSea: 1100,
-    minAmountCratesInSea: 480
+    minAmountCratesInSea: 480,
+    whitespaceCharacters: [' ', '  ',
+        '\b', '\t', '\n', '\v', '\f', '\r', `\"`, `\'`, `\\`,
+        '\u0008', '\u0009', '\u000A', '\u000B', '\u000C',
+        '\u000D', '\u0020', '\u0022', '\u0027', '\u005C',
+        '\u00A0', '\u2028', '\u2029', '\uFEFF'
+    ]
 }
 
 config.staticDir = config.mode == `dev` ? `${__dirname}/../../client/` : `${__dirname}/../../../dist/`;
 
-for(const admin of thugConfig.Admins) config.admins.push(admin.name);
-for(const mod of thugConfig.Mods) config.mods.push(mod.name);
-for(const dev of thugConfig.Devs) config.devs.push(dev.name);
+for (const admin of thugConfig.Admins) config.admins.push(admin.name);
+for (const mod of thugConfig.Mods) config.mods.push(mod.name);
+for (const dev of thugConfig.Devs) config.devs.push(dev.name);
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,
