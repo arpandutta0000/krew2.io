@@ -1,5 +1,3 @@
-/* TODO: Update to Discord js v12 */
-
 const config = require(`./config/config.js`);
 const Discord = require(`discord.js-light`);
 const dotenv = require(`dotenv`).config();
@@ -49,7 +47,7 @@ client.on(`ready`, async () => {
         },
         status: `dnd`
     });
-    let sEmbed = new Discord.RichEmbed()
+    let sEmbed = new Discord.MessageEmbed()
         .setAuthor(`Server Start`)
         .setColor(0x00ff00)
         .setDescription(`Succesfully connected to Discord.`)
@@ -68,7 +66,7 @@ bus.on(`msg`, (id, name, message) => {
 });
 
 bus.on(`report`, (title, description) => {
-    let sEmbed = new Discord.RichEmbed()
+    let sEmbed = new Discord.MessageEmbed()
         .setAuthor(title)
         .setColor(0xffff00)
         .setDescription(description)
@@ -109,7 +107,7 @@ client.on(`message`, message => {
         }, 1e3 * 50);
         setTimeout(() => {
 
-            let sEmbed = new Discord.RichEmbed()
+            let sEmbed = new Discord.MessageEmbed()
                 .setAuthor(`Server Restart`)
                 .setColor(0xffa500)
                 .setDescription(`Server is restarting...`)
