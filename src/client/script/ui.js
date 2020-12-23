@@ -1681,7 +1681,7 @@ var ui = {
 
     prepareForPlay: function () {
         loginButton.hide();
-        playButton.removeClass('btn-success').addClass('btn-warning').text('Play as ' + ui.username);
+        playButton.removeClass('btn-success').addClass('btn-warning').html('Play as <b>' + ui.username + '</b>');
 
         // show the player that he is logged in (top right corner) and show logout button
         $('#logged-in').html('You are logged in as <b>' + ui.username + '</b>').show();
