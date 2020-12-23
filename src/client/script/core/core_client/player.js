@@ -499,7 +499,7 @@ Player.prototype.clientlogic = function (dt) {
 };
 
 Player.prototype.tryJump = function (dt) {
-    if (this.fly == 0 && (this.jumpVel > 0.0 || this.jump > 0)) {
+    if (this.jumpVel > 0.0 || this.jump > 0) {
         return;
     }
 

@@ -277,7 +277,7 @@ var initSocketBinds = function () {
                 classRec = 'clan-chat';
             }
             var $msgDiv = $('<div/>', {
-                text: (isAdmin ? '[admin] ' : isMod ? '[mod] ' : isDev ? '[dev] ' : '') +
+                text: (isAdmin ? '[Admin] ' : isMod ? '[Mod] ' : isDev ? '[Dev] ' : '') +
                     msgData.playerName +
                     ': ' +
                     msgData.message,
