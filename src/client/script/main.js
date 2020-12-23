@@ -720,7 +720,6 @@ $(document).ready(function () {
         if (!(ui.getCookie('username') && ui.getCookie('token'))) {
             ui.getKrewioData()
         } else {
-            ui.clientAccessToken = ui.getCookie('token')
             ui.username = ui.getCookie('username')
             ui.prepareForPlay()
         }

@@ -1571,12 +1571,14 @@ io.on(`connection`, async socket => {
                     if (err) return log(`red`, err);
 
                     if (isMatch) data.name = data.name.toString();
-                    else data.username = undefined;
+                    else data.name = undefined;
 
                     initSocketForPlayer(data);
                 });
             });
         }
+        data.name = undefined;
+        initSocketForPlayer(data);
     }
 
     // Send full world information - force full dta. First snapshot (compress with lz-string).

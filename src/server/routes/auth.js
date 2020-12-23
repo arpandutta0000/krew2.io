@@ -19,6 +19,7 @@ router.post(`/register`, (req, res, next) => {
 })
 
 router.post(`/login`, (req, res, next) => {
+    console.log(`i got a request`)
     passport.authenticate(`login`, (err, user, info) => {
         if (err) return res.status(400).json({
             errors: err
