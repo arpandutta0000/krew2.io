@@ -1593,7 +1593,7 @@ var ui = {
     getKrewioData: function () {
 
         return $.get(baseUrl + '/authenticated').then(function (response) {
-            ui.username = !response.isLoggedIn  ? undefined : response.username;
+            ui.username = !response.isLoggedIn ? undefined : response.username;
             ui.password = !response.isLoggedIn ? undefined : response.password;
             loginButton.attr('disabled', false).show()
             if (ui.username === undefined) {
