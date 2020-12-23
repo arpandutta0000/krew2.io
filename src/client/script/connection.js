@@ -77,7 +77,7 @@ var initSocketBinds = function () {
         socket.emit('createPlayer', {
             boatId: getUrlVars().bid,
             name: !ui.username ? undefined : ui.username,
-            pass: !ui.password ? undefined : ui.password,
+            password: !ui.password ? undefined : ui.password,
             spawn: ui.setSpawnPlace()
         });
         secondsAlive = 0;
