@@ -25,7 +25,7 @@ module.exports = {
         }
     ],
     Mods: [{
-            name: `Fiftyyyyyy`,
+            name: `Fiftyyyyy`,
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
         },
         {

@@ -294,9 +294,9 @@ io.on(`connection`, async socket => {
                 // If the user has not authenticated, only give them access to login command.
                 if (!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                     if (command == `login`) {
-                        let isAdmin = thugConfig.Admins[playerEntity.name];
-                        let isMod = thugConfig.Mods[playerEntity.name];
-                        let isDev = thugConfig.Devs[playerEntity.name];
+                        let isAdmin = Admins.includes(playerEntity.name);
+                        let isMod = Mods.includes(playerEntity.name);
+                        let isDev = Devs.includes(playerEntity.name);
 
                         // Log the player login and send them a friendly message confirming it.
                         log(!isAdmin && !isMod && !isDev ? `cyan` : `blue`, `${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
@@ -489,7 +489,7 @@ io.on(`connection`, async socket => {
                     }
                 }
             }
-            if (!isSpamming(playerEntity, msgData.message)) {
+            else if (!isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
 
                 msg = xssFilters.inHTMLData(msg);
