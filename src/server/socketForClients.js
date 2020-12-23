@@ -15,16 +15,8 @@ const mongoose = require(`mongoose`);
 const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
 
-const {
-    isSpamming,
-    mutePlayer,
-    charLimit
-} = require(`./utils/chat.js`);
-
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
-
-global.now = new Date();
 
 // Log when server Starts
 let serverStartTimestamp = Date.now();
@@ -306,6 +298,8 @@ io.on(`connection`, async socket => {
                         isAdmin ? playerEntity.isAdmin = true : isMod ? playerEntity.isMod = true : isDev ? playerEntity.isDev = true : null;
                     }
                 } else {
+                    log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+
                     let isAdmin = playerEntity.isAdmin;
                     let isMod = playerEntity.isMod;
                     let isDev = playerEntity.isDev;
@@ -488,8 +482,7 @@ io.on(`connection`, async socket => {
                         return bus.emit(`report`, `Muted Player`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
                     }
                 }
-            }
-            else if (!isSpamming(playerEntity, msgData.message)) {
+            } else if (!isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
 
                 msg = xssFilters.inHTMLData(msg);
@@ -1570,7 +1563,7 @@ io.on(`connection`, async socket => {
             if (!data.password || typeof data.name != `string` || typeof data.password != `string`) {
                 log(`cyan`, `Exploit detected: Fradulent credential type. Refusing IP: ${socket.handshake.address}`);
                 socket.emit(`showCenterMessage`, `Failed to verify credentials`, 1, 6e4);
-                return socket.disconnect(); 
+                return socket.disconnect();
             }
 
             User.findOne({
