@@ -1293,6 +1293,14 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
       line-height: 34px;
   }
 
+  .form-error {
+      border-left: 6px solid rgb(255, 81, 81);
+      background-color: rgb(255, 206, 206);
+      padding: 8px;
+      margin: 0 auto;
+      box-sizing: border-box;
+  }
+
   #minimap-container {
       position: absolute;
       right: 0;
