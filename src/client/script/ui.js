@@ -1638,6 +1638,7 @@ var ui = {
                         // If the request is successful, close the menu
                         if (res.success) {
                             $('#login-box').modal('hide');
+                            window.location.reload();
                             return;
                         }
                     });
