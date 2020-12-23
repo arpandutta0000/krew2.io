@@ -15,7 +15,7 @@ router.get(`/wall_of_fame`, async (req, res) => {
     for (const player of playerDocs) {
         wofPlayers.push({
             playerName: player.username,
-            clan: player.clan ? player.clan: ``,
+            clan: player.clan ? player.clan : ``,
             highscore: player.highscore
         });
     }
