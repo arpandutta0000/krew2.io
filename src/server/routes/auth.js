@@ -82,7 +82,7 @@ router.post(`/login`, (req, res, next) => {
         if (err) {
             log(`red`, err);
             return res.json({
-                errors: err `There was an error in logging into your account`
+                errors: `There was an error in logging into your account`
             });
         }
 
