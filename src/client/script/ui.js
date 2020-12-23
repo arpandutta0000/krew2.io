@@ -1680,17 +1680,19 @@ var ui = {
                 ui.setCookie('password', response.password, 1)
 
                 // player is authenticated, so show him personalized login button
-                loginButton.html('Play as <b>' + ui.username + '</b>')
+                playButton.html('Play as <b>' + ui.username + '</b>')
+                loginButton.html('Account Settings')
                 ui.isLoggedIn = true;
                 ui.prepareForPlay()
+
+                loginButton.on('click', function () {
+                    $('#manage-account-box').modal('show')
+                })
             }
         });
     },
 
     prepareForPlay: function () {
-        loginButton.hide();
-        playButton.removeClass('btn-success').addClass('btn-warning').html('Play as <b>' + ui.username + '</b>');
-
         // show the player that he is logged in (top right corner) and show logout button
         $('#logged-in').html('You are logged in as <b>' + ui.username + '</b>').show();
         $('#login-link').attr('href', '/logout').html('Logout').show();
