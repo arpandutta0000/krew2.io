@@ -7,14 +7,14 @@ const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
 
 router.post(`/register`, (req, res, next) => {
-    // if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
-    //     errors: `Passwords do not match`
-    // });
+    if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
+        errors: `Passwords do not match`
+    });
 
-    // if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
-    //     typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
-    //     errors: `Bad request`
-    // });
+    if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
+        typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
+        errors: `Bad request`
+    });
 
     console.log(`1`);
     passport.authenticate(`register`, (err, user, info) => {
@@ -25,7 +25,7 @@ router.post(`/register`, (req, res, next) => {
         if (user) return res.json({
             errors: `User already exists`
         });
-    });
+    })(req, res, next);
 })
 
 router.post(`/login`, (req, res, next) => {
