@@ -15,12 +15,18 @@ passport.deserializeUser((id, done) => {
 });
 
 // Strategy.
-passport.use(`login`, new LocalStrategy((username, password, done) => {
+passport.use(`login`, new LocalStrategy({
+    usernameField: `login-user`,
+    passwordField: `login-password`
+}, (username, password, done) => {
+    console.log(`bro i read this`);
+    console.log(username, password);
     User.findOne({
         username
     }).then((err, user) => {
         if (err) return done(err);
         if (!user) {
+            console.log(`this user dont exist bro`)
             return done(null, false, {
                 message: `Incorrect username or password`
             });
@@ -43,14 +49,18 @@ passport.use(`login`, new LocalStrategy((username, password, done) => {
 }));
 
 // Registration.
-passport.use(`register`, new LocalStrategy((username, password, done) => {
+passport.use(`register`, new LocalStrategy({
+    usernameField: `register-username`,
+    passwordField: `register-password`,
+},(username, password, done) => {
     User.findOne({
         username
     }).then((err, user) => {
         if (err) return done(err);
-        if (user) return done(null, false, {
-            message: `User already exists`
-        });
+        if (user) console.log(`got here`); 
+        // return done(null, false, {
+        //     message: `User already exists`
+        // });
         else {
             let registerUser = new User({
                 username,
@@ -62,7 +72,7 @@ passport.use(`register`, new LocalStrategy((username, password, done) => {
                 clan: null,
                 clanRequest: null
             });
-
+            console.log(`got here`);
             bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
                 if (err) return done(err);
                 registerUser.password = hash;
