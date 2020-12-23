@@ -1576,8 +1576,7 @@ io.on(`connection`, async socket => {
                     initSocketForPlayer(data);
                 });
             });
-        }
-        else {
+        } else {
             data.name = undefined;
             initSocketForPlayer(data);
         }
