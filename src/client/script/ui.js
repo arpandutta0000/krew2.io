@@ -1700,8 +1700,6 @@ var ui = {
                 $('#submit-change-username').on('click', function (e) {
                     e.preventDefault();
 
-                    window.location.href = '/logout';
-
                     $('#submit-change-username').attr('disabled', true);
 
                     $('#change-username-error').addClass('hidden');
@@ -1719,9 +1717,6 @@ var ui = {
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
-                            $('#submit-change-username').attr('disabled', false);
-                            $('#change-username').modal('hide');
-                            $('#current-username').text(ui.username);
                             window.location.href = '/logout';
                             return;
                         }
