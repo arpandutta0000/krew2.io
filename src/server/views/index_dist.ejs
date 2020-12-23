@@ -131,7 +131,7 @@
         <a href="#" id="login-link" onclick="logoutUser(event)" style="position:absolute; top: 30px; right: 10px; color: #fff; display:none;"></a>
         <img src="/assets/img/logo.png" class="rounded mx-auto d-block" style="width: 300px; margin: 10px 0px 20px 0px;">
         <a href="https://www.addictinggames.com/" target="_blank">
-            <img src="/assets/img/addictinggames_logo.png" style="position:absolute;width: 20%;height:auto;left:5%;top:5%">
+            <img src="/assets/img/addictinggames_logo.png" style="position:absolute; width: 12%; height:auto; left:1%; top:1%">
         </a>
 
         <div id="modal-dialog" class="container" role="document">
@@ -140,13 +140,6 @@
                     <div class="wall-of-fame-div">
                         <div class="white-bg" style="border-radius: 5px; word-wrap: break-word">
                             <h4 class="changelog-title">Wall of fame</h4><br>
-                            <div id='krew-io_300x250_2'>
-                                <script type='text/javascript'>
-                                    aiptag.cmd.display.push(function () {
-                                        aipDisplayTag.display('krew-io_300x250_2');
-                                    });
-                                </script>
-                            </div>
                             <div id="wall-of-fame-table-div">
                                 <table id="wall-of-fame-table">
                                     <tr>
@@ -210,31 +203,31 @@
                                 });
                             </script>
 
-                            <div id="cpmstar_ad" style="position:relative;text-align: center;max-width:50%">
+                            <a target="_blank" href="https://discord.krew.io" style="text-decoration: none;">
+                                <img class="rounded" src="/assets/img/discord.png">
+                            </a>
+                            <a target="_blank" href="https://www.reddit.com/r/krewio" style="text-decoration: none;">
+                                <img class="rounded" src="/assets/img/reddit.png">
+                            </a>
+                            <a target="_blank" href="https://www.facebook.com/krewio/" style="text-decoration: none;">
+                                <img class="rounded" src="/assets/img/fb.png">
+                            </a>
+                            <a target="_blank" href="https://twitter.com/krewio" style="text-decoration: none;">
+                                <img class="rounded" src="/assets/img/twitter.png">
+                            </a>
+                            <br>
+                            <br>
+
+                            <div id="cpmstar_ad" style="position:relative;text-align: center;">
                                 <script language="Javascript">
                                     let cpmstar_rnd = Math.round(Math.random() * 999999);
                                     let cpmstar_pid = 10016;
                                     document.writeln("<SCR" + "IPT language='Javascript' src='//server.cpmstar.com/view.aspx?poolid=" + cpmstar_pid + "&script=1&rnd=" + cpmstar_rnd + "'></SCR" + "IPT>");
                                 </script>
                             </div>
-                            <br />
-                            <br />
-                            <a target="_blank" href="https://discord.gg/yEgPKzk">
-                                <img class="rounded" src="/assets/img/discord.png">
-                            </a>
-                            <a target="_blank" href="https://www.reddit.com/r/krewio">
-                                <img class="rounded" src="/assets/img/reddit.png">
-                            </a>
-                            <a target="_blank" href="https://www.facebook.com/krewio/">
-                                <img class="rounded" src="/assets/img/fb.png">
-                            </a>
-                            <a target="_blank" href="https://twitter.com/krewio">
-                                <img class="rounded" src="/assets/img/twitter.png">
-                            </a>
 
-                            <br />
-                            <br />
-                            <br />
+                            <br>
+                            <br>
                             <small>
                                 <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
                             </small>
@@ -249,7 +242,7 @@
                     <div class="changelog-box">
                         <div class="white-bg" style="border-radius: 5px">
                             <h4 class="changelog-title">Changelog</h4>
-                            <span style="font-size:.8rem">Detailed information on </span><a style="font-size:.8rem" href="https://discord.gg/yEgPKzk">Discord</a>
+                            <span style="font-size:.8rem">Detailed information on </span><a style="font-size:.8rem" href="https://discord.krew.io">Discord</a>
                             <div id='krew-io_300x250'>
                                 <script type='text/javascript'>
                                     aiptag.cmd.display.push(function () {
@@ -410,7 +403,83 @@
             </div>
             <!-- // modal content -->
         </div>
-        <div id="loading-wheel"></div>
+    </div>
+
+    <div class="modal fade" id="login-box" role="dialog" disabled>
+        <br><br><br>
+        <form class="modal-dialog modal-md" id="login-form" action="/login" method="post">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <br>
+                    <div class="text-sm-center">
+                        <img src="/assets/img/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
+                        <br>
+                        <h1>Login</h1>
+                        <div display="inline">
+                            <a>No Account?</a>
+                            <a href="javascript:void" title="Register" id="open-register">Register</a>
+                        </div>
+                    </div>
+                    <div id="login-error" class="hidden">
+                        <br>
+                        <div class="form-error" id="login-err-msg">Invailid Data</div>
+                    </div>
+                    <br>
+                    <h4>Username or Email</h4>
+                    <input type="text" id="login-user" name="login-user" class="form-control" placeholder="Username or Email">
+                    <br>
+                    <h4>Password</h4>
+                    <input type="password" id="login-password" name="login-password" class="form-control" placeholder="Password">
+                    <br>
+                    <input type="submit" id="submit-login" class="btn btn-success btn-md" value="Login"></input>
+                    <br><br><br>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="register-box" role="dialog" disabled>
+        <br><br><br>
+        <form class="modal-dialog modal-md" id="register-form" action="/register" method="post">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <br>
+                    <div class="text-sm-center">
+                        <img src="/assets/img/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
+                        <br>
+                        <h1>Register</h1>
+                        <div display="inline">
+                            <a>Have an Account?</a>
+                            <a href="javascript:void" title="Login" id="open-login">Login</a>
+                        </div>
+                    </div>
+                    <div id="register-error" class="hidden">
+                        <br>
+                        <div class="form-error" id="register-err-msg">Invailid Data</div>
+                    </div>
+                    <br>
+                    <h4>Username</h4>
+                    <input type="text" id="register-username" name="register-username" class="form-control" placeholder="Username">
+                    <br>
+                    <h4>Email</h4>
+                    <input type="text" id="register-email" name="register-email" class="form-control" placeholder="Email">
+                    <br>
+                    <h4>Password</h4>
+                    <input type="password" id="register-password" name="register-password" class="form-control" placeholder="Password">
+                    <br>
+                    <h4>Confirm Password</h4>
+                    <input type="password" id="register-password-confirm" name="register-password-confirm" class="form-control" placeholder="Re-Type Password">
+                    <br>
+                    <div display="inline">
+                        <a>By registering you are agreeing to our</a>
+                        <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
+                    </div>
+                    <br>
+                    <input type="submit" id="submit-register" class="btn btn-success btn-md" value="Register"></input>
+                    <br><br><br>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="modal fade text-sm-center" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -557,6 +626,71 @@
         </div>
     </div>
 
+    <div id="panel-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Admin Panel
+                    <div class="btn btn-secondary btn-sm float-right close-admin-panel-btn">
+                        <i class="icofont icofont-ui-close"></i>
+                    </div>
+                    </h6>
+            </div>
+            <div class="modal-body">
+                <div id="admin-verification-login" class="container" style="margin-top: 15px; min-height: 294px">
+                    <div class="col-sm-12 form-group">
+                        <label>Enter your pin-code</label>
+                        <input type="password" id="admin-pincode" class="form-control" placeholder="pin-code">
+                        </br>
+                        <button id='submit-pincode-btn' type="button" class="btn btn-primary btn-md">Login</button>
+                    </div>
+                </div>
+                <div id="admin-commands" class="container" style="margin-top: 15px; min-height: 294px;display: none">
+                </div>
+                <div id="mod-commands" class="container" style="margin-top: 15px; min-height: 294px;display: none">
+                    <button id='server-save-btn' type="button" class="btn btn-primary btn-md">Server Save</button></br></br>
+                    <div id="defog-div">
+                        <label id="defog-label" class="label">
+                            <div id="defog-text" class="lock-text-info" style="padding-right:10px">De-fog</div>
+                            <div class="toggle">
+                                <input class="toggle-state" type="checkbox" name="check" value="check" id="defog-button" />
+                                <div class="toggle-inner">
+                                    <div class="indicator"></div>
+                                </div>
+                                <div class="active-bg"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="fly-div">
+                        <label id="fly-label" class="label">
+                            <div id="fly-text" class="lock-text-info" style="padding-right:10px">Fly</div>
+                            <div class="toggle">
+                                <input class="toggle-state" type="checkbox" name="check" value="check" id="fly-button" />
+                                <div class="toggle-inner">
+                                    <div class="indicator"></div>
+                                </div>
+                                <div class="active-bg"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="fastwalk-div">
+                        <label id="fast-walk-label" class="label">
+                            <div id="fast-walk-text" class="lock-text-info" style="padding-right:10px">Fast Walk</div>
+                            <div class="toggle">
+                                <input class="toggle-state" type="checkbox" name="check" value="check" id="fast-walk-button" />
+                                <div class="toggle-inner">
+                                    <div class="indicator"></div>
+                                </div>
+                                <div class="active-bg"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div id="dev-commands" class="container" style="margin-top: 15px; min-height: 294px;display: none">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Ship Status modal -->
     <div id="ship-status-modal">
@@ -659,6 +793,7 @@
                     <form class="form-inline h5">
                         <div class="form-group">
                             <span id="clan-name">MY CLAN</span>
+                            <span id="clan-count">0</span>
                         </div>
                     </form>
                     <div id="no-clan">
@@ -934,7 +1069,6 @@
             </div>
         </div>
     </div>
-
     <!-- modal for bank -->
     <div id="bank-modal">
         <div class="modal-content" style="border: 2px solid;">
@@ -1044,6 +1178,11 @@
         <div id="chat-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px;">
             <i class="btn-theme icofont icofont-volume-bar hidden"></i>
             <ul class="nav nav-tabs">
+                <li class="nav-item" id="li-staff-chat" style="display:none;">
+                    <a class="nav-link" id="chat-staff" href="#">Staff
+                        <i id="staff-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
+                    </a>
+                </li>
                 <li class="nav-item" id="li-clan-chat" style="display:none;">
                     <a class="nav-link" id="chat-clan" href="#">Clan
                         <i id="clan-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
@@ -1067,12 +1206,12 @@
                 <input type="text" maxlength="60" class="form-control" id="chat-message" placeholder="message">
             </div>
             <div style="float: left">
-                <a href="https://discord.gg/yEgPKzk" class="btn btn-sm btn-success" target="_window">Discord</a>
+                <a href="https://discord.krew.io" class="btn btn-sm btn-success" target="_window">Discord</a>
                 <div id="hide-chat" class="btn btn-sm btn-primary" style="margin-left: 5px; margin-right:5px;">Hide Chat</div>
                 <a href="https://krew-io.fandom.com/wiki/Krew.io_Wiki" class="btn btn-sm btn-primary" target="_window">Wiki</a>
             </div>
             <div style="text-align: right; float: right">
-                <span style="text-align: right">Time alive: <label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
+                <span>Time alive: <label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
             </div>
         </div>
 
@@ -1245,6 +1384,11 @@
 
                     <br />
 
+                    <!-- <span class="tag tag-warning">
+                    <i class="icofont icofont-cube"></i>
+                    <span id="supply"></span> / <span id="cargo-size"></span>
+                </span> -->
+
                 </div>
                 <div id="invite-div">
                     <input type="text" maxlength="30" class="form-control" id="invite-link">
@@ -1286,71 +1430,6 @@
         <div id="minimap-container">
             <canvas id="minimap" width="200" height="200"></canvas>
         </div>
-        <div id="panel-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        Admin Panel
-                        <div class="btn btn-secondary btn-sm float-right toggle-ship-status-button">
-                            <i class="icofont icofont-ui-close"></i>
-                        </div>
-                        </h6>
-                </div>
-                <div class="modal-body">
-                    <div id="admin-verification-login" class="container" style="margin-top: 15px; min-height: 294px">
-                        <div class="col-sm-12 form-group">
-                            <label>Enter your pin-code</label>
-                            <input type="password" id="admin-pincode" class="form-control" placeholder="pin-code">
-                            </br>
-                            <button id='submit-pincode-btn' type="button" class="btn btn-primary btn-md">Login</button>
-                        </div>
-                    </div>
-                    <div id="admin-commands" class="container" style="margin-top: 15px; min-height: 294px;display: none">
-                    </div>
-                    <div id="mod-commands" class="container" style="margin-top: 15px; min-height: 294px;display: none">
-                        <button id='server-save-btn' type="button" class="btn btn-primary btn-md">Server Save</button></br></br>
-                        <div id="defog-div">
-                            <label id="defog-label" class="label">
-                                <div id="defog-text" class="lock-text-info" style="padding-right:10px">De-fog</div>
-                                <div class="toggle">
-                                    <input class="toggle-state" type="checkbox" name="check" value="check" id="defog-button" />
-                                    <div class="toggle-inner">
-                                        <div class="indicator"></div>
-                                    </div>
-                                    <div class="active-bg"></div>
-                                </div>
-                            </label>
-                        </div>
-                        <div id="fly-div">
-                            <label id="fly-label" class="label">
-                                <div id="fly-text" class="lock-text-info" style="padding-right:10px">Fly</div>
-                                <div class="toggle">
-                                    <input class="toggle-state" type="checkbox" name="check" value="check" id="fly-button" />
-                                    <div class="toggle-inner">
-                                        <div class="indicator"></div>
-                                    </div>
-                                    <div class="active-bg"></div>
-                                </div>
-                            </label>
-                        </div>
-                        <div id="fastwalk-div">
-                            <label id="fast-walk-label" class="label">
-                                <div id="fast-walk-text" class="lock-text-info" style="padding-right:10px">Fast Walk</div>
-                                <div class="toggle">
-                                    <input class="toggle-state" type="checkbox" name="check" value="check" id="fast-walk-button" />
-                                    <div class="toggle-inner">
-                                        <div class="indicator"></div>
-                                    </div>
-                                    <div class="active-bg"></div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div id="dev-commands" class="container" style="margin-top: 15px; min-height: 294px;display: none">
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 
@@ -1358,9 +1437,47 @@
     <div id="preroll-centered" class="absolute-center"></div>
     <div id="firebaseui-auth-container" class="modal-body" role="document" style="position: absolute;z-index: 9999"></div>
 
-    <!-- below should not be overwritten by the content from index.ejs-->
+    <!-- below should not copied to index_dist.ejs-->
 
-    <script src="script/dist.min.js"></script>
+    <script src="assets/js/canvas.map.js"></script>
+    <script src="script/rangeInput.js"></script>
+    <script src="script/core/core_client/config.js"></script>
+    <script src="script/core/boatTypes.js"></script>
+    <script src="libs/ua.js"></script>
+    <script src="libs/keypress.min.js"></script>
+    <script src="libs/OBJLoader.js"></script>
+    <script src="libs/TGALoader.js"></script>
+    <script src="libs/MTLLoader.js"></script>
+    <script src="libs/socket.js"></script>
+    <script src="script/environment.js"></script>
+    <script src="script/window.js"></script>
+    <script src="script/geometry.js"></script>
+    <script src="script/loader.js"></script>
+    <script src="script/keyboard.js"></script>
+    <script src="script/controls.js"></script>
+    <script src="script/core/core.js"></script>
+    <script src="script/core/utils.js"></script>
+    <script src="script/core/goodsTypes.js"></script>
+    <script src="script/core/entity.js"></script>
+    <script src="script/core/core_client/parseSnap.js"></script>
+    <script src="script/core/boat.js"></script>
+    <script src="script/core/item.js"></script>
+    <script src="script/core/player.js"></script>
+    <script src="script/core/pickup.js"></script>
+    <script src="script/core/impact.js"></script>
+    <script src="script/core/projectile.js"></script>
+    <script src="script/core/landmark.js"></script>
+    <script src="script/core/core_client/entity.js"></script>
+    <script src="script/core/core_client/boat.js"></script>
+    <script src="script/core/core_client/player.js"></script>
+    <script src="script/uiSuggestion.js"></script>
+    <script src="script/uiKrewList.js"></script>
+    <script src="script/uiGoods.js"></script>
+    <script src="script/uiExperience.js"></script>
+    <script src="script/ui.js"></script>
+    <script src="script/particles.js"></script>
+    <script src="script/main.js"></script>
+    <script src="script/connection.js"></script>
 
     <!-- GA -->
     <script>
@@ -1397,6 +1514,7 @@
             $("#portal-backlink").hide();
         }
     </script>
+
 
 </body>
 
