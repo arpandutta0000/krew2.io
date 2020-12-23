@@ -1082,7 +1082,7 @@ io.on(`connection`, async socket => {
                     let response = item.type + item.id;
                     callback(response);
 
-                    playerEntity.otherQuestLevel = playerEntity.otherQuestLevel == undefined ? 0 : playerEntity.otherQuestLevel;
+                    playerEntity.other_quest_level = playerEntity.other_quest_level == undefined ? 0 : playerEntity.other_quest_level;
 
                     // Give the rewards for the quests.
                     if (playerEntity.gold >= core.boatTypes[item.id].price) {
@@ -1092,23 +1092,23 @@ io.on(`connection`, async socket => {
                             [`014`, `020`] // Queen Barb's Justice
                         ]
 
-                        if (questLists[0].includes(response) && playerEntity.otherQuestLevel == 0) {
+                        if (questLists[0].includes(response) && playerEntity.other_quest_level == 0) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +5,000 Gold & 500 XP`)
                             playerEntity.gold += 5e3;
                             playerEntity.experience += 500;
-                            playerEntity.otherQuestLevel++;
+                            playerEntity.other_quest_level++;
                         }
-                        if (questLists[1].includes(response) && playerEntity.otherQuestLevel == 0) {
+                        if (questLists[1].includes(response) && playerEntity.other_quest_level == 0) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +10,000 Gold & 1,000 XP`)
                             playerEntity.gold += 1e4;
                             playerEntity.experience += 1e3;
-                            playerEntity.otherQuestLevel++;
+                            playerEntity.other_quest_level++;
                         }
-                        if (questLists[2].includes(response) && playerEntity.otherQuestLevel == 0) {
+                        if (questLists[2].includes(response) && playerEntity.other_quest_level == 0) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +50,000 Gold & 5,000 XP`)
                             playerEntity.gold += 5e4;
                             playerEntity.experience += 5e3;
-                            playerEntity.otherQuestLevel++;
+                            playerEntity.other_quest_level++;
                         }
                     }
                     playerEntity.purchaseShip(item.id, (krewioData || {}).krewname);
@@ -1116,9 +1116,9 @@ io.on(`connection`, async socket => {
                     // Calculate other quest level of captain.
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.parent != undefined && playerEntity.parent.id == player.parent.id && player.isCaptain) playerEntity.parent.otherQuestLevel = otherQuestLevel;
+                        if (player.parent != undefined && playerEntity.parent.id == player.parent.id && player.isCaptain) playerEntity.parent.other_quest_level = other_quest_level;
                     }
-                    playerEntity.parent.otherQuestLevel = otherQuestLevel;
+                    playerEntity.parent.other_quest_level = other_quest_level;
                 }
             } else if (item.type == 1) {
                 // Item.
