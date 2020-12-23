@@ -315,8 +315,8 @@ io.on(`connection`, async socket => {
                         let amt = args[0];
 
                         if (!amt || isNaN(parseInt(amt))) return;
-                        for (const player of core.players) {
-                            player.gold += parseInt(amt)
+                        for (let i in core.players) {
+                            player[i].gold += parseInt(amt)
                         }
 
                         log(`blue`, `ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
