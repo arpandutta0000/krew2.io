@@ -1597,8 +1597,25 @@ var ui = {
             ui.password = !response.isLoggedIn ? undefined : response.password;
             loginButton.attr('disabled', false).show()
             if (ui.username === undefined) {
+
                 loginButton.on('click', function () {
                     $('#login-box').modal('show');
+
+                    $('#open-register').on('click', function () {
+                        $('#login-box').modal('hide');
+                        $('#register-box').modal('show');
+                    });
+                    $('#open-login').on('click', function () {
+                        $('#register-box').modal('hide');
+                        $('#login-box').modal('show');
+                    });
+
+                    $('#submit-login').on('click', function () {
+                        $('#login-box').modal('hide');
+                    });
+                    $('#submit-register').on('click', function () {
+                        $('#register-box').modal('hide');
+                    });
                 });
             } else {
                 ui.setCookie('username', response.username, 1)
