@@ -166,11 +166,21 @@ io.on(`connection`, async socket => {
         playerEntity = core.createPlayer(data);
         playerEntity.socket = socket;
 
-        // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
-        if (!DEV_ENV && data.last_ip && !(playerEntity.socket.handshake.address.includes(data.lastip))) {
-            log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-            return playerEntity.socket.disconnect();
-        }
+        User.findOne({
+            username: playerEntity.name
+        }).then(user => {
+            if (user) {
+                playerEntity.bank.deposit = user.bankDeposit ? user.bankDeposit : 0;
+                playerEntity.highscore = user.highscore ? user.highscore : 0;
+
+
+                // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
+                if (false && user.lastIP && !(playerEntity.socket.handshake.address == user.lastIP)) {
+                    log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    return playerEntity.socket.disconnect();
+                }
+            }
+        });
 
         // Identify the server that the player is playing on.
         playerEntity.serverNumber = config.gamePorts.indexOf(parseInt(playerEntity.socket.handshake.headers.host.substr(-4))) + 1;
