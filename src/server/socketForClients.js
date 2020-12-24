@@ -601,7 +601,7 @@ io.on(`connection`, async socket => {
 
             if (playerEntity.isLoggedIn && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
                 log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address}.`);
-                playerEntity.highscore = playerEntity.gold;
+                playerEntity.highscore = parseInt(playerEntity.gold);
 
                 await User.updateOne({
                     username: playerEntity.name
