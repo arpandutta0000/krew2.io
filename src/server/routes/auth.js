@@ -50,11 +50,12 @@ router.post(`/register`, (req, res, next) => {
     let email = req.body[`register-email`];
 
     User.findOne({
-        email: email
+        email
     }).then(user => {
         if (user) return res.json({
             errors: `That email is already in use`
         });
+
         passport.authenticate(`register`, (err, user, info) => {
             if (err) return res.json({
                 errors: err
@@ -76,34 +77,49 @@ router.post(`/register`, (req, res, next) => {
 
                     User.findOne({
                         creationIP
-                    }).then(user => {
-                        if (user) return res.json({
-                            errors: `You can only create one account`
-                        });
-                        User.findOne({
-                            lastIP: creationIP
-                        }).then(user => {
-                            if (user) return res.json({
+                    }).then(cUser => {
+                        if (cUser) {
+                            user.delete();
+                            return res.json({
                                 errors: `You can only create one account`
                             });
+                        }
 
-                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(req, res => {
-                                if (!res) {
-                                    log(`red`, `There was an error checking while performing the VPN check request.`);
+                        User.findOne({
+                            lastIP: creationIP
+                        }).then(lUser => {
+                            if (lUser) {
+                                user.delete();
+                                return res.json({
+                                    errors: `You can only create one account`
+                                });
+                            }
+
+                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
+                                if (!vpnData) {
+                                    log(`red`, `There was an error while performing the VPN check request.`);
+                                    user.delete();
                                     return res.json({
                                         errors: `There was an error in creating your account`
                                     });
                                 }
 
-                                if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
-                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${socket.handshake.address}.`);
+                                if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
+                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
+                                    user.delete();
                                     return res.json({
                                         errors: `Disable VPN to create an account`
                                     });
                                 } else {
                                     user.save();
-                                    return res.json({
-                                        success: `Succesfully registered`
+                                    req.logIn(user, err => {
+                                        if (err) return res.json({
+                                            errors: err
+                                        });
+
+                                        return res.json({
+                                            success: `Succesfully registered`
+                                        });
                                     });
                                 }
                             });
@@ -177,7 +193,7 @@ router.post(`/change_username`, (req, res, next) => {
     User.findOne({
         username
     }).then(user => {
-        if(user) return res.json({
+        if (user) return res.json({
             errors: `That username is already in use`
         });
 
@@ -187,16 +203,16 @@ router.post(`/change_username`, (req, res, next) => {
             if (!user) return res.json({
                 errors: `Your account is Invalid`
             });
-    
+
             user.username = username;
-    
+
             user.save(err => err ? log(`red`, err) : () => {
                 return res.json({
                     success: `Succesfully changed username`
-                })
+                });
             });
         });
-    })
+    });
 });
 
 router.get(`/logout`, (req, res, next) => {

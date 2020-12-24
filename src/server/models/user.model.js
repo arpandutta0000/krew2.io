@@ -6,6 +6,10 @@ let userSchema = Mongoose.Schema({
         required: true,
         unique: true
     },
+    email: {
+        type: String,
+        required: false
+    },
     creationIP: {
         type: String,
         required: false

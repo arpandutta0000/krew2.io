@@ -33,7 +33,7 @@ passport.use(`login`, new LocalStrategy({
             if (isMatch) {
                 return done(null, user);
             }
-            else return done(`Incorrect username or password`, false)
+            else return done(`Incorrect username / password`, false)
         });
     }).catch(err => {
         return done(err, false);
@@ -48,7 +48,7 @@ passport.use(`register`, new LocalStrategy({
     User.findOne({
         username
     }).then(user => {
-        if (user) return done(`That username is already in use`, false);
+        if (user) return done(`User already exists`, false);
         else {
             let registerUser = new User({
                 username,
