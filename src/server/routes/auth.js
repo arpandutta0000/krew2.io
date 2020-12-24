@@ -174,7 +174,7 @@ router.post(`/change_username`, (req, res, next) => {
     let currentUsername = req.user.username;
     let username = req.body[`change-username-input`];
 
-    if(!username || typeof username != `string`) return res.json({
+    if (!username || typeof username != `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -227,7 +227,7 @@ router.post(`/delete_account`, (req, res, next) => {
         errors: `Please fill out all fields`
     });
 
-    if(username != req.body[`delete-account-username`]) return res.json({
+    if (username != req.body[`delete-account-username`]) return res.json({
         errors: `Wrong Username`
     });
 
@@ -240,7 +240,7 @@ router.post(`/delete_account`, (req, res, next) => {
 
         bcrypt.compare(req.body[`delete-account-password`], user.password, (err, isMatch) => {
             if (err) return log(`red`, err);
-    
+
             if (isMatch) {
                 req.logOut();
                 user.delete();

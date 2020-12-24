@@ -32,8 +32,7 @@ passport.use(`login`, new LocalStrategy({
 
             if (isMatch) {
                 return done(null, user);
-            }
-            else return done(`Incorrect username / password`, false)
+            } else return done(`Incorrect username / password`, false)
         });
     }).catch(err => {
         return done(err, false);

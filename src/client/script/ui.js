@@ -1729,7 +1729,7 @@ var ui = {
                     $('#delete-account-error').addClass('hidden');
                 })
 
-                $('#submit-delete-account').on('click', function(e) {
+                $('#submit-delete-account').on('click', function (e) {
                     e.preventDefault();
 
                     $('#submit-delete-account').attr('disabled', true);
