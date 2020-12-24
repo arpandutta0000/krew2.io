@@ -393,6 +393,7 @@ io.on(`connection`, async socket => {
                         });
 
                         ban.save(() => {
+                            player.socket.emit(`showCenterMessage`, `You have been banned!`, 1, 6e4);
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You permanently banned ${player.name}`, 3, 1e4);
                         });
@@ -415,12 +416,13 @@ io.on(`connection`, async socket => {
                         });
 
                         ban.save(() => {
+                            player.socket.emit(`showCenterMessage`, `You have been temporarily banned.`, 1, 6e4);
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        return bus.emit(`report`, `Temporary Ban Player`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
+                        return bus.emit(`report`, `Temporary Ban Player`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id}\n${tempbanReason ? `Reason: ${tempbanReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
                     } else if (command == `unban` && (isAdmin || isMod)) {
                         let unbanUser = args.shift();
 

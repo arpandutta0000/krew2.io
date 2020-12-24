@@ -13,7 +13,7 @@ var interval_update = undefined;
 // define here who is Mod or Admin (for client side)
 var Admins = ['devclied', 'LeoLeoLeo', 'DamienVesper', 'BR88C', 'itsdabomb', 'harderman'];
 var Mods = ['Fiftyyyyy', 'Sloth', 'Sjmun', 'TheChoco', 'Kekmw', 'Headkeeper'];
-var Devs = ['yaz'];
+var Devs = ['Yaz_'];
 
 // connect to the first available server
 var connect = function (pid) {
