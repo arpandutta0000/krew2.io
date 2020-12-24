@@ -495,7 +495,7 @@ let boatTypes = {
         availableAt: ['Jamaica']
     },
     20: {
-        id: 21,
+        id: 20,
         image: '<img src="./assets/img/QBJ.png" style="height: 50px">',
         name: 'Queen Barb\'s Justice 2',
         hp: 4e3,
