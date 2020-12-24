@@ -55,9 +55,16 @@ router.post(`/register`, (req, res, next) => {
     User.findOne({
         email
     }).then(user => {
-        if (user) return res.json({
-            errors: `That email is already in use`
-        });
+        console.log((new Date) - user.creationDate)
+        if (user) {
+            if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
+                user.delete();
+            } else {
+                return res.json({
+                    errors: `That email is already in use`
+                });
+            }
+        }
 
         passport.authenticate(`register`, (err, user, info) => {
             if (err) return res.json({

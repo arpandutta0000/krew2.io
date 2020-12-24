@@ -26,7 +26,7 @@ passport.use(`login`, new LocalStrategy({
             return done(`Incorrect username or password`, false);
         }
 
-        if(!user.verified) return done(`You must verify your email before logging in`)
+        if (!user.verified) return done(`You must verify your email before logging in`)
 
         // Login a user.
         bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -49,25 +49,31 @@ passport.use(`register`, new LocalStrategy({
     User.findOne({
         username
     }).then(user => {
-        if (user) return done(`User already exists`, false);
-        else {
-            let registerUser = new User({
-                username,
-                creationDate: new Date(),
-                password,
-                highscore: 0
-            });
-
-            bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
-                if (err) return done(err);
-
-                registerUser.password = hash;
-                registerUser.save(err => {
-                    if (err) return done(err);
-                    return done(null, registerUser, `success`);
-                });
-            }));
+        if (user) {
+            if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
+                user.delete();
+            } else {
+                return done(`User already exists`, false);
+            }
         }
+
+        let registerUser = new User({
+            username,
+            creationDate: new Date(),
+            password,
+            highscore: 0
+        });
+
+        bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
+            if (err) return done(err);
+
+            registerUser.password = hash;
+            registerUser.save(err => {
+                if (err) return done(err);
+                return done(null, registerUser, `success`);
+            });
+        }));
+
     });
 }));
 
