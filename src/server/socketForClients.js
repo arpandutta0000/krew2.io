@@ -166,22 +166,6 @@ io.on(`connection`, async socket => {
         playerEntity = core.createPlayer(data);
         playerEntity.socket = socket;
 
-        // Get login data.
-        if (playerEntity.isLoggedIn) {
-            User.findOne({
-                username: playerEntity.name
-            }).then(user => {
-                if (!user) {
-                    log(`red`, `Failed to get data for user. Disconnecting IP: ${playerEntity.socket.handshake.address}.`)
-                    return playerEntity.socket.disconnect();
-                }
-                playerEntity.highscore = user.highscore;
-                playerEntity.bank = {
-                    deposit: user.bankDeposit
-                }
-            });
-        }
-
         // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
         if (!DEV_ENV && data.last_ip && !(playerEntity.socket.handshake.address.includes(data.lastip))) {
             log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -234,13 +218,8 @@ io.on(`connection`, async socket => {
                 playerEntity.attackDamageBonus = playerSave.bonus.damage;
                 playerEntity.movementSpeedBonus = playerSave.bonus.speed;
 
-                // Delete the save information afterwards so that there are no duplicates upon another restart.
+                // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
                 playerSave.delete();
-            } else if (playerSave) {
-                // Prevent duplicates if a previous restore was not claimed within the timeframe.
-                playerSave.delete();
-                playerEntity.socket.emit(`showCenterMessage`, `There was an error connecting to the game`, 1, 6e4);
-                playerEntity.socket.handshake.disconnect();
             }
         }
 
@@ -598,7 +577,7 @@ io.on(`connection`, async socket => {
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
                 await User.updateOne({
-                    username: playerEntity.name
+                    name: playerEntity.name
                 }, {
                     highscore: playerEntity.highscore
                 });
@@ -790,7 +769,7 @@ io.on(`connection`, async socket => {
 
             // Get the user performing the action.
             let user = await User.findOne({
-                username: playerEntity.name
+                name: playerEntity.name
             });
 
             // If player has a clan.
@@ -854,7 +833,7 @@ io.on(`connection`, async socket => {
                 // From this point on there should be a player passed to the emit.
                 if (player && playerEntity.clanLeader || playerEntity.clanOwner || playerEntity.clanAssistant) {
                     let otherUser = User.findOne({
-                        username: player
+                        name: player
                     });
                     let otherPlayer = Object.values(core.players).find(entity => entity.name == player);
 
@@ -1484,8 +1463,6 @@ io.on(`connection`, async socket => {
         socket.on(`bank`, async data => {
             // If the player is logged in, allow them to use bank, else show warning that they need to log in.
             if (playerEntity.isLoggedIn) {
-
-                // Only allow bank to be used at Labrador.
                 if (playerEntity.parent.name == `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name == `Labrador`)) {
 
                     // Function to callback the bank data to the player.
@@ -1507,29 +1484,22 @@ io.on(`connection`, async socket => {
                         }
                         socket.emit(`setBankData`, bankData);
                     }
-    
-                    // If transaction data is existent, do the transaction.
+
                     if (data) {
-
-                        // If depositing.
-                        if (data.deposit) {
-                            if (playerEntity.gold < data.deposit) return console.log(`1`);
-                            if (data.deposit < 1) return console.log(`2`);
-                            if (data.deposit > 15e4) return console.log(`3`);
-                            if (typeof data.deposit != `number`) return console.log(`4`);
-                            if (data.deposit + playerEntity.bank.deposit >= 15e4) return console.log(`5`);
-
+                        if (data.deposit && playerEntity.gold >= data.deposit && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit == `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
                             let integerDeposit = Math.trunc(data.deposit);
                             playerEntity.gold -= integerDeposit;
 
                             // Handle the deposit.
                             if (playerEntity.bank.deposit >= 5e4) {
+
                                 // If there is already 50K in the bank, don't save the deposit to MongoDB.
                                 playerEntity.bank.deposit += integerDeposit;
                             } else if (playerEntity.bank.deposit + integerDeposit > 5e4) {
+
                                 // If the player does not have 50K in the bank, but the deposit will exceed that amount, then store up to 50K in MongoDB and the rest in memory.
                                 let excessAmount = (playerEntity.bank.deposit + integerDeposit) - 5e4;
-                                playerEntity.bank.deposit += integerDeposit;
+                                playerEntity.bank.deposit = excessAmount + 5e4;
 
                                 await User.updateOne({
                                     username: playerEntity.name
@@ -1547,11 +1517,7 @@ io.on(`connection`, async socket => {
                             }
                             setBankData();
                             log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
-                        } else if (data.takeDeposit) {
-                            if (playerEntity.bank.deposit <= data.takeDeposit) return;
-                            if (data.takeDeposit <= 1) return;
-                            if (data.takeDeposit >= 15e4) return;
-                            if (typeof data.takeDeposit != `number`) return;
+                        } else if (data.takeDeposit && playerEntity.bank.deposit >= data.takeDeposit && data.takeDeposit >= 1 && data.takeDeposit <= 15e4 && typeof data.takeDeposit == `number`) {
                             let integerDeposit = Math.trunc(data.takeDeposit);
 
                             // Take 10% fee for bank transaction.
@@ -1565,8 +1531,8 @@ io.on(`connection`, async socket => {
                                 bankDeposit: playerEntity.bankDeposit
                             });
                             setBankData();
-                        }
-                    } else setBankData();
+                        } else setBankData();
+                    }
                 }
             } else socket.emit(`setBankData`, {
                 warn: 1
