@@ -1636,14 +1636,14 @@ var ui = {
                             $('#submit-login').attr('disabled', false);
                             $('#login-error').removeClass('hidden');
                             $('#login-err-msg').text(res.errors);
-                            return;
+                            return false;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
                             $('#submit-login').attr('disabled', false);
                             $('#login-box').modal('hide');
                             window.location.reload();
-                            return;
+                            return true;
                         }
                     });
                 });
@@ -1665,14 +1665,18 @@ var ui = {
                             $('#submit-register').attr('disabled', false);
                             $('#register-error').removeClass('hidden');
                             $('#register-err-msg').text(res.errors);
-                            return;
+                            return false;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
                             $('#submit-register').attr('disabled', false);
                             $('#register-box').modal('hide');
+                            if (navigator.credentials) {
+                                let credential = new PasswordCredential($('#register-form'))
+                                navigator.credentials.store(credential);
+                            }
                             window.location.reload();
-                            return;
+                            return true;
                         }
                     });
                 });
@@ -1713,7 +1717,7 @@ var ui = {
                             $('#submit-change-username').attr('disabled', false);
                             $('#change-username-error').removeClass('hidden');
                             $('#change-username-err-msg').text(res.errors);
-                            return;
+                            return false;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
@@ -1745,7 +1749,7 @@ var ui = {
                             $('#submit-delete-account').attr('disabled', false);
                             $('#delete-account-error').removeClass('hidden');
                             $('#delete-account-err-msg').text(res.errors);
-                            return;
+                            return false;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {

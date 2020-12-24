@@ -2799,6 +2799,11 @@ select.form-control-lg:not([size]):not([multiple]) {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#d9534f' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E")
 }
 
+input[type=email]:not(:placeholder-shown):invalid {
+    color: red;
+    outline-color: red;
+}
+
 @media (min-width:576px) {
     .form-inline .form-group {
         display: inline-block;
@@ -3080,7 +3085,11 @@ fieldset[disabled] a.btn {
     border-color: #5bc0de
 }
 
-.btn-delete-account, .btn-delete-account.disabled, .btn-delete-account:disabled, .btn-delete-account.disabled:hover, .btn-delete-account:disabled:hover {
+.btn-delete-account,
+.btn-delete-account.disabled,
+.btn-delete-account:disabled,
+.btn-delete-account.disabled:hover,
+.btn-delete-account:disabled:hover {
     color: rgb(255, 255, 255);
     background-color: rgb(255, 77, 77);
     border-color: rgb(255, 77, 77)
@@ -6209,7 +6218,7 @@ button.close {
     -ms-transform: translate(0, -25%);
     -o-transform: translate(0, -25%);
     transform: translate(0, -25%);
-    box-shadow: 0px 0px 1px 5000px rgba(0,0,0,0.8);
+    box-shadow: 0px 0px 1px 5000px rgba(0, 0, 0, 0.8);
 }
 
 .modal.in .modal-dialog {
