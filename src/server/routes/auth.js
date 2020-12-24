@@ -125,11 +125,18 @@ router.post(`/register`, (req, res, next) => {
                                         }
                                     });
 
+                                    let ssl;
+                                    if (DEV_ENV) {
+                                        ssl = `http`;
+                                    } else {
+                                        ssl = `https`;
+                                    }
+
                                     let mailOptions = {
                                         from: 'noreply@krew.io',
                                         to: user.email,
                                         subject: 'Verify your Krew.io Account',
-                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \nhttps:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
+                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
                                     }
 
                                     transporter.sendMail(mailOptions, function (err) {
@@ -281,11 +288,18 @@ router.post(`/change_email`, (req, res, next) => {
                 }
             });
 
+            let ssl;
+            if (DEV_ENV) {
+                ssl = `http`;
+            } else {
+                ssl = `https`;
+            }
+
             let mailOptions = {
                 from: 'noreply@krew.io',
                 to: user.email,
                 subject: 'Verify your Krew.io Account',
-                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \nhttps:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
+                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
             }
 
             transporter.sendMail(mailOptions, function (err) {
