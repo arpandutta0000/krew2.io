@@ -160,7 +160,7 @@ router.post(`/change_username`, (req, res, next) => {
     });
 
     let currentUsername = req.user.username;
-    let username = req.body[`submit-change-username`];
+    let username = req.body[`change-username-input`];
 
     if (!/[a-zA-Z]/.test(username)) return res.json({
         errors: `Your username must contain at least one letter`
@@ -182,7 +182,7 @@ router.post(`/change_username`, (req, res, next) => {
         });
 
         User.findOne({
-            currentUsername
+            username: currentUsername
         }).then(user => {
             if (!user) return res.json({
                 errors: `Your account is Invalid`
@@ -190,11 +190,11 @@ router.post(`/change_username`, (req, res, next) => {
     
             user.username = username;
     
-            user.save(err => err ? log(`red`, err) : () => {
-                return res.json({
-                    success: `Succesfully changed username`
-                })
-            });
+            user.save();
+            req.logOut();
+            return res.json({
+                success: `Succesfully changed username`
+            })
         });
     })
 });

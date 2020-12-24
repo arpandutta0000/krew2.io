@@ -1711,13 +1711,13 @@ var ui = {
                         // If there is an error, return an error
                         if (res.errors) {
                             $('#submit-change-username').attr('disabled', false);
-                            $('#shange-username-error').removeClass('hidden');
+                            $('#change-username-error').removeClass('hidden');
                             $('#change-username-err-msg').text(res.errors);
                             return;
                         }
                         // If the request is successful, close the menu
                         if (res.success) {
-                            window.location.href = '/logout';
+                            window.location.reload();
                             return;
                         }
                     })
