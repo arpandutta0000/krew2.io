@@ -10,6 +10,14 @@ let userSchema = Mongoose.Schema({
         type: String,
         required: false
     },
+    verified: {
+        type: Boolean,
+        required: false
+    },
+    verifyToken: {
+        type: String,
+        required: false
+    },
     creationIP: {
         type: String,
         required: false
