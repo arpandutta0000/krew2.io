@@ -45,7 +45,7 @@ function Landmark (type, x, z, config) {
         // scene.add(this.palm);
     }
     // Christmas stuff (add snowman and christmas tree on Jamaica)
-    models.elka.position.set(860, 2, 860);
+    models.elka.position.set(840, 2, 840);
     models.elka.scale.x = 0.35;
     models.elka.scale.y = 0.35;
     models.elka.scale.z = 0.35;
