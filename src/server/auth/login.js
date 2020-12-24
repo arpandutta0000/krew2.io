@@ -33,8 +33,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
         // If the player is not using an invite link.
         if (spawnPoint == `sea`) spawnNewPlayerOnSea(boat, playerEntity);
         else if (spawnPoint == `island` || islandNames.includes(spawnPoint)) {
-            let spawnIslands = Object.values(core.Landmarks).filter(island => island.spawnPlayers);
-            let spawnIsland = islandNames.includes(spawnPoint) ? core.Landmarks[Object.keys(core.Landmarks)[islandNames.indexOf(spawnPoint)]] : core.Landmarks[Object.keys(spawnIslands)[Math.floor(Math.random() * (Object.keys(core.Landmarks).length))]];
+            let spawnIsland = islandNames.includes(spawnPoint) ? core.Landmarks[Object.keys(core.Landmarks)[islandNames.indexOf(spawnPoint)]] : core.Landmarks[Object.keys(core.Landmarks)[Math.floor(Math.random() * Object.keys(core.Landmarks).length)]];
 
             spawnIsland.addChildren(playerEntity);
 
