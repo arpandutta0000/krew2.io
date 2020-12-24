@@ -279,15 +279,16 @@ router.post(`/delete_account`, (req, res, next) => {
 });
 
 router.get(`/verify/*`, (req, res, next) => {
-    let verifyToken = req.url.split(`/verify/`)[1]
-    if (!verifyToken) return;
+    let token = req.url.split(`/verify/`)[1];
+    if (!token) return;
 
     User.findOne({
-        verifyToken
+        verifyToken: token
     }).then(user => {
         if(!user) return;
 
         if(!user.verified) user.verified = true;
+        user.save();
         return res.redirect(`/`);
     })
 })
