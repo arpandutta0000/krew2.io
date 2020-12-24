@@ -1702,12 +1702,20 @@ var ui = {
                 });
 
                 $('#username-edit-button').on('click', function () {
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#current-email-container').removeClass('hidden');
+
                     $('#change-username-error').addClass('hidden');
                     $('#current-username-container').addClass('hidden');
                     $('#change-username').removeClass('hidden');
                 });
 
                 $('#email-edit-button').on('click', function () {
+                    $('#change-username').addClass('hidden');
+                    $('#change-username-error').addClass('hidden');
+                    $('#current-username-container').removeClass('hidden');
+
                     $('#change-email-error').addClass('hidden');
                     $('#current-email-container').addClass('hidden');
                     $('#change-email').removeClass('hidden');
