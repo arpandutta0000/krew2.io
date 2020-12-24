@@ -54,7 +54,7 @@ let userSchema = Mongoose.Schema({
         type: String,
         required: false
     },
-    bankAmount: {
+    bankDeposit: {
         type: Number,
         required: false
     }
