@@ -416,7 +416,7 @@ io.on(`connection`, async socket => {
                         });
 
                         ban.save(() => {
-                            player.socket.emit(`showCenterMessage`, `You have been banned for 1 hour.`, 1, 6e4);
+                            player.socket.emit(`showCenterMessage`, `You have been temporarily banned.`, 1, 6e4);
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
                         });
