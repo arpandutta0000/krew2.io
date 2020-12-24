@@ -53,6 +53,10 @@ let userSchema = Mongoose.Schema({
     clanRequest: {
         type: String,
         required: false
+    },
+    bankAmount: {
+        type: Number,
+        required: false
     }
 });
 
