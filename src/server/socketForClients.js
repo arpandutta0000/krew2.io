@@ -794,7 +794,7 @@ io.on(`connection`, async socket => {
             });
 
             // If player has a clan.
-            if (playerEntity.clan && playerEntity.clan != ``) {
+            if (playerEntity.clan && playerEntity.clan != `` && playerEntity.clan != undefined) {
                 // Get the clan from MongoDB.
                 let clan = await Clan.findOne({
                     clan: user.clan
@@ -886,7 +886,9 @@ io.on(`connection`, async socket => {
                     }
                 }
             } else {
-                if (action == `create`) {} else if (action == `request`) {}
+                if (action == `create`) {
+
+                } else if (action == `request`) {}
             }
         });
 
@@ -1480,32 +1482,32 @@ io.on(`connection`, async socket => {
 
         // Bank data.
         socket.on(`bank`, async data => {
-            // Function to callback the bank data to the player.
-            let setBankData = async () => {
-                let bankData = {
-                    my: playerEntity.bank.deposit,
-                    total: 0
-                }
-
-                // Get the sum of all bank accounts from MongoDB.
-                let users = await User.find({
-                    bankDeposit: {
-                        $gt: 5e4
-                    }
-                });
-
-                for (const document of users) {
-                    bankData.totalGold += parseInt(document.bankDeposit) - 5e4;
-                }
-                socket.emit(`setBankData`, bankData);
-            }
-
             // If the player is logged in, allow them to use bank, else show warning that they need to log in.
             if (playerEntity.isLoggedIn) {
 
                 // Only allow bank to be used at Labrador.
                 if (playerEntity.parent.name == `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name == `Labrador`)) {
 
+                    // Function to callback the bank data to the player.
+                    let setBankData = async () => {
+                        let bankData = {
+                            my: playerEntity.bank.deposit,
+                            total: 0
+                        }
+
+                        // Get the sum of all bank accounts from MongoDB.
+                        let users = await User.find({
+                            bankDeposit: {
+                                $gt: 5e4
+                            }
+                        });
+
+                        for (const document of users) {
+                            bankData.totalGold += parseInt(document.bankDeposit) - 5e4;
+                        }
+                        socket.emit(`setBankData`, bankData);
+                    }
+    
                     // If transaction data is existent, do the transaction.
                     if (data) {
 
