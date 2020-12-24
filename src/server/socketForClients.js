@@ -600,7 +600,7 @@ io.on(`connection`, async socket => {
             if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
             if (playerEntity.isLoggedIn && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
-                log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address}.`);
+                log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
                 await User.updateOne({
@@ -1405,10 +1405,10 @@ io.on(`connection`, async socket => {
 
                 // Update player highscore in MongoDB.
                 if (playerEntity.isLoggedIn == true && playerEntity.serverNumber == 1 && playerEntity.lastIsland != island.name && playerEntity.gold > playerEntity.highscore) {
-                    log(`magenta`, `Update highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address}.`);
-                    playerEntity.highscore = playerEntity.gold;
+                    log(`magenta`, `Update highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                    playerEntity.highscore = parseInt(playerEntity.gold);
 
-                    User.findOne({
+                    User.updateOne({
                         username: playerEntity.name
                     }, {
                         highscore: playerEntity.highscore
