@@ -1,7 +1,7 @@
 const Mongoose = require(`mongoose`);
 
 let playerRestoreSchema = Mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true
     },
@@ -22,18 +22,8 @@ let playerRestoreSchema = Mongoose.Schema({
         required: true
     },
     points: {
-        fireRate: {
-            type: Number,
-            required: true
-        },
-        distance: {
-            type: Number,
-            required: true
-        },
-        damage: {
-            type: Number,
-            required: true
-        }
+        type: Object,
+        required: true
     },
     score: {
         type: Number,
