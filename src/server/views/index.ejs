@@ -259,7 +259,7 @@
                                         <ul class="patch-content-list">
                                             <li><b>New:</b> Brand new login, added christmas tree, snowman, santa hat, and new Seadog skin</li>
                                             <li><b>Bugfix:</b> Fixed bank, fixed clans, fixed graphical glitches</li>
-                                            <li><b>Improvement:</b> Buffed firerate, buffed sinker's gloves, improved UI, changed staff appearance</li>
+                                            <li><b>Improvement:</b> Buffed firerate, buffed Sinker's Gloves, improved UI, changed staff appearance</li>
                                         </ul>
                                     </div>
                                 </article>
@@ -493,6 +493,10 @@
                     <div display="inline">
                         <a>By registering you are agreeing to our</a>
                         <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
+                        <br><br>
+                        <a>After clicking the register button, you must verify your email to log in.</a>
+                        <br>
+                        <a>If you do not verify your email in under an hour, your account will be deleted.</a>
                     </div>
                     <br>
                     <input type="submit" id="submit-register" class="btn btn-success btn-md" value="Register"></input>
@@ -559,7 +563,9 @@
                     </form>
 
                     <br><br><br>
-                    <button id="logout-button" type="button" href="/logout" class="btn btn-logout btn-block">Logout</button>
+                    <form action="/logout">
+                        <input type="submit" class="btn btn-logout btn-block" value="Logout" />
+                    </form>
                     <br>
                     <button id="delete-account-button" type="button" class="btn btn-delete-account btn-block">Delete Account</button>
                     <br>
