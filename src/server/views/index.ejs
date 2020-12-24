@@ -517,6 +517,28 @@
                             </div>
                         </div>
                     </form>
+                    <br>
+                    <form class="form-inline form-group h5" id="change-email-form">
+                        <h4>Email</h4>
+
+                        <div id="current-email-container" display="inline">
+                            <a id="current-email">email</a>
+                            <div id="email-edit-button" class="btn btn-secondary btn-sm float-sm-right">
+                                <i class="icofont icofont-edit"></i>
+                            </div>
+                        </div>
+
+                        <div id="change-email" class="hidden" display="inline">
+                            <input type="text" id="change-email-input" name="change-email-input" class="form-control" placeholder="New Email">
+                            <input type="submit" id="submit-change-email" class="btn btn-success btn-md" value="Change Email"></input>
+                            <br>
+                            <a style="all: initial;">You will be logged out after you change your email, and you will have to confirm your email before logging back in.</a>
+                            <div id="change-email-error" class="hidden">
+                                <br>
+                                <div class="form-error" id="change-email-err-msg">Invailid Data</div>
+                            </div>
+                        </div>
+                    </form>
 
                     <br><br><br>
                     <button id="logout-button" type="button" href="/logout" class="btn btn-logout btn-block">Logout</button>
