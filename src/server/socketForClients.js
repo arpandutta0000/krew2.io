@@ -291,11 +291,13 @@ io.on(`connection`, async socket => {
             // Staff commands.
             if ((msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`)) && playerEntity.isLoggedIn) {
                 // If the player is not a staff member, disregard the command usage.
-                if (!Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Devs.includes(playerEntity.name)) return;
+                if (!Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Devs.includes(playerEntity.name) &&
+                    !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) return;
 
                 // Respective prefixes.
-                if (msgData.message.startsWith(`!!`) && !Admins.includes(playerEntity.name) && !Devs.includes(playerEntity.name)) return;
-                if (msgData.message.startsWith(`//`) && !Mods.includes(playerEntity.name)) return;
+                if (msgData.message.startsWith(`!!`) && !Admins.includes(playerEntity.name) && !Devs.includes(playerEntity.name) &&
+                    !playerEntity.isAdmin && !playerEntity.isDev) return;
+                if (msgData.message.startsWith(`//`) && !Mods.includes(playerEntity.name) && !playerEntity.isMod) return;
 
                 // Parse the message for arguments and set the command.
                 let args = msgData.message.toString().slice(2).split(` `);
