@@ -34,6 +34,14 @@ let userSchema = Mongoose.Schema({
         type: String,
         required: true
     },
+    newPassword: {
+        type: String,
+        required: false
+    },
+    newPasswordToken: {
+        type: String,
+        required: false
+    },
     highscore: {
         type: Number,
         required: true

@@ -73,7 +73,7 @@ router.post(`/register`, (req, res, next) => {
                     if (!user) return log(`red`, err);
 
                     let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
-                    let token = crypto.randomBytes(16).toString('hex') + user.username;
+                    let token = `n` + crypto.randomBytes(16).toString('hex') + user.username;
 
                     user.email = email;
                     user.verified = false;
@@ -274,7 +274,7 @@ router.post(`/change_email`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            let token = crypto.randomBytes(16).toString('hex') + user.username;
+            let token = `e` + crypto.randomBytes(16).toString('hex') + user.username;
 
             user.email = email;
             user.verified = false
@@ -298,7 +298,7 @@ router.post(`/change_email`, (req, res, next) => {
             let mailOptions = {
                 from: 'noreply@krew.io',
                 to: user.email,
-                subject: 'Verify your Krew.io Account',
+                subject: 'Confirm changing your Krew.io email',
                 text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
             }
 
@@ -319,6 +319,91 @@ router.post(`/change_email`, (req, res, next) => {
     });
 });
 
+router.post(`/reset_password`, (req, res, next) => {
+    let email = req.body[`reset-password-email`]
+    let password = req.body[`reset-password-password`];
+    let confirmPassword = req.body[`reset-password-password-confirm`];
+
+    if (!email || typeof email != `string` || !password || typeof password != `string` || !confirmPassword || typeof confirmPassword != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
+    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) return res.json({
+        errors: `Invalid email`
+    });
+
+    if (password != xssFilters.inHTMLData(password)) return res.json({
+        errors: `Invalid Password`
+    });
+
+    if (password != confirmPassword) return res.json({
+        errors: `Passwords do not match`
+    });
+
+    if (password < 7 || password > 48) return res.json({
+        errors: `Password must be between 7 and 48 characters`
+    });
+
+    User.findOne({
+        email
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `That email is not registered.`
+        });
+
+        if (!user.verified) return res.json({
+            errors: `You must verify your email to change your password.`
+        });
+
+        let token = `p` + crypto.randomBytes(16).toString('hex') + user.username;
+
+        bcrypt.genSalt(15, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
+            if (err) return res.json({
+                errors: err
+            });
+
+            user.newPassword = hash;
+            user.newPasswordToken = token;
+
+            let transporter = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            });
+
+            let ssl;
+            if (DEV_ENV) {
+                ssl = `http`;
+            } else {
+                ssl = `https`;
+            }
+
+            let mailOptions = {
+                from: 'noreply@krew.io',
+                to: user.email,
+                subject: 'Reset your Krew.io password',
+                text: `Hello ${user.username},\n\nPlease verify you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify_reset_password\/${user.newPasswordToken}\n`
+            }
+
+            transporter.sendMail(mailOptions, function (err) {
+                if (err) {
+                    user.delete();
+                    return res.json({
+                        error: `Error sending to the specified email address.`
+                    });
+                }
+            });
+            user.save();
+            req.logOut();
+            return res.json({
+                success: `Succesfully sent confirm password email`
+            });
+        }));
+    });
+});
+
 router.get(`/verify/*`, (req, res, next) => {
     let token = req.url.split(`/verify/`)[1];
     if (!token) return;
@@ -328,7 +413,29 @@ router.get(`/verify/*`, (req, res, next) => {
     }).then(user => {
         if (!user) return;
 
-        if (!user.verified) user.verified = true;
+        if (!user.verified) {
+            user.verified = true;
+            user.verifyToken = undefined;
+        }
+        user.save();
+        return res.redirect(`/`);
+    })
+})
+
+router.get(`/verify_reset_password/*`, (req, res, next) => {
+    let token = req.url.split(`/verify_reset_password/`)[1];
+    if (!token) return;
+
+    User.findOne({
+        newPasswordToken: token
+    }).then(user => {
+        if (!user) return;
+        if (!user.newPassword) return;
+
+        user.password = user.newPassword;
+        user.newPassword = undefined;
+        user.newPasswordToken = undefined;
+
         user.save();
         return res.redirect(`/`);
     })
