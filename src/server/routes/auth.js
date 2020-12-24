@@ -285,9 +285,9 @@ router.get(`/verify/*`, (req, res, next) => {
     User.findOne({
         verifyToken: token
     }).then(user => {
-        if(!user) return;
+        if (!user) return;
 
-        if(!user.verified) user.verified = true;
+        if (!user.verified) user.verified = true;
         user.save();
         return res.redirect(`/`);
     })
