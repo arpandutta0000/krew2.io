@@ -26,6 +26,8 @@ passport.use(`login`, new LocalStrategy({
             return done(`Incorrect username or password`, false);
         }
 
+        if(!user.verified) return done(`You must verify your email before logging in`)
+
         // Login a user.
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) return log(`red`, err);

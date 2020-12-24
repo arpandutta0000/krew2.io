@@ -5,6 +5,8 @@ const log = require(`../utils/log.js`);
 const axios = require(`axios`);
 const config = require(`../config/config.js`);
 const bcrypt = require(`bcrypt`);
+const nodemailer = require(`nodemailer`);
+const crypto = require(`crypto`);
 
 const express = require(`express`);
 let router = express.Router();
@@ -71,8 +73,11 @@ router.post(`/register`, (req, res, next) => {
                     if (!user) return log(`red`, err);
 
                     let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+                    let token = crypto.randomBytes(16).toString('hex') + user.username;
 
                     user.email = email;
+                    user.verified = false;
+                    user.verifyToken = token;
                     user.creationIP = creationIP;
                     user.lastIP = user.creationIP;
 
@@ -112,16 +117,33 @@ router.post(`/register`, (req, res, next) => {
                                         errors: `Disable VPN to create an account`
                                     });
                                 } else {
-                                    user.save();
-                                    req.logIn(user, err => {
-                                        if (err) return res.json({
-                                            errors: err
-                                        });
-
-                                        return res.json({
-                                            success: `Succesfully registered`
-                                        });
+                                    let transporter = nodemailer.createTransport({
+                                        service: "Gmail",
+                                        auth: {
+                                            user: process.env.EMAIL_USERNAME,
+                                            pass: process.env.EMAIL_PASSWORD
+                                        }
                                     });
+
+                                    let mailOptions = {
+                                        from: 'noreply@krew.io',
+                                        to: user.email,
+                                        subject: 'Verify your Krew.io Account',
+                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \nhttps:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
+                                    }
+
+                                    transporter.sendMail(mailOptions, function (err) {
+                                        if (err) {
+                                            user.delete();
+                                            return res.json({
+                                                error: `Error sending to the specified email address.`
+                                            });
+                                        }
+                                    });
+                                    user.save();
+                                    return res.json({
+                                        success: `Succesfully registered! A verification email has been sent to ${user.email}.`
+                                    });;
                                 }
                             });
                         });
@@ -147,7 +169,7 @@ router.post(`/login`, (req, res, next) => {
         if (err) {
             log(`red`, err);
             return res.json({
-                errors: `There was an error in logging into your account`
+                errors: err
             });
         }
 
@@ -255,6 +277,20 @@ router.post(`/delete_account`, (req, res, next) => {
         });
     })
 });
+
+router.get(`/verify/*`, (req, res, next) => {
+    let verifyToken = req.url.split(`/verify/`)[1]
+    if (!verifyToken) return;
+
+    User.findOne({
+        verifyToken
+    }).then(user => {
+        if(!user) return;
+
+        if(!user.verified) user.verified = true;
+        return res.redirect(`/`);
+    })
+})
 
 router.get(`/logout`, (req, res, next) => {
     if (req.isAuthenticated()) req.logOut();
