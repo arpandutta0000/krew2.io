@@ -1486,49 +1486,34 @@ io.on(`connection`, async socket => {
                     }
 
                     if (data) {
+                        console.log(data.deposit, data.takedeposit, playerEntity.bank.deposit);
                         if (data.deposit && playerEntity.gold >= data.deposit && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit == `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
                             let integerDeposit = Math.trunc(data.deposit);
                             playerEntity.gold -= integerDeposit;
 
                             // Handle the deposit.
-                            if (playerEntity.bank.deposit >= 5e4) {
+                            playerEntity.bank.deposit += integerDeposit;
 
-                                // If there is already 50K in the bank, don't save the deposit to MongoDB.
-                                playerEntity.bank.deposit += integerDeposit;
-                            } else if (playerEntity.bank.deposit + integerDeposit > 5e4) {
+                            await User.updateOne({
+                                username: playerEntity.name
+                            }, {
+                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : playerEntity.bank.deposit
+                            });
 
-                                // If the player does not have 50K in the bank, but the deposit will exceed that amount, then store up to 50K in MongoDB and the rest in memory.
-                                let excessAmount = (playerEntity.bank.deposit + integerDeposit) - 5e4;
-                                playerEntity.bank.deposit = excessAmount + 5e4;
-
-                                await User.updateOne({
-                                    username: playerEntity.name
-                                }, {
-                                    bankDeposit: 5e4
-                                });
-                            } else {
-                                // If the player does not have 50K in the bank, but the deposit will not exceed that amount, then store the new value in MongoDB.
-                                playerEntity.bank.deposit += integerDeposit;
-                                await User.updateOne({
-                                    username: playerEntity.name
-                                }, {
-                                    bankDeposit: playerEntity.bank.deposit
-                                });
-                            }
                             setBankData();
                             log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
                         } else if (data.takedeposit && playerEntity.bank.deposit >= data.takedeposit && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
+                            console.log(`got here`);
                             let integerDeposit = Math.trunc(data.takedeposit);
 
                             // Take 10% fee for bank transaction.
-                            playerEntity.gold += integerDeposit * 0.9
-                            playerEntity.bankDeposit -= integerDeposit;
+                            playerEntity.gold += integerDeposit * 0.9;
+                            playerEntity.bank.deposit -= integerDeposit;
 
-                            // Update in MongoDB if player bank deposit is below or equal to 50K.
-                            if (playerEntity.bank.deposit <= 5e4) await User.updateOne({
+                            await User.updateOne({
                                 username: playerEntity.name
                             }, {
-                                bankDeposit: playerEntity.bankDeposit
+                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : playerEntity.bank.deposit
                             });
                             setBankData();
                         }
