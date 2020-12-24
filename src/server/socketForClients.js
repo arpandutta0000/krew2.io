@@ -433,8 +433,8 @@ io.on(`connection`, async socket => {
                         player.delete(() => {
                             playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`);
 
-                            log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
-                            return bus.emit(`report`, `Unban player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
+                            log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
+                            return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}\nIP: ${player.IP}.`);
                         });
                     } else if (command == `save` && (isAdmin || isDev)) {
                         playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
