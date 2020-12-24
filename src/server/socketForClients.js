@@ -263,7 +263,7 @@ io.on(`connection`, async socket => {
                 shotAccuracy: playerEntity.shotsHit / playerEntity.shotsFired,
                 overall_cargo: playerEntity.overall_cargo,
                 crewOverallCargo: playerEntity.parent.overall_cargo,
-                overallKills: playerEntity.parent.overallKills
+                overall_kills: playerEntity.parent.overall_kills
             }
             return fn(JSON.stringify(stats));
         });
@@ -392,7 +392,7 @@ io.on(`connection`, async socket => {
                             comment: banReason
                         });
 
-                        ban.save(err => err ? log(`red`, err) : () => {
+                        ban.save(() => {
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You permanently banned ${player.name}`, 3, 1e4);
                         });
@@ -414,7 +414,7 @@ io.on(`connection`, async socket => {
                             comment: tempbanReason
                         });
 
-                        ban.save(err => err ? log(`red`, err) : () => {
+                        ban.save(() => {
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
                         });
@@ -430,7 +430,7 @@ io.on(`connection`, async socket => {
 
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
-                        Ban.delete(err => err ? log(`red`, err) : () => {
+                        player.delete(err => err ? log(`red`, err) : () => {
                             playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${username}.`);
                         });
 
@@ -460,7 +460,7 @@ io.on(`connection`, async socket => {
                                 score: player.score,
                                 shipsSank: player.shipsSank,
                                 deaths: player.deaths,
-                                overallKills: player.overall_kills,
+                                overall_kills: player.overall_kills,
 
                                 isCaptain: player.isCaptain,
                                 shipId: player.parent ? player.parent.shipclassId : null,
@@ -768,7 +768,7 @@ io.on(`connection`, async socket => {
                             crewTradeCount += player.overall_cargo;
                         }
                     }
-                    motherShip.overallKills = crewKillCount;
+                    motherShip.overall_kills = crewKillCount;
                     motherShip.overall_cargo = crewTradeCount;
                 }
             }
@@ -963,7 +963,7 @@ io.on(`connection`, async socket => {
                                 crewTradeCount += player.overall_cargo;
                             }
                         }
-                        motherShip.overallKills = crewKillCount;
+                        motherShip.overall_kills = crewKillCount;
                         motherShip.overall_cargo = crewTradeCount;
                     }
                 }
@@ -1080,7 +1080,7 @@ io.on(`connection`, async socket => {
                                 crewTradeCount += player.overall_cargo;
                             }
                         }
-                        playerEntity.parent.overallKills = crewKillCount;
+                        playerEntity.parent.overall_kills = crewKillCount;
                         playerEntity.parent.overall_cargo = crewTradeCount;
                     }
                 }
@@ -1194,7 +1194,7 @@ io.on(`connection`, async socket => {
                     crewTradeCount += player.overall_cargo;
                 }
             }
-            playerEntity.parent.overallKills = crewKillCount;
+            playerEntity.parent.overall_kills = crewKillCount;
             playerEntity.parent.overall_cargo = crewTradeCount;
         });
 

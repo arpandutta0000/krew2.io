@@ -41,7 +41,7 @@ let playerRestoreSchema = Mongoose.Schema({
         type: Number,
         required: true
     },
-    overallKills: {
+    overall_kills: {
         type: Number,
         required: true
     },
