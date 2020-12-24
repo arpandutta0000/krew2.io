@@ -428,8 +428,8 @@
                         <div class="form-error" id="login-err-msg">Invailid Data</div>
                     </div>
                     <br>
-                    <h4>Username or Email</h4>
-                    <input type="text" id="login-user" name="login-user" class="form-control" placeholder="Username or Email">
+                    <h4>Username</h4>
+                    <input type="text" id="login-username" name="login-username" class="form-control" placeholder="Username">
                     <br>
                     <h4>Password</h4>
                     <input type="password" id="login-password" name="login-password" class="form-control" placeholder="Password">
@@ -498,7 +498,7 @@
                     </div>
                     <br>
                     <form class="form-inline form-group h5" id="change-username-form">
-                        <h3>Username</h3>
+                        <h4>Username</h4>
 
                         <div id="current-username-container" display="inline">
                             <a id="current-username">Username</a>
@@ -518,12 +518,44 @@
                             </div>
                         </div>
                     </form>
+
                     <br><br><br>
+                    <button id="logout-button" type="button" href="/logout" class="btn btn-logout btn-block">Logout</button>
+                    <br>
+                    <button id="delete-account-button" type="button" class="btn btn-delete-account btn-block">Delete Account</button>
+                    <br>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="delete-account-box" role="dialog" disabled>
+        <br><br><br>
+        <form class="modal-dialog modal-md" id="delete-account-form" action="/delete_account" method="post">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <br>
+                    <div class="text-sm-center">
+                        <h3>Confirm your credentials</h3>
+                    </div>
+                    <div id="delete-account-error" class="hidden">
+                        <br>
+                        <div class="form-error" id="delete-account-err-msg">Invailid Data</div>
+                    </div>
+                    <br>
+                    <h4>Username</h4>
+                    <input type="text" id="delete-account-username" name="delete-account-username" class="form-control" placeholder="Username">
+                    <br>
+                    <h4>Password</h4>
+                    <input type="password" id="delete-account-password" name="delete-account-password" class="form-control" placeholder="Password">
+                    <br>
+                    <input type="submit" id="submit-delete-account" class="btn btn-delete-account btn-block" value="Confirm and Delete Account"></input>
+                    <a style="all: initial;" display="center">By clicking this button you are confirming you wish to delete your account, which is an irreversible action.</a>
+                    <br><br><br>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <div class="modal fade text-sm-center" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
