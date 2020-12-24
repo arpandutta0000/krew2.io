@@ -431,7 +431,7 @@ io.on(`connection`, async socket => {
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
 
                         player.delete(err => err ? log(`red`, err) : () => {
-                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${username}.`);
+                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`);
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
