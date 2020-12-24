@@ -307,7 +307,7 @@ io.on(`connection`, async socket => {
                         isAdmin ? playerEntity.isAdmin = true : isMod ? playerEntity.isMod = true : isDev ? playerEntity.isDev = true : null;
                     }
                 } else {
-                    log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     let isAdmin = playerEntity.isAdmin;
                     let isMod = playerEntity.isMod;
@@ -779,7 +779,7 @@ io.on(`connection`, async socket => {
 
             // Get the user performing the action.
             let user = await User.findOne({
-                name: playerEntity.name
+                username: playerEntity.name
             });
 
             // If player has a clan.
@@ -843,13 +843,13 @@ io.on(`connection`, async socket => {
                 // From this point on there should be a player passed to the emit.
                 if (player && playerEntity.clanLeader || playerEntity.clanOwner || playerEntity.clanAssistant) {
                     let otherUser = User.findOne({
-                        name: player
+                        username: player
                     });
                     let otherPlayer = Object.values(core.players).find(entity => entity.name == player);
 
                     // If the player is nonexistent or is not in the same clan.
-                    if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
-                    else if (action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    else if (action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
                     if (action.type == `accept`) {
@@ -876,13 +876,40 @@ io.on(`connection`, async socket => {
                 }
             } else {
                 if (action.type == `create`) {
-                    let clanExists = await User.findOne({ name: action.clanName });
-                    if(clanExists) return callback(409);
+                    let clanExists = await User.findOne({
+                        name: action.clanName
+                    });
+                    if (clanExists) {
+                        log(`cyan`, `Player ${playerEntity.name} tried to create duplicate clan ${action.clanName} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return callback(409);
+                    }
 
                     let newClan = new Clan({
                         name: action.clanName,
-                    })
-                } else if (action.type == `request`) {}
+                        leader: playerEntity.name,
+                        owners: [],
+                        assistants: []
+                    });
+
+                    newClan.save(() => {
+                        log(`magenta`, `Player ${playerEntity.name} created new clan ${action.clanName} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return callback(true);
+                    });
+                } else if (action.type == `join`) {
+                    if (!playerEntity.clanRequest || playerEntity.clanRequest != `` || playerEntity.clan || playerEntity.clan != ``) return callback(false);
+
+                    let clan = await Clan.findOne({
+                        name: action.clanName
+                    });
+
+                    if (!clan) callback(404);
+                    log(`magenta`, `Player ${playerEntity.name} requeted to join clan ${action.clanName} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+
+                    for (let i in core.players) {
+                        let player = core.players[i];
+                        if (player.clan == action.clanName) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
+                    }
+                }
             }
         });
 
@@ -892,7 +919,7 @@ io.on(`connection`, async socket => {
 
             // Check for timestamp of last respawn and ban if it was less than 2 seconds ago.
             if (socket.timestamp != undefined && Date.now() - socket.timestamp < 2e3) {
-                log(`cyan`, `Exploit detected: multiple respawn | Player: ${playerEntity.name} | Adding IP ${playerEntity.socket.handshake.address} to bannedIPs | Server: ${playerEntity.serverNumber}.`);
+                log(`cyan`, `Exploit detected: multiple respawn | Player: ${playerEntity.name} | Adding IP ${playerEntity.socket.handshake.address} to bannedIPs | Server ${playerEntity.serverNumber}.`);
                 if (playerEntity.socket.handshake.address.length > 5) {
                     let ban = new Ban({
                         username: player.name,
@@ -1176,7 +1203,7 @@ io.on(`connection`, async socket => {
                     }
                 } else {
                     playerEntity.purchaseItem(item.id);
-                    log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 }
             }
 
@@ -1449,19 +1476,19 @@ io.on(`connection`, async socket => {
             for (let i in playerEntity.points) countPoints += playerEntity.points[i];
 
             // Validate the player's stats.
-            if (countPoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
-            if (playerEntity.availablePoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+            if (countPoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            if (playerEntity.availablePoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             // Check if player has available points and if he has already allocated 51 points.
             if (playerEntity && playerEntity.parent && playerEntity.availablePoints > 0 && playerEntity.availablePoints <= 50 && countPoints < 51) {
-                log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 let countAllocatedPoints = 0;
                 for (let i in points) {
                     let point = points[i];
                     countAllocatedPoints += point;
 
-                    if (point < 0 || !Number.isInteger(point) || !(i == `fireRate` || i == `distance` || i == `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    if (point < 0 || !Number.isInteger(point) || !(i == `fireRate` || i == `distance` || i == `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     else if (point != undefined && typeof point == `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
                         playerEntity.points[i] += point;
                         playerEntity.availablePoints -= point;
@@ -1516,7 +1543,7 @@ io.on(`connection`, async socket => {
                             });
 
                             setBankData();
-                            log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                            log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         } else if (data.takedeposit && playerEntity.bank.deposit >= data.takedeposit && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
                             let integerDeposit = Math.trunc(data.takedeposit);
 
