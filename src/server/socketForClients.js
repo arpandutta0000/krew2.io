@@ -339,7 +339,7 @@ io.on(`connection`, async socket => {
 
                         if (!amt || isNaN(parseInt(amt))) return;
                         for (let i in core.players) {
-                            player[i].gold += parseInt(amt)
+                            core.players[i].gold += parseInt(amt);
                         }
 
                         log(`blue`, `ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -1518,10 +1518,10 @@ io.on(`connection`, async socket => {
                         // If depositing.
                         if (data.deposit) {
                             if (playerEntity.gold < data.deposit) return console.log(`1`);
-                            if (data.deposit < 1)  return console.log(`2`);
-                            if (data.deposit > 15e4)  return console.log(`3`);
+                            if (data.deposit < 1) return console.log(`2`);
+                            if (data.deposit > 15e4) return console.log(`3`);
                             if (typeof data.deposit != `number`) return console.log(`4`);
-                            if (data.deposit + playerEntity.bank.deposit >= 15e4)  return console.log(`5`);
+                            if (data.deposit + playerEntity.bank.deposit >= 15e4) return console.log(`5`);
 
                             let integerDeposit = Math.trunc(data.deposit);
                             playerEntity.gold -= integerDeposit;
