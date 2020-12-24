@@ -1619,6 +1619,12 @@ var ui = {
                     $('#login-error').addClass('hidden');
                 });
 
+                $('#open-reset-password').on('click', function () {
+                    $('#login-box').modal('hide');
+                    $('#reset-password-box').modal('show');
+                    $('#reset-password-error').addClass('hidden');
+                })
+
                 // If a user submits a login
                 $('#submit-login').on('click', function (e) {
                     e.preventDefault();
@@ -1759,11 +1765,17 @@ var ui = {
                     })
                 });
 
+                $('#reset-password-button').on('click', function () {
+                    $('#manage-account-box').modal('hide');
+                    $('#reset-password-box').modal('show');
+                    $('#reset-password-error').addClass('hidden');
+                });
+
                 $('#delete-account-button').on('click', function () {
                     $('#manage-account-box').modal('hide');
                     $('#delete-account-box').modal('show');
                     $('#delete-account-error').addClass('hidden');
-                })
+                });
 
                 $('#submit-delete-account').on('click', function (e) {
                     e.preventDefault();
@@ -1791,6 +1803,32 @@ var ui = {
                     })
                 })
             }
+
+            $('#submit-reset-password').on('click', function (e) {
+                e.preventDefault();
+
+                $('#submit-reset-password').attr('disabled', true);
+
+                $('#reset-password-error').addClass('hidden');
+                $.ajax({
+                    type: 'post',
+                    url: '/reset_password',
+                    data: $('#reset-password-form').serialize(),
+                }).then(function (res) {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $('#submit-reset-password').attr('disabled', false);
+                        $('#reset-password-error').removeClass('hidden');
+                        $('#reset-password-err-msg').text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        window.location.reload();
+                        return true;
+                    }
+                })
+            });
         });
     },
 
