@@ -1682,7 +1682,6 @@ var ui = {
                 });
             } else {
                 ui.setCookie('username', response.username, 1);
-                ui.setCookie('email', response.email, 1);
                 ui.setCookie('password', response.password, 1);
 
                 // player is authenticated, so show him personalized login button
@@ -1694,7 +1693,6 @@ var ui = {
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
                     $('#current-username').text(ui.username);
-                    $('#current-email').text(ui.email);
                 });
 
                 $('#username-edit-button').on('click', function () {
