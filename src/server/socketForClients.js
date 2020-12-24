@@ -217,20 +217,15 @@ io.on(`connection`, async socket => {
                 // Restore gold and xp.
                 playerEntity.gold = playerSave.gold;
                 playerEntity.experience = playerSave.experience;
-                playerEntity.points = {
-                    fireRate: playerSave.fireRate,
-                    distance: playerSave.distance,
-                    damage: playerSave.damage
-                }
+                playerEntity.points = playerSave.points;
 
                 // Restore leaderboard stats.
                 playerEntity.score = playerSave.score;
                 playerEntity.shipsSank = playerSave.shipsSank;
                 playerEntity.deaths = playerSave.deaths;
-                playerEntity.totalDamage = playerSave.totalDamage;
 
                 // Refund ship if captain.
-                if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipID].price;
+                if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipId].price;
 
                 // Restore item & item stats.
                 if (playerSave.itemId) playerEntity.itemId = playerSave.itemId;
@@ -446,33 +441,28 @@ io.on(`connection`, async socket => {
 
                             // Delete existing outstanding data if any.
                             let oldPlayerData = await PlayerRestore.findOne({
-                                IP: socket.handshake.address
+                                IP: player.ocket.handshake.address
                             });
                             if (oldPlayerData) oldPlayerData.delete();
 
                             let playerSaveData = new PlayerRestore({
-                                name: player.name,
+                                username: player.name,
                                 IP: player.socket.handshake.address,
                                 timestamp: new Date(),
 
                                 gold: player.gold,
                                 experience: player.experience,
-                                points: {
-                                    fireRate: player.fireRate,
-                                    distance: player.distance,
-                                    damage: player.damage
-                                },
+                                points: playerEntity.points,
 
                                 score: player.score,
                                 shipsSank: player.shipsSank,
                                 deaths: player.deaths,
-                                totalDamage: player.totalDamage,
-                                overallKills: player.overallKills,
+                                overallKills: player.overall_kills,
 
                                 isCaptain: player.isCaptain,
-                                shipID: player.parent ? player.parent.shipclassId : null,
+                                shipId: player.parent ? player.parent.shipclassId : null,
 
-                                itemID: player.itemID ? player.itemID : null,
+                                itemId: player.itemId ? player.itemId : null,
                                 bonus: {
                                     fireRate: player.attackSpeedBonus,
                                     distance: player.attackDistanceBonus,
@@ -600,7 +590,7 @@ io.on(`connection`, async socket => {
             if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
             if (playerEntity.isLoggedIn && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
-                log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address}.`);
+                log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
                 await User.updateOne({
@@ -1405,10 +1395,10 @@ io.on(`connection`, async socket => {
 
                 // Update player highscore in MongoDB.
                 if (playerEntity.isLoggedIn == true && playerEntity.serverNumber == 1 && playerEntity.lastIsland != island.name && playerEntity.gold > playerEntity.highscore) {
-                    log(`magenta`, `Update highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address}.`);
-                    playerEntity.highscore = playerEntity.gold;
+                    log(`magenta`, `Update highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                    playerEntity.highscore = parseInt(playerEntity.gold);
 
-                    User.findOne({
+                    User.updateOne({
                         username: playerEntity.name
                     }, {
                         highscore: playerEntity.highscore
