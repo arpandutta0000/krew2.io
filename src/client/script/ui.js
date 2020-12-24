@@ -1722,6 +1722,38 @@ var ui = {
                         }
                     })
                 });
+
+                $('#delete-account-button').on('click', function () {
+                    $('#manage-account-box').modal('hide');
+                    $('#delete-account-box').modal('show');
+                    $('#delete-account-error').addClass('hidden');
+                })
+
+                $('#submit-delete-account').on('click', function(e) {
+                    e.preventDefault();
+
+                    $('#submit-delete-account').attr('disabled', true);
+
+                    $('#delete-account-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/delete_account',
+                        data: $('#delete-account-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-delete-account').attr('disabled', false);
+                            $('#delete-account-error').removeClass('hidden');
+                            $('#delete-account-err-msg').text(res.errors);
+                            return;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return;
+                        }
+                    })
+                })
             }
         });
     },

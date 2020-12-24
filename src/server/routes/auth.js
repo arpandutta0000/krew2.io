@@ -4,6 +4,7 @@
 const log = require(`../utils/log.js`);
 const axios = require(`axios`);
 const config = require(`../config/config.js`);
+const bcrypt = require(`bcrypt`);
 
 const express = require(`express`);
 let router = express.Router();
@@ -137,13 +138,8 @@ router.post(`/login`, (req, res, next) => {
             success: `Logged in`
         });
     }
-    if (!req.body[`login-user`] || !req.body[`login-password`] ||
-        typeof req.body[`login-user`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
-        errors: `Please fill out all fields`
-    });
-
-    if (!req.body[`login-user`] || !req.body[`login-password`] ||
-        typeof req.body[`login-user`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
+    if (!req.body[`login-username`] || !req.body[`login-password`] ||
+        typeof req.body[`login-username`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -178,6 +174,10 @@ router.post(`/change_username`, (req, res, next) => {
     let currentUsername = req.user.username;
     let username = req.body[`change-username-input`];
 
+    if(!username || typeof username != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
     if (!/[a-zA-Z]/.test(username)) return res.json({
         errors: `Your username must contain at least one letter`
     });
@@ -206,13 +206,54 @@ router.post(`/change_username`, (req, res, next) => {
 
             user.username = username;
 
-            user.save(err => err ? log(`red`, err) : () => {
-                return res.json({
-                    success: `Succesfully changed username`
-                });
+            user.save();
+            req.logOut();
+            return res.json({
+                success: `Succesfully changed username`
             });
         });
     });
+});
+
+router.post(`/delete_account`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to delete your account`
+    });
+
+    let username = req.user.username;
+
+    if (!req.body[`delete-account-username`] || !req.body[`delete-account-password`] ||
+        typeof req.body[`delete-account-username`] != `string` || typeof req.body[`delete-account-password`] != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
+    if(username != req.body[`delete-account-username`]) return res.json({
+        errors: `Wrong Username`
+    });
+
+    User.findOne({
+        username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `Invalid Username`
+        });
+
+        bcrypt.compare(req.body[`delete-account-password`], user.password, (err, isMatch) => {
+            if (err) return log(`red`, err);
+    
+            if (isMatch) {
+                req.logOut();
+                user.delete();
+                return res.json({
+                    success: `Username and Passwords match, deleted account`
+                });
+            } else {
+                return res.json({
+                    errors: `Wrong Password`
+                });
+            }
+        });
+    })
 });
 
 router.get(`/logout`, (req, res, next) => {

@@ -3080,6 +3080,30 @@ fieldset[disabled] a.btn {
     border-color: #5bc0de
 }
 
+.btn-delete-account, .btn-delete-account.disabled, .btn-delete-account:disabled, .btn-delete-account.disabled:hover, .btn-delete-account:disabled:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 77, 77);
+    border-color: rgb(255, 77, 77)
+}
+
+.btn-delete-account:hover {
+    color: rgb(255, 255, 255);
+    background-color: #ff0000;
+    border-color: #ff0000
+}
+
+.btn-logout {
+    color: rgb(255, 77, 77);
+    background-color: #ffffff;
+    border-color: rgb(255, 77, 77)
+}
+
+.btn-logout:hover {
+    color: rgb(255, 0, 0);
+    background-color: #ffffff;
+    border-color: rgb(255, 0, 0)
+}
+
 .btn-success {
     color: #fff;
     background-color: #5cb85c;
