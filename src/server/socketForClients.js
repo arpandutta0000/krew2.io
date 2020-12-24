@@ -790,7 +790,7 @@ io.on(`connection`, async socket => {
                 });
 
                 // Actions for all members.
-                if (action == `getClanData`) {
+                if (action.type == `getClanData`) {
                     let clanMemberDocs = await User.find({
                         clan: clan.name
                     });
@@ -818,7 +818,7 @@ io.on(`connection`, async socket => {
                         requests: clanRequests
                     }
                     return callback(clanData);
-                } else if (action == `leave`) {
+                } else if (action.type == `leave`) {
                     // If he is the only person in the clan, delete the clan.
                     let clanMembers = await User.find({
                         clan: playerEntity.clan
@@ -852,14 +852,14 @@ io.on(`connection`, async socket => {
                     else if (action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
-                    if (action == `accept`) {
+                    if (action.type == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
                         if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {} else return callback(false);
                     }
 
                     if (playerEntity.clanLeader || playerEntity.clanOwner) {
                         // Actions for leader / owners.
-                        if (action == `promote`) {
+                        if (action.type == `promote`) {
                             if (playerEntity.clanLeader && !clan.owners.includes(player) && clan.assistants.includes(player)) {
                                 // Only clan leaders can promote to owner.
                                 clan.owners.push(player);
@@ -871,13 +871,18 @@ io.on(`connection`, async socket => {
                                 callback(true);
                             }
                             clan.save(err => err ? log(`red`, err) : callback(false));
-                        } else if (action == `demote`) {} else if (action == `kick`) {}
+                        } else if (action.type == `demote`) {} else if (action.type == `kick`) {}
                     }
                 }
             } else {
-                if (action == `create`) {
+                if (action.type == `create`) {
+                    let clanExists = await User.findOne({ name: action.clanName });
+                    if(clanExists) return callback(409);
 
-                } else if (action == `request`) {}
+                    let newClan = new Clan({
+                        name: action.clanName,
+                    })
+                } else if (action.type == `request`) {}
             }
         });
 
@@ -1311,7 +1316,7 @@ io.on(`connection`, async socket => {
 
                 // Start quantity validation.
                 let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
-                if (transaction.action == `buy`) {
+                if (transaction.action.type == `buy`) {
                     playerEntity.lastIsland = island.name;
                     let max = parseInt(transaction.gold / transaction.goodsPrice[transaction.good]);
                     let maxCargo = (transaction.cargo - transaction.cargoUsed) / core.goodsTypes[transaction.good].cargoSpace;
@@ -1320,16 +1325,16 @@ io.on(`connection`, async socket => {
                     max = Math.floor(max);
                     if (transaction.action.quantity > max) transaction.quantity = max;
                 }
-                if (transaction.quantity.action == `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
+                if (transaction.quantity.action.type == `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
                 if (transaction.quantity < 0) transaction.quantity = 0;
 
                 // Start transaction.
-                if (transaction.action == `buy`) {
+                if (transaction.action.type == `buy`) {
                     // Remove gold and add goods.
                     let gold = transaction.quantity * transaction.goodsPrice[transaction.good];
                     transaction.gold -= gold;
                     transaction.goods[transaction.good] += transaction.quantity;
-                } else if (transaction.action == `sell`) {
+                } else if (transaction.action.type == `sell`) {
                     // Add gold and remove goods.
                     // This is a stub of validation to stop active exploits, consider to expand this to only player-owned goods.
                     if (transaction.cargoUsed < transaction.quantity) {

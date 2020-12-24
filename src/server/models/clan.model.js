@@ -5,10 +5,6 @@ let clanSchema = Mongoose.Schema({
         type: String,
         required: true
     },
-    tag: {
-        type: String,
-        required: true,
-    },
     leader: {
         type: String,
         required: true
