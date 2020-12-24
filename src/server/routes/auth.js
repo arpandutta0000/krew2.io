@@ -23,6 +23,10 @@ router.post(`/register`, (req, res, next) => {
         errors: `Your username must contain at least one letter`
     });
 
+    if (req.body[`register-username`].length < 3 || req.body[`register-username`].length > 20) return res.json({
+        errors: `Your username be between 3 and 20 characters`
+    });
+
     if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || req.body[`register-username`].indexOf(config.whitespaceCharacters) > -1) return res.json({
         errors: `Invalid Username`
     });
@@ -43,63 +47,72 @@ router.post(`/register`, (req, res, next) => {
         errors: `Password must be between 7 and 48 characters`
     });
 
-    passport.authenticate(`register`, (err, user, info) => {
-        if (err) return res.json({
-            errors: err
+    let email = req.body[`register-email`];
+
+    User.findOne({
+        email: email
+    }).then(user => {
+        if (user) return res.json({
+            errors: `That email is already in use`
         });
+        passport.authenticate(`register`, (err, user, info) => {
+            if (err) return res.json({
+                errors: err
+            });
 
-        let username = user.username ? user.username : ``;
+            let username = user.username ? user.username : ``;
 
-        if (info) {
-            User.findOne({
-                username
-            }).then(user => {
-                if (!user) return log(`red`, err);
-
-                let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
-
-                user.email = req.body[`register-email`];
-                user.creationIP = creationIP;
-                user.lastIP = user.creationIP;
-
+            if (info) {
                 User.findOne({
-                    creationIP
+                    username
                 }).then(user => {
-                    if (user) return res.json({
-                        errors: `You can only create one account`
-                    });
+                    if (!user) return log(`red`, err);
+
+                    let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+
+                    user.email = email;
+                    user.creationIP = creationIP;
+                    user.lastIP = user.creationIP;
+
                     User.findOne({
-                        lastIP: creationIP
+                        creationIP
                     }).then(user => {
                         if (user) return res.json({
                             errors: `You can only create one account`
                         });
+                        User.findOne({
+                            lastIP: creationIP
+                        }).then(user => {
+                            if (user) return res.json({
+                                errors: `You can only create one account`
+                            });
 
-                        axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(req, res => {
-                            if (!res) {
-                                log(`red`, `There was an error checking while performing the VPN check request.`);
-                                return res.json({
-                                    errors: `There was an error in creating your account`
-                                });
-                            }
+                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(req, res => {
+                                if (!res) {
+                                    log(`red`, `There was an error checking while performing the VPN check request.`);
+                                    return res.json({
+                                        errors: `There was an error in creating your account`
+                                    });
+                                }
 
-                            if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
-                                log(`cyan`, `VPN connection. Preventing account creation by IP: ${socket.handshake.address}.`);
-                                return res.json({
-                                    errors: `Disable VPN to create an account`
-                                });
-                            } else {
-                                user.save();
-                                return res.json({
-                                    success: `Succesfully registered`
-                                });
-                            }
+                                if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
+                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${socket.handshake.address}.`);
+                                    return res.json({
+                                        errors: `Disable VPN to create an account`
+                                    });
+                                } else {
+                                    user.save();
+                                    return res.json({
+                                        success: `Succesfully registered`
+                                    });
+                                }
+                            });
                         });
                     });
                 });
-            });
-        }
-    })(req, res, next);
+            }
+        })(req, res, next);
+    });
 });
 
 router.post(`/login`, (req, res, next) => {
@@ -139,6 +152,51 @@ router.post(`/login`, (req, res, next) => {
             });
         });
     })(req, res, next);
+});
+
+router.post(`/change_username`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to change your username`
+    });
+
+    let currentUsername = req.user.username;
+    let username = req.body[`submit-change-username`];
+
+    if (!/[a-zA-Z]/.test(username)) return res.json({
+        errors: `Your username must contain at least one letter`
+    });
+
+    if (username.length < 3 || username.length > 20) return res.json({
+        errors: `Your username be between 3 and 20 characters`
+    });
+
+    if (username != xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || username.indexOf(config.whitespaceCharacters) > -1) return res.json({
+        errors: `Invalid Username`
+    });
+
+    User.findOne({
+        username
+    }).then(user => {
+        if(user) return res.json({
+            errors: `That username is already in use`
+        });
+
+        User.findOne({
+            currentUsername
+        }).then(user => {
+            if (!user) return res.json({
+                errors: `Your account is Invalid`
+            });
+    
+            user.username = username;
+    
+            user.save(err => err ? log(`red`, err) : () => {
+                return res.json({
+                    success: `Succesfully changed username`
+                })
+            });
+        });
+    })
 });
 
 router.get(`/logout`, (req, res, next) => {
