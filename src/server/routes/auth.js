@@ -384,7 +384,7 @@ router.post(`/reset_password`, (req, res, next) => {
                 from: 'noreply@krew.io',
                 to: user.email,
                 subject: 'Reset your Krew.io password',
-                text: `Hello ${user.username},\n\nPlease verify you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify_reset_password\/${user.newPasswordToken}\n`
+                text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify_reset_password\/${user.newPasswordToken}\n`
             }
 
             transporter.sendMail(mailOptions, function (err) {
