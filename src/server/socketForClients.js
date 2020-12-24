@@ -443,7 +443,7 @@ io.on(`connection`, async socket => {
 
                             // Delete existing outstanding data if any.
                             let oldPlayerData = await PlayerRestore.findOne({
-                                IP: player.ocket.handshake.address
+                                IP: player.socket.handshake.address
                             });
                             if (oldPlayerData) oldPlayerData.delete();
 
