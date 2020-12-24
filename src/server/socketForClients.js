@@ -428,15 +428,14 @@ io.on(`connection`, async socket => {
                             username: unbanUser
                         });
 
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not banned!`, 3, 1e4);
 
-                        player.delete(err => err ? log(`red`, err) : () => {
+                        player.delete(() => {
                             playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`);
+
+                            log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
+                            return bus.emit(`report`, `Unban player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
                         });
-
-                        log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
-                        return bus.emit(`report`, `Unban player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}| IP: ${player.IP}.`);
-
                     } else if (command == `save` && (isAdmin || isDev)) {
                         playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
                         for (let i in core.players) {
