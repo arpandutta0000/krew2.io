@@ -28,7 +28,7 @@ const client = new Discord.Client({
 let chatLogChannel, reportChannel;
 client.on(`ready`, async () => {
     chatLogChannel = await client.channels.fetch(config.discord.channels.chatLogs);
-    reportChanel = await client.channels.fetch(config.discord.channels.reports);
+    reportChannel = await client.channels.fetch(config.discord.channels.reports);
 
     log(`green`, `Connected to Discord.`);
 
