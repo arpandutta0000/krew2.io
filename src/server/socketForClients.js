@@ -773,10 +773,11 @@ io.on(`connection`, async socket => {
             }
         });
 
-        socket.on(`clan`, async (action, player, callback) => {
+        socket.on(`clan`, async (action, callback) => {
             // Only logged in players can perform clan actions.
             if (!playerEntity.isLoggedIn) return log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
+            console.log(`yo we got this`, action);
             // Get the user performing the action.
             let user = await User.findOne({
                 username: playerEntity.name
@@ -790,7 +791,7 @@ io.on(`connection`, async socket => {
                 });
 
                 // Actions for all members.
-                if (action.type == `getClanData`) {
+                if (action == `getClanData`) {
                     let clanMemberDocs = await User.find({
                         clan: clan.name
                     });
@@ -813,17 +814,18 @@ io.on(`connection`, async socket => {
                         name: clan.name,
                         leader: clan.leader,
                         owners: clan.owners,
-                        assistants: clan.assistants,
                         members: clanMembers,
                         requests: clanRequests
                     }
                     return callback(clanData);
-                } else if (action.type == `leave`) {
+                } else if (action == `leave`) {
+
                     // If he is the only person in the clan, delete the clan.
                     let clanMembers = await User.find({
                         clan: playerEntity.clan
                     });
-                    if (clan.leader == playerEntity.name && clanMembers.length == 1) clan.delete(err ? log(`red`, err) : log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
+
+                    if (clan.leader == playerEntity.name && clanMembers.length == 1) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
                     else {
                         for (let i in core.players) {
                             let player = core.players[i];
@@ -835,7 +837,7 @@ io.on(`connection`, async socket => {
                     playerEntity.clan = ``;
                     user.clan = ``;
 
-                    user.save(err => err ? log(`red`, err) : playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 1, 5e3));
+                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 1, 5e3));
                     log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return callback(true);
                 }
@@ -852,62 +854,57 @@ io.on(`connection`, async socket => {
                     else if (action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
-                    if (action.type == `accept`) {
+                    if (action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
                         if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {} else return callback(false);
                     }
 
                     if (playerEntity.clanLeader || playerEntity.clanOwner) {
                         // Actions for leader / owners.
-                        if (action.type == `promote`) {
-                            if (playerEntity.clanLeader && !clan.owners.includes(player) && clan.assistants.includes(player)) {
+                        if (action.action && action.action == `promote`) {
+                            if (playerEntity.clanLeader && !clan.owners.includes(action.id)) {
                                 // Only clan leaders can promote to owner.
-                                clan.owners.push(player);
-                                clan.assistants.splice(clan.assistants.indexOf(player), 1);
-                                callback(true);
-                            } else if (playerEntity.clanLeader || playerEntity.clanOwner && !clan.assistants.includes(player)) {
-                                // Only clan leaders / clan owners can promote to assistant.
-                                clan.assistants.push(player);
+                                clan.owners.push(action.id);
                                 callback(true);
                             }
-                            clan.save(err => err ? log(`red`, err) : callback(false));
-                        } else if (action.type == `demote`) {} else if (action.type == `kick`) {}
+                            clan.save(() => callback(false));
+                        } else if (action == `demote`) {} else if (action == `kick`) {}
                     }
                 }
             } else {
-                if (action.type == `create`) {
+                if (action.action && action.action == `create`) {
                     let clanExists = await User.findOne({
-                        name: action.clanName
+                        name: action.id
                     });
                     if (clanExists) {
-                        log(`cyan`, `Player ${playerEntity.name} tried to create duplicate clan ${action.clanName} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`cyan`, `Player ${playerEntity.name} tried to create duplicate clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return callback(409);
                     }
 
                     let newClan = new Clan({
-                        name: action.clanName,
+                        name: action.id,
                         leader: playerEntity.name,
                         owners: [],
                         assistants: []
                     });
 
                     newClan.save(() => {
-                        log(`magenta`, `Player ${playerEntity.name} created new clan ${action.clanName} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return callback(true);
                     });
-                } else if (action.type == `join`) {
+                } else if (action == `join`) {
                     if (!playerEntity.clanRequest || playerEntity.clanRequest != `` || playerEntity.clan || playerEntity.clan != ``) return callback(false);
 
                     let clan = await Clan.findOne({
-                        name: action.clanName
+                        name: action.id
                     });
 
                     if (!clan) callback(404);
-                    log(`magenta`, `Player ${playerEntity.name} requeted to join clan ${action.clanName} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+                    log(`magenta`, `Player ${playerEntity.name} requeted to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
 
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.clan == action.clanName) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
+                        if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
                     }
                 }
             }
@@ -1343,7 +1340,7 @@ io.on(`connection`, async socket => {
 
                 // Start quantity validation.
                 let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
-                if (transaction.action.type == `buy`) {
+                if (transaction.action == `buy`) {
                     playerEntity.lastIsland = island.name;
                     let max = parseInt(transaction.gold / transaction.goodsPrice[transaction.good]);
                     let maxCargo = (transaction.cargo - transaction.cargoUsed) / core.goodsTypes[transaction.good].cargoSpace;
@@ -1352,16 +1349,16 @@ io.on(`connection`, async socket => {
                     max = Math.floor(max);
                     if (transaction.action.quantity > max) transaction.quantity = max;
                 }
-                if (transaction.quantity.action.type == `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
+                if (transaction.quantity.action == `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
                 if (transaction.quantity < 0) transaction.quantity = 0;
 
                 // Start transaction.
-                if (transaction.action.type == `buy`) {
+                if (transaction.action == `buy`) {
                     // Remove gold and add goods.
                     let gold = transaction.quantity * transaction.goodsPrice[transaction.good];
                     transaction.gold -= gold;
                     transaction.goods[transaction.good] += transaction.quantity;
-                } else if (transaction.action.type == `sell`) {
+                } else if (transaction.action == `sell`) {
                     // Add gold and remove goods.
                     // This is a stub of validation to stop active exploits, consider to expand this to only player-owned goods.
                     if (transaction.cargoUsed < transaction.quantity) {
