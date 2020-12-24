@@ -1503,7 +1503,6 @@ io.on(`connection`, async socket => {
                             setBankData();
                             log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
                         } else if (data.takedeposit && playerEntity.bank.deposit >= data.takedeposit && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
-                            console.log(`got here`);
                             let integerDeposit = Math.trunc(data.takedeposit);
 
                             // Take 10% fee for bank transaction.
