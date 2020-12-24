@@ -237,6 +237,106 @@ router.post(`/change_username`, (req, res, next) => {
     });
 });
 
+router.post(`/change_email`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to change your email`
+    });
+
+    let currentEmail = req.user.email;
+    let email = req.body[`change-email-input`];
+
+    if (!email || typeof email != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
+    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) return res.json({
+        errors: `Invalid email`
+    });
+
+    User.findOne({
+        email
+    }).then(user => {
+        if (user) return res.json({
+            errors: `That email is already in use`
+        });
+
+        User.findOne({
+            email: currentEmail
+        }).then(user => {
+            if (!user) return res.json({
+                errors: `Your account is Invalid`
+            });
+
+            let token = crypto.randomBytes(16).toString('hex') + user.username;
+
+            user.email = email;
+            user.verified = false
+            user.verifyToken = token;
+
+            let transporter = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            });
+
+            let mailOptions = {
+                from: 'noreply@krew.io',
+                to: user.email,
+                subject: 'Verify your Krew.io Account',
+                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \nhttps:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
+            }
+
+            transporter.sendMail(mailOptions, function (err) {
+                if (err) {
+                    user.delete();
+                    return res.json({
+                        error: `Error sending to the specified email address.`
+                    });
+                }
+            });
+            user.save();
+            req.logOut();
+            return res.json({
+                success: `Succesfully changed email`
+            });
+        });
+    });
+});
+
+router.get(`/verify/*`, (req, res, next) => {
+    let token = req.url.split(`/verify/`)[1];
+    if (!token) return;
+
+    User.findOne({
+        verifyToken: token
+    }).then(user => {
+        if (!user) return;
+
+        if (!user.verified) user.verified = true;
+        user.save();
+        return res.redirect(`/`);
+    })
+})
+
+router.get(`/logout`, (req, res, next) => {
+    if (req.isAuthenticated()) req.logOut();
+    res.redirect(`/`);
+});
+
+router.get(`/authenticated`, (req, res, next) => {
+    if (req.isAuthenticated()) return res.json({
+        isLoggedIn: true,
+        username: req.user.username,
+        email: req.user.email,
+        password: req.user.password
+    });
+    else return res.json({
+        isLoggedIn: false
+    });
+});
+
 router.post(`/delete_account`, (req, res, next) => {
     if (!req.isAuthenticated()) return res.json({
         errors: `You must be logged in to delete your account`
@@ -276,62 +376,6 @@ router.post(`/delete_account`, (req, res, next) => {
             }
         });
     })
-});
-
-router.get(`/verify/*`, (req, res, next) => {
-    let token = req.url.split(`/verify/`)[1];
-    if (!token) return;
-
-    User.findOne({
-        verifyToken: token
-    }).then(user => {
-        if (!user) return;
-
-        if (!user.verified) user.verified = true;
-        user.save();
-        return res.redirect(`/`);
-    })
-})
-
-router.get(`/logout`, (req, res, next) => {
-    if (req.isAuthenticated()) req.logOut();
-    res.redirect(`/`);
-});
-
-router.get(`/authenticated`, (req, res, next) => {
-    if (req.isAuthenticated()) return res.json({
-        isLoggedIn: true,
-        username: req.user.username,
-        email: req.user.email,
-        password: req.user.password
-    });
-    else return res.json({
-        isLoggedIn: false
-    });
-});
-
-router.post(`/change_username`, (req, res, next) => {
-    if (!req.isAuthenticated()) return res.json({
-        errors: `You are not logged in`
-    });
-    if (!req.body[`change-username-input`] || typeof req.body[`change-username-input`] != `string`) return res.json({
-        errors: `Please fill out all fields`
-    });
-    if (!/[a-zA-Z]/.test(req.body[`change-username-input`])) return res.json({
-        errors: `Your username must contain at least one letter`
-    });
-
-    if (req.body[`change-username-input`] != xssFilters.inHTMLData(req.body[`change-username-input`]) || /[^\w\s]/.test(req.body[`change-username-input`])) return res.json({
-        errors: `Invalid Username`
-    });
-
-    User.findOne({
-        username: req.user.username
-    }).then(user => {
-        if (!user) return res.json({
-            errors: `There was an error in changing your username`
-        });
-    });
 });
 
 module.exports = router;
