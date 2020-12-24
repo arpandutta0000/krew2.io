@@ -1,10 +1,10 @@
 # krew2
-This is the repository for a remake of Krew.io.
+This is the repository for a cleanup of Krew.io.
 
 **Running in development** (using grunt-nodemon as a watchscript)
 ``npm run dev``
 
-**Running in production** (using forever to keep process alive)
+**Running in production** (using pm2 to keep process alive)
 ``npm run prod``
 
 Running in production mode serves to ``localhost:8200``.
@@ -14,7 +14,7 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
 
 ### Admin Commands
  ```
- !!login <password>
+ !!login
  ```
  - Set playerEntity.isAdmin to ``true`` (otherwise other admin commands won't work).
 
@@ -63,7 +63,7 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
 
  ### Mod Commands
  ```
- //login <password>
+ //login
  ```
  - Set playerEntity.isMod to ``true`` (otherwise other mod commands won't work).
 
@@ -91,7 +91,7 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  - Login to the game with your user account.
  - Authenticate yourself as admin in the chat:
  ```
- !!login <password>
+ !!login
  ```
 
  - Inform players about the upcoming server restart.
