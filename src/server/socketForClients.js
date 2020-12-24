@@ -606,7 +606,7 @@ io.on(`connection`, async socket => {
                 await User.updateOne({
                     username: playerEntity.name
                 }, {
-                    highscore: playerEntity.gold
+                    highscore: playerEntity.highscore
                 });
             }
 
