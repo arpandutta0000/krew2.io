@@ -1681,24 +1681,32 @@ var ui = {
                     });
                 });
             } else {
-                ui.setCookie('username', response.username, 1)
-                ui.setCookie('password', response.password, 1)
+                ui.setCookie('username', response.username, 1);
+                ui.setCookie('email', response.email, 1);
+                ui.setCookie('password', response.password, 1);
 
                 // player is authenticated, so show him personalized login button
-                playButton.html('Play as <b>' + ui.username + '</b>')
-                loginButton.html('Account Settings')
+                playButton.html('Play as <b>' + ui.username + '</b>');
+                loginButton.html('Account Settings');
                 ui.isLoggedIn = true;
                 ui.prepareForPlay()
 
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
                     $('#current-username').text(ui.username);
+                    $('#current-email').text(ui.email);
                 });
 
                 $('#username-edit-button').on('click', function () {
                     $('#change-username-error').addClass('hidden');
                     $('#current-username-container').addClass('hidden');
                     $('#change-username').removeClass('hidden');
+                });
+
+                $('#email-edit-button').on('click', function () {
+                    $('#change-email-error').addClass('hidden');
+                    $('#current-email-container').addClass('hidden');
+                    $('#change-email').removeClass('hidden');
                 });
 
                 $('#submit-change-username').on('click', function (e) {
@@ -1722,7 +1730,33 @@ var ui = {
                         // If the request is successful, close the menu
                         if (res.success) {
                             window.location.reload();
-                            return;
+                            return true;
+                        }
+                    })
+                });
+
+                $('#submit-change-email').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#submit-change-email').attr('disabled', true);
+
+                    $('#change-email-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/change_email',
+                        data: $('#change-email-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-change-email').attr('disabled', false);
+                            $('#change-email-error').removeClass('hidden');
+                            $('#change-email-err-msg').text(res.errors);
+                            return false;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return true;
                         }
                     })
                 });
