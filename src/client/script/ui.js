@@ -177,7 +177,6 @@ var ui = {
         $('#leave-clan-button').on('click', function () {
             socket.emit('clan', 'leave', function (callback) {
                 if (callback === true) {
-                    ui.showCenterMessage('You successfully left the clan', 3, 5000);
                     ui.setClanData('force')
                 }
             });
@@ -216,7 +215,6 @@ var ui = {
                 }, function (callback) {
                     if (callback === true) {
                         myPlayer.clanRequest = clanRequest;
-                        ui.showCenterMessage('Your request was sent to the clan leader(s)', 3, 5000);
                         ui.setClanData('force')
                     } else if (callback === 404) {
                         $('#error404').show()
@@ -240,7 +238,6 @@ var ui = {
                     id: clanRequest
                 }, function (callback) {
                     if (callback === true) {
-                        ui.showCenterMessage('You successfully created your own clan', 3, 5000);
                         myPlayer.clan = clanRequest;
                         myPlayer.clanLeader = true;
                         ui.setClanData('force')
@@ -266,9 +263,6 @@ var ui = {
                 }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
-                        ui.showCenterMessage('You promoted ' + clanId + ' to be a clan leader', 3, 5000)
-                    } else {
-                        ui.showCenterMessage('Promoting ' + clanId + ' to be a clan leader FAILED', 1, 5000)
                     }
                 });
                 ui.setClanData()
@@ -279,9 +273,6 @@ var ui = {
                 }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
-                        ui.showCenterMessage('You kicked ' + clanId + ' from the clan', 4, 5000)
-                    } else {
-                        ui.showCenterMessage('Kicking ' + clanId + ' from your clan FAILED', 1, 5000)
                     }
                 });
             }
@@ -298,7 +289,6 @@ var ui = {
                 }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
-                        ui.showCenterMessage('You accepted ' + requestPlayer + ' to join the clan', 4, 5000)
                     }
                 })
             } else if (requestEvent === 'decline-request') {
@@ -308,7 +298,6 @@ var ui = {
                 }, function (callback) {
                     if (callback === true) {
                         ui.setClanData('force');
-                        ui.showCenterMessage('You declined ' + requestPlayer + ' to join the clan', 4, 5000)
                     }
                 })
             }
@@ -325,7 +314,6 @@ var ui = {
                         if (callback === true) {
                             myPlayer.clanRequest = "";
                             ui.setClanData('force');
-                            ui.showCenterMessage("Your request has been cancelled", 4, 5000)
                         }
                     })
                 }

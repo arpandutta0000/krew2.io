@@ -872,7 +872,7 @@ io.on(`connection`, async socket => {
                             otherUser.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${otherUser.username} joined your clan.`, 4, 5e3);
+                                    if (player.clan == user.clan && player.name != action.id && player.name != playerEntity.name) player.socket.emit(`showCenterMessage`, `Player ${otherUser.username} joined your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
                                         player.clan = user.clan;
                                         player.clanRequest = undefined;
