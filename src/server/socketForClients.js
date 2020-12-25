@@ -830,7 +830,7 @@ io.on(`connection`, async socket => {
                     playerEntity.clan = undefined;
                     user.clan = undefined;
 
-                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 4, 5e3));
+                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3));
 
                     for (let i in core.players) {
                         let player = core.players[i];
@@ -862,10 +862,10 @@ io.on(`connection`, async socket => {
                                 log(`magenta`, `${playerEntity.name} accepted player ${otherUser.username} to joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan`, 4, 5e3);
+                                    if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
                                         player.clan = action.id;
-                                        player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}]`, 3, 5e3);
+                                        player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
                                     }
                                 }
                             });
@@ -877,9 +877,9 @@ io.on(`connection`, async socket => {
                         otherUser.save(() => {
                             for (let i in core.players) {
                                 let player = core.players[i];
-                                if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
+                                if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}].`, 1, 5e3);
                             }
-                            playerEntity.socket.emit(`showCenterMessage`, `You rejected ${otherUser.username}'s request to join the clan`, 4, 5e3);
+                            playerEntity.socket.emit(`showCenterMessage`, `You rejected ${otherUser.username}'s request to join the clan.`, 4, 5e3);
                             log(`magenta`, `${playerEntity.name} declined player ${otherUser.username} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         });
                     }
@@ -890,7 +890,16 @@ io.on(`connection`, async socket => {
                             if (playerEntity.clanOwner && !clan.leaders.includes(action.id)) {
                                 // Only clan owner can promote to leaders.
                                 clan.leaders.push(action.id);
-                                clan.save(() => callback(true));
+                                clan.save(() => {
+                                    for (let i in core.players) {
+                                        let player = core.players[i];
+                                        if (player.name == action.id) {
+                                            player.clan = action.id;
+                                            player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
+                                        }
+                                    }
+                                    return callback(true);
+                                });
                             } else callback(false);
                         } else if (action.action && action.action == `kick`) {
                             otherUser.clan = undefined;
@@ -901,7 +910,7 @@ io.on(`connection`, async socket => {
                                 otherUser.save(() => {
                                     for (let i in core.players) {
                                         let player = core.players[i];
-                                        if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                                        if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
                                         else if (player.name == action.id) {
                                             player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
                                             player.clan = undefined;
