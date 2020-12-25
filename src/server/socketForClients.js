@@ -149,8 +149,8 @@ io.on(`connection`, async socket => {
             if (player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
             if (sameIPPlayerCount > 0) {
                 socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
-                log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
-                return socket.disconnect();
+                log(`cyan`, `Multiple tabs. Warned IP: ${socket.handshake.address}.`);
+                // return socket.disconnect();
             }
         }
 
@@ -158,6 +158,7 @@ io.on(`connection`, async socket => {
         for (let i in core.players) {
             let player = core.players[i];
             if (player.name == data.name) {
+                socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
                 return socket.disconnect();
             }
@@ -870,6 +871,7 @@ io.on(`connection`, async socket => {
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
                                     }
                                 }
+                                playerEntity.socket.emit(`showCenterMessage`, `You accepted ${otherUser.username} to join your clan.`, 3, 5e3);
                                 log(`magenta`, `${playerEntity.name} accepted player ${otherUser.username} to joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                                 return callback(true);
                             });
