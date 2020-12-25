@@ -854,9 +854,32 @@ io.on(`connection`, async socket => {
                     else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
-                    if (action.action == `accept`) {
+                    if (action.action && action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
-                        if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {} else return callback(false);
+                        if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {
+                            playerEntity.clan = clan.id;
+                            playerEntity.clanRequest = undefined;
+
+                            user.clan = clan.id;
+                            user.clanRequest = undefined;
+
+                            user.save(() => {
+                                log(`magenta`, `${playerEntity.name} accepted player ${playerEntity.name} to joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                                for (let i in core.players) {
+                                    let player = core.players[i];
+                                    if (player.clan == action.id && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan`, 4, 5e3);
+                                    else if (player.name == action.id) player.socket.emit(`${playerEntity.name} accepted your request to join [${playerEntity.clan}]`, 3, 5e3);
+                                }
+                            });
+                        } else return callback(false);
+                    } else if (action.action && action.action == `decline`) {
+                        playerEntity.clanRequest = undefined;
+                        user.clanRequest = undefined;
+                    
+                        user.save(() => {
+                            playerEntity.socket.emit(`${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
+                            log(`magenta`, `${playerEntity.name} declined player ${playerEntity.name} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        });
                     }
 
                     if (playerEntity.clanLeader || playerEntity.clanOwner) {
@@ -868,7 +891,16 @@ io.on(`connection`, async socket => {
                                 callback(true);
                             }
                             clan.save(() => callback(false));
-                        } else if (action == `demote`) {} else if (action == `kick`) {}
+                        } else if (action.action && action.action == `kick`) {
+                            if(clan.leaders.includes(playerEntity.name)) {
+                                for(let i in core.players) {
+                                    let player = core.players[i];
+                                    if (player)
+                                    if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                                    else if (player.name == action.id) player.socket.emit(`${playerEntity.name} accepted your request to join [${playerEntity.clan}]`, 3, 5e3);
+                                }
+                            }   
+                        }
                     }
                 }
             } else {
