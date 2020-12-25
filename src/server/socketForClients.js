@@ -371,7 +371,7 @@ io.on(`connection`, async socket => {
                         let kickReason = args.join(` `);
 
                         let player = Object.values(core.players).find(player => player.name == kickUser);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         if (!kickReason || kickReason == ``) kickReason == `No reason specified`;
 
                         player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
@@ -385,7 +385,7 @@ io.on(`connection`, async socket => {
                         let banReason = args.join(` `);
 
                         let player = Object.values(core.players).find(player => player.name == banUser);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         if (!banReason || banReason == ``) banReason == `No reason specified`;
 
                         let isBanned = await Ban.findOne({
@@ -1661,8 +1661,8 @@ io.on(`connection`, async socket => {
 
         // Clan map marker.
         socket.on(`addMarker`, data => {
-            if (playerEntity.clan != `` && playerEntity.clan != undefined) {
-                if (playerEntity.markermapCount < new Date - 5e3) {
+            if (playerEntity.clan) {
+                if (playerEntity.markerMapCount < new Date - 5e3) {
                     if (data.x && data.y && typeof data.x == `number` && typeof data.y == `number` && data.x > 0 && data.y > 0 && data.x < worldsize && data.y < worldsize) {
                         playerEntity.markerMapCount = new Date();
                         let clan = playerEntity.clan;
