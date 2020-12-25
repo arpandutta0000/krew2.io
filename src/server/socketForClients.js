@@ -716,7 +716,19 @@ io.on(`connection`, async socket => {
                             boat.departureTime = 25;
                             for (let i in boat.children) {
                                 let player = boat.children[i];
-                                //if (player != undefined && player.netType == 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
+                                if (player != undefined && player.netType == 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
+
+                                if (player.isLoggedIn == true && player.gold > player.highscore) {
+                                    log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                                    player.highscore = parseInt(player.gold);
+
+                                    // Update player highscore in MongoDB.
+                                    User.updateOne({
+                                        username: player.name
+                                    }, {
+                                        highscore: parseInt(player.highscore)
+                                    });
+                                }
                             }
                         }
                     }
@@ -1514,18 +1526,6 @@ io.on(`connection`, async socket => {
                 playerEntity.gold = transaction.gold;
                 playerEntity.goods = transaction.goods;
 
-                // Update player highscore in MongoDB.
-                if (playerEntity.isLoggedIn == true && playerEntity.serverNumber == 1 && playerEntity.lastIsland != island.name && playerEntity.gold > playerEntity.highscore) {
-                    log(`magenta`, `Update highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
-                    playerEntity.highscore = parseInt(playerEntity.gold);
-
-                    User.updateOne({
-                        username: playerEntity.name
-                    }, {
-                        highscore: parseInt(playerEntity.highscore)
-                    });
-                }
-
                 callback && callback.call && callback(undefined, {
                     gold: transaction.gold,
                     goods: transaction.goods
@@ -1633,7 +1633,7 @@ io.on(`connection`, async socket => {
                             await User.updateOne({
                                 username: playerEntity.name
                             }, {
-                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : playerEntity.bank.deposit
+                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit)
                             });
 
                             setBankData();
@@ -1648,7 +1648,7 @@ io.on(`connection`, async socket => {
                             await User.updateOne({
                                 username: playerEntity.name
                             }, {
-                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : playerEntity.bank.deposit
+                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit)
                             });
                             setBankData();
                         }
