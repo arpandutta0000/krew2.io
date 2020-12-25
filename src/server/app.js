@@ -52,7 +52,7 @@ if (cluster.isMaster) {
     // let MemwatchFactoryFunction = require('./memwatch');
 
     // start socket
-    // let bot = require(`./bot.js`);
+    if(config.domain == `krew.io`) require(`./bot.js`);
     let socket = require('./socketForClients.js');
 
     // start game logic
