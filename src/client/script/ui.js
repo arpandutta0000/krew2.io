@@ -1236,15 +1236,15 @@ var ui = {
                     clanTable.html(tableHeader);
                     for (var cl in callback['clanLeader']) {
                         if (callback['clanLeader'][cl] === callback['clanOwner']) {
-                            var clanLeaderContent = '<tr><td>' + callback['clanLeader'][cl] + '</td><td>OWNER</td></tr>';
+                            var clanLeaderContent = '<tr><td>' + callback['clanLeader'][cl] + '</td><td>Owner</td></tr>';
                         } else {
-                            clanLeaderContent = '<tr><td>' + callback['clanLeader'][cl] + '</td><td>LEADER</td>' + (myPlayer.clanOwner === true ? '<td><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="' + callback['clanLeader'][cl] + '" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>' : '') + '</tr>';
+                            clanLeaderContent = '<tr><td>' + callback['clanLeader'][cl] + '</td><td>Leader</td>' + (myPlayer.clanOwner === true ? '<td><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="' + callback['clanLeader'][cl] + '" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>' : '') + '</tr>';
                         }
                         clanTable.append(clanLeaderContent);
                     }
                     for (var p in callback['clanMembers']) {
                         if (!callback['clanLeader'].includes(callback['clanMembers'][p])) {
-                            var clanMemberContent = '<tr><td>' + callback['clanMembers'][p] + '</td><td>MEMBER</td>' + (myPlayer.clanOwner === true ? '<td><div data-tooltip="Promote to clan leader" data-tooltip-location="top" style="display: inline-block"><i data-event="promote-clan" data-id="' + callback['clanMembers'][p] + '" class="icofont icofont-arrow-up btn btn-success clan-button"></i></div><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="' + callback['clanMembers'][p] + '" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>' : myPlayer.clanLeader === true ? '<td><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="' + callback['clanMembers'][p] + '" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>' : '') + '</tr>';
+                            var clanMemberContent = '<tr><td>' + callback['clanMembers'][p] + '</td><td>Member</td>' + (myPlayer.clanOwner === true ? '<td><div data-tooltip="Promote to clan leader" data-tooltip-location="top" style="display: inline-block"><i data-event="promote-clan" data-id="' + callback['clanMembers'][p] + '" class="icofont icofont-arrow-up btn btn-success clan-button"></i></div><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="' + callback['clanMembers'][p] + '" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>' : myPlayer.clanLeader === true ? '<td><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="' + callback['clanMembers'][p] + '" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>' : '') + '</tr>';
                             clanTable.append(clanMemberContent)
                         }
                     }
@@ -1255,9 +1255,9 @@ var ui = {
                         requestClanButton.show();
                         if (callback['clanRequests']) {
                             if (callback['clanRequests'].length > 0) {
-                                requestClanButton.removeClass('btn-warning disabled').addClass('btn-success').text('View requests (' + callback['clanRequests'].length + ')')
+                                requestClanButton.removeClass('btn-warning disabled').addClass('btn-success').text('View requests (' + callback['clanRequests'].length + ')').attr('disabled', true)
                             } else if (callback['clanRequests'].length === 0) {
-                                requestClanButton.removeClass('btn-success').addClass('btn-warning disabled').text('View requests (' + callback['clanRequests'].length + ')')
+                                requestClanButton.removeClass('btn-success').addClass('btn-warning disabled').text('View requests (' + callback['clanRequests'].length + ')').prop('disabled', false)
                             }
                             var clanRequestTable = $('#clan-request-table');
                             var requestTableHeader = '<tr><th>Player name</th><th>Action</th></tr>';

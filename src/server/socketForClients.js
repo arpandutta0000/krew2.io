@@ -818,19 +818,13 @@ io.on(`connection`, async socket => {
 
                     let clanData = {
                         clanOwner: clan.owner,
-                        clanLeaders: clan.leaders,
+                        clanLeader: clan.leaders,
                         clanMembers
                     }
 
-                    if (playerEntity.clanLeader) clanData.clanRequests = clanRequests;
+                    if (playerEntity.clanOwner) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
-
-                    // If he is the only person in the clan, delete the clan.
-                    let clanMembers = await User.find({
-                        clan: playerEntity.clan
-                    });
-
                     if (clan.owner == playerEntity.name) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
                     else {
                         for (let i in core.players) {
