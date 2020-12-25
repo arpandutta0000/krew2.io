@@ -849,7 +849,6 @@ io.on(`connection`, async socket => {
 
                     // If the player is nonexistent or is not in the same clan.
                     if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
                     if (action.action && action.action == `accept`) {
@@ -869,12 +868,12 @@ io.on(`connection`, async socket => {
                             });
                         } else return callback(false);
                     } else if (action.action && action.action == `decline`) {
-                        playerEntity.clanRequest = undefined;
-                        user.clanRequest = undefined;
+                        otherUser.clanRequest = undefined;
+                        otherUser.clan = undefined;
                     
-                        user.save(() => {
+                        otherUser.save(() => {
                             playerEntity.socket.emit(`${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
-                            log(`magenta`, `${playerEntity.name} declined player ${playerEntity.name} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                            log(`magenta`, `${playerEntity.name} declined player ${otherUser.username} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         });
                     }
 
