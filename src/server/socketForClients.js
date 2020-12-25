@@ -842,7 +842,7 @@ io.on(`connection`, async socket => {
                 }
 
                 // From this point on there should be a player passed to the emit.
-                if (action.id && playerEntity.clanLeader || playerEntity.clanOwner) {
+                else if (action.id && (playerEntity.clanLeader || playerEntity.clanOwner)) {
                     let otherUser = await User.findOne({
                         username: action.id
                     });
@@ -854,7 +854,7 @@ io.on(`connection`, async socket => {
                     // Actions for leader / owners / assistants.
                     if (action.action && action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
-                        if (otherUser.clan == `` && otherUser.clanRequest == clan.name) {
+                        if (!otherUser.clan && otherUser.clanRequest == clan.name) {
                             playerEntity.clan = clan.id;
                             playerEntity.clanRequest = undefined;
 
