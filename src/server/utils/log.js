@@ -51,6 +51,6 @@ module.exports = (color, ...content) => {
     }
 
     // If no color specified, throw an error.
-    if (!logColor) throw `Did not specify a valid color`;
+    if (!logColor) return;
     return console.log(logColor, formattedTime, logContent);
 }
