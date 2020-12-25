@@ -245,6 +245,7 @@ io.on(`connection`, async socket => {
                 playerEntity.movementSpeedBonus = playerSave.bonus.speed;
 
                 // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
+                log(`blue`, `Restored data for ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerSave.delete();
             }
         }
@@ -742,7 +743,7 @@ io.on(`connection`, async socket => {
         socket.on(`maxAmountCratesInSea`, amount => cratesInSea.max = amount);
 
         socket.on(`departure`, async departureCounter => {
-            // Check if player who sends exitIslandc ommand is docked at island.
+            // Check if player who sends exitIsland command is docked at island.
             if (playerEntity.parent.anchorIslandId == undefined) log(`cyan`, `Exploit detected (docking at sea). Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             else {
                 // Check if player has already clicked sail button. If yes, do nothing.
