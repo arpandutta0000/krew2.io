@@ -902,19 +902,33 @@ io.on(`connection`, async socket => {
                         });
                     });
                 } else if (action.action && action.action == `join`) {
-                    if (playerEntity.clanRequest != `` || playerEntity.clan) return callback(false);
+                    if (playerEntity.clanRequest || playerEntity.clan) return callback(false);
 
                     let clan = await Clan.findOne({
                         name: action.id
                     });
 
                     if (!clan) callback(404);
-                    log(`magenta`, `Player ${playerEntity.name} requeted to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
 
-                    for (let i in core.players) {
-                        let player = core.players[i];
-                        if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
-                    }
+                    user.clanRequest = action.id;
+                    playerEntity.clanRequest = action.id;
+
+                    user.save(() => {
+                        log(`magenta`, `Player ${playerEntity.name} requested to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        callback(true);
+                        for (let i in core.players) {
+                            let player = core.players[i];
+                            if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
+                        }
+                    });
+                } else if (action.action && action.action == `cancel-request`) {
+                    user.clanRequest = undefined;
+                    playerEntity.clanRequest = undefined;
+
+                    user.save(() => {
+                        log(`magenta`, `Player ${playerEntity.name} cancelled a request to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        callback(true);
+                    });
                 }
             }
         });
