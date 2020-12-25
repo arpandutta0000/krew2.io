@@ -191,9 +191,8 @@ Projectile.prototype.logic = function (dt) {
                             (1 + ((this.shooter.attackDistanceBonus + this.shooter.pointsFormula.getDistance()) / 8));
 
                         let damage = 8 + attackDamageBonus + attackDistanceBonus;
-                        if (entities[boat.captainId]) {
-                            damage -= (damage * entities[boat.captainId].armorBonus) / 100;
-                        }
+                        if (entities[boat.captainId]) damage = damage + (damage * attackSpeedBonus) - (damage * entities[boat.captainId].armorBonus) / 100;
+
 
                         if (this.shooter.parent.crewName !== undefined) {
                             this.shooter.socket.emit('showDamageMessage', '+ ' + parseFloat(damage).toFixed(1) + ' hit', 2);
