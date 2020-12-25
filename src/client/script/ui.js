@@ -1255,9 +1255,9 @@ var ui = {
                         requestClanButton.show();
                         if (callback['clanRequests']) {
                             if (callback['clanRequests'].length > 0) {
-                                requestClanButton.removeClass('btn-warning disabled').addClass('btn-success').text('View requests (' + callback['clanRequests'].length + ')').attr('disabled', true)
+                                requestClanButton.removeClass('btn-warning disabled').addClass('btn-success').text('View requests (' + callback['clanRequests'].length + ')').attr('disabled', false)
                             } else if (callback['clanRequests'].length === 0) {
-                                requestClanButton.removeClass('btn-success').addClass('btn-warning disabled').text('View requests (' + callback['clanRequests'].length + ')').prop('disabled', false)
+                                requestClanButton.removeClass('btn-success').addClass('btn-warning disabled').text('View requests (' + callback['clanRequests'].length + ')').prop('disabled', true)
                             }
                             var clanRequestTable = $('#clan-request-table');
                             var requestTableHeader = '<tr><th>Player name</th><th>Action</th></tr>';
