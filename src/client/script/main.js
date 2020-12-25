@@ -642,7 +642,7 @@ var fbShare = function (message, link) {
                     action_properties: JSON.stringify({
                         object: {
                             'og:url': 'http://' + link, // your url to share
-                            'og:title': 'Krew dev',
+                            'og:title': 'Krew.io',
                             'og:description': message,
                             'og:image': 'https://krew.io/assets/img/logo.png',
                         },
