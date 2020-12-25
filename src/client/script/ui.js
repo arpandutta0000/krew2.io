@@ -1033,7 +1033,7 @@ var ui = {
     },
 
     getInviteLink: function () {
-        return window.location.href + '?sid=' + $('#server-list').val() + '&bid=' + myBoat.id;
+        return window.location.protocol + window.location.hostname + '?sid=' + $('#server-list').val() + '&bid=' + myBoat.id;
     },
 
     updateShipStats: function (data) {
