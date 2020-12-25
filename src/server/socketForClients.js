@@ -859,11 +859,11 @@ io.on(`connection`, async socket => {
                             otherUser.clanRequest = undefined;
 
                             otherUser.save(() => {
-                                log(`magenta`, `${playerEntity.name} accepted player ${playerEntity.name} to joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                                log(`magenta`, `${playerEntity.name} accepted player ${otherUser.username} to joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == action.id && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan`, 4, 5e3);
-                                    else if (player.name == action.id) player.socket.emit(`${playerEntity.name} accepted your request to join [${playerEntity.clan}]`, 3, 5e3);
+                                    if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan`, 4, 5e3);
+                                    else if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}]`, 3, 5e3);
                                 }
                             });
                         } else return callback(false);
@@ -874,9 +874,9 @@ io.on(`connection`, async socket => {
                         otherUser.save(() => {
                             for (let i in core.players) {
                                 let player = core.players[i];
-                                if (player.name == action.id) player.socket.emit(`${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
+                                if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
                             }
-                            playerEntity.socket.emit(`You rejected ${otherUser.username}'s request to join the clan`, 4, 5e3);
+                            playerEntity.socket.emit(`showCenterMessage`, `You rejected ${otherUser.username}'s request to join the clan`, 4, 5e3);
                             log(`magenta`, `${playerEntity.name} declined player ${otherUser.username} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         });
                     }
