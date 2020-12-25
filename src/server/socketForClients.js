@@ -868,8 +868,8 @@ io.on(`connection`, async socket => {
                             });
                         } else return callback(false);
                     } else if (action.action && action.action == `decline`) {
-                        playerEntity.clanRequest = undefined;
-                        user.clanRequest = undefined;
+                        otherUser.clanRequest = undefined;
+                        otherUser.clan = undefined;
                     
                         user.save(() => {
                             playerEntity.socket.emit(`${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
