@@ -715,7 +715,7 @@ io.on(`connection`, async socket => {
                             boat.departureTime = 25;
                             for (let i in boat.children) {
                                 let player = boat.children[i];
-                                if (player != undefined && player.netType == 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
+                                if (!DEV_ENV && player != undefined && player.netType == 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
                                 if (player.isLoggedIn == true && player.gold > player.highscore) {
                                     log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
