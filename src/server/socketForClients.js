@@ -1029,6 +1029,7 @@ io.on(`connection`, async socket => {
                 for (let i in playerEntity.goods) playerEntity.goods[i] = 0;
 
                 // Respawn player on the sea (on raft 2).
+                console.log(data.boatId);
                 login.allocatePlayerToBoat(playerEntity, data.boatId, `sea`);
                 playerEntity.sentDockingMsg = false;
 
