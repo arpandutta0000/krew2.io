@@ -854,14 +854,12 @@ io.on(`connection`, async socket => {
                     // Actions for leader / owners / assistants.
                     if (action.action && action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
-                        if (!otherUser.clan && otherUser.clanRequest == clan.name) {
-                            playerEntity.clan = clan.id;
-                            playerEntity.clanRequest = undefined;
+                        if (!otherUser.clan && otherUser.clanRequest == user.clan.name) {
 
-                            user.clan = clan.id;
-                            user.clanRequest = undefined;
+                            otherUser.clan = user.clan.name;
+                            otherUser.clanRequest = undefined;
 
-                            user.save(() => {
+                            otherUser.save(() => {
                                 log(`magenta`, `${playerEntity.name} accepted player ${playerEntity.name} to joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                                 for (let i in core.players) {
                                     let player = core.players[i];
