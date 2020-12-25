@@ -86,6 +86,7 @@ router.post(`/register`, (req, res, next) => {
                     user.verifyToken = token;
                     user.creationIP = creationIP;
                     user.lastIP = user.creationIP;
+                    user.lastModified = new Date();
 
                     User.findOne({
                         creationIP
@@ -244,7 +245,12 @@ router.post(`/change_username`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
+            if(((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+                errors: `You can only change your username or email once every 24 hours`
+            });
+
             user.username = username;
+            user.lastModified = new Date();
 
             user.save();
             log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
@@ -286,11 +292,16 @@ router.post(`/change_email`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
+            if(((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+                errors: `You can only change your username or email once every 24 hours`
+            });
+
             let token = `e` + crypto.randomBytes(16).toString('hex') + user.username;
 
             user.email = email;
             user.verified = false
             user.verifyToken = token;
+            user.lastModified = new Date();
 
             let transporter = nodemailer.createTransport({
                 service: "Gmail",
@@ -319,7 +330,6 @@ router.post(`/change_email`, (req, res, next) => {
 
             transporter.sendMail(mailOptions, function (err) {
                 if (err) {
-                    user.delete();
                     return res.json({
                         error: `Error sending to the specified email address.`
                     });
