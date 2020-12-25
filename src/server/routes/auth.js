@@ -55,7 +55,6 @@ router.post(`/register`, (req, res, next) => {
     User.findOne({
         email
     }).then(user => {
-        console.log((new Date) - user.creationDate)
         if (user) {
             if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
                 user.delete();
