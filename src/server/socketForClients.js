@@ -787,7 +787,6 @@ io.on(`connection`, async socket => {
             // Only logged in players can perform clan actions.
             if (!playerEntity.isLoggedIn) return log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
-            console.log(`yo we got this`, action);
             // Get the user performing the action.
             let user = await User.findOne({
                 username: playerEntity.name
@@ -845,18 +844,17 @@ io.on(`connection`, async socket => {
                 // From this point on there should be a player passed to the emit.
                 if (action.id && playerEntity.clanLeader || playerEntity.clanOwner) {
                     let otherUser = User.findOne({
-                        username: player
+                        username: action.id
                     });
-                    let otherPlayer = Object.values(core.players).find(entity => entity.name == action.id);
 
                     // If the player is nonexistent or is not in the same clan.
-                    if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
                     if (action.action && action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
-                        if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {
+                        if (otherUser.clan == `` && otherUser.clanRequest == clan.name) {
                             playerEntity.clan = clan.id;
                             playerEntity.clanRequest = undefined;
 
