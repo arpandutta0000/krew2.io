@@ -150,7 +150,7 @@ io.on(`connection`, async socket => {
             if (sameIPPlayerCount > 0) {
                 socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
                 log(`cyan`, `Multiple tabs. Warned IP: ${socket.handshake.address}.`);
-                return socket.disconnect();
+                // return socket.disconnect();
             }
         }
 
