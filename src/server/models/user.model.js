@@ -42,6 +42,10 @@ let userSchema = Mongoose.Schema({
         type: String,
         required: false
     },
+    lastModified: {
+        type: Date,
+        required: false
+    },
     highscore: {
         type: Number,
         required: true

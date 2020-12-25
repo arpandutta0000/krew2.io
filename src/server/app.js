@@ -52,7 +52,7 @@ if (cluster.isMaster) {
     // let MemwatchFactoryFunction = require('./memwatch');
 
     // start socket
-    let bot = require(`./bot.js`);
+    if(config.domain == `krew.io`) require(`./bot.js`);
     let socket = require('./socketForClients.js');
 
     // start game logic
@@ -62,12 +62,12 @@ if (cluster.isMaster) {
 
     // MemwatchFactoryFunction(rollbar);
 
-    // process.on('uncaughtException', function (e) {
-    //     if (!DEV_ENV) {
-    //         log(`red`, e);
-    //         return rollbar.error(e);
-    //     }
-    // });
+    process.on('uncaughtException', function (e) {
+        if (!DEV_ENV) {
+            log(`red`, e);
+            return rollbar.error(e);
+        }
+    });
 
     try {
         let everySecond = setInterval(function () {

@@ -37,9 +37,9 @@ let playerRestoreSchema = Mongoose.Schema({
         type: Number,
         required: true
     },
-    totalDamage: {
+    shipId: {
         type: Number,
-        required: true
+        required: false
     },
     overall_kills: {
         type: Number,
@@ -51,7 +51,7 @@ let playerRestoreSchema = Mongoose.Schema({
     },
     itemId: {
         type: Number,
-        required: true
+        required: false
     },
     bonus: {
         fireRate: {
