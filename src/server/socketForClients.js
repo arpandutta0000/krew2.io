@@ -166,11 +166,31 @@ io.on(`connection`, async socket => {
         playerEntity = core.createPlayer(data);
         playerEntity.socket = socket;
 
-        // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
-        if (!DEV_ENV && data.last_ip && !(playerEntity.socket.handshake.address.includes(data.lastip))) {
-            log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-            return playerEntity.socket.disconnect();
-        }
+        User.findOne({
+            username: playerEntity.name
+        }).then(user => {
+            if (user) {
+                playerEntity.bank.deposit = user.bankDeposit ? user.bankDeposit : 0;
+                playerEntity.highscore = user.highscore ? user.highscore : 0;
+                playerEntity.clan = user.clan ? user.clan : undefined;
+
+                if (playerEntity.clan) {
+                    Clan.findOne({
+                        name: playerEntity.clan
+                    }).then(clan => {
+                        playerEntity.clanOwner = clan.owner == playerEntity.name;
+                        playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
+                    });
+                }
+
+
+                // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
+                if (false && user.lastIP && !(playerEntity.socket.handshake.address == user.lastIP)) {
+                    log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    return playerEntity.socket.disconnect();
+                }
+            }
+        });
 
         // Identify the server that the player is playing on.
         playerEntity.serverNumber = config.gamePorts.indexOf(parseInt(playerEntity.socket.handshake.headers.host.substr(-4))) + 1;
@@ -297,7 +317,7 @@ io.on(`connection`, async socket => {
                         isAdmin ? playerEntity.isAdmin = true : isMod ? playerEntity.isMod = true : isDev ? playerEntity.isDev = true : null;
                     }
                 } else {
-                    log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     let isAdmin = playerEntity.isAdmin;
                     let isMod = playerEntity.isMod;
@@ -763,24 +783,25 @@ io.on(`connection`, async socket => {
             }
         });
 
-        socket.on(`clan`, async (action, player, callback) => {
+        socket.on(`clan`, async (action, callback) => {
             // Only logged in players can perform clan actions.
             if (!playerEntity.isLoggedIn) return log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
+            console.log(`yo we got this`, action);
             // Get the user performing the action.
             let user = await User.findOne({
-                name: playerEntity.name
+                username: playerEntity.name
             });
 
             // If player has a clan.
             if (playerEntity.clan && playerEntity.clan != `` && playerEntity.clan != undefined) {
                 // Get the clan from MongoDB.
                 let clan = await Clan.findOne({
-                    clan: user.clan
+                    name: user.clan
                 });
 
                 // Actions for all members.
-                if (action == `getClanData`) {
+                if (action == `get-data`) {
                     let clanMemberDocs = await User.find({
                         clan: clan.name
                     });
@@ -792,82 +813,123 @@ io.on(`connection`, async socket => {
                     let clanRequests = [];
 
                     // Only push members to the members list (to prevent duplicates).
-                    for (const document of clanMemberDocs) {
-                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name) && !clan.assistants.includes(document.name)) clanMembers.push(document.name)
-                    }
-                    for (const document of clanRequestDocs) {
-                        clanRequests.push(document.name)
-                    }
+                    for (const document of clanMemberDocs) clanMembers.push(document.username);
+                    for (const document of clanRequestDocs) clanRequests.push(document.username);
 
                     let clanData = {
-                        name: clan.name,
-                        leader: clan.leader,
-                        owners: clan.owners,
-                        assistants: clan.assistants,
-                        members: clanMembers,
-                        requests: clanRequests
+                        clanOwner: clan.owner,
+                        clanLeader: clan.leaders,
+                        clanMembers
                     }
+
+                    if (playerEntity.clanOwner) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
-                    // If he is the only person in the clan, delete the clan.
-                    let clanMembers = await User.find({
-                        clan: playerEntity.clan
-                    });
-                    if (clan.leader == playerEntity.name && clanMembers.length == 1) clan.delete(err ? log(`red`, err) : log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
-                    else {
-                        for (let i in core.players) {
-                            let player = core.players[i];
-                            if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 1, 5e3);
-                        }
-                    }
+                    if (clan.owner == playerEntity.name) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
 
                     // Dereference the player's clan.
-                    playerEntity.clan = ``;
-                    user.clan = ``;
+                    playerEntity.clan = undefined;
+                    user.clan = undefined;
 
-                    user.save(err => err ? log(`red`, err) : playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 1, 5e3));
+                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 4, 5e3));
+
+                    for (let i in core.players) {
+                        let player = core.players[i];
+                        if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                    }
+
                     log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return callback(true);
                 }
 
                 // From this point on there should be a player passed to the emit.
-                if (player && playerEntity.clanLeader || playerEntity.clanOwner || playerEntity.clanAssistant) {
+                if (action.id && playerEntity.clanLeader || playerEntity.clanOwner) {
                     let otherUser = User.findOne({
-                        name: player
+                        username: player
                     });
-                    let otherPlayer = Object.values(core.players).find(entity => entity.name == player);
+                    let otherPlayer = Object.values(core.players).find(entity => entity.name == action.id);
 
                     // If the player is nonexistent or is not in the same clan.
-                    if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
-                    else if (action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
-                    if (action == `accept`) {
+                    if (action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
                         if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {} else return callback(false);
                     }
 
                     if (playerEntity.clanLeader || playerEntity.clanOwner) {
-                        // Actions for leader / owners.
-                        if (action == `promote`) {
-                            if (playerEntity.clanLeader && !clan.owners.includes(player) && clan.assistants.includes(player)) {
-                                // Only clan leaders can promote to owner.
-                                clan.owners.push(player);
-                                clan.assistants.splice(clan.assistants.indexOf(player), 1);
-                                callback(true);
-                            } else if (playerEntity.clanLeader || playerEntity.clanOwner && !clan.assistants.includes(player)) {
-                                // Only clan leaders / clan owners can promote to assistant.
-                                clan.assistants.push(player);
+                        // Actions for owner / leaders.
+                        if (action.action && action.action == `promote`) {
+                            if (playerEntity.clanOwner && !clan.leaders.includes(action.id)) {
+                                // Only clan owner can promote to leaders.
+                                clan.leaders.push(action.id);
                                 callback(true);
                             }
-                            clan.save(err => err ? log(`red`, err) : callback(false));
+                            clan.save(() => callback(false));
                         } else if (action == `demote`) {} else if (action == `kick`) {}
                     }
                 }
             } else {
-                if (action == `create`) {
+                if (action.action && action.action == `create`) {
+                    let clanExists = await Clan.findOne({
+                        name: action.id
+                    });
+                    if (clanExists) {
+                        log(`cyan`, `Player ${playerEntity.name} tried to create duplicate clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return callback(409);
+                    }
 
-                } else if (action == `request`) {}
+                    let newClan = new Clan({
+                        name: action.id,
+                        owner: playerEntity.name,
+                        leaders: [playerEntity.name]
+                    });
+
+                    user.clan = action.id;
+
+                    newClan.save(() => {
+                        user.save(() => {
+                            playerEntity.clanOwner = true;
+                            playerEntity.clanLeader = true;
+
+                            playerEntity.clan = action.id;
+                            playerEntity.clanRequest = ``;
+
+                            log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                            return callback(true);
+                        });
+                    });
+                } else if (action.action && action.action == `join`) {
+                    if (playerEntity.clanRequest || playerEntity.clan) return callback(false);
+
+                    let clan = await Clan.findOne({
+                        name: action.id
+                    });
+
+                    if (!clan) callback(404);
+
+                    user.clanRequest = action.id;
+                    playerEntity.clanRequest = action.id;
+
+                    user.save(() => {
+                        log(`magenta`, `Player ${playerEntity.name} requested to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        callback(true);
+                        for (let i in core.players) {
+                            let player = core.players[i];
+                            if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
+                        }
+                    });
+                } else if (action.action && action.action == `cancel-request`) {
+                    user.clanRequest = undefined;
+                    playerEntity.clanRequest = undefined;
+
+                    user.save(() => {
+                        log(`magenta`, `Player ${playerEntity.name} cancelled a request to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        callback(true);
+                    });
+                }
             }
         });
 
@@ -877,7 +939,7 @@ io.on(`connection`, async socket => {
 
             // Check for timestamp of last respawn and ban if it was less than 2 seconds ago.
             if (socket.timestamp != undefined && Date.now() - socket.timestamp < 2e3) {
-                log(`cyan`, `Exploit detected: multiple respawn | Player: ${playerEntity.name} | Adding IP ${playerEntity.socket.handshake.address} to bannedIPs | Server: ${playerEntity.serverNumber}.`);
+                log(`cyan`, `Exploit detected: multiple respawn | Player: ${playerEntity.name} | Adding IP ${playerEntity.socket.handshake.address} to bannedIPs | Server ${playerEntity.serverNumber}.`);
                 if (playerEntity.socket.handshake.address.length > 5) {
                     let ban = new Ban({
                         username: player.name,
@@ -1161,7 +1223,7 @@ io.on(`connection`, async socket => {
                     }
                 } else {
                     playerEntity.purchaseItem(item.id);
-                    log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    log(`magenta`, `Player ${playerEntity.name} is buying item `, item, ` while having ${Math.floor(playerEntity.gold)} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 }
             }
 
@@ -1434,19 +1496,19 @@ io.on(`connection`, async socket => {
             for (let i in playerEntity.points) countPoints += playerEntity.points[i];
 
             // Validate the player's stats.
-            if (countPoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
-            if (playerEntity.availablePoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+            if (countPoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            if (playerEntity.availablePoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             // Check if player has available points and if he has already allocated 51 points.
             if (playerEntity && playerEntity.parent && playerEntity.availablePoints > 0 && playerEntity.availablePoints <= 50 && countPoints < 51) {
-                log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 let countAllocatedPoints = 0;
                 for (let i in points) {
                     let point = points[i];
                     countAllocatedPoints += point;
 
-                    if (point < 0 || !Number.isInteger(point) || !(i == `fireRate` || i == `distance` || i == `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                    if (point < 0 || !Number.isInteger(point) || !(i == `fireRate` || i == `distance` || i == `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     else if (point != undefined && typeof point == `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
                         playerEntity.points[i] += point;
                         playerEntity.availablePoints -= point;
@@ -1501,7 +1563,7 @@ io.on(`connection`, async socket => {
                             });
 
                             setBankData();
-                            log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server: ${playerEntity.serverNumber}.`);
+                            log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         } else if (data.takedeposit && playerEntity.bank.deposit >= data.takedeposit && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
                             let integerDeposit = Math.trunc(data.takedeposit);
 

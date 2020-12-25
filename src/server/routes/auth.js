@@ -92,20 +92,20 @@ router.post(`/register`, (req, res, next) => {
                         creationIP
                     }).then(cUser => {
                         if (cUser) {
-                            user.delete();
-                            return res.json({
-                                errors: `You can only create one account`
-                            });
+                            // user.delete();
+                            // return res.json({
+                            //     errors: `You can only create one account`
+                            // });
                         }
 
                         User.findOne({
                             lastIP: creationIP
                         }).then(lUser => {
                             if (lUser) {
-                                user.delete();
-                                return res.json({
-                                    errors: `You can only create one account`
-                                });
+                                // user.delete();
+                                // return res.json({
+                                //     errors: `You can only create one account`
+                                // });
                             }
 
                             axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
