@@ -293,6 +293,7 @@ var setUpEnvironment = function () {
 
 window.currentTime = 0;
 let doDaylightCycle = function (time) {
+    if (water == undefined) return;
     var light = water.parent.children.find(function (c) {
         return c instanceof THREE.Light;
     });
