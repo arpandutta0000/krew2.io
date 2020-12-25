@@ -863,7 +863,7 @@ io.on(`connection`, async socket => {
                                     let player = core.players[i];
                                     if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
-                                        player.clan = action.id;
+                                        player.clan = user.clan;
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
                                     }
                                 }
@@ -894,7 +894,7 @@ io.on(`connection`, async socket => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
                                     if (player.name == action.id) {
-                                        player.clan = action.id;
+                                        player.clan = user.clan;
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
                                     }
                                 }
