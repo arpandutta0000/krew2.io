@@ -35,11 +35,11 @@ module.exports = {
         {
             name: `Sloth`,
             hash: `d44f081ab871f64193688aa973480807`
-        },
+        },*/
         {
             name: `TheChoco`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
-        },*/
+        },
         {
             name: `Kekmw`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
