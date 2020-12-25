@@ -898,7 +898,7 @@ io.on(`connection`, async socket => {
                             return callback(true);
                         });
                     });
-                } else if (action.action == `join`) {
+                } else if (action.action && action.action == `join`) {
                     if (playerEntity.clanRequest != `` || playerEntity.clan) return callback(false);
 
                     let clan = await Clan.findOne({
