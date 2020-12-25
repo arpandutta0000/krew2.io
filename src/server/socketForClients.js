@@ -527,8 +527,7 @@ io.on(`connection`, async socket => {
                                                 }
                                             }
 
-                                            playerSaveData.save(err => {
-                                                if (err) log(`red`, err);
+                                            playerSaveData.save(() => {
                                                 log(`blue`, `Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                                                 player.socket.emit(`showCenterMessage`, `Server is restarting. Please refresh your page to rejoin the game.`, 4, 6e4);
                                                 player.socket.disconnect();
