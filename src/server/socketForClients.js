@@ -884,12 +884,19 @@ io.on(`connection`, async socket => {
                     let newClan = new Clan({
                         name: action.id,
                         leader: playerEntity.name,
-                        owners: []
+                        owners: [playerEntity.name]
                     });
 
+                    user.clan = action.id;
+
                     newClan.save(() => {
-                        log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        return callback(true);
+                        user.save(() => {
+                            playerEntity.clanLeader = true;
+                            playerEnttiy.clanOwner = true;
+
+                            log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                            return callback(true);
+                        });
                     });
                 } else if (action.action == `join`) {
                     if (!playerEntity.clanRequest || playerEntity.clanRequest != `` || playerEntity.clan || playerEntity.clan != ``) return callback(false);
