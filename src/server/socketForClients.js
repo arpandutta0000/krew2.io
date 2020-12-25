@@ -871,7 +871,7 @@ io.on(`connection`, async socket => {
                         otherUser.clanRequest = undefined;
                         otherUser.clan = undefined;
                     
-                        otherU.save(() => {
+                        otherUser.save(() => {
                             playerEntity.socket.emit(`${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
                             log(`magenta`, `${playerEntity.name} declined player ${otherUser.username} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         });
