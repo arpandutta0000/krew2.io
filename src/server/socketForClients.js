@@ -804,7 +804,7 @@ io.on(`connection`, async socket => {
 
                     // Only push members to the members list (to prevent duplicates).
                     for (const document of clanMemberDocs) {
-                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name) && !clan.assistants.includes(document.name)) clanMembers.push(document.name)
+                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name)) clanMembers.push(document.name)
                     }
                     for (const document of clanRequestDocs) {
                         clanRequests.push(document.name)
@@ -824,6 +824,7 @@ io.on(`connection`, async socket => {
                     let clanMembers = await User.find({
                         clan: playerEntity.clan
                     });
+                    console.log(clanMembers.length);
 
                     if (clan.leader == playerEntity.name && clanMembers.length == 1) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
                     else {
