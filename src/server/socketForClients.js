@@ -784,7 +784,7 @@ io.on(`connection`, async socket => {
                 }
             }
         });
-        socket.on(`lockKrew`, lockBool => {
+        socket.on(`lock-krew`, lockBool => {
             if (playerEntity.isCaptain && lockBool) {
                 playerEntity.parent.isLocked = true;
                 playerEntity.parent.recruiting = false;
@@ -1061,6 +1061,9 @@ io.on(`connection`, async socket => {
 
                             boat.speed += parseFloat(playerEntity.movementSpeedBonus / 10);
                             boat.turnspeed += parseFloat((0.05 * playerEntity.movementSpeedBonus) / 10);
+
+                            boat.updateProps();
+                            boat.shipState = 0;
                         } else entities[motherShip.anchorIsland] && entities[motherShip.anchorIslandId].addChildren(player);
 
                         // Delete the player from the previous krew.
@@ -1073,7 +1076,7 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.parent != undefined && motherShip.id == player.parent.id) {
+                            if (player.parent && motherShip.id == player.parent.id) {
                                 crewKillCount += player.shipsSank;
                                 crewTradeCount += player.overall_cargo;
                             }
