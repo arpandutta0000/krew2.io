@@ -15,6 +15,10 @@ const mongoose = require(`mongoose`);
 const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
 
+const {
+    exec
+} = require(`child_process`);
+
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
 
@@ -55,7 +59,7 @@ let Ban = require(`./models/ban.model.js`);
 let Hacker = require(`./models/hacker.model.js`);
 let PlayerRestore = require(`./models/playerRestore.model.js`);
 
-// Log socket.io starting
+// Log socket.io starting.
 log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
 
 // Globally define serverside admins / mods / devs.
@@ -463,47 +467,79 @@ io.on(`connection`, async socket => {
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
                             return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}\nIP: ${player.IP}.`);
                         });
-                    } else if (command == `save` && (isAdmin || isDev)) {
-                        playerEntity.socket.emit(`showCenterMessage`, `Storing player data`, 3, 1e4);
-                        for (let i in core.players) {
-                            let player = core.players[i];
+                    } else if (command == `restart` && (isAdmin || isDev)) {
+                        playerEntity.socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
 
-                            // Delete existing outstanding data if any.
-                            let oldPlayerData = await PlayerRestore.findOne({
-                                IP: player.socket.handshake.address
-                            });
-                            if (oldPlayerData) oldPlayerData.delete();
+                        io.emit(`showCenterMessage`, `Server is restarting in 1 minute!`, 4, 1e4);
+                        setTimeout(() => io.emit(`showCenterMessage`, `Server is restarting in 30 seconds!`, 4, 1e4), 3e4);
+                        setTimeout(() => io.emit(`showCenterMessage`, `Server is restarting in 10 seconds!`, 4, 1e4), 5e4);
 
-                            let playerSaveData = new PlayerRestore({
-                                username: player.name,
-                                IP: player.socket.handshake.address,
-                                timestamp: new Date(),
+                        setTimeout(() => {
+                            for (let i in core.players) {
+                                let player = core.players[i];
 
-                                gold: player.gold,
-                                experience: player.experience,
-                                points: playerEntity.points,
+                                // Delete existing outstanding data if any.
+                                PlayerRestore.findOne({
+                                    IP: player.socket.handshake.address
+                                }).then(oldPlayerData => {
+                                    PlayerRestore.findOne({
+                                        username: player.name
+                                    }).then(oldAccountData => {
+                                        User.findOne({
+                                            username: player.name
+                                        }).then(user => {
+                                            if (oldPlayerData) oldPlayerData.delete();
+                                            if (oldAccountData) oldAccountData.delete();
 
-                                score: player.score,
-                                shipsSank: player.shipsSank,
-                                deaths: player.deaths,
-                                overall_kills: player.overall_kills,
+                                            console.log(player.deaths);
 
-                                isCaptain: player.isCaptain,
-                                shipId: player.parent ? player.parent.shipclassId : null,
+                                            let playerSaveData = new PlayerRestore({
+                                                username: player.name,
+                                                IP: player.socket.handshake.address,
+                                                timestamp: new Date(),
 
-                                itemId: player.itemId ? player.itemId : null,
-                                bonus: {
-                                    fireRate: player.attackSpeedBonus,
-                                    distance: player.attackDistanceBonus,
-                                    damage: player.attackDamageBonus,
-                                    speed: player.movementSpeedBonus
-                                }
-                            });
-                            playerSaveData.save(() => {
-                                log(`blue`, `Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                                player.socket.disconnect();
-                            });
-                        }
+                                                gold: player.gold,
+                                                experience: player.experience,
+                                                points: playerEntity.points,
+
+                                                score: player.score,
+                                                shipsSank: player.shipsSank,
+                                                deaths: player.deaths ? player.deaths : 0,
+                                                overall_kills: player.overall_kills ? player.overall_kills : 0,
+
+                                                isCaptain: player.isCaptain,
+                                                shipId: player.parent ? player.parent.captainId == player.id ? player.parent.shipclassId : undefined : undefined,
+
+                                                itemId: player.itemId ? player.itemId : undefined,
+                                                bonus: {
+                                                    fireRate: player.attackSpeedBonus,
+                                                    distance: player.attackDistanceBonus,
+                                                    damage: player.attackDamageBonus,
+                                                    speed: player.movementSpeedBonus
+                                                }
+                                            });
+
+                                            if (user) {
+                                                if (player.gold > user.highscore) {
+                                                    log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
+                                                    user.highscore = player.highscore;
+                                                    user.save();
+                                                }
+                                            }
+
+                                            playerSaveData.save(err => {
+                                                if (err) log(`red`, err);
+                                                log(`blue`, `Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                                                player.socket.emit(`showCenterMessage`, `Server is restarting. Please refresh your page to rejoin the game.`, 4, 6e4);
+                                                player.socket.disconnect();
+                                            });
+                                        });
+                                    });
+                                });
+                            }
+                            if (!DEV_ENV) exec(`sh /opt/krew2.io/restart.sh`);
+                            else log(`red`, `Warning, cannot automatically restart in development.`);
+                        }, 6e4);
                     } else if (command == `report` && (isAdmin || isMod)) {
                         let reportUser = args.shift();
                         let reportReason = args.join(` `);

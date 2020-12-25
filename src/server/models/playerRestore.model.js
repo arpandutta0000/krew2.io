@@ -19,35 +19,35 @@ let playerRestoreSchema = Mongoose.Schema({
     },
     experience: {
         type: Number,
-        required: false
+        required: true
     },
     points: {
         type: Object,
-        required: false
+        required: true
     },
     score: {
         type: Number,
-        required: false
+        required: true
     },
     shipsSank: {
         type: Number,
-        required: false
+        required: true
     },
     deaths: {
         type: Number,
-        required: false
+        required: true
     },
-    totalDamage: {
+    shipId: {
         type: Number,
         required: false
     },
     overall_kills: {
         type: Number,
-        required: false
+        required: true
     },
     isCaptain: {
         type: Boolean,
-        required: false
+        required: true
     },
     itemId: {
         type: Number,
@@ -56,19 +56,19 @@ let playerRestoreSchema = Mongoose.Schema({
     bonus: {
         fireRate: {
             type: Number,
-            required: false
+            required: true
         },
         distance: {
             type: Number,
-            required: false
+            required: true
         },
         damage: {
             type: Number,
-            required: false
+            required: true
         },
         speed: {
             type: Number,
-            required: false
+            required: true
         }
     }
 });
