@@ -834,8 +834,8 @@ io.on(`connection`, async socket => {
                     }
 
                     // Dereference the player's clan.
-                    playerEntity.clan = ``;
-                    user.clan = ``;
+                    playerEntity.clan = undefined;
+                    user.clan = undefined;
 
                     user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 1, 5e3));
                     log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -892,14 +892,14 @@ io.on(`connection`, async socket => {
                     newClan.save(() => {
                         user.save(() => {
                             playerEntity.clanLeader = true;
-                            playerEnttiy.clanOwner = true;
+                            playerEntity.clanOwner = true;
 
                             log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                             return callback(true);
                         });
                     });
                 } else if (action.action == `join`) {
-                    if (!playerEntity.clanRequest || playerEntity.clanRequest != `` || playerEntity.clan || playerEntity.clan != ``) return callback(false);
+                    if (playerEntity.clanRequest != `` || playerEntity.clan) return callback(false);
 
                     let clan = await Clan.findOne({
                         name: action.id
