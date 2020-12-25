@@ -132,17 +132,20 @@ router.post(`/register`, (req, res, next) => {
                                     });
 
                                     let ssl;
+                                    let address;
                                     if (DEV_ENV) {
                                         ssl = `http`;
+                                        address = req.headers.host;
                                     } else {
                                         ssl = `https`;
+                                        address = config.domain;
                                     }
 
                                     let mailOptions = {
                                         from: 'noreply@krew.io',
                                         to: user.email,
                                         subject: 'Verify your Krew.io Account',
-                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
+                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
                                     }
 
                                     transporter.sendMail(mailOptions, function (err) {
@@ -295,17 +298,20 @@ router.post(`/change_email`, (req, res, next) => {
             });
 
             let ssl;
+            let address;
             if (DEV_ENV) {
                 ssl = `http`;
+                address = req.headers.host;
             } else {
                 ssl = `https`;
+                address = config.domain;
             }
 
             let mailOptions = {
                 from: 'noreply@krew.io',
                 to: user.email,
                 subject: 'Confirm changing your Krew.io email',
-                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify\/${user.verifyToken}\n`
+                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
             }
 
             transporter.sendMail(mailOptions, function (err) {
@@ -380,17 +386,20 @@ router.post(`/reset_password`, (req, res, next) => {
             });
 
             let ssl;
+            let address;
             if (DEV_ENV) {
                 ssl = `http`;
+                address = req.headers.host;
             } else {
                 ssl = `https`;
+                address = config.domain;
             }
 
             let mailOptions = {
                 from: 'noreply@krew.io',
                 to: user.email,
                 subject: 'Reset your Krew.io password',
-                text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${req.headers.host}\/verify_reset_password\/${user.newPasswordToken}\n`
+                text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${address}\/verify_reset_password\/${user.newPasswordToken}\n`
             }
 
             transporter.sendMail(mailOptions, function (err) {
