@@ -2,11 +2,11 @@ module.exports = {
     Admins: [/*{
             name: `ITSDABOMB`,
             hash: `c699a0d37840edcc12be7975e47f86d3`
-        },
+        },*/
         {
             name: `LeoLeoLeo`,
             hash: `d9e1aafc0229b8f4380a1f5fdb9dc999`
-        },
+        },/*
         {
             name: `harderman`,
             hash: `30d74ec70a7cbeed6e5533bc2d013d62`
@@ -39,11 +39,11 @@ module.exports = {
         {
             name: `TheChoco`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
-        },
+        },*/
         {
             name: `Kekmw`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
-        },
+        }/*,
         {
             name: `Headkeeper`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
