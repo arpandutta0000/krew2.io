@@ -178,8 +178,8 @@ io.on(`connection`, async socket => {
                     Clan.findOne({
                         name: playerEntity.clan
                     }).then(clan => {
-                        playerEntity.clanLeader = clan.leader == playerEntity.name;
-                        playerEntity.clanOwner = clan.owners.includes(playerEntity.name);
+                        playerEntity.clanOwner = clan.owner == playerEntity.name;
+                        playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
                     });
                 }
 
@@ -813,20 +813,16 @@ io.on(`connection`, async socket => {
                     let clanRequests = [];
 
                     // Only push members to the members list (to prevent duplicates).
-                    for (const document of clanMemberDocs) {
-                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name)) clanMembers.push(document.name);
-                    }
-                    for (const document of clanRequestDocs) {
-                        clanRequests.push(document.name);
-                    }
+                    for (const document of clanMemberDocs) clanMembers.push(document.username);
+                    for (const document of clanRequestDocs) clanRequests.push(document.username);
 
                     let clanData = {
-                        name: clan.name,
-                        clanLeader: clan.leader,
-                        clanOwners: clan.owners,
-                        clanMembers,
-                        clanRequests
+                        clanOwner: clan.owner,
+                        clanLeaders: clan.leaders,
+                        clanMembers
                     }
+
+                    if (playerEntity.clanLeader) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
 
@@ -834,9 +830,8 @@ io.on(`connection`, async socket => {
                     let clanMembers = await User.find({
                         clan: playerEntity.clan
                     });
-                    console.log(clanMembers.length);
 
-                    if (clan.leader == playerEntity.name && clanMembers.length == 1) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
+                    if (clan.owner == playerEntity.name) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
                     else {
                         for (let i in core.players) {
                             let player = core.players[i];
@@ -848,34 +843,34 @@ io.on(`connection`, async socket => {
                     playerEntity.clan = undefined;
                     user.clan = undefined;
 
-                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 1, 5e3));
+                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 4, 5e3));
                     log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return callback(true);
                 }
 
                 // From this point on there should be a player passed to the emit.
-                if (player && playerEntity.clanLeader || playerEntity.clanOwner) {
+                if (action.id && playerEntity.clanLeader || playerEntity.clanOwner) {
                     let otherUser = User.findOne({
                         username: player
                     });
-                    let otherPlayer = Object.values(core.players).find(entity => entity.name == player);
+                    let otherPlayer = Object.values(core.players).find(entity => entity.name == action.id);
 
                     // If the player is nonexistent or is not in the same clan.
                     if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    else if (action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${otherPlayer} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
-                    if (action == `accept`) {
+                    if (action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
                         if (otherUser.clan == `` && otherUser.clanRequest == clan.name && otherPlayer.clan == ``) {} else return callback(false);
                     }
 
                     if (playerEntity.clanLeader || playerEntity.clanOwner) {
-                        // Actions for leader / owners.
+                        // Actions for owner / leaders.
                         if (action.action && action.action == `promote`) {
-                            if (playerEntity.clanLeader && !clan.owners.includes(action.id)) {
-                                // Only clan leaders can promote to owner.
-                                clan.owners.push(action.id);
+                            if (playerEntity.clanOwner && !clan.leaders.includes(action.id)) {
+                                // Only clan owner can promote to leaders.
+                                clan.leaders.push(action.id);
                                 callback(true);
                             }
                             clan.save(() => callback(false));
@@ -894,16 +889,16 @@ io.on(`connection`, async socket => {
 
                     let newClan = new Clan({
                         name: action.id,
-                        leader: playerEntity.name,
-                        owners: [playerEntity.name]
+                        owner: playerEntity.name,
+                        leaders: [playerEntity.name]
                     });
 
                     user.clan = action.id;
 
                     newClan.save(() => {
                         user.save(() => {
-                            playerEntity.clanLeader = true;
                             playerEntity.clanOwner = true;
+                            playerEntity.clanLeader = true;
 
                             playerEntity.clan = action.id;
                             playerEntity.clanRequest = ``;
