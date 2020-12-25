@@ -388,8 +388,10 @@ io.on(`connection`, async socket => {
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
                         if (!banReason || banReason == ``) banReason == `No reason specified`;
 
-                        let isBanned = await Ban.findOne({ username: player.name });
-                        if(isBanned) return playerEntity.socket.emit(`showCenterMessage`, `That player is already banned!`, 1, 1e4);
+                        let isBanned = await Ban.findOne({
+                            username: player.name
+                        });
+                        if (isBanned) return playerEntity.socket.emit(`showCenterMessage`, `That player is already banned!`, 1, 1e4);
 
                         let ban = new Ban({
                             username: player.name,
@@ -754,10 +756,13 @@ io.on(`connection`, async socket => {
                         boat.addChildren(playerEntity);
                         boat.setShipClass(0);
                         boat.exitMotherShip(motherShip);
-                        boat.speed += parseFloat((playerEntity.movementSpeedBonus) / 10);
+
+                        boat.speed += parseFloat(playerEntity.movementSpeedBonus / 10);
+                        boat.turnspeed += parseFloat((0.05 * playerEntity.movementSpeedBonus) / 10);
+
                         boat.updateProps();
                         boat.shipState = 0;
-                    } else entities[motherShip.anchorIsland] && entities[motherShip.anchorIslandId].addChildren
+                    } else entities[motherShip.anchorIsland] && entities[motherShip.anchorIslandId].addChildren(playerEntity);
 
                     // Delete him from the previous krew.
                     delete motherShip.children[playerEntity.id];
