@@ -262,7 +262,7 @@ io.on(`connection`, async socket => {
                 shotAccuracy: playerEntity.shotsHit / playerEntity.shotsFired,
                 overall_cargo: playerEntity.overall_cargo,
                 crew_overall_cargo: playerEntity.parent ? playerEntity.parent.overall_cargo : playerEntity.overall_cargo,
-                overall_kills: playerEntity.parent.overall_kills
+                overall_kills: playerEntity.parent ? playerEntity.parent.overall_kills : 0
             }
             return fn(JSON.stringify(stats));
         });
@@ -529,7 +529,7 @@ io.on(`connection`, async socket => {
                         recipient: `global`,
                         message: charLimit(msg, 150)
                     });
-                    if (config.mode == `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, charLimit(msg, 150));
+                    if (config.mode == `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, playerEntity.serverNumber, charLimit(msg, 150));
                 } else if (msgData.recipient == `local` && entities[playerEntity.parent.id]) {
                     for (let i in entities[playerEntity.parent.id].children) {
                         let player = entities[playerEntity.parent.id].children[i];

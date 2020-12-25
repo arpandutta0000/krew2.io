@@ -60,9 +60,9 @@ client.on(`ready`, async () => {
         chatLogChannel.setTopic(`Server has been up since ${formattedTime}.`);
     }
 
-    bus.on(`msg`, (id, name, message) => {
+    bus.on(`msg`, (id, name, server, message) => {
         message = discordFilter(message);
-        chatLogChannel.send(`${name} » ${message}`);
+        chatLogChannel.send(`**[Server ${server}] ${name} » ${message}`);
     });
 
     bus.on(`report`, (title, description) => {
