@@ -910,9 +910,9 @@ io.on(`connection`, async socket => {
                         otherUser.clan = undefined;
                         otherUser.clanRequest = undefined;
 
-                        if (clan.leaders.includes(action.id)) clan.leaders = clan.leaders.splice(clan.leaders.indexOf(clan.leaders), 1);
-                        clan.save(() => {
-                            otherUser.save(() => {
+                        if (clan.leaders.includes(action.id)) clan.leaders.splice(clan.leaders.indexOf(clan.leaders), 1);
+                        otherUser.save(() => {
+                            clan.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
                                     if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
