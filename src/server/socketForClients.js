@@ -880,7 +880,7 @@ io.on(`connection`, async socket => {
                             for (let i in core.players) {
                                 let player = core.players[i];
                                 if (player.name == action.id) {
-                                    player.clan = user.clan;
+                                    player.clan = undefined;
                                     player.clanRequest = undefined;
                                     player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}].`, 1, 5e3);
                                 }
