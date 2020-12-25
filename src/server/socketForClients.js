@@ -217,8 +217,9 @@ io.on(`connection`, async socket => {
                 IP: socket.handshake.address
             });
             if (playerSave && Date.now() - playerSave.timestamp < 3e5) {
+                console.log(`uhhh, i guess we're here now`);
                 // If username is seadog, set the name to proper seadog.
-                if (playerEntity.name.startsWith(`seadog`)) playerEntity.name = playerSave.name;
+                playerEntity.name = playerSave.username;
 
                 // Restore gold and xp.
                 playerEntity.gold = playerSave.gold;
@@ -228,10 +229,10 @@ io.on(`connection`, async socket => {
                 // Restore leaderboard stats.
                 playerEntity.score = playerSave.score;
                 playerEntity.shipsSank = playerSave.shipsSank;
-                playerEntity.deaths = playerSave.deaths;
+                // playerEntity.deaths = playerSave.deaths;
 
                 // Refund ship if captain.
-                if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipId].price;
+                // if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipId].price;
 
                 // Restore item & item stats.
                 if (playerSave.itemId) playerEntity.itemId = playerSave.itemId;
@@ -373,8 +374,13 @@ io.on(`connection`, async socket => {
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         if (!kickReason || kickReason == ``) kickReason == `No reason specified`;
 
-                        player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}`: ``}`, 1, 1e4);
+                        player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}` : `.`}`, 1, 1e4);
                         playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
+
+                        for (let i in core.players) {
+                            let curPlayer = core.players[i];
+                            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked ${player.name}.`, 4, 1e4);
+                        }
 
                         log(`blue`, `${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         bus.emit(`report`, `Kick Player`, `Admin / Mod ${playerEntity.name} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
@@ -402,6 +408,11 @@ io.on(`connection`, async socket => {
                             player.socket.emit(`showCenterMessage`, `You have been banned!`, 1, 6e4);
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You permanently banned ${player.name}`, 3, 1e4);
+
+                            for (let i in core.players) {
+                                let curPlayer = core.players[i];
+                                if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} banned ${player.name}.`, 4, 1e4);
+                            }
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
@@ -425,6 +436,10 @@ io.on(`connection`, async socket => {
                             player.socket.emit(`showCenterMessage`, `You have been temporarily banned.`, 1, 6e4);
                             player.socket.disconnect();
                             playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
+                            for (let i in core.players) {
+                                let curPlayer = core.players[i];
+                                if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} temporarily banned ${player.name}.`, 4, 1e4);
+                            }
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
@@ -440,6 +455,11 @@ io.on(`connection`, async socket => {
 
                         player.delete(() => {
                             playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`);
+
+                            for (let i in core.players) {
+                                let curPlayer = core.players[i];
+                                if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unbanned ${player.name}.`, 4, 1e4);
+                            }
 
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
                             return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}\nIP: ${player.IP}.`);
@@ -480,7 +500,7 @@ io.on(`connection`, async socket => {
                                     speed: player.movementSpeedBonus
                                 }
                             });
-                            playerSaveData.save(err => err ? log(`red`, err) : () => {
+                            playerSaveData.save(() => {
                                 log(`blue`, `Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                                 player.socket.disconnect();
                             });
@@ -921,7 +941,7 @@ io.on(`connection`, async socket => {
                             clan.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if(player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
+                                    if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
                                     else if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} promoted you to be a clan leader!`, 3, 5e3);
                                 }
                                 return callback(true);
