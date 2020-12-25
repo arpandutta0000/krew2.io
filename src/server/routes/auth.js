@@ -157,6 +157,7 @@ router.post(`/register`, (req, res, next) => {
                                         }
                                     });
                                     user.save();
+                                    log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
                                     return res.json({
                                         success: `Succesfully registered! A verification email has been sent to ${user.email}.`
                                     });;
@@ -197,6 +198,7 @@ router.post(`/login`, (req, res, next) => {
             if (err) return res.json({
                 errors: err
             });
+            log(`magenta`, `User "${user.username}" successfully authenticated`);
             return res.json({
                 success: `Logged in`
             });
@@ -245,6 +247,7 @@ router.post(`/change_username`, (req, res, next) => {
             user.username = username;
 
             user.save();
+            log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
             req.logOut();
             return res.json({
                 success: `Succesfully changed username`
@@ -323,6 +326,7 @@ router.post(`/change_email`, (req, res, next) => {
                 }
             });
             user.save();
+            log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
             req.logOut();
             return res.json({
                 success: `Succesfully changed email`
@@ -411,6 +415,7 @@ router.post(`/reset_password`, (req, res, next) => {
                 }
             });
             user.save();
+            log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
             req.logOut();
             return res.json({
                 success: `Succesfully sent confirm password email`
@@ -433,6 +438,7 @@ router.get(`/verify/*`, (req, res, next) => {
             user.verifyToken = undefined;
         }
         user.save();
+        log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
         return res.redirect(`/`);
     })
 })
@@ -452,22 +458,28 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
         user.newPasswordToken = undefined;
 
         user.save();
+        log(`magenta`, `User "${user.username}" verified resetting their password`);
         return res.redirect(`/`);
     })
 })
 
 router.get(`/logout`, (req, res, next) => {
-    if (req.isAuthenticated()) req.logOut();
+    if (req.isAuthenticated()) {
+        log(`magenta`, `User "${req.user.username}" logged out`);
+        req.logOut();
+    }
     res.redirect(`/`);
 });
 
 router.get(`/authenticated`, (req, res, next) => {
-    if (req.isAuthenticated()) return res.json({
-        isLoggedIn: true,
-        username: req.user.username,
-        password: req.user.password
-    });
-    else return res.json({
+    if (req.isAuthenticated()) {
+        log(`magenta`, `User "${req.user.username}" logged in`);
+        return res.json({
+            isLoggedIn: true,
+            username: req.user.username,
+            password: req.user.password
+        });
+    } else return res.json({
         isLoggedIn: false
     });
 });
@@ -499,6 +511,7 @@ router.post(`/delete_account`, (req, res, next) => {
             if (err) return log(`red`, err);
 
             if (isMatch) {
+                log(`yellow`, `User ${user.username} deleted their account`);
                 req.logOut();
                 user.delete();
                 return res.json({
