@@ -843,7 +843,7 @@ io.on(`connection`, async socket => {
 
                 // From this point on there should be a player passed to the emit.
                 if (action.id && playerEntity.clanLeader || playerEntity.clanOwner) {
-                    let otherUser = User.findOne({
+                    let otherUser = await User.findOne({
                         username: action.id
                     });
 
