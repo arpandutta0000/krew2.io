@@ -172,6 +172,16 @@ io.on(`connection`, async socket => {
             if (user) {
                 playerEntity.bank.deposit = user.bankDeposit ? user.bankDeposit : 0;
                 playerEntity.highscore = user.highscore ? user.highscore : 0;
+                playerEntity.clan = user.clan ? user.clan : undefined;
+
+                if (playerEntity.clan) {
+                    Clan.findOne({
+                        name: playerEntity.clan
+                    }).then(clan => {
+                        playerEntity.clanLeader = clan.leader == playerEntity.name;
+                        playerEntity.clanOwner = clan.owners.includes(playerEntity.name);
+                    });
+                }
 
 
                 // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
@@ -804,18 +814,18 @@ io.on(`connection`, async socket => {
 
                     // Only push members to the members list (to prevent duplicates).
                     for (const document of clanMemberDocs) {
-                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name)) clanMembers.push(document.name)
+                        if (!clan.leader.includes(document.name) && !clan.owners.includes(document.name)) clanMembers.push(document.name);
                     }
                     for (const document of clanRequestDocs) {
-                        clanRequests.push(document.name)
+                        clanRequests.push(document.name);
                     }
 
                     let clanData = {
                         name: clan.name,
-                        leader: clan.leader,
-                        owners: clan.owners,
-                        members: clanMembers,
-                        requests: clanRequests
+                        clanLeader: clan.leader,
+                        clanOwners: clan.owners,
+                        clanMembers,
+                        clanRequests
                     }
                     return callback(clanData);
                 } else if (action == `leave`) {
@@ -844,7 +854,7 @@ io.on(`connection`, async socket => {
                 }
 
                 // From this point on there should be a player passed to the emit.
-                if (player && playerEntity.clanLeader || playerEntity.clanOwner || playerEntity.clanAssistant) {
+                if (player && playerEntity.clanLeader || playerEntity.clanOwner) {
                     let otherUser = User.findOne({
                         username: player
                     });
