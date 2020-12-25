@@ -890,13 +890,16 @@ io.on(`connection`, async socket => {
                                 clan.save(() => callback(true));
                             } else callback(false);
                         } else if (action.action && action.action == `kick`) {
-                            if (clan.leaders.includes(playerEntity.name)) {
-                                for (let i in core.players) {
-                                    let player = core.players[i];
-                                    if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
-                                    else if (player.name == action.id) player.socket.emit(`${playerEntity.name} accepted your request to join [${playerEntity.clan}]`, 3, 5e3);
-                                }
+                            for (let i in core.players) {
+                                let player = core.players[i];
+                                if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                                else if (player.name == action.id) player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
                             }
+
+                            if (clan.leaders.includes(action.id)) clan.leaders = clan.leaders.splice(clan.leaders.indexOf(clan.leaders), 1);
+                            clan.save(() => {
+                                user
+                            });
                         }
                     }
                 }
@@ -937,7 +940,7 @@ io.on(`connection`, async socket => {
                         name: action.id
                     });
 
-                    if (!clan) callback(404);
+                    if (!clan) return callback(404);
 
                     user.clanRequest = action.id;
                     playerEntity.clanRequest = action.id;
