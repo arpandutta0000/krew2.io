@@ -217,7 +217,6 @@ io.on(`connection`, async socket => {
                 IP: socket.handshake.address
             });
             if (playerSave && Date.now() - playerSave.timestamp < 3e5) {
-                console.log(`uhhh, i guess we're here now`);
                 // If username is seadog, set the name to proper seadog.
                 playerEntity.name = playerSave.username;
 
