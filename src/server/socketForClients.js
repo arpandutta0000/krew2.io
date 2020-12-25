@@ -787,7 +787,7 @@ io.on(`connection`, async socket => {
             if (playerEntity.clan && playerEntity.clan != `` && playerEntity.clan != undefined) {
                 // Get the clan from MongoDB.
                 let clan = await Clan.findOne({
-                    clan: user.clan
+                    name: user.clan
                 });
 
                 // Actions for all members.
@@ -893,6 +893,9 @@ io.on(`connection`, async socket => {
                         user.save(() => {
                             playerEntity.clanLeader = true;
                             playerEntity.clanOwner = true;
+
+                            playerEntity.clan = action.id;
+                            playerEntity.clanRequest = ``;
 
                             log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                             return callback(true);
