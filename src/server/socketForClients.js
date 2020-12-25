@@ -876,7 +876,7 @@ io.on(`connection`, async socket => {
                                 let player = core.players[i];
                                 if (player.name == action.id) player.socket.emit(`${playerEntity.name} rejected your request to join [${playerEntity.clan}]`, 1, 5e3);
                             }
-                            playerEntity.socket.meit(`You rejected ${otherUser.username}'s request to join the clan`, 4, 5e3);
+                            playerEntity.socket.emit(`You rejected ${otherUser.username}'s request to join the clan`, 4, 5e3);
                             log(`magenta`, `${playerEntity.name} declined player ${otherUser.username} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         });
                     }
