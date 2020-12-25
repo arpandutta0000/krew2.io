@@ -853,9 +853,9 @@ io.on(`connection`, async socket => {
                     // Actions for leader / owners / assistants.
                     if (action.action && action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
-                        if (!otherUser.clan && otherUser.clanRequest == user.clan.name) {
+                        if (!otherUser.clan && otherUser.clanRequest == user.clan) {
 
-                            otherUser.clan = user.clan.name;
+                            otherUser.clan = user.clan;
                             otherUser.clanRequest = undefined;
 
                             otherUser.save(() => {
