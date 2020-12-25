@@ -62,7 +62,7 @@ client.on(`ready`, async () => {
 
     bus.on(`msg`, (id, name, server, message) => {
         message = discordFilter(message);
-        chatLogChannel.send(`**[Server ${server}] ${name} » ${message}`);
+        chatLogChannel.send(`**[Server ${server}]** ${name} » ${message}`);
     });
 
     bus.on(`report`, (title, description) => {
