@@ -12,10 +12,6 @@ let clanSchema = Mongoose.Schema({
     owners: {
         type: Array,
         required: true
-    },
-    assistants: {
-        type: Array,
-        required: true
     }
 });
 

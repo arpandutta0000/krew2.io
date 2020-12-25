@@ -884,15 +884,14 @@ io.on(`connection`, async socket => {
                     let newClan = new Clan({
                         name: action.id,
                         leader: playerEntity.name,
-                        owners: [],
-                        assistants: []
+                        owners: []
                     });
 
                     newClan.save(() => {
                         log(`magenta`, `Player ${playerEntity.name} created new clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return callback(true);
                     });
-                } else if (action == `join`) {
+                } else if (action.action == `join`) {
                     if (!playerEntity.clanRequest || playerEntity.clanRequest != `` || playerEntity.clan || playerEntity.clan != ``) return callback(false);
 
                     let clan = await Clan.findOne({
