@@ -791,7 +791,7 @@ io.on(`connection`, async socket => {
                 });
 
                 // Actions for all members.
-                if (action == `getClanData`) {
+                if (action == `get-data`) {
                     let clanMemberDocs = await User.find({
                         clan: clan.name
                     });
@@ -873,7 +873,7 @@ io.on(`connection`, async socket => {
                 }
             } else {
                 if (action.action && action.action == `create`) {
-                    let clanExists = await User.findOne({
+                    let clanExists = await Clan.findOne({
                         name: action.id
                     });
                     if (clanExists) {
