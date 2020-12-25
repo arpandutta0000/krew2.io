@@ -1608,15 +1608,9 @@ io.on(`connection`, async socket => {
                         }
 
                         // Get the sum of all bank accounts from MongoDB.
-                        let users = await User.find({
-                            bankDeposit: {
-                                $gt: 5e4
-                            }
-                        });
+                        let users = await User.find({});
+                        for (const document of users) bankData.total += parseInt(document.bankDeposit);
 
-                        for (const document of users) {
-                            bankData.totalGold += parseInt(document.bankDeposit) - 5e4;
-                        }
                         socket.emit(`setBankData`, bankData);
                     }
 
