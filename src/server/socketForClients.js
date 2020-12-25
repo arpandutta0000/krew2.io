@@ -864,6 +864,7 @@ io.on(`connection`, async socket => {
                                     if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
                                         player.clan = user.clan;
+                                        player.clanRequest = undefined;
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
                                     }
                                 }
@@ -878,7 +879,11 @@ io.on(`connection`, async socket => {
                         otherUser.save(() => {
                             for (let i in core.players) {
                                 let player = core.players[i];
-                                if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}].`, 1, 5e3);
+                                if (player.name == action.id) {
+                                    player.clan = user.clan;
+                                    player.clanRequest = undefined;
+                                    player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}].`, 1, 5e3);
+                                }
                             }
 
                             playerEntity.socket.emit(`showCenterMessage`, `You rejected ${otherUser.username}'s request to join the clan.`, 4, 5e3);
@@ -914,6 +919,7 @@ io.on(`connection`, async socket => {
                                     else if (player.name == action.id) {
                                         player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
                                         player.clan = undefined;
+                                        player.clanRequest = undefined;
                                     }
                                 }
 
