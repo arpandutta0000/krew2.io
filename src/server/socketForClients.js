@@ -149,7 +149,7 @@ io.on(`connection`, async socket => {
             if (sameIPPlayerCount > 0) {
                 socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
                 log(`cyan`, `Multiple tabs. Warned IP: ${socket.handshake.address}.`);
-                // return socket.disconnect();
+                return socket.disconnect();
             }
         }
 
@@ -159,7 +159,7 @@ io.on(`connection`, async socket => {
             if (player.name == data.name) {
                 socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
-                // return socket.disconnect();
+                return socket.disconnect();
             }
         }
 
