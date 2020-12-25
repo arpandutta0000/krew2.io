@@ -303,7 +303,7 @@ io.on(`connection`, async socket => {
 
                 // Parse the message for arguments and set the command.
                 let args = msgData.message.toString().slice(2).split(` `);
-                let command = args.shift();
+                let command = args.shift().toLowerCase();
 
                 // If the user has not authenticated, only give them access to login command.
                 if (!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
@@ -387,6 +387,9 @@ io.on(`connection`, async socket => {
                         let player = Object.values(core.players).find(player => player.name == banUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
                         if (!banReason || banReason == ``) banReason == `No reason specified`;
+
+                        let isBanned = await Ban.findOne({ username: player.name });
+                        if(isBanned) return playerEntity.socket.emit(`showCenterMessage`, `That player is already banned!`, 1, 1e4);
 
                         let ban = new Ban({
                             username: player.name,
