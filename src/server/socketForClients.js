@@ -826,18 +826,18 @@ io.on(`connection`, async socket => {
                     return callback(clanData);
                 } else if (action == `leave`) {
                     if (clan.owner == playerEntity.name) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
-                    else {
-                        for (let i in core.players) {
-                            let player = core.players[i];
-                            if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 1, 5e3);
-                        }
-                    }
 
                     // Dereference the player's clan.
                     playerEntity.clan = undefined;
                     user.clan = undefined;
 
                     user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}]`, 4, 5e3));
+
+                    for (let i in core.players) {
+                        let player = core.players[i];
+                        if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                    }
+
                     log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return callback(true);
                 }
