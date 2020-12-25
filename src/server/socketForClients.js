@@ -113,13 +113,12 @@ io.on(`connection`, async socket => {
             socket.banned = true;
             return socket.disconnect();
         }
-
         // Check to see if the player is using a VPN.
         // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip. 
         axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
-            if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
+            if (res.data && res.data.status == `success` && parseFloat(res.data.result) > 0.7) {
                 socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
                 log(`cyan`, `VPN connection. Disconnecting IP: ${socket.handshake.address}.`);
 
@@ -130,7 +129,7 @@ io.on(`connection`, async socket => {
                     IP: socket.handshake.address,
                     comment: `Auto VPN temp ban`
                 });
-                return ban.save(err => err ? log(err) : socket.disconnect());
+                return ban.save(() => socket.disconnect());
             }
         });
 
@@ -922,10 +921,8 @@ io.on(`connection`, async socket => {
                             clan.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.name == action.id) {
-                                        player.clan = user.clan;
-                                        player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
-                                    }
+                                    if(player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
+                                    else if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} promoted you to be a clan leader!`, 3, 5e3);
                                 }
                                 return callback(true);
                             });
@@ -1000,7 +997,7 @@ io.on(`connection`, async socket => {
                         callback(true);
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan`, 4, 5e3);
+                            if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan.`, 4, 5e3);
                         }
                     });
                 } else if (action.action && action.action == `cancel-request`) {
