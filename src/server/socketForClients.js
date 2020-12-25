@@ -849,7 +849,6 @@ io.on(`connection`, async socket => {
 
                     // If the player is nonexistent or is not in the same clan.
                     if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    else if (action.action != `accept` && otherUser.clan != user.clan) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update player  ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
                     if (action.action && action.action == `accept`) {
