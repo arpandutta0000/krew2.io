@@ -18,15 +18,17 @@ const xssFilters = require(`xss-filters`);
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
 
-// Log when server Starts
+let reportIPs = [];
+
+// Log when server starts.
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
-// Additional bad words which need to be filtered
+// Additional bad words that need to be filtered.
 filter.addWords(...config.additionalBadWords);
 
-// Configure socket
-if (global.io === undefined) {
+// Configure socket.
+if (!global.io) {
     let server = process.env.NODE_ENV == `prod` ? https.createServer({
         key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
         cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
@@ -1827,7 +1829,7 @@ let isSpamming = (playerEntity, message) => {
 
 let mutePlayer = playerEntity => {
     log(`cyan`, `Muting player ${playerEntity.name} | Server ${playerEntity.serverNumber}.`);
-    playerEntity.lastMessageSentAt = new Date(now.getTime() + 15e3);
+    playerEntity.lastMessageSentAt = new Date(now.getTime() + 12e4);
 }
 
 let charLimit = (text, chars, suffix) => {

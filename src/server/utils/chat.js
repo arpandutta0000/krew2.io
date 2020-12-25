@@ -80,7 +80,7 @@ let isSpamming = (playerEntity, message) => {
 
 let mutePlayer = playerEntity => {
     log(`cyan`, `Muting player ${playerEntity.name} | Server ${playerEntity.serverNumber}.`);
-    playerEntity.lastMessageSentAt = new Date(now.getTime() + 15e3);
+    playerEntity.lastMessageSentAt = new Date(now.getTime() + 12e4);
 }
 
 let charLimit = (text, chars, suffix) => {
