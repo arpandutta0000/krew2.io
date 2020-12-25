@@ -261,7 +261,7 @@ io.on(`connection`, async socket => {
                 shotsHit: playerEntity.shotsHit,
                 shotAccuracy: playerEntity.shotsHit / playerEntity.shotsFired,
                 overall_cargo: playerEntity.overall_cargo,
-                crewOverallCargo: playerEntity.parent.overall_cargo,
+                crew_overall_cargo: playerEntity.parent ? playerEntity.parent.overall_cargo : playerEntity.overall_cargo,
                 overall_kills: playerEntity.parent.overall_kills
             }
             return fn(JSON.stringify(stats));
@@ -597,7 +597,7 @@ io.on(`connection`, async socket => {
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
                 await User.updateOne({
-                    name: playerEntity.name
+                    username: playerEntity.name
                 }, {
                     highscore: playerEntity.highscore
                 });
@@ -861,7 +861,7 @@ io.on(`connection`, async socket => {
                             otherUser.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} joined your clan.`, 4, 5e3);
+                                    if (player.clan == user.clan && player.name != action.id) player.socket.emit(`showCenterMessage`, `Player ${player.name} joined your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
                                         player.clan = user.clan;
                                         player.clanRequest = undefined;
@@ -1506,7 +1506,7 @@ io.on(`connection`, async socket => {
                     User.updateOne({
                         username: playerEntity.name
                     }, {
-                        highscore: playerEntity.highscore
+                        highscore: parseInt(playerEntity.highscore)
                     });
                 }
 
