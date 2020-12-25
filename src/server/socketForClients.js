@@ -688,7 +688,7 @@ io.on(`connection`, async socket => {
         socket.on(`minAmountCratesInSea`, amount => cratesInSea.min = amount);
         socket.on(`maxAmountCratesInSea`, amount => cratesInSea.max = amount);
 
-        socket.on(`departure`, departureCounter => {
+        socket.on(`departure`, async departureCounter => {
             // Check if player who sends exitIslandc ommand is docked at island.
             if (playerEntity.parent.anchorIslandId == undefined) log(`cyan`, `Exploit detected (docking at sea). Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             else {
@@ -723,7 +723,7 @@ io.on(`connection`, async socket => {
                                     player.highscore = parseInt(player.gold);
 
                                     // Update player highscore in MongoDB.
-                                    User.updateOne({
+                                    await User.updateOne({
                                         username: player.name
                                     }, {
                                         highscore: parseInt(player.highscore)
