@@ -24,10 +24,10 @@ module.exports = {
             hash: `97ddaf7ed95d3753fb34a2c85a13cd1b`
         }
     ],
-    Mods: [/*{
+    Mods: [{
             name: `Fiftyyyyy`,
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
-        },
+        },/*
         {
             name: `Sj`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
@@ -43,11 +43,11 @@ module.exports = {
         {
             name: `Kekmw`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
-        }/*,
+        },
         {
             name: `Headkeeper`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
-        }*/
+        }
     ],
     Devs: [/*{
         name: `Yaz_`,
