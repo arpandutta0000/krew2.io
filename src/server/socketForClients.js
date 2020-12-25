@@ -1046,7 +1046,6 @@ io.on(`connection`, async socket => {
                 for (let i in playerEntity.goods) playerEntity.goods[i] = 0;
 
                 // Respawn player on the sea (on raft 2).
-                console.log(data.boatId);
                 login.allocatePlayerToBoat(playerEntity, data.boatId, `sea`);
                 playerEntity.sentDockingMsg = false;
 
@@ -1623,8 +1622,8 @@ io.on(`connection`, async socket => {
 
                     if (data) {
                         console.log(data.deposit, data.takedeposit, playerEntity.bank.deposit);
-                        if (data.deposit && playerEntity.gold >= data.deposit && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit == `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
-                            let integerDeposit = Math.trunc(data.deposit);
+                        if (data.deposit && parseInt(playerEntity.gold) >= parseInt(data.deposit) && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit == `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
+                            let integerDeposit = parseInt(data.deposit);
                             playerEntity.gold -= integerDeposit;
 
                             // Handle the deposit.
@@ -1638,8 +1637,8 @@ io.on(`connection`, async socket => {
 
                             setBankData();
                             log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        } else if (data.takedeposit && playerEntity.bank.deposit >= data.takedeposit && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
-                            let integerDeposit = Math.trunc(data.takedeposit);
+                        } else if (data.takedeposit && parseInt(playerEntity.bank.deposit) >= parseInt(data.takedeposit) && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
+                            let integerDeposit = parseInt(data.takedeposit);
 
                             // Take 10% fee for bank transaction.
                             playerEntity.gold += integerDeposit * 0.9;
