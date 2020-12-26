@@ -161,7 +161,7 @@ io.on(`connection`, async socket => {
         for (let i in core.players) {
             let player = core.players[i];
             if (player.name == data.name) {
-                socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
+                socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
                 return socket.disconnect();
             }
