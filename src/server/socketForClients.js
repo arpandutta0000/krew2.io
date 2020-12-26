@@ -499,7 +499,6 @@ io.on(`connection`, async socket => {
                                             if (oldPlayerData) oldPlayerData.delete();
                                             if (oldAccountData) oldAccountData.delete();
 
-                                            console.log(player.deaths);
 
                                             let playerSaveData = new PlayerRestore({
                                                 username: player.name,
@@ -1674,7 +1673,6 @@ io.on(`connection`, async socket => {
                     }
 
                     if (data) {
-                        console.log(data.deposit, data.takedeposit, playerEntity.bank.deposit);
                         if (data.deposit && parseInt(playerEntity.gold) >= parseInt(data.deposit) && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit == `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
                             let integerDeposit = parseInt(data.deposit);
                             playerEntity.gold -= integerDeposit;
