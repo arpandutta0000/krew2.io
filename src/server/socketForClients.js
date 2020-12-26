@@ -146,33 +146,33 @@ io.on(`connection`, async socket => {
             }
         }
 
-        // No alternate IP connection.
-        let sameIPPlayerCount = 0;
-        for (let i in core.players) {
-            let player = core.players[i];
-            if (player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
-            if (sameIPPlayerCount > 1) {
-                socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
-                log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
+        // // No alternate IP connection.
+        // let sameIPPlayerCount = 0;
+        // for (let i in core.players) {
+        //     let player = core.players[i];
+        //     if (player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
+        //     if (sameIPPlayerCount > 1) {
+        //         socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
+        //         log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
 
-                // Disconnect both.
-                player.socket.disconnect();
-                return socket.disconnect();
-            }
-        }
+        //         // Disconnect both.
+        //         player.socket.disconnect();
+        //         return socket.disconnect();
+        //     }
+        // }
 
-        // No same account usage.
-        for (let i in core.players) {
-            let player = core.players[i];
-            if (player.name == data.name) {
-                socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
-                log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
+        // // No same account usage.
+        // for (let i in core.players) {
+        //     let player = core.players[i];
+        //     if (player.name == data.name) {
+        //         socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
+        //         log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
-                // Disconnect both.
-                player.socket.disconnect();
-                return socket.disconnect();
-            }
-        }
+        //         // Disconnect both.
+        //         player.socket.disconnect();
+        //         return socket.disconnect();
+        //     }
+        // }
 
         // Create player in the world.
         data.socketId = socketId;
