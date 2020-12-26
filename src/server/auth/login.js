@@ -63,13 +63,13 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
             playerEntity.gold += 500;
             setTimeout(() => playerEntity.purchaseShip(1, `${playerEntity.name}'s krew`), 200);
         }
-        setTimeout(() => {
-            playerEntity.disableSnapAndDelta = false;
-            playerEntity.socket.emit(`startGame`);
-
-            if (DEV_ENV && spawnPoint != `sea` && spawnPoint != `krew`) playerEntity.gold += 1e9;
-        }, 1e3);
     }
+    setTimeout(() => {
+        playerEntity.disableSnapAndDelta = false;
+        playerEntity.socket.emit(`startGame`);
+
+        if (DEV_ENV && spawnPoint != `sea` && spawnPoint != `krew`) playerEntity.gold += 1e9;
+    }, 1e3);
 }
 
 module.exports = {
