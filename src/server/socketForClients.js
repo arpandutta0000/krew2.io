@@ -544,7 +544,7 @@ io.on(`connection`, async socket => {
                                 });
                             }
                             if (!DEV_ENV) {
-                                exec(`sh /opt/krew2.io/restart.sh`, (err, stdout, stderr) => {
+                                exec(`sh /opt/krew2.io/src/server/restart.sh`, (err, stdout, stderr) => {
                                     if(err) log(`red`, err);
                                 });
                             }
