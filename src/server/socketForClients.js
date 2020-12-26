@@ -139,7 +139,7 @@ io.on(`connection`, async socket => {
         });
 
         // Check if max player count has been reached.
-        if (Object.keys(core.players) > 100) {
+        if (Object.keys(core.players).length > 100) {
             socket.emit(`showCenterMessage`, `This server is full!`, 1, 6e4);
             return socket.disconnect();
         }
