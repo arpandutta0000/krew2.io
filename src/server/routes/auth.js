@@ -6,6 +6,7 @@ const axios = require(`axios`);
 const config = require(`../config/config.js`);
 const bcrypt = require(`bcrypt`);
 const nodemailer = require(`nodemailer`);
+const request = require('request');
 const crypto = require(`crypto`);
 
 const express = require(`express`);
@@ -17,6 +18,24 @@ const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
 
 router.post(`/register`, (req, res, next) => {
+    if (req.body[`g-recaptcha-response`].length == 0 || !req.body[`g-recaptcha-response`]) return res.json({
+        errors: `Please verify the CAPTCHA`
+    });
+
+    let captchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`
+
+    request(captchaVerificationUrl, (error, response, body) => {
+        let captchaResponse = JSON.parse(body)
+
+        if(!captchaResponse) return res.json({
+            errors: `Error validating CAPTCHA response`
+        });
+
+        if(!captchaResponse.success || captchaResponse.success == undefined) return res.json({
+            errors: `Please correctly verify the CAPTCHA`
+        });
+    });
+
     if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
         typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
         errors: `Please fill out all fields`

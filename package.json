@@ -5,7 +5,7 @@
   "main": "gruntfile.js",
   "dependencies": {
     "axios": "^0.21.1",
-    "bad-words": "^3.0.2",
+    "bad-words": "3.0.2",
     "bcrypt": "^5.0.0",
     "cluster": "^0.7.7",
     "compression": "^1.7.4",
@@ -35,6 +35,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "pm2": "^4.5.1",
+    "request": "^2.88.2",
     "rollbar": "^2.19.4",
     "socket.io": "^1.7.4",
     "xss-filters": "^1.2.7"

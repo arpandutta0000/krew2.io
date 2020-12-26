@@ -1623,7 +1623,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/login',
-                        data: $('#login-form').serialize(),
+                        data: $('#login-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1649,10 +1649,11 @@ var ui = {
                     $('#submit-register').attr('disabled', true);
 
                     $('#register-error').addClass('hidden');
+
                     $.ajax({
                         type: 'post',
                         url: '/register',
-                        data: $('#register-form').serialize(),
+                        data: $('#register-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1718,7 +1719,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/change_username',
-                        data: $('#change-username-form').serialize(),
+                        data: $('#change-username-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1782,7 +1783,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/delete_account',
-                        data: $('#delete-account-form').serialize(),
+                        data: $('#delete-account-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1809,7 +1810,7 @@ var ui = {
                 $.ajax({
                     type: 'post',
                     url: '/reset_password',
-                    data: $('#reset-password-form').serialize(),
+                    data: $('#reset-password-form').serialize()
                 }).then(function (res) {
                     // If there is an error, return an error
                     if (res.errors) {
