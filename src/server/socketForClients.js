@@ -14,6 +14,7 @@ const md5 = require(`./utils/md5.js`);
 const mongoose = require(`mongoose`);
 const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
+const dotenv = require(`dotenv`).config();
 
 const {
     exec
@@ -49,7 +50,7 @@ if (!global.io) {
 }
 
 // Connect to db
-mongoose.connect(`mongodb://localhost:27017/localKrewDB`, {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => log(`green`, `Socket.IO server has connected to database.`));
