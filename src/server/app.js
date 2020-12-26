@@ -4,6 +4,7 @@ const config = require(`./config/config.js`);
 const bus = require(`./utils/messageBus.js`);
 const cluster = require(`cluster`);
 const core = require(`./core/core_concatenated.js`);
+const dotenv = require(`dotenv`).config();
 global.TEST_ENV = process.env.NODE_ENV === `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
@@ -58,7 +59,7 @@ if (cluster.isMaster) {
     // start game logic
     let game = require('./game/game.js');
     let Rollbar = require('rollbar');
-    let rollbar = new Rollbar('fa0cd86c64f446c4bac992595be24831');
+    let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
     // MemwatchFactoryFunction(rollbar);
 
