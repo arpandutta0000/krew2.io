@@ -1507,12 +1507,9 @@ io.on(`connection`, async socket => {
                         let cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                         data.cargoUsed += cargoUsed;
-                        console.log(cargoUsed);
-
-                        if (core.entities[child.id]) core.entities[child.id].cargoUsed = cargoUsed;
+                        core.entities[child.id].cargoUsed = cargoUsed;
                     }
                 }
-                console.log(data);
                 callback && callback.call && callback(undefined, data);
             }
             callback && callback.call && callback(`Oops, it seems you don't have an anchored boat.`);
