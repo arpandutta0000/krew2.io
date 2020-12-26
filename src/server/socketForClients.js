@@ -1462,24 +1462,23 @@ io.on(`connection`, async socket => {
         socket.on(`getGoodsStore`, callback => {
             if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
                 if (!core.entities[playerEntity.parent.anchorIslandId]) return callback && callback.call && callback(`Oops, it seems like you do not have an anchored boat.`);
-            }
 
-            let data = {
-                cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
-                gold: playerEntity.gold,
-                goods: playerEntity.goods,
-                goodsPrice: core.entities[playerEntity.parent.anchorIslandId].goodsPrice,
-                cargoUsed: 0
-            }
+                let data = {
+                    cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
+                    gold: playerEntity.gold,
+                    goods: playerEntity.goods,
+                    goodsPrice: core.entities[playerEntity.parent.anchorIslandId].goodsPrice,
+                    cargoUsed: 0
+                }
 
-            for (let i in playerEntity.parent.children) {
-                let child = playerEntity.parent.children[i];
-                if (child && child.netType == 0 && core.entities[child.id] != undefined) {
-                    cargoUsed = 0;
-                    for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
-                    data.cargoUsed += cargoUsed;    
+                for (let i in playerEntity.parent.children) {
+                    let child = playerEntity.parent.children[i];
+                    if (child && child.netType == 0 && core.entities[child.id]) {
+                        for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
+                        data.cargoUsed += cargoUsed;
 
-                    if (core.entities[child.id]) core.entities[child.id].cargoUsed = cargoUsed;
+                        if (core.entities[child.id]) core.entities[child.id].cargoUsed = cargoUsed;
+                    }
                 }
                 callback && callback.call && callback(undefined, data);
             }
@@ -1488,7 +1487,6 @@ io.on(`connection`, async socket => {
 
         // When player buys goods.
         socket.on(`buy-goods`, (transaction, callback) => {
-            cargoUsed = 0;
 
             // Add a timestamp to stop hackers from spamming buy / sell emits.
             if (Date.now() - playerEntity.goodsTimestamp < 800) {
