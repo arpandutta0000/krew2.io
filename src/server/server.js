@@ -26,7 +26,7 @@ const passport = require(`./passport.js`);
 // Database connection.
 const MongoStore = require(`connect-mongo`)(session);
 const mongoose = require(`mongoose`);
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(`mongodb://localhost:27017/localKrewDB`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => log(`green`, `User authentication has connected to database.`));
