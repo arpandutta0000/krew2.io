@@ -1649,6 +1649,17 @@ var ui = {
                     $('#submit-register').attr('disabled', true);
 
                     $('#register-error').addClass('hidden');
+
+                    var captchaResponse = grecaptcha.getResponse();
+
+                    if (captchaResponse.length == 0) {
+                        $('#submit-register').attr('disabled', false);
+                        $('#register-error').removeClass('hidden');
+                        $('#register-err-msg').text(`Please submit the reCAPTCHA`);
+                        return false;
+                    }
+
+
                     $.ajax({
                         type: 'post',
                         url: '/register',
