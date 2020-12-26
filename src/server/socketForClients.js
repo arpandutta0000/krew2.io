@@ -156,7 +156,7 @@ io.on(`connection`, async socket => {
                 log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
 
                 // Disconnect both.
-                player.disconnect();
+                player.socket.disconnect();
                 return socket.disconnect();
             }
         }
@@ -169,7 +169,7 @@ io.on(`connection`, async socket => {
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
                 // Disconnect both.
-                player.disconnect();
+                player.socket.disconnect();
                 return socket.disconnect();
             }
         }
@@ -544,7 +544,7 @@ io.on(`connection`, async socket => {
                                     });
                                 });
                             }
-                            if (!DEV_ENV) exec(`sh /opt/krew2.io/restart.sh`);
+                            if (DEV_ENV) exec(`sh /opt/krew2.io/restart.sh`);
                             else log(`red`, `Warning, cannot automatically restart in development.`);
                         }, 6e4);
                     } else if (command == `report` && (isAdmin || isMod)) {
