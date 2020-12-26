@@ -1516,7 +1516,7 @@ io.on(`connection`, async socket => {
                 // Start quantity validation.
                 let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
                 if (transaction.action == `buy`) {
-                    playerEntity.lastIsland = island.name;
+                    playerEntity.last_island = island.name;
                     let max = parseInt(transaction.gold / transaction.goodsPrice[transaction.good]);
                     let maxCargo = (transaction.cargo - transaction.cargoUsed) / core.goodsTypes[transaction.good].cargoSpace;
 
@@ -1545,7 +1545,7 @@ io.on(`connection`, async socket => {
                     transaction.gold += gold;
                     transaction.goods[transaction.good] -= transaction.quantity;
 
-                    if (playerEntity.lastIsland != island.name) playerEntity.overall_cargo += gold;
+                    if (playerEntity.last_island != island.name) playerEntity.overall_cargo += gold;
                     if (transaction.goods[transaction.good] < 0 || playerEntity.goods[transaction.good] < 0) {
                         log(`cyan`, `Exploit detected (sell wrong goods) | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return playerEntity.socket.disconnect();
