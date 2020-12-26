@@ -1483,6 +1483,8 @@ io.on(`connection`, async socket => {
 
         // When player buys goods.
         socket.on(`buy-goods`, (transaction, callback) => {
+            let cargoUsed = 0;
+
             // Add a timestamp to stop hackers from spamming buy / sell emits.
             if (Date.now() - playerEntity.goodsTimestamp < 800) {
                 playerEntity.sellCounter++;
@@ -1508,7 +1510,7 @@ io.on(`connection`, async socket => {
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
                     if (child && child.netType == 0 && core.entities[child.id]) {
-                        let cargoUsed = 0;
+                        cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                         transaction.cargoUsed += cargoUsed;
                     }
