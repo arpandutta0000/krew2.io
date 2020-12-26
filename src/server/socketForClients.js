@@ -111,7 +111,11 @@ io.on(`connection`, async socket => {
         let isIPBanned = await Ban.findOne({
             IP: socket.handshake.address
         });
-        if (isIPBanned) {
+        let isAccountBanned = await Ban.findOne({
+            username: data.name
+        });
+
+        if (isIPBanned || isAccountBanned) {
             log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
             socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
 
