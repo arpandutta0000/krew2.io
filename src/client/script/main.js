@@ -1290,10 +1290,6 @@ var toggleGlobalChat = function () {
     localChatOn = false;
     globalChatOn = true;
     $('#global-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
 };
 
 var toggleLocalChat = function () {
@@ -1311,10 +1307,6 @@ var toggleLocalChat = function () {
     localChatOn = true;
     globalChatOn = false;
     $('#local-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
 };
 
 var toggleClanChat = function () {
@@ -1332,10 +1324,6 @@ var toggleClanChat = function () {
     localChatOn = false;
     globalChatOn = false;
     $('#clan-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
 };
 
 var toggleStaffChat = function () {
@@ -1353,10 +1341,7 @@ var toggleStaffChat = function () {
     localChatOn = false;
     globalChatOn = false;
     $('#staff-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
+
 };
 
 var Ease = {

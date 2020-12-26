@@ -1987,3 +1987,35 @@ var ui = {
         }
     },
 };
+
+var stoppedScroll, scrollLoop, chatHistory, prevScroll;
+
+function scrollChat_init () {
+    chatHistory = document.querySelector('#chat-history');
+    stoppedScroll = false;
+
+    chatHistory.scrollTop = 0;
+    PreviousScrollTop = 0;
+
+    scrollLoop = setInterval(scrollChat, 100);
+}
+
+function scrollChat () {
+    chatHistory.scrollTop = PreviousScrollTop;
+    PreviousScrollTop += 2;
+
+    stoppedScroll = chatHistory.scrollTop >= (chatHistory.scrollHeight - chatHistory.offsetHeight);
+}
+
+function pauseChat () {
+    clearInterval(scrollLoop);
+}
+
+function resumeChat () {
+    PreviousScrollTop = chatHistory.scrollTop;
+    scrollLoop = setInterval(scrollChat, 100);
+}
+
+scrollChat_init();
+chatHistory.addEventListener('mouseover', pauseChat);
+chatHistory.addEventListener('mouseout', resumeChat);
