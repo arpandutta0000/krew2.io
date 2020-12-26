@@ -1,7 +1,7 @@
 {
   "name": "krew.io",
   "version": "1.0.0",
-  "description": "A 2D browser game",
+  "description": "A 3D browser game",
   "main": "gruntfile.js",
   "dependencies": {
     "axios": "^0.21.1",
@@ -13,7 +13,7 @@
     "connect-mongo": "^3.2.0",
     "cross-env": "^7.0.3",
     "discord.js": "^12.5.1",
-    "discord.js-light": "^3.4.2",
+    "discord.js-light": "^3.5.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "events": "^3.2.0",
