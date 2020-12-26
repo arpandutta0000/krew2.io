@@ -152,20 +152,21 @@ io.on(`connection`, async socket => {
             }
         }
 
-        // // No alternate IP connection.
-        // let sameIPPlayerCount = 0;
-        // for (let i in core.players) {
-        //     let player = core.players[i];
-        //     if (player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
-        //     if (sameIPPlayerCount > 1) {
-        //         socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
-        //         log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
+        // No alternate IP connection.
+        let sameIPPlayerCount = 0;
+        for (let i in core.players) {
+            let player = core.players[i];
+            if (player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
+            if (sameIPPlayerCount > 1) {
+                socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
+                log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
 
-        //         // Disconnect both.
-        //         player.socket.disconnect();
-        //         return socket.disconnect();
-        //     }
-        // }
+                // Disconnect both.
+                core.removeEntity(player);
+                player.socket.disconnect();
+                return socket.disconnect();
+            }
+        }
 
         // No same account usage.
         for (let i in core.players) {
@@ -175,6 +176,7 @@ io.on(`connection`, async socket => {
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
                 // Disconnect both.
+                core.removeEntity(player);
                 player.socket.disconnect();
                 return socket.disconnect();
             }
@@ -1470,7 +1472,7 @@ io.on(`connection`, async socket => {
                 if (child && child.netType == 0 && core.entities[child.id] != undefined) {
                     let cargoUsed = 0;
                     for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
-                    data.cargoUsed += cargoUsed;
+                    data.cargoUsed += cargoUsed;    
 
                     if (core.entities[child.id]) core.entities[child.id].cargoUsed = cargoUsed;
                 }
@@ -1869,7 +1871,7 @@ let isSpamming = (playerEntity, message) => {
 
         if (playerEntity.sentMessages.length >= 4) {
             if (playerEntity.sentMessages[3].time - playerEntity.sentMessages[0].time <= 5e3) {
-                log(`cyan`, `Spam detected from player ${playerEntity.name} sending ${charCount} charaters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
+                log(`cyan`, `Spam detected from player ${playerEntity.name} sending ${charCount} characters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
                 mutePlayer(playerEntity);
                 playerEntity.sentMessages = [];
                 return true;
