@@ -1448,20 +1448,20 @@ io.on(`connection`, async socket => {
                 playerEntity.checkedItemsList = true;
                 callback && callback.call && callback(undefined, items);
             }
-            callback && callback.call && callback(`Oops, it seems you don't have items.`);
+            callback && callback.call && callback(`Oops, it seems like you do not have items.`);
         });
 
         // Get goods in shop.
         socket.on(`getGoodsStore`, callback => {
             if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
-                if (core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it seems like you don't have an anchored boat.`);
+                if (!core.entities[playerEntity.parent.anchorIslandId]) return callback && callback.call && callback(`Oops, it seems like you do not have an anchored boat.`);
             }
 
             let data = {
                 cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                 gold: playerEntity.gold,
                 goods: playerEntity.goods,
-                goodsPrice: core.entities[playerEntity.parent.anchorIslandId] ? core.entities[playerEntity.parent.anchorIslandId].goodsPrice : 0,
+                goodsPrice: core.entities[playerEntity.parent.anchorIslandId].goodsPrice,
                 cargoUsed: 0
             }
 
