@@ -224,7 +224,7 @@ io.on(`connection`, async socket => {
                 name: playerEntity.name,
                 IP: socket.handshake.address
             });
-            hacker.save(err => err ? log(`red`, err) : playerEntity.socket.disconnect());
+            hacker.save(() => playerEntity.socket.disconnect());
             return;
         }
 
@@ -304,7 +304,7 @@ io.on(`connection`, async socket => {
                     IP: playerEntity.socket.handshake.address,
                     comment: `Auto chat spam temp ban`
                 });
-                ban.save(err => err ? log(`red`, err) : playerEntity.socket.disconnect());
+                ban.save(() => playerEntity.socket.disconnect());
             }
 
             // Staff commands.
@@ -719,7 +719,7 @@ io.on(`connection`, async socket => {
                             IP: socket.handshake.address,
                             comment: `Exploit: crew name length`
                         });
-                        return ban.save(err => err ? log(`red`, err) : playerEntity.socket.disconnect());
+                        return ban.save(() => playerEntity.socket.disconnect());
                     }
                 }
 
@@ -1095,7 +1095,7 @@ io.on(`connection`, async socket => {
                         IP: socket.handshake.address,
                         comment: `Exploit: multiple respawn`
                     });
-                    ban.save(err => err ? log(`red`, err) : playerEntity.socket.disconnect());
+                    ban.save(() => playerEntity.socket.disconnect());
                 }
             } else {
                 log(`magenta`, `Respawn by Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
