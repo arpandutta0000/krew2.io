@@ -453,7 +453,7 @@ router.get(`/verify/*`, (req, res, next) => {
             log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
             return res.redirect(`/`);
         }
-    })
+    });
 })
 
 router.get(`/verify_reset_password/*`, (req, res, next) => {
@@ -463,8 +463,8 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
     User.findOne({
         newPasswordToken: token
     }).then(user => {
-        if (!user) return;
-        if (!user.newPassword) return;
+        if (!user) return res.redirect(`/`);;
+        if (!user.newPassword || !user.newPasswordToken) return res.redirect(`/`);;
 
         user.password = user.newPassword;
         user.newPassword = undefined;
@@ -473,7 +473,7 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
         user.save();
         log(`magenta`, `User "${user.username}" verified resetting their password`);
         return res.redirect(`/`);
-    })
+    });
 })
 
 router.get(`/logout`, (req, res, next) => {
