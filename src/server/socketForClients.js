@@ -281,8 +281,8 @@ io.on(`connection`, async socket => {
                 shotsHit: playerEntity.shotsHit,
                 shotAccuracy: playerEntity.shotsHit / playerEntity.shotsFired,
                 overall_cargo: playerEntity.overall_cargo,
-                crew_overall_cargo: playerEntity.parent ? playerEntity.parent.overall_cargo : playerEntity.overall_cargo,
-                overall_kills: playerEntity.parent ? playerEntity.parent.overall_kills : 0
+                crew_overall_cargo: playerEntity.parent ? playerEntity.parent.overall_cargo : undefined,
+                overall_kills: playerEntity.parent ? playerEntity.parent.overall_kills : undefined
             }
             return fn(JSON.stringify(stats));
         });
@@ -1176,10 +1176,10 @@ io.on(`connection`, async socket => {
 
         socket.on(`joinKrew`, (boatId, callback) => {
             let boat = core.boats[boatId];
-            if (boat != undefined && boat.isLocked != true) {
+            if (boat && !boat.isLocked) {
                 let playerBoat = playerEntity.parent; // Player's boat, or anchored island if they do not own a boat.
-                let krewCargoUsed = 0;
 
+                let krewCargoUsed = 0;
                 for (let i in boat.children) krewCargoUsed += boat.children[i].cargoUsed;
 
                 let joinCargoAmount = krewCargoUsed + playerEntity.cargoUsed;
@@ -1206,7 +1206,7 @@ io.on(`connection`, async socket => {
                 }
                 // Event filtering.
                 if (boat && (boat.shipState == 3 || boat.shipState == 2 || boat.shipState == -1 || boat.shipState == 4) &&
-                    playerBoat && (playerBoat.shipState == 3 || playerBoat.shipState == 2 || boat.shipState == -1 || playerBoat.shipState == 4 || playerBoat.netType == 5) &&
+                    playerBoat && (playerBoat.shipState == 3 || playerBoat.shipState == 2 || playerBoat.shipState == -1 || playerBoat.shipState == 4 || playerBoat.netType == 5) &&
                     boat != playerBoat) {
                     if (joinCargoAmount > maxShipCargo) {
                         playerEntity.socket.emit(`showCenterMessage`, `This krew does not have enough space for your cargo!`, 3);
@@ -1223,7 +1223,7 @@ io.on(`connection`, async socket => {
                             movedIds[playerEntity.id] = playerEntity.name;
                         } else {
                             // Check if there's enough capacity in target boat.
-                            if (Object.keys(boat.children).length < boat.maxKrewCapacity) {
+                            if (Object.keys(boat.children).length <= boat.maxKrewCapacity) {
                                 // Delete player from the old boat.
                                 delete playerBoat.children[playerEntity.id];
                                 playerBoat.updateProps();
@@ -1271,7 +1271,7 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.parent != undefined && playerEntity.parent.id == player.parent.id) {
+                            if (player.parent && playerEntity.parent.id == player.parent.id) {
                                 crewKillCount += player.shipsSank;
                                 crewTradeCount += player.overall_cargo;
                             }
@@ -1454,7 +1454,7 @@ io.on(`connection`, async socket => {
         // Get goods in shop.
         socket.on(`getGoodsStore`, callback => {
             if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
-                if (core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it sems you don't have an anchored boat.`);
+                if (core.entities[playerEntity.parent.anchorIslandId] == undefined) return callback && callback.call && callback(`Oops, it seems like you don't have an anchored boat.`);
             }
 
             let data = {
@@ -1505,7 +1505,7 @@ io.on(`connection`, async socket => {
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
-                    if (child && child.netType == 0 && core.entities[child.id] != undefined) {
+                    if (child && child.netType == 0 && core.entities[child.id]) {
                         let cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                         transaction.cargoUsed += cargoUsed;
@@ -1552,7 +1552,7 @@ io.on(`connection`, async socket => {
                     }
 
                     // Trading achievement.
-                    playerEntity.trade_level = playerEntity.trade_level == undefined ? 0 : playerEntity.trade_level;
+                    playerEntity.trade_level = !playerEntity.trade_level ? 0 : playerEntity.trade_level;
                     if (playerEntity.overall_cargo >= 1e3 && playerEntity.trade_level == 0) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading beginner: +1,000 Gold +100 XP`, 3);
                         transaction.gold += 1e3;
