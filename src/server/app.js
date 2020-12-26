@@ -58,8 +58,8 @@ if (cluster.isMaster) {
 
     // start game logic
     let game = require('./game/game.js');
-    // let Rollbar = require('rollbar');
-    // let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
+    let Rollbar = require('rollbar');
+    let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
     // MemwatchFactoryFunction(rollbar);
 

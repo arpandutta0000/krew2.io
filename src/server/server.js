@@ -32,8 +32,8 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => log(`green`, `User authentication has connected to database.`));
 
 // Rollbar app.
-// const Rollbar = require(`rollbar`);
-// const rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
+const Rollbar = require(`rollbar`);
+const rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
 // Define express routes.
 let apiRouter = require(`./routes/api`);
@@ -111,7 +111,7 @@ else global.io = require(`socket.io`)(server, {
 
 
 // Use the rollbar error handler to send exceptions to the rollbar account.
-// app.use(rollbar.errorHandler());
+app.use(rollbar.errorHandler());
 
 // Bind the webfront to defined port.
 server.listen(config.port);
