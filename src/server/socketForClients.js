@@ -678,7 +678,7 @@ io.on(`connection`, async socket => {
                         });
                     }
                 } else if (msgData.message.length > 1) {
-                    socket.emit(`showCenterMessage`, `You have been muted`, 1);
+                    playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
                     log(`blue`, `Player ${playerEntity.name} was auto-muted | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 }
             }
@@ -1893,6 +1893,7 @@ let isSpamming = (playerEntity, message) => {
 
         if (charCount > 80 && totalTimeElapsed < 6e3) {
             log(`cyan`, `Spam detected for player ${playerEntity.name} sending ${charCount} characters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
+            playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
             mutePlayer(playerEntity);
             return true;
         } else if (totalTimeElapsed > 4e3) charCount = 0;
@@ -1900,6 +1901,7 @@ let isSpamming = (playerEntity, message) => {
         if (playerEntity.sentMessages.length > 2) {
             if (playerEntity.sentMessages[0].message == playerEntity.sentMessages[1].message && playerEntity.sentMessages[0].message == playerEntity.sentMessages[2].message) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending same messages multiple times | Server ${playerEntity.serverNumber}.`);
+                playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
                 mutePlayer(playerEntity);
 
                 playerEntity.sentMessages = [];
@@ -1910,6 +1912,7 @@ let isSpamming = (playerEntity, message) => {
         if (playerEntity.sentMessages.length >= 4) {
             if (playerEntity.sentMessages[3].time - playerEntity.sentMessages[0].time <= 5e3) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending ${charCount} characters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
+                playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
                 mutePlayer(playerEntity);
                 playerEntity.sentMessages = [];
                 return true;
@@ -1922,6 +1925,7 @@ let isSpamming = (playerEntity, message) => {
         if (playerEntity.sentMessages.length >= 4) {
             if (playerEntity.sentMessages[3].time - playerEntity.sentMessages[0].time < 4e3) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending ${message.length} messages in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
+                playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
                 mutePlayer(playerEntity);
 
                 playerEntity.sentMessages = [];
@@ -1934,6 +1938,7 @@ let isSpamming = (playerEntity, message) => {
 
         if (playerEntity.spamCount == 15) {
             log(`cyan`, `Excessive spam by player ${playerEntity.name} --> KICK | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            playerEntity.socket.emit(`showCenterMessage`, `You have been kicked for spamming!`, 1);
             playerEntity.socket.disconnect();
         }
         return true;
