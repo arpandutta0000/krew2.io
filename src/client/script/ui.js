@@ -1998,12 +1998,12 @@ function scrollChat_init () {
     chatHistory.scrollTop = 0;
     PreviousScrollTop = 0;
 
-    scrollLoop = setInterval(scrollChat, 100);
+    scrollLoop = setInterval(scrollChat, 1);
 }
 
 function scrollChat () {
     chatHistory.scrollTop = PreviousScrollTop;
-    PreviousScrollTop += 2;
+    PreviousScrollTop += 0.25;
 
     stoppedScroll = chatHistory.scrollTop >= (chatHistory.scrollHeight - chatHistory.offsetHeight);
 }
@@ -2014,7 +2014,7 @@ function pauseChat () {
 
 function resumeChat () {
     PreviousScrollTop = chatHistory.scrollTop;
-    scrollLoop = setInterval(scrollChat, 100);
+    scrollLoop = setInterval(scrollChat, 1);
 }
 
 scrollChat_init();
