@@ -161,18 +161,18 @@ io.on(`connection`, async socket => {
         //     }
         // }
 
-        // // No same account usage.
-        // for (let i in core.players) {
-        //     let player = core.players[i];
-        //     if (player.name == data.name) {
-        //         socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
-        //         log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
+        // No same account usage.
+        for (let i in core.players) {
+            let player = core.players[i];
+            if (player.name == data.name) {
+                socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
+                log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
-        //         // Disconnect both.
-        //         player.socket.disconnect();
-        //         return socket.disconnect();
-        //     }
-        // }
+                // Disconnect both.
+                player.socket.disconnect();
+                return socket.disconnect();
+            }
+        }
 
         // Create player in the world.
         data.socketId = socketId;
