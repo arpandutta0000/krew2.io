@@ -123,7 +123,7 @@ io.on(`connection`, async socket => {
         axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.split(``).includes(`f`) ? socket.handshake.address : socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
-            if (res.data && res.data.status == `success` && parseFloat(res.data.result) > 0.7) {
+            if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
                 socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
                 log(`cyan`, `VPN connection. Disconnecting IP: ${socket.handshake.address}.`);
 
