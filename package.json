@@ -6,7 +6,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bad-words": "3.0.2",
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.0.0",
     "cluster": "^0.7.7",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
