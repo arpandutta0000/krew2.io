@@ -85,6 +85,7 @@ const gameCookies = {};
 io.on(`connection`, async socket => {
     let krewioData;
     let christmasGold = 0;
+    let cargoUsed = 0;
 
     // Get socket ID (player ID).
     let socketId = serializeId(socket.id);
@@ -1312,7 +1313,7 @@ io.on(`connection`, async socket => {
                 if (playerEntity) {
                     let ships = {}
 
-                    let cargoUsed = 0;
+                    cargoUsed = 0;
                     for (let i in playerEntity.goods) cargoUsed += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
                     playerEntity.cargoUsed = cargoUsed;
 
@@ -1408,7 +1409,7 @@ io.on(`connection`, async socket => {
 
                 if (!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not at an island.`));
 
-                let cargoUsed = 0;
+                cargoUsed = 0;
                 for (let i in playerEntity.goods) cargoUsed += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
                 playerEntity.cargoUsed = cargoUsed;
 
@@ -1474,7 +1475,7 @@ io.on(`connection`, async socket => {
             for (let i in playerEntity.parent.children) {
                 let child = playerEntity.parent.children[i];
                 if (child && child.netType == 0 && core.entities[child.id] != undefined) {
-                    let cargoUsed = 0;
+                    cargoUsed = 0;
                     for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                     data.cargoUsed += cargoUsed;    
 
@@ -1487,7 +1488,7 @@ io.on(`connection`, async socket => {
 
         // When player buys goods.
         socket.on(`buy-goods`, (transaction, callback) => {
-            let cargoUsed = 0;
+            cargoUsed = 0;
 
             // Add a timestamp to stop hackers from spamming buy / sell emits.
             if (Date.now() - playerEntity.goodsTimestamp < 800) {
