@@ -22,12 +22,12 @@ router.post(`/register`, (req, res, next) => {
     });
 
     let captchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`
-    axios.get(captchaVerificationUrl).then(aRes => {
-        if (!aRes.data) return res.json({
+    axios.get(captchaVerificationUrl).then(cRes => {
+        if (!cRes.data) return res.json({
             errors: `Error validating CAPTCHA response`
         });
 
-        if (!aRes.data.success || aRes.data.success == undefined) return res.json({
+        if (!cRes.data.success || cRes.data.success == undefined) return res.json({
             errors: `Please correctly verify the CAPTCHA`
         });
 
