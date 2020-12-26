@@ -138,6 +138,12 @@ io.on(`connection`, async socket => {
             }
         });
 
+        // Check if max player count has been reached.
+        if (Object.keys(core.players) > 100) {
+            socket.emit(`showCenterMessage`, `This server is full!`, 1, 6e4);
+            return socket.disconnect();
+        }
+
         if (!DEV_ENV) {
             // Check if cookie has been blocked.
             if (data.cookie != undefined && data.cookie != ``) {
