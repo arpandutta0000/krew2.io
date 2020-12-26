@@ -245,7 +245,7 @@ router.post(`/change_username`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            if(((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+            if (((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
                 errors: `You can only change your username or email once every 24 hours`
             });
 
@@ -292,7 +292,7 @@ router.post(`/change_email`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            if(((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+            if (((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
                 errors: `You can only change your username or email once every 24 hours`
             });
 
@@ -436,20 +436,23 @@ router.post(`/reset_password`, (req, res, next) => {
 
 router.get(`/verify/*`, (req, res, next) => {
     let token = req.url.split(`/verify/`)[1];
-    if (!token) return;
+    if (!token) return res.redirect(`/`);;
 
     User.findOne({
         verifyToken: token
     }).then(user => {
-        if (!user) return;
+        if (!user) return res.redirect(`/`);
 
-        if (!user.verified) {
+        if (user.verified) {
+            return res.redirect(`/`);
+        } else {
             user.verified = true;
             user.verifyToken = undefined;
+
+            user.save();
+            log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
+            return res.redirect(`/`);
         }
-        user.save();
-        log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
-        return res.redirect(`/`);
     })
 })
 
