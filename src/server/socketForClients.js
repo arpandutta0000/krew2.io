@@ -120,7 +120,7 @@ io.on(`connection`, async socket => {
         }
         // Check to see if the player is using a VPN.
         // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip. 
-        axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.startsWith(`:fffff:`) ? socket.handshake.address.substring(7) : socket.handshake.address}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
+        axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.split(``).includes(`f`) ? socket.handshake.address : socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
             if (res.data && res.data.status == `success` && parseFloat(res.data.result) > 0.7) {
