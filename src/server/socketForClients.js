@@ -543,7 +543,11 @@ io.on(`connection`, async socket => {
                                     });
                                 });
                             }
-                            if (!DEV_ENV) exec(`sh /opt/krew2.io/restart.sh`);
+                            if (!DEV_ENV) {
+                                exec(`sh /opt/krew2.io/restart.sh`, (err, stdout, stderr) => {
+                                    if(err) log(`red`, err);
+                                });
+                            }
                             else log(`red`, `Warning, cannot automatically restart in development.`);
                         }, 6e4);
                     } else if (command == `report` && (isAdmin || isMod)) {
