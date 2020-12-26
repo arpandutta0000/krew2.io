@@ -605,7 +605,7 @@ io.on(`connection`, async socket => {
                                 let curPlayer = core.players[i];
                                 if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} reported ${player.name} for the second time.`, 4, 1e4);
                             }
-    
+
                             log(`blue`, `Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             return bus.emit(`report`, `Second Report --> Kick`, `Reporter ${playerEntity.name} reported ${reportedPlayer}\n${reportReason ? `Reason: ${reportReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
                         }
