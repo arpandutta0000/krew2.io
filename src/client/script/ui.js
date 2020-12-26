@@ -1623,7 +1623,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/login',
-                        data: $('#login-form').serialize(),
+                        data: $('#login-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1650,20 +1650,10 @@ var ui = {
 
                     $('#register-error').addClass('hidden');
 
-                    var captchaResponse = grecaptcha.getResponse();
-
-                    if (captchaResponse.length == 0) {
-                        $('#submit-register').attr('disabled', false);
-                        $('#register-error').removeClass('hidden');
-                        $('#register-err-msg').text(`Please submit the reCAPTCHA`);
-                        return false;
-                    }
-
-
                     $.ajax({
                         type: 'post',
                         url: '/register',
-                        data: $('#register-form').serialize(),
+                        data: $('#register-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1729,7 +1719,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/change_username',
-                        data: $('#change-username-form').serialize(),
+                        data: $('#change-username-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1793,7 +1783,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/delete_account',
-                        data: $('#delete-account-form').serialize(),
+                        data: $('#delete-account-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1820,7 +1810,7 @@ var ui = {
                 $.ajax({
                     type: 'post',
                     url: '/reset_password',
-                    data: $('#reset-password-form').serialize(),
+                    data: $('#reset-password-form').serialize()
                 }).then(function (res) {
                     // If there is an error, return an error
                     if (res.errors) {
