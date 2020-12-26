@@ -491,7 +491,7 @@ io.on(`connection`, async socket => {
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unbanned ${player.name}.`, 4, 1e4);
+                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unbanned ${player.username}.`, 4, 1e4);
                             }
 
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
