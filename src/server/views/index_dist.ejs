@@ -33,8 +33,8 @@
     <audio id="dock" src="/assets/audio/Dock.wav"></audio>
     <audio id="fishing" src="/assets/audio/Fishing.wav"></audio>
     <audio id="get-crate" src="/assets/audio/Get Crate.wav"></audio>
-    <audio id="level-up" src="/assets/audio/Level Up.wav"></audio>
     <audio id="deposit" src="/assets/audio/Deposit Money.wav"></audio>
+    <audio id="level-up" src="/assets/audio/Level Up.wav"></audio>
     <audio id="island-music" src="/assets/audio/music - non ocean area loop.wav"></audio>
     <audio id="ocean-music" src="/assets/audio/music - ocean area loop.wav"></audio>
     <audio id="ocean-ambience" src="/assets/audio/Ocean Ambience Loop.wav"></audio>
@@ -54,6 +54,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.3/bootstrap-slider.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script src="/assets/js/growl-notification.min.js"></script>
     <script src="/assets/js/lz-string.min.js"></script>
@@ -122,8 +123,8 @@
             }
         }
     </script>
-
     <!-- End GameAnalytics -->
+
     <div id="loading-wheel">
         <img src="/assets/img/wheel.png" style="margin-top:10%" id="wheel">
         <div style="font-family:caribbean; font-size:20px;">Loading...</div>
@@ -501,6 +502,8 @@
                     <br>
                     <label style="font-size: 24px;">Confirm Password</label>
                     <input type="password" id="register-password-confirm" name="register-password-confirm" class="form-control" placeholder="Re-Type Password" required>
+                    <br>
+                    <div class="g-recaptcha" data-sitekey="6Le5xRQaAAAAAO-PwlfnJd09AAs_seMsomekmj8k"></div>
                     <br>
                     <div display="inline">
                         <a>By registering you are agreeing to our</a>
