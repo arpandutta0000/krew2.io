@@ -24,6 +24,7 @@ global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 let reportIPs = [];
+let serverRestart = false;
 
 // Log when server starts.
 let serverStartTimestamp = Date.now();
@@ -146,6 +147,11 @@ io.on(`connection`, async socket => {
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > 100) {
             socket.emit(`showCenterMessage`, `This server is full!`, 1, 6e4);
+            return socket.disconnect();
+        }
+
+        if (serverRestart) {
+            socket.emit(`showCenterMessage`, `Server is restarting.`, 1, 6e4);
             return socket.disconnect();
         }
 
@@ -488,7 +494,8 @@ io.on(`connection`, async socket => {
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
                             return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}\nIP: ${player.IP}.`);
                         });
-                    } else if (command == `restart` && (isAdmin || isDev)) {
+                    } else if (command == `restart` && (isAdmin || isDev) && !serverRestart) {
+                        serverRestart = true;
                         playerEntity.socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
 
                         io.emit(`showCenterMessage`, `Server is restarting in 1 minute!`, 4, 1e4);
