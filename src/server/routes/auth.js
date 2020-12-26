@@ -23,13 +23,11 @@ router.post(`/register`, (req, res, next) => {
 
     let captchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`
     axios.get(captchaVerificationUrl).then(aRes => {
-        let captchaResponse = JSON.parse(aRes.data)
-
-        if (!captchaResponse) return res.json({
+        if (!aRes.data) return res.json({
             errors: `Error validating CAPTCHA response`
         });
 
-        if (!captchaResponse.success || captchaResponse.success == undefined) return res.json({
+        if (!aRes.data.success || aRes.data.success == undefined) return res.json({
             errors: `Please correctly verify the CAPTCHA`
         });
 
