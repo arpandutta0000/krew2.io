@@ -18,6 +18,7 @@ const xssFilters = require(`xss-filters`);
 const {
     exec
 } = require(`child_process`);
+let worldsize = 1700;
 
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;
@@ -152,7 +153,10 @@ io.on(`connection`, async socket => {
             if (player.socket.handshake.address == socket.handshake.address) sameIPPlayerCount++;
             if (sameIPPlayerCount > 2) {
                 socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
-                log(`cyan`, `Multiple tabs. Warned IP: ${socket.handshake.address}.`);
+                log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
+
+                // Disconnect both.
+                player.disconnect();
                 return socket.disconnect();
             }
         }
@@ -163,6 +167,9 @@ io.on(`connection`, async socket => {
             if (player.name == data.name) {
                 socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
+
+                // Disconnect both.
+                player.disconnect();
                 return socket.disconnect();
             }
         }
@@ -606,7 +613,7 @@ io.on(`connection`, async socket => {
                     let clan = playerEntity.clan;
                     for (let i in entities) {
                         let entity = entities[i];
-                        if (entity.netType == 0 && entity.clan == clan) {
+                        if (entity && entity.netType == 0 && entity.clan == clan) {
                             entity.socket.emit(`chat message`, {
                                 playerId: playerEntity.id,
                                 playerName: playerEntity.name,
