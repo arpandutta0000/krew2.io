@@ -64,6 +64,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
             setTimeout(() => playerEntity.purchaseShip(1, `${playerEntity.name}'s krew`), 200);
         }
     }
+
     setTimeout(() => {
         playerEntity.disableSnapAndDelta = false;
         playerEntity.socket.emit(`startGame`);
