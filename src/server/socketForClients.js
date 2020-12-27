@@ -557,7 +557,7 @@ io.on(`connection`, async socket => {
                                             if (user) {
                                                 if (player.gold > user.highscore) {
                                                     log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
-                                                    user.highscore = player.highscore;
+                                                    user.highscore = player.gold;
                                                     user.save();
                                                 }
                                             }
@@ -826,7 +826,7 @@ io.on(`connection`, async socket => {
                                 if (!DEV_ENV && player != undefined && player.netType == 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
                                 if (player.isLoggedIn == true && player.gold > player.highscore) {
-                                    log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                                    log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                                     player.highscore = parseInt(player.gold);
 
                                     // Update player highscore in MongoDB.
