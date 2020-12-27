@@ -55,7 +55,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
 }));
 
 // Passport middleware.
@@ -99,11 +101,19 @@ let server = config.mode == `dev` ? http.createServer(app) : https.createServer(
 
 // Define socket.io for admins.
 if (process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server, {
-    origins: `*:*`
+    cors: {
+        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
+        methods: [`GET`, `POST`],
+        credentials: true
+    }
 });
-else global.io = require(`socket.io`)(server, {
-    origins: `*:*`
-}).listen(`2000`);
+else global.io = global.io = require(`socket.io`)(server, {
+    cors: {
+        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
+        methods: [`GET`, `POST`],
+        credentials: true
+    }
+}).listen(2000);
 
 // Bind the webfront to defined port.
 server.listen(config.port);
