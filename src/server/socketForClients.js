@@ -572,7 +572,7 @@ io.on(`connection`, async socket => {
                                 });
                             }
                             if (!DEV_ENV) {
-                                exec(`sh /opt/krew2.io/src/server/${command}.sh`, (err, stdout, stderr) => {
+                                exec(`sh /opt/krew2.io/src/server/scripts/${command}.sh`, (err, stdout, stderr) => {
                                     if (err) log(`red`, err);
                                 });
                             } else log(`red`, `Warning, cannot automatically restart in development.`);
