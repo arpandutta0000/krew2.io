@@ -82,7 +82,7 @@ app.use(express.static(config.staticDir));
 app.use(`/ads.txt`, express.static(`ads.txt`)); // Static ad loader.
 
 // Use routes.
-app.use(`/`, apiRouter);
+app.use(`/api`, apiRouter);
 app.use(`/`, authRouter);
 app.use(`/`, indexRouter);
 

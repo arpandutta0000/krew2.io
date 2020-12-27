@@ -7,11 +7,13 @@ const User = require(`../models/user.model.js`);
 
 // Data for Wall of Fame board.
 router.get(`/wall_of_fame`, async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(403);
+
     let playerDocs = await User.find({}).sort({
         highscore: -1
     }).limit(20);
-    let wofPlayers = [];
 
+    let wofPlayers = [];
     for (const player of playerDocs) {
         wofPlayers.push({
             playerName: player.username,
