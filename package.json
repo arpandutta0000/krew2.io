@@ -40,7 +40,7 @@
   },
   "scripts": {
     "dist-test": "grunt build-dist && cross-env NODE_ENV=\"prod\" node src/server/app.js",
-    "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" && cd /opt/krew2.io && pm2 start krew2.io/src/server/app.js",
+    "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" && cd /opt/krew2.io && pm2 start src/server/app.js",
     "dev": "grunt build-dev && cross-env NODE_ENV=\"dev\" grunt dev"
   },
   "repository": {
