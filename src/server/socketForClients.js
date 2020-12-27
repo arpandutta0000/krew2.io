@@ -498,7 +498,7 @@ io.on(`connection`, async socket => {
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
                             return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}\nIP: ${player.IP}.`);
                         });
-                    } else if (command == `restart` && (isAdmin || isDev) && !serverRestart) {
+                    } else if ((command == `reload` || command == `update`) && (isAdmin || isDev) && !serverRestart) {
                         serverRestart = true;
                         playerEntity.socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
                         for (let i in core.players) {
@@ -572,7 +572,7 @@ io.on(`connection`, async socket => {
                                 });
                             }
                             if (!DEV_ENV) {
-                                exec(`sh /opt/krew2.io/src/server/restart.sh`, (err, stdout, stderr) => {
+                                exec(`sh /opt/krew2.io/src/server/${command}.sh`, (err, stdout, stderr) => {
                                     if (err) log(`red`, err);
                                 });
                             } else log(`red`, `Warning, cannot automatically restart in development.`);
