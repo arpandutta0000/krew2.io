@@ -718,7 +718,7 @@ io.on(`connection`, async socket => {
                 });
             }
 
-            if (playerEntity.parent.netType == 1 && (playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
+            if (playerEntity.parent && playerEntity.parent.netType == 1 && (playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
                 log(`magenta`, `Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Lower the boat HP and remove it from the game.
