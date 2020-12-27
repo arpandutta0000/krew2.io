@@ -34,7 +34,6 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "pm2": "^4.5.1",
     "rollbar": "^2.19.4",
     "socket.io": "^1.7.4",
     "xss-filters": "^1.2.7"
