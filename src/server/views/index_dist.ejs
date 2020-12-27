@@ -48,23 +48,27 @@
     <audio id="switch-rod-cannon" src="/assets/audio/Switch Rod Cannon.wav"></audio>
     <audio id="turning" src="/assets/audio/Turning.wav"></audio>
 
-    <script src="/assets/js/hyperapp.js"></script>
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hyperapp/2.0.5/hyperapp.js" integrity="sha512-fXukzoKSbbzWgTbpAbbd52SrIECA+U0/xMlO5cxJ8KtYdUSCkXRtrJGUfKiIaIyGOOcegALLZWujvDh44339VQ==" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js" integrity="sha512-X7kCKQJMwapt5FCOl2+ilyuHJp+6ISxFTVrx+nkrhgplZozodT9taV2GuGHxBgKKpOJZ4je77OuPooJg9FJLvw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+
     <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.3/bootstrap-slider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
+
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script src="/assets/js/growl-notification.min.js"></script>
-    <script src="/assets/js/lz-string.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" integrity="sha512-qoCTmFwBtCPvFhA+WAqatSOrghwpDhFHxwAGh+cppWonXbHA09nG1z5zi4/NGnp8dUhXiVrzA6EnKgJA+fyrpw==" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.js"></script>
     <script src="/assets/js/THREE.TextTexture.es5.js"></script>
     <script src="/assets/js/THREE.TextSprite.es5.js"></script>
 
     <!-- AdinPlay Ads -->
-    <script async src="//api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js">
+    <script async src="https//api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js">
         let aiptag = aiptag || {};
         aiptag.cmd = aiptag.cmd || [];
         aiptag.cmd.display = aiptag.cmd.display || [];
@@ -94,7 +98,7 @@
 </head>
 
 <body>
-    <script src='https://download.gameanalytics.com/js/GameAnalytics-3.0.1.min.js'></script>
+    <script src="https://download.gameanalytics.com/js/GameAnalytics-3.0.1.min.js"></script>
     <script>
         window.GameAnalytics = window.GameAnalytics || function () {
             (GameAnalytics.q = GameAnalytics.q || []).push(arguments)

@@ -47,6 +47,7 @@ var connect = function (pid) {
     socket = io.connect(url, {
         secure: true,
         rejectUnauthorized: false,
+        withCredentials: true
     }); // establish socket connection!
 
     initSocketBinds();
