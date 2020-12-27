@@ -58,15 +58,12 @@ if (cluster.isMaster) {
 
     // start game logic
     let game = require('./game/game.js');
-    let Rollbar = require('rollbar');
-    let rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
 
-    // MemwatchFactoryFunction(rollbar);
+    // MemwatchFactoryFunction
 
     process.on('uncaughtException', function (e) {
         if (!DEV_ENV) {
             log(`red`, e);
-            return rollbar.error(e);
         }
     });
 
