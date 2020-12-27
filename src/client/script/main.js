@@ -331,6 +331,11 @@ var createGame = function () {
         renderer.render(scene, camera);
     };
 
+    renderer.context.canvas.addEventListener('webglcontextlost', function (event) {
+        event.preventDefault();
+        cancelAnimationFrame(loop);
+    }, false);
+
     // Run the loop
     loop();
 
