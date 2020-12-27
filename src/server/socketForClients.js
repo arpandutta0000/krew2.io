@@ -634,6 +634,12 @@ io.on(`connection`, async socket => {
                         log(`blue`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         return bus.emit(`report`, `Muted Player`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
                     }
+                    else if(command == `online` && isAdmin) {
+                        let playerToCheck = args.shift();
+
+                        let player = Object.values(core.players).find(player => player.name == playerToCheck);
+                        if(!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                    }
                 }
             } else if (!isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
@@ -885,7 +891,7 @@ io.on(`connection`, async socket => {
 
                         boat.updateProps();
                         boat.shipState = 0;
-                    } else entities[motherShip.anchorIsland] && entities[motherShip.anchorIslandId].addChildren(playerEntity);
+                    } else entities[motherShip.anchorIslandId] && entities[motherShip.anchorIslandId].addChildren(playerEntity);
 
                     // Delete him from the previous krew.
                     delete motherShip.children[playerEntity.id];
@@ -897,7 +903,7 @@ io.on(`connection`, async socket => {
 
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.parent != undefined && motherShip.id == player.parent.id) {
+                        if (player.parent && motherShip.id == player.parent.id) {
                             crewKillCount += player.shipsSank;
                             crewTradeCount += player.overall_cargo;
                         }
