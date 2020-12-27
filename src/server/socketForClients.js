@@ -535,7 +535,7 @@ io.on(`connection`, async socket => {
 
                                                 gold: player.gold,
                                                 experience: player.experience,
-                                                points: playerEntity.points,
+                                                points: player.points,
 
                                                 score: player.score,
                                                 shipsSank: player.shipsSank,
