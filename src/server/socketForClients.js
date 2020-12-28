@@ -214,8 +214,10 @@ io.on(`connection`, async socket => {
                     Clan.findOne({
                         name: playerEntity.clan
                     }).then(clan => {
-                        playerEntity.clanOwner = clan.owner == playerEntity.name;
-                        playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
+                        if (clan) {
+                            playerEntity.clanOwner = clan.owner == playerEntity.name;
+                            playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
+                        }
                     });
                 }
 
