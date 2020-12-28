@@ -173,9 +173,9 @@
                     <div class="main-menu-div">
                         <div class="white-bg" style="border-radius: 5px; padding-top: 12px">
                             <div>
-                                <span style="font-size: .8rem">Try <a href="https://relmz.io/" target="_window">relmz.io</a></span>
+                                <small>Try <a href="https://relmz.io/" target="_window">relmz.io</a></small>
                                 </br>
-                                <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock</span>
+                                <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock.</span>
                             </div>
                             <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">
                                 Ahoy! It seems like you're using an invite link ;D
@@ -256,7 +256,7 @@
                     <div class="changelog-box">
                         <div class="white-bg" style="border-radius: 5px">
                             <h4 class="changelog-title">Changelog</h4>
-                            <span style="font-size:.8rem">Detailed information on </span><a style="font-size:.8rem" href="https://discord.krew.io">Discord</a>
+                            <small>Detailed information on <a style="font-size:.8rem" href="https://discord.krew.io">Discord</a></small>
                             <div id='krew-io_300x250'>
                                 <script type='text/javascript'>
                                     aiptag.cmd.display.push(function () {
@@ -1323,10 +1323,10 @@
             <div class="form-group">
                 <input type="text" maxlength="60" class="form-control" id="chat-message" placeholder="message">
             </div>
-            <div style="float: left">
-                <a href="https://discord.krew.io" class="btn btn-sm btn-success" target="_window">Discord</a>
-                <div id="hide-chat" class="btn btn-sm btn-primary" style="margin-left: 5px; margin-right:5px;">Hide Chat</div>
-                <a href="https://krew-io.fandom.com/wiki/Krew.io_Wiki" class="btn btn-sm btn-primary" target="_window">Wiki</a>
+            <div style="float: left;">
+                <a href="https://krew-io.fandom.com/wiki/Krew.io_Wiki" class="btn btn-sm btn-warning" target="_window">Wiki</a>
+                <a href="https://discord.krew.io" class="btn btn-sm btn-success" target="_window" style="margin-left: 2.5px;">Discord</a>
+                <a href="#" id="hide-chat" class="btn btn-sm btn-primary" style="margin-left: 2.5px;">Hide Chat</a>
             </div>
             <div style="text-align: right; float: right">
                 <span>Time alive: <label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
@@ -1485,22 +1485,22 @@
                     </span>
                 </div>
                 <div>
-                    <span data-tooltip="Exit the island with your ship" data-tooltip-location="right" class="btn btn-success btn-sm" id="exit-island-button" style="display: none; z-index:2">
+                    <span data-tooltip="Depart to sea" data-tooltip-location="right" class="btn btn-success btn-sm" id="exit-island-button" style="display: none; z-index: 2; margin-right: 2.5px;">
                         <i class="icofont icofont-ship-wheel"></i>
-                        Depart to sea
+                        Sail
                     </span>
 
-                    <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index:1">
+                    <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index: 1; margin-right: 2.5px;">
                         <i class="icofont icofont-link"></i>
-                        Invite Link
+                        Invite
                     </span>
 
-                    <span data-tooltip="Abandon the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none">
+                    <span data-tooltip="Abandon the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none;">
                         <i class="icofont icofont-anchor"></i>
                         Abandon Ship
                     </span>
 
-                    <br />
+                    <br/>
 
                     <!-- <span class="tag tag-warning">
                     <i class="icofont icofont-cube"></i>
