@@ -493,7 +493,7 @@ io.on(`connection`, async socket => {
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not banned!`, 3, 1e4);
 
                         player.delete(() => {
-                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`);
+                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`, 1, 1e4);
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
@@ -640,6 +640,29 @@ io.on(`connection`, async socket => {
                         let player = Object.values(core.players).find(player => player.name == playerToCheck);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not online!`, 1, 1e4);
                         else return playerEntity.socket.emit(`showCenterMessage`, `That player is currently online!`, 3, 1e4);
+                    } else if (command == `unmute` && (isAdmin || isMod)) {
+                        let unmuteUser = args.shift();
+
+                        let player = Object.values(core.players).find(player => player.name == unmuteUser);
+
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
+                        else if (!player.isMuted) return playerEntity.socket.emit(`showCenterMessage`, `That player is not online!`, 1, 1e4);
+
+                        for (let i in core.players) {
+                            let ingPlayer = core.players[i];
+                            if (ingPlayer.name == player.name) {
+                                ingPlayer.isMuted = false;
+                                playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
+
+                                for (let i in core.players) {
+                                    let curPlayer = core.players[i];
+                                    if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unmuted ${player.name}.`, 4, 1e4);
+                                }
+
+                                log(`blue`, `Admin / Mod ${playerEntity.name} unmuted ${player.name} | IP: ${player.socket.handshake.address}.`);
+                                return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}\nIP: ${player.socket.handshake.address}.`);
+                            }
+                        }
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
