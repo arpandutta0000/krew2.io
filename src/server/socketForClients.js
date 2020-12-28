@@ -1958,6 +1958,7 @@ let isSpamming = (playerEntity, message) => {
 }
 
 let mutePlayer = playerEntity => {
+    if (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev) return log(`yellow`, `Cannot mute staff member | Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
     log(`cyan`, `Muting player ${playerEntity.name} | Server ${playerEntity.serverNumber}.`);
     playerEntity.isMuted = true;
     playerEntity.muteTimeout = setTimeout(() => {
