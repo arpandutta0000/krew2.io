@@ -768,7 +768,7 @@ io.on(`connection`, async socket => {
                 setTimeout(() => {
                     core.removeEntity(playerEntity);
                     playerEntity.parent.updateProps();
-                    core.removeEntity(playerEntity.parents);
+                    core.removeEntity(playerEntity.parent);
                 }, 15e3);
             } else {
                 core.removeEntity(playerEntity);
