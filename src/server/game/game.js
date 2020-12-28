@@ -77,7 +77,7 @@ setInterval(function () {
         });
 
         // If the player has been AFK for more than 30 minutes.
-        if ((now - player.lastMoved) > 1e4 && !Mods.includes(player.name) && !Devs.includes(player.name) && !Admins.includes(player.name)) {
+        if ((now - player.lastMoved) > 18e5 && !Mods.includes(player.name) && !Devs.includes(player.name) && !Admins.includes(player.name)) {
             if (player.socket) {
                 // If he is the only player on his ship, then delete his boat with the loot.
                 if(player.parent && player.isCaptain && Object.keys(player.parent.children).length == 1) {

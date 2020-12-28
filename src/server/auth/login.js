@@ -24,10 +24,10 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
         // Assign the player to the boat if there is enough space on the krew.
         if (boat.krewCount < boat.maxKrewCapacity) {
             boat.addChildren(playerEntity);
-            return boat.updateProps();
+            boat.updateProps();
         } else {
             // If there isn't enough space, create a new raft and spawn it on the water.
-            return spawnNewPlayerOnSea(boat, playerEntity);
+            spawnNewPlayerOnSea(boat, playerEntity);
         }
     } else if (spawnPoint) {
         // If the player is not using an invite link.
@@ -50,18 +50,19 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                 boat.updateProps();
 
                 // Give the player 500 gold because he has no own raft.
-                return playerEntity.gold += 500;
+                playerEntity.gold += 500;
             } else spawnNewPlayerOnSea(boat, playerEntity);
         } else {
             // Spawning on island as captain.
             let spawnIsland = Object.values(core.Landmarks).find(island => island.name.toLowerCase() == spawnPoint);
-            if (!spawnIsland) return spawnNewPlayerOnSea(boat, playerEntity);
+            if (!spawnIsland) spawnNewPlayerOnSea(boat, playerEntity);
+            else {
+                spawnIsland.addChildren(playerEntity);
 
-            spawnIsland.addChildren(playerEntity);
-
-            // Create a new boat for the player.
-            playerEntity.gold += 500;
-            setTimeout(() => playerEntity.purchaseShip(1, `${playerEntity.name}'s krew`), 200);
+                // Create a new boat for the player.
+                playerEntity.gold += 500;
+                setTimeout(() => playerEntity.purchaseShip(1, `${playerEntity.name}'s krew`), 200);
+            }
         }
     }
 
