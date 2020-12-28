@@ -1280,7 +1280,7 @@ io.on(`connection`, async socket => {
                     names = names.replace(/,$/gi, ``).trim();
 
                     for (let id in boat.children) {
-                        if (entities[id] && entities[id] && movedIds[id] == undefined) {
+                        if (entities[id] && entities[id] && !movedIds[id]) {
                             if (Object.keys(movedIds).length == 1)
                                 for (let i in movedIds) entities[id].socket.emit(`showCenterMessage`, `New krew member ${movedIds[i]} has joined your krew!`, 3);
                             else if (Object.keys(movedIds).length > 1) entities[id].socket.emit(`showCenterMessage`, `New krew members ${names} have joined your krew!`, 3);
@@ -1306,7 +1306,7 @@ io.on(`connection`, async socket => {
                             movedIds[playerEntity.id] = playerEntity.name;
                         } else {
                             // Check if there's enough capacity in target boat.
-                            if (Object.keys(boat.children).length <= boat.maxKrewCapacity) {
+                            if (Object.keys(boat.children).length < boat.maxKrewCapacity) {
                                 // Delete player from the old boat.
                                 delete playerBoat.children[playerEntity.id];
                                 playerBoat.updateProps();
