@@ -1874,13 +1874,13 @@ exports.send = () => {
 }
 
 let isSpamming = (playerEntity, message) => {
-    now = new Date();
 
     if (typeof message != `string`) return true;
     if (message.length > 60 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
         mutePlayer(playerEntity);
         return true;
     }
+    now = new Date();
 
     if (!playerEntity.lastMessageSentAt) {
         playerEntity.lastMessageSentAt = new Date();
