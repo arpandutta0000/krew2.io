@@ -45,11 +45,10 @@ if (cluster.isMaster) {
 
     // Distribute work onto number of cores a system has
     for (let i = 0; i < config.serverCount; i++) {
-
         process.env.port = config.gamePorts[i];
 
         let worker = cluster.fork();
-        worker.on('message', msg => {
+        worker.on(`message`, msg => {
             if (msg.type == `update-server`) {
                 const {
                     data,
