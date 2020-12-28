@@ -273,6 +273,10 @@ io.on(`connection`, async socket => {
                 playerEntity.attackDamageBonus = playerSave.bonus.damage;
                 playerEntity.movementSpeedBonus = playerSave.bonus.speed;
 
+                // Restore achievements.
+                playerEntity.other_quest_level = playerSave.otherQuestLevel;
+                playerEntity.trade_level = playerSave.tradeLevel;
+
                 // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
                 log(`blue`, `Restored data for ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerSave.delete();
@@ -556,7 +560,10 @@ io.on(`connection`, async socket => {
                                                     distance: player.attackDistanceBonus,
                                                     damage: player.attackDamageBonus,
                                                     speed: player.movementSpeedBonus
-                                                }
+                                                },
+
+                                                otherQuestLevel: player.other_quest_level,
+                                                tradeLevel: player.trade_level
                                             });
 
                                             if (user) {

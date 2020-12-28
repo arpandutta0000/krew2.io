@@ -70,6 +70,14 @@ let playerRestoreSchema = Mongoose.Schema({
             type: Number,
             required: true
         }
+    },
+    otherQuestLevel: {
+        type: Number,
+        required: true
+    },
+    tradeLevel: {
+        type: Number,
+        required: true
     }
 });
 
