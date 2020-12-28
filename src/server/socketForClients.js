@@ -262,10 +262,9 @@ io.on(`connection`, async socket => {
                 // Restore leaderboard stats.
                 playerEntity.score = playerSave.score;
                 playerEntity.shipsSank = playerSave.shipsSank;
-                // playerEntity.deaths = playerSave.deaths;
 
                 // Refund ship if captain.
-                // if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipId].price;
+                if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipId].price;
 
                 // Restore item & item stats.
                 if (playerSave.itemId) playerEntity.itemId = playerSave.itemId;
@@ -1875,6 +1874,8 @@ exports.send = () => {
 }
 
 let isSpamming = (playerEntity, message) => {
+    now = new Date();
+
     if (typeof message != `string`) return true;
     if (message.length > 60 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
         mutePlayer(playerEntity);
@@ -1958,7 +1959,7 @@ let isSpamming = (playerEntity, message) => {
 let mutePlayer = playerEntity => {
     log(`cyan`, `Muting player ${playerEntity.name} | Server ${playerEntity.serverNumber}.`);
     playerEntity.isMuted = true;
-    playerEntity.muteTimeout = setTimeoutt(() => {
+    playerEntity.muteTimeout = setTimeout(() => {
         playerEntity.isMuted = false;
     }, 3e5);
 }
