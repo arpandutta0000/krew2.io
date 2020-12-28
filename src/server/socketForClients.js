@@ -645,14 +645,15 @@ io.on(`connection`, async socket => {
 
                         let player = Object.values(core.players).find(player => player.name == unmuteUser);
 
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
-                        else if (!player.isMuted) return playerEntity.socket.emit(`showCenterMessage`, `That player is not online!`, 1, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not online!`, 1, 1e4);
+                        else if (!player.isMuted) return playerEntity.socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
 
                         for (let i in core.players) {
                             let ingPlayer = core.players[i];
                             if (ingPlayer.name == player.name) {
                                 ingPlayer.isMuted = false;
                                 playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
+                                ingPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
 
                                 for (let i in core.players) {
                                     let curPlayer = core.players[i];
