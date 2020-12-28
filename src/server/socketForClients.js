@@ -1081,7 +1081,7 @@ io.on(`connection`, async socket => {
                         otherUser.clan = undefined;
                         otherUser.clanRequest = undefined;
 
-                        if (clan.leaders.includes(action.id)) clan.leaders.splice(clan.leaders.indexOf(action.action), 1);
+                        if (clan.leaders.includes(action.id)) clan.leaders.splice(clan.leaders.indexOf(action.id), 1);
                         otherUser.save(() => {
                             clan.save(() => {
                                 for (let i in core.players) {
