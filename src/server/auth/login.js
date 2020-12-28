@@ -69,7 +69,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
         playerEntity.disableSnapAndDelta = false;
         playerEntity.socket.emit(`startGame`);
 
-        if (DEV_ENV && spawnPoint && pawnPoint != `sea` && spawnPoint != `krew`) playerEntity.gold += 1e9;
+        if (DEV_ENV && spawnPoint && spawnPoint != `sea` && spawnPoint != `krew`) playerEntity.gold += 1e9;
     }, 1e3);
 }
 

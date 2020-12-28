@@ -1,27 +1,37 @@
-const log = require(`./utils/log.js`);
+// Configuration.
 const config = require(`./config/config.js`);
-
-const bus = require(`./utils/messageBus.js`);
-const cluster = require(`cluster`);
-const core = require(`./core/core_concatenated.js`);
 const dotenv = require(`dotenv`).config();
-global.TEST_ENV = process.env.NODE_ENV === `test`;
+
+// Utils.
+const log = require(`./utils/log.js`);
+const bus = require(`./utils/messageBus.js`);
+
+// Require cluster.
+const cluster = require(`cluster`);
+
+// Require game core.
+const core = require(`./core/core_concatenated.js`);
+global.TEST_ENV = process.env.NODE_ENV == `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
 /* Master Cluster */
 if (cluster.isMaster) {
-    // start server
-    let server = require('./server.js');
-
+    // Create the webfront.
+    let server = require(`./server.js`);
     server.app.workers = {};
 
-    // This will create just one server for better testing and monitoring
+    // Load the bot if it is running in production.
+    if (!DEV_ENV && config.domain == `krew.io`) require(`./bot.js`);
+
+    // Create one server in development.
     if (DEV_ENV) {
         process.env.port = config.gamePorts[0];
+
+        // Create the development worker.
         let worker = cluster.fork();
-        worker.on('message', (msg) => {
-            if (msg.type === 'update-server') {
+        worker.on(`message`, msg => {
+            if (msg.type == `update-server`) {
                 const {
                     data,
                     processId
@@ -29,8 +39,8 @@ if (cluster.isMaster) {
                 server.app.workers[processId] = data;
             }
         });
-        log(`green`, `Creating a worker in development.`);
-        return;
+
+        return log(`green`, `Creating a worker in development.`);
     }
 
     // Distribute work onto number of cores a system has
@@ -39,7 +49,7 @@ if (cluster.isMaster) {
         process.env.port = config.gamePorts[i];
 
         let worker = cluster.fork();
-        worker.on('message', (msg) => {
+        worker.on('message', msg => {
             if (msg.type === 'update-server') {
                 const {
                     data,
@@ -49,48 +59,36 @@ if (cluster.isMaster) {
             }
         });
     }
-} else { // gameServers
-    // let MemwatchFactoryFunction = require('./memwatch');
-
-    // start socket
-    if(config.domain == `krew.io`) require(`./bot.js`);
+} else {
+    // Create the game.
     let socket = require('./socketForClients.js');
-
-    // start game logic
     let game = require('./game/game.js');
 
-    // MemwatchFactoryFunction
-
-    process.on('uncaughtException', function (e) {
-        if (!DEV_ENV) {
-            log(`red`, e);
-        }
+    process.on(`uncaughtException`, e => {
+        log(`red`, e);
     });
 
     try {
-        let everySecond = setInterval(function () {
+        let everySecond = setInterval(() => {
             try {
-                // this.socket.emit(msgType, data);
                 process.send({
-                    type: 'update-server',
+                    type: `update-server`,
                     processId: process.pid,
                     data: {
                         ip: DEV_ENV ? `127.0.0.1` : config.serverIP,
                         port: process.env.port,
                         playerCount: Object.keys(core.players).length,
                         maxPlayerCount: 100
-                    },
+                    }
                 });
             } catch (err) {
                 log(`red`, err, err.stack);
-                ige.log('emit error at', msgType, data, err);
             }
-
-        }, 1000);
+        }, 1e3);
     } catch (e) {
-        log(`red`, `e`, e);
+        log(`red`, e);
     }
 
-    log(`green`, `Worker ${process.pid} started`);
+    log(`green`, `Worker ${process.pid} started.`);
     log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
 }
