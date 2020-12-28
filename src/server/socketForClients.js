@@ -393,13 +393,13 @@ io.on(`connection`, async socket => {
                         let output = `That player does not exist.`;
                         if (user.startsWith(`seadog`)) {
                             let player = Object.values(core.players).find(player => player.name == user);
-                            if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                            if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                             log(`blue`, `ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             output = player.id;
                         } else {
                             let player = Object.values(core.boats).find(boat => boat.crewName == user);
-                            if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                            if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                             log(`blue`, `ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainId} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             output = player.captainId;
@@ -461,7 +461,7 @@ io.on(`connection`, async socket => {
                         let tempbanReason = args.join(` `);
 
                         let player = Object.values(core.players).find(player => player.name == tempbanUser);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         if (!tempbanReason || tempbanReason == ``) tempbanReason == `No reason specified`;
 
                         let ban = new Ban({
@@ -587,7 +587,7 @@ io.on(`connection`, async socket => {
                         let reportReason = args.join(` `);
 
                         let player = Object.values(core.players).find(player => player.name == reportUser);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                         if (reportIPs.includes(player.socket.handshake.address)) {
                             player.socket.emit(`showCenterMessage`, `You were warned...`, 1);
@@ -620,7 +620,7 @@ io.on(`connection`, async socket => {
                         let muteReason = args.join(` `);
 
                         let player = Object.values(core.players).find(player => player.name == playerToMute);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                         mutePlayer(player);
 
@@ -638,7 +638,8 @@ io.on(`connection`, async socket => {
                         let playerToCheck = args.shift();
 
                         let player = Object.values(core.players).find(player => player.name == playerToCheck);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 3, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not online!`, 1, 1e4);
+                        else return playerEntity.socket.emit(`showCenterMessage`, `That player is currently online!`, 3, 1e4);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
@@ -1883,7 +1884,7 @@ let isSpamming = (playerEntity, message) => {
     now = new Date();
 
     if (!playerEntity.lastMessageSentAt) {
-        playerEntity.lastMessageSentAt = new Date();
+        playerEntity.lastMessageSentAt = now;
         playerEntity.sentMessages = [];
         return false;
     }
