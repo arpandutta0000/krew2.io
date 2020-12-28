@@ -146,7 +146,7 @@ io.on(`connection`, async socket => {
                 });
                 return ban.save(() => socket.disconnect());
             }
-        });
+        }).catch(() => log(`red`, `Failed to VPN check the user | IP: ${socket.handshake.address}.`));
 
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > 100) {
