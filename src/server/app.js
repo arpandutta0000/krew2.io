@@ -50,12 +50,15 @@ if (cluster.isMaster) {
 
         let worker = cluster.fork();
         worker.on('message', msg => {
-            if (msg.type === 'update-server') {
+            if (msg.type == `update-server`) {
                 const {
                     data,
                     processId
                 } = msg;
                 server.app.workers[processId] = data;
+            } else if (msg.type == `message-bus`) {
+                if (msg.name == `report`) bus.emit(`report`, data.title, data.description);
+                else if (msg.name == `msg`) bus.emit(`msg`, data.id, data.name, data.server, data.message);
             }
         });
     }
@@ -88,6 +91,30 @@ if (cluster.isMaster) {
     } catch (err) {
         log(`red`, err.stack);
     }
+
+    bus.on(`report`, (title, description) => {
+        process.send({
+            type: `message-bus`,
+            name: `report`,
+            data: {
+                title,
+                description
+            }
+        });
+    });
+
+    bus.on(`msg`, (id, name, server, message) => {
+        process.send({
+            type: `message-bus`,
+            name: `msg`,
+            data: {
+                id,
+                name,
+                server,
+                message
+            }
+        });
+    });
 
     log(`green`, `Worker ${process.pid} started.`);
     log(`green`, `Server has been up since: ${new Date().toISOString().slice(0, 10)}`);
