@@ -4296,6 +4296,7 @@ tbody.collapse.in {
 }
 
 .custom-select {
+    font-size: 12px;
     display: inline-block;
     max-width: 100%;
     height: calc(2.5rem - 2px);

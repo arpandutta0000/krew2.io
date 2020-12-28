@@ -1688,6 +1688,25 @@ var ui = {
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
                     $('#current-username').text(ui.username);
+
+                    $('#account-quality-list').html('');
+                    var $quality = $('<option/>', {
+                        html: 'High Quality (slow)',
+                        value: 3,
+                    });
+                    $('#account-quality-list').append($quality);
+
+                    $quality = $('<option/>', {
+                        html: 'Medium Quality (fast)',
+                        value: 2,
+                    });
+                    $('#account-quality-list').append($quality);
+
+                    $quality = $('<option/>', {
+                        html: 'Low Quality (faster)',
+                        value: 1,
+                    });
+                    $('#account-quality-list').append($quality);
                 });
 
                 $('#username-edit-button').on('click', function () {
@@ -1695,9 +1714,13 @@ var ui = {
                     $('#change-email-error').addClass('hidden');
                     $('#current-email-container').removeClass('hidden');
 
+                    $('#change-username').removeClass('hidden');
                     $('#change-username-error').addClass('hidden');
                     $('#current-username-container').addClass('hidden');
-                    $('#change-username').removeClass('hidden');
+
+                    $('#change-account-game-settings').addClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').removeClass('hidden');
                 });
 
                 $('#email-edit-button').on('click', function () {
@@ -1705,9 +1728,27 @@ var ui = {
                     $('#change-username-error').addClass('hidden');
                     $('#current-username-container').removeClass('hidden');
 
+                    $('#change-email').removeClass('hidden');
                     $('#change-email-error').addClass('hidden');
                     $('#current-email-container').addClass('hidden');
-                    $('#change-email').removeClass('hidden');
+
+                    $('#change-account-game-settings').addClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').removeClass('hidden');
+                });
+
+                $('#change-account-game-settings-button').on('click', function () {
+                    $('#change-username').addClass('hidden');
+                    $('#change-username-error').addClass('hidden');
+                    $('#current-username-container').removeClass('hidden');
+
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#current-email-container').removeClass('hidden');
+
+                    $('#change-account-game-settings').removeClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').addClass('hidden');
                 });
 
                 $('#submit-change-username').on('click', function (e) {
@@ -1760,6 +1801,14 @@ var ui = {
                             return true;
                         }
                     })
+                });
+
+                $('#account-music-control').on('change', function () {
+
+                });
+
+                $('#account-sfx-control').on('change', function () {
+
                 });
 
                 $('#reset-password-button').on('click', function () {
