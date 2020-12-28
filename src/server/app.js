@@ -24,6 +24,11 @@ if (cluster.isMaster) {
     // Load the bot if it is running in production.
     if (!DEV_ENV && config.domain == `krew.io`) require(`./bot.js`);
 
+    process.on('uncaughtException', function (e) {
+        if (!DEV_ENV) {
+            log(`red`, e, e.stack ? e.stack : ``);
+        }
+    });
     // Create one server in development.
     if (DEV_ENV) {
         process.env.port = config.gamePorts[0];
@@ -56,6 +61,8 @@ if (cluster.isMaster) {
                 } = msg;
                 server.app.workers[processId] = data;
             } else if (msg.type == `message-bus`) {
+                let data = msg.data;
+
                 if (msg.name == `report`) bus.emit(`report`, data.title, data.description);
                 else if (msg.name == `msg`) bus.emit(`msg`, data.id, data.name, data.server, data.message);
             }
@@ -66,8 +73,10 @@ if (cluster.isMaster) {
     let socket = require('./socketForClients.js');
     let game = require('./game/game.js');
 
-    process.on(`uncaughtException`, err => {
-        log(`red`, err.stack);
+    process.on('uncaughtException', function (e) {
+        if (!DEV_ENV) {
+            log(`red`, e, e.stack ? e.stack : ``);
+        }
     });
 
     try {
