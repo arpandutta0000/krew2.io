@@ -76,10 +76,11 @@ setInterval(function () {
             cR: player.clanRequest
         });
 
-        // if the player has been afk for more than 30 minutes
-        if ((now - player.lastMoved) > 1.8e6 && !Mods.includes(player.name)) {
-            if (player.socket !== undefined) {
-                // console.log("Player", player.name, "was kicked due to AFK timeout | IP:", player.socket.handshake.address);
+        // If the player has been AFK for more than 30 minutes.
+        if ((now - player.lastMoved) > 1.8e6 && !Mods.includes(player.name) && !Devs.includes(player.name) && !Admins.includes(player.name)) {
+            if (player.socket) {
+                log(`cyan`, `Player ${player.name} was kicked for being AFK | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                player.socket.emit(`showCenterMessage`, `You were kicked for being AFK.`, 1, 36e5);
                 player.socket.disconnect();
             }
             core.removeEntity(player);

@@ -64,8 +64,8 @@ if (cluster.isMaster) {
     let socket = require('./socketForClients.js');
     let game = require('./game/game.js');
 
-    process.on(`uncaughtException`, e => {
-        log(`red`, e);
+    process.on(`uncaughtException`, err => {
+        log(`red`, err.stack);
     });
 
     try {
@@ -82,11 +82,11 @@ if (cluster.isMaster) {
                     }
                 });
             } catch (err) {
-                log(`red`, err, err.stack);
+                log(`red`, err.stack);
             }
         }, 1e3);
-    } catch (e) {
-        log(`red`, e);
+    } catch (err) {
+        log(`red`, err.stack);
     }
 
     log(`green`, `Worker ${process.pid} started.`);
