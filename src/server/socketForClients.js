@@ -689,6 +689,7 @@ io.on(`connection`, async socket => {
                     io.emit(`chat message`, {
                         playerId: playerEntity.id,
                         playerName: playerEntity.name,
+                        playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                         recipient: `global`,
                         message: charLimit(msg, 150)
                     });
@@ -699,6 +700,7 @@ io.on(`connection`, async socket => {
                         player.socket.emit(`chat message`, {
                             playerId: playerEntity.id,
                             playerName: playerEntity.name,
+                            playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                             recipient: `local`,
                             message: charLimit(msg, 150)
                         });
@@ -711,6 +713,7 @@ io.on(`connection`, async socket => {
                             entity.socket.emit(`chat message`, {
                                 playerId: playerEntity.id,
                                 playerName: playerEntity.name,
+                                playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                                 recipient: `clan`,
                                 message: charLimit(msg, 150)
                             });
@@ -722,6 +725,7 @@ io.on(`connection`, async socket => {
                         if (Admins.includes(player.name) || Mods.includes(player.name) || Devs.includes(player.name)) player.socket.emit(`chat message`, {
                             playerId: playerEntity.id,
                             playerName: playerEntity.name,
+                            playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                             recipient: `staff`,
                             message: charLimit(msg, 150)
                         });
@@ -1018,10 +1022,17 @@ io.on(`connection`, async socket => {
                                 log(`magenta`, `CLAN DELETED | Owner ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
 
                                 // Delete the clan from all remaining players.
-                                User.updateMany({ clan: clan.name }, { clan: undefined });
+                                User.updateMany({
+                                    clan: clan.name
+                                }, {
+                                    clan: undefined
+                                });
+                                playerEntity.clan = undefined;
                                 return callback(true);
                             });
                         } else {
+                            user.clan = undefined;
+                            playerEntity.clan = undefined;
 
                         }
                     }
@@ -1840,6 +1851,7 @@ io.on(`connection`, async socket => {
                                 entities[i].socket.emit(`chat message`, {
                                     playerId: playerEntity.id,
                                     playerName: playerEntity.name,
+                                    playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                                     recipient: `clan`,
                                     message: `Attention to the map!`
                                 });
