@@ -59,9 +59,12 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
 
                 // Add the player if a suitable krew is available.
                 if (availableKrews.length != 0) {
+                    console.log(`got here 2`);
                     boat = availableKrews[Math.floor(Math.random() * availableKrews.length)];
 
-                    boat = core.boats[boat.id]
+                    boat = core.boats[boat.id];
+
+                    boat.addChildren(playerEntity);
                     boat.updateProps();
 
                     // Give the player 500 gold because he has no own raft.
