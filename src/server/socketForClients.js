@@ -1005,7 +1005,7 @@ io.on(`connection`, async socket => {
                         clanMembers
                     }
 
-                    if (clan.leaders.includes(playerEntity.name)) clanData.clanRequests = clanRequests;
+                    if (clan.leaders.includes(playerEntity.name) || clan.owner == playerEntity.name) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
                     if (clan.owner == playerEntity.name) {
