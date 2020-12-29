@@ -1688,7 +1688,6 @@ var ui = {
 
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
-                    $('#current-username').text(ui.username);
 
                     ui.setQualitySettings();
                     $.ajax({
@@ -1721,13 +1720,13 @@ var ui = {
                 });
 
                 $('#username-edit-button').on('click', function () {
-                    $('#change-email').addClass('hidden');
-                    $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').removeClass('hidden');
-
                     $('#change-username').removeClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').addClass('hidden');
+                    $('#change-username-button-container').addClass('hidden');
+
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
 
                     $('#change-account-game-settings').addClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
@@ -1737,11 +1736,11 @@ var ui = {
                 $('#email-edit-button').on('click', function () {
                     $('#change-username').addClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').removeClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
 
                     $('#change-email').removeClass('hidden');
                     $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').addClass('hidden');
+                    $('#change-email-button-container').addClass('hidden');
 
                     $('#change-account-game-settings').addClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
@@ -1751,11 +1750,11 @@ var ui = {
                 $('#change-account-game-settings-button').on('click', function () {
                     $('#change-username').addClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').removeClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
 
                     $('#change-email').addClass('hidden');
                     $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').removeClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
 
                     $('#change-account-game-settings').removeClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
