@@ -1,7 +1,7 @@
-// routes/index.js
+const express = require(`express`);
+const router = express.Router();
 
-let express = require('express');
-let router = express.Router();
+let config = require(`../config/config.js`);
 
 // GET homepage.
 router.get(`/`, (req, res, next) => {

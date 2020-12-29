@@ -1,7 +1,5 @@
-// routes/api.js
-
 const express = require(`express`);
-let router = express.Router();
+const router = express.Router();
 
 const User = require(`../models/user.model.js`);
 

@@ -1,5 +1,3 @@
-// routes/auth.js
-
 // Log utility and request.
 const log = require(`../utils/log.js`);
 const axios = require(`axios`);
@@ -9,7 +7,7 @@ const nodemailer = require(`nodemailer`);
 const crypto = require(`crypto`);
 
 const express = require(`express`);
-let router = express.Router();
+const router = express.Router();
 const xssFilters = require(`xss-filters`);
 
 // Authentication.
