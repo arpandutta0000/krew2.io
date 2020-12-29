@@ -1,12 +1,17 @@
 let spawnNewPlayerOnSea = (boat, playerEntity) => {
-    boat = core.createBoat(playerEntity.name, `${playerEntity.name}'s krew`, true);
-    boat.addChildren(playerEntity);
+    User.findOne({
+        username: playerEntity.name
+    }).then(user => {
+        let krewName = user ? user.defaultKrewName ? user.defaultKrewName : `${playerEntity.name}'s krew` : `${playerEntity.name}'s krew`;
+        boat = core.createBoat(playerEntity.name, krewName, true);
+        boat.addChildren(playerEntity);
 
-    boat.shipState = 0;
-    boat.krewCount++;
+        boat.shipState = 0;
+        boat.krewCount++;
 
-    boat.isRecruiting = false;
-    boat.isLocked = false;
+        boat.isRecruiting = false;
+        boat.isLocked = false;
+    });
 }
 
 let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
