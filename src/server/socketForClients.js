@@ -122,11 +122,15 @@ io.on(`connection`, async socket => {
         });
 
         if (isIPBanned || isAccountBanned) {
-            log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
-            socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
+            if (isIPBanned && new Date() - new Date(isIPBanned.timestamp) > 36e5) isIPBanned.delete();
+            else if (isAccountBanned && new Date() - new Date(isAccountBanned.timestamp) > 36e5) isAccountBanned.delete();
+            else {
+                log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
+                socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
 
-            socket.banned = true;
-            return socket.disconnect();
+                socket.banned = true;
+                return socket.disconnect();
+            }
         }
         // Check to see if the player is using a VPN.
         // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip. 
