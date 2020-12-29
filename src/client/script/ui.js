@@ -1839,14 +1839,6 @@ var ui = {
                     })
                 });
 
-                $('#account-music-control').on('change', function () {
-
-                });
-
-                $('#account-sfx-control').on('change', function () {
-
-                });
-
                 $('#reset-password-button').on('click', function () {
                     $('#manage-account-box').modal('hide');
                     $('#reset-password-box').modal('show');
