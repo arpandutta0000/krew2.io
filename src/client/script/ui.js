@@ -1689,6 +1689,25 @@ var ui = {
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
                     $('#current-username').text(ui.username);
+
+                    ui.setQualitySettings();
+                    $.get(baseUrl + '/account_game_settings').then(function (res) {
+                        if (res != undefined) {
+                            if (res.fpMode) {
+                                $('#account-fp-mode-button').prop('checked', true);
+                            } else {
+                                $('#account-fp-mode-button').prop('checked', false);
+                            }
+                            $('#account-music-control').val(res.musicVolume);
+                            $('#account-sfx-control').val(res.sfxVolume)
+                            $('#account-quality-list').val(res.qualityMode);
+                        } else {
+                            $('#account-fp-mode-button').prop('checked', false);
+                            $('#account-music-control').val(50);
+                            $('#account-sfx-control').val(50)
+                            $('#account-quality-list').val(2);
+                        }
+                    });
                 });
 
                 $('#username-edit-button').on('click', function () {
