@@ -394,9 +394,9 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
             user.fpMode = false;
         }
 
-        user.music = music;
-        user.sfx = sfx;
-        user.quality = quality;
+        user.musicVolume = music;
+        user.sfxVolume = sfx;
+        user.qualityMode = quality;
 
         user.save();
         log(`magenta`, `User "${user.username}" updated their account's game settings`);
