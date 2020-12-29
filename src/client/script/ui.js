@@ -1773,7 +1773,7 @@ var ui = {
                     $('#change-default-krew-name-button-container').removeClass('hidden');
                 });
 
-                $('#change-account-game-settings-button').on('click', function () {
+                $('#change-default-krew-name-button').on('click', function () {
                     $('#change-username').addClass('hidden');
                     $('#change-username-error').addClass('hidden');
                     $('#change-username-button-container').removeClass('hidden');
