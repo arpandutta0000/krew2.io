@@ -1660,6 +1660,7 @@ var ui = {
                             $('#submit-register').attr('disabled', false);
                             $('#register-error').removeClass('hidden');
                             $('#register-err-msg').text(res.errors);
+                            grecaptcha.reset()
                             return false;
                         }
                         // If the request is successful, close the menu
