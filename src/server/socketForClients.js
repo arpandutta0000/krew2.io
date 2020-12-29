@@ -108,10 +108,7 @@ io.on(`connection`, async socket => {
         if (playerEntity) return;
 
         if (!data.name) data.name = ``;
-        else {
-            data.name = xssFilters.inHTMLData(data.name);
-            data.name = filter.clean(data.name);
-        }
+        else data.name = filter.clean(xssFilters.inHTMLData(data.name));
 
         // Check if the player IP is in the ban list.
         let isIPBanned = await Ban.findOne({
@@ -682,8 +679,7 @@ io.on(`connection`, async socket => {
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
                 let msg = msgData.message.toString();
 
-                msg = xssFilters.inHTMLData(msg);
-                msg = filter.clean(msg);
+                msg = filter.clean(xssFilters.inHTMLData(msg));
 
                 if (msgData.recipient == `global`) {
                     io.emit(`chat message`, {
@@ -738,11 +734,7 @@ io.on(`connection`, async socket => {
         });
 
         playerNames = {}
-        for (let id in core.players) {
-            let playerName = xssFilters.inHTMLData(core.players[id].name);
-            playerName = filter.clean(playerName);
-            playerNames[id] = playerName;
-        }
+        for (let id in core.players) playerNames[id] = filter.clean(xssFilters.inHTMLData(core.players[id].name));
         socket.emit(`playerNames`, playerNames, socketId);
 
         socket.on(`changeWeapon`, index => {
@@ -814,9 +806,7 @@ io.on(`connection`, async socket => {
                 }
 
                 // Filter the ship name.
-                name = xssFilters.inHTMLData(name);
-                name = filter.clean(name);
-                name = name.substring(0, 20);
+                name = filter.clean(xssFilters.inHTMLData(name)).substring(0, 20);
 
                 log(`magenta`, `Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
@@ -1173,8 +1163,7 @@ io.on(`connection`, async socket => {
                         return callback(409);
                     }
 
-                    action.id = xssFilters.inHTMLData(action.id);
-                    action.id = filter.clean(action.id);
+                    action.id = filter.clean(xssFilters.inHTMLData(action.id));
 
                     let newClan = new Clan({
                         name: action.id,
@@ -1937,7 +1926,7 @@ io.on(`connection`, async socket => {
         }
     }
 
-    // Send full world information - force full dta. First snapshot (compress with lz-string).
+    // Send full world information - force full data. First snapshot (compress with lz-string).
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 });
 
@@ -1964,7 +1953,7 @@ exports.send = () => {
     if (msg) {
         // compress snapshot data with lz-string
         msg = lzString.compress(JSON.stringify(msg));
-        io.emit('s', msg);
+        io.emit(`s`, msg);
     }
 }
 
