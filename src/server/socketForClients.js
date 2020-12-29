@@ -19,6 +19,7 @@ const dotenv = require(`dotenv`).config();
 const {
     exec
 } = require(`child_process`);
+
 let worldsize = 1700;
 
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
