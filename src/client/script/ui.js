@@ -1814,7 +1814,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#submit-change-email').on('click', function (e) {
@@ -1840,7 +1840,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#submit-change-account-game-settings').on('click', function (e) {
@@ -1866,7 +1866,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#submit-change-default-krew-name').on('click', function (e) {
@@ -1892,7 +1892,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#reset-password-button').on('click', function () {
@@ -1930,7 +1930,7 @@ var ui = {
                             window.location.reload();
                             return;
                         }
-                    })
+                    });
                 })
             }
 
@@ -1957,7 +1957,7 @@ var ui = {
                         window.location.reload();
                         return true;
                     }
-                })
+                });
             });
         });
     },
