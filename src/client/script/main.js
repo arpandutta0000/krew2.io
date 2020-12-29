@@ -561,25 +561,41 @@ var login = function () {
 
     ui.setQualitySettings();
 
-    $.get(baseUrl + '/account_game_settings').then(function (res) {
-        if (res != undefined) {
-            if (res.fpMode) {
-                $('#account-fp-mode-button').prop('checked', true);
-                $('#fp-mode-button').prop('checked', true);
+    $.ajax({
+        url: '/account_game_settings',
+        type: 'GET',
+        success: function (res) {
+            if (!res.errors) {
+                if (res.fpMode) {
+                    $('#account-fp-mode-button').prop('checked', true);
+                    $('#fp-mode-button').prop('checked', true);
+                } else {
+                    $('#account-fp-mode-button').prop('checked', false);
+                    $('#fp-mode-button').prop('checked', false);
+                }
+
+                $('#account-music-control').val(res.musicVolume);
+                $('#music-control').val(res.musicVolume);
+                $('#account-sfx-control').val(res.sfxVolume);
+                $('#sfx-control').val(res.sfxVolume);
+
+                $('#account-quality-list').val(res.qualityMode);
+                $('#quality-list').val(res.qualityMode);
+
             } else {
                 $('#account-fp-mode-button').prop('checked', false);
                 $('#fp-mode-button').prop('checked', false);
+
+                $('#account-music-control').val(50);
+                $('#music-control').val(50);
+                $('#account-sfx-control').val(50);
+                $('#sfx-control').val(50);
+
+                $('#account-quality-list').val(2);
+                $('#quality-list').val(2);
             }
-
-            $('#account-music-control').val(res.musicVolume);
-            $('#music-control').val(res.musicVolume);
-            $('#account-sfx-control').val(res.sfxVolume)
-            $('#sfx-control').val(res.sfxVolume);
-
-            $('#account-quality-list').val(res.qualityMode);
-            $('#quality-list').val(res.qualityMode);
-
-        } else {
+        },
+        error: function (res) {
             $('#account-fp-mode-button').prop('checked', false);
             $('#fp-mode-button').prop('checked', false);
 

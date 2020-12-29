@@ -1691,20 +1691,30 @@ var ui = {
                     $('#current-username').text(ui.username);
 
                     ui.setQualitySettings();
-                    $.get(baseUrl + '/account_game_settings').then(function (res) {
-                        if (res != undefined) {
-                            if (res.fpMode) {
-                                $('#account-fp-mode-button').prop('checked', true);
+                    $.ajax({
+                        url: '/account_game_settings',
+                        type: 'GET',
+                        success: function (res) {
+                            if (!res.errors) {
+                                if (res.fpMode) {
+                                    $('#account-fp-mode-button').prop('checked', true);
+                                } else {
+                                    $('#account-fp-mode-button').prop('checked', false);
+                                }
+                                $('#account-music-control').val(res.musicVolume);
+                                $('#account-sfx-control').val(res.sfxVolume);
+                                $('#account-quality-list').val(res.qualityMode);
                             } else {
                                 $('#account-fp-mode-button').prop('checked', false);
+                                $('#account-music-control').val(50);
+                                $('#account-sfx-control').val(50);
+                                $('#account-quality-list').val(2);
                             }
-                            $('#account-music-control').val(res.musicVolume);
-                            $('#account-sfx-control').val(res.sfxVolume)
-                            $('#account-quality-list').val(res.qualityMode);
-                        } else {
+                        },
+                        error: function (res) {
                             $('#account-fp-mode-button').prop('checked', false);
                             $('#account-music-control').val(50);
-                            $('#account-sfx-control').val(50)
+                            $('#account-sfx-control').val(50);
                             $('#account-quality-list').val(2);
                         }
                     });
