@@ -360,6 +360,52 @@ router.post(`/change_email`, (req, res, next) => {
     });
 });
 
+router.post(`/change_account_game_settings`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to change your account's game settings`
+    });
+
+    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] != undefined) || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
+        errors: `Please fill out all fields`
+    });
+
+    let music = parseInt(req.body[`account-music-control`]);
+    let sfx = parseInt(req.body[`account-sfx-control`]);
+    let quality = parseInt(req.body[`account-quality-list`]);
+
+    if(isNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
+        errors: `Invalid values`
+    });
+
+    if(music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
+        errors: `Invalid values`
+    });
+    
+    User.findOne({
+        username: req.user.username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `Your account is Invalid`
+        });
+
+        if (req.body[`account-fp-mode-button`] === `check`) {
+            user.fpMode = true;
+        } else {
+            user.fpMode = false;
+        }
+
+        user.music = music;
+        user.sfx = sfx;
+        user.quality = quality;
+
+        user.save();
+        log(`magenta`, `User "${user.username}" updated their account's game settings`);
+        return res.json({
+            success: `Succesfully changed account game settings`
+        });
+    });
+});
+
 router.post(`/reset_password`, (req, res, next) => {
     let email = req.body[`reset-password-email`]
     let password = req.body[`reset-password-password`];
