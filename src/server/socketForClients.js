@@ -1937,7 +1937,7 @@ io.on(`connection`, async socket => {
         }
     }
 
-    // Send full world information - force full dta. First snapshot (compress with lz-string).
+    // Send full world information - force full data. First snapshot (compress with lz-string).
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 });
 
