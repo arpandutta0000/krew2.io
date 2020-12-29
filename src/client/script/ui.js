@@ -1803,6 +1803,32 @@ var ui = {
                     })
                 });
 
+                $('#submit-change-account-game-settings').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#submit-change-account-game-settings').attr('disabled', true);
+
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/change_account_game_settings',
+                        data: $('#change-account-game-settings-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-change-account-game-settings').attr('disabled', false);
+                            $('#change-account-game-settings-error').removeClass('hidden');
+                            $('#change-account-game-settings-err-msg').text(res.errors);
+                            return false;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return true;
+                        }
+                    })
+                });
+
                 $('#account-music-control').on('change', function () {
 
                 });
