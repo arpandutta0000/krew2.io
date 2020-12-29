@@ -5,6 +5,7 @@ let spawnNewPlayerOnSea = (boat, playerEntity) => {
         username: playerEntity.name
     }).then(user => {
         let krewName = user ? user.defaultKrewName ? user.defaultKrewName : `${playerEntity.name}'s krew` : `${playerEntity.name}'s krew`;
+  
         boat = core.createBoat(playerEntity.name, krewName, true);
         boat.addChildren(playerEntity);
 
@@ -21,6 +22,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
         username: playerEntity.name
     }).then(user => {
         let krewName = user ? user.defaultKrewName ? user.defaultKrewName : `${playerEntity.name}'s krew` : `${playerEntity.name}'s krew`;
+
         let islandNames = [];
         for (landmark of Object.values(core.Landmarks)) {
             islandNames.push(landmark.name.toString().toLowerCase());
