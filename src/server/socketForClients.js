@@ -1031,25 +1031,50 @@ io.on(`connection`, async socket => {
                                 return callback(true);
                             });
                         } else {
+                            // Dereference the player's clan.
                             user.clan = undefined;
                             playerEntity.clan = undefined;
 
+                            // If he is a leader, remove him from the leaders' list.
+                            if (clan.leaders.includes(playerEntity.name)) clan.leaders.splice(clan.leaders.indexOf(playerEntity.name), 1);
+
+                            // Get the new clan members.
+                            let newClanMembers = await User.find({
+                                clan: clan.name
+                            }).filter({
+                                username: {
+                                    $ne: playerEntity.name
+                                }
+                            });
+
+                            if (clan.leaders.length != 0) clan.owner = clan.leaders.first();
+                            else {
+                                clan.owner = newClanMembers.limit(1).username;
+                                clan.leaders.push(clan.owner);
+                            }
+
+                            // Save the changes and callback to the player.
+                            user.save(() => {
+                                clan.save(() => {
+                                    return callback(true);
+                                });
+                            });
                         }
+                    } else {
+                        // Dereference the player's clan.
+                        playerEntity.clan = undefined;
+                        user.clan = undefined;
+
+                        user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3));
+
+                        for (let i in core.players) {
+                            let player = core.players[i];
+                            if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                        }
+
+                        log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return callback(true);
                     }
-
-                    // Dereference the player's clan.
-                    playerEntity.clan = undefined;
-                    user.clan = undefined;
-
-                    user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3));
-
-                    for (let i in core.players) {
-                        let player = core.players[i];
-                        if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
-                    }
-
-                    log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    return callback(true);
                 }
 
                 // From this point on there should be a player passed to the emit.
@@ -1065,7 +1090,6 @@ io.on(`connection`, async socket => {
                     if (action.action && action.action == `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
                         if (!otherUser.clan && otherUser.clanRequest == user.clan) {
-
                             otherUser.clan = user.clan;
                             otherUser.clanRequest = undefined;
 
