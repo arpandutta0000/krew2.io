@@ -10,7 +10,7 @@ let spawnNewPlayerOnSea = (boat, playerEntity) => {
 }
 
 let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
-    let user = User.findOne({
+    User.findOne({
         username: playerEntity.name
     }).then(user => {
         let krewName = user ? user.krewName ? user.krewName : `${playerEntity.name}'s krew` : `${playerEntity.name}'s krew`;
