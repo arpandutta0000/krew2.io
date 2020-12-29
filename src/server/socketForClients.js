@@ -1008,7 +1008,23 @@ io.on(`connection`, async socket => {
                     if (playerEntity.clanLeader) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
-                    if (clan.owner == playerEntity.name) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
+                    if (clan.owner == playerEntity.name) {
+                        let clanMembers = await User.find({
+                            clan: clan.name
+                        });
+
+                        if (clanMembers.length == 1) {
+                            clan.delete(() => {
+                                log(`magenta`, `CLAN DELETED | Owner ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+
+                                // Delete the clan from all remaining players.
+                                User.updateMany({ clan: clan.name }, { clan: undefined });
+                                return callback(true);
+                            });
+                        } else {
+                            
+                        }
+                    }
 
                     // Dereference the player's clan.
                     playerEntity.clan = undefined;
