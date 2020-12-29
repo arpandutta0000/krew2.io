@@ -963,7 +963,10 @@ io.on(`connection`, async socket => {
 
         socket.on(`clan`, async (action, callback) => {
             // Only logged in players can perform clan actions.
-            if (!playerEntity.isLoggedIn) return log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            if (!playerEntity.isLoggedIn) {
+                log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                return callback(false);
+            }
 
             // Get the user performing the action.
             let user = await User.findOne({
@@ -971,11 +974,14 @@ io.on(`connection`, async socket => {
             });
 
             // If player has a clan.
-            if (playerEntity.clan && playerEntity.clan != `` && playerEntity.clan != undefined) {
+            if (user.clan) {
                 // Get the clan from MongoDB.
                 let clan = await Clan.findOne({
-                    name: playerEntity.clan
+                    name: user.clan
                 });
+
+                // If the clan doesn't exist (result of some bug).
+                if (!clan) return callback(false);
 
                 // Actions for all members.
                 if (action == `get-data`) {
@@ -989,7 +995,7 @@ io.on(`connection`, async socket => {
                     let clanMembers = [];
                     let clanRequests = [];
 
-                    // Only push members to the members list (to prevent duplicates).
+                    // Push members and requests to the list.
                     for (const document of clanMemberDocs) clanMembers.push(document.username);
                     for (const document of clanRequestDocs) clanRequests.push(document.username);
 
@@ -999,7 +1005,7 @@ io.on(`connection`, async socket => {
                         clanMembers
                     }
 
-                    if (playerEntity.clanOwner) clanData.clanRequests = clanRequests;
+                    if (playerEntity.clanLeader) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
                     if (clan.owner == playerEntity.name) clan.delete(() => log(`magenta`, `CLAN DELETED | Leader ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`));
