@@ -77,6 +77,10 @@ let userSchema = Mongoose.Schema({
     qualityMode: {
         type: Number,
         required: false
+    },
+    defaultKrewName: {
+        type: String,
+        required: false
     }
 });
 
