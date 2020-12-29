@@ -217,7 +217,7 @@ io.on(`connection`, async socket => {
                         if (clan) {
                             playerEntity.clanOwner = clan.owner == playerEntity.name;
                             playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
-                        }
+                        } else log(`red`, `Player ${playerEntity.name} tried to get nonexistent clan ${playerEntity.clan}.`);
                     });
                 }
 
@@ -1211,10 +1211,10 @@ io.on(`connection`, async socket => {
             let player = core.players[playerId];
 
             if (player) {
-                let motherShip = player.parent;
+                let motherShip = playerEntity.parent;
 
                 if (motherShip) {
-                    // Only captains can boot.
+                    // Only captains can boot, and they cannot boot themselves.
                     if (motherShip.captainId == playerEntity.id && playerEntity.id != player.id) {
                         if (motherShip.shipState == 0) {
                             let boat = core.createBoat(player.id, (krewioData || {}).krewname, false);
@@ -1227,7 +1227,7 @@ io.on(`connection`, async socket => {
 
                             boat.updateProps();
                             boat.shipState = 0;
-                        } else entities[motherShip.anchorIsland] && entities[motherShip.anchorIslandId].addChildren(player);
+                        } else entities[motherShip.anchorIslandId] && entities[motherShip.anchorIslandId].addChildren(player);
 
                         // Delete the player from the previous krew.
                         delete motherShip.children[playerId];
@@ -1294,7 +1294,6 @@ io.on(`connection`, async socket => {
                     playerBoat && (playerBoat.shipState == 3 || playerBoat.shipState == 2 || playerBoat.shipState == -1 || playerBoat.shipState == 4 || playerBoat.netType == 5) &&
                     boat != playerBoat) {
                     if (joinCargoAmount > maxShipCargo) {
-                        playerEntity.socket.emit(`showCenterMessage`, `This krew does not have enough space for your cargo!`, 3);
                         callback(1);
                     } else {
                         callback(0);
