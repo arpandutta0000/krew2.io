@@ -563,6 +563,28 @@ router.get(`/authenticated`, (req, res, next) => {
     });
 });
 
+router.get(`/account_game_settings`, (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401);
+
+    } else {
+        User.findOne({
+            username: req.user.username
+        }).then(user => {
+            if (!user) return res.json({
+                errors: `Your account is Invalid`
+            });
+
+            return res.json({
+                fpMode: user.fpMode,
+                musicVolume: user.musicVolume,
+                sfxVolume: user.sfxVolume,
+                qualityMode: user.qualityMode
+            });
+        })
+    }
+});
+
 router.post(`/delete_account`, (req, res, next) => {
     if (!req.isAuthenticated()) return res.json({
         errors: `You must be logged in to delete your account`
