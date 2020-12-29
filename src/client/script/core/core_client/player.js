@@ -253,7 +253,7 @@ Player.prototype.clientlogic = function (dt) {
             var cameraPosition = new THREE.Vector3();
             if (this.activeWeapon !== 2) {
                 // to overcome discrepancy between cannon's angle of aim, and the actual angle of projectile
-                if ($('#fps-mode-button').is(':checked')) {
+                if ($('#fp-mode-button').is(':checked')) {
                     lookingDownOffset = 2 - Math.max(controls.cameraX, 2);
                     cameraPosition = new THREE.Vector3(
                         camera.position.x,

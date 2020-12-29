@@ -1684,40 +1684,49 @@ var ui = {
                 playButton.html('Play as <b>' + ui.username + '</b>');
                 loginButton.html('Account Settings');
                 ui.isLoggedIn = true;
-                ui.prepareForPlay()
+                ui.prepareForPlay();
 
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
-                    $('#current-username').text(ui.username);
 
-                    $('#account-quality-list').html('');
-                    var $quality = $('<option/>', {
-                        html: 'High Quality (slow)',
-                        value: 3,
+                    ui.setQualitySettings();
+                    $.ajax({
+                        url: '/account_game_settings',
+                        type: 'GET',
+                        success: function (res) {
+                            if (!res.errors) {
+                                if (res.fpMode) {
+                                    $('#account-fp-mode-button').prop('checked', true);
+                                } else {
+                                    $('#account-fp-mode-button').prop('checked', false);
+                                }
+                                $('#account-music-control').val(res.musicVolume);
+                                $('#account-sfx-control').val(res.sfxVolume);
+                                $('#account-quality-list').val(res.qualityMode);
+                            } else {
+                                $('#account-fp-mode-button').prop('checked', false);
+                                $('#account-music-control').val(50);
+                                $('#account-sfx-control').val(50);
+                                $('#account-quality-list').val(2);
+                            }
+                        },
+                        error: function (res) {
+                            $('#account-fp-mode-button').prop('checked', false);
+                            $('#account-music-control').val(50);
+                            $('#account-sfx-control').val(50);
+                            $('#account-quality-list').val(2);
+                        }
                     });
-                    $('#account-quality-list').append($quality);
-
-                    $quality = $('<option/>', {
-                        html: 'Medium Quality (fast)',
-                        value: 2,
-                    });
-                    $('#account-quality-list').append($quality);
-
-                    $quality = $('<option/>', {
-                        html: 'Low Quality (faster)',
-                        value: 1,
-                    });
-                    $('#account-quality-list').append($quality);
                 });
 
                 $('#username-edit-button').on('click', function () {
-                    $('#change-email').addClass('hidden');
-                    $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').removeClass('hidden');
-
                     $('#change-username').removeClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').addClass('hidden');
+                    $('#change-username-button-container').addClass('hidden');
+
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
 
                     $('#change-account-game-settings').addClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
@@ -1727,11 +1736,11 @@ var ui = {
                 $('#email-edit-button').on('click', function () {
                     $('#change-username').addClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').removeClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
 
                     $('#change-email').removeClass('hidden');
                     $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').addClass('hidden');
+                    $('#change-email-button-container').addClass('hidden');
 
                     $('#change-account-game-settings').addClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
@@ -1741,11 +1750,11 @@ var ui = {
                 $('#change-account-game-settings-button').on('click', function () {
                     $('#change-username').addClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').removeClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
 
                     $('#change-email').addClass('hidden');
                     $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').removeClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
 
                     $('#change-account-game-settings').removeClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
@@ -1828,14 +1837,6 @@ var ui = {
                             return true;
                         }
                     })
-                });
-
-                $('#account-music-control').on('change', function () {
-
-                });
-
-                $('#account-sfx-control').on('change', function () {
-
                 });
 
                 $('#reset-password-button').on('click', function () {
@@ -1994,7 +1995,6 @@ var ui = {
     },
 
     setQualitySettings: function () {
-
         $('#quality-list').html('');
         var $quality = $('<option/>', {
             html: 'High Quality (slow)',
@@ -2013,6 +2013,25 @@ var ui = {
             value: 1,
         });
         $('#quality-list').append($quality);
+
+        $('#account-quality-list').html('');
+        var $quality = $('<option/>', {
+            html: 'High Quality (slow)',
+            value: 3,
+        });
+        $('#account-quality-list').append($quality);
+
+        $quality = $('<option/>', {
+            html: 'Medium Quality (fast)',
+            value: 2,
+        });
+        $('#account-quality-list').append($quality);
+
+        $quality = $('<option/>', {
+            html: 'Low Quality (faster)',
+            value: 1,
+        });
+        $('#account-quality-list').append($quality);
     },
 
     getUrlVars: function () {

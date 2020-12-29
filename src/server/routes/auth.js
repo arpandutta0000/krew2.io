@@ -565,14 +565,20 @@ router.get(`/authenticated`, (req, res, next) => {
 
 router.get(`/account_game_settings`, (req, res, next) => {
     if (!req.isAuthenticated()) {
-        return res.status(401);
+        return res.json({
+            errors: `Unauthorized`
+        });
 
     } else {
         User.findOne({
             username: req.user.username
         }).then(user => {
             if (!user) return res.json({
-                errors: `Your account is Invalid`
+                errors: `Unauthorized`
+            });
+
+            if (user.fpMode == undefined || user.musicVolume  == undefined || user.sfxVolume  == undefined || user.qualityMode  == undefined) return res.json({
+                errors: `User does not have valid data stored`
             });
 
             return res.json({
