@@ -408,6 +408,43 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
     });
 });
 
+router.post(`/change_default_krew_name`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to change your default Krew name`
+    });
+
+    krewName = req.body[`change-default-krew-name-input`];
+
+    if (!krewName || typeof krewName != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
+    if (krewName.length < 1 || krewName.length > 20) return res.json({
+        errors: `Your Krew name must be between 1 and 20 characters`
+    });
+
+    if (krewName != xssFilters.inHTMLData(krewName) || /[\[\]{}()/\\]/g.test(krewName) || config.whitespaceRegex.test(krewName)) return res.json({
+        errors: `Invalid Krew name`
+    });
+
+    User.findOne({
+        username: req.user.username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `Your account is Invalid`
+        });
+
+        user.defaultKrewName = krewName;
+
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" changed their default Krew name to "${krewName}"`);
+            return res.json({
+                success: `Succesfully changed default Krew name`
+            });
+        });
+    });
+});
+
 router.post(`/reset_password`, (req, res, next) => {
     let email = req.body[`reset-password-email`]
     let password = req.body[`reset-password-password`];
@@ -577,7 +614,7 @@ router.get(`/account_game_settings`, (req, res, next) => {
                 errors: `Unauthorized`
             });
 
-            if (user.fpMode == undefined || user.musicVolume  == undefined || user.sfxVolume  == undefined || user.qualityMode  == undefined) return res.json({
+            if (user.fpMode == undefined || user.musicVolume == undefined || user.sfxVolume == undefined || user.qualityMode == undefined) return res.json({
                 errors: `User does not have valid data stored`
             });
 
