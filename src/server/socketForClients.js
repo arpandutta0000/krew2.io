@@ -1964,7 +1964,7 @@ exports.send = () => {
     if (msg) {
         // compress snapshot data with lz-string
         msg = lzString.compress(JSON.stringify(msg));
-        io.emit('s', msg);
+        io.emit(`s`, msg);
     }
 }
 
