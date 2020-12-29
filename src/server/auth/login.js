@@ -1,3 +1,5 @@
+const User = require(`../models/user.model.js`);
+
 let spawnNewPlayerOnSea = (boat, playerEntity) => {
     User.findOne({
         username: playerEntity.name
