@@ -1026,7 +1026,7 @@ io.on(`connection`, async socket => {
                 }
 
                 // From this point on there should be a player passed to the emit.
-                else if (action.id && (playerEntity.clanLeader || playerEntity.clanOwner)) {
+                else if (action.id && (clan.leaders.includes(playerEntity.name) || clan.owner == playerEntity.name)) {
                     let otherUser = await User.findOne({
                         username: action.id
                     });
@@ -1077,7 +1077,7 @@ io.on(`connection`, async socket => {
                             return callback(true);
                         });
                     } else if (action.action && action.action == `promote`) {
-                        if (playerEntity.clanOwner && !clan.leaders.includes(action.id)) {
+                        if (clan.owner == playerEntity.name && !clan.leaders.includes(action.id)) {
                             // Only clan owner can promote to leaders.
                             clan.leaders.push(action.id);
                             clan.save(() => {
