@@ -1364,7 +1364,7 @@ io.on(`connection`, async socket => {
                             boat.addChildren(playerEntity);
                             boat.updateProps();
 
-                            emitJoinKrew(playerEntity.id);
+                            if (Object.keys(boat.children).length < boat.maxKrewCapacity) emitJoinKrew(playerEntity.id);
                             movedIds[playerEntity.id] = playerEntity.name;
                         } else {
                             // Check if there's enough capacity in target boat.
