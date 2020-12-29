@@ -1684,30 +1684,11 @@ var ui = {
                 playButton.html('Play as <b>' + ui.username + '</b>');
                 loginButton.html('Account Settings');
                 ui.isLoggedIn = true;
-                ui.prepareForPlay()
+                ui.prepareForPlay();
 
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
                     $('#current-username').text(ui.username);
-
-                    $('#account-quality-list').html('');
-                    var $quality = $('<option/>', {
-                        html: 'High Quality (slow)',
-                        value: 3,
-                    });
-                    $('#account-quality-list').append($quality);
-
-                    $quality = $('<option/>', {
-                        html: 'Medium Quality (fast)',
-                        value: 2,
-                    });
-                    $('#account-quality-list').append($quality);
-
-                    $quality = $('<option/>', {
-                        html: 'Low Quality (faster)',
-                        value: 1,
-                    });
-                    $('#account-quality-list').append($quality);
                 });
 
                 $('#username-edit-button').on('click', function () {
@@ -1994,7 +1975,6 @@ var ui = {
     },
 
     setQualitySettings: function () {
-
         $('#quality-list').html('');
         var $quality = $('<option/>', {
             html: 'High Quality (slow)',
@@ -2013,6 +1993,25 @@ var ui = {
             value: 1,
         });
         $('#quality-list').append($quality);
+
+        $('#account-quality-list').html('');
+        var $quality = $('<option/>', {
+            html: 'High Quality (slow)',
+            value: 3,
+        });
+        $('#account-quality-list').append($quality);
+
+        $quality = $('<option/>', {
+            html: 'Medium Quality (fast)',
+            value: 2,
+        });
+        $('#account-quality-list').append($quality);
+
+        $quality = $('<option/>', {
+            html: 'Low Quality (faster)',
+            value: 1,
+        });
+        $('#account-quality-list').append($quality);
     },
 
     getUrlVars: function () {
