@@ -268,7 +268,10 @@ io.on(`connection`, async socket => {
                 playerEntity.shipsSank = playerSave.shipsSank;
 
                 // Refund ship if captain.
-                if (playerSave.isCaptain) playerEntity.gold += core.boatTypes[playerSave.shipId].price;
+                if (playerSave.isCaptain) {
+                    playerEntity.gold += core.boatTypes[playerSave.shipId].price;
+                    playerEntity.purchaseShip(playerSave.shipId, (krewioData || {}).krewname);
+                }
 
                 // Restore item & item stats.
                 if (playerSave.itemId) playerEntity.itemId = playerSave.itemId;
@@ -278,8 +281,8 @@ io.on(`connection`, async socket => {
                 playerEntity.movementSpeedBonus = playerSave.bonus.speed;
 
                 // Restore achievements.
+                playerEntity.overall_cargo = playerSave.overallCargo;
                 playerEntity.other_quest_level = playerSave.otherQuestLevel;
-                playerEntity.trade_level = playerSave.tradeLevel;
 
                 // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
                 log(`blue`, `Restored data for ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -566,8 +569,8 @@ io.on(`connection`, async socket => {
                                                     speed: player.movementSpeedBonus
                                                 },
 
-                                                otherQuestLevel: player.other_quest_level,
-                                                tradeLevel: player.trade_level
+                                                overallCargo: player.overall_cargo,
+                                                otherQuestLevel: parseInt(player.other_quest_level ? player.other_quest_level : 0),
                                             });
 
                                             if (user) {
