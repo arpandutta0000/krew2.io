@@ -582,6 +582,7 @@ var login = function () {
                 $('#account-quality-list').val(res.qualityMode);
                 $('#quality-list').val(res.qualityMode);
 
+                $('#account-game-settings-save-notice').removeClass('hidden');
             } else {
                 $('#account-fp-mode-button').prop('checked', false);
                 $('#fp-mode-button').prop('checked', false);
