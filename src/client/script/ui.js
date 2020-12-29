@@ -1731,6 +1731,10 @@ var ui = {
                     $('#change-account-game-settings').addClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
                     $('#change-account-game-settings-button-container').removeClass('hidden');
+
+                    $('#change-default-krew-name').addClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').removeClass('hidden');
                 });
 
                 $('#email-edit-button').on('click', function () {
@@ -1745,6 +1749,10 @@ var ui = {
                     $('#change-account-game-settings').addClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
                     $('#change-account-game-settings-button-container').removeClass('hidden');
+
+                    $('#change-default-krew-name').addClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').removeClass('hidden');
                 });
 
                 $('#change-account-game-settings-button').on('click', function () {
@@ -1759,6 +1767,28 @@ var ui = {
                     $('#change-account-game-settings').removeClass('hidden');
                     $('#change-account-game-settings-error').addClass('hidden');
                     $('#change-account-game-settings-button-container').addClass('hidden');
+
+                    $('#change-default-krew-name').addClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').removeClass('hidden');
+                });
+
+                $('#change-account-game-settings-button').on('click', function () {
+                    $('#change-username').addClass('hidden');
+                    $('#change-username-error').addClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
+
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
+
+                    $('#change-account-game-settings').addClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').removeClass('hidden');
+
+                    $('#change-default-krew-name').removeClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').addClass('hidden');
                 });
 
                 $('#submit-change-username').on('click', function (e) {
@@ -1784,7 +1814,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#submit-change-email').on('click', function (e) {
@@ -1810,7 +1840,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#submit-change-account-game-settings').on('click', function (e) {
@@ -1836,7 +1866,33 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
+                });
+
+                $('#submit-change-default-krew-name').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#submit-change-default-krew-name').attr('disabled', true);
+
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/change_default_krew_name',
+                        data: $('#change-default-krew-name-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-change-default-krew-name').attr('disabled', false);
+                            $('#change-default-krew-name-error').removeClass('hidden');
+                            $('#change-default-krew-name-err-msg').text(res.errors);
+                            return false;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return true;
+                        }
+                    });
                 });
 
                 $('#reset-password-button').on('click', function () {
@@ -1874,7 +1930,7 @@ var ui = {
                             window.location.reload();
                             return;
                         }
-                    })
+                    });
                 })
             }
 
@@ -1901,7 +1957,7 @@ var ui = {
                         window.location.reload();
                         return true;
                     }
-                })
+                });
             });
         });
     },
