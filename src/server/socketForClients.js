@@ -1271,7 +1271,7 @@ io.on(`connection`, async socket => {
                 let maxShipCargo = core.boatTypes[boat.shipclassId].cargoSize;
 
                 let emitJoinKrew = id => {
-                    if (entities[id] && entities[id].socket && entities[id].parent && entities[id].parent.crewName) entities[id].socket.emit(`showCenterMessage`, `You have joined "${entities.id.parent.crewName}"`, 3);
+                    if (entities[id] && entities[id].socket && entities[id].parent && entities[id].parent.crewName) entities[id].socket.emit(`showCenterMessage`, `You have joined "${entities[id].parent.crewName}"`, 3);
                 }
 
                 let movedIds = {}
