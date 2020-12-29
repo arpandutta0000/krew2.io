@@ -423,7 +423,7 @@ router.post(`/change_default_krew_name`, (req, res, next) => {
         errors: `Your Krew name must be between 1 and 20 characters`
     });
 
-    if (krewName != xssFilters.inHTMLData(krewName) || /[\[\]{}()/\\]/g.test(krewName) || config.whitespaceRegex.test(krewName)) return res.json({
+    if (krewName != xssFilters.inHTMLData(krewName) || /[\[\]{}()/\\]/g.test(krewName)) return res.json({
         errors: `Invalid Krew name`
     });
 
