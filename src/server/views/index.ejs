@@ -609,7 +609,7 @@
                                 <label id="account-fps-mode-label" class="label">
                                     <div id="account-fps-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera</div>
                                     <div class="toggle">
-                                        <input class="toggle-state" type="checkbox" name="check" value="check" id="account-fps-mode-button" />
+                                        <input id="account-fp-mode-button" name="account-fp-mode-button" class="toggle-state" type="checkbox" value="check"></input>
                                         <div class="toggle-inner">
                                             <div class="indicator"></div>
                                         </div>
@@ -618,14 +618,14 @@
                                 </label>
                             </div>
                             <div id="account-music-control-div" class="lock-text-info">
-                                Music <input id="account-music-control" type="range" min="0" max="100" value="50">
+                                Music <input id="account-music-control" name="account-music-control" type="range" min="0" max="100" value="50"></input>
                             </div>
                             <div id="account-sfx-control-div" class="lock-text-info">
-                                Sfx <input id="account-sfx-control" type="range" min="0" max="100" value="50">
+                                Sfx <input id="account-sfx-control" name="account-sfx-control" type="range" min="0" max="100" value="50"></input>
                             </div>
                             <br>
                             <div id="account-quality-div" class="form-group">
-                                <select id="account-quality-list" class="custom-select form-control form-control-sm"></select>
+                                <select id="account-quality-list" name="account-quality-list" class="custom-select form-control form-control-sm"></select>
                             </div>
                             <br>
                             <input type="submit" id="submit-change-account-game-settings" class="btn btn-success btn-md" value="Save changes"></input>
