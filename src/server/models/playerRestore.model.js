@@ -75,7 +75,7 @@ let playerRestoreSchema = Mongoose.Schema({
         type: Number,
         required: true
     },
-    tradeLevel: {
+    overallCargo: {
         type: Number,
         required: true
     }
