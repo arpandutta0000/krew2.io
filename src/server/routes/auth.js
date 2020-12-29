@@ -171,11 +171,12 @@ router.post(`/register`, (req, res, next) => {
                                                 });
                                             }
                                         });
-                                        user.save();
-                                        log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
-                                        return res.json({
-                                            success: `Succesfully registered! A verification email has been sent to ${user.email}.`
-                                        });;
+                                        user.save(() => {
+                                            log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
+                                            return res.json({
+                                                success: `Succesfully registered! A verification email has been sent to ${user.email}.`
+                                            });
+                                        });
                                     }
                                 });
                             });
@@ -267,11 +268,12 @@ router.post(`/change_username`, (req, res, next) => {
             user.username = username;
             user.lastModified = new Date();
 
-            user.save();
-            log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
-            req.logOut();
-            return res.json({
-                success: `Succesfully changed username`
+            user.save(() => {
+                log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
+                req.logOut();
+                return res.json({
+                    success: `Succesfully changed username`
+                });
             });
         });
     });
@@ -350,11 +352,12 @@ router.post(`/change_email`, (req, res, next) => {
                     });
                 }
             });
-            user.save();
-            log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
-            req.logOut();
-            return res.json({
-                success: `Succesfully changed email`
+            user.save(() => {
+                log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
+                req.logOut();
+                return res.json({
+                    success: `Succesfully changed email`
+                });
             });
         });
     });
@@ -373,14 +376,14 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
     let sfx = parseInt(req.body[`account-sfx-control`]);
     let quality = parseInt(req.body[`account-quality-list`]);
 
-    if(isNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
+    if (isNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
         errors: `Invalid values`
     });
 
-    if(music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
+    if (music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
         errors: `Invalid values`
     });
-    
+
     User.findOne({
         username: req.user.username
     }).then(user => {
@@ -398,10 +401,11 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         user.sfxVolume = sfx;
         user.qualityMode = quality;
 
-        user.save();
-        log(`magenta`, `User "${user.username}" updated their account's game settings`);
-        return res.json({
-            success: `Succesfully changed account game settings`
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" updated their account's game settings`);
+            return res.json({
+                success: `Succesfully changed account game settings`
+            });
         });
     });
 });
@@ -485,11 +489,12 @@ router.post(`/reset_password`, (req, res, next) => {
                     });
                 }
             });
-            user.save();
-            log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
-            req.logOut();
-            return res.json({
-                success: `Succesfully sent confirm password email`
+            user.save(() => {
+                log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
+                req.logOut();
+                return res.json({
+                    success: `Succesfully sent confirm password email`
+                });
             });
         }));
     });
@@ -510,9 +515,10 @@ router.get(`/verify/*`, (req, res, next) => {
             user.verified = true;
             user.verifyToken = undefined;
 
-            user.save();
-            log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
-            return res.redirect(`/`);
+            user.save(() => {
+                log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
+                return res.redirect(`/`);
+            });
         }
     });
 })
@@ -531,11 +537,12 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
         user.newPassword = undefined;
         user.newPasswordToken = undefined;
 
-        user.save();
-        log(`magenta`, `User "${user.username}" verified resetting their password`);
-        return res.redirect(`/`);
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" verified resetting their password`);
+            return res.redirect(`/`);
+        });
     });
-})
+});
 
 router.get(`/logout`, (req, res, next) => {
     if (req.isAuthenticated()) {
