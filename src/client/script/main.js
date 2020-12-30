@@ -734,7 +734,7 @@ $(document).ready(function () {
     loader.loadObjWithMtl('./assets/models/ships/vessel.obj');
     loader.loadObjWithMtl('./assets/models/ships/ft.obj');
     loader.loadObjWithMtl('./assets/models/ships/bo.obj');
-    loader.loadObjWithMtl('./assets/models/ships/junk.obj');
+    // loader.loadObjWithMtl('./assets/models/ships/junk.obj');
     loader.loadObjWithMtl('./assets/models/ships/raider.obj');
     loader.loadObjWithMtl('./assets/models/fish.obj');
     loader.loadObjWithMtl('./assets/models/shell.obj');
