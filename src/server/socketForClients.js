@@ -1275,17 +1275,17 @@ io.on(`connection`, async socket => {
                 if (motherShip) {
                     // Only captains can boot, and they cannot boot themselves.
                     if (motherShip.captainId == playerEntity.id && playerEntity.id != player.id) {
+                        let boat = core.createBoat(player.id, (krewioData || {}).krewname, false);
+                        boat.setShipClass(0);
+                        boat.addChildren(player);
+                        boat.updateProps();
+                        boat.shipState = 0;
+
                         if (motherShip.shipState == 0) {
-                            let boat = core.createBoat(player.id, (krewioData || {}).krewname, false);
-                            boat.setShipClass(0);
-                            boat.addChildren(player);
                             boat.exitMotherShip(motherShip);
 
                             boat.speed += parseFloat(playerEntity.movementSpeedBonus / 10);
                             boat.turnspeed += parseFloat((0.05 * playerEntity.movementSpeedBonus) / 10);
-
-                            boat.updateProps();
-                            boat.shipState = 0;
                         } else entities[motherShip.anchorIslandId] && entities[motherShip.anchorIslandId].addChildren(player);
 
                         // Delete the player from the previous krew.
