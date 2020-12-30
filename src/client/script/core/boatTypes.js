@@ -521,5 +521,5 @@ var boatTypes = {
         offset: [1, 13.4, 1],
         rotation: [0, Math.PI / 2, 0],
         availableAt: ['Jamaica'],
-    },
+    }
 };
