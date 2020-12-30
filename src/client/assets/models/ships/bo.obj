@@ -1,6 +1,6 @@
 # Blender v2.83.4 OBJ File: ''
 # www.blender.org
-mtllib bigship.mtl
+mtllib bo.mtl
 o Body
 v -50.000004 -172.237823 27.058025
 v -123.947510 -172.237839 20.295773
