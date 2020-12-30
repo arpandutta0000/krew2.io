@@ -589,7 +589,7 @@ var boatTypes = {
         arcFront: 0.2,
         inertia: 0.5,
         radius: 15,
-        speed: 6.3,
+        speed: 6.5,
         labelHeight: 12,
         regeneration: 1,
         body: 'raider',
