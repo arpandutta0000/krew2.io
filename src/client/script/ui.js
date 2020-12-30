@@ -1031,7 +1031,7 @@ var ui = {
             $('.ship-max-hp').html(myPlayer.parent.maxHp);
 
             $('#ship-name').html(boatTypes[myBoat.shipclassId].name);
-            $('.ship-speed').html(myPlayer.parent.speed);
+            $('.ship-speed').html(myPlayer.parent.speed.toFixed(1));
 
             var cargoSize = boatTypes[myBoat.shipclassId].cargoSize;
 
