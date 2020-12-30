@@ -1,17 +1,24 @@
-// routes/api.js
-
 const express = require(`express`);
-let router = express.Router();
+const router = express.Router();
 
 const User = require(`../models/user.model.js`);
 
 // Data for Wall of Fame board.
 router.get(`/wall_of_fame`, async (req, res) => {
+    if (!req.isAuthenticated()) {
+        let loginArray = [{
+            playerName: `Log in to view wall of fame`,
+            clan: ``,
+            highscore: ``
+        }]
+        return res.jsonp(loginArray)
+    }
+
     let playerDocs = await User.find({}).sort({
         highscore: -1
     }).limit(20);
-    let wofPlayers = [];
 
+    let wofPlayers = [];
     for (const player of playerDocs) {
         wofPlayers.push({
             playerName: player.username,
@@ -19,7 +26,7 @@ router.get(`/wall_of_fame`, async (req, res) => {
             highscore: player.highscore
         });
     }
-    res.jsonp(wofPlayers);
+    return res.jsonp(wofPlayers);
 });
 
 module.exports = router;

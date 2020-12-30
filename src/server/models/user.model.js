@@ -61,6 +61,26 @@ let userSchema = Mongoose.Schema({
     bankDeposit: {
         type: Number,
         required: false
+    },
+    fpMode: {
+        type: Boolean,
+        required: false
+    },
+    musicVolume: {
+        type: Number,
+        required: false
+    },
+    sfxVolume: {
+        type: Number,
+        required: false
+    },
+    qualityMode: {
+        type: Number,
+        required: false
+    },
+    defaultKrewName: {
+        type: String,
+        required: false
     }
 });
 

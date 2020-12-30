@@ -69,8 +69,8 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
-.env.test
+# .env
+# .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -119,6 +119,5 @@ dist
 dist/
 src/server/core/core_concatenated.js
 logs/
-package-lock.json
 .jsbeautifyrc
 .vscode

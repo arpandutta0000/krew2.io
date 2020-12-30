@@ -1,19 +1,20 @@
 {
   "name": "krew.io",
   "version": "1.0.0",
-  "description": "A 2D browser game",
+  "description": "A 3D browser game",
   "main": "gruntfile.js",
   "dependencies": {
     "axios": "^0.21.1",
-    "bad-words": "^3.0.2",
+    "bad-words": "3.0.2",
     "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "cluster": "^0.7.7",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",
     "cross-env": "^7.0.3",
     "discord.js": "^12.5.1",
-    "discord.js-light": "^3.4.2",
+    "discord.js-light": "^3.5.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "events": "^3.2.0",
@@ -34,15 +35,14 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "pm2": "^4.5.1",
-    "rollbar": "^2.19.4",
-    "socket.io": "^1.7.4",
+    "socket.io": "^3.0.4",
     "xss-filters": "^1.2.7"
   },
   "scripts": {
     "dist-test": "grunt build-dist && cross-env NODE_ENV=\"prod\" node src/server/app.js",
     "prod": "grunt build-dist && cross-env NODE_ENV=\"prod\" pm2 start src/server/app.js",
-    "dev": "grunt build-dev && cross-env NODE_ENV=\"dev\" grunt dev"
+    "dev": "grunt build-dev && cross-env NODE_ENV=\"dev\" grunt dev",
+    "build": "grunt build-dist"
   },
   "repository": {
     "type": "git",

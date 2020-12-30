@@ -18,12 +18,12 @@ let itemTypes = [
     {
         id: 2,
         name: `Sinker's Gloves`,
-        Description: `+30 cannon fire rate`, // Sort of buffed.
+        Description: `+25 cannon fire rate`,
         price: 45e3,
         rarity: 0.2,
         availableAt: [`Spain`, `Brazil`],
         attributes: {
-            attackSpeed: `30`
+            attackSpeed: `25`
         }
     },
     {
@@ -114,13 +114,13 @@ let itemTypes = [
     {
         id: 11,
         name: `Demolisher`,
-        Description: `+6 cannon damage<br/>+25 cannon fire rate<br/>Requirements<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
+        Description: `+10 cannon damage<br/>+30 cannon fire rate<br/>Requirements<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
         price: 1e5,
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
-            attackSpeed: `25`,
-            attackDamage: `6` // Slightly buffed.
+            attackSpeed: `30`, // Slightly buffed.
+            attackDamage: `10` // Very much buffed.
         }
     },
     {

@@ -45,7 +45,6 @@ module.exports = (grunt => {
                     `src/client/libs/OBJLoader.js`,
                     `src/client/libs/TGALoader.js`,
                     `src/client/libs/MTLLoader.js`,
-                    `src/client/libs/socket.js`,
 
                     `src/client/script/environment.js`,
                     `src/client/script/window.js`,
