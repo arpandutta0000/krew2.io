@@ -595,7 +595,7 @@ var boatTypes = {
         body: 'junkie',
         sail: 'junkie',
         scale: [6, 6, 6],
-        offset: [0, -8, 0],
+        offset: [0, 5, 0],
         rotation: [0, 0, 0]
     },
     24: {

@@ -24,34 +24,42 @@ var createModels = function () {
     models.sloop.children[0].name = 'sail';
     models.sloop.children[1].name = 'body';
     models.sloop.children[2].name = 'mast';
+
     models.bigship.children[0].name = 'body';
     models.bigship.children[1].name = 'mast';
     models.bigship.children[2].name = 'sail';
+
     models.schooner.children[0].name = 'body';
     models.schooner.children[1].name = 'mast';
     models.schooner.children[2].name = 'sail';
+
     models.vessel.children[0].name = 'body';
     models.vessel.children[1].name = 'mast';
     models.vessel.children[2].name = 'sail';
 
     models.raft.children[1].name = 'body';
     models.raft.children[0].name = 'sail';
+
     models.trader.children[2].name = 'body';
     models.trader.children[0].name = 'sail';
+
     models.boat.children[2].name = 'body';
     models.boat.children[0].name = 'sail';
+
     models.destroyer.children[1].name = 'body';
     models.destroyer.children[0].name = 'sail';
 
     models.ft.children[0].name = 'body';
     models.ft.children[1].name = 'mast';
     models.ft.children[2].name = 'sail';
+
     models.bo.children[0].name = 'body';
     models.bo.children[1].name = 'mast';
     models.bo.children[2].name = 'sail';
+
     models.junkie.children[0].name = 'sail';
     models.junkie.children[1].name = 'body';
-    models.junkie.children[2].name = 'mast';
+
     models.raider.children[0].name = 'sail';
     models.raider.children[1].name = 'body';
     models.raider.children[2].name = 'mast';
