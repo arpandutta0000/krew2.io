@@ -54,6 +54,16 @@ var createModels = function () {
     models.destroyer.children[1].name = 'body';
     models.destroyer.children[0].name = 'sail';
 
+    // Set default materials
+    models.raft.getObjectByName('body').material = materials.boat;
+    models.raft.getObjectByName('sail').material = materials.sail;
+    models.trader.getObjectByName('body').material = materials.boat;
+    models.trader.getObjectByName('sail').material = materials.sail;
+    models.boat.getObjectByName('body').material = materials.boat;
+    models.boat.getObjectByName('sail').material = materials.sailRed;
+    models.destroyer.getObjectByName('body').material = materials.boat;
+    models.destroyer.getObjectByName('sail').material = materials.sail;
+
     // Fortune Trader
     models.ft.children[0].name = 'body';
     models.ft.children[1].name = 'mast';
@@ -73,13 +83,6 @@ var createModels = function () {
     models.raider.children[0].name = 'body';
     models.raider.children[1].name = 'mast';
     models.raider.children[2].name = 'sail';
-
-    models.raft.getObjectByName('body').material = materials.boat;
-    models.raft.getObjectByName('sail').material = materials.sail;
-    models.trader.getObjectByName('body').material = materials.boat;
-    models.trader.getObjectByName('sail').material = materials.sail;
-    models.boat.getObjectByName('body').material = materials.boat;
-    models.boat.getObjectByName('sail').material = materials.sailRed;
 
     setShipModels();
     setPlayerModels();
