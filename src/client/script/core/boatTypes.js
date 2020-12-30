@@ -543,8 +543,8 @@ var boatTypes = {
         body: 'ft',
         sail: 'ft',
         mast: 'ft',
-        scale: [0.1, 0.1, 0.1],
-        offset: [1, 13.4, 1],
+        scale: [10.0, 10.0, 10.0],
+        offset: [1, 3.4, 1],
         rotation: [0, Math.PI / 2, 0],
         availableAt: ['Guinea']
     },
