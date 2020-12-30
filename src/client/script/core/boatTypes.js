@@ -524,7 +524,7 @@ var boatTypes = {
     },
     21: {
         id: 21,
-        image: '<img src="./assets/img/FT.png" style="height: 50px">',
+        image: '<img src="./assets/img/ft.png" style="height: 50px">',
         name: 'Fortune Trader',
         hp: 7500,
         turnspeed: 0.5,
@@ -550,7 +550,7 @@ var boatTypes = {
     },
     22: {
         id: 22,
-        image: '<img src="./assets/img/BO.png" style="height: 35px">',
+        image: '<img src="./assets/img/bo.png" style="height: 35px">',
         name: 'Black Oyster',
         hp: 4e3,
         turnspeed: 0.9,
