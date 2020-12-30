@@ -62,8 +62,8 @@ var createModels = function () {
     models.trader.getObjectByName('sail').material = materials.sail;
     models.boat.getObjectByName('body').material = materials.boat;
     models.boat.getObjectByName('sail').material = materials.sailRed;
-    models.destroyer.getObjectByName('body').material = materials.boat;
-    models.destroyer.getObjectByName('sail').material = materials.sail;
+    models.fortunetrader.getObjectByName('body').material = materials.boat;
+    models.fortunetrader.getObjectByName('sail').material = materials.sail;
 
     setShipModels();
     setPlayerModels();
