@@ -91,7 +91,7 @@ const gameCookies = {};
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
     let krewioData;
-    let christmasGold = 0;
+    // let christmasGold = 0;
 
     // Get socket ID (player ID).
     let socketId = serializeId(socket.id);
@@ -1880,16 +1880,16 @@ io.on(`connection`, async socket => {
             }
         });
 
-        socket.on(`christmas`, () => {
-            if (christmasGold > 1e4) {
-                log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                return playerEntity.socket.disconnect();
-            }
+        // socket.on(`christmas`, () => {
+        //     if (christmasGold > 1e4) {
+        //         log(`cyan`, `Exploit detected: Gift spam | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        //         return playerEntity.socket.disconnect();
+        //     }
 
-            if (christmasGold == 0) playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
-            playerEntity.gold += 10;
-            christmasGold += 10;
-        });
+        //     if (christmasGold == 0) playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
+        //     playerEntity.gold += 10;
+        //     christmasGold += 10;
+        // });
     }
 
     // Catch players with local script modification.
