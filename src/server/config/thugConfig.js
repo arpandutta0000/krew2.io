@@ -27,15 +27,15 @@ module.exports = {
     Mods: [{
             name: `Fiftyyyyy`,
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
-        },/*
+        },
         {
             name: `Sj`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         },
         {
-            name: `Sloth`,
+            name: `Speedy_Sloth`,
             hash: `d44f081ab871f64193688aa973480807`
-        },*/
+        },
         {
             name: `TheChoco`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`

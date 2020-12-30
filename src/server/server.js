@@ -31,10 +31,6 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 }).then(() => log(`green`, `User authentication has connected to database.`));
 
-// Rollbar app.
-const Rollbar = require(`rollbar`);
-const rollbar = new Rollbar(process.env.ROLLBAR_TOKEN);
-
 // Define express routes.
 let apiRouter = require(`./routes/api`);
 let authRouter = require(`./routes/auth`);
@@ -59,7 +55,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
 }));
 
 // Passport middleware.
@@ -86,7 +84,7 @@ app.use(express.static(config.staticDir));
 app.use(`/ads.txt`, express.static(`ads.txt`)); // Static ad loader.
 
 // Use routes.
-app.use(`/`, apiRouter);
+app.use(`/api`, apiRouter);
 app.use(`/`, authRouter);
 app.use(`/`, indexRouter);
 
@@ -103,15 +101,19 @@ let server = config.mode == `dev` ? http.createServer(app) : https.createServer(
 
 // Define socket.io for admins.
 if (process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server, {
-    origins: `*:*`
+    cors: {
+        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
+        methods: [`GET`, `POST`],
+        credentials: true
+    }
 });
-else global.io = require(`socket.io`)(server, {
-    origins: `*:*`
-}).listen(`2000`);
-
-
-// Use the rollbar error handler to send exceptions to the rollbar account.
-app.use(rollbar.errorHandler());
+else global.io = global.io = require(`socket.io`)(server, {
+    cors: {
+        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
+        methods: [`GET`, `POST`],
+        credentials: true
+    }
+}).listen(2000);
 
 // Bind the webfront to defined port.
 server.listen(config.port);

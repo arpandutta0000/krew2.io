@@ -1,5 +1,3 @@
-// routes/auth.js
-
 // Log utility and request.
 const log = require(`../utils/log.js`);
 const axios = require(`axios`);
@@ -9,7 +7,7 @@ const nodemailer = require(`nodemailer`);
 const crypto = require(`crypto`);
 
 const express = require(`express`);
-let router = express.Router();
+const router = express.Router();
 const xssFilters = require(`xss-filters`);
 
 // Authentication.
@@ -17,158 +15,174 @@ const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
 
 router.post(`/register`, (req, res, next) => {
-    if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
-        typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
-        errors: `Please fill out all fields`
+    if (req.body[`g-recaptcha-response`].length == 0 || !req.body[`g-recaptcha-response`]) return res.json({
+        errors: `Please verify the CAPTCHA`
     });
 
-    if (!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
-        errors: `Your username must contain at least one letter`
-    });
+    let captchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`
+    axios.get(captchaVerificationUrl).then(cRes => {
+        if (!cRes.data) return res.json({
+            errors: `Error validating CAPTCHA response`
+        });
 
-    if (req.body[`register-username`].length < 3 || req.body[`register-username`].length > 20) return res.json({
-        errors: `Your username be between 3 and 20 characters`
-    });
+        if (!cRes.data.success || cRes.data.success == undefined) return res.json({
+            errors: `Please correctly verify the CAPTCHA`
+        });
 
-    if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || req.body[`register-username`].indexOf(config.whitespaceCharacters) > -1) return res.json({
-        errors: `Invalid Username`
-    });
+        if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
+            typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
+            errors: `Please fill out all fields`
+        });
 
-    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body[`register-email`])) return res.json({
-        errors: `Invalid email`
-    });
+        if (!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
+            errors: `Your username must contain at least one letter`
+        });
 
-    if (req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
-        errors: `Invalid Password`
-    });
+        if (req.body[`register-username`].length < 3 || req.body[`register-username`].length > 20) return res.json({
+            errors: `Your username be between 3 and 20 characters`
+        });
 
-    if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
-        errors: `Passwords do not match`
-    });
+        if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`]) != undefined) return res.json({
+            errors: `Invalid Username`
+        });
 
-    if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
-        errors: `Password must be between 7 and 48 characters`
-    });
+        if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body[`register-email`])) return res.json({
+            errors: `Invalid email`
+        });
 
-    let email = req.body[`register-email`];
+        if (req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
+            errors: `Invalid Password`
+        });
 
-    User.findOne({
-        email
-    }).then(user => {
-        if (user) {
-            if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
-                user.delete();
-            } else {
-                return res.json({
-                    errors: `That email is already in use`
-                });
+        if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
+            errors: `Passwords do not match`
+        });
+
+        if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
+            errors: `Password must be between 7 and 48 characters`
+        });
+
+        let email = req.body[`register-email`];
+
+        User.findOne({
+            email
+        }).then(user => {
+            if (user) {
+                if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
+                    user.delete();
+                } else {
+                    return res.json({
+                        errors: `That email is already in use`
+                    });
+                }
             }
-        }
 
-        passport.authenticate(`register`, (err, user, info) => {
-            if (err) return res.json({
-                errors: err
-            });
+            passport.authenticate(`register`, (err, user, info) => {
+                if (err) return res.json({
+                    errors: err
+                });
 
-            let username = user.username ? user.username : ``;
+                let username = user.username ? user.username : ``;
 
-            if (info) {
-                User.findOne({
-                    username
-                }).then(user => {
-                    if (!user) return log(`red`, err);
-
-                    let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
-                    let token = `n` + crypto.randomBytes(16).toString('hex') + user.username;
-
-                    user.email = email;
-                    user.verified = false;
-                    user.verifyToken = token;
-                    user.creationIP = creationIP;
-                    user.lastIP = user.creationIP;
-                    user.lastModified = new Date();
-
+                if (info) {
                     User.findOne({
-                        creationIP
-                    }).then(cUser => {
-                        if (cUser) {
-                            // user.delete();
-                            // return res.json({
-                            //     errors: `You can only create one account`
-                            // });
-                        }
+                        username
+                    }).then(user => {
+                        if (!user) return log(`red`, err);
+
+                        let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+                        let token = `n` + crypto.randomBytes(16).toString('hex') + user.username;
+
+                        user.email = email;
+                        user.verified = false;
+                        user.verifyToken = token;
+                        user.creationIP = creationIP;
+                        user.lastIP = user.creationIP;
+                        user.lastModified = new Date();
 
                         User.findOne({
-                            lastIP: creationIP
-                        }).then(lUser => {
-                            if (lUser) {
+                            creationIP
+                        }).then(cUser => {
+                            if (cUser) {
                                 // user.delete();
                                 // return res.json({
                                 //     errors: `You can only create one account`
                                 // });
                             }
 
-                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
-                                if (!vpnData) {
-                                    log(`red`, `There was an error while performing the VPN check request.`);
-                                    user.delete();
-                                    return res.json({
-                                        errors: `There was an error in creating your account`
-                                    });
+                            User.findOne({
+                                lastIP: creationIP
+                            }).then(lUser => {
+                                if (lUser) {
+                                    // user.delete();
+                                    // return res.json({
+                                    //     errors: `You can only create one account`
+                                    // });
                                 }
 
-                                if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
-                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
-                                    user.delete();
-                                    return res.json({
-                                        errors: `Disable VPN to create an account`
-                                    });
-                                } else {
-                                    let transporter = nodemailer.createTransport({
-                                        service: "Gmail",
-                                        auth: {
-                                            user: process.env.EMAIL_USERNAME,
-                                            pass: process.env.EMAIL_PASSWORD
-                                        }
-                                    });
+                                axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
+                                    if (!vpnData) {
+                                        log(`red`, `There was an error while performing the VPN check request.`);
+                                        user.delete();
+                                        return res.json({
+                                            errors: `There was an error in creating your account`
+                                        });
+                                    }
 
-                                    let ssl;
-                                    let address;
-                                    if (DEV_ENV) {
-                                        ssl = `http`;
-                                        address = req.headers.host;
+                                    if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
+                                        log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
+                                        user.delete();
+                                        return res.json({
+                                            errors: `Disable VPN to create an account`
+                                        });
                                     } else {
-                                        ssl = `https`;
-                                        address = config.domain;
-                                    }
+                                        let transporter = nodemailer.createTransport({
+                                            service: "Gmail",
+                                            auth: {
+                                                user: process.env.EMAIL_USERNAME,
+                                                pass: process.env.EMAIL_PASSWORD
+                                            }
+                                        });
 
-                                    let mailOptions = {
-                                        from: 'noreply@krew.io',
-                                        to: user.email,
-                                        subject: 'Verify your Krew.io Account',
-                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
-                                    }
-
-                                    transporter.sendMail(mailOptions, function (err) {
-                                        if (err) {
-                                            user.delete();
-                                            return res.json({
-                                                error: `Error sending to the specified email address.`
-                                            });
+                                        let ssl;
+                                        let address;
+                                        if (DEV_ENV) {
+                                            ssl = `http`;
+                                            address = req.headers.host;
+                                        } else {
+                                            ssl = `https`;
+                                            address = config.domain;
                                         }
-                                    });
-                                    user.save();
-                                    log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
-                                    return res.json({
-                                        success: `Succesfully registered! A verification email has been sent to ${user.email}.`
-                                    });;
-                                }
+
+                                        let mailOptions = {
+                                            from: 'noreply@krew.io',
+                                            to: user.email,
+                                            subject: 'Verify your Krew.io Account',
+                                            text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
+                                        }
+
+                                        transporter.sendMail(mailOptions, function (err) {
+                                            if (err) {
+                                                user.delete();
+                                                return res.json({
+                                                    error: `Error sending to the specified email address.`
+                                                });
+                                            }
+                                        });
+                                        user.save(() => {
+                                            log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
+                                            return res.json({
+                                                success: `Succesfully registered! A verification email has been sent to ${user.email}.`
+                                            });
+                                        });
+                                    }
+                                });
                             });
                         });
                     });
-                });
-            }
-        })(req, res, next);
+                }
+            })(req, res, next);
+        });
     });
 });
 
@@ -227,7 +241,7 @@ router.post(`/change_username`, (req, res, next) => {
         errors: `Your username be between 3 and 20 characters`
     });
 
-    if (username != xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || username.indexOf(config.whitespaceCharacters) > -1) return res.json({
+    if (username != xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || config.whitespaceRegex.test(username)) return res.json({
         errors: `Invalid Username`
     });
 
@@ -245,18 +259,19 @@ router.post(`/change_username`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            if(((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+            if (((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
                 errors: `You can only change your username or email once every 24 hours`
             });
 
             user.username = username;
             user.lastModified = new Date();
 
-            user.save();
-            log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
-            req.logOut();
-            return res.json({
-                success: `Succesfully changed username`
+            user.save(() => {
+                log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
+                req.logOut();
+                return res.json({
+                    success: `Succesfully changed username`
+                });
             });
         });
     });
@@ -292,7 +307,7 @@ router.post(`/change_email`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            if(((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+            if (((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
                 errors: `You can only change your username or email once every 24 hours`
             });
 
@@ -335,11 +350,96 @@ router.post(`/change_email`, (req, res, next) => {
                     });
                 }
             });
-            user.save();
-            log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
-            req.logOut();
+            user.save(() => {
+                log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
+                req.logOut();
+                return res.json({
+                    success: `Succesfully changed email`
+                });
+            });
+        });
+    });
+});
+
+router.post(`/change_account_game_settings`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to change your account's game settings`
+    });
+
+    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] != undefined) || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
+        errors: `Please fill out all fields`
+    });
+
+    let music = parseInt(req.body[`account-music-control`]);
+    let sfx = parseInt(req.body[`account-sfx-control`]);
+    let quality = parseInt(req.body[`account-quality-list`]);
+
+    if (isNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
+        errors: `Invalid values`
+    });
+
+    if (music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
+        errors: `Invalid values`
+    });
+
+    User.findOne({
+        username: req.user.username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `Your account is Invalid`
+        });
+
+        if (req.body[`account-fp-mode-button`] === `check`) {
+            user.fpMode = true;
+        } else {
+            user.fpMode = false;
+        }
+
+        user.musicVolume = music;
+        user.sfxVolume = sfx;
+        user.qualityMode = quality;
+
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" updated their account's game settings`);
             return res.json({
-                success: `Succesfully changed email`
+                success: `Succesfully changed account game settings`
+            });
+        });
+    });
+});
+
+router.post(`/change_default_krew_name`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to change your default Krew name`
+    });
+
+    krewName = req.body[`change-default-krew-name-input`];
+
+    if (!krewName || typeof krewName != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
+
+    if (krewName.length < 1 || krewName.length > 20) return res.json({
+        errors: `Your Krew name must be between 1 and 20 characters`
+    });
+
+    if (krewName != xssFilters.inHTMLData(krewName) || /[\[\]{}()/\\]/g.test(krewName)) return res.json({
+        errors: `Invalid Krew name`
+    });
+
+    User.findOne({
+        username: req.user.username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `Your account is Invalid`
+        });
+
+        user.defaultKrewName = krewName;
+
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" changed their default Krew name to "${krewName}"`);
+            return res.json({
+                success: `Succesfully changed default Krew name`
             });
         });
     });
@@ -424,11 +524,12 @@ router.post(`/reset_password`, (req, res, next) => {
                     });
                 }
             });
-            user.save();
-            log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
-            req.logOut();
-            return res.json({
-                success: `Succesfully sent confirm password email`
+            user.save(() => {
+                log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
+                req.logOut();
+                return res.json({
+                    success: `Succesfully sent confirm password email`
+                });
             });
         }));
     });
@@ -436,21 +537,25 @@ router.post(`/reset_password`, (req, res, next) => {
 
 router.get(`/verify/*`, (req, res, next) => {
     let token = req.url.split(`/verify/`)[1];
-    if (!token) return;
+    if (!token) return res.redirect(`/`);;
 
     User.findOne({
         verifyToken: token
     }).then(user => {
-        if (!user) return;
+        if (!user) return res.redirect(`/`);
 
-        if (!user.verified) {
+        if (user.verified) {
+            return res.redirect(`/`);
+        } else {
             user.verified = true;
             user.verifyToken = undefined;
+
+            user.save(() => {
+                log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
+                return res.redirect(`/`);
+            });
         }
-        user.save();
-        log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
-        return res.redirect(`/`);
-    })
+    });
 })
 
 router.get(`/verify_reset_password/*`, (req, res, next) => {
@@ -460,18 +565,19 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
     User.findOne({
         newPasswordToken: token
     }).then(user => {
-        if (!user) return;
-        if (!user.newPassword) return;
+        if (!user) return res.redirect(`/`);;
+        if (!user.newPassword || !user.newPasswordToken) return res.redirect(`/`);;
 
         user.password = user.newPassword;
         user.newPassword = undefined;
         user.newPasswordToken = undefined;
 
-        user.save();
-        log(`magenta`, `User "${user.username}" verified resetting their password`);
-        return res.redirect(`/`);
-    })
-})
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" verified resetting their password`);
+            return res.redirect(`/`);
+        });
+    });
+});
 
 router.get(`/logout`, (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -492,6 +598,34 @@ router.get(`/authenticated`, (req, res, next) => {
     } else return res.json({
         isLoggedIn: false
     });
+});
+
+router.get(`/account_game_settings`, (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        return res.json({
+            errors: `Unauthorized`
+        });
+
+    } else {
+        User.findOne({
+            username: req.user.username
+        }).then(user => {
+            if (!user) return res.json({
+                errors: `Unauthorized`
+            });
+
+            if (user.fpMode == undefined || user.musicVolume == undefined || user.sfxVolume == undefined || user.qualityMode == undefined) return res.json({
+                errors: `User does not have valid data stored`
+            });
+
+            return res.json({
+                fpMode: user.fpMode,
+                musicVolume: user.musicVolume,
+                sfxVolume: user.sfxVolume,
+                qualityMode: user.qualityMode
+            });
+        })
+    }
 });
 
 router.post(`/delete_account`, (req, res, next) => {

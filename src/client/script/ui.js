@@ -1021,7 +1021,7 @@ var ui = {
     },
 
     getInviteLink: function () {
-        return window.location.protocol + '//' + window.location.hostname + (window.location.hostname == 'localhost' ? ':8080?sid=' : '?sid=') + $('#server-list').val() + '&bid=' + myBoat.id;
+        return window.location.protocol + '//' + window.location.hostname + (window.location.hostname == 'localhost' ? ':8080/?sid=' : '/?sid=') + $('#server-list').val() + '&bid=' + myBoat.id;
     },
 
     updateShipStats: function (data) {
@@ -1623,7 +1623,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/login',
-                        data: $('#login-form').serialize(),
+                        data: $('#login-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1649,16 +1649,18 @@ var ui = {
                     $('#submit-register').attr('disabled', true);
 
                     $('#register-error').addClass('hidden');
+
                     $.ajax({
                         type: 'post',
                         url: '/register',
-                        data: $('#register-form').serialize(),
+                        data: $('#register-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
                             $('#submit-register').attr('disabled', false);
                             $('#register-error').removeClass('hidden');
                             $('#register-err-msg').text(res.errors);
+                            grecaptcha.reset();
                             return false;
                         }
                         // If the request is successful, close the menu
@@ -1682,31 +1684,111 @@ var ui = {
                 playButton.html('Play as <b>' + ui.username + '</b>');
                 loginButton.html('Account Settings');
                 ui.isLoggedIn = true;
-                ui.prepareForPlay()
+                ui.prepareForPlay();
 
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
-                    $('#current-username').text(ui.username);
+
+                    ui.setQualitySettings();
+                    $.ajax({
+                        url: '/account_game_settings',
+                        type: 'GET',
+                        success: function (res) {
+                            if (!res.errors) {
+                                if (res.fpMode) {
+                                    $('#account-fp-mode-button').prop('checked', true);
+                                } else {
+                                    $('#account-fp-mode-button').prop('checked', false);
+                                }
+                                $('#account-music-control').val(res.musicVolume);
+                                $('#account-sfx-control').val(res.sfxVolume);
+                                $('#account-quality-list').val(res.qualityMode);
+                            } else {
+                                $('#account-fp-mode-button').prop('checked', false);
+                                $('#account-music-control').val(50);
+                                $('#account-sfx-control').val(50);
+                                $('#account-quality-list').val(2);
+                            }
+                        },
+                        error: function (res) {
+                            $('#account-fp-mode-button').prop('checked', false);
+                            $('#account-music-control').val(50);
+                            $('#account-sfx-control').val(50);
+                            $('#account-quality-list').val(2);
+                        }
+                    });
                 });
 
                 $('#username-edit-button').on('click', function () {
+                    $('#change-username').removeClass('hidden');
+                    $('#change-username-error').addClass('hidden');
+                    $('#change-username-button-container').addClass('hidden');
+
                     $('#change-email').addClass('hidden');
                     $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').removeClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
 
-                    $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').addClass('hidden');
-                    $('#change-username').removeClass('hidden');
+                    $('#change-account-game-settings').addClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').removeClass('hidden');
+
+                    $('#change-default-krew-name').addClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').removeClass('hidden');
                 });
 
                 $('#email-edit-button').on('click', function () {
                     $('#change-username').addClass('hidden');
                     $('#change-username-error').addClass('hidden');
-                    $('#current-username-container').removeClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
 
-                    $('#change-email-error').addClass('hidden');
-                    $('#current-email-container').addClass('hidden');
                     $('#change-email').removeClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#change-email-button-container').addClass('hidden');
+
+                    $('#change-account-game-settings').addClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').removeClass('hidden');
+
+                    $('#change-default-krew-name').addClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').removeClass('hidden');
+                });
+
+                $('#change-account-game-settings-button').on('click', function () {
+                    $('#change-username').addClass('hidden');
+                    $('#change-username-error').addClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
+
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
+
+                    $('#change-account-game-settings').removeClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').addClass('hidden');
+
+                    $('#change-default-krew-name').addClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').removeClass('hidden');
+                });
+
+                $('#change-default-krew-name-button').on('click', function () {
+                    $('#change-username').addClass('hidden');
+                    $('#change-username-error').addClass('hidden');
+                    $('#change-username-button-container').removeClass('hidden');
+
+                    $('#change-email').addClass('hidden');
+                    $('#change-email-error').addClass('hidden');
+                    $('#change-email-button-container').removeClass('hidden');
+
+                    $('#change-account-game-settings').addClass('hidden');
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $('#change-account-game-settings-button-container').removeClass('hidden');
+
+                    $('#change-default-krew-name').removeClass('hidden');
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $('#change-default-krew-name-button-container').addClass('hidden');
                 });
 
                 $('#submit-change-username').on('click', function (e) {
@@ -1718,7 +1800,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/change_username',
-                        data: $('#change-username-form').serialize(),
+                        data: $('#change-username-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1732,7 +1814,7 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
                 });
 
                 $('#submit-change-email').on('click', function (e) {
@@ -1758,7 +1840,59 @@ var ui = {
                             window.location.reload();
                             return true;
                         }
-                    })
+                    });
+                });
+
+                $('#submit-change-account-game-settings').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#submit-change-account-game-settings').attr('disabled', true);
+
+                    $('#change-account-game-settings-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/change_account_game_settings',
+                        data: $('#change-account-game-settings-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-change-account-game-settings').attr('disabled', false);
+                            $('#change-account-game-settings-error').removeClass('hidden');
+                            $('#change-account-game-settings-err-msg').text(res.errors);
+                            return false;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return true;
+                        }
+                    });
+                });
+
+                $('#submit-change-default-krew-name').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#submit-change-default-krew-name').attr('disabled', true);
+
+                    $('#change-default-krew-name-error').addClass('hidden');
+                    $.ajax({
+                        type: 'post',
+                        url: '/change_default_krew_name',
+                        data: $('#change-default-krew-name-form').serialize(),
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-change-default-krew-name').attr('disabled', false);
+                            $('#change-default-krew-name-error').removeClass('hidden');
+                            $('#change-default-krew-name-err-msg').text(res.errors);
+                            return false;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return true;
+                        }
+                    });
                 });
 
                 $('#reset-password-button').on('click', function () {
@@ -1782,7 +1916,7 @@ var ui = {
                     $.ajax({
                         type: 'post',
                         url: '/delete_account',
-                        data: $('#delete-account-form').serialize(),
+                        data: $('#delete-account-form').serialize()
                     }).then(function (res) {
                         // If there is an error, return an error
                         if (res.errors) {
@@ -1796,7 +1930,7 @@ var ui = {
                             window.location.reload();
                             return;
                         }
-                    })
+                    });
                 })
             }
 
@@ -1809,7 +1943,7 @@ var ui = {
                 $.ajax({
                     type: 'post',
                     url: '/reset_password',
-                    data: $('#reset-password-form').serialize(),
+                    data: $('#reset-password-form').serialize()
                 }).then(function (res) {
                     // If there is an error, return an error
                     if (res.errors) {
@@ -1823,7 +1957,7 @@ var ui = {
                         window.location.reload();
                         return true;
                     }
-                })
+                });
             });
         });
     },
@@ -1890,7 +2024,7 @@ var ui = {
     },
 
     createWallOfFame: function () {
-        $.get("wall_of_fame", function (data, status) {
+        $.get("api/wall_of_fame", function (data, status) {
             if (status === "success") {
                 var tableContent = '';
                 for (var p in data) {
@@ -1917,7 +2051,6 @@ var ui = {
     },
 
     setQualitySettings: function () {
-
         $('#quality-list').html('');
         var $quality = $('<option/>', {
             html: 'High Quality (slow)',
@@ -1936,6 +2069,25 @@ var ui = {
             value: 1,
         });
         $('#quality-list').append($quality);
+
+        $('#account-quality-list').html('');
+        var $quality = $('<option/>', {
+            html: 'High Quality (slow)',
+            value: 3,
+        });
+        $('#account-quality-list').append($quality);
+
+        $quality = $('<option/>', {
+            html: 'Medium Quality (fast)',
+            value: 2,
+        });
+        $('#account-quality-list').append($quality);
+
+        $quality = $('<option/>', {
+            html: 'Low Quality (faster)',
+            value: 1,
+        });
+        $('#account-quality-list').append($quality);
     },
 
     getUrlVars: function () {
@@ -1987,3 +2139,35 @@ var ui = {
         }
     },
 };
+
+var stoppedScroll, scrollLoop, chatHistory, prevScroll;
+
+function scrollChat_init () {
+    chatHistory = document.querySelector('#chat-history');
+    stoppedScroll = false;
+
+    chatHistory.scrollTop = 0;
+    PreviousScrollTop = 0;
+
+    scrollLoop = setInterval(scrollChat, 1);
+}
+
+function scrollChat () {
+    chatHistory.scrollTop = PreviousScrollTop;
+    PreviousScrollTop += 0.25;
+
+    stoppedScroll = chatHistory.scrollTop >= (chatHistory.scrollHeight - chatHistory.offsetHeight);
+}
+
+function pauseChat () {
+    clearInterval(scrollLoop);
+}
+
+function resumeChat () {
+    PreviousScrollTop = chatHistory.scrollTop;
+    scrollLoop = setInterval(scrollChat, 1);
+}
+
+scrollChat_init();
+chatHistory.addEventListener('mouseover', pauseChat);
+chatHistory.addEventListener('mouseout', resumeChat);

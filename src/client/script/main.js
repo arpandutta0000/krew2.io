@@ -331,6 +331,11 @@ var createGame = function () {
         renderer.render(scene, camera);
     };
 
+    renderer.context.canvas.addEventListener('webglcontextlost', function (event) {
+        event.preventDefault();
+        cancelAnimationFrame(loop);
+    }, false);
+
     // Run the loop
     loop();
 
@@ -555,10 +560,55 @@ var login = function () {
     connect($('#server-list').val());
 
     ui.setQualitySettings();
-    //document.getElementById("fps-mode-buttons").checked = false;
-    $("#fps-mode-button").attr('checked', false);
-    $('#quality-list').val(2);
-    $('#quality-list').trigger('change');
+
+    $.ajax({
+        url: '/account_game_settings',
+        type: 'GET',
+        success: function (res) {
+            if (!res.errors) {
+                if (res.fpMode) {
+                    $('#account-fp-mode-button').prop('checked', true);
+                    $('#fp-mode-button').prop('checked', true);
+                } else {
+                    $('#account-fp-mode-button').prop('checked', false);
+                    $('#fp-mode-button').prop('checked', false);
+                }
+
+                $('#account-music-control').val(res.musicVolume);
+                $('#music-control').val(res.musicVolume);
+                $('#account-sfx-control').val(res.sfxVolume);
+                $('#sfx-control').val(res.sfxVolume);
+
+                $('#account-quality-list').val(res.qualityMode);
+                $('#quality-list').val(res.qualityMode);
+
+                $('#account-game-settings-save-notice').removeClass('hidden');
+            } else {
+                $('#account-fp-mode-button').prop('checked', false);
+                $('#fp-mode-button').prop('checked', false);
+
+                $('#account-music-control').val(50);
+                $('#music-control').val(50);
+                $('#account-sfx-control').val(50);
+                $('#sfx-control').val(50);
+
+                $('#account-quality-list').val(2);
+                $('#quality-list').val(2);
+            }
+        },
+        error: function (res) {
+            $('#account-fp-mode-button').prop('checked', false);
+            $('#fp-mode-button').prop('checked', false);
+
+            $('#account-music-control').val(50);
+            $('#music-control').val(50);
+            $('#account-sfx-control').val(50)
+            $('#sfx-control').val(50);
+
+            $('#account-quality-list').val(2);
+            $('#quality-list').val(2);
+        }
+    });
 };
 
 var sendMessage = function () {
@@ -1222,11 +1272,11 @@ $(document).ready(function () {
         }
     });
 
-    $('#fps-mode-button').on('click', function () {
-        if ($('#fps-mode-button').is(':checked')) {
-            $('#fps-mode-text').removeClass('lock-text-info').addClass('lock-text-error').text('FP Camera (Enabled)');
+    $('#fp-mode-button').on('click', function () {
+        if ($('#fp-mode-button').is(':checked')) {
+            $('#fp-mode-text').removeClass('lock-text-info').addClass('lock-text-error').text('FP Camera (Enabled)');
         } else {
-            $('#fps-mode-text').removeClass('lock-text-error').addClass('lock-text-info').text('FP Camera (Disabled)');
+            $('#fp-mode-text').removeClass('lock-text-error').addClass('lock-text-info').text('FP Camera (Disabled)');
         }
     });
 
@@ -1290,10 +1340,6 @@ var toggleGlobalChat = function () {
     localChatOn = false;
     globalChatOn = true;
     $('#global-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
 };
 
 var toggleLocalChat = function () {
@@ -1311,10 +1357,6 @@ var toggleLocalChat = function () {
     localChatOn = true;
     globalChatOn = false;
     $('#local-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
 };
 
 var toggleClanChat = function () {
@@ -1332,10 +1374,6 @@ var toggleClanChat = function () {
     localChatOn = false;
     globalChatOn = false;
     $('#clan-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
 };
 
 var toggleStaffChat = function () {
@@ -1353,10 +1391,7 @@ var toggleStaffChat = function () {
     localChatOn = false;
     globalChatOn = false;
     $('#staff-chat-alert').hide();
-    // scroll down to the bottom of the chat
-    $('#chat-history').scrollTop(function () {
-        return this.scrollHeight;
-    });
+
 };
 
 var Ease = {

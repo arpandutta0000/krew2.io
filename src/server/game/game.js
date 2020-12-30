@@ -76,15 +76,27 @@ setInterval(function () {
             cR: player.clanRequest
         });
 
-        // if the player has been afk for more than 30 minutes
-        if ((now - player.lastMoved) > 1.8e6 && !Mods.includes(player.name)) {
-            if (player.socket !== undefined) {
-                // console.log("Player", player.name, "was kicked due to AFK timeout | IP:", player.socket.handshake.address);
-                player.socket.disconnect();
-            }
-            core.removeEntity(player);
-        }
+        // If the player has been AFK for more than 30 minutes.
+        if ((now - player.lastMoved) > 18e5 && !Mods.includes(player.name) && !Devs.includes(player.name) && !Admins.includes(player.name)) {
+            if (player.socket) {
+                // If he is the only player on his ship, then delete his boat with the loot.
+                if(player.parent && player.isCaptain && Object.keys(player.parent.children).length == 1) {
+                    player.parent.hp = 0;
 
+                    // Remove the boat after 15 seconds.
+                    if(!player.removeBoat) player.removeBoat = setTimeout(() => core.removeEntity(player.parent), 15e3);
+                }
+
+                if(!player.isBeingDisconnected) {
+                    player.isBeingDisconnected = true;
+                    log(`cyan`, `Player ${player.name} was kicked for being AFK | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                    player.socket.emit(`showCenterMessage`, `You were kicked for being AFK.`, 1, 36e5);
+                    player.socket.disconnect();
+                }
+
+                if(!player.removePlayer) player.removePlayer = setTimeout(() => core.removeEntity(player), 15e3);
+            }
+        }
     }
 
     // remove crewless boats and add the boat scores
