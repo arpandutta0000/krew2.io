@@ -153,5 +153,16 @@ let itemTypes = [
         price: 15e4,
         rarity: 0.33,
         availableAt: [`Jamaica`]
+    },
+    {
+        id: 15,
+        name: `Nitro Peg`,
+        Description: `+2 ship speed`,
+        price: 2e5,
+        rarity: 0.2,
+        availableAt: [`Jamaica`],
+        attributes: {
+            movementSpeed: `200`
+        }
     }
 ]
