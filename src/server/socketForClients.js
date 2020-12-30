@@ -211,6 +211,7 @@ io.on(`connection`, async socket => {
                 playerEntity.bank.deposit = user.bankDeposit ? user.bankDeposit : 0;
                 playerEntity.highscore = user.highscore ? user.highscore : 0;
                 playerEntity.clan = user.clan ? user.clan : undefined;
+                playerEntity.clanRequest = user.clanRequest ? user.clanRequest : undefined;
 
                 if (playerEntity.clan) {
                     Clan.findOne({
@@ -1129,7 +1130,10 @@ io.on(`connection`, async socket => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
                                     if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
-                                    else if (player.name == action.id) player.socket.emit(`showCenterMessage`, `${playerEntity.name} promoted you to be a clan leader!`, 3, 5e3);
+                                    else if (player.name == action.id) {
+                                        player.clanLeader = true;
+                                        player.socket.emit(`showCenterMessage`, `${playerEntity.name} promoted you to be a clan leader!`, 3, 5e3);
+                                    }
                                 }
                                 return callback(true);
                             });
@@ -1147,6 +1151,7 @@ io.on(`connection`, async socket => {
                                     else if (player.name == action.id) {
                                         player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
                                         player.clan = undefined;
+                                        player.clanLeader = false;
                                         player.clanRequest = undefined;
                                     }
                                 }
