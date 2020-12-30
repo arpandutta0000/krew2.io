@@ -25,6 +25,7 @@ var createModels = function () {
     models.sloop.children[1].name = 'body';
     models.sloop.children[2].name = 'mast';
 
+    // Queen Barb's Justice
     models.bigship.children[0].name = 'body';
     models.bigship.children[1].name = 'mast';
     models.bigship.children[2].name = 'sail';
@@ -37,29 +38,37 @@ var createModels = function () {
     models.vessel.children[1].name = 'mast';
     models.vessel.children[2].name = 'sail';
 
+    // Raft
     models.raft.children[1].name = 'body';
     models.raft.children[0].name = 'sail';
 
+    // Trader
     models.trader.children[2].name = 'body';
     models.trader.children[0].name = 'sail';
 
+    // Boat
     models.boat.children[2].name = 'body';
     models.boat.children[0].name = 'sail';
 
+    // Destroyer
     models.destroyer.children[1].name = 'body';
     models.destroyer.children[0].name = 'sail';
 
+    // Fortune Trader
     models.ft.children[0].name = 'body';
     models.ft.children[1].name = 'mast';
     models.ft.children[2].name = 'sail';
 
+    // Black Oyster
     models.bo.children[0].name = 'body';
     models.bo.children[1].name = 'mast';
     models.bo.children[2].name = 'sail';
 
+    // Junkie
     models.junkie.children[0].name = 'sail';
     models.junkie.children[1].name = 'body';
 
+    // Raider
     models.raider.children[0].name = 'sail';
     models.raider.children[1].name = 'body';
     models.raider.children[2].name = 'mast';
