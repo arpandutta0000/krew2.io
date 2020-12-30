@@ -732,10 +732,10 @@ $(document).ready(function () {
     loader.loadObjWithMtl('./assets/models/ships/schooner.obj');
     loader.loadObjWithMtl('./assets/models/ships/sloop.obj');
     loader.loadObjWithMtl('./assets/models/ships/vessel.obj');
-    loader.loadObjWithMtl('./assets/models/ships/fortunetrader.obj');
-    loader.loadObjWithMtl('./assets/models/ships/blackoyster.obj');
-    loader.loadObjWithMtl('./assets/models/ships/junk.obj');
-    loader.loadObjWithMtl('./assets/models/ships/vik.obj');
+    loader.loadObjWithMtl('./assets/models/ships/ft.obj');
+    loader.loadObjWithMtl('./assets/models/ships/bo.obj');
+    loader.loadObjWithMtl('./assets/models/ships/junkie.obj');
+    loader.loadObjWithMtl('./assets/models/ships/raider.obj');
     loader.loadObjWithMtl('./assets/models/fish.obj');
     loader.loadObjWithMtl('./assets/models/shell.obj');
     loader.loadObjWithMtl('./assets/models/crab.obj');
