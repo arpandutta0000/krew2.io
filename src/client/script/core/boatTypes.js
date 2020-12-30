@@ -37,7 +37,7 @@ var boatTypes = {
         arcFront: 0.3,
         inertia: 0.1,
         radius: 5,
-        speed: 6,
+        speed: 6.5,
         labelHeight: 10,
         regeneration: 1,
         body: 'raft',
