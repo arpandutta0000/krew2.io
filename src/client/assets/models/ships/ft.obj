@@ -1,6 +1,6 @@
 # Blender v2.83.4 OBJ File: 'thisone2.blend'
 # www.blender.org
-mtllib ship.mtl
+mtllib ft.mtl
 o Body
 v 0.067569 -0.016784 4.000000
 v 0.887843 1.531000 -3.358801

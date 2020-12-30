@@ -1,6 +1,6 @@
 # Blender v2.83.4
 # www.blender.org
-mtllib chinese_junk.mtl
+mtllib junk.mtl
 o Body
 v 0.061928 -1.664197 1.794525
 v 0.061928 -1.662316 -0.881478
