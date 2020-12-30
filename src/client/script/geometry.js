@@ -43,14 +43,18 @@ var createModels = function () {
     models.destroyer.children[1].name = 'body';
     models.destroyer.children[0].name = 'sail';
 
-    models.fortunetrader.children[1].name = 'body';
-    models.fortunetrader.children[0].name = 'sail';
-    models.blackoyster.children[1].name = 'body';
-    models.blackoyster.children[0].name = 'sail';
-    models.junk.children[1].name = 'body';
+    models.fortunetrader.children[0].name = 'body';
+    models.fortunetrader.children[1].name = 'mast';
+    models.fortunetrader.children[2].name = 'sail';
+    models.blackoyster.children[0].name = 'body';
+    models.blackoyster.children[1].name = 'mast';
+    models.blackoyster.children[2].name = 'sail';
     models.junk.children[0].name = 'sail';
-    models.vik.children[1].name = 'body';
+    models.junk.children[1].name = 'body';
+    models.junk.children[2].name = 'mast';
     models.vik.children[0].name = 'sail';
+    models.vik.children[1].name = 'body';
+    models.vik.children[2].name = 'mast';
 
     models.raft.getObjectByName('body').material = materials.boat;
     models.raft.getObjectByName('sail').material = materials.sail;
