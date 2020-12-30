@@ -620,7 +620,7 @@ var boatTypes = {
         sail: 'raider',
         mast: 'raider',
         scale: [0.15, 0.15, 0.15],
-        offset: [2, 11.6, 3],
+        offset: [2, 22, 3],
         rotation: [0, Math.PI / 2, 0],
         availableAt: ['Spain']
     }

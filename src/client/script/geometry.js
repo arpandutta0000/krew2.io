@@ -69,9 +69,9 @@ var createModels = function () {
     models.junkie.children[1].name = 'body';
 
     // Raider
-    models.raider.children[0].name = 'sail';
-    models.raider.children[1].name = 'body';
-    models.raider.children[2].name = 'mast';
+    models.raider.children[0].name = 'body';
+    models.raider.children[1].name = 'mast';
+    models.raider.children[2].name = 'sail';
 
     models.raft.getObjectByName('body').material = materials.boat;
     models.raft.getObjectByName('sail').material = materials.sail;
