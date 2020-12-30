@@ -65,9 +65,9 @@ var createModels = function () {
     models.bo.children[2].name = 'sail';
 
     // Junkie
-    models.junkie.children[0].name = 'body';
-    models.junkie.children[1].name = 'mast';
-    models.junkie.children[2].name = 'sail';
+    models.junk.children[0].name = 'body';
+    models.junk.children[1].name = 'mast';
+    models.junk.children[2].name = 'sail';
 
     // Raider
     models.raider.children[0].name = 'body';
