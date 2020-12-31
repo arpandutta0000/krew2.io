@@ -1453,9 +1453,14 @@ io.on(`connection`, async socket => {
                     for (let i in playerEntity.goods) cargoUsed += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
                     playerEntity.cargoUsed = cargoUsed;
 
+                    let totalCargoUsed = 0;
+                    for(let i in playerEntity.parent.children) totalCargoUsed += playerEntity.parent.children[i].cargoUsed;
+
+                    // If there is not enough cargo for the players on the new boat, then do not buy it.
+                    if(totalCargoUsed > core.boatTypes[item.id].cargoSize) return callback(false);
+
                     // Put together item.id and item.type and send them back to the client.
-                    let response = item.type + item.id;
-                    callback(response);
+                    callback(item.type + item.id);
 
                     playerEntity.other_quest_level = playerEntity.other_quest_level == undefined ? 0 : playerEntity.other_quest_level;
 
