@@ -1,6 +1,7 @@
 v1.1.0 - [1-1-2021]
 - Added Nitro Peg
 - Added 4 new ships; Junkie, Raider, Black Oyster, and Fortune Trader
+- Fixed abandoning ship on islands
 - Made clan data responsive to cold storage rather than hot memory
 - Added more commands for Krew staff
 
