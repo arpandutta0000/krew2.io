@@ -270,7 +270,7 @@ io.on(`connection`, async socket => {
                 // Refund ship if captain.
                 if (playerSave.isCaptain) {
                     playerEntity.gold += core.boatTypes[playerSave.shipId].price;
-                    playerEntity.purchaseShip(playerSave.shipId, (krewioData || {}).krewname);
+                    playerEntity.socket.emit(`showCenterMessage`, `You have been recompensed for your ship!`, 3);
                 }
 
                 // Restore item & item stats.
