@@ -702,7 +702,7 @@ io.on(`connection`, async socket => {
                         if (currentTime == `night`) currentTime = `day`;
                         else currentTime = `night`;
 
-                        playerEntity.socket.emit(`Succesfully set the time to ${currentTime}!`, 3, 1e4);
+                        playerEntity.socket.emit(`showCenterMessage`, `Succesfully set the time to ${currentTime}!`, 3, 1e4);
                         io.emit(`cycle`, currentTime);
                         return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.\nIP: ${playerEntity.socket.handshake.address}.`);
                     }
