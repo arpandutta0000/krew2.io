@@ -680,6 +680,12 @@ io.on(`connection`, async socket => {
                                 return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}\nIP: ${player.socket.handshake.address}.`);
                             }
                         }
+                    } else if (command == `clear` && isAdmin) {
+                        playerEntity.socket.emit(`showCenterMessage`, `You have cleared the chat.`, 3, 1e4);
+                        io.emit(`showCenterMessage`, `An admin has cleared the chat!`, 1, 1e4);
+
+                        io.emit(`clear`);
+                        return bus.emit(`report`, `Chat Clear`, `Admin ${playerEntity.name} cleared the global chat.\nIP: ${playerEntity.socket.handshake.address}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
