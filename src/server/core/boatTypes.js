@@ -606,11 +606,11 @@ let boatTypes = {
         turnspeed: 0.7,
         price: 1e5,
         maxKrewCapacity: 8,
-        cargoSize: 800,
-        baseheight: 5,
-        width: 11.5,
-        depth: 26,
-        arcFront: 0.1,
+        cargoSize: 2000,
+        baseheight: 4,
+        width: 10,
+        depth: 34,
+        arcFront: 0.2,
         inertia: 1.0,
         radius: 15,
         speed: 5.9,
@@ -620,7 +620,7 @@ let boatTypes = {
         sail: `junk`,
         mast: `junk`,
         scale: [0.12, 0.12, 0.12],
-        offset: [0, 20, 0],
-        rotation: [0, 0, 0]
+        offset: [0, 18, 0],
+        rotation: [0, Math.PI / 2, 0]
     },
 }
