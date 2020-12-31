@@ -264,7 +264,7 @@ io.on(`connection`, async socket => {
             let playerSave = await PlayerRestore.findOne({
                 IP: socket.handshake.address
             });
-            if (playerSave) {
+            if (playerSave && Date.now() - playerSave.timestamp < 3e5) {
                 // If username is seadog, set the name to proper seadog.
                 playerEntity.name = playerSave.username;
 
