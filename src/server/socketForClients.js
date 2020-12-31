@@ -1925,7 +1925,7 @@ io.on(`connection`, async socket => {
             User.findOne({
                 username: data.name
             }).then(user => {
-                if (!user) log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${socket.handshake.address}.`);
+                if (!user) return log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${socket.handshake.address}.`);
                 if (data.password == user.password) data.name = data.name.toString();
                 else {
                     log(`cyan`, `Exploit detected: Incorrect password with username. Spawning IP as seadog: ${socket.handshake.address}`);
@@ -1943,7 +1943,6 @@ io.on(`connection`, async socket => {
     // Send full world information - force full data. First snapshot (compress with lz-string).
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 });
-
 
 // check if string is an integer greater than 0
 let isNormalInteger = function (str) {
