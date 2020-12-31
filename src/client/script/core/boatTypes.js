@@ -424,7 +424,7 @@ var boatTypes = {
         name: 'Baby Fancy 2',
         hp: 500,
         turnspeed: 1,
-        price: 40000,
+        price: 30000,
         maxKrewCapacity: 3,
         cargoSize: 900,
         baseheight: 1.4,
