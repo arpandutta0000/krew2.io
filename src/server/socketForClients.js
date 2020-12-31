@@ -954,7 +954,16 @@ io.on(`connection`, async socket => {
 
                         boat.updateProps();
                         boat.shipState = 0;
-                    } else entities[motherShip.anchorIslandId] && entities[motherShip.anchorIslandId].addChildren(playerEntity);
+                    } else {
+                        entities[motherShip.anchorIslandId] && entities[motherShip.anchorIslandId].addChildren(playerEntity);
+
+                        let boat = core.createBoat(playerEntity.id, (krewioData || {}).krewname, false);
+                        boat.addChildren(playerEntity);
+                        boat.setShipClass(0);
+
+                        boat.updateProps();
+                        boat.shipState = 3;
+                    }
 
                     // Delete him from the previous krew.
                     delete motherShip.children[playerEntity.id];
