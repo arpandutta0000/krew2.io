@@ -721,7 +721,7 @@ io.on(`connection`, async socket => {
                             });
                         }
                     }
-                } else if (msgData.recipient == `staff` && (Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Devs.includes(playerEntity.name))) {
+                } else if (msgData.recipient == `staff` && (Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Devs.includes(playerEntity.name) || playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev)) {
                     for (let i in core.players) {
                         let player = core.players[i];
                         if (Admins.includes(player.name) || Mods.includes(player.name) || Devs.includes(player.name)) player.socket.emit(`chat message`, {
