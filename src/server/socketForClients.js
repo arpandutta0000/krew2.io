@@ -27,6 +27,8 @@ global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 let reportIPs = [];
 let serverRestart = false;
+let currentTime = (new Date().getUTCMinutes() > 35 && new Date.getUTCMinutes() < 55) ? `day` : `night`;
+
 
 // Log when server starts.
 let serverStartTimestamp = Date.now();
@@ -77,16 +79,23 @@ Devs = config.devs;
 
 // If test environment, create player in world
 if (TEST_ENV) {
-    setTimeout(function () {
+    setTimeout(() => {
         let playerEntity;
         for (let i = 0; i < 100; i++) {
             playerEntity = core.createPlayer({});
             login.allocatePlayerToBoat(playerEntity);
         }
-    }, 5000);
+    }, 5e3);
 }
 
 const gameCookies = {};
+
+setInterval(() => {
+    if (currentTime == `day`) currentTime = `night`;
+    else currentTime = `day`;
+
+    io.emit(`cycle`, currentTime);
+}, 12e5);
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
@@ -300,6 +309,9 @@ io.on(`connection`, async socket => {
         let checkPlayerStatus = () => {
             if (playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) log(`cyan`, `Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         }
+
+        // Emit the time to the player.
+        if(currentTime == `night`) playerEntity.socket.emit(`cycle`, currentTime);
 
         // Gather all stats and return them to the client.
         socket.on(`get-stats`, fn => {
@@ -686,6 +698,13 @@ io.on(`connection`, async socket => {
 
                         io.emit(`clear`);
                         return bus.emit(`report`, `Chat Clear`, `Admin ${playerEntity.name} cleared the global chat.\nIP: ${playerEntity.socket.handshake.address}.`);
+                    } else if (command == `cycle` && isAdmin) {
+                        if (currentTime == `night`) currentTime = `day`;
+                        else currentTime = `night`;
+
+                        playerEntity.socket.emit(`Succesfully set the time to ${currentTime}!`, 3, 1e4);
+                        io.emit(`cycle`, currentTime);
+                        return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.\nIP: ${playerEntity.socket.handshake.address}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
