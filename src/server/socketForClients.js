@@ -187,7 +187,7 @@ io.on(`connection`, async socket => {
                 socket.emit(`showCenterMessage`, `Use a single tab to play this game`, 1, 6e4);
                 log(`cyan`, `Multiple tabs. Disconnecting IP: ${socket.handshake.address}.`);
 
-                // Disconnect both.
+                // Disconnect all.
                 core.removeEntity(player);
                 player.socket.disconnect();
                 return socket.disconnect();
@@ -201,9 +201,8 @@ io.on(`connection`, async socket => {
                 socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
-                // Disconnect both.
+                // Disconnect the player.
                 core.removeEntity(player);
-                player.socket.disconnect();
                 return socket.disconnect();
             }
         }
@@ -386,11 +385,11 @@ io.on(`connection`, async socket => {
                     let isDev = playerEntity.isDev;
 
                     // Staff commands after authentication.
-                    if (command == `say`) {
+                    if (command == `say` && isAdmin) {
                         let msg = args.join(` `);
                         if (!msg) return;
 
-                        log(`blue`, `${(isAdmin || isDev) ? `ADMIN`: `MOD`} SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`blue`, `${isAdmin ? `ADMIN`: `MOD`} SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return io.emit(`showAdminMessage`, msg);
                     } else if (command == `recompense` && (isAdmin || isDev)) {
                         let amt = args[0];
