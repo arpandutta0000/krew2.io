@@ -51,7 +51,8 @@ if (!global.io) {
             origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
             methods: [`GET`, `POST`],
             credentials: true
-        }
+        },
+        maxHttpBufferSize: 1e8
     });
     server.listen(process.env.port);
 }

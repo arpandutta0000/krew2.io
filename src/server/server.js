@@ -105,14 +105,16 @@ if (process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(serv
         origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
         methods: [`GET`, `POST`],
         credentials: true
-    }
+    },
+    maxHttpBufferSize: 1e8
 });
 else global.io = global.io = require(`socket.io`)(server, {
     cors: {
         origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
         methods: [`GET`, `POST`],
         credentials: true
-    }
+    },
+    maxHttpBufferSize: 1e8
 }).listen(2000);
 
 // Bind the webfront to defined port.
