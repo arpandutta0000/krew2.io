@@ -27,7 +27,7 @@ global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 let reportIPs = [];
 let serverRestart = false;
-let currentTime = (new Date().getUTCMinutes() > 35 && new Date().getUTCMinutes() < 55) ? `day` : `night`;
+let currentTime = (new Date().getUTCMinutes() > 35 && new Date().getUTCMinutes() < 55) ? `night` : `day`;
 
 
 // Log when server starts.
