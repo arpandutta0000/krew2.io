@@ -618,7 +618,8 @@ let boatTypes = {
         regeneration: 1,
         body: `junk`,
         sail: `junk`,
-        scale: [10.0, 10.0, 10.0],
+        mast: `junk`,
+        scale: [0.12, 0.12, 0.12],
         offset: [0, 20, 0],
         rotation: [0, 0, 0]
     },

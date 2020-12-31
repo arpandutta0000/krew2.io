@@ -81,8 +81,8 @@ var createModels = function () {
 
     // Junkie
     models.junk.children[0].name = 'body';
-    models.junk.children[1].name = 'mast';
-    models.junk.children[2].name = 'sail';
+    models.junk.children[1].name = 'sail';
+    models.junk.children[2].name = 'mast';
 
     setShipModels();
     setPlayerModels();
