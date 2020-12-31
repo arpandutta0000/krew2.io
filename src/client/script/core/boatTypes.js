@@ -428,7 +428,7 @@ var boatTypes = {
         maxKrewCapacity: 3,
         cargoSize: 900,
         baseheight: 1.4,
-        width: 4.5,
+        width: 4.2,
         depth: 7,
         arcFront: 0.3,
         inertia: 0.1,
