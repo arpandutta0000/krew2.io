@@ -291,7 +291,6 @@ var setUpEnvironment = function () {
 }
 
 
-window.currentTime = 0;
 let doDaylightCycle = function (time) {
     if (water == undefined) return;
     var light = water.parent.children.find(function (c) {
@@ -329,11 +328,3 @@ let doDaylightCycle = function (time) {
         }, 20);
     }
 }
-
-setInterval(function () {
-    if (new Date().getUTCMinutes() > 35 && new Date().getUTCMinutes() < 55) {
-        doDaylightCycle(1);
-    } else if (new Date().getUTCMinutes() < 35 || new Date().getUTCMinutes() > 55) {
-        doDaylightCycle(0);
-    }
-}, 200);

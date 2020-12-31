@@ -45,16 +45,16 @@ function Landmark (type, x, z, config) {
         // scene.add(this.palm);
     }
     // Christmas stuff (add snowman and christmas tree on Jamaica)
-    models.elka.position.set(840, 2, 840);
-    models.elka.scale.x = 0.35;
-    models.elka.scale.y = 0.35;
-    models.elka.scale.z = 0.35;
-    models.snowman.position.set(880, 38, 885);
-    models.snowman.rotation.set(0, -500, 0);
-    models.snowman.scale.x = 0.17;
-    models.snowman.scale.y = 0.17;
-    models.snowman.scale.z = 0.17;
-    scene.add(models.elka, models.snowman);
+    // models.elka.position.set(840, 2, 840);
+    // models.elka.scale.x = 0.35;
+    // models.elka.scale.y = 0.35;
+    // models.elka.scale.z = 0.35;
+    // models.snowman.position.set(880, 38, 885);
+    // models.snowman.rotation.set(0, -500, 0);
+    // models.snowman.scale.x = 0.17;
+    // models.snowman.scale.y = 0.17;
+    // models.snowman.scale.z = 0.17;
+    // scene.add(models.elka, models.snowman);
 
     var modelscale = this.dockRadius / 10 / 8 * 9;
     this.modelscale.set(modelscale, modelscale, modelscale);

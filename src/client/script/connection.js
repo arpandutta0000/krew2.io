@@ -346,6 +346,13 @@ var initSocketBinds = function () {
             }
         }
     });
+    socket.on('clear', function () {
+        $('.global-chat').remove();
+    });
+    socket.on('cycle', function (time) {
+        if (time == 'day') doDaylightCycle(0);
+        else if (time == 'night') doDaylightCycle(1);
+    });
 };
 
 
