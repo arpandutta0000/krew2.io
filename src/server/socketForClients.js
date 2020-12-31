@@ -255,7 +255,7 @@ io.on(`connection`, async socket => {
             let playerSave = await PlayerRestore.findOne({
                 IP: socket.handshake.address
             });
-            if (playerSave && Date.now() - playerSave.timestamp < 3e5) {
+            if (playerSave) {
                 // If username is seadog, set the name to proper seadog.
                 playerEntity.name = playerSave.username;
 
@@ -271,7 +271,7 @@ io.on(`connection`, async socket => {
                 // Refund ship if captain.
                 if (playerSave.isCaptain) {
                     playerEntity.gold += core.boatTypes[playerSave.shipId].price;
-                    playerEntity.purchaseShip(playerSave.shipId, (krewioData || {}).krewname);
+                    playerEntity.socket.emit(`showCenterMessage`, `You have been recompensed for your ship!`, 3);
                 }
 
                 // Restore item & item stats.

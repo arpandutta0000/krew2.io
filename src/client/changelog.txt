@@ -1,13 +1,19 @@
+v1.0.2b - [12-30-2020]
+ - Fixed cargo exploit.
+ - Fixed Adinplay video ads and banner ad.
+ - Manually resolved clan / player discrepancies where the clan does not exist but the player's clan is of that clan.
+ - Fixed false 'Invalid Username' errors while registering due to incorrect whitespace detection. 
+
 v1.0.2 - [12-29-2020]
-- Added ability for users to set a default Krew name and default game settings in the manage account panel
-- Added clan tags to chat
-- Fixed invite links (again)
-- Fixed clans bugs (kicking, leaving, promoting)
-- Fixed join Krew messages
-- Fixed captains unable to boot players from their Krew on islands
-- Fixed abandon ship
-- Fixed joining a random Krew
-- Fixed tempbans
+ - Added ability for users to set a default Krew name and default game settings in the manage account panel
+ - Added clan tags to chat
+ - Fixed invite links (again)
+ - Fixed clans bugs (kicking, leaving, promoting)
+ - Fixed join Krew messages
+ - Fixed captains unable to boot players from their Krew on islands
+ - Fixed abandon ship
+ - Fixed joining a random Krew
+ - Fixed tempbans
 
 v1.0.1 - [12-26-2020]
  - Added reCAPTCHA on registration to prevent bot spam.
