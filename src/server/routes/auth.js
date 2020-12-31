@@ -39,10 +39,10 @@ router.post(`/register`, (req, res, next) => {
         });
 
         if (req.body[`register-username`].length < 3 || req.body[`register-username`].length > 20) return res.json({
-            errors: `Your username be between 3 and 20 characters`
+            errors: `Your username must be between 3 and 20 characters`
         });
 
-        if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`]) != undefined) return res.json({
+        if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
             errors: `Invalid Username`
         });
 
@@ -238,7 +238,7 @@ router.post(`/change_username`, (req, res, next) => {
     });
 
     if (username.length < 3 || username.length > 20) return res.json({
-        errors: `Your username be between 3 and 20 characters`
+        errors: `Your username must be between 3 and 20 characters`
     });
 
     if (username != xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || config.whitespaceRegex.test(username)) return res.json({
