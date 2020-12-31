@@ -430,7 +430,7 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked ${player.name}.`, 4, 1e4);
+                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked ${player.name}.`, 4, 1e4);
                         }
 
                         log(`blue`, `${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -489,7 +489,7 @@ io.on(`connection`, async socket => {
                             playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} temporarily banned ${player.name}.`, 4, 1e4);
+                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} temporarily banned ${player.name}.`, 4, 1e4);
                             }
                         });
 
