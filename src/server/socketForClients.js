@@ -27,7 +27,7 @@ global.minAmountCratesInSea = config.minAmountCratesInSea;
 
 let reportIPs = [];
 let serverRestart = false;
-let currentTime = (new Date().getUTCMinutes() > 35 && new Date.getUTCMinutes() < 55) ? `day` : `night`;
+let currentTime = (new Date().getUTCMinutes() > 35 && new Date().getUTCMinutes() < 55) ? `day` : `night`;
 
 
 // Log when server starts.
@@ -1166,7 +1166,6 @@ io.on(`connection`, async socket => {
                         } else callback(false);
                     } else if (action.action && action.action == `kick`) {
                         otherUser.clan = undefined;
-                        otherUser.clanRequest = undefined;
 
                         if (clan.leaders.includes(action.id)) clan.leaders.splice(clan.leaders.indexOf(action.id), 1);
                         otherUser.save(() => {
