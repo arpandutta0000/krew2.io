@@ -394,6 +394,7 @@ var $cancelExitButtonSpan = $cancelExitButton.find('span');
 var $dockingModal = $('#docking-modal');
 
 var cleanScene = function () {
+    if(!scene) return;
     scene.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
             for (o in sceneCanBalls) {
