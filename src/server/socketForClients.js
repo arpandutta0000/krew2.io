@@ -677,11 +677,11 @@ io.on(`connection`, async socket => {
                         else if (!player.isMuted) return playerEntity.socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
 
                         for (let i in core.players) {
-                            let ingPlayer = core.players[i];
-                            if (ingPlayer.name == player.name) {
-                                ingPlayer.isMuted = false;
+                            let mutedPlayer = core.players[i];
+                            if (mutedPlayer.name == player.name) {
+                                mutedPlayer.isMuted = false;
                                 playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
-                                ingPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
+                                mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
 
                                 for (let i in core.players) {
                                     let curPlayer = core.players[i];
@@ -694,17 +694,30 @@ io.on(`connection`, async socket => {
                         }
                     } else if (command == `clear` && isAdmin) {
                         playerEntity.socket.emit(`showCenterMessage`, `You have cleared the chat.`, 3, 1e4);
-                        io.emit(`showCenterMessage`, `An admin has cleared the chat!`, 1, 1e4);
 
+                        io.emit(`showCenterMessage`, `An admin has cleared the chat!`, 1, 1e4);
                         io.emit(`clear`);
+
+                        for (let i in core.players) {
+                            let curPlayer = core.players[i];
+                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} cleared the chat.`, 4, 1e4);
+                        }
+
+                        log(`blue`, `Admin ${playerEntity.name} cleared global chat | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Chat Clear`, `Admin ${playerEntity.name} cleared the global chat.\nIP: ${playerEntity.socket.handshake.address}.`);
                     } else if (command == `cycle` && isAdmin) {
                         if (currentTime == `night`) currentTime = `day`;
                         else currentTime = `night`;
 
                         playerEntity.socket.emit(`showCenterMessage`, `Succesfully set the time to ${currentTime}!`, 3, 1e4);
-                        log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
                         io.emit(`cycle`, currentTime);
+
+                        for (let i in core.players) {
+                            let curPlayer = core.players[i];
+                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} changed the time to ${currentTime}.`, 4, 1e4);
+                        }
+
+                        log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
                         return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.\nIP: ${playerEntity.socket.handshake.address}.`);
                     } else if (command == `give` && isAdmin) {
                         let giveUser = args.shift();
@@ -713,7 +726,7 @@ io.on(`connection`, async socket => {
                         if (!giveAmount || isNaN(giveAmount)) return playerEntity.socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
 
                         let player = Object.values(core.players).find(player => player.name == giveUser);
-                        if (!player) playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
@@ -721,11 +734,26 @@ io.on(`connection`, async socket => {
                             if (player.name == curPlayer.name) {
                                 curPlayer.gold += giveAmount;
                                 curPlayer.socket.emit(`showCenterMessage`, `You have received ${giveAmount} gold!`, 4, 1e4);
-                            }
-                            else if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
+                            } else if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
                         }
                         log(`blue`, `Player ${playerEntity.name} gave ${giveUser} ${giveAmount} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
-                        return bus.emit(`report`, `Admin Give`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.\nIP: ${playerEntity.socket.handshake.address}.`);
+                        return bus.emit(`report`, `Give Gold`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.\nIP: ${playerEntity.socket.handshake.address}.`);
+                    } else if (command == `captain` && isAdmin) {
+                        let captainUser = args.shift();
+                        let boat = playerEntity.parent;
+
+                        let player = Object.values(core.players).find(player => player.name == captainUser);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+
+                        if (boat.captainId == player.id) return playerEntity.socket.emit(`showCenterMessage`, `That player is already the captain of the ship!`, 1, 1e4);
+
+                        boat.captainId = player.id;
+                        playerEntity.socket.emit(`showCenterMessage`, `You have succesfully set the captain of the ship to ${captainUser}!`, 3, 1e4);
+
+                        player.socket.emit(`showCenterMessage`, `You are now the captain!`, 3, 1e4);
+
+                        log(`Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return bus.emit(`report`, `Set Captain`, `Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name}.\nIP: ${playerEntity.socket.handshake.address}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
