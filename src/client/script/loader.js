@@ -129,6 +129,7 @@ loader.onFinish = fn => {
         if (fn) fn();
     });
 }
+
 module.exports = {
     textures,
     shaders,
