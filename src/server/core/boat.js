@@ -331,7 +331,7 @@ Boat.prototype.logic = function (dt) {
         //console.log(this.hpRegTimer + " " + this.hpRegInterval + " " + this.hp)
         if (this.hpRegTimer > this.hpRegInterval) {
             this.hpRegTimer = 0;
-            this.hp++;
+            this.hp += boatTypes[this.shipclassId].regeneration;
             this.hp = Math.min(this.hp, this.maxHp);
         }
     }
