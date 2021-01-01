@@ -1,15 +1,20 @@
-const GameControls = require(`./controls.js`);
-
-// Set up some global variables that will be used throughout all the engine.
-let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight;
-
-let SERVER = false;
-let threejsStarted = false;
-
-let playerName = ``;
-let countDown = 10;
-
-let markers = {};
+// Set up some global variables that will be used throughout all the engine
+var renderer;
+var scene;
+var camera;
+var myPlayer;
+var myBoat;
+var domEvents;
+var raycaster;
+var SERVER = false;
+var playerName = '';
+var countDown = 10;
+var canvas;
+var gl;
+var defaultWidth;
+var defaultHeight;
+var threejsStarted = false;
+var markers = {};
 
 var adBlockEnabled = false;
 var testAd = document.createElement('div');
