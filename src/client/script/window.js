@@ -1,4 +1,7 @@
-const { renderer, camera } = require(`./main.js`);
+const {
+    renderer,
+    camera
+} = require(`./main.js`);
 
 // Automatically resize renderer when the window is resized
 var updateViewport = function () {

@@ -1,6 +1,9 @@
 const Player = require(`../player.js`);
 const GameControls = require(`../../controls.js`);
-const { materials, textures } = require(`../../geometry.js`);
+const {
+    materials,
+    textures
+} = require(`../../geometry.js`);
 
 var lookingDownLimit = -1;
 var lookingUpLimit = 1;

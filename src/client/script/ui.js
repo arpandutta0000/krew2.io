@@ -1,5 +1,10 @@
-const { getFixedFrameRateMethod } = require(`./core/utils.js`);
-const { socket, maxPlayersPerInstance } = require(`./connection.js`);
+const {
+    getFixedFrameRateMethod
+} = require(`./core/utils.js`);
+const {
+    socket,
+    maxPlayersPerInstance
+} = require(`./connection.js`);
 
 var lastScore = 0;
 var lastGold = 0;

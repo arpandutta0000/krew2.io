@@ -1,6 +1,11 @@
-const { models, textures } = require(`./loader.js`);
+const {
+    models,
+    textures
+} = require(`./loader.js`);
 const setShipModels = require(`./core/core_client/boat.js`);
-const { setPlayerModels } = require(`./core/core_client/player.js`);
+const {
+    setPlayerModels
+} = require(`./core/core_client/player.js`);
 
 var base_geometries = {
     box: new THREE.BoxBufferGeometry(1, 1, 1),
@@ -10,13 +15,14 @@ var base_geometries = {
 };
 
 // create a bunch of reusable bodies
-var geometry = {};
-geometry.player = base_geometries.box;
-geometry.boat = base_geometries.box;
-geometry.projectile = base_geometries.sphere;
-geometry.hook = base_geometries.plane;
-geometry.impact_water = base_geometries.sphere;
-geometry.islandradius = new THREE.CylinderBufferGeometry(0.3, 1, 1, 20, 1);
+var geometry = {
+    player: base_geometries.box,
+    boat: base_geometries.box,
+    projectile: base_geometries.sphere,
+    hook: base_geometries.plane,
+    impact_water: base_geometries.sphere,
+    islandradius: new THREE.CylinderBufferGeometry(0.3, 1, 1, 20, 1)
+}
 
 var createModels = function () {
 

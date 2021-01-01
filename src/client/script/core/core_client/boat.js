@@ -1,6 +1,8 @@
 const Boat = require(`../boat.js`);
 const boatTypes = require(`../boatTypes.js`);
-const { models } = require(`../../loader.js`);
+const {
+    models
+} = require(`../../loader.js`);
 
 var setShipModels = function () {
     for (var i in boatTypes) {
