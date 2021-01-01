@@ -750,8 +750,6 @@ io.on(`connection`, async socket => {
                         boat.captainId = player.id;
                         playerEntity.socket.emit(`showCenterMessage`, `You have succesfully set the captain of the ship to ${captainUser}!`, 3, 1e4);
 
-                        player.socket.emit(`showCenterMessage`, `You are now the captain!`, 3, 1e4);
-
                         log(`Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Set Captain`, `Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name}.\nIP: ${playerEntity.socket.handshake.address}.`);
                     }
