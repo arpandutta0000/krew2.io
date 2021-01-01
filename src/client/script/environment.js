@@ -6,9 +6,11 @@ var setUpEnvironment = function () {
     scene.fog = new THREE.FogExp2(0xd5e1e3, 0.007);
     renderer.setClearColor(0x00c5ff);
 
-    // lite
+    // Add ambient and point light
     ambientlight = new THREE.AmbientLight(0xC4CEE2);
     scene.add(ambientlight);
+    pointLight = new THREE.PointLight(0xfff7ba);
+    scene.add(pointLight);
 
     // env cube
     environment.sphere = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(4000)),
@@ -17,16 +19,9 @@ var setUpEnvironment = function () {
     environment.sphere.scale.y = 0.05;
 
     // directional light with shadow (attached to cube)
-    //directionallight = new THREE.DirectionalLight(0xF9F6DA, 0.5);
-    //scene.add(directionallight);
-    //scene.background = new THREE.Color(0x7feeff);
-
-    // WATER STUFF
-    //environment.water = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.PlaneGeometry(6000, 6000)),
-    //materials.wave);
-    //environment.water.rotation.x = -Math.PI * 0.5;
-
-    //scene.add(environment.water);
+    directionallight = new THREE.DirectionalLight(0xF9F6DA, 0.5);
+    scene.add(directionallight);
+    scene.background = new THREE.Color(0x7feeff);
 
     THREE.Water = function (geometry, options) {
 

@@ -272,6 +272,9 @@ var createGame = function () {
         antialias: true
     });
 
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+
     // Add renderer to the document
     document.body.appendChild(renderer.domElement);
 
