@@ -1,5 +1,3 @@
-const Boat = require(`../boat.js`);
-
 var setShipModels = function () {
     for (var i in boatTypes) {
         var boat = boatTypes[i];

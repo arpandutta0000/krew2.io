@@ -1,5 +1,4 @@
-const Entity = require(`./entity.js`);
-
+// PLayers are entities, check core_entity.js for the base class
 Landmark.prototype = new Entity();
 Landmark.prototype.constructor = Landmark;
 

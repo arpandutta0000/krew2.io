@@ -1,5 +1,4 @@
-const Entity = require(`./entity.js`);
-
+// PLayers are entities, check core_entity.js for the base class
 Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
