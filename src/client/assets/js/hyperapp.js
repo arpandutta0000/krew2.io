@@ -134,4 +134,3 @@
         return l(p([], b, k)), k
     }
 });
-//# sourceMappingURL=hyperapp.js.map
