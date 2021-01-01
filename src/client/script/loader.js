@@ -155,11 +155,4 @@ loader.onFinish = function (fn) {
     });
 };
 
-module.exports = {
-    textures,
-    shaders,
-    models,
-    json,
-
-    loader
-}
+module.exports = loader;

@@ -6,7 +6,7 @@ var clanChatOn = false;
 var localChatOn = false;
 var globalChatOn = true;
 
-var maxPlayersPerInstance = 100;
+var maxPlayerPerInstance = 100;
 
 var interval_update = undefined;
 
@@ -419,8 +419,6 @@ module.exports = {
     globalChatOn,
 
     interval_update,
-    getUrlVars,
-    maxPlayersPerInstance,
 
     Admins,
     Mods,

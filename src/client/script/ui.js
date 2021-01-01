@@ -1,6 +1,3 @@
-const { getFixedFrameRateMethod } = require(`./core/utils.js`);
-const { socket, maxPlayersPerInstance } = require(`./connection.js`);
-
 var lastScore = 0;
 var lastGold = 0;
 var div = document.createElement('div');
@@ -2005,12 +2002,12 @@ var ui = {
 
                     i++;
                     var $option = $('<option/>', {
-                        html: 'Server ' + i + ' (' + server.playerCount + '/' + maxPlayersPerInstance + ')',
+                        html: 'Server ' + i + ' (' + server.playerCount + '/' + maxPlayerPerInstance + ')',
                         value: pid,
                     });
 
                     $('#server-list').append($option);
-                    if (!serverSelected && server.playerCount < maxPlayersPerInstance) {
+                    if (!serverSelected && server.playerCount < maxPlayerPerInstance) {
                         $('#server-list').val(pid);
                         serverSelected = true;
                     }
