@@ -1,4 +1,4 @@
-// const webpackConfig = require(`./webpack.config.js`);
+const webpackConfig = require(`./webpack.config.js`);
 
 module.exports = (grunt => {
     grunt.initConfig({
@@ -106,9 +106,9 @@ module.exports = (grunt => {
         },
 
         // TODO: Minify the source with webpack.
-        // webpack: {
-        //     prod: webpackConfig
-        // },
+        webpack: {
+            prod: webpackConfig
+        },
 
         // Watch for file changes.
         watch: {
@@ -270,7 +270,8 @@ module.exports = (grunt => {
     grunt.registerTask(`build-dev`, [
         `clean:dist`,
         `concat:server`,
-        `copy:dist`
+        `copy:dist`,
+        `webpack:prod`
     ]);
 
     // Run in dev.
