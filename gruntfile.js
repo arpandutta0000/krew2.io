@@ -88,7 +88,7 @@ module.exports = (grunt => {
         // Clean up static folder and unminified client source.
         clean: {
             dist: [`dist/*`],
-            preMinified: [`script/dist.js`]
+            preMinified: [`dist/script/dist.min.js`, `src/client/assets/script/dist.min.js*`]
         },
 
         // TODO: Minify the source with webpack.
