@@ -590,4 +590,4 @@ Boat.prototype.exitMotherShip = function (mothership) {
 
 };
 
-module.exports = Boat;
+export default Boat;

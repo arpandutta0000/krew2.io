@@ -624,5 +624,3 @@ var boatTypes = {
         availableAt: ['Guinea']
     }
 };
-
-module.exports = boatTypes;

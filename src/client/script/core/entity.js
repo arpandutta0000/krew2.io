@@ -335,5 +335,3 @@ var isEmpty = function (obj) {
 
     return true;
 };
-
-module.exports = Entity;

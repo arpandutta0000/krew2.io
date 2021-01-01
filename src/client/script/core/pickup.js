@@ -399,5 +399,3 @@ Pickup.prototype.onDestroy = function () {
         delete pickups[this.id];
     }
 };
-
-module.exports = Pickup;

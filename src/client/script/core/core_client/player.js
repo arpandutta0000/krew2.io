@@ -509,17 +509,3 @@ Player.prototype.tryJump = function (dt) {
 
     this.jumpVel = 16;
 };
-
-module.exports = {
-    lookingDownLimit,
-    lookingUpLimit,
-
-    currControls,
-    lastCheck,
-    refreshTimer,
-
-    playerModels,
-    PlayerRaycaster,
-
-    setPlayerModels
-}

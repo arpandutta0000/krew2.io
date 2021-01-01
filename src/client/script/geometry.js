@@ -228,11 +228,3 @@ vectors.modeloffsetFishShellClam = new THREE.Vector3(0, 0.3, 0);
 vectors.sizeEntity = new THREE.Vector3(1, 1, 1);
 vectors.sizePlayer = new THREE.Vector3(1, 1, 1);
 vectors.sizeProjectile = new THREE.Vector3(0.3, 0.3, 0.3);
-
-module.exports = {
-    base_geometries,
-    geometry,
-    createModels,
-    createMaterials,
-    materials
-}

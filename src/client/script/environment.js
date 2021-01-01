@@ -325,9 +325,3 @@ let doDaylightCycle = function (time) {
         }, 20);
     }
 }
-
-module.exports = {
-    environment,
-    water,
-    setUpEnvironment
-}

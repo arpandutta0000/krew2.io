@@ -133,5 +133,3 @@ Impact.prototype.parseTypeSnap = function (snap) {
         this.impactType = parseFloat(snap.a);
     }
 };
-
-module.exports = Impact;

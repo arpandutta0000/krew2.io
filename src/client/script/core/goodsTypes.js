@@ -22,5 +22,3 @@ var goodsTypes = {
         cargoSpace: 12
     },
 };
-
-module.exports = goodsTypes;

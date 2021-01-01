@@ -70,5 +70,3 @@ var parseSnap = function (id, data) {
     }
 
 };
-
-module.exports = parseSnap;

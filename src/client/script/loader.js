@@ -154,5 +154,3 @@ loader.onFinish = function (fn) {
         }
     });
 };
-
-module.exports = loader;
