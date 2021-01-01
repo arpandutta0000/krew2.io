@@ -28,6 +28,7 @@
     "grunt-contrib-uglify": "^5.0.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-nodemon": "^0.4.2",
+    "grunt-webpack": "^4.0.2",
     "https": "^1.0.0",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.8",
@@ -36,6 +37,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "socket.io": "^3.0.4",
+    "webpack": "^5.11.1",
     "xss-filters": "^1.2.7"
   },
   "scripts": {
