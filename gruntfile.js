@@ -107,7 +107,8 @@ module.exports = (grunt => {
 
         // TODO: Minify the source with webpack.
         webpack: {
-            prod: webpackConfig
+            prod: webpackConfig,
+            dev: webpackConfig
         },
 
         // Watch for file changes.
@@ -284,4 +285,5 @@ module.exports = (grunt => {
     grunt.loadNpmTasks(`grunt-contrib-watch`);
     grunt.loadNpmTasks(`grunt-nodemon`);
     grunt.loadNpmTasks(`grunt-concurrent`);
+    grunt.loadNpmTasks(`grunt-webpack`);
 });
