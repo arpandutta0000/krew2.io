@@ -20,7 +20,7 @@ var boatTypes = {
         sail: undefined,
         scale: [1.2, 1, 1.5],
         offset: [0, -1, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     1: {
         id: 1,
@@ -44,7 +44,7 @@ var boatTypes = {
         sail: 'raft',
         scale: [1.7, 1.7, 1.7],
         offset: [0, -1.0, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     2: {
         id: 2,
@@ -68,7 +68,7 @@ var boatTypes = {
         sail: 'raft',
         scale: [1.7, 1.7, 1.7],
         offset: [0, -1.0, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     3: {
         id: 3,
@@ -92,7 +92,7 @@ var boatTypes = {
         sail: 'raft',
         scale: [1.7, 1.7, 1.7],
         offset: [0, -1.0, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     4: {
         id: 4,
@@ -116,7 +116,7 @@ var boatTypes = {
         sail: 'trader',
         scale: [5.5, 5.5, 5.5],
         offset: [0, -4.5, 1],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     5: {
         id: 5,
@@ -140,7 +140,7 @@ var boatTypes = {
         sail: 'boat',
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     6: {
         id: 6,
@@ -164,7 +164,7 @@ var boatTypes = {
         sail: 'boat',
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     7: {
         id: 7,
@@ -188,7 +188,7 @@ var boatTypes = {
         sail: 'boat',
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     8: {
         id: 8,
@@ -212,7 +212,7 @@ var boatTypes = {
         sail: 'destroyer',
         scale: [6, 6, 6],
         offset: [0, -8, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     9: {
         id: 9,
@@ -236,7 +236,7 @@ var boatTypes = {
         sail: 'destroyer',
         scale: [6, 6, 6],
         offset: [0, -8, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
     10: {
         id: 10,
@@ -260,7 +260,7 @@ var boatTypes = {
         sail: 'destroyer',
         scale: [6, 6, 6],
         offset: [0, -8, 0],
-        rotation: [0, 0, 0],
+        rotation: [0, 0, 0]
     },
 
     11: {
@@ -287,7 +287,7 @@ var boatTypes = {
         scale: [0.15, 0.18, 0.12],
         offset: [0, 5.5, 0],
         rotation: [0, 0, 0],
-        availableAt: ['Spain', 'Brazil'],
+        availableAt: ['Spain', 'Brazil']
     },
     12: {
         id: 12,
@@ -313,7 +313,7 @@ var boatTypes = {
         scale: [0.15, 0.15, 0.15],
         offset: [2, 11.6, 3],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: ['Labrador', 'Spain'],
+        availableAt: ['Labrador', 'Spain']
     },
     13: {
         id: 13,
@@ -339,7 +339,7 @@ var boatTypes = {
         scale: [0.1, 0.1, 0.1],
         offset: [1, 10, 5],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: ['Spain', 'Guinea'],
+        availableAt: ['Spain', 'Guinea']
     },
     14: {
         id: 14,
@@ -365,7 +365,7 @@ var boatTypes = {
         scale: [0.1, 0.1, 0.1],
         offset: [1, 13.4, 1],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: ['Spain'],
+        availableAt: ['Spain']
     },
 
     15: {
@@ -391,7 +391,7 @@ var boatTypes = {
         scale: [5.5, 5.5, 5.5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0],
-        availableAt: ['Jamaica'],
+        availableAt: ['Jamaica']
     },
     16: {
         id: 16,
@@ -416,7 +416,7 @@ var boatTypes = {
         scale: [5.5, 5.5, 5.5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0],
-        availableAt: ['Jamaica'],
+        availableAt: ['Jamaica']
     },
     17: {
         id: 17,
@@ -442,7 +442,7 @@ var boatTypes = {
         scale: [0.15, 0.18, 0.12],
         offset: [0, 5.5, 0],
         rotation: [0, 0, 0],
-        availableAt: ['Jamaica'],
+        availableAt: ['Jamaica']
     },
     18: {
         id: 18,
@@ -468,7 +468,7 @@ var boatTypes = {
         scale: [0.15, 0.15, 0.15],
         offset: [2, 11.6, 3],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: ['Jamaica'],
+        availableAt: ['Jamaica']
     },
     19: {
         id: 19,
@@ -494,7 +494,7 @@ var boatTypes = {
         scale: [0.1, 0.1, 0.1],
         offset: [1, 10, 5],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: ['Jamaica'],
+        availableAt: ['Jamaica']
     },
     20: {
         id: 20,
@@ -520,7 +520,7 @@ var boatTypes = {
         scale: [0.1, 0.1, 0.1],
         offset: [1, 13.4, 1],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: ['Jamaica'],
+        availableAt: ['Jamaica']
     },
     21: {
         id: 21,
