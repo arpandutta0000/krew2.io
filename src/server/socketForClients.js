@@ -1105,6 +1105,7 @@ io.on(`connection`, async socket => {
                                     clan: undefined
                                 });
                                 playerEntity.clan = undefined;
+                                playerEntity.clanRequest = undefined;
                                 return callback(true);
                             });
                         } else {
