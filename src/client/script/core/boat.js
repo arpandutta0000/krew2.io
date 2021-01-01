@@ -589,3 +589,5 @@ Boat.prototype.exitMotherShip = function (mothership) {
     this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
 
 };
+
+export default Boat;
