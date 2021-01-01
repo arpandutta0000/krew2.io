@@ -1148,15 +1148,17 @@ io.on(`connection`, async socket => {
                         user.clan = undefined;
                         user.clanRequest = undefined;
 
-                        user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3));
+                        user.save(() => {
+                            playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3)
 
-                        for (let i in core.players) {
-                            let player = core.players[i];
-                            if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
-                        }
+                            for (let i in core.players) {
+                                let player = core.players[i];
+                                if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                            }
 
-                        log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        return callback(true);
+                            log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                            return callback(true);
+                        });
                     }
                 }
 
