@@ -723,10 +723,10 @@ io.on(`connection`, async socket => {
                         let giveUser = args.shift();
                         let giveAmount = args[0] ? parseInt(args.shift()) : undefined;
 
-                        if (!giveAmount || isNaN(giveAmount)) return playerEntity.socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
-
                         let player = Object.values(core.players).find(player => player.name == giveUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+
+                        if (!giveAmount || isNaN(giveAmount)) return playerEntity.socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
@@ -749,8 +749,6 @@ io.on(`connection`, async socket => {
 
                         boat.captainId = player.id;
                         playerEntity.socket.emit(`showCenterMessage`, `You have succesfully set the captain of the ship to ${captainUser}!`, 3, 1e4);
-
-                        player.socket.emit(`showCenterMessage`, `You are now the captain!`, 3, 1e4);
 
                         log(`Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Set Captain`, `Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name}.\nIP: ${playerEntity.socket.handshake.address}.`);
