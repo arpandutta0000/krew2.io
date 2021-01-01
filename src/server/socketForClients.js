@@ -1110,7 +1110,10 @@ io.on(`connection`, async socket => {
                         } else {
                             // Dereference the player's clan.
                             user.clan = undefined;
+                            user.clanRequest = undefined;
+
                             playerEntity.clan = undefined;
+                            playerEntity.clanRequest = undefined;
 
                             // If he is a leader, remove him from the leaders' list.
                             if (clan.leaders.includes(playerEntity.name)) clan.leaders.splice(clan.leaders.indexOf(playerEntity.name), 1);
@@ -1140,7 +1143,10 @@ io.on(`connection`, async socket => {
                     } else {
                         // Dereference the player's clan.
                         playerEntity.clan = undefined;
+                        playerEntity.clanRequest = undefined;
+
                         user.clan = undefined;
+                        user.clanRequest = undefined;
 
                         user.save(() => playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3));
 
@@ -1222,6 +1228,7 @@ io.on(`connection`, async socket => {
                         } else callback(false);
                     } else if (action.action && action.action == `kick`) {
                         otherUser.clan = undefined;
+                        otherUser.clanRequest = undefined;
 
                         if (clan.leaders.includes(action.id)) clan.leaders.splice(clan.leaders.indexOf(action.id), 1);
                         otherUser.save(() => {
@@ -1231,8 +1238,9 @@ io.on(`connection`, async socket => {
                                     if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
                                         player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
-                                        player.clan = undefined;
                                         player.clanLeader = false;
+
+                                        player.clan = undefined;
                                         player.clanRequest = undefined;
                                     }
                                 }
