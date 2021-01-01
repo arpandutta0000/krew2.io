@@ -2,8 +2,10 @@ const Webpack = require(`webpack`);
 const path = require(`path`);
 const dotenv = require(`dotenv`).config();
 
+let appMode = process.env.NODE_ENV;
+
 module.exports = {
-    mode: process.env.NODE_ENV == `prod` ? `production` : `development`,
+    mode: appMode == `prod` ? `production` : `development`,
     entry: [
         `./src/client/script/core/core_client/config.js`,
         `./src/client/script/rangeInput.js`,
@@ -48,7 +50,7 @@ module.exports = {
         `./src/client/script/connection.js`
     ],
     output: {
-        path: path.resolve(__dirname, `dist/script`),
+        path: path.resolve(__dirname, appMode == `prod` ? `dist/script` : `src/client/script`),
         filename: `dist.min.js`
     },
     plugins: [new Webpack.IgnorePlugin(/node_modules/)],
