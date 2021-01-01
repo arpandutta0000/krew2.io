@@ -1,6 +1,4 @@
 const { models, textures } = require(`./loader.js`);
-const setShipModels = require(`./core/core_client/boat.js`);
-const { setPlayerModels } = require(`./core/core_client/player.js`);
 
 var base_geometries = {
     box: new THREE.BoxBufferGeometry(1, 1, 1),
