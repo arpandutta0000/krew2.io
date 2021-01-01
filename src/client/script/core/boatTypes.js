@@ -262,7 +262,6 @@ var boatTypes = {
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
     },
-
     11: {
         id: 11,
         image: '<img src="./assets/img/baby_fancy.png" style="height: 35px">',
@@ -344,7 +343,7 @@ var boatTypes = {
     14: {
         id: 14,
         image: '<img src="./assets/img/QBJ.png" style="height: 45px">',
-        name: "Queen Barb's Justice",
+        name: 'Queen Barb\'s Justice',
         hp: 3e3,
         turnspeed: 0.7,
         price: 2e5,
@@ -367,7 +366,6 @@ var boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: ['Spain']
     },
-
     15: {
         id: 15,
         image: '<img src="./assets/img/trader.png" style="height: 35px">',
@@ -499,7 +497,7 @@ var boatTypes = {
     20: {
         id: 20,
         image: '<img src="./assets/img/QBJ.png" style="height: 50px">',
-        name: "Queen Barb's Justice 2",
+        name: 'Queen Barb\'s Justice 2',
         hp: 4e3,
         turnspeed: 0.7,
         price: 35e4,

@@ -112,8 +112,8 @@ let boatTypes = {
         speed: 5.1,
         labelHeight: 12,
         regeneration: 1,
-        body: `ship1`,
-        sail: `ship1`,
+        body: `trader`,
+        sail: `trader`,
         scale: [5.5, 5.5, 5.5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -136,8 +136,8 @@ let boatTypes = {
         speed: 5.8,
         labelHeight: 12,
         regeneration: 1,
-        body: `ship1`,
-        sail: `ship1`,
+        body: `boat`,
+        sail: `boat`,
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -160,8 +160,8 @@ let boatTypes = {
         speed: 5.9,
         labelHeight: 12,
         regeneration: 1,
-        body: `ship1`,
-        sail: `ship1`,
+        body: `boat`,
+        sail: `boat`,
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -184,8 +184,8 @@ let boatTypes = {
         speed: 6.0,
         labelHeight: 12,
         regeneration: 1,
-        body: `ship1`,
-        sail: `ship1`,
+        body: `boat`,
+        sail: `boat`,
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -208,8 +208,8 @@ let boatTypes = {
         speed: 5.9,
         labelHeight: 21,
         regeneration: 1,
-        body: `ship2`,
-        sail: `ship2`,
+        body: `destroyer`,
+        sail: `destroyer`,
         scale: [6, 6, 6],
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
@@ -232,8 +232,8 @@ let boatTypes = {
         speed: 5.8,
         labelHeight: 21,
         regeneration: 1,
-        body: `ship2`,
-        sail: `ship2`,
+        body: `destroyer`,
+        sail: `destroyer`,
         scale: [6, 6, 6],
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
@@ -256,8 +256,8 @@ let boatTypes = {
         speed: 5.7,
         labelHeight: 21,
         regeneration: 1,
-        body: `ship2`,
-        sail: `ship2`,
+        body: `destroyer`,
+        sail: `destroyer`,
         scale: [6, 6, 6],
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
@@ -384,8 +384,8 @@ let boatTypes = {
         speed: 5,
         labelHeight: 12,
         regeneration: 1,
-        body: `ship1`,
-        sail: `ship1`,
+        body: `trader`,
+        sail: `trader`,
         scale: [5.5, 5.5, 5.5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0],
@@ -409,8 +409,8 @@ let boatTypes = {
         speed: 4.9,
         labelHeight: 12,
         regeneration: 1,
-        body: `ship1`,
-        sail: `ship1`,
+        body: `trader`,
+        sail: `trader`,
         scale: [5.5, 5.5, 5.5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0],
@@ -623,4 +623,4 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Guinea`]
     }
-}
+};
