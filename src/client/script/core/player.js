@@ -1,4 +1,5 @@
-// PLayers are entities, check core_entity.js for the base class
+const Entity = require(`./entity.js`);
+
 Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 

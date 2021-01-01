@@ -1,4 +1,5 @@
-// these are functions that the entities only have on the client (Like Threejs bodies)
+const Entity = require(`../entity.js`);
+
 Entity.prototype.clientInit = function () {
     // if (this.id == myPlayerId){
     //     this.isPlayer = true;

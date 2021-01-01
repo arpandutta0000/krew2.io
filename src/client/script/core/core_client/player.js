@@ -1,3 +1,5 @@
+const Player = require(`../player.js`);
+
 var lookingDownLimit = -1;
 var lookingUpLimit = 1;
 var currControls = new GameControls();

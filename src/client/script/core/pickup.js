@@ -1,4 +1,5 @@
-// PLayers are entities, check core_entity.js for the base class
+const Entity = require(`./entity.js`);
+
 Pickup.prototype = new Entity();
 Pickup.prototype.constructor = Pickup;
 
