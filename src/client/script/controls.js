@@ -1,4 +1,4 @@
-//var controls;
+const { renderer } = require(`./main.js`);
 
 var GameControls = function () {
     var _this = this;

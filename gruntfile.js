@@ -256,7 +256,6 @@ module.exports = (grunt => {
         `clean:dist`,
         `concat:server`,
         `clean:preMinified`,
-        `copy:dist`,
         `webpack:dev`
     ]);
 
