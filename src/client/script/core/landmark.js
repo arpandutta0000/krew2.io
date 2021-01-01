@@ -37,12 +37,12 @@ function Landmark (type, x, z, config) {
     this.baseGeometry = geometry.island;
     this.baseMaterial = materials.colorset;
     if (this.name == 'Jamaica') {
-        // this.palm = new THREE.Mesh(geometry.palm, materials.colorset);
-        // this.palm.position.set(850, 0, 850);
-        // this.palm.scale.x = 8;
-        // this.palm.scale.y = 8;
-        // this.palm.scale.z = 8;
-        // scene.add(this.palm);
+        this.palm = new THREE.Mesh(geometry.palm, materials.colorset);
+        this.palm.position.set(850, 0, 850);
+        this.palm.scale.x = 8;
+        this.palm.scale.y = 8;
+        this.palm.scale.z = 8;
+        scene.add(this.palm);
     }
     // Christmas stuff (add snowman and christmas tree on Jamaica)
     // models.elka.position.set(840, 2, 840);
