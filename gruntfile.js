@@ -88,21 +88,7 @@ module.exports = (grunt => {
         // Clean up static folder and unminified client source.
         clean: {
             dist: [`dist/*`],
-            devMinified: [`script/dist.js`]
-        },
-
-        // Minify - ES5.
-        uglify: {
-            options: {
-                mangle: {
-                    reserved: [`jQuery`, `THREE`]
-                },
-            },
-            dist: {
-                files: {
-                    'dist/script/dist.min.js': [`dist/script/dist.js`]
-                }
-            }
+            preMinified: [`script/dist.js`]
         },
 
         // TODO: Minify the source with webpack.
@@ -269,7 +255,7 @@ module.exports = (grunt => {
     grunt.registerTask(`build-dev`, [
         `clean:dist`,
         `concat:server`,
-        `clean:devMinified`
+        `clean:preMinified`,
         `copy:dist`,
         `webpack:dev`
     ]);
