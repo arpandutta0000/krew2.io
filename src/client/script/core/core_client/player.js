@@ -12,8 +12,12 @@ var setPlayerModels = function () {
         map: textures.dog_diffuse
     });
 
+    var modelBody = new THREE.Mesh(geometry.dog_1, materials.dog_1);
+    modelBody.castShadow = true;
+    modelBody.receiveShadow = true;
+
     playerModels.push({
-        body: new THREE.Mesh(geometry.dog_1, materials.dog_1),
+        body: modelBody,
         scale: new THREE.Vector3(0.04, 0.04, 0.04),
         offset: new THREE.Vector3(0, -0.4, 0.8),
         rotation: new THREE.Vector3(0.4, Math.PI, 0),

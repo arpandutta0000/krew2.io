@@ -42,6 +42,8 @@ function Landmark (type, x, z, config) {
         this.palm.scale.x = 8;
         this.palm.scale.y = 8;
         this.palm.scale.z = 8;
+        this.palm.castShadow = true;
+        this.palm.recieveShadow = true;
         scene.add(this.palm);
     }
     // Christmas stuff (add snowman and christmas tree on Jamaica)

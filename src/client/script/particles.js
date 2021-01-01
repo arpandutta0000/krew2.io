@@ -23,6 +23,7 @@ function Particle (params) {
     this.geometry = new THREE.Mesh(params.geometry, params.material);
     this.geometry.position.set(params.x, params.y, params.z);
     this.geometry.scale.set(params.w, params.h, params.d);
+    this.geometry.castShadow = true;
 
     // set this to true and the particle will be removed
     this.deleteMe = false;

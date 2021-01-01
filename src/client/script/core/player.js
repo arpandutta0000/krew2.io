@@ -583,6 +583,8 @@ Player.prototype.changeWeapon = function () {
     } else if (this.weapon && this.activeWeapon === 1) {
         this.geometry.remove(this.weapon);
         var fishingModel = new THREE.Mesh(geometry.fishingrod, materials.fishingrod);
+        fishingModel.castShadow = true;
+        fishingModel.receiveShadow = true;
         if (this.isPlayer)
             ui.playAudioFile(false, 'switch-rod-cannon');
         this.weapon = fishingModel.clone();
@@ -590,6 +592,8 @@ Player.prototype.changeWeapon = function () {
         this.weapon.position.set(0, 0.1, -0.2);
         this.weapon.rotation.set(0, Math.PI, 0);
         this.weapon.name = 'body';
+        this.weapon.castShadow = true;
+        this.weapon.receiveShadow = true;
         this.geometry.add(this.weapon);
     } else if (this.weapon && this.activeWeapon === 2) {
         this.geometry.remove(this.weapon);

@@ -159,6 +159,7 @@ Projectile.prototype.clientlogic = function (dt) {
                 this.startPoint.set(boundariesBox.max.x - 0.5, boundariesBox.max.y, boundariesBox.max.z - 0.5);
             }
 
+            this.line.castShadow = true;
             scene.add(this.line);
             this.geometry = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
         }
@@ -166,6 +167,7 @@ Projectile.prototype.clientlogic = function (dt) {
         //this.geometry = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
         //this.geometry = projectileObj.clone();
         sceneCanBalls[this.id] = this.geometry;
+        this.geometry.castShadow = true;
         scene.add(this.geometry);
         this.setProjectileModel = false;
     }

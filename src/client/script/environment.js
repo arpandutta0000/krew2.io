@@ -7,9 +7,11 @@ var setUpEnvironment = function () {
     renderer.setClearColor(0x00c5ff);
 
     // Add ambient and point light
-    ambientlight = new THREE.AmbientLight(0xC4CEE2);
+    ambientlight = new THREE.AmbientLight(0xdae8f5);
     scene.add(ambientlight);
-    pointLight = new THREE.PointLight(0xfff7ba);
+    pointLight = new THREE.PointLight(0xfff7ba, 0.8);
+    pointLight.position = (0, 50, 50)
+    pointLight.castShadow = true;
     scene.add(pointLight);
 
     // env cube
