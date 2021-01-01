@@ -703,26 +703,29 @@ io.on(`connection`, async socket => {
                         else currentTime = `night`;
 
                         playerEntity.socket.emit(`showCenterMessage`, `Succesfully set the time to ${currentTime}!`, 3, 1e4);
+                        log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
                         io.emit(`cycle`, currentTime);
                         return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.\nIP: ${playerEntity.socket.handshake.address}.`);
                     } else if (command == `give` && isAdmin) {
                         let giveUser = args.shift();
                         let giveAmount = args[0] ? parseInt(args.shift()) : undefined;
 
-                        if(!giveAmount || isNaN(giveAmount)) return playerEntity.socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
+                        if (!giveAmount || isNaN(giveAmount)) return playerEntity.socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
 
                         let player = Object.values(core.players).find(player => player.name == giveUser);
-                        if(!player) playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+                        if (!player) playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
-                        for(let i in core.players) {
+                        for (let i in core.players) {
                             let curPlayer = core.players[i];
 
-                            if(player.name == curPlayer.name) {
+                            if (player.name == curPlayer.name) {
                                 curPlayer.gold += giveAmount;
                                 curPlayer.socket.emit(`showCenterMessage`, `You have received ${giveAmount} gold!`, 4, 1e4);
                             }
+                            else if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
                         }
-                        return bus.emit(`Player ${playerEntity.name} was auto-muted | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+                        log(`blue`, `Player ${playerEntity.name} gave ${giveUser} ${giveAmount} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+                        return bus.emit(`report`, `Admin Give`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.\nIP: ${playerEntity.socket.handshake.address}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
