@@ -2,28 +2,35 @@
 <html lang="en">
 
 <head>
+    <!-- Document Setup -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Set website metadata -->
     <title>Krew.io</title>
     <meta name="description" content="An online 3D browser game where you shoot ships and other players to earn money and rule the seven seas!">
     <meta name="keywords" content="krew, io, devclied, shooter, game">
-
     <meta property="og:title" content="Krew.io">
     <meta property="og:description" content="An online 3D browser game where you shoot ships and other players to earn money and rule the seven seas!">
 
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/gamestyles.css">
+    <!-- Get external styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.3/css/bootstrap-slider.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Get local styles -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/gamestyles.css">
     <link rel="stylesheet" href="/assets/css/icofont.css">
     <link rel="stylesheet" href="/assets/css/dark-theme.min.css">
+    <link rel="stylesheet" href="magnific-popup.css">
 
+    <!-- Set icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
 
+    <!-- Get audio files -->
     <audio id="wheelspin" src="/assets/audio/Wheel Spin.wav"></audio>
     <audio id="cannon" src="/assets/audio/Cannon.wav"></audio>
     <audio id="cannon-hit" src="/assets/audio/Cannonball Hit.wav"></audio>
@@ -48,39 +55,34 @@
     <audio id="switch-rod-cannon" src="/assets/audio/Switch Rod Cannon.wav"></audio>
     <audio id="turning" src="/assets/audio/Turning.wav"></audio>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
-    <script src="/assets/js/hyperapp.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js" integrity="sha512-X7kCKQJMwapt5FCOl2+ilyuHJp+6ISxFTVrx+nkrhgplZozodT9taV2GuGHxBgKKpOJZ4je77OuPooJg9FJLvw==" crossorigin="anonymous"></script>
+    <!-- Get scripts from Cloudflare CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hyperapp/1.2.4/hyperapp.js" integrity="sha512-6TKXSoc1P/9h8nIxLO1CiKV8+5ibwCkyR70KmeyEOumg00NQjB87gggHuQFCKNDsVCJLVBEcW26yGZfjhS0VPQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" integrity="sha512-qoCTmFwBtCPvFhA+WAqatSOrghwpDhFHxwAGh+cppWonXbHA09nG1z5zi4/NGnp8dUhXiVrzA6EnKgJA+fyrpw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js" integrity="sha512-C1zvdb9R55RAkl6xCLTPt+Wmcz6s+ccOvcr6G57lbm8M2fbgn2SUjUJbQ13fEyjuLViwe97uJvwa1EUf4F1Akw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js" integrity="sha512-X7kCKQJMwapt5FCOl2+ilyuHJp+6ISxFTVrx+nkrhgplZozodT9taV2GuGHxBgKKpOJZ4je77OuPooJg9FJLvw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.js" integrity="sha512-4ehxEfB8p7WN4XXsGljAQj3dcef4KxyqZ88VllxUHWv4HVN4BT1Z6Ei/BSmKgQ/liZ11CokoZE1SVcP8+ESmvA==" crossorigin="anonymous"></script>
 
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
-
+    <!-- Get other external scripts -->
+    <script src='https://download.gameanalytics.com/js/GameAnalytics-4.1.4.min.js'></script>
+    <script src="https://ssl.cdne.cpmstar.com/cached/js/lib.js" async></script>
+    <script src="https://ssl.minijuegosgratis.com/lechuck/js/latest.js" id='LeChuckAPIjs'></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-105351798-36" async></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+    <!-- Get local scripts -->
+    <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/growl-notification.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" integrity="sha512-qoCTmFwBtCPvFhA+WAqatSOrghwpDhFHxwAGh+cppWonXbHA09nG1z5zi4/NGnp8dUhXiVrzA6EnKgJA+fyrpw==" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.js"></script>
     <script src="/assets/js/THREE.TextTexture.es5.js"></script>
     <script src="/assets/js/THREE.TextSprite.es5.js"></script>
 
-    <!-- AdinPlay Ads (Commented out for dev, UNCOMMENT FOR PRODUCTION) -->
-    <!-- <script async src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js">
-        let aiptag = aiptag || {};
-        aiptag.cmd = aiptag.cmd || [];
-        aiptag.cmd.display = aiptag.cmd.display || [];
-        aiptag.cmd.player = aiptag.cmd.player || [];
 
-        aiptag.gdprShowConsentTool = true;
-        aiptag.gdprConsentToolPosition = "bottom";
-    </script> -->
 
-    <!-- Minijugos  -->
-    <script id='LeChuckAPIjs' src="https://ssl.minijuegosgratis.com/lechuck/js/latest.js"></script>
-    <script type='text/javascript'>
+    <!-- Game Portal API -->
+    <script>
         lechuck = new LeChuckAPI({});
 
         function miniplaySend2API (stat, value) {
@@ -90,53 +92,28 @@
         }
     </script>
 
-    <script async src="https://ssl.cdne.cpmstar.com/cached/js/lib.js"></script>
+    <!-- AdinPlay Ads Initialization (Comment out for dev, UNCOMMENT FOR PRODUCTION) -->
+    <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js" async>
+        let aiptag = aiptag || {};
+        aiptag.cmd = aiptag.cmd || [];
+        aiptag.cmd.display = aiptag.cmd.display || [];
+        aiptag.cmd.player = aiptag.cmd.player || [];
 
-    <!-- sources for tutorial popover -->
-    <link rel="stylesheet" href="magnific-popup.css">
-    <script src="/assets/js/jquery.magnific-popup.js"></script>
+        aiptag.gdprShowConsentTool = true;
+        aiptag.gdprConsentToolPosition = "bottom";
+    </script>
+
 </head>
 
+
+
 <body>
-    <script src='https://download.gameanalytics.com/js/GameAnalytics-4.1.4.min.js'></script>
-    <script>
-        window.GameAnalytics = window.GameAnalytics || function () {
-            (GameAnalytics.q = GameAnalytics.q || []).push(arguments)
-        };
-        GameAnalytics("initialize", "ae40c5eb814568c74813aeeb409530bf",
-            "58ae82e5b7a5777dc69b13b1a2f6045fbaf29281");
+    <!-- START Pre-Gameplay HTML -->
 
-
-
-        let adEnabled = true;
-        if (document.referrer) {
-            if (window.location != window.parent.location && document.referrer.includes("y8")) {
-                adEnabled = false;
-                // loading Y8 SDK
-                // Load the JS SDK
-                (function (d, s, id) {
-                    let js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) {
-                        return;
-                    }
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = document.location.protocol == 'https:' ? "https://cdn.y8.com/api/sdk.js" : "http://cdn.y8.com/api/sdk.js";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'id-jssdk'));
-            }
-        }
-    </script>
-    <!-- End GameAnalytics -->
-
-    <div id="loading-wheel">
-        <img src="/assets/img/wheel.png" style="margin-top:10%" id="wheel">
-        <div style="font-family:caribbean; font-size:20px;">Loading...</div>
-    </div>
-    <div id="spyglass" style="display:none">
-        <img src="/assets/img/spyglass_ocular.png" style="width: 100%; height: 100; position: absolute;">
-    </div>
+    <!-- START Wall, select server, select spawn, buttons, changelog -->
     <div class="modal show text-xs-center" id="login-modal" style="padding-top: 10px;">
+
+        <!-- If a user is logged in, show in top right and add logout hyperlink -->
         <span id="logged-in" style="position:absolute; top: 10px; right: 10px; color: #fff; display:none;">You are logged in as</span>
         <i class="btn-theme icofont icofont-volume-bar hidden"></i>
         <a href="#" id="login-link" onclick="logoutUser(event)" style="position:absolute; top: 30px; right: 10px; color: #fff; display:none;"></a>
@@ -148,9 +125,12 @@
             <img src="/assets/img/devclied.png" style="position:fixed; width: 5%; height:auto; left:1%; bottom:1%">
         </a>
 
+        <!-- START Pre-Gameplay Modals -->
         <div id="modal-dialog" class="container" role="document">
             <div class="row justify-content-center">
                 <div style="width:100%; top:310px">
+
+                    <!-- Wall of Fame Modal (Left) -->
                     <div class="wall-of-fame-div">
                         <div class="white-bg" style="border-radius: 5px; word-wrap: break-word">
                             <h4 class="changelog-title">Wall of fame</h4><br>
@@ -170,21 +150,29 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- START Center Modal -->
                     <div class="main-menu-div">
                         <div class="white-bg" style="border-radius: 5px; padding-top: 12px">
+
                             <div>
                                 <small>Try <a href="https://relmz.io/" target="_window">relmz.io</a></small>
                                 </br>
                                 <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock.</span>
                             </div>
+
+                            <!-- If the user is using an invite link -->
                             <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">
                                 Ahoy! It seems like you're using an invite link ;D
                             </div>
 
+                            <!-- Select server -->
                             <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
                                 <select id="server-list" class="custom-select form-control"></select>
                             </div>
 
+                            <!-- Select spawn -->
                             <div id="select-spawn" class="form-group" style="margin:10 auto;">
                                 <select id="spawn-selection" class="custom-select form-control">
                                     <option value="sea">Spawn in the sea</option>
@@ -197,11 +185,13 @@
                                 </select>
                             </div>
 
+                            <!-- Play button, login/register/account settings button, and watch tutorial button -->
                             <div class="form-group" style="margin:10 auto;">
                                 <button id='play-button' type="button" class="btn btn-success btn-block" disabled>Loading...</button>
                                 <button id='login-button' type="button" class="btn btn-warning btn-block" disabled style="display: none">Log In / Sign Up</button>
                                 <button id='tutorial-button' type="button" class="btn btn-primary btn-block popup-youtube" href="https://www.youtube.com/watch?v=kwAydeQL73s?autoplay=1&rel=0">Watch tutorial</button>
                             </div>
+
                             <!-- jQuery code for tutorial popover -->
                             <script>
                                 $(document).ready(function () {
@@ -217,6 +207,7 @@
                                 });
                             </script>
 
+                            <!-- Socials icons and links -->
                             <a target="_blank" href="https://discord.krew.io" style="text-decoration: none;">
                                 <img class="rounded" src="/assets/img/discord.png">
                             </a>
@@ -229,9 +220,9 @@
                             <a target="_blank" href="https://twitter.com/krewio" style="text-decoration: none;">
                                 <img class="rounded" src="/assets/img/twitter.png">
                             </a>
-                            <br>
-                            <br>
+                            <br><br>
 
+                            <!-- Ad on center modal -->
                             <div id="cpmstar_ad" style="position:relative;text-align: center;">
                                 <script language="Javascript">
                                     let cpmstar_rnd = Math.round(Math.random() * 999999);
@@ -240,8 +231,8 @@
                                 </script>
                             </div>
 
-                            <br>
-                            <br>
+                            <!-- Disclaimers -->
+                            <br><br>
                             <small>
                                 <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
                             </small>
@@ -249,21 +240,26 @@
                             <small>
                                 Proxy / VPN detection by <a href="https://getipintel.net">GetIPIntel.net</a>
                             </small>
-
                         </div>
                     </div>
+                    <!-- END Center Modal -->
 
+                    <!-- START Changelog Modal (Right) -->
                     <div class="changelog-box">
                         <div class="white-bg" style="border-radius: 5px">
                             <h4 class="changelog-title">Changelog</h4>
                             <small>Detailed information on <a style="font-size:.8rem" href="https://discord.krew.io">Discord</a></small>
+
+                            <!-- Ad on changelog modal -->
                             <div id='krew-io_300x250'>
-                                <!-- <script type='text/javascript'>
+                                <script>
                                     aiptag.cmd.display.push(function () {
                                         aipDisplayTag.display('krew-io_300x250');
                                     });
-                                </script> -->
+                                </script>
                             </div>
+
+                            <!-- START Changelog Articles -->
                             <div class="changelog-div">
                                 <article class="changelog-article">
                                     <h5 class="patch-title">Patch (1.1.0b) - January 1st, 2021</h5>
@@ -322,15 +318,21 @@
                                     </div>
                                 </article>
                             </div>
+                            <!-- END Changelog Articles -->
+
                         </div>
                     </div>
-                </div>
-                <!-- // modal-body -->
-            </div>
-            <!-- // modal content -->
-        </div>
-    </div>
+                    <!-- END Changelog Modal (Right) -->
 
+                </div>
+            </div>
+        </div>
+        <!-- END Pre-Gameplay Modals -->
+
+    </div>
+    <!-- END Wall, select server, select spawn, buttons, changelog -->
+
+    <!-- Login Modal -->
     <div class="modal fade" id="login-box" role="dialog" disabled>
         <br><br><br>
         <form class="modal-dialog modal-md" id="login-form" action="/login" method="post">
@@ -369,6 +371,7 @@
         </form>
     </div>
 
+    <!-- Register Modal -->
     <div class="modal fade" id="register-box" role="dialog" disabled>
         <br><br><br>
         <form class="modal-dialog modal-md" id="register-form" action="/register" method="post">
@@ -419,6 +422,7 @@
         </form>
     </div>
 
+    <!-- START Manage Account Modal -->
     <div class="modal fade" id="manage-account-box" role="dialog" disabled>
         <br><br><br>
         <div class="modal-dialog modal-md">
@@ -430,8 +434,9 @@
                         <br>
                         <h1>Manage Account</h1>
                     </div>
-
                     <br>
+
+                    <!-- Change Username -->
                     <form class="form-inline form-group h5" id="change-username-form" action="/change_username" method="post">
                         <label style="font-size: 24px;">Username</label>
 
@@ -454,8 +459,9 @@
                             </div>
                         </div>
                     </form>
-
                     <br>
+
+                    <!-- Change Email -->
                     <form class="form-inline form-group h5" id="change-email-form" action="/change_email" method="post">
                         <label style="font-size: 24px;">Email</label>
 
@@ -478,8 +484,9 @@
                             </div>
                         </div>
                     </form>
-
                     <br>
+
+                    <!-- Change Account Game Settings -->
                     <form class="form-group h5" id="change-account-game-settings-form" action="/change_account_game_settings" method="post">
                         <label style="font-size: 24px;">Game Settings</label>
 
@@ -522,8 +529,9 @@
                             </div>
                         </div>
                     </form>
-
                     <br>
+
+                    <!-- Change Default Krew Name -->
                     <form class="form-inline form-group h5" id="change-default-krew-name-form" action="/change_default_krew_name" method="post">
                         <label style="font-size: 24px;">Default Krew Name</label>
 
@@ -546,6 +554,7 @@
                         </div>
                     </form>
 
+                    <!-- Logout, reset password, and delete account buttons -->
                     <br><br>
                     <form action="/logout">
                         <input type="submit" class="btn btn-logout btn-block" value="Logout" />
@@ -558,7 +567,9 @@
             </div>
         </div>
     </div>
+    <!-- END Manage Account Modal -->
 
+    <!-- Reset Password Modal -->
     <div class="modal fade" id="reset-password-box" role="dialog" disabled>
         <br><br><br>
         <form class="modal-dialog modal-md" id="reset-password-form" action="/reset_password" method="post">
@@ -593,6 +604,7 @@
         </form>
     </div>
 
+    <!-- Delete Account Modal -->
     <div class="modal fade" id="delete-account-box" role="dialog" disabled>
         <br><br><br>
         <form class="modal-dialog modal-md" id="delete-account-form" action="/delete_account" method="post">
@@ -622,6 +634,26 @@
         </form>
     </div>
 
+    <!-- END Pre-Gameplay HTML -->
+
+
+
+
+
+    <!-- START Gameplay HTML -->
+
+    <!-- Loading Wheel -->
+    <div id="loading-wheel">
+        <img src="/assets/img/wheel.png" style="margin-top:10%" id="wheel">
+        <div style="font-family:caribbean; font-size:20px;">Loading...</div>
+    </div>
+
+    <!-- Spyglass vignette image -->
+    <div id="spyglass" style="display:none">
+        <img src="/assets/img/spyglass_ocular.png" style="width: 100%; height: 100; position: absolute;">
+    </div>
+
+    <!-- Game Over Modal -->
     <div class="modal fade text-sm-center" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
@@ -701,7 +733,7 @@
         </div>
     </div>
 
-    <!-- shopping menu -->
+    <!-- Shopping Menu Modal -->
     <div id="shopping-modal">
         <div id="island-div">
             <div style="border: 2px solid; border-radius: .3em; background-color:rgba(255,255,255); width: 800px">
@@ -733,7 +765,7 @@
         </div>
     </div>
 
-    <!-- Krew list modal -->
+    <!-- Krew List modal -->
     <div id="krew-list-modal">
         <div>
             <div style="background-color: rgba(255,255,255); border: 2px solid; border-radius: 5px;">
@@ -752,7 +784,7 @@
         </div>
     </div>
 
-    <!-- Ship Status modal -->
+    <!-- Krew, Clan, and Game settings modal -->
     <div id="ship-status-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -912,7 +944,7 @@
         </div>
     </div>
 
-    <!-- modal for help "?" -->
+    <!-- Help Modal -->
     <div id="help-modal">
         <div class="modal-content" style="border: 2px solid;">
             <div class="modal-header">
@@ -967,7 +999,7 @@
         </div>
     </div>
 
-    <!-- modal for ingame quests / achievements -->
+    <!-- Quests Modal -->
     <div id="quests-modal">
         <div class="modal-content" style="border: 2px solid;">
             <div class="modal-header">
@@ -1131,7 +1163,8 @@
             </div>
         </div>
     </div>
-    <!-- modal for bank -->
+
+    <!-- Bank Modal -->
     <div id="bank-modal">
         <div class="modal-content" style="border: 2px solid;">
             <div class="modal-header">
@@ -1208,7 +1241,11 @@
         </div>
     </div>
 
+
+    <!-- START Game UI -->
     <div id="game-ui" class="container-fluid">
+
+        <!-- Krew Leaderboard (Upper Right) -->
         <div id="leaderboard">
             <div class="leaderbord-logo">&nbsp;</div>
             <div id="leaderbord-head">
@@ -1219,6 +1256,7 @@
             <div id="leaderboard-data"></div>
         </div>
 
+        <!-- Player Leaderboard (Shift) -->
         <div id="player-leaderboard">
             <div id="player-leaderbord-head">
                 <div class="grid-left h8" style="line-height: 38px; margin-top: -15px">Player leader board</div>
@@ -1237,6 +1275,7 @@
             <div id="playerScoreData"></div>
         </div>
 
+        <!-- Chat -->
         <div id="chat-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px;">
             <i class="btn-theme icofont icofont-volume-bar hidden"></i>
             <ul class="nav nav-tabs">
@@ -1277,10 +1316,12 @@
             </div>
         </div>
 
+        <!-- Show Chat button -->
         <div id="show-chat" class="btn btn-primary" style="bottom: 0px; display: none; position: absolute; margin: 15px;">
             Show Chat
         </div>
 
+        <!-- Inventory UI (Bottom Middle) -->
         <div id="experience-ui">
             <div id="inventory-container">
                 <div data-tooltip="Press '1' to switch to cannon" data-tooltip-location="top" id="cannon-item-div" class="text-warning" style="font-size: 12px;background-color: #f9f9f9;border-radius: 5px;position: relative">
@@ -1330,12 +1371,11 @@
             </div>
         </div>
 
-
-
+        <!-- Earn gold tip -->
         <div id="earn-gold" class="text-warning" style="display: none; font-size: 18px;background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 5px;">Earn gold by catching crabs and shells!</div>
-
         <span id="delta-gold" class="h1"></span>
 
+        <!-- Top Menu UI (Top Middle) -->
         <div id="top-menu-ui">
             <table style="table-layout: fixed; width: 100%; margin-top: 5px">
                 <tr>
@@ -1380,6 +1420,7 @@
             </table>
         </div>
 
+        <!-- Trade Menu -->
         <div class="white-bg" id="trade-menu" role="dialog">
             <h3>Trading with</h3>
             <div class="modal-dialog modal-md" role="document">
@@ -1397,6 +1438,7 @@
             </div>
         </div>
 
+        <!-- Krew info HUD (Upper Left)-->
         <div id="krew-hud">
             <div id="krew-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px">
                 <form class="form-inline h5" id="crew-name-form">
@@ -1445,18 +1487,14 @@
                     </span>
 
                     <br />
-
-                    <!-- <span class="tag tag-warning">
-                    <i class="icofont icofont-cube"></i>
-                    <span id="supply"></span> / <span id="cargo-size"></span>
-                </span> -->
-
                 </div>
                 <div id="invite-div">
                     <input type="text" maxlength="30" class="form-control" id="invite-link">
                 </div>
             </div>
         </div>
+
+        <!-- Docking info -->
         <div id="docking-modal" class="absolute-center initial" style="display: none;">
             <div id="you-are-docked-message">You are docked at
                 <span class="port-name"></span>
@@ -1469,6 +1507,8 @@
                 <span>Sail (c)</span>
             </div>
         </div>
+
+        <!-- Departure info -->
         <div id="departure-modal" class="absolute-center" style="display: none;">
             <div id="cancel-departure-button" class="btn btn-primary disabled btn-lg">
                 <i class="icofont icofont-ship-wheel"></i>
@@ -1476,11 +1516,13 @@
             </div>
         </div>
 
+        <!-- Center info  Container -->
         <div class="text-sm-center" style="position: absolute; left: 50%; padding: 25px">
             <div id="center-div" style="position: relative; left: -50%;">
             </div>
         </div>
 
+        <!-- Shopping window -->
         <div class="text-sm-center" style="position: absolute; left: 50%; padding: 25px">
             <div id="show-shopping-modal-button" class="btn btn-primary" style="position: relative; left: -50%; z-index: 100;display: none" data-toggle="modal" data-target="#shopping-modal">
                 Open Shopping Window
@@ -1489,29 +1531,51 @@
             </div>
         </div>
 
+        <!-- Map (Lower Right) -->
         <div id="minimap-container">
             <canvas id="minimap" width="200" height="200"></canvas>
         </div>
     </div>
+    <!-- END Game UI -->
+
+    <!-- END Gameplay HTML -->
 
 
+
+
+
+    <!-- START Miscellaneous HTML -->
+
+    <!-- Preroll Ad Container -->
     <div id="preroll"></div>
     <div id="preroll-centered" class="absolute-center"></div>
-    <div id="firebaseui-auth-container" class="modal-body" role="document" style="position: absolute;z-index: 9999"></div>
 
-    <!-- below should not copied to index_dist.ejs-->
+    <!-- GameAnalytics -->
+    <script>
+        window.GameAnalytics = window.GameAnalytics || function () {
+            (GameAnalytics.q = GameAnalytics.q || []).push(arguments)
+        };
+        GameAnalytics("initialize", "ae40c5eb814568c74813aeeb409530bf",
+            "58ae82e5b7a5777dc69b13b1a2f6045fbaf29281");
+        let adEnabled = true;
+        if (document.referrer) {
+            if (window.location != window.parent.location && document.referrer.includes("y8")) {
+                adEnabled = false;
+                (function (d, s, id) {
+                    let js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {
+                        return;
+                    }
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = document.location.protocol == 'https:' ? "https://cdn.y8.com/api/sdk.js" : "http://cdn.y8.com/api/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'id-jssdk'));
+            }
+        }
+    </script>
 
-    <script src="assets/js/canvas.map.js"></script>
-    <script src="libs/ua.js"></script>
-    <script src="libs/keypress.min.js"></script>
-    <script src="libs/OBJLoader.js"></script>
-    <script src="libs/TGALoader.js"></script>
-    <script src="libs/MTLLoader.js"></script>
-
-    <script src="script/dist.min.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-105351798-36"></script>
+    <!-- Global site tag (gtag.js) (Google Analytics) -->
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -1519,28 +1583,34 @@
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-
         gtag('config', 'UA-105351798-36');
-
-        // if loaded from crazygames, update backlink to crazy games.
         if (window.location != window.parent.location) {
             console.log("inside iframe of ", document.referrer)
             if (document.referrer.includes("crazygames")) {
                 $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
             }
         }
-
-        // hide ads if in y8
         if (adEnabled == false) {
             $(".ad-div").each(function () {
                 console.log("hide!");
                 $(this).hide();
             });
-
             $("#portal-backlink").hide();
         }
     </script>
 
+    <!-- END Miscellaneous HTML -->
+
+
+
+    <!-- Scripts to only be used on Dev, do not copy to index_dist.ejs (Prod) -->
+    <script src="assets/js/canvas.map.js"></script>
+    <script src="libs/ua.js"></script>
+    <script src="libs/keypress.min.js"></script>
+    <script src="libs/OBJLoader.js"></script>
+    <script src="libs/TGALoader.js"></script>
+    <script src="libs/MTLLoader.js"></script>
+    <script src="script/dist.min.js"></script>
 </body>
 
 </html>
