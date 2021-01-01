@@ -260,8 +260,7 @@ module.exports = (grunt => {
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
         `concat:server`,
-        `concat:client`,
-        `uglify:dist`,
+        `webpack:prod`,
         `clean:preMinified`,
         `copy:dist`
     ]);
@@ -271,7 +270,7 @@ module.exports = (grunt => {
         `clean:dist`,
         `concat:server`,
         `copy:dist`,
-        `webpack:prod`
+        `webpack:dev`
     ]);
 
     // Run in dev.

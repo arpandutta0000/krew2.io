@@ -3,7 +3,7 @@ const path = require(`path`);
 const dotenv = require(`dotenv`).config();
 
 module.exports = {
-    mode: `production`,
+    mode: process.env.NODE_ENV == `prod` ? `production` : `development`,
     entry: [
         `./src/client/script/core/core_client/config.js`,
         `./src/client/script/rangeInput.js`,
