@@ -1,4 +1,5 @@
 const webpackConfig = require(`./webpack.config.js`);
+const dotenv = require(`dotenv`).config();
 
 module.exports = (grunt => {
     grunt.initConfig({
@@ -81,7 +82,7 @@ module.exports = (grunt => {
                     `src/client/script/particles.js`,
                     `src/client/script/connection.js`
                 ],
-                dest: `dist/script/dist.js`
+                dest: process.env.NODE_ENV == `prod` ? `dist/script/dist.js` : `src/client/script/dist.js`
             }
         },
 
@@ -247,6 +248,7 @@ module.exports = (grunt => {
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
         `concat:server`,
+        `concat:client`,
         `webpack:prod`,
         `copy:dist`
     ]);
@@ -255,8 +257,8 @@ module.exports = (grunt => {
     grunt.registerTask(`build-dev`, [
         `clean:dist`,
         `concat:server`,
+        `concat:client`,
         `clean:preMinified`,
-        `copy:dist`,
         `webpack:dev`
     ]);
 
@@ -265,7 +267,6 @@ module.exports = (grunt => {
 
     // Load required npm tasks.
     grunt.loadNpmTasks(`grunt-contrib-concat`);
-    grunt.loadNpmTasks(`grunt-contrib-uglify`);
     grunt.loadNpmTasks(`grunt-contrib-copy`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
     grunt.loadNpmTasks(`grunt-contrib-watch`);
