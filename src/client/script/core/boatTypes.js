@@ -581,7 +581,7 @@ var boatTypes = {
         turnspeed: 0.8,
         price: 55e4,
         maxKrewCapacity: 30,
-        cargoSize: 750,
+        cargoSize: 1500,
         baseheight: 6,
         width: 10.5,
         depth: 42,
