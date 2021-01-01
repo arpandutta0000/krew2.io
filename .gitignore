@@ -121,3 +121,4 @@ src/server/core/core_concatenated.js
 logs/
 .jsbeautifyrc
 .vscode
+src/client/script/dist.min.js*
