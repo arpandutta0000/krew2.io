@@ -1,7 +1,8 @@
 const Player = require(`../player.js`);
 const GameControls = require(`../../controls.js`);
 const {
-    materials
+    materials,
+    geometry
 } = require(`../../geometry.js`);
 const {
     textures
