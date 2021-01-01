@@ -1,3 +1,5 @@
+const { models, textures } = require(`./loader.js`);
+
 var base_geometries = {
     box: new THREE.BoxBufferGeometry(1, 1, 1),
     sphere: new THREE.SphereBufferGeometry(0.65),

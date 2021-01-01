@@ -1,4 +1,8 @@
 const GameControls = require(`./controls.js`);
+const { loader } = require(`./loader.js`);
+const { createModels, createMaterials } = require(`./geometry.js`);
+const ui = require(`./ui.js`);
+const { socket, getUrlVars } = require(`./connection.js`);
 
 // Set up some global variables that will be used throughout all the engine.
 let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight;

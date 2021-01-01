@@ -82,6 +82,4 @@ Boat.prototype.docking = function (stateId) {
 
 };
 
-module.exports = {
-    setShipModels
-}
+module.exports = setShipModels;
