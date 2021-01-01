@@ -243,7 +243,7 @@ module.exports = {
     particles,
 
     Particle,
-
+    
     createParticle,
     tickParticles
 }
