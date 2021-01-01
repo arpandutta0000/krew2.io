@@ -7,6 +7,8 @@ const {
     setPlayerModels
 } = require(`./core/core_client/player.js`);
 
+console.log(models);
+
 var base_geometries = {
     box: new THREE.BoxBufferGeometry(1, 1, 1),
     sphere: new THREE.SphereBufferGeometry(0.65),
