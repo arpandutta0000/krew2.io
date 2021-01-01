@@ -18,8 +18,11 @@ var createModels = function () {
 
     geometry.island = models.island.children[0].geometry;
     geometry.palm = models.island.children[1].geometry;
-    geometry.dog_1 = models.dog_1.children[0].geometry;
     geometry.fishingrod = models.fishingrod.children[0].geometry;
+
+    geometry.seadog = models.seadog.children[0].geometry;
+    geometry.shibainu = models.shibainu.children[0].geometry;
+    geometry.whitedog = models.whitedog.children[0].geometry;
 
     models.sloop.children[0].name = 'sail';
     models.sloop.children[1].name = 'body';

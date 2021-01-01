@@ -756,17 +756,22 @@ $(document).ready(function () {
     loader.loadModel('./assets/models/ships/boat.obj');
     loader.loadModel('./assets/models/ships/destroyer.obj');
     loader.loadModel('./assets/models/island.obj');
-    loader.loadModel('./assets/models/dogs/dog_1.obj');
     loader.loadModel('./assets/models/fishingrod.obj');
-
     loader.loadTexture('./assets/models/colorset.png');
     loader.loadTexture('./assets/models/hook.png');
-    loader.loadTexture('./assets/models/dogs/dog_diffuse.tga');
     loader.loadTexture('./assets/models/props_diffuse1.tga');
     loader.loadTexture('./assets/img/water.jpg');
     loader.loadTexture('./assets/img/cannonball.png');
     loader.loadTexture('./assets/img/crate.jpg');
     loader.loadTexture('./assets/models/tex_chest.png');
+
+    // Load Dogs
+    loader.loadModel('./assets/models/dogs/seadog.obj');
+    loader.loadModel('./assets/models/dogs/shibainu.obj');
+    loader.loadModel('./assets/models/dogs/whitedog.obj');
+    loader.loadTexture('./assets/models/dogs/seadog.tga');
+    loader.loadTexture('./assets/models/dogs/shibainu.tga');
+    loader.loadTexture('./assets/models/dogs/whitedog.tga');
 
     loader.onFinish(function () {
         // create materials and game world

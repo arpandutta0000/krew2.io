@@ -7,17 +7,49 @@ var playerModels = [];
 var PlayerRaycaster = new THREE.Raycaster();
 
 var setPlayerModels = function () {
-    materials.dog_1 = new THREE.MeshPhongMaterial({
+    materials.seadog = new THREE.MeshPhongMaterial({
         color: 0xffffff,
-        map: textures.dog_diffuse
+        map: textures.seadog
     });
 
-    var modelBody = new THREE.Mesh(geometry.dog_1, materials.dog_1);
-    modelBody.castShadow = true;
-    modelBody.receiveShadow = true;
+    materials.shibainu = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        map: textures.shibainu
+    });
+
+    materials.whitedog = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        map: textures.whitedog
+    });
+
+    var seadogModel = new THREE.Mesh(geometry.seadog, materials.seadog);
+    var shibainuModel = new THREE.Mesh(geometry.shibainu, materials.shibainu);
+    var whitedogModel = new THREE.Mesh(geometry.whitedog, materials.whitedog);
+
+    seadogModel.castShadow = true;
+    shibainuModel.castShadow = true;
+    whitedogModel.castShadow = true;
+
+    seadogModel.receiveShadow = true;
+    shibainuModel.receiveShadow = true;
+    whitedogModel.receiveShadow = true;
 
     playerModels.push({
-        body: modelBody,
+        body: seadogModel,
+        scale: new THREE.Vector3(0.04, 0.04, 0.04),
+        offset: new THREE.Vector3(0, -0.4, 0.8),
+        rotation: new THREE.Vector3(0.4, Math.PI, 0),
+    });
+
+    playerModels.push({
+        body: shibainuModel,
+        scale: new THREE.Vector3(0.04, 0.04, 0.04),
+        offset: new THREE.Vector3(0, -0.4, 0.8),
+        rotation: new THREE.Vector3(0.4, Math.PI, 0),
+    });
+
+    playerModels.push({
+        body: whitedogModel,
         scale: new THREE.Vector3(0.04, 0.04, 0.04),
         offset: new THREE.Vector3(0, -0.4, 0.8),
         rotation: new THREE.Vector3(0.4, Math.PI, 0),
