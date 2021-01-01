@@ -11,3 +11,5 @@ var updateViewport = function () {
 };
 
 window.addEventListener('resize', updateViewport, false);
+
+module.exports = updateViewport;

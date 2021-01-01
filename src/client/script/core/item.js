@@ -6,3 +6,5 @@ function Item () {}
 Item.prototype.logic = function (dt) {
 
 };
+
+module.exports = Item;

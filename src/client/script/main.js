@@ -1467,3 +1467,50 @@ var Ease = {
         return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t;
     },
 };
+
+module.exports = {
+    renderer,
+    scene,
+    camera,
+    myPlayer,
+    myBoat,
+    domEvents,
+    raycaster,
+    SERVER,
+    playerName,
+    countDown,
+    canvas,
+    gl,
+    defaultWidth,
+    defaultHeight,
+    threejsStarted,
+    markers,
+
+    adBlockEnabled,
+
+    createMinimap,
+    showIslandMenu,
+    enterIsland,
+    cleanScene,
+    pad,
+    secondsAlive,
+    islandTimer,
+
+    departure,
+    exitIsland,
+    login,
+    sendMessage,
+    makeDeposit,
+    getBankData,
+    takeDeposit,
+    
+    fbShare,
+    isAlphaNumeric,
+
+    toggleGlobalChat,
+    toggleLocalChat,
+    toggleClanChat,
+    toggleStaffChat,
+
+    Ease
+}

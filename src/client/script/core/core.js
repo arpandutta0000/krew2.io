@@ -20,3 +20,19 @@ var iterateEntities = function (dt) {
         }
     }
 };
+
+module.exports = {
+    entities,
+    boats,
+    players,
+    playernames,
+    sceneCanBalls,
+    sceneLines,
+    Landamrks,
+    pickups,
+    bots,
+
+    worldsize,
+
+    iterateEntities
+}

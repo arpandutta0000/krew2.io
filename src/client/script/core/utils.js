@@ -129,3 +129,27 @@ function getFixedFrameRateMethod (fps, callback) {
 
     return method;
 }
+
+module.exports = {
+    lerp,
+    charLimit,
+    entityDistance,
+
+    distance,
+    worldAngle,
+
+    anglediff,
+    angleToVector,
+
+    rotationToPosition,
+    rotationToObject,
+
+    distanceToPosition,
+    distanceToPositionSquared,
+
+    distanceToObject,
+    distanceToObjectSquared,
+
+    inPlayersVision,
+    getFixedFrameRateMethod
+}

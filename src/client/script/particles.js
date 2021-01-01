@@ -238,3 +238,12 @@ var tickParticles = function (dt) {
 //     particleGeometry.attributes.size.needsUpdate = true;
 
 // }
+
+module.exports = {
+    particles,
+
+    Particle,
+    
+    createParticle,
+    tickParticles
+}

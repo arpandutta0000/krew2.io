@@ -149,3 +149,5 @@ Landmark.prototype.isWithinDockingRadius = function (x, z) {
         z: z
     }, this.position) < this.dockRadius - 2;
 };
+
+module.exports = Landmark;

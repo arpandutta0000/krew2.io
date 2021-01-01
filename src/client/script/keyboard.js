@@ -375,3 +375,23 @@ var setUpKeybinds = function () {
 
 */
 };
+
+module.exports = {
+    keys_walkLeft,
+    kesy_walkRight,
+    keys_walkFwd,
+    keys_walkBwd,
+
+    keys_rotRight,
+    keys_rotLeft,
+
+    keys_jump,
+    keys_boot,
+
+    keyboard,
+    disableKeyboard,
+
+    setUpKeyboard,
+    setUpIslandUI,
+    setUpKeybinds
+}

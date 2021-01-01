@@ -288,3 +288,5 @@ Projectile.prototype.parseTypeSnap = function (snap) {
     }
 
 };
+
+module.exports = Projectile;

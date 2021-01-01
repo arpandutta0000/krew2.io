@@ -410,3 +410,17 @@ var setHighlights = function (gold, fired, hit, sank) {
         $('#docking-modal').hide();
     }
 };
+
+module.exports = {
+    socket,
+    staffChatOn,
+    clanChatOn,
+    localChatOn,
+    globalChatOn,
+
+    interval_update,
+
+    Admins,
+    Mods,
+    Devs
+}

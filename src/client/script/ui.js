@@ -2171,3 +2171,5 @@ function resumeChat () {
 scrollChat_init();
 chatHistory.addEventListener('mouseover', pauseChat);
 chatHistory.addEventListener('mouseout', resumeChat);
+
+module.exports = ui;

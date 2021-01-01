@@ -609,3 +609,5 @@ Player.prototype.changeWeapon = function () {
 var parseBool = function (b) {
     return b === true || b === 'true';
 };
+
+module.exports = Player;

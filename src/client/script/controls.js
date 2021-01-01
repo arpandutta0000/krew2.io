@@ -178,3 +178,5 @@ if (havePointerLock) {
     console.log('ERROR: Your browser does seems to not support the pointer lock API.');
 
 }
+
+module.exports = GameControls;
