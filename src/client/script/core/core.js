@@ -25,10 +25,10 @@ module.exports = {
     entities,
     boats,
     players,
-    playerNames,
+    playernames,
     sceneCanBalls,
     sceneLines,
-    Landmarks,
+    Landamrks,
     pickups,
     bots,
 

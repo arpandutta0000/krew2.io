@@ -378,7 +378,7 @@ var setUpKeybinds = function () {
 
 module.exports = {
     keys_walkLeft,
-    keys_walkRight,
+    kesy_walkRight,
     keys_walkFwd,
     keys_walkBwd,
 
