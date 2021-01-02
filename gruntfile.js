@@ -89,7 +89,7 @@ module.exports = (grunt => {
         // Clean up static folder and unminified client source.
         clean: {
             dist: [`dist/*`],
-            preMinified: [`src/client/script/dist.js`, `src/client/script/dist.min.js`]
+            preMinified: [`src/client/script/dist.js`]
         },
 
         // TODO: Minify the source with webpack.
@@ -257,8 +257,7 @@ module.exports = (grunt => {
     grunt.registerTask(`build-dev`, [
         `clean:dist`,
         `concat:server`,
-        `concat:client`,
-        `clean:preMinified`,
+        `concat:client`
     ]);
 
     // Run in dev.
