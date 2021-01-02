@@ -182,7 +182,7 @@ materials.impact_water = new THREE.MeshBasicMaterial({
     transparent: true
 });
 materials.islandradius = new THREE.MeshBasicMaterial({
-    color: 0xbbf3ff,
+    color: 0xd4f7ff,
     flatShading: false,
     opacity: 0.2,
     transparent: true

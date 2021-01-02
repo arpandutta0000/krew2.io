@@ -6,13 +6,11 @@ var setUpEnvironment = function () {
     scene.fog = new THREE.FogExp2(0xd5e1e3, 0.007);
     renderer.setClearColor(0x00c5ff);
 
-    // Add ambient and point light
-    ambientlight = new THREE.AmbientLight(0xdae8f5, 1.1);
+    // Add ambient light
+    ambientlight = new THREE.AmbientLight(0xffd2ad, 0.65);
     scene.add(ambientlight);
-    shadowLight = new THREE.DirectionalLight(0xfff7ba, 0.6);
-    shadowLight.position = (0, 1, 1)
-    shadowLight.castShadow = true;
-    scene.add(shadowLight);
+    coldAmbientlight = new THREE.AmbientLight(0xd4efff, 0.1);
+    scene.add(coldAmbientlight);
 
     // env cube
     environment.sphere = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(4000)),
@@ -20,10 +18,14 @@ var setUpEnvironment = function () {
     scene.add(environment.sphere);
     environment.sphere.scale.y = 0.05;
 
-    // directional light with shadow (attached to cube)
-    directionallight = new THREE.DirectionalLight(0xF9F6DA, 0.4);
+    // Directional light
+    directionallight = new THREE.DirectionalLight(0xffd4bd, 0.7);
+    directionallight.position = (0, 25, 50);
     scene.add(directionallight);
-    scene.background = new THREE.Color(0x7feeff);
+    shadowLight = new THREE.DirectionalLight(0xffe3b5, 0.7);
+    shadowLight.position = (0, 25, 50);
+    shadowLight.castShadow = true;
+    scene.add(shadowLight);
 
     THREE.Water = function (geometry, options) {
 
@@ -40,7 +42,7 @@ var setUpEnvironment = function () {
         var time = options.time !== undefined ? options.time : 0.0;
         var normalSampler = options.waterNormals !== undefined ? options.waterNormals : null;
         var sunDirection = options.sunDirection !== undefined ? options.sunDirection : new THREE.Vector3(0.70707, 0.70707, 0.0);
-        var sunColor = new THREE.Color(options.sunColor !== undefined ? options.sunColor : 0xffffff);
+        var sunColor = new THREE.Color(options.sunColor !== undefined ? options.sunColor : 0xfff6de);
         var waterColor = new THREE.Color(options.waterColor !== undefined ? options.waterColor : 0x7F7F7F);
         var eye = options.eye !== undefined ? options.eye : new THREE.Vector3(0, 0, 0);
         var distortionScale = options.distortionScale !== undefined ? options.distortionScale : 20.0;
@@ -254,8 +256,8 @@ var setUpEnvironment = function () {
                 alpha: 1.0,
                 sunDirection: light.position.clone().normalize(),
                 sunColor: 0xffffff,
-                waterColor: 0x8fc3f2,
-                distortionScale: 10,
+                waterColor: 0xc9edff,
+                distortionScale: 7,
                 fog: scene.fog !== undefined
             }
         );
