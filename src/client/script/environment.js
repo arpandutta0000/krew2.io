@@ -256,8 +256,8 @@ var setUpEnvironment = function () {
                 alpha: 1.0,
                 sunDirection: light.position.clone().normalize(),
                 sunColor: 0xffffff,
-                waterColor: 0xc9edff,
-                distortionScale: 7,
+                waterColor: 0x87ebff,
+                distortionScale: 5,
                 fog: scene.fog !== undefined
             }
         );
