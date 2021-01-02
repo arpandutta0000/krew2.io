@@ -19,11 +19,11 @@ var setUpEnvironment = function () {
     environment.sphere.scale.y = 0.05;
 
     // Directional light
-    directionallight = new THREE.DirectionalLight(0xffd4bd, 0.7);
-    directionallight.position = (0, 25, 50);
+    directionallight = new THREE.DirectionalLight(0xffd4bd, 0.6);
+    directionallight.position = (0, 1, 50);
     scene.add(directionallight);
-    shadowLight = new THREE.DirectionalLight(0xffdfab, 0.7);
-    shadowLight.position = (0, 25, 50);
+    shadowLight = new THREE.DirectionalLight(0xffdfab, 0.5);
+    shadowLight.position = (0, 1, 50);
     shadowLight.castShadow = true;
     scene.add(shadowLight);
 
