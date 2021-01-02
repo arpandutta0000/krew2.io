@@ -82,14 +82,14 @@ module.exports = (grunt => {
                     `src/client/script/particles.js`,
                     `src/client/script/connection.js`
                 ],
-                dest: process.env.NODE_ENV == `prod` ? `dist/script/dist.js` : `src/client/script/dist.min.js`
+                dest: `src/client/script/${process.env.NODE_ENV == `prod` ? `dist.js` : `dist.min.js`}`
             }
         },
 
         // Clean up static folder and unminified client source.
         clean: {
             dist: [`dist/*`],
-            preMinified: [`dist/script/dist.min.js`, `src/client/assets/script/dist.min.js*`]
+            preMinified: [`src/client/script/dist.js`, `src/client/script/dist.min.js*`]
         },
 
         // TODO: Minify the source with webpack.
@@ -249,6 +249,7 @@ module.exports = (grunt => {
         `concat:server`,
         `concat:client`,
         `webpack:prod`,
+        `clean:preMinified`,
         `copy:dist`
     ]);
 
