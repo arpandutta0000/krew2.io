@@ -5,6 +5,6 @@ let updateViewport = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     }
-}
+};
 
 window.addEventListener(`resize`, updateViewport, false);
