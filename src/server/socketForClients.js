@@ -446,7 +446,7 @@ io.on(`connection`, async socket => {
                         }
 
                         log(`blue`, `${isAdmin ? `ADMIN`: `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        bus.emit(`report`, `Kick Player`, `Admin / Mod ${playerEntity.name} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
+                        bus.emit(`report`, `Kick Player`, `Admin / Mod ${playerEntity.name} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n`: ``}\nServer ${player.serverNumber}.`);
                         return player.socket.disconnect();
                     } else if (command == `ban` && (isAdmin || isMod)) {
                         let banUser = args.shift();
@@ -479,7 +479,7 @@ io.on(`connection`, async socket => {
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id}\n${banReason ? `Reason: ${banReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
+                        return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id}\n${banReason ? `Reason: ${banReason}\n`: ``}\nServer ${player.serverNumber}.`);
                     } else if (command == `tempban` && (isAdmin || isMod)) {
                         let tempbanUser = args.shift();
                         let tempbanReason = args.join(` `);
@@ -506,7 +506,7 @@ io.on(`connection`, async socket => {
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        return bus.emit(`report`, `Temporary Ban Player`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id}\n${tempbanReason ? `Reason: ${tempbanReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
+                        return bus.emit(`report`, `Temporary Ban Player`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id}\n${tempbanReason ? `Reason: ${tempbanReason}\n`: ``}\n Server ${player.serverNumber}.`);
                     } else if (command == `unban` && (isAdmin || isMod)) {
                         let unbanUser = args.shift();
 
@@ -525,7 +525,7 @@ io.on(`connection`, async socket => {
                             }
 
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
-                            return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}\nIP: ${player.IP}.`);
+                            return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}.`);
                         });
                     } else if ((command == `reload` || command == `update`) && (isAdmin || isDev) && !serverRestart) {
                         serverRestart = true;
@@ -621,7 +621,7 @@ io.on(`connection`, async socket => {
                             player.socket.emit(`showCenterMessage`, `You were warned...`, 1);
 
                             log(`blue`, `Reporter ${playerEntity.name} reported ${player.name} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                            bus.emit(`report`, `Second Report --> Kick`, `Reporter ${playerEntity.name} reported ${reportedPlayer} for the second time --> kick\n${reportReason ? `Reason: ${reportReason} | `: ``}\nIP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
+                            bus.emit(`report`, `Second Report --> Kick`, `Reporter ${playerEntity.name} reported ${reportedPlayer} for the second time --> kick\n${reportReason ? `Reason: ${reportReason} | `: ``}\nServer ${player.serverNumber}.`);
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
@@ -641,7 +641,7 @@ io.on(`connection`, async socket => {
                             }
 
                             log(`blue`, `Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                            return bus.emit(`report`, `Second Report --> Kick`, `Reporter ${playerEntity.name} reported ${reportedPlayer}\n${reportReason ? `Reason: ${reportReason}\n`: ``}IP: ${player.socket.handshake.address}\nServer ${player.serverNumber}.`);
+                            return bus.emit(`report`, `Second Report --> Kick`, `Reporter ${playerEntity.name} reported ${reportedPlayer}\n${reportReason ? `Reason: ${reportReason}\n`: ``}\nServer ${player.serverNumber}.`);
                         }
                     } else if (command == `mute` && (isAdmin || isMod)) {
                         let playerToMute = args.shift();
@@ -661,7 +661,7 @@ io.on(`connection`, async socket => {
                         }
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                        return bus.emit(`report`, `Muted Player`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}IP: ${player.socket.handshake.address}\n Server ${player.serverNumber}.`);
+                        return bus.emit(`report`, `Muted Player`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n`: ``}\nServer ${player.serverNumber}.`);
                     } else if (command == `online` && isAdmin) {
                         let playerToCheck = args.shift();
 
@@ -689,7 +689,7 @@ io.on(`connection`, async socket => {
                                 }
 
                                 log(`blue`, `Admin / Mod ${playerEntity.name} unmuted ${player.name} | IP: ${player.socket.handshake.address}.`);
-                                return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}\nIP: ${player.socket.handshake.address}.`);
+                                return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}.`);
                             }
                         }
                     } else if (command == `clear` && isAdmin) {
@@ -704,7 +704,7 @@ io.on(`connection`, async socket => {
                         }
 
                         log(`blue`, `Admin ${playerEntity.name} cleared global chat | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        return bus.emit(`report`, `Chat Clear`, `Admin ${playerEntity.name} cleared the global chat.\nIP: ${playerEntity.socket.handshake.address}.`);
+                        return bus.emit(`report`, `Chat Clear`, `Admin ${playerEntity.name} cleared the global chat.`);
                     } else if (command == `cycle` && isAdmin) {
                         if (currentTime == `night`) currentTime = `day`;
                         else currentTime = `night`;
@@ -718,7 +718,7 @@ io.on(`connection`, async socket => {
                         }
 
                         log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
-                        return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.\nIP: ${playerEntity.socket.handshake.address}.`);
+                        return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.`);
                     } else if (command == `give` && isAdmin) {
                         let giveUser = args.shift();
                         let giveAmount = args[0] ? parseInt(args.shift()) : undefined;
@@ -737,7 +737,7 @@ io.on(`connection`, async socket => {
                             } else if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
                         }
                         log(`blue`, `Player ${playerEntity.name} gave ${giveUser} ${giveAmount} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
-                        return bus.emit(`report`, `Give Gold`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.\nIP: ${playerEntity.socket.handshake.address}.`);
+                        return bus.emit(`report`, `Give Gold`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.`);
                     } else if (command == `captain` && isAdmin) {
                         let captainUser = args.shift();
                         let boat = playerEntity.parent;
@@ -751,7 +751,7 @@ io.on(`connection`, async socket => {
                         playerEntity.socket.emit(`showCenterMessage`, `You have succesfully set the captain of the ship to ${captainUser}!`, 3, 1e4);
 
                         log(`Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        return bus.emit(`report`, `Set Captain`, `Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name}.\nIP: ${playerEntity.socket.handshake.address}.`);
+                        return bus.emit(`report`, `Set Captain`, `Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
