@@ -81,6 +81,10 @@ let userSchema = Mongoose.Schema({
     defaultKrewName: {
         type: String,
         required: false
+    },
+    playerModel: {
+        type: Number,
+        required: falses
     }
 });
 
