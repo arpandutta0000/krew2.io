@@ -68,7 +68,6 @@
 
     <!-- Get other external scripts -->
     <script src='https://download.gameanalytics.com/js/GameAnalytics-4.1.4.min.js'></script>
-    <script src="https://ssl.cdne.cpmstar.com/cached/js/lib.js" async></script>
     <script src="https://ssl.minijuegosgratis.com/lechuck/js/latest.js" id='LeChuckAPIjs'></script>
     <script src="https://www.googletagmanager.com/gtag/js?id=UA-105351798-36" async></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -93,15 +92,22 @@
     </script>
 
     <!-- AdinPlay Ads Initialization (Comment out for dev, UNCOMMENT FOR PRODUCTION) -->
-    <!-- <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js" async>
-        let aiptag = aiptag || {};
-        aiptag.cmd = aiptag.cmd || [];
+    <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js" async>
+        window.aiptag = window.aiptag || {
+            cmd: []
+        };
         aiptag.cmd.display = aiptag.cmd.display || [];
         aiptag.cmd.player = aiptag.cmd.player || [];
-
+        aiptag.cmp = {
+            show: true,
+            position: "centered",
+            button: true,
+            buttonText: "Privacy settings",
+            buttonPosition: "bottom-left"
+        }
         aiptag.gdprShowConsentTool = true;
         aiptag.gdprConsentToolPosition = "bottom";
-    </script> -->
+    </script>
 
 </head>
 
@@ -223,11 +229,11 @@
                             <br><br>
 
                             <!-- Ad on center modal -->
-                            <div id="cpmstar_ad" style="position:relative;text-align: center;">
-                                <script language="Javascript">
-                                    let cpmstar_rnd = Math.round(Math.random() * 999999);
-                                    let cpmstar_pid = 10016;
-                                    document.writeln("<SCR" + "IPT language='Javascript' src='//server.cpmstar.com/view.aspx?poolid=" + cpmstar_pid + "&script=1&rnd=" + cpmstar_rnd + "'></SCR" + "IPT>");
+                            <div id='krew-io_300x250'>
+                                <script type='text/javascript'>
+                                    aiptag.cmd.display.push(function () {
+                                        aipDisplayTag.display('krew-io_300x250');
+                                    });
                                 </script>
                             </div>
 
@@ -251,10 +257,10 @@
                             <small>Detailed information on <a style="font-size:.8rem" href="https://discord.krew.io">Discord</a></small>
 
                             <!-- Ad on changelog modal -->
-                            <div id='krew-io_300x250'>
-                                <script>
+                            <div id='krew-io_300x250_2'>
+                                <script type='text/javascript'>
                                     aiptag.cmd.display.push(function () {
-                                        aipDisplayTag.display('krew-io_300x250');
+                                        aipDisplayTag.display('krew-io_300x250_2');
                                     });
                                 </script>
                             </div>
@@ -684,26 +690,6 @@
                         <button id='play-again-button' type="button" class="btn btn-primary" data-dismiss="modal">Respawn with
                             <span id="supplies-cut"></span> supplies</button>
                     </div>
-
-                    <script>
-                        (function (w, pid) {
-                            let r = function (c, m) {
-                                    c = c.split('').reduce(function (a, b) {
-                                        return (a << 5) - a + b.charCodeAt(0) >>> m
-                                    }, 0);
-                                    return (10 + ((c * 7) % 26)).toString(36) + c.toString(36);
-                                },
-                                y = r(w.location.href, 1),
-                                c = r(w.location.href + pid, 0);
-                            w.document.write('<div style="width:300px;height:250px" class="' + c + '"></div>');
-                            w[y] = w[y] || {};
-                            (w[y].libcmd = w[y].libcmd || []).push({
-                                kind: 'asynctagfetch',
-                                pid: pid,
-                                pindex: w.document.getElementsByClassName(c).length - 1
-                            });
-                        })(window, 78728);
-                    </script>
 
                 </div>
                 <div class="modal-footer text-sm-center">
