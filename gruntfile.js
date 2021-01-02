@@ -82,7 +82,7 @@ module.exports = (grunt => {
                     `src/client/script/particles.js`,
                     `src/client/script/connection.js`
                 ],
-                dest: `src/client/script/dist.js`
+                dest: `src/client/script/${process.env.NODE_ENV == `prod` ? `dist.js` : `dist.min.js`}`
             }
         },
 
