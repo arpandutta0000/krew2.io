@@ -98,7 +98,7 @@ var GameControls = function () {
     };
 
     this.mouseWheelEvent = function (event) {
-        if (event.target == renderer.domElement || event.target == document.body) {
+        if (renderer && event.target == renderer.domElement || event.target == document.body) {
             event.preventDefault();
             var delta = event.wheelDelta ? event.wheelDelta : -event.detail;
             _this.cameraZoom -= delta > 0 ? 1 : -1;
