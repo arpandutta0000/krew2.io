@@ -1,5 +1,3 @@
-//const User = require(`../models/user.model.js`);
-
 function Entity () {
 
 }
@@ -71,7 +69,7 @@ Entity.prototype.getSnap = function (force) {
         r: (this.rotation || 0).toFixed(2), // rotation
         t: this.getTypeSnap(), // type based snapshot data
     };
-    // pass name letiable if we're first time creating this entity
+    // pass name variable if we're first time creating this entity
     if (this.netType === 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
@@ -79,13 +77,9 @@ Entity.prototype.getSnap = function (force) {
         User.findOne({
             username: snap.name
         }).then(user => {
-            if(!user || !user.playerModel) {
-                snap.playerModel = 0;
-            } else {
-                snap.playerModel = user.playerModel;
-            }
+            if(!user || !user.playerModel) snap.playerModel = 0;
+            else snap.playerModel = user.playerModel;
         });
-
         this.isNew = false;
     }
     return snap;
