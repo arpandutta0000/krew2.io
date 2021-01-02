@@ -1,3 +1,5 @@
+const User = require(`../models/user.model.js`);
+
 function Entity () {
 
 }
@@ -73,6 +75,17 @@ Entity.prototype.getSnap = function (force) {
     if (this.netType === 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
+
+        User.findOne({
+            username: snap.name
+        }).then(user => {
+            if(!user || !user.playerModel) {
+                snap.playerModel = 0;
+            } else {
+                snap.playerModel = user.playerModel;
+            }
+        });
+
         this.isNew = false;
     }
     return snap;
