@@ -22,7 +22,7 @@ var setUpEnvironment = function () {
     directionallight = new THREE.DirectionalLight(0xffd4bd, 0.7);
     directionallight.position = (0, 25, 50);
     scene.add(directionallight);
-    shadowLight = new THREE.DirectionalLight(0xffe3b5, 0.7);
+    shadowLight = new THREE.DirectionalLight(0xffdfab, 0.7);
     shadowLight.position = (0, 25, 50);
     shadowLight.castShadow = true;
     scene.add(shadowLight);
@@ -42,7 +42,7 @@ var setUpEnvironment = function () {
         var time = options.time !== undefined ? options.time : 0.0;
         var normalSampler = options.waterNormals !== undefined ? options.waterNormals : null;
         var sunDirection = options.sunDirection !== undefined ? options.sunDirection : new THREE.Vector3(0.70707, 0.70707, 0.0);
-        var sunColor = new THREE.Color(options.sunColor !== undefined ? options.sunColor : 0xfff6de);
+        var sunColor = new THREE.Color(options.sunColor !== undefined ? options.sunColor : 0xffffff);
         var waterColor = new THREE.Color(options.waterColor !== undefined ? options.waterColor : 0x7F7F7F);
         var eye = options.eye !== undefined ? options.eye : new THREE.Vector3(0, 0, 0);
         var distortionScale = options.distortionScale !== undefined ? options.distortionScale : 20.0;
