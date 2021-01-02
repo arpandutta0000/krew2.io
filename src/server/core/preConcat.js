@@ -1,4 +1,4 @@
-let THREE = require('../../client/libs/three.min.js');
+let THREE = require('../../client/assets/js/libs/three.min.js');
 let SERVER = true;
 
 let log = require(`../utils/log.js`);
