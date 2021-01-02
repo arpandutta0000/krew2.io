@@ -27,7 +27,7 @@ var ui = {
         var $crewNameEditButton = $('#crew-name-edit-button');
         var $crewNameAndEditButton = $crewName.add($crewNameEditButton);
         var $crewNameEditInput = $('#crew-name-edit-input');
-        var $crewNameForm = $('#crew-name-form');
+        var $krewNameForm = $('#krew-name-form');
         var _this = this;
 
         $crewNameEditButton.on('click', function () {
@@ -41,7 +41,7 @@ var ui = {
             }
         });
 
-        $crewNameForm.on('submit', function (e) {
+        $krewNameForm.on('submit', function (e) {
             _this.leadersUiConfiguration.editingName = false;
             $crewName.removeClass('hidden');
             $crewNameEditInput.addClass('hidden');
