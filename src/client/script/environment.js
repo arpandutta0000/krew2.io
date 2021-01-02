@@ -7,12 +7,12 @@ var setUpEnvironment = function () {
     renderer.setClearColor(0x00c5ff);
 
     // Add ambient and point light
-    ambientlight = new THREE.AmbientLight(0xdae8f5);
+    ambientlight = new THREE.AmbientLight(0xdae8f5, 1.1);
     scene.add(ambientlight);
-    pointLight = new THREE.PointLight(0xfff7ba, 0.8);
-    pointLight.position = (0, 50, 50)
-    pointLight.castShadow = true;
-    scene.add(pointLight);
+    shadowLight = new THREE.DirectionalLight(0xfff7ba, 0.6);
+    shadowLight.position = (0, 1, 1)
+    shadowLight.castShadow = true;
+    scene.add(shadowLight);
 
     // env cube
     environment.sphere = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(4000)),
@@ -21,7 +21,7 @@ var setUpEnvironment = function () {
     environment.sphere.scale.y = 0.05;
 
     // directional light with shadow (attached to cube)
-    directionallight = new THREE.DirectionalLight(0xF9F6DA, 0.5);
+    directionallight = new THREE.DirectionalLight(0xF9F6DA, 0.4);
     scene.add(directionallight);
     scene.background = new THREE.Color(0x7feeff);
 

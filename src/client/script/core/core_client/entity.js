@@ -14,6 +14,9 @@ Entity.prototype.createBody = function () {
     scene.add(this.geometry);
     this.geometry.rotation.order = 'YXZ';
 
+    this.geometry.castShadow = true;
+    this.geometry.receiveShadow = true;
+
     if (this.baseGeometry) {
         this.body = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
         this.body.scale.set(this.modelscale.x, this.modelscale.y, this.modelscale.z);
