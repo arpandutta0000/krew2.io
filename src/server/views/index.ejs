@@ -559,6 +559,19 @@
                             </div>
                         </div>
                     </form>
+                    <br>
+
+                    <!-- Open Player Customization button -->
+                    <div class="form-inline form-group h5">
+                        <label style="font-size: 24px;">Player customization</label>
+                        <div id="customization-button-container" display="inline">
+                            <a>Click customize your character</a>
+                            <div id="customization-button" class="btn btn-secondary btn-sm float-sm-right">
+                                <i class="icofont icofont-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Logout, reset password, and delete account buttons -->
                     <br><br>
@@ -574,6 +587,37 @@
         </div>
     </div>
     <!-- END Manage Account Modal -->
+
+    <!-- Player Customization Modal -->
+    <div class="modal fade" id="customization-box" role="dialog" disabled>
+        <br><br><br>
+        <form class="modal-dialog modal-md" id="customization-form" action="/customization" method="post">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <br>
+                    <div class="text-sm-center">
+                        <h1>Player Customization</h1>
+                        <br>
+                        <a>Player customization is still under development, so more options will be coming soon!</a>
+                    </div>
+                    <br>
+                    <div align="center" style="vertical-align: middle;">
+                        <div id="model-left" class="btn btn-secondary btn-sm" style="margin-right: 5vw;">
+                            <i class="icofont icofont-arrow-left"></i>
+                        </div>
+                        <img id="model-image" src="/assets/img/model0.png" style="margin: auto; width: 50%">
+                        <div id="model-right" class="btn btn-secondary btn-sm" style="margin-left: 5vw;">
+                            <i class=" icofont icofont-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <br><br>
+                    <input type="submit" id="submit-customization" class="btn btn-success btn-md" value="Save"></input>
+                    <br><br><br>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <!-- Reset Password Modal -->
     <div class="modal fade" id="reset-password-box" role="dialog" disabled>

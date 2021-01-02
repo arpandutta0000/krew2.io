@@ -1685,6 +1685,7 @@ var ui = {
                 loginButton.html('Account Settings');
                 ui.isLoggedIn = true;
                 ui.prepareForPlay();
+                let currentModel = 0;
 
                 loginButton.on('click', function () {
                     $('#manage-account-box').modal('show');
@@ -1789,6 +1790,23 @@ var ui = {
                     $('#change-default-krew-name').removeClass('hidden');
                     $('#change-default-krew-name-error').addClass('hidden');
                     $('#change-default-krew-name-button-container').addClass('hidden');
+                });
+
+                $('#customization-button').on('click', function () {
+                    $('#manage-account-box').modal('hide');
+                    $('#customization-box').modal('show');
+                });
+
+                $('#model-left').on('click', function () {
+                    currentModel--;
+                    if (currentModel < 0) currentModel = 2;
+                    $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
+                });
+
+                $('#model-right').on('click', function () {
+                    currentModel++;
+                    if (currentModel > 2) currentModel = 0;
+                    $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
                 });
 
                 $('#submit-change-username').on('click', function (e) {
