@@ -79,13 +79,9 @@ Entity.prototype.getSnap = function (force) {
         User.findOne({
             username: snap.name
         }).then(user => {
-            if(!user || !user.playerModel) {
-                snap.playerModel = 0;
-            } else {
-                snap.playerModel = user.playerModel;
-            }
+            if(!user || !user.playerModel) snap.playerModel = 0;
+            else snap.playerModel = user.playerModel;
         });
-
         this.isNew = false;
     }
     return snap;
