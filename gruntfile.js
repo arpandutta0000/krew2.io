@@ -82,7 +82,7 @@ module.exports = (grunt => {
                     `src/client/script/particles.js`,
                     `src/client/script/connection.js`
                 ],
-                dest: process.env.NODE_ENV == `prod` ? `dist/script/dist.js` : `src/client/script/dist.js`
+                dest: process.env.NODE_ENV == `prod` ? `dist/script/dist.js` : `src/client/script/dist.min.js`
             }
         },
 
@@ -94,8 +94,7 @@ module.exports = (grunt => {
 
         // TODO: Minify the source with webpack.
         webpack: {
-            prod: webpackConfig,
-            dev: webpackConfig
+            prod: webpackConfig
         },
 
         // Watch for file changes.
@@ -259,7 +258,6 @@ module.exports = (grunt => {
         `concat:server`,
         `concat:client`,
         `clean:preMinified`,
-        `webpack:dev`
     ]);
 
     // Run in dev.
