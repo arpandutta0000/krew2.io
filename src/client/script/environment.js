@@ -7,7 +7,7 @@ var setUpEnvironment = function () {
     renderer.setClearColor(0x00c5ff);
 
     // Add ambient light
-    ambientlight = new THREE.AmbientLight(0xffd2ad, 0.65);
+    ambientlight = new THREE.AmbientLight(0xffd2ad, 0.5);
     scene.add(ambientlight);
     coldAmbientlight = new THREE.AmbientLight(0xd4efff, 0.1);
     scene.add(coldAmbientlight);
@@ -20,10 +20,10 @@ var setUpEnvironment = function () {
 
     // Directional light
     directionallight = new THREE.DirectionalLight(0xffd4bd, 0.6);
-    directionallight.position = (0, 1, 50);
+    directionallight.position = (0, 0, 50);
     scene.add(directionallight);
     shadowLight = new THREE.DirectionalLight(0xffdfab, 0.5);
-    shadowLight.position = (0, 1, 50);
+    shadowLight.position = (0, 0, 50);
     shadowLight.castShadow = true;
     scene.add(shadowLight);
 
