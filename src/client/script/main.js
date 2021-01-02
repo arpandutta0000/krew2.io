@@ -29,8 +29,6 @@ window.setTimeout(function () {
 
     testAd.remove();
     if (adBlockEnabled) {
-        $('#KRW_krew-io_300x250_2').parent().html('<img src="./assets/img/251sbb.jpg" alt="" style="width: 100%"/>');
-        $('#div-gpt-ad-1491569839954-0').parent().html('<img src="./assets/img/251s91.jpg" alt="" style="width: 100%"/>');
         $('#disable-adblock-message').show();
     }
 
