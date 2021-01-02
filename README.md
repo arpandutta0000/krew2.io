@@ -94,62 +94,11 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  !!login
  ```
 
- - Inform players about the upcoming server restart.
- ```
- !!say Server is restarting in 5 minutes for an update.
- ```
-
  - Save the current progress of all players and "kick" them from the game.
- - Be prepared to stop the tmux session immediately after this command (before players manage to reconnect again).
  ```
- !!restart
+ !!update
  ```
-
- - Enter the tmux session (do this via command line).
- ```
- ssh root@155.138.227.17
- tmux a
- ```
-
- - After running the `tmux a` command you should see the game logs in real time. Be careful what you do whiel connected to the tmux session, it can have massive impact on the game.
- - Type `npm run stop` to kill the application (this will stop the game). Then run the following command:
- ```
- npm run prod
- ```
- - Now you shoudl see the game logs arriving again.
- - To exit the tmux session press `Control + B` and then `D`.
-
-## Installation Guide for MongoDB
- - Install the npm package for MongoDB:
- ```
- npm i mongodb
- ```
-
- - Check if MongoDB server is already installed.
- ```
- apt list -- installed | grep mongodb
- ```
- - If not, get the public key.
- ```
- wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
- ```
-
- - Check your linux distribution (and version) and get the correct command (this one is for Ubuntu 16.04).
- ```
- uname -i
- echp "deb [ archo=amd64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
- ```
-
- - Update the available packages and install MongoDB.
- ```
- apt update
- apt install -y mongodb-org
- ```
- - Check if MongoDB is running. If it is not, restart the service (either through the service command or systemctl).
- ```
- service mongod status
- service mongod restart
- ```
+ - The game will automatically kick all players and pull the latest commit from GitHub. Once done, it will restart itself and allow players to join back.
 
 ## Documentation
 
