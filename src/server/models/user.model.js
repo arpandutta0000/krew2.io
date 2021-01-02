@@ -84,7 +84,7 @@ let userSchema = Mongoose.Schema({
     },
     playerModel: {
         type: Number,
-        required: falses
+        required: false
     }
 });
 
