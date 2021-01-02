@@ -539,7 +539,6 @@ Player.prototype.setPlayerBody = function (idx) {
     this.geometry.add(this.playerBody);
     this.geometry.castShadow = true;
     this.geometry.receiveShadow = true;
-    shadowLight.target = this.geometry
 
     this.weapon = models.cannon.clone();
     this.weapon.scale.set(0.05, 0.05, 0.05);
