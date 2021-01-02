@@ -1,10 +1,8 @@
-//var controls;
+let GameControls = function () {
+    let _this = this;
+    let PI_2 = Math.PI / 2;
 
-var GameControls = function () {
-    var _this = this;
-    var PI_2 = Math.PI / 2;
-
-    this.blocker = document.getElementById('blocker');
+    this.blocker = document.querySelector(`#blocker`);
 
     this.locked = false;
     this.lmb = false;
@@ -21,160 +19,137 @@ var GameControls = function () {
     this.lastX = 0;
     this.lastY = 0;
 
-    this.mouseMoveUnlocked = function (event) {
-        _this.mouseElement = event.target.getAttribute ? event.target.getAttribute('data-infopanel') : null;
+    this.mouseMoveUnlocked = event => {
+        _this.mouseElement = event.target.getAttribute ? event.target.getAttribute(`data-infopanel`) : null;
         _this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         _this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         if (!havePointerLock) {
             _this.lastX = event.x;
             _this.lastY = event.y;
         }
-    };
+    }
 
-    this.mouseMoveLocked = function (event) {
+    this.mouseMoveLocked = event => {
         event.preventDefault();
-        var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-        var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+        let movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+        let movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
         if (havePointerLock) {
-            _this.cameraY -= movementX * 0.0023;
             _this.cameraX -= movementY * 0.0016;
+            _this.cameraY -= movementX * 0.0023;
         }
 
         if (!havePointerLock) {
             movementX = event.x - _this.lastX;
             movementY = event.y - _this.lastY;
-            _this.cameraY -= movementX * 0.0082;
-            _this.cameraX -= movementY * 0.0064;
+
+            _this.cameraX -= movementY * 0.0082;
+            _this.cameraY -= movementX * 0.0064;
+
             _this.lastX = event.x;
             _this.lastY = event.y;
         }
+        _this.cameraX = Math.max((-1 * PI_2), Math.min(PI_2, _this.cameraX));
+    }
 
-        _this.cameraX = Math.max(-PI_2, Math.min(PI_2, _this.cameraX));
-    };
-
-    this.onMouseDown = function (event) {
-
-        // only lock if its the renderer element
+    this.onMouseDown = event => {
+        // Lock only if its on the rendering canvas.
         switch (event.button) {
-            case 0: { // left click
+            case 0: {
+                // Left click.
                 _this.lmb = true;
                 this.lmbLastDownTime = performance.now();
                 break;
             }
-
-            case 2: { // right click
-                _this.rmb = true;
-                break;
-            }
-        }
-
-        if (myPlayer && (_this.lmb || _this.rmb) && event.target === renderer.domElement) {
-            _this.lockMouseLook();
-        }
-    };
-
-    this.onMouseUp = function (event) {
-        switch (event.button) {
-            case 0: {
-                _this.lmb = false;
-
-                // if (performance.now() - this.lmbLastDownTime < 300) {
-                //     // a click on something has happened
-                // }
-
-                break;
-            }
-
             case 2: {
+                // Right click.
                 _this.rmb = false;
                 break;
             }
         }
+        if (myPlayer && (_this.lmb || _this.rmb) && event.target == renderer.domElement) _this.lockMouseLook();
+    }
 
-        // if (!_this.lmb && !_this.rmb) _this.unLockMouseLook();
-
+    this.onMouseUp = event => {
+        switch (event.button) {
+            case 0: {
+                // Left click release.
+                _this.lmb = false;
+                break;
+            }
+            case 2: {
+                // Right click release.
+                _this.rmb = false;
+                break;
+            }
+        }
         return false;
-    };
+    }
 
-    this.mouseWheelEvent = function (event) {
-        if (renderer && event.target == renderer.domElement || event.target == document.body) {
+    this.mouseWheelEvent = event => {
+        if (event.target == renderer.domElement || event.target == document.body) {
             event.preventDefault();
-            var delta = event.wheelDelta ? event.wheelDelta : -event.detail;
+
+            let delta = event.wheelDelta ? event.wheelDelta : (-1 * event.detail);
+
             _this.cameraZoom -= delta > 0 ? 1 : -1;
             _this.cameraZoom = Math.min(30, Math.max(_this.cameraZoom, 3));
         }
-    };
+    }
 
     if (!havePointerLock) {
         this.locked = true;
-        document.addEventListener('mousemove', this.mouseMoveLocked, false);
-    } else {
-        document.addEventListener('mousemove', this.mouseMoveUnlocked, false);
-    }
+        document.addEventListener(`mousemove`, this.mouseMoveLocked, false);
+    } else document.addEventListener(`mousemove`, this.mouseMoveUnlocked, false);
 
-    document.addEventListener('mousedown', this.onMouseDown);
-    document.addEventListener('mouseup', this.onMouseUp);
-    document.addEventListener('mousewheel', this.mouseWheelEvent);
-    document.addEventListener('DOMMouseScroll', this.mouseWheelEvent);
+    document.addEventListener(`mousedown`, this.onMouseDown);
+    document.addEventListener(`mouseup`, this.onMouseUp);
+    document.addEventListener(`mouseweheel`, this.mouseWheelEvent);
+    document.addEventListener(`DOMouseScroll`, this.mouseWheelEvent);
 
-    this.lockMouseLook = function () {
+    this.lockMouseLook = () => {
         if (havePointerLock) {
-            var element = document.body;
+            let element = document.body;
+
             element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
             element.requestPointerLock();
-
         }
-
         this.isMouseLookLocked = true;
-    };
+    }
 
-    this.unLockMouseLook = function () {
+    this.unlockMouseLook = () => {
         if (havePointerLock) {
             document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
             document.exitPointerLock();
         }
-
         this.isMouseLookLocked = false;
-
-    };
-};
-
-// disable contextmenu
-window.oncontextmenu = function () {
-    return false;
-};
-
-var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
-
-if (havePointerLock) {
-
-    var element = document.body;
-
-    var pointerlockchange = function (event) {
-
-        if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
-
-            //controls.blocker.style.display = 'none';
-            controls.locked = true;
-            document.addEventListener('mousemove', controls.mouseMoveLocked, false);
-            document.removeEventListener('mousemove', controls.mouseMoveUnlocked, false);
-
-        } else {
-            //controls.blocker.style.display = '';
-            controls.locked = false;
-            document.addEventListener('mousemove', controls.mouseMoveUnlocked, false);
-            document.removeEventListener('mousemove', controls.mouseMoveLocked, false);
-        }
-
-    };
-
-    // Hook pointer lock state change events
-    document.addEventListener('pointerlockchange', pointerlockchange, false);
-    document.addEventListener('mozpointerlockchange', pointerlockchange, false);
-    document.addEventListener('webkitpointerlockchange', pointerlockchange, false);
-
-} else {
-    console.log('ERROR: Your browser does seems to not support the pointer lock API.');
-
+    }
 }
+
+// Disable context menu.
+window.oncontextmenu = () => {
+    return false;
+}
+
+let havePointerLock = `pointerLockElement` in document || `mozPointerLockElement` in document || `webkitPointerLockElement` in document;
+if (havePointerLock) {
+    let element = document.body;
+
+    let pointerLockChange = event => {
+        if (document.pointerLockElement == element || document.mozPointerLockElement == element || document.webkitPointerLockElement == element) {
+            controls.locked = true;
+            document.addEventListener(`mousemove`, controls.mouseMoveLocked, false);
+            document.removeEventListener(`mousemove`, controls.mouseMoveUnlocked, false);
+        } else {
+            controls.locked = false;
+            document.addEventListener(`mousemove`, controls.mouseMoveUnlocked, false);
+            document.removeEventListener(`mousemove`, controls.mouseMoveLocked, false);
+        }
+    }
+
+    // Change events on hook pointer lock state.
+    document.addEventListener(`pointerlockchange`, pointerLockChange, false);
+    document.addEventListener(`mozpointerlockchange`, pointerLockChange, false);
+    document.addEventListener(`webkitpointerlockchange`, pointerLockChange, false);
+} else console.error(`Your browser does not seem to support the pointer lock API.`);
