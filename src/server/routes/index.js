@@ -4,18 +4,15 @@ const router = express.Router();
 let config = require(`../config/config.js`);
 
 // GET homepage.
-router.get(`/`, (req, res, next) => {
-    if (process.env.NODE_ENV == `prod` || process.env.NODE_ENV == `test-server`) return res.render(`index_dist.ejs`);
-    else res.render(`index.ejs`);
-});
+router.get(`/`, (req, res, next) => res.render(`index.ejs`));
 
 // GET admin page.
 router.get(`/admin`, (req, res, next) => {
-    if(!req.isAuthenticated()) return res.redirect(`/`);
-    
+    if (!req.isAuthenticated()) return res.redirect(`/`);
+
     let name = req.user.username;
-    if(!config.admins.includes(name) && !config.mods.includes(name) && !config.devs.includes(name)) return res.redirect(`/`);
-    
+    if (!config.admins.includes(name) && !config.mods.includes(name) && !config.devs.includes(name)) return res.redirect(`/`);
+
     res.render(`admin.ejs`);
 });
 
