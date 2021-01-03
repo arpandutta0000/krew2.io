@@ -61,7 +61,7 @@ Entity.prototype.createBody = function () {
     }*/
 
     if (this.netType === 0) {
-        this.setPlayerBody();
+        this.setPlayerBody(snap.playerModel);
     }
 
     this.clientlogic(0);
