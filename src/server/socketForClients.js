@@ -1115,23 +1115,20 @@ io.on(`connection`, async socket => {
                             // If he is a leader, remove him from the leaders' list.
                             if (clan.leaders.includes(playerEntity.name)) clan.leaders.splice(clan.leaders.indexOf(playerEntity.name), 1);
 
-                            // Get the new clan members.
-                            let newClanMembers = await User.find({
-                                clan: clan.name
-                            }).filter({
-                                username: {
-                                    $ne: playerEntity.name
-                                }
-                            });
-
-                            if (clan.leaders.length != 0) clan.owner = clan.leaders.first();
-                            else {
-                                clan.owner = newClanMembers.limit(1).username;
-                                clan.leaders.push(clan.owner);
-                            }
 
                             // Save the changes and callback to the player.
                             user.save(() => {
+                                // Get the new clan members.
+                                let newClanMembers = await User.find({
+                                    clan: clan.name
+                                });
+
+                                if (clan.leaders.length != 0) clan.owner = clan.leaders.first();
+                                else {
+                                    clan.owner = newClanMembers.limit(1).username;
+                                    clan.leaders.push(clan.owner);
+                                }
+
                                 clan.save(() => {
                                     return callback(true);
                                 });
@@ -1742,7 +1739,6 @@ io.on(`connection`, async socket => {
                     cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                     cargoUsed: 0
                 });
-                console.log(transaction);
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
