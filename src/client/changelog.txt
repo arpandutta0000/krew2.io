@@ -1,3 +1,11 @@
+v1.2.0 - [1-3-2021]
+- Added player customization
+- Added ping and FPS stats
+- Fixed more clan bugs
+- Fixed boundaries on QBJ, QBJ2, Raider, and Fortune Trader
+- Increase player limit to 250/server
+- Improvements to graphics
+
 v1.1.0b - [1-1-2021]
 - Buffed Black Oyster speed, regeneration, cargo, and health
 - Fixed random disconnects
