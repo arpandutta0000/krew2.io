@@ -92,6 +92,19 @@ var initSocketBinds = function () {
             );
         });
 
+        let pings = []
+        setInterval(function () {
+            startTime = Date.now();
+            socket.emit('ping');
+        }, 10000);
+
+        socket.on('pong', function () {
+            latency = Date.now() - startTime;
+            pings.push(latency)
+            if (pings.length > 20) pings.shift();
+            $('#ping-display').text(`${Math.round(pings.reduce((a, b) => a + b) / pings.length)}ms`)
+        });
+
         // im the new guy receiving information about the existing guys
         socket.on('playerNames', function (data) {
             playerNames = data;

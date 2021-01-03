@@ -307,6 +307,11 @@ io.on(`connection`, async socket => {
         // Get snapshot.
         socket.on(`u`, data => playerEntity.parseSnap(data));
 
+        // Ping event
+        socket.on('ping', function () {
+            socket.emit('pong');
+        });
+
         let checkPlayerStatus = () => {
             if (playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) log(`cyan`, `Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         }
