@@ -454,8 +454,6 @@ router.post(`/customization`, (req, res, next) => {
     });
 
     let model = req.body.model;
-    console.log(model)
-    console.log(typeof model)
 
     if (!model || typeof model != `string`) return res.json({
         errors: `Please specify a model ID`
