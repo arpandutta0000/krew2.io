@@ -7,9 +7,9 @@ var setUpEnvironment = function () {
     renderer.setClearColor(0x00c5ff);
 
     // Add ambient light
-    ambientlight = new THREE.AmbientLight(0xffd2ad, 0.5);
+    ambientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
     scene.add(ambientlight);
-    coldAmbientlight = new THREE.AmbientLight(0xd4efff, 0.1);
+    coldAmbientlight = new THREE.AmbientLight(0xd4efff, 0.3);
     scene.add(coldAmbientlight);
 
     // env cube
@@ -19,10 +19,10 @@ var setUpEnvironment = function () {
     environment.sphere.scale.y = 0.05;
 
     // Directional light
-    directionallight = new THREE.DirectionalLight(0xffd4bd, 0.6);
+    directionallight = new THREE.DirectionalLight(0xffd4bd, 0.1);
     directionallight.position = (0, 0, 50);
     scene.add(directionallight);
-    shadowLight = new THREE.DirectionalLight(0xffdfab, 0.5);
+    shadowLight = new THREE.DirectionalLight(0xffdfab, 0.2);
     shadowLight.position = (0, 0, 50);
     shadowLight.castShadow = true;
     scene.add(shadowLight);
@@ -257,7 +257,7 @@ var setUpEnvironment = function () {
                 sunDirection: light.position.clone().normalize(),
                 sunColor: 0xffffff,
                 waterColor: 0x87ebff,
-                distortionScale: 5,
+                distortionScale: 15,
                 fog: scene.fog !== undefined
             }
         );
