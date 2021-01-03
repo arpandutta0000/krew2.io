@@ -17,22 +17,22 @@ var setPlayerModels = function () {
         map: textures.shibainu
     });
 
-    materials.whitedog = new THREE.MeshPhongMaterial({
+    materials.arcticwolf = new THREE.MeshPhongMaterial({
         color: 0xffffff,
-        map: textures.whitedog
+        map: textures.arcticwolf
     });
 
     var seadogModel = new THREE.Mesh(geometry.seadog, materials.seadog);
     var shibainuModel = new THREE.Mesh(geometry.shibainu, materials.shibainu);
-    var whitedogModel = new THREE.Mesh(geometry.whitedog, materials.whitedog);
+    var arcticwolfModel = new THREE.Mesh(geometry.arcticwolf, materials.arcticwolf);
 
     seadogModel.castShadow = true;
     shibainuModel.castShadow = true;
-    whitedogModel.castShadow = true;
+    arcticwolfModel.castShadow = true;
 
     seadogModel.receiveShadow = true;
     shibainuModel.receiveShadow = true;
-    whitedogModel.receiveShadow = true;
+    arcticwolfModel.receiveShadow = true;
 
     playerModels.push({
         body: seadogModel,
@@ -49,7 +49,7 @@ var setPlayerModels = function () {
     });
 
     playerModels.push({
-        body: whitedogModel,
+        body: arcticwolfModel,
         scale: new THREE.Vector3(0.04, 0.04, 0.04),
         offset: new THREE.Vector3(0, -0.4, 0.8),
         rotation: new THREE.Vector3(0.4, Math.PI, 0),

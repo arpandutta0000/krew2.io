@@ -766,10 +766,10 @@ $(document).ready(function () {
     // Load Dogs
     loader.loadModel('./assets/models/dogs/seadog.obj');
     loader.loadModel('./assets/models/dogs/shibainu.obj');
-    loader.loadModel('./assets/models/dogs/whitedog.obj');
+    loader.loadModel('./assets/models/dogs/arcticwolf.obj');
     loader.loadTexture('./assets/models/dogs/seadog.tga');
     loader.loadTexture('./assets/models/dogs/shibainu.tga');
-    loader.loadTexture('./assets/models/dogs/whitedog.tga');
+    loader.loadTexture('./assets/models/dogs/arcticwolf.tga');
 
     loader.onFinish(function () {
         // create materials and game world

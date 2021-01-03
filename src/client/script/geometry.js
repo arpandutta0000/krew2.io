@@ -22,7 +22,7 @@ var createModels = function () {
 
     geometry.seadog = models.seadog.children[0].geometry;
     geometry.shibainu = models.shibainu.children[0].geometry;
-    geometry.whitedog = models.whitedog.children[0].geometry;
+    geometry.arcticwolf = models.arcticwolf.children[0].geometry;
 
     models.sloop.children[0].name = 'sail';
     models.sloop.children[1].name = 'body';
