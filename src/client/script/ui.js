@@ -1795,6 +1795,7 @@ var ui = {
                 $('#customization-button').on('click', function () {
                     $('#manage-account-box').modal('hide');
                     $('#customization-box').modal('show');
+                    $('#customization-error').addClass('hidden');
                 });
 
                 $('#model-left').on('click', function () {
@@ -1807,6 +1808,35 @@ var ui = {
                     currentModel++;
                     if (currentModel > 2) currentModel = 0;
                     $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
+                });
+
+                $('#submit-customization').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#submit-customization').attr('disabled', true);
+
+                    $('#customization-error').addClass('hidden');
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/customization',
+                        data: {
+                            model: currentModel.toString()
+                        }
+                    }).then(function (res) {
+                        // If there is an error, return an error
+                        if (res.errors) {
+                            $('#submit-customization').attr('disabled', false);
+                            $('#customization-error').removeClass('hidden');
+                            $('#customization-err-msg').text(res.errors);
+                            return false;
+                        }
+                        // If the request is successful, close the menu
+                        if (res.success) {
+                            window.location.reload();
+                            return true;
+                        }
+                    });
                 });
 
                 $('#submit-change-username').on('click', function (e) {

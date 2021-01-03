@@ -13,6 +13,9 @@ const xssFilters = require(`xss-filters`);
 // Authentication.
 const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
+const {
+    mode
+} = require("../config/config.js");
 
 router.post(`/register`, (req, res, next) => {
     if (req.body[`g-recaptcha-response`].length == 0 || !req.body[`g-recaptcha-response`]) return res.json({
@@ -440,6 +443,41 @@ router.post(`/change_default_krew_name`, (req, res, next) => {
             log(`magenta`, `User "${user.username}" changed their default Krew name to "${krewName}"`);
             return res.json({
                 success: `Succesfully changed default Krew name`
+            });
+        });
+    });
+});
+
+router.post(`/customization`, (req, res, next) => {
+    if (!req.isAuthenticated()) return res.json({
+        errors: `You must be logged in to customize your character`
+    });
+
+    let model = req.body.model;
+    console.log(model)
+    console.log(typeof model)
+
+    if (!model || typeof model != `string`) return res.json({
+        errors: `Please specify a model ID`
+    });
+
+    if (!(model !== `0` || model !== `1` || model !== `2`)) return res.json({
+        errors: `Invalid model ID`
+    });
+
+    User.findOne({
+        username: req.user.username
+    }).then(user => {
+        if (!user) return res.json({
+            errors: `Your account is Invalid`
+        });
+
+        user.playerModel = parseInt(model);
+
+        user.save(() => {
+            log(`magenta`, `User "${user.username}" set their player model to "${model}"`);
+            return res.json({
+                success: `Succesfully updated player customization`
             });
         });
     });
