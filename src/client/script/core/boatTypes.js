@@ -634,7 +634,7 @@ var boatTypes = {
         width: 15,
         depth: 64,
         arcFront: 0.14,
-        arcBack: 0.1,
+        arcBack: 0.12,
         inertia: 1.0,
         radius: 20,
         speed: 5,
