@@ -101,14 +101,14 @@ var initSocketBinds = function () {
             socket.emit(`ping`);
         }
 
-        setInterval(getPing, 1e4);
+        setInterval(getPing, 5e3);
 
         socket.on(`pong`, () => {
             console.log(`i got ponged`);
             let latency = Date.now() - startTime;
             pings.push(latency)
 
-            if (pings.length > 20) pings.shift();
+            if (pings.length > 6) pings.shift();
             $(`#ping-wrapper > span`).text(`${Math.round(pings.reduce((a, b) => a + b) / pings.length)} MS`);
         });
 
