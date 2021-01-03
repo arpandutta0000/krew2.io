@@ -13,12 +13,9 @@ const xssFilters = require(`xss-filters`);
 // Authentication.
 const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
-const {
-    mode
-} = require("../config/config.js");
 
 router.post(`/register`, (req, res, next) => {
-    if (req.body[`g-recaptcha-response`].length == 0 || !req.body[`g-recaptcha-response`]) return res.json({
+    if (!req.body[`g-recaptcha-response`] || req.body[`g-recaptcha-response`].length == 0) return res.json({
         errors: `Please verify the CAPTCHA`
     });
 
