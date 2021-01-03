@@ -818,15 +818,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#submit-pincode-btn').on('click', function () {
-        let pincode = $('#admin-pincode').val();
-        if (pincode !== '')
-            socket.emit('loginWithPin', {
-                username: ui.username,
-                pincode: pincode
-            });
-    });
-
     // login by pressing login button
     $('#play-button').on('click', function () {
         //console.log('play button pressed. showAdinplayCentered');

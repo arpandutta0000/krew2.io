@@ -92,11 +92,6 @@ var initSocketBinds = function () {
             );
         });
 
-        $('#submit-pincode-btn').on('onclick', function () {
-            // best to fingerprint before sending through socket
-            socket.emit('loginWithPin', $('#admin-pincode').val());
-        });
-
         // im the new guy receiving information about the existing guys
         socket.on('playerNames', function (data) {
             playerNames = data;
