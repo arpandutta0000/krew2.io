@@ -1239,7 +1239,7 @@ io.on(`connection`, async socket => {
                                     let player = core.players[i];
                                     if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
-                                        player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
+                                        player.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked you from the clan`, 3, 5e3);
                                         player.clanLeader = false;
 
                                         player.clan = undefined;
