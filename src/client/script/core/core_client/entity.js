@@ -61,7 +61,8 @@ Entity.prototype.createBody = function () {
     }*/
 
     if (this.netType === 0) {
-        this.setPlayerBody(snap.playerModel);
+        console.log(`yea we got here, ${this.playerModel}`);
+        this.setPlayerBody(this.playerModel);
     }
 
     this.clientlogic(0);

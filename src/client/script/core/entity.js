@@ -154,6 +154,7 @@ Entity.prototype.parseSnap = function (snap, id) {
             this.position.z = oldPosition.z;
         }
 
+
         // if (this.netType === 0 && newparent.netType === 5) {
         //     this.position.x = 0;
         //     this.position.y = 0;
@@ -203,6 +204,12 @@ Entity.prototype.parseSnap = function (snap, id) {
         if (snap.r !== undefined) {
             this.rotation = parseFloat(snap.r);
         }
+    }
+
+    if (this.netType == 0) {
+        console.log(`yes`);
+        if (snap.playerModel) console.log(`aha we have a model!`);
+        this.playerModel = snap.playerModel;
     }
 
     // parse deletion packets
