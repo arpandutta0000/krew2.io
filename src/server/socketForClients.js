@@ -1722,16 +1722,17 @@ io.on(`connection`, async socket => {
         socket.on(`buy-goods`, (transaction, callback) => {
 
             // Add a timestamp to stop hackers from spamming buy / sell emits.
-            if (Date.now() - playerEntity.goodsTimestamp < 800) {
+            if (playerEntity.goodsTimestamp && Date.now() - playerEntity.goodsTimestamp < 800) {
                 playerEntity.sellCounter++;
                 if (playerEntity.sellCounter > 3) {
                     log(`cyan`, `Player ${playerEntity.name} is spamming buy / sell emits --> Kicking | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return playerEntity.socket.disconnect();
                 }
             } else playerEntity.sellCounter = 0;
-            playerEntity.goodsTimestamp = Date.now();
 
+            playerEntity.goodsTimestamp = Date.now();
             checkPlayerStatus();
+
             log(`magenta`, `Operation: ${transaction.action} - `, transaction, ` | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId && (playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4)) {
@@ -1749,6 +1750,7 @@ io.on(`connection`, async socket => {
                         let cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                         transaction.cargoUsed += cargoUsed;
+                        core.entities[child.id].cargoUsed = cargoUsed;
                     }
                 }
                 transaction.quantity = parseInt(transaction.quantity);
