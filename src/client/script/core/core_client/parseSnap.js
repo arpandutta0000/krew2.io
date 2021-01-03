@@ -15,6 +15,7 @@ var parseSnap = function (id, data) {
 
                 // console.log('parseSnap new player', data);
                 entities[id] = new Player(data);
+                entities[id].playerModel = data.playerModel ? data.playerModel : 0;
 
                 // if this entity has the id that the player was assigned, then we know its the player id
                 if (id == myPlayerId) {

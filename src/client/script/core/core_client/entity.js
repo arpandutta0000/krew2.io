@@ -61,7 +61,6 @@ Entity.prototype.createBody = function () {
     }*/
 
     if (this.netType === 0) {
-        console.log(`yea we got here, ${this.playerModel}`);
         this.setPlayerBody(this.playerModel);
     }
 

@@ -206,10 +206,8 @@ Entity.prototype.parseSnap = function (snap, id) {
         }
     }
 
-    if (this.netType == 0) {
-        console.log(`yes`);
-        if (snap.playerModel) console.log(`aha we have a model!`);
-        this.playerModel = snap.playerModel;
+    if (this.netType === 0) {
+        this.setPlayerBody(this.playerModel);
     }
 
     // parse deletion packets
