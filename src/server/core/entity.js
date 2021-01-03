@@ -73,6 +73,7 @@ Entity.prototype.getSnap = function (force) {
     if (this.netType === 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
+        snap.playerModel = this.playerModel ? this.playerModel : 0;
     }
     return snap;
 };

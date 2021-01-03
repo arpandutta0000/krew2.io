@@ -7,6 +7,7 @@ let createPlayer = function (data) {
     data.disableSnapAndDelta = true;
 
     let player = new Player(data);
+    if (data.playerModel) player.playerModel = data.playerModel
 
     // real player
     if (TEST_ENV) {
