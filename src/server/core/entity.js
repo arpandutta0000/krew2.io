@@ -77,13 +77,16 @@ Entity.prototype.getSnap = function (force) {
         User.findOne({
             username: snap.name
         }).then(user => {
-            if (!user || !user.playerModel) snap.playerModel = 0;
+            if (!user || !user.playerModel) snap.playerModel = 2;
             else snap.playerModel = user.playerModel;
+            console.log(snap.playerModel);
 
             this.isNew = false;
+            console.log(`i actually returned the proper snap`, snap);
+            return snap;
         });
     }
-    return snap;
+    else return snap;
 };
 
 // function that generates a snapshot
