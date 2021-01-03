@@ -188,9 +188,7 @@ io.on(`connection`, async socket => {
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
                 // Disconnect the player.
-                core.removeEntity(player);
-                socket.disconnect();
-                break;
+                return socket.disconnect();
             }
         }
 
