@@ -206,10 +206,6 @@ Entity.prototype.parseSnap = function (snap, id) {
         }
     }
 
-    if (this.netType === 0) {
-        this.setPlayerBody(this.playerModel);
-    }
-
     // parse deletion packets
     if (snap.del !== undefined) {
 
