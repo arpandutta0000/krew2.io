@@ -1313,6 +1313,9 @@
         <div id="chat-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px;">
             <i class="btn-theme icofont icofont-volume-bar hidden"></i>
             <ul class="nav nav-tabs">
+                <li style="float: right;">
+                    <span><label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
+                </li>
                 <li class="nav-item" id="li-staff-chat" style="display:none;">
                     <a class="nav-link" id="chat-staff" href="#">Staff
                         <i id="staff-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
@@ -1341,17 +1344,27 @@
                 <input type="text" maxlength="60" class="form-control" id="chat-message" placeholder="message">
             </div>
             <div style="float: left;">
-                <a href="https://krew-io.fandom.com/wiki/Krew.io_Wiki" class="btn btn-sm btn-warning" target="_window">Wiki</a>
-                <a href="https://discord.krew.io" class="btn btn-sm btn-success" target="_window" style="margin-left: 2.5px;">Discord</a>
-                <a href="#" id="hide-chat" class="btn btn-sm btn-primary" style="margin-left: 2.5px;">Hide Chat</a>
+                <a href="https://krew-io.fandom.com/wiki/Krew.io_Wiki" class="btn btn-sm btn-warning" target="_window">
+                    <i class="icofont icofont-ui-note"></i>
+                    Wiki
+                </a>
+                <a href="https://discord.krew.io" class="btn btn-sm btn-success" target="_window" style="margin-left: 2.5px;">
+                    <i class="icofont icofont-ui-chat"></i>
+                    Discord
+                </a>
+                <a href="#" id="hide-chat" class="btn btn-sm btn-primary" style="margin-left: 2.5px;">
+                    <i class="icofont icofont-rounded-down"></i>
+                    Hide Chat
+                </a>
             </div>
-            <div style="text-align: right; float: right">
-                <span>Time alive: <label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
-            </div>
+            <!-- <div style="text-align: right; float: right">
+                <span><label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
+            </div> -->
         </div>
 
         <!-- Show Chat button -->
         <div id="show-chat" class="btn btn-primary" style="bottom: 0px; display: none; position: absolute; margin: 15px;">
+            <i class="icofont icofont-rounded-up"></i>
             Show Chat
         </div>
 

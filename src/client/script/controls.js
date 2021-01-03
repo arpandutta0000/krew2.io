@@ -118,7 +118,7 @@ let GameControls = function () {
         this.isMouseLookLocked = true;
     }
 
-    this.unlockMouseLook = () => {
+    this.unLockMouseLook = () => {
         if (havePointerLock) {
             document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
             document.exitPointerLock();
