@@ -89,7 +89,7 @@ if (cluster.isMaster) {
                         ip: DEV_ENV ? `127.0.0.1` : config.serverIP,
                         port: process.env.port,
                         playerCount: Object.keys(core.players).length,
-                        maxPlayerCount: 100
+                        maxPlayerCount: config.maxPlayerCount
                     }
                 });
             } catch (err) {

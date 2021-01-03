@@ -13,10 +13,11 @@ router.get(`/admin`, (req, res, next) => {
     let name = req.user.username;
     if (!config.admins.includes(name) && !config.mods.includes(name) && !config.devs.includes(name)) return res.redirect(`/`);
 
-    res.render(`admin.ejs`);
+    res.send(`Nothing to see here...`);
+    // res.render(`admin.ejs`);
 });
 
 // GET leaderboard page.
-router.get(`/leaderboard`, (req, res, next) => res.render(`leaderboard.ejs`));
+router.get(`/leaderboard`, (req, res, next) => res.send(`Nothing to see here...`));
 
 module.exports = router;

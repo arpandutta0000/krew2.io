@@ -2042,12 +2042,12 @@ var ui = {
 
                     i++;
                     var $option = $('<option/>', {
-                        html: 'Server ' + i + ' (' + server.playerCount + '/' + maxPlayerPerInstance + ')',
+                        html: 'Server ' + i + ' (' + server.playerCount + '/' +server.maxPlayerCount + ')',
                         value: pid,
                     });
 
                     $('#server-list').append($option);
-                    if (!serverSelected && server.playerCount < maxPlayerPerInstance) {
+                    if (!serverSelected && server.playerCount < server.maxPlayerCount) {
                         $('#server-list').val(pid);
                         serverSelected = true;
                     }

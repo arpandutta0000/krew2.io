@@ -162,7 +162,7 @@ io.on(`connection`, async socket => {
         }).catch(() => log(`red`, `Failed to VPN check the user | IP: ${socket.handshake.address}.`));
 
         // Check if max player count has been reached.
-        if (Object.keys(core.players).length > 100) {
+        if (Object.keys(core.players).length > config.maxPlayerCount) {
             socket.emit(`showCenterMessage`, `This server is full!`, 1, 6e4);
             return socket.disconnect();
         }
@@ -1112,27 +1112,28 @@ io.on(`connection`, async socket => {
                             user.clan = undefined;
                             user.clanRequest = undefined;
 
+                            playerEntity.clan = undefined;
+                            playerEntity.clanRequest = undefined;
+
                             // If he is a leader, remove him from the leaders' list.
                             if (clan.leaders.includes(playerEntity.name)) clan.leaders.splice(clan.leaders.indexOf(playerEntity.name), 1);
 
-                            // Get the new clan members.
-                            let newClanMembers = await User.find({
-                                clan: clan.name
-                            }).filter({
-                                username: {
-                                    $ne: playerEntity.name
-                                }
-                            });
-
-                            if (clan.leaders.length != 0) clan.owner = clan.leaders.first();
-                            else {
-                                clan.owner = newClanMembers.limit(1).username;
-                                clan.leaders.push(clan.owner);
-                            }
 
                             // Save the changes and callback to the player.
-                            user.save(() => {
+                            user.save(async () => {
+                                // Get the new clan members.
+                                let newClanMembers = await User.find({
+                                    clan: clan.name
+                                });
+
+                                if (clan.leaders.length != 0) clan.owner = clan.leaders[0];
+                                else {
+                                    clan.owner = newClanMembers.limit(1).username;
+                                    clan.leaders.push(clan.owner);
+                                }
+
                                 clan.save(() => {
+                                    log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                                     return callback(true);
                                 });
                             });
@@ -1238,7 +1239,7 @@ io.on(`connection`, async socket => {
                                     let player = core.players[i];
                                     if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
                                     else if (player.name == action.id) {
-                                        player.socket.emit(`${playerEntity.name} kicked you from the clan`, 3, 5e3);
+                                        player.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked you from the clan`, 1, 5e3);
                                         player.clanLeader = false;
 
                                         player.clan = undefined;
@@ -1742,7 +1743,6 @@ io.on(`connection`, async socket => {
                     cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                     cargoUsed: 0
                 });
-                console.log(transaction);
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
