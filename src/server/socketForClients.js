@@ -1117,20 +1117,21 @@ io.on(`connection`, async socket => {
 
 
                             // Save the changes and callback to the player.
-                            user.save(async() => {
+                            user.save(() => {
                                 // Get the new clan members.
-                                let newClanMembers = await User.find({
+                                User.find({
                                     clan: clan.name
-                                });
+                                }).then(newClanMembers => {
+                                    if (clan.leaders.length != 0) clan.owner = clan.leaders[0];
+                                    else {
+                                        clan.owner = newClanMembers.limit(1).username;
+                                        clan.leaders.push(clan.owner);
+                                    }
 
-                                if (clan.leaders.length != 0) clan.owner = clan.leaders[0];
-                                else {
-                                    clan.owner = newClanMembers.limit(1).username;
-                                    clan.leaders.push(clan.owner);
-                                }
-
-                                clan.save(() => {
-                                    return callback(true);
+                                    clan.save(() => {
+                                        log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                                        return callback(true);
+                                    });
                                 });
                             });
                         }
