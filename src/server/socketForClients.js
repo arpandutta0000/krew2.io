@@ -1068,7 +1068,15 @@ io.on(`connection`, async socket => {
                 });
 
                 // If the clan doesn't exist (result of some bug).
-                if (!clan) return callback(false);
+                if (!clan) {
+                    user.clan = undefined;
+                    user.clanRequest = undefined;
+
+                    user.save(() => {
+                        log(`red`, `ERROR FINDING CLAN | Player ${playerEntity.name} | Clan ${playerEntity.clan} | Clan does not exist! Setting player clan to undefined...`);
+                        return callback(false);
+                    });
+                }
 
                 // Actions for all members.
                 if (action == `get-data`) {
@@ -1095,25 +1103,26 @@ io.on(`connection`, async socket => {
                     if (clan.leaders.includes(playerEntity.name) || clan.owner == playerEntity.name) clanData.clanRequests = clanRequests;
                     return callback(clanData);
                 } else if (action == `leave`) {
+
                     if (clan.owner == playerEntity.name) {
                         let clanMembers = await User.find({
                             clan: clan.name
                         });
 
-                        playerEntity.clan = undefined;
-                        playerEntity.clanRequest = undefined;
-
                         if (clanMembers.length == 1) {
-                            // Delete the clan from all remaining players.
-                            User.updateMany({
-                                clan: clan.name
-                            }, {
-                                clan: undefined
-                            });
+                            // Delete the clan from the player.
+                            user.clan = undefined;
+                            user.clanRequest = undefined;
 
                             clan.delete(() => {
-                                log(`magenta`, `CLAN DELETED | Owner ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
-                                return callback(true);
+                                user.save(() => {
+                                    log(`magenta`, `CLAN DELETED | Owner ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
+
+                                    playerEntity.clan = undefined;
+                                    playerEntity.clanRequest = undefined;
+
+                                    return callback(true);
+                                });
                             });
                         } else {
                             // Dereference the player's clan.
@@ -1146,14 +1155,17 @@ io.on(`connection`, async socket => {
                             });
                         }
                     } else {
-                        // Dereference the player's clan.
-                        playerEntity.clan = undefined;
-                        playerEntity.clanRequest = undefined;
+                        console.log(`attempted to get here`);
 
+                        // Dereference the player's clan.
                         user.clan = undefined;
                         user.clanRequest = undefined;
 
+
                         user.save(() => {
+                            playerEntity.clan = undefined;
+                            playerEntity.clanRequest = undefined;
+
                             playerEntity.socket.emit(`showCenterMessage`, `You left clan [${clan.name}].`, 4, 5e3)
 
                             for (let i in core.players) {
