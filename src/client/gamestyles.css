@@ -125,7 +125,7 @@ body {
     width: 100%;
 }
 
-#krew-div > .form-inline > .form-group {
+#krew-div>.form-inline>.form-group {
     margin-right: 0.625rem;
 }
 
@@ -1341,4 +1341,20 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
 
 #preroll>div {
     background: transparent !important;
+}
+
+#stats-wrapper {
+    display: inline-block;
+    position: inherit;
+    left: 101%;
+    text-align: center;
+}
+
+#fps-wrapper,
+#ping-wrapper {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    padding: 5px;
+    min-width: 60px;
+    margin-bottom: 2.5px;
 }

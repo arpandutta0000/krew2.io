@@ -1357,9 +1357,6 @@
                     Hide Chat
                 </a>
             </div>
-            <div style="text-align: right; float: right">
-                <a id="ping-display">0ms</a> 
-            </div>
         </div>
 
         <!-- Show Chat button -->
@@ -1522,22 +1519,24 @@
                         <i class="icofont icofont-ship-wheel"></i>
                         Sail
                     </span>
-
                     <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index: 1; margin-right: 2.5px;">
                         <i class="icofont icofont-link"></i>
                         Invite
                     </span>
-
                     <span data-tooltip="Abandon the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none;">
                         <i class="icofont icofont-anchor"></i>
                         Abandon Ship
                     </span>
-
-                    <br />
+                    <br>
                 </div>
                 <div id="invite-div">
                     <input type="text" maxlength="30" class="form-control" id="invite-link">
                 </div>
+            </div>
+
+            <div id="stats-wrapper">
+                <div id="fps-wrapper"><span>0 FPS</span></div>
+                <div id="ping-wrapper"><span>0 MS</span></div>
             </div>
         </div>
 

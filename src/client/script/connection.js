@@ -90,19 +90,26 @@ var initSocketBinds = function () {
                 4,
                 15000
             );
+            getPing();
         });
 
         let pings = []
-        setInterval(function () {
-            startTime = Date.now();
-            socket.emit('ping');
-        }, 10000);
+        let startTime;
 
-        socket.on('pong', function () {
-            latency = Date.now() - startTime;
+        let getPing = () => {
+            startTime = Date.now();
+            socket.emit(`ping`);
+        }
+
+        setInterval(getPing, 1e4);
+
+        socket.on(`pong`, () => {
+            console.log(`i got ponged`);
+            let latency = Date.now() - startTime;
             pings.push(latency)
+
             if (pings.length > 20) pings.shift();
-            $('#ping-display').text(`${Math.round(pings.reduce((a, b) => a + b) / pings.length)}ms`)
+            $(`#ping-wrapper > span`).text(`${Math.round(pings.reduce((a, b) => a + b) / pings.length)} MS`);
         });
 
         // im the new guy receiving information about the existing guys
