@@ -81,9 +81,9 @@ Entity.prototype.getSnap = function (force) {
             else snap.playerModel = user.playerModel;
 
             this.isNew = false;
+            return snap;
         });
     }
-    return snap;
 };
 
 // function that generates a snapshot
