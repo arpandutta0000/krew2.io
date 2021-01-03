@@ -1,4 +1,4 @@
-let GameControls = function () {
+let GameControls = () => {
     let _this = this;
     let PI_2 = Math.PI / 2;
 
