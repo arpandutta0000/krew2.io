@@ -300,7 +300,19 @@ Player.prototype.logic = function (dt) {
 
             // oval boat shape collision
             if (this.parent.arcFront > 0 && this.position.z > 0) {
-                var bound = this.parent.size.x / 2 - this.position.z * this.parent.arcFront; //this.parent.size.z/2 -
+                var bound = this.parent.size.x / 2 - this.position.z * this.parent.arcFront;
+                if (this.position.x > 0) {
+                    if (this.position.x > bound) {
+                        this.position.x = bound;
+                    }
+                } else {
+                    if (this.position.x < -bound) {
+                        this.position.x = -bound;
+                    }
+                }
+            }
+            if (this.parent.arcBack > 0 && this.position.z < 0) {
+                var bound = this.parent.size.x / 2 + this.position.z * this.parent.arcBack;
                 if (this.position.x > 0) {
                     if (this.position.x > bound) {
                         this.position.x = bound;

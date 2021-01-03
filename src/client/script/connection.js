@@ -104,7 +104,6 @@ var initSocketBinds = function () {
         setInterval(getPing, 5e3);
 
         socket.on(`pong`, () => {
-            console.log(`i got ponged`);
             let latency = Date.now() - startTime;
             pings.push(latency)
 
