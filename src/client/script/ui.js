@@ -146,14 +146,6 @@ var ui = {
             }
         });
 
-        $('.toggle-admin-panel-button').on('click', function () {
-            if ($('#panel-modal').is(':visible')) {
-                $('#panel-modal').hide();
-            } else {
-                $('#panel-modal').show();
-            }
-        });
-
         $('#ship-status').on('click', function () {
             ui.showShipStatus()
         });
