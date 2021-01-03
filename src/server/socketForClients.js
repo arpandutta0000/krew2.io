@@ -597,7 +597,10 @@ io.on(`connection`, async socket => {
                                 exec(`sh /opt/krew2.io/src/server/scripts/${command}.sh`, (err, stdout, stderr) => {
                                     if (err) log(`red`, err);
                                 });
-                            } else log(`red`, `Warning, cannot automatically restart in development.`);
+                            } else {
+                                log(`red`, `Warning, cannot automatically restart in development.`);
+                                serverRestart = false;
+                            }
                         }, 6e4);
                     } else if (command == `report` && (isAdmin || isMod)) {
                         let reportUser = args.shift();
