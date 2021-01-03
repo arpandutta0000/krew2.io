@@ -189,7 +189,8 @@ io.on(`connection`, async socket => {
 
                 // Disconnect the player.
                 core.removeEntity(player);
-                return socket.disconnect();
+                socket.disconnect();
+                break;
             }
         }
 
@@ -1743,6 +1744,7 @@ io.on(`connection`, async socket => {
                     cargo: core.boatTypes[playerEntity.parent.shipclassId].cargoSize,
                     cargoUsed: 0
                 });
+                console.log(transaction);
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
