@@ -1117,7 +1117,7 @@ io.on(`connection`, async socket => {
 
 
                             // Save the changes and callback to the player.
-                            user.save(() => {
+                            user.save(async() => {
                                 // Get the new clan members.
                                 let newClanMembers = await User.find({
                                     clan: clan.name
