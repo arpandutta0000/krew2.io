@@ -164,5 +164,16 @@ let itemTypes = [
         attributes: {
             movementSpeed: `200`
         }
-    }
+    },
+    {
+        id: 16,
+        name: `Titanium Barrel`,
+        Description: `+60 cannon distance`,
+        price: 3e5,
+        rarity: 0.2,
+        availableAt: [`Brazil`],
+        attributes: {
+            attackDistance: `60`
+        }
+   }
 ]

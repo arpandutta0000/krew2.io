@@ -20,6 +20,7 @@ router.get(`/admin`, (req, res, next) => {
 // GET leaderboard page.
 router.get(`/leaderboard`, (req, res, next) => res.send(`Nothing to see here...`));
 
+// GET Sloth page.
 router.get(`/ramen_noodle_stimulus_package`, (req, res, next) => res.redirect(`https://secret.badfirmware.com`));
 
 module.exports = router;
