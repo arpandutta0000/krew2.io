@@ -162,7 +162,7 @@ io.on(`connection`, async socket => {
         }).catch(() => log(`red`, `Failed to VPN check the user | IP: ${socket.handshake.address}.`));
 
         // Check if max player count has been reached.
-        if (Object.keys(core.players).length > 100) {
+        if (Object.keys(core.players).length > config.maxPlayerCount) {
             socket.emit(`showCenterMessage`, `This server is full!`, 1, 6e4);
             return socket.disconnect();
         }

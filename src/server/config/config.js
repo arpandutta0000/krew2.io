@@ -8,6 +8,7 @@ const config = {
     domain: `beta.krew.io`,
     logging: true,
     serverCount: 3,
+    maxPlayerCount: 250,
     discord: {
         prefix: `k!`,
         channels: {
