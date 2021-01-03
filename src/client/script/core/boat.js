@@ -26,6 +26,7 @@ function Boat (captainId, krewName, spawnBool) {
     this.hpRegInterval = 1;
 
     this.arcFront = 0.0;
+    this.arcBack = 0.0;
 
     // info that is not sent via delta
     this.muted = ['x', 'z', 'y'];
@@ -373,6 +374,7 @@ Boat.prototype.setShipClass = function (classId) {
     this.maxKrewCapacity = currentShipClass.maxKrewCapacity;
     this.size.set(currentShipClass.width, currentShipClass.height, currentShipClass.depth);
     this.arcFront = currentShipClass.arcFront;
+    this.arcBack = currentShipClass.arcBack;
     this.inertia = currentShipClass.inertia;
     this.collisionRadius = currentShipClass.radius;
     this.speed = currentShipClass.speed;
