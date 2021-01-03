@@ -73,20 +73,8 @@ Entity.prototype.getSnap = function (force) {
     if (this.netType === 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
-
-        User.findOne({
-            username: snap.name
-        }).then(user => {
-            if (!user || !user.playerModel) snap.playerModel = 2;
-            else snap.playerModel = user.playerModel;
-            console.log(snap.playerModel);
-
-            this.isNew = false;
-            console.log(`i actually returned the proper snap`, snap);
-            return snap;
-        });
     }
-    else return snap;
+    return snap;
 };
 
 // function that generates a snapshot
