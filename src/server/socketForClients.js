@@ -1123,7 +1123,7 @@ io.on(`connection`, async socket => {
                                     clan: clan.name
                                 });
 
-                                if (clan.leaders.length != 0) clan.owner = clan.leaders.first();
+                                if (clan.leaders.length != 0) clan.owner = clan.leaders[0];
                                 else {
                                     clan.owner = newClanMembers.limit(1).username;
                                     clan.leaders.push(clan.owner);
