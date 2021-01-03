@@ -1112,6 +1112,9 @@ io.on(`connection`, async socket => {
                             user.clan = undefined;
                             user.clanRequest = undefined;
 
+                            playerEntity.clan = undefined;
+                            playerEntity.clanRequest = undefined;
+
                             // If he is a leader, remove him from the leaders' list.
                             if (clan.leaders.includes(playerEntity.name)) clan.leaders.splice(clan.leaders.indexOf(playerEntity.name), 1);
 
