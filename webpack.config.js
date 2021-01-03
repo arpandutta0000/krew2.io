@@ -10,7 +10,7 @@ module.exports = {
         `./src/client/script/dist.js`,
     ],
     output: {
-        path: path.resolve(__dirname, `src/client/script`),
+        path: path.resolve(__dirname, `dist/script`),
         filename: `dist.min.js`
     },
     plugins: [new Webpack.IgnorePlugin(/node_modules/)],

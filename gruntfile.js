@@ -40,13 +40,6 @@ module.exports = (grunt => {
                     `src/client/script/core/core_client/config.js`,
                     `src/client/script/rangeInput.js`,
 
-                    `src/client/assets/js/canvas.map.js`,
-                    `src/client/assets/js/libs/ua.js`,
-                    `src/client/assets/js/libs/keypress.min.js`,
-                    `src/client/assets/js/libs/OBJLoader.js`,
-                    `src/client/assets/js/libs/TGALoader.js`,
-                    `src/client/assets/js/libs/MTLLoader.js`,
-
                     `src/client/script/environment.js`,
                     `src/client/script/window.js`,
                     `src/client/script/geometry.js`,
@@ -236,13 +229,12 @@ module.exports = (grunt => {
                         src: [`src/client/assets/models/sea_animals/*`],
                         dest: `dist/assets/models/sea_animals/`,
                         filter: `isFile`
-                    }
+                    },
                 ]
             }
         }
     });
 
-    // Register task chains.
     // Build production.
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
