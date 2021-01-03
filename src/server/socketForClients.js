@@ -2018,6 +2018,7 @@ io.on(`connection`, async socket => {
             }).then(user => {
                 if (!user) return log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${socket.handshake.address}.`);
                 if (data.password == user.password) data.name = data.name.toString();
+                if (user.playerModel) data.playerModel = user.playerModel;
                 else {
                     log(`cyan`, `Exploit detected: Incorrect password with username. Spawning IP as seadog: ${socket.handshake.address}`);
                     data.name = undefined;
