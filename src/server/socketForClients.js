@@ -257,11 +257,14 @@ io.on(`connection`, async socket => {
                 }
 
                 // Restore item & item stats.
-                if (playerSave.itemId && core.itemTypes[playerSave.itemId - 2]) playerEntity.itemId = playerSave.itemId;
-                playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
-                playerEntity.attackDistanceBonus = playerSave.bonus.distance;
-                playerEntity.attackDamageBonus = playerSave.bonus.damage;
-                playerEntity.movementSpeedBonus = playerSave.bonus.speed;
+                if (playerSave.itemId) {
+                    playerEntity.itemId = playerSave.itemId;
+
+                    playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
+                    playerEntity.attackDistanceBonus = playerSave.bonus.distance;
+                    playerEntity.attackDamageBonus = playerSave.bonus.damage;
+                    playerEntity.movementSpeedBonus = playerSave.bonus.speed;
+                }
 
                 // Restore achievements.
                 playerEntity.overall_cargo = playerSave.overallCargo;
