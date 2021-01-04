@@ -78,17 +78,6 @@ Admins = config.admins;
 Mods = config.mods;
 Devs = config.devs;
 
-// If test environment, create player in world
-if (TEST_ENV) {
-    setTimeout(() => {
-        let playerEntity;
-        for (let i = 0; i < 100; i++) {
-            playerEntity = core.createPlayer({});
-            login.allocatePlayerToBoat(playerEntity);
-        }
-    }, 5e3);
-}
-
 const gameCookies = {};
 
 setInterval(() => {
