@@ -417,6 +417,7 @@ io.on(`connection`, async socket => {
 
                         let player = Object.values(core.players).find(player => player.name == kickUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+                        else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
                         if (!kickReason || kickReason == ``) kickReason == `No reason specified`;
 
                         player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}` : `.`}`, 1, 1e4);
@@ -436,6 +437,7 @@ io.on(`connection`, async socket => {
 
                         let player = Object.values(core.players).find(player => player.name == banUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+                        else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
                         if (!banReason || banReason == ``) banReason == `No reason specified`;
 
                         let isBanned = await Ban.findOne({
@@ -468,6 +470,7 @@ io.on(`connection`, async socket => {
 
                         let player = Object.values(core.players).find(player => player.name == tempbanUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+                        else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
                         if (!tempbanReason || tempbanReason == ``) tempbanReason == `No reason specified`;
 
                         let ban = new Ban({
@@ -480,7 +483,7 @@ io.on(`connection`, async socket => {
                         ban.save(() => {
                             player.socket.emit(`showCenterMessage`, `You have been temporarily banned.`, 1, 6e4);
                             player.socket.disconnect();
-                            playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}`, 3);
+                            playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}.`, 3, 1e4);
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
                                 if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} temporarily banned ${player.name}.`, 4, 1e4);
@@ -499,7 +502,7 @@ io.on(`connection`, async socket => {
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not banned!`, 3, 1e4);
 
                         player.delete(() => {
-                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`, 1, 1e4);
+                            playerEntity.socket.emit(`showCenterMessage`, `You unbanned ${unbanUser}.`, 3, 1e4);
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
@@ -512,6 +515,7 @@ io.on(`connection`, async socket => {
                     } else if ((command == `reload` || command == `update`) && (isAdmin || isDev) && !serverRestart) {
                         serverRestart = true;
                         playerEntity.socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
+
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
                             if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} started a server restart.`, 4, 1e4);
@@ -634,6 +638,7 @@ io.on(`connection`, async socket => {
 
                         let player = Object.values(core.players).find(player => player.name == playerToMute);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+                        else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
 
                         mutePlayer(player);
 
@@ -764,7 +769,7 @@ io.on(`connection`, async socket => {
                             message: charLimit(msg, 150)
                         });
                     }
-                } else if (msgData.recipient == `clan` && playerEntity.clan != `` && typeof playerEntity.clan != `undefined`) {
+                } else if (msgData.recipient == `clan` && playerEntity.clan) {
                     let clan = playerEntity.clan;
                     for (let i in entities) {
                         let entity = entities[i];
