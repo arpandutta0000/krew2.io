@@ -122,7 +122,7 @@
     <!-- START Pre-Gameplay HTML -->
 
     <!-- START Wall, select server, select spawn, buttons, changelog -->
-    <div class="modal show text-xs-center" id="login-modal" style="padding-top: 10px;">
+    <div class="modal show text-xs-center" id="login-modal">
 
         <!-- If a user is logged in, show in top right and add logout hyperlink -->
         <span id="logged-in" style="position:absolute; top: 10px; right: 10px; color: #fff; display:none;">You are logged in as</span>
@@ -146,7 +146,7 @@
 
                     <!-- Wall of Fame Modal (Left) -->
                     <div class="wall-of-fame-div">
-                        <div class="white-bg" style="border-radius: 5px; word-wrap: break-word">
+                        <div class="white-bg">
                             <h4 class="changelog-title">Wall of fame</h4><br>
                             <div id="wall-of-fame-table-div">
                                 <table id="wall-of-fame-table">
@@ -168,18 +168,13 @@
 
                     <!-- START Center Modal -->
                     <div class="main-menu-div">
-                        <div class="white-bg" style="border-radius: 5px; padding-top: 12px">
-
-                            <div>
-                                <small>Try <a href="https://relmz.io/" target="_window">relmz.io</a></small>
-                                </br>
-                                <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock.</span>
-                            </div>
+                        <div class="white-bg">
+                            <small>Try <a href="https://relmz.io/" target="_window">relmz.io</a></small>
+                            <br>
+                            <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock.</span>
 
                             <!-- If the user is using an invite link -->
-                            <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">
-                                Ahoy! It seems like you're using an invite link ;D
-                            </div>
+                            <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">Ahoy! It seems like you're using an invite link ;D</div>
 
                             <!-- Select server -->
                             <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
@@ -195,25 +190,25 @@
                                     <option value="spain">Spawn on Spain</option>
                                     <option value="labrador">Spawn on Labrador</option>
                                     <option value="brazil">Spawn on Brazil</option>
-                                    <option value="island">Spawn on random island</option>
+                                    <option value="island">Spawn on a random island</option>
                                 </select>
                             </div>
 
                             <!-- Play button, login/register/account settings button, and watch tutorial button -->
-                            <div class="form-group" style="margin:10 auto;">
-                                <button id='play-button' type="button" class="btn btn-success btn-block" disabled>Loading...</button>
-                                <button id='login-button' type="button" class="btn btn-warning btn-block" disabled style="display: none">Log In / Sign Up</button>
-                                <button id='tutorial-button' type="button" class="btn btn-primary btn-block popup-youtube" href="https://www.youtube.com/watch?v=kwAydeQL73s?autoplay=1&rel=0">Watch tutorial</button>
+                            <div class="form-group">
+                                <button id="play-button" class="btn btn-success btn-block" disabled>Loading...</button>
+                                <button id="login-button" class="btn btn-warning btn-block" disabled>Log In / Sign Up</button>
+                                <button id="tutorial-button" class="btn btn-primary btn-block popup-youtube" href="https://www.youtube.com/watch?v=kwAydeQL73s?autoplay=1&rel=0">Watch tutorial</button>
                             </div>
 
                             <!-- jQuery code for tutorial popover -->
                             <script>
                                 $(document).ready(function () {
-                                    $('.popup-youtube').magnificPopup({
-                                        focus: '',
+                                    $(".popup-youtube").magnificPopup({
+                                        focus: "",
                                         disableOn: 700,
-                                        type: 'iframe',
-                                        mainClass: 'mfp-own',
+                                        type: "iframe",
+                                        mainClass: "mfp-own",
                                         removalDelay: 160,
                                         preloader: false,
                                         fixedContentPos: false,
@@ -237,10 +232,10 @@
                             <br><br>
 
                             <!-- Ad on center modal -->
-                            <div id='krew-io_300x250'>
-                                <script type='text/javascript'>
+                            <div id="krew-io_300x250">
+                                <script type="text/javascript">
                                     aiptag.cmd.display.push(function () {
-                                        aipDisplayTag.display('krew-io_300x250');
+                                        aipDisplayTag.display("krew-io_300x250");
                                     });
                                 </script>
                             </div>
