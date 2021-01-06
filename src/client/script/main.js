@@ -49,12 +49,12 @@ var createMinimap = function () {
             y: middle,
             text: '+',
             fill: 'rgba(84,48,13,0.7)',
-            size: 260,
+            size: 150,
             baseline: 'middle'
         }),
         n: map.text({
             x: middle,
-            y: middle - 300,
+            y: middle - 350,
             text: 'N',
             fill: 'rgba(84,48,13,0.7)',
             size: 160,
@@ -62,26 +62,26 @@ var createMinimap = function () {
         }),
         s: map.text({
             x: middle,
-            y: middle + 300,
+            y: middle + 350,
             text: 'S',
             fill: 'rgba(84,48,13,0.7)',
-            size: 160,
+            size: 190,
             baseline: 'middle'
         }),
         w: map.text({
-            x: middle - 300,
+            x: middle - 350,
             y: middle,
             text: 'W',
             fill: 'rgba(84,48,13,0.7)',
-            size: 160,
+            size: 190,
             baseline: 'middle'
         }),
         e: map.text({
-            x: middle + 300,
+            x: middle + 350,
             y: middle,
             text: 'E',
             fill: 'rgba(84,48,13,0.7)',
-            size: 160,
+            size: 190,
             baseline: 'middle'
         }),
         boundary: map.rect({
@@ -136,7 +136,7 @@ var createMinimap = function () {
                                     fill: 'rgba(84,48,13,1)',
                                     font: 'serif',
                                     id: id + '-label',
-                                    size: 140,
+                                    size: 180,
                                 }));
                         }
                     }

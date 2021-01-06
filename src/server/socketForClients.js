@@ -20,7 +20,7 @@ const {
     exec
 } = require(`child_process`);
 
-let worldsize = 1700;
+let worldsize = 2500;
 
 global.maxAmountCratesInSea = config.maxAmountCratesInSea;
 global.minAmountCratesInSea = config.minAmountCratesInSea;

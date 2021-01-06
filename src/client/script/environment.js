@@ -13,7 +13,7 @@ var setUpEnvironment = function () {
     scene.add(coldAmbientlight);
 
     // env cube
-    environment.sphere = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(4000)),
+    environment.sphere = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(8000)),
         materials.sky);
     scene.add(environment.sphere);
     environment.sphere.scale.y = 0.05;
@@ -247,7 +247,7 @@ var setUpEnvironment = function () {
         light = new THREE.DirectionalLight(0xF9F6DA, 0.5);
         light.position.set(0, 100, 0);
         scene.add(light);
-        var waterGeometry = new THREE.PlaneBufferGeometry(6000, 6000);
+        var waterGeometry = new THREE.PlaneBufferGeometry(12000, 12000);
         water = new THREE.Water(
             waterGeometry, {
                 textureWidth: 512,

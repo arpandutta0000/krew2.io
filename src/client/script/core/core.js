@@ -9,7 +9,7 @@ var Landmarks = {};
 var pickups = {};
 var bots = {};
 
-var worldsize = 1700; // 1000 is default
+var worldsize = 2500; // 1000 is default
 
 var iterateEntities = function (dt) {
 
