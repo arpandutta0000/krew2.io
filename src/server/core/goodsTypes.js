@@ -14,5 +14,17 @@ let goodsTypes = {
     silk: {
         drainRate: 0,
         cargoSpace: 12
-    }
-}
+    },
+    gems: {
+        drainRate: 0,
+        cargoSpace: 15
+    },
+    sugar: {
+        drainRate: 0,
+        cargoSpace: 15
+    },
+    bananas: {
+        drainRate: 0,
+        cargoSpace: 5
+    },
+};

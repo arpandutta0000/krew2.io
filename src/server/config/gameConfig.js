@@ -8,12 +8,14 @@ let Config = {
             rum: 0,
             coffee: 0,
             spice: 0,
-            silk: 0
+            silk: 0,
+            gems: 0,
+            sugar: 0,
+            bananas: 0
         }
     },
     drainers: {},
-    landmarks: [
-        {
+    landmarks: [{
             type: 0,
             x: 500,
             y: 300,
@@ -22,10 +24,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 52,
-                coffee: 65,
-                spice: 35,
-                silk: 180
+                rum: 50,
+                coffee: 50,
+                spice: 50,
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -40,7 +45,10 @@ let Config = {
                 rum: 50,
                 coffee: 50,
                 spice: 50,
-                silk: 50
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -52,10 +60,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 38,
-                coffee: 22,
-                spice: 22,
-                silk: 310
+                rum: 50,
+                coffee: 50,
+                spice: 50,
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -70,7 +81,10 @@ let Config = {
                 rum: 50,
                 coffee: 50,
                 spice: 50,
-                silk: 50
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -82,10 +96,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 60,
-                coffee: 26,
-                spice: 25,
-                silk: 150
+                rum: 50,
+                coffee: 50,
+                spice: 50,
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -100,7 +117,10 @@ let Config = {
                 rum: 50,
                 coffee: 50,
                 spice: 50,
-                silk: 50
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -115,7 +135,10 @@ let Config = {
                 rum: 50,
                 coffee: 50,
                 spice: 50,
-                silk: 50
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -130,7 +153,10 @@ let Config = {
                 rum: 50,
                 coffee: 50,
                 spice: 50,
-                silk: 50
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -142,10 +168,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 48,
-                coffee: 40,
-                spice: 14,
-                silk: 230
+                rum: 50,
+                coffee: 50,
+                spice: 50,
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         },
         {
@@ -157,10 +186,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: true,
             goodsPrice: {
-                rum: 32,
-                coffee: 70,
-                spice: 40,
-                silk: 240
+                rum: 50,
+                coffee: 50,
+                spice: 50,
+                silk: 50,
+                gems: 50,
+                sugar: 50,
+                bananas: 50
             }
         }
     ]
