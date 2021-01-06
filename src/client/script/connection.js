@@ -93,11 +93,14 @@ var initSocketBinds = function () {
             getPing();
         });
 
-        let pings = []
+        let pings = [];
+        let recievedPong = false;
         let startTime;
 
         let getPing = () => {
+            if (!recievedPong && pings[0]) $(`#ping-wrapper > span`).text(`LOST CONNECTION`);
             startTime = Date.now();
+            recievedPong = false;
             socket.emit(`ping`);
         }
 
@@ -106,8 +109,9 @@ var initSocketBinds = function () {
         socket.on(`pong`, () => {
             let latency = Date.now() - startTime;
             pings.push(latency)
+            recievedPong = true;
 
-            if (pings.length > 6) pings.shift();
+            if (pings.length > 4) pings.shift();
             $(`#ping-wrapper > span`).text(`${Math.round(pings.reduce((a, b) => a + b) / pings.length)} MS`);
         });
 
