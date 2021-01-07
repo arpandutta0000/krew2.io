@@ -96,6 +96,7 @@ function Player (data) {
     this.attackDistanceBonus = 0;
     this.movementSpeedBonus = 0;
     this.armorBonus = 0;
+    this.regenBonus = 0;
 
     // Leveling system
     this.level = 0;
@@ -359,6 +360,7 @@ Player.prototype.getTypeSnap = function () {
         ww: this.waterWalk,
         m: this.movementSpeedBonus,
         g: this.armorBonus,
+        rb: this.regenBonus,
         w: this.activeWeapon,
         c: this.checkedItemsList,
         d: this.itemId,

@@ -105,6 +105,7 @@ function Player (data) {
     this.attackDistanceBonus = 0;
     this.movementSpeedBonus = 0;
     this.armorBonus = 0;
+    this.regenBonus = 0;
 
     // Leveling system
     this.level = 0;
@@ -328,6 +329,7 @@ Player.prototype.getTypeSnap = function () {
         j: this.jumping,
         m: this.movementSpeedBonus,
         g: this.armorBonus,
+        rb: this.regenBonus,
         w: this.activeWeapon,
         c: this.checkedItemsList,
         d: this.itemId,
@@ -442,6 +444,7 @@ Player.prototype.equip = function (item) {
     this.attackDistanceBonus = 0;
     this.movementSpeedBonus = 0;
     this.armorBonus = 0;
+    this.regenBonus = 0;
     this.attackDamageBonus = 0;
 
     if (item.attributes.attackSpeed !== undefined) {
@@ -460,6 +463,10 @@ Player.prototype.equip = function (item) {
         this.armorBonus += parseInt(item.attributes.armor);
     }
 
+    if (item.attributes.regen !== undefined) {
+        this.regenBonus += parseInt(item.attributes.regen);
+    }
+
     if (item.attributes.attackDamage !== undefined) {
         this.attackDamageBonus += parseInt(item.attributes.attackDamage);
     }
@@ -475,6 +482,7 @@ Player.prototype.dequip = function () {
     this.movementSpeedBonus = 0;
     this.attackDamageBonus = 0;
     this.armorBonus = 0;
+    this.regenBonus = 0;
 };
 
 Player.prototype.purchaseItem = function (itemId) {
