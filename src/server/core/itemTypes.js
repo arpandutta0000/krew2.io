@@ -167,24 +167,24 @@ let itemTypes = [
     },
     {
         id: 16,
-        name: `Steel Reinforced Planks`,
-        Description: `Additional 40% HP`,
-        price: 3e5,
-        rarity: 0.3,
-        availableAt: [`Taiwan`],
-        attributes: {
-            armor: `40`
-        }
-    },
-    {
-        id: 16,
         name: `Advanced Toolkit`,
         Description: `+1 Regen`,
-        price: 3e5,
+        price: 1e5,
         rarity: 0.2,
         availableAt: [`Malaysia`],
         attributes: {
             regen: `1`
+        }
+    },
+    {
+        id: 17,
+        name: `Steel Reinforced Planks`,
+        Description: `Additional 40% HP`,
+        price: 2e5,
+        rarity: 0.3,
+        availableAt: [`Taiwan`],
+        attributes: {
+            armor: `40`
         }
     },
 ];
