@@ -45,7 +45,7 @@ let Config = {
                 rum: 225,
                 coffee: 75,
                 spice: 75,
-                silk: 125,
+                silk: 200,
                 gems: 150,
                 sugar: 145,
                 bananas: 65
