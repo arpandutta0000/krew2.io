@@ -168,7 +168,7 @@ let itemTypes = [
     {
         id: 16,
         name: `Advanced Toolkit`,
-        Description: `+1 Regen`,
+        Description: `+2 Regen`,
         price: 1e5,
         rarity: 0.2,
         availableAt: [`Malaysia`],
