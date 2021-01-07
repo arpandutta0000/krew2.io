@@ -316,7 +316,10 @@ io.on(`connection`, async socket => {
             if (!msgData.message || !msgData.recipient || typeof msgData.message != `string` || typeof msgData.recipient != `string`) return;
             if (msgData.message.length < 1) return;
 
-            if (!playerEntity.isMuted) playerEntity.isMuted = false;
+            if (!playerEntity.isMuted) {
+                playerEntity.isMuted = false;
+                clearInterval(playerEntity.muteTimeout);
+            }
 
             // Check for spam.
             if (msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
@@ -746,6 +749,12 @@ io.on(`connection`, async socket => {
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
+                // Find the user and check if he is IP muted.
+                let isIPMuted = await Mute.findOne({
+                    IP: playerEntity.socket.handshake.address
+                });
+                if (isIPMuted) return playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);;
+
                 let msg = msgData.message.toString();
 
                 msg = filter.clean(xssFilters.inHTMLData(msg));
@@ -797,7 +806,7 @@ io.on(`connection`, async socket => {
                     }
                 } else if (msgData.message.length > 1) {
                     playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
-                    log(`blue`, `Player ${playerEntity.name} was auto-muted | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    log(`yellow`, `Player ${playerEntity.name} was muted and tried to speak | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 }
             }
         });
@@ -2165,8 +2174,8 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            playerEntity.isMuted = false;
             mute.delete();
+            playerEntity.isMuted = false;
         }, 3e5);
     });
 }
