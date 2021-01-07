@@ -1,8 +1,10 @@
 v1.3.1 - [1-7-2020]
 - Added Krewmate skin
+- Added Steel Reinforced Planks and Advanced Toolkit Items
 - Fixed players having a chance at spawning in an island
 - Fixed clan markers not being responsive to world size
 - Added model preview for Seafox
+- Switched Philippines silk price from 125 to 200
 
 v1.3.0 - [1-6-2020]
 - Expanded and remade map with 5 new islands
