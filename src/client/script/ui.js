@@ -315,8 +315,8 @@ var ui = {
         $('#minimap').on('click', function (e) {
             if (markerMapCount < performance.now() - 5000) {
                 markerMapCount = performance.now();
-                var x = (e.offsetX == undefined ? e.layerX : e.offsetX) * 9.4 - 94;
-                var y = (e.offsetY == undefined ? e.layerY : e.offsetY) * 9.4 - 94;
+                var x = (((e.offsetX == undefined ? e.layerX : e.offsetX) - 10) / 180) * worldsize;
+                var y = (((e.offsetY == undefined ? e.layerY : e.offsetY) - 10) / 180) * worldsize;
                 socket.emit('addMarker', {
                     'x': x,
                     'y': y
