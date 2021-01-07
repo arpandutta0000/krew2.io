@@ -43,9 +43,6 @@ module.exports = {
         {
             name: `Kekmw`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
-        },
-        {
-            hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         }
     ],
     Devs: [/*{
