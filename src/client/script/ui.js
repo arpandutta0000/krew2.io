@@ -1786,13 +1786,13 @@ var ui = {
 
                 $('#model-left').on('click', function () {
                     currentModel--;
-                    if (currentModel < 0) currentModel = 3;
+                    if (currentModel < 0) currentModel = 4;
                     $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
                 });
 
                 $('#model-right').on('click', function () {
                     currentModel++;
-                    if (currentModel > 3) currentModel = 0;
+                    if (currentModel > 4) currentModel = 0;
                     $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
                 });
 
@@ -2036,7 +2036,7 @@ var ui = {
 
                     i++;
                     var $option = $('<option/>', {
-                        html: 'Server ' + i + ' (' + server.playerCount + '/' +server.maxPlayerCount + ')',
+                        html: 'Server ' + i + ' (' + server.playerCount + '/' + server.maxPlayerCount + ')',
                         value: pid,
                     });
 
@@ -2212,7 +2212,7 @@ const getFPS = () => {
     window.requestAnimationFrame(() => {
         const now = performance.now();
 
-        while(times.length > 0 && times[0] <= now - 1000) times.shift();
+        while (times.length > 0 && times[0] <= now - 1000) times.shift();
         times.push(now);
 
         document.querySelector(`#fps-wrapper > span`).innerHTML = `${times.length} FPS`;
