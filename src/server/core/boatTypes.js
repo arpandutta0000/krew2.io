@@ -298,7 +298,7 @@ let boatTypes = {
         scale: [0.15, 0.18, 0.12],
         offset: [0, 5.5, 0],
         rotation: [0, 0, 0],
-        availableAt: [`Spain`, `Brazil`]
+        availableAt: [`Spain`, `Brazil`, `Cuba`]
     },
     12: {
         id: 12,
@@ -325,7 +325,7 @@ let boatTypes = {
         scale: [0.15, 0.15, 0.15],
         offset: [2, 11.6, 3],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: [`Labrador`, `Spain`]
+        availableAt: [`Labrador`, `Spain`, `Barbados`, `Taiwan`]
     },
     13: {
         id: 13,
@@ -352,7 +352,7 @@ let boatTypes = {
         scale: [0.1, 0.1, 0.1],
         offset: [1, 10, 5],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: [`Spain`, `Guinea`]
+        availableAt: [`Spain`, `Guinea`, `Cuba`]
     },
     14: {
         id: 14,
@@ -379,7 +379,7 @@ let boatTypes = {
         scale: [0.1, 0.1, 0.1],
         offset: [1, 13.4, 1],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: [`Spain`]
+        availableAt: [`Spain`, `Malaysia`]
     },
     15: {
         id: 15,
@@ -485,7 +485,7 @@ let boatTypes = {
         scale: [0.15, 0.15, 0.15],
         offset: [2, 11.6, 3],
         rotation: [0, Math.PI / 2, 0],
-        availableAt: [`Jamaica`]
+        availableAt: [`Jamaica`, `Taiwan`]
     },
     19: {
         id: 19,
@@ -565,7 +565,8 @@ let boatTypes = {
         mast: `junk`,
         scale: [0.12, 0.12, 0.12],
         offset: [0, 18, 0],
-        rotation: [0, Math.PI / 2, 0]
+        rotation: [0, Math.PI / 2, 0],
+        availableAt: [`Spain`, `Jamaica`, `Taiwan`]
     },
     22: {
         id: 22,
