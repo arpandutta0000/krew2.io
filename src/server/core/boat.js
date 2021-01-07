@@ -104,17 +104,17 @@ function Boat (captainId, krewName, spawnBool) {
         //used for respawn near the edge of the map
         let roll = Math.floor(Math.random() * Math.floor(4));
         if (roll === 0) {
-            this.position.x = Math.floor(Math.random() * 250);
+            this.position.x = Math.floor(Math.random() * 150);
             this.position.z = Math.floor(Math.random() * worldsize);
         } else if (roll === 1) {
             this.position.x = Math.floor(Math.random() * worldsize);
-            this.position.z = Math.floor(Math.random() * (worldsize - (worldsize - 250)) + (worldsize - 250));
+            this.position.z = Math.floor(Math.random() * (worldsize - (worldsize - 150)) + (worldsize - 150));
         } else if (roll === 2) {
-            this.position.x = Math.floor(Math.random() * (worldsize - (worldsize - 250)) + (worldsize - 250));
+            this.position.x = Math.floor(Math.random() * (worldsize - (worldsize - 150)) + (worldsize - 150));
             this.position.z = Math.floor(Math.random() * worldsize);
         } else if (roll === 3) {
             this.position.x = Math.floor(Math.random() * worldsize);
-            this.position.z = Math.floor(Math.random() * 250);
+            this.position.z = Math.floor(Math.random() * 150);
         }
         //used for respawn anywhere on the map
         // calculate the spawn position. If spawn position collides with an island, recalculate
