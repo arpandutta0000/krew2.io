@@ -417,7 +417,7 @@ Player.prototype.setName = function (name) {
                 textSize: 0.7,
                 redrawInterval: CONFIG.Labels.redrawInterval,
                 texture: {
-                    text: clan + (Admins.includes(this.name) ? '[Admin] ' : Mods.includes(this.name) ? '[Mod] ' : Devs.includes(this.name) ? '[Dev] ' : '') + name + ' (lvl ' + this.level + ')',
+                    text: clan + (Admins.includes(this.name) ? '[Admin] ' : Mods.includes(this.name) ? '[Staff] ' : Devs.includes(this.name) ? '[Dev] ' : '') + name + ' (lvl ' + this.level + ')',
                     fontFamily: CONFIG.Labels.fontFamily,
                 },
                 material: {
@@ -432,7 +432,7 @@ Player.prototype.setName = function (name) {
             this.label.position.set(0, 2, 0);
             this.geometry.add(this.label);
         }
-        this.label.material.map.text = clan + (Admins.includes(this.name) ? '[Admin] ' : Mods.includes(this.name) ? '[Mod] ' : Devs.includes(this.name) ? '[Dev] ' : '') + name + ' (lvl ' + this.level + ')';
+        this.label.material.map.text = clan + (Admins.includes(this.name) ? '[Admin] ' : Mods.includes(this.name) ? '[Staff] ' : Devs.includes(this.name) ? '[Dev] ' : '') + name + ' (lvl ' + this.level + ')';
         this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined &&
             (this.parent.netType === 5 || this.parent.inRange);
     }

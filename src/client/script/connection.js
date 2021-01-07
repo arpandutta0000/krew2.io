@@ -297,7 +297,7 @@ var initSocketBinds = function () {
             }
             var $msgDiv = $('<div/>', {
                 text: (msgData.playerClan ? '[' + msgData.playerClan + '] ' : '') +
-                    (isAdmin ? '[Admin] ' : isMod ? '[Mod] ' : isDev ? '[Dev] ' : '') +
+                    (isAdmin ? '[Admin] ' : isMod ? '[Staff] ' : isDev ? '[Dev] ' : '') +
                     msgData.playerName +
                     ': ' +
                     msgData.message,
