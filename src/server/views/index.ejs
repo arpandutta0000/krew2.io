@@ -1641,9 +1641,7 @@
         }
         gtag('js', new Date());
         gtag('config', 'UA-105351798-36');
-        if (window.location != window.parent.location)
-            if (document.referrer.includes("crazygames")) $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
-
+        if (window.location != window.parent.location && document.referrer.includes("crazygames")) $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
         if (!adEnabled) {
             $(".ad-div").each(() => $(this).hide());
             $("#portal-backlink").hide();
