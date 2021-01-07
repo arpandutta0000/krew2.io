@@ -88,6 +88,9 @@ setInterval(() => {
     io.emit(`cycle`, currentTime);
 }, 12e5);
 
+// Delete all mutes on server start.
+Mute.deleteMany(() => log(`cyan`, `Deleted all mutes.`));
+
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
     let krewioData;
@@ -2186,8 +2189,10 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            mute.delete();
-            playerEntity.isMuted = false;
+            mute.delete(() => {
+                log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                playerEntity.isMuted = false;
+            });
         }, 3e5);
     });
 }
