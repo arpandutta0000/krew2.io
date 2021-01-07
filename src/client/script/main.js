@@ -597,6 +597,9 @@ var login = function () {
                 $('#account-quality-list').val(2);
                 $('#quality-list').val(2);
             }
+
+            updateMusic();
+            updateQuality();
         },
         error: function (res) {
             $('#account-fp-mode-button').prop('checked', false);
@@ -609,9 +612,66 @@ var login = function () {
 
             $('#account-quality-list').val(2);
             $('#quality-list').val(2);
+
+            $('#quality-list').emit('change');
+            $('#music-control').emit('change');
+
+            updateMusic();
+            updateQuality();
         }
     });
 };
+
+var updateQuality = function () {
+    switch (parseInt($('#quality-list').val())) {
+        case 1: {
+            if (gl !== undefined) {
+                var newW = defaultWidth / 2.5;
+                var newH = defaultHeight / 2.5;
+                gl.canvas.height = newH;
+                gl.canvas.width = newW;
+                gl.viewport(0, 0, newW, newW);
+                renderer.setSize(newW, newW, false);
+            }
+
+            break;
+        }
+
+        case 2: {
+            if (gl !== undefined) {
+                var newW = defaultWidth / 1.45;
+                var newH = defaultHeight / 1.45;
+                gl.canvas.height = newH;
+                gl.canvas.width = newW;
+                gl.viewport(0, 0, newW, newH);
+                renderer.setSize(newW, newW, false);
+            }
+
+            break;
+        }
+
+        case 3: {
+            if (gl !== undefined) {
+                var newW = defaultWidth;
+                var newH = defaultHeight;
+                gl.canvas.height = newH;
+                gl.canvas.width = newW;
+                gl.viewport(0, 0, newW, newH);
+                renderer.setSize(newW, newW, false);
+            }
+
+            break;
+        }
+    }
+}
+
+var updateMusic = function () {
+    var elements = document.querySelectorAll('audio');
+    const range = document.getElementById("music-control");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].volume = 0.1 * range.value / range.max;
+    }
+}
 
 var sendMessage = function () {
     socket.emit('chat message', {
@@ -873,49 +933,7 @@ $(document).ready(function () {
     });
 
     // login by pressing login button
-    $('#quality-list').on('change', function () {
-
-        switch (parseInt($('#quality-list').val())) {
-            case 1: {
-                if (gl !== undefined) {
-                    var newW = defaultWidth / 2.5;
-                    var newH = defaultHeight / 2.5;
-                    gl.canvas.height = newH;
-                    gl.canvas.width = newW;
-                    gl.viewport(0, 0, newW, newW);
-                    renderer.setSize(newW, newW, false);
-                }
-
-                break;
-            }
-
-            case 2: {
-                if (gl !== undefined) {
-                    var newW = defaultWidth / 1.45;
-                    var newH = defaultHeight / 1.45;
-                    gl.canvas.height = newH;
-                    gl.canvas.width = newW;
-                    gl.viewport(0, 0, newW, newH);
-                    renderer.setSize(newW, newW, false);
-                }
-
-                break;
-            }
-
-            case 3: {
-                if (gl !== undefined) {
-                    var newW = defaultWidth;
-                    var newH = defaultHeight;
-                    gl.canvas.height = newH;
-                    gl.canvas.width = newW;
-                    gl.viewport(0, 0, newW, newH);
-                    renderer.setSize(newW, newW, false);
-                }
-
-                break;
-            }
-        }
-    });
+    $('#quality-list').on('change', updateQuality());
 
     $('#share-invite-link').on('click', function () {
         var message = 'Join my krew!';
