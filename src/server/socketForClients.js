@@ -316,7 +316,10 @@ io.on(`connection`, async socket => {
             if (!msgData.message || !msgData.recipient || typeof msgData.message != `string` || typeof msgData.recipient != `string`) return;
             if (msgData.message.length < 1) return;
 
-            if (!playerEntity.isMuted) playerEntity.isMuted = false;
+            if (!playerEntity.isMuted) {
+                playerEntity.isMuted = false;
+                clearInterval(playerEntity.muteTimeout);
+            }
 
             // Check for spam.
             if (msgData.message.length > 65 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
@@ -2171,8 +2174,8 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            playerEntity.isMuted = false;
             mute.delete();
+            playerEntity.isMuted = false;
         }, 3e5);
     });
 }
