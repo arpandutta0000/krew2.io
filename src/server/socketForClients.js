@@ -663,7 +663,7 @@ io.on(`connection`, async socket => {
 
                         let player = Object.values(core.players).find(player => player.name == unmuteUser);
 
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!!`, 1, 1e4);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (!player.isMuted) return playerEntity.socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
 
                         for (let i in core.players) {
@@ -2151,10 +2151,20 @@ let isSpamming = (playerEntity, message) => {
 
 let mutePlayer = playerEntity => {
     if (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev) return log(`yellow`, `Cannot mute staff member | Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-    log(`cyan`, `Muting player ${playerEntity.name} | Server ${playerEntity.serverNumber}.`);
+
+    let mute = new Mute({
+        username: playerEntity.name,
+        timestamp: new Date(),
+        IP: playerEntity.socket.handshake.address,
+        reason
+    });
+
+    log(`cyan`, `Muting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+
     playerEntity.isMuted = true;
     playerEntity.muteTimeout = setTimeout(() => {
         playerEntity.isMuted = false;
+        mute.delete();
     }, 3e5);
 }
 
