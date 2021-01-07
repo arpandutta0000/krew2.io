@@ -1,6 +1,8 @@
 v1.3.0 - [1-3-2020]
 - Expanded and remade map with 5 new islands
 - Added 3 new good types; gems, sugar, and bananas
+- Added Seafox skin
+- Fixed music and quality account settings not being set correctly
 - Ping stat now shows if your connection was lost
 
 v1.2.0 - [1-3-2021]
