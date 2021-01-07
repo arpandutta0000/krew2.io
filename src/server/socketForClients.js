@@ -67,6 +67,7 @@ mongoose.connect(process.env.MONGO_URI, {
 let User = require(`./models/user.model.js`);
 let Clan = require(`./models/clan.model.js`);
 let Ban = require(`./models/ban.model.js`);
+let Mute = require(`./models/mute.model.js`);
 let Hacker = require(`./models/hacker.model.js`);
 let PlayerRestore = require(`./models/playerRestore.model.js`);
 
@@ -640,7 +641,7 @@ io.on(`connection`, async socket => {
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
 
-                        mutePlayer(player);
+                        mutePlayer(player, muteReason ? muteReason : `No reason specified`);
 
                         player.socket.emit(`showCenterMessage`, `You have been muted! ${muteReason ? `Reason: ${muteReason}`: ``}`, 1);
                         playerEntity.socket.emit(`showCenterMessage`, `You muted ${player.name}`, 3);
@@ -2070,7 +2071,7 @@ let isSpamming = (playerEntity, message) => {
 
     if (typeof message != `string`) return true;
     if (message.length > 60 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
-        mutePlayer(playerEntity);
+        mutePlayer(playerEntity, `Automatically muted by server`);
         return true;
     }
     now = new Date();
@@ -2098,7 +2099,7 @@ let isSpamming = (playerEntity, message) => {
         if (charCount > 80 && totalTimeElapsed < 6e3) {
             log(`cyan`, `Spam detected for player ${playerEntity.name} sending ${charCount} characters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
             playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
-            mutePlayer(playerEntity);
+            mutePlayer(playerEntity, `Automatically muted by server`);
             return true;
         } else if (totalTimeElapsed > 4e3) charCount = 0;
 
@@ -2106,7 +2107,7 @@ let isSpamming = (playerEntity, message) => {
             if (playerEntity.sentMessages[0].message == playerEntity.sentMessages[1].message && playerEntity.sentMessages[0].message == playerEntity.sentMessages[2].message) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending same messages multiple times | Server ${playerEntity.serverNumber}.`);
                 playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
-                mutePlayer(playerEntity);
+                mutePlayer(playerEntity, `Automatically muted by server`);
 
                 playerEntity.sentMessages = [];
                 return true;
@@ -2117,7 +2118,7 @@ let isSpamming = (playerEntity, message) => {
             if (playerEntity.sentMessages[3].time - playerEntity.sentMessages[0].time <= 5e3) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending ${charCount} characters in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
                 playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
-                mutePlayer(playerEntity);
+                mutePlayer(playerEntity, `Automatically muted by server`);
                 playerEntity.sentMessages = [];
                 return true;
             }
@@ -2130,7 +2131,7 @@ let isSpamming = (playerEntity, message) => {
             if (playerEntity.sentMessages[3].time - playerEntity.sentMessages[0].time < 4e3) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending ${message.length} messages in last ${totalTimeElapsed / 1e3} seconds | Server ${playerEntity.serverNumber}.`);
                 playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
-                mutePlayer(playerEntity);
+                mutePlayer(playerEntity, `Automatically muted by server`);
 
                 playerEntity.sentMessages = [];
                 return true;
@@ -2149,23 +2150,25 @@ let isSpamming = (playerEntity, message) => {
     } else return false;
 }
 
-let mutePlayer = playerEntity => {
+let mutePlayer = (playerEntity, comment) => {
     if (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev) return log(`yellow`, `Cannot mute staff member | Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
     let mute = new Mute({
         username: playerEntity.name,
         timestamp: new Date(),
         IP: playerEntity.socket.handshake.address,
-        reason
+        comment
     });
 
     log(`cyan`, `Muting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
-    playerEntity.isMuted = true;
-    playerEntity.muteTimeout = setTimeout(() => {
-        playerEntity.isMuted = false;
-        mute.delete();
-    }, 3e5);
+    mute.save(() => {
+        playerEntity.isMuted = true;
+        playerEntity.muteTimeout = setTimeout(() => {
+            playerEntity.isMuted = false;
+            mute.delete();
+        }, 3e5);
+    });
 }
 
 let charLimit = (text, chars, suffix) => {
