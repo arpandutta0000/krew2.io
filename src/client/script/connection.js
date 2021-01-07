@@ -104,7 +104,7 @@ var initSocketBinds = function () {
             socket.emit(`ping`);
         }
 
-        setInterval(getPing, 5e3);
+        setInterval(getPing, 10e3);
 
         socket.on(`pong`, () => {
             let latency = Date.now() - startTime;
