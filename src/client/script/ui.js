@@ -1792,13 +1792,13 @@ var ui = {
 
                 $('#model-left').on('click', function () {
                     currentModel--;
-                    if (currentModel < 0) currentModel = 2;
+                    if (currentModel < 0) currentModel = 3;
                     $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
                 });
 
                 $('#model-right').on('click', function () {
                     currentModel++;
-                    if (currentModel > 2) currentModel = 0;
+                    if (currentModel > 3) currentModel = 0;
                     $('#model-image').attr('src', `/assets/img/model${currentModel}.png`)
                 });
 
