@@ -2,7 +2,7 @@ var environment = {};
 var water;
 
 var setUpEnvironment = function () {
-    // fog
+    // Fog
     scene.fog = new THREE.FogExp2(0xd5e1e3, 0.007);
     renderer.setClearColor(0x00c5ff);
 
@@ -13,8 +13,10 @@ var setUpEnvironment = function () {
     scene.add(coldAmbientlight);
 
     // env cube
-    environment.sphere = new THREE.Mesh(new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(8000)),
-        materials.sky);
+    environment.sphere = new THREE.Mesh(
+        new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(8000)),
+        materials.sky
+    );
     scene.add(environment.sphere);
     environment.sphere.scale.y = 0.05;
 
