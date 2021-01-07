@@ -358,7 +358,7 @@ var ui = {
             }
         });
 
-        $('#music-control').on('change', updateMusic());
+        $('#music-control').on('change', () => updateMusic());
     },
 
     playAudioFile: function (loop, fileId) {

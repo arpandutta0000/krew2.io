@@ -933,7 +933,7 @@ $(document).ready(function () {
     });
 
     // login by pressing login button
-    $('#quality-list').on('change', updateQuality());
+    $('#quality-list').on('change', () => updateQuality());
 
     $('#share-invite-link').on('click', function () {
         var message = 'Join my krew!';
