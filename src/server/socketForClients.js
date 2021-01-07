@@ -353,16 +353,24 @@ io.on(`connection`, async socket => {
                 // If the user has not authenticated, only give them access to login command.
                 if (!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
                     if (command == `login`) {
+                        let staffPassword = args.shift();
+
+                        if (!staffPassword) return playerEntity.socket.emit(`showCenterMessage`, `You did not enter your password!`, 1, 1e4);
+                        staffPassword = md5(staffPassword);
+
                         let isAdmin = Admins.includes(playerEntity.name);
                         let isMod = Mods.includes(playerEntity.name);
                         let isDev = Devs.includes(playerEntity.name);
 
                         // Log the player login and send them a friendly message confirming it.
-                        log(!isAdmin && !isMod && !isDev ? `cyan` : `blue`, `${isAdmin ? `ADMIN`: isMod ? `MOD`: isDev ? `DEV`: `IMPERSONATOR`} ${(isAdmin || isMod || isDev ? `LOGGED IN`: `TRIED TO LOG IN`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`)
-                        if (isAdmin || isMod || isDev) playerEntity.socket.emit(`showCenterMessage`, `Logged in succesfully`, 3, 1e4);
+                        if (isAdmin || isMod || isDev) {
+                            
+                            log(!isAdmin && !isMod && !isDev ? `cyan` : `blue`, `${isAdmin ? `Admin`: isMod ? `Mod`: `Dev`} ${(isAdmin || isMod || isDev ? `logged in`: `tried to log in`)}: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                            playerEntity.socket.emit(`showCenterMessage`, `Logged in succesfully`, 3, 1e4);
 
-                        // Authenticate the player object as privileged user.
-                        isAdmin ? playerEntity.isAdmin = true : isMod ? playerEntity.isMod = true : isDev ? playerEntity.isDev = true : null;
+                            // Authenticate the player object as privileged user.
+                            isAdmin ? playerEntity.isAdmin = true : isMod ? playerEntity.isMod = true : isDev ? playerEntity.isDev = true : null;
+                        }
                     }
                 } else {
                     log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
