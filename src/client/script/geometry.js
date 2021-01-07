@@ -24,6 +24,7 @@ var createModels = function () {
     geometry.shibainu = models.shibainu.children[0].geometry;
     geometry.arcticwolf = models.arcticwolf.children[0].geometry;
     geometry.seafox = models.seafox.children[0].geometry;
+    geometry.krewmate = models.krewmate.children[0].geometry;
 
     models.sloop.children[0].name = 'sail';
     models.sloop.children[1].name = 'body';

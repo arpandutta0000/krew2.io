@@ -21,25 +21,34 @@ var setPlayerModels = function () {
         color: 0xffffff,
         map: textures.arcticwolf
     });
+
     materials.seafox = new THREE.MeshPhongMaterial({
         color: 0xffffff,
         map: textures.seafox
+    });
+
+    materials.krewmate = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        map: textures.krewmate
     });
 
     var seadogModel = new THREE.Mesh(geometry.seadog, materials.seadog);
     var shibainuModel = new THREE.Mesh(geometry.shibainu, materials.shibainu);
     var arcticwolfModel = new THREE.Mesh(geometry.arcticwolf, materials.arcticwolf);
     var seafoxModel = new THREE.Mesh(geometry.seafox, materials.seafox);
+    var krewmateModel = new THREE.Mesh(geometry.krewmate, materials.krewmate);
 
     seadogModel.castShadow = true;
     shibainuModel.castShadow = true;
     arcticwolfModel.castShadow = true;
     seafoxModel.castShadow = true;
+    krewmateModel.castShadow = true;
 
     seadogModel.receiveShadow = true;
     shibainuModel.receiveShadow = true;
     arcticwolfModel.receiveShadow = true;
     seafoxModel.receiveShadow = true;
+    krewmateModel.receiveShadow = true;
 
     playerModels.push({
         body: seadogModel,
@@ -64,6 +73,13 @@ var setPlayerModels = function () {
 
     playerModels.push({
         body: seafoxModel,
+        scale: new THREE.Vector3(0.04, 0.04, 0.04),
+        offset: new THREE.Vector3(0, -0.4, 0.8),
+        rotation: new THREE.Vector3(0.4, Math.PI, 0),
+    });
+
+    playerModels.push({
+        body: krewmateModel,
         scale: new THREE.Vector3(0.04, 0.04, 0.04),
         offset: new THREE.Vector3(0, -0.4, 0.8),
         rotation: new THREE.Vector3(0.4, Math.PI, 0),

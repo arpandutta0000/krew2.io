@@ -828,10 +828,12 @@ $(document).ready(function () {
     loader.loadModel('./assets/models/dogs/shibainu.obj');
     loader.loadModel('./assets/models/dogs/arcticwolf.obj');
     loader.loadModel('./assets/models/dogs/seafox.obj');
+    loader.loadModel('./assets/models/dogs/krewmate.obj');
     loader.loadTexture('./assets/models/dogs/seadog.tga');
     loader.loadTexture('./assets/models/dogs/shibainu.tga');
     loader.loadTexture('./assets/models/dogs/arcticwolf.tga');
     loader.loadTexture('./assets/models/dogs/seafox.tga');
+    loader.loadTexture('./assets/models/dogs/krewmate.tga');
 
     loader.onFinish(function () {
         // create materials and game world
