@@ -90,9 +90,7 @@
         lechuck = new LeChuckAPI({});
 
         function miniplaySend2API (stat, value) {
-            lechuck.stat.put(function (response) {
-                // console.log(response);
-            }, stat, value);
+            lechuck.stat.put(function (response) {}, stat, value);
         }
     </script>
 
@@ -1643,17 +1641,11 @@
         }
         gtag('js', new Date());
         gtag('config', 'UA-105351798-36');
-        if (window.location != window.parent.location) {
-            console.log("inside iframe of ", document.referrer)
-            if (document.referrer.includes("crazygames")) {
-                $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
-            }
-        }
-        if (adEnabled == false) {
-            $(".ad-div").each(function () {
-                console.log("hide!");
-                $(this).hide();
-            });
+        if (window.location != window.parent.location)
+            if (document.referrer.includes("crazygames")) $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
+
+        if (!adEnabled) {
+            $(".ad-div").each(() => $(this).hide());
             $("#portal-backlink").hide();
         }
     </script>
