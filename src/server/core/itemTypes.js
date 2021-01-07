@@ -173,7 +173,7 @@ let itemTypes = [
         rarity: 0.2,
         availableAt: [`Malaysia`],
         attributes: {
-            regen: `1`
+            regen: `2`
         }
     },
     {
