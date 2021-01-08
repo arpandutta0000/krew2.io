@@ -1571,7 +1571,7 @@ io.on(`connection`, async socket => {
             // Check if id is an integer > 0.
             if (!isNormalInteger(item.id)) return;
 
-            // Ship
+            // If it is a ship.
             if (item.type == 0 && playerEntity.parent.shipState != 4) {
                 if (playerEntity) {
                     let ships = {}
