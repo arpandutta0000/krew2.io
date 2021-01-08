@@ -184,7 +184,7 @@ let itemTypes = [
         rarity: 0.3,
         availableAt: [`Taiwan`],
         attributes: {
-            armor: `40`
+            armor: `50`
         }
     },
 ];
