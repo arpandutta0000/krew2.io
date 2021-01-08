@@ -84,8 +84,6 @@ function Pickup (size, x, z, type) {
 
     if (this.type === 4) {
         this.baseModel = models.chest;
-        //this.baseMaterial = materials.boat;
-        //this.baseMaterial = materials.chest;
     }
 
     if (this.type <= 1 || this.type === 4) {

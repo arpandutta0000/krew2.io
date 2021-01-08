@@ -1,19 +1,8 @@
-// Set up some global variables that will be used throughout all the engine
-var renderer;
-var scene;
-var camera;
-var myPlayer;
-var myBoat;
-var domEvents;
-var raycaster;
-var SERVER = false;
-var playerName = '';
+// Set up global variables that will be used throughout all the engine
+var renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight;
+var SERVER, threejsStarted = false;
 var countDown = 10;
-var canvas;
-var gl;
-var defaultWidth;
-var defaultHeight;
-var threejsStarted = false;
+var playerName = ``;
 var markers = {};
 
 var adBlockEnabled = false;
@@ -22,7 +11,7 @@ testAd.innerHTML = '&nbsp;';
 testAd.className = 'adsbox';
 
 document.body.appendChild(testAd);
-window.setTimeout(function () {
+window.setTimeout(() => {
     if (testAd.offsetHeight === 0) {
         adBlockEnabled = true;
     }
@@ -34,7 +23,7 @@ window.setTimeout(function () {
 
 }, 1000);
 
-var createMinimap = function () {
+var createMinimap = () => {
     var map = CanvasMap(document.getElementById('minimap'), worldsize, worldsize);
     map.useRadians = true;
     map.zoom = 0.9;
@@ -272,6 +261,8 @@ var createGame = function () {
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.outputEncoding = THREE.LinearEncoding;
+    renderer.toneMapping = THREE.NoToneMapping;
 
     // Add renderer to the document
     document.body.appendChild(renderer.domElement);
@@ -284,9 +275,8 @@ var createGame = function () {
     scene = new THREE.Scene();
 
     // camera
-    camera = new THREE.PerspectiveCamera(75, 1.8, 0.1, 10000);
+    camera = new THREE.PerspectiveCamera(75, 1.8, 0.1, 300);
     camera.position.set(0, 10, 0);
-    //scene.add(camera);
 
     // Raycaster
     raycaster = new THREE.Raycaster();
