@@ -36,16 +36,19 @@ function Landmark (type, x, z, config) {
     // client side visuals
     this.baseGeometry = geometry.island;
     this.baseMaterial = materials.colorset;
-    if (this.name == 'Jamaica') {
-        this.palm = new THREE.Mesh(geometry.palm, materials.colorset);
-        this.palm.position.set(1250, 0, 1250);
-        this.palm.scale.x = 8;
-        this.palm.scale.y = 8;
-        this.palm.scale.z = 8;
-        this.palm.castShadow = true;
-        this.palm.receiveShadow = true;
-        scene.add(this.palm);
-    }
+
+    // Palm Tree (Commented out for performance lol)
+    // if (this.name == 'Jamaica') {
+    //     this.palm = new THREE.Mesh(geometry.palm, materials.colorset);
+    //     this.palm.position.set(1250, 0, 1250);
+    //     this.palm.scale.x = 8;
+    //     this.palm.scale.y = 8;
+    //     this.palm.scale.z = 8;
+    //     this.palm.castShadow = true;
+    //     this.palm.receiveShadow = true;
+    //     scene.add(this.palm);
+    // }
+
     // Christmas stuff (add snowman and christmas tree on Jamaica)
     // models.elka.position.set(1240, 2, 1240);
     // models.elka.scale.x = 0.35;

@@ -39,7 +39,7 @@ let boatTypes = {
         arcBack: 0,
         inertia: 0.1,
         radius: 5,
-        speed: 6.5,
+        speed: 50,
         labelHeight: 10,
         regeneration: 1,
         body: `raft`,
