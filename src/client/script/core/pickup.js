@@ -190,7 +190,7 @@ Pickup.prototype.clientlogic = function (dt) {
 
         // Reduce cargo scale and move it towards player
         if (entities[this.pickerId].geometry) {
-            var pickerPos = entities[this.pickerId].geometry.getWorldPosition();
+            var pickerPos = entities[this.pickerId].geometry.getWorldPosition(new THREE.Vector3());
 
             if (this.type === 0 || this.type === 4) {
                 this.geometry.translateOnAxis(this.geometry.worldToLocal(pickerPos), 0.05);

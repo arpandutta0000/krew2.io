@@ -58,9 +58,9 @@
 
         computeOptimalFontSize(renderer, camera) {
             if (renderer.domElement.width && renderer.domElement.height && this.material.map.linesCount) {
-                let distance = this.getWorldPosition().distanceTo(camera.getWorldPosition());
+                let distance = this.getWorldPosition(new THREE.Vector3()).distanceTo(camera.getWorldPosition(new THREE.Vector3()));
                 if (distance) {
-                    let heightInPixels = this.getWorldScale().y * renderer.domElement.height / distance;
+                    let heightInPixels = this.getWorldScale(new THREE.Vector3()).y * renderer.domElement.height / distance;
                     if (heightInPixels) {
                         return Math.round(heightInPixels / (this.material.map.linesCount + 2 * this.material.map.padding));
                     }

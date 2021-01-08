@@ -251,7 +251,7 @@ var setUpKeybinds = function () {
             myPlayer.jump_count++;
 
             // code for christmas event
-            // var playerPosition = myPlayer.geometry.getWorldPosition();
+            // var playerPosition = myPlayer.geometry.getWorldPosition(new THREE.Vector3());
 
             // if (playerPosition.x >= 850 && playerPosition.x <= 870 && playerPosition.z >= 850 && playerPosition.z <= 870 && myPlayer.jump_count < 1000) {
             //     socket.emit('christmas')

@@ -107,7 +107,7 @@ Player.prototype.namesLogic = function () {
             requestAnimationFrame(function () {
                 // Call the getWorldPosition method of the camera just once
                 // for optimization
-                var cameraWorldPosition = camera.getWorldPosition();
+                var cameraWorldPosition = camera.getWorldPosition(new THREE.Vector3());
 
                 // Check distance between each player/boat and camera in world position.
                 // And set if is in the players vision range
@@ -119,7 +119,7 @@ Player.prototype.namesLogic = function () {
                     ) {
                         var actualDistance = distance(
                             cameraWorldPosition,
-                            entities[id].geometry.getWorldPosition()
+                            entities[id].geometry.getWorldPosition(new THREE.Vector3())
                         );
                         var length = CONFIG.Labels.distanceMultiplier[entities[id].netType];
 
@@ -183,7 +183,7 @@ Player.prototype.dockedLogic = function () {
                 entities
             ) {
                 direction = new THREE.Vector3(0, -1, 0);
-                origin = _this.geometry.getWorldPosition().clone();
+                origin = _this.geometry.getWorldPosition(new THREE.Vector3()).clone();
                 origin.set(origin.x, height, origin.z);
 
                 PlayerRaycaster.set(origin, direction);
@@ -460,7 +460,7 @@ Player.prototype.clientlogic = function (dt) {
         if (this.parent.netType === 1) {
 
             var boat = entities[this.parent.id];
-            var playerPosition = this.geometry.getWorldPosition().clone();
+            var playerPosition = this.geometry.getWorldPosition(new THREE.Vector3()).clone();
 
             playerPosition = island.geometry.worldToLocal(playerPosition);
             islandPosition.y = playerPosition.y;

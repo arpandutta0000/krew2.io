@@ -184,10 +184,10 @@ var createMinimap = function () {
             }
 
             if (myPlayer && myPlayer.geometry) {
-                var position = myPlayer.geometry.getWorldPosition();
+                var position = myPlayer.geometry.getWorldPosition(new THREE.Vector3());
                 var rotation = myPlayer.parent && myPlayer.parent.netType === 1 && myPlayer.parent.shipState === 0 ?
-                    myPlayer.parent.geometry.getWorldRotation().y + Math.PI :
-                    myPlayer.geometry.getWorldRotation().y;
+                    myPlayer.parent.geometry.getWorldQuaternion(new THREE.Quaternion()).y + Math.PI :
+                    myPlayer.geometry.getWorldQuaternion(new THREE.Quaternion()).y;
 
                 // map.world.rotation = Math.PI / 180 * 180;
 
@@ -332,7 +332,7 @@ var createGame = function () {
         renderer.render(scene, camera);
     };
 
-    renderer.context.canvas.addEventListener('webglcontextlost', function (event) {
+    renderer.getContext().canvas.addEventListener('webglcontextlost', function (event) {
         event.preventDefault();
         cancelAnimationFrame(loop);
     }, false);
