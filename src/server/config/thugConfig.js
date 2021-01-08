@@ -29,7 +29,7 @@ module.exports = {
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
         },
         {
-            name: `Sj`,
+            name: `Sjmun`,
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         },
         {
