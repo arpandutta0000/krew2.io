@@ -1292,7 +1292,7 @@ io.on(`connection`, async socket => {
                     action.id = filter.clean(xssFilters.inHTMLData(action.id));
 
                     let newClan = new Clan({
-                        name: action.id,
+                        name: action.id.substr(0, 4),
                         owner: playerEntity.name,
                         leaders: [playerEntity.name]
                     });
