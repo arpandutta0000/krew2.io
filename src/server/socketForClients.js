@@ -205,9 +205,20 @@ io.on(`connection`, async socket => {
                         name: playerEntity.clan
                     }).then(clan => {
                         if (clan) {
+                            if (clan.name.length > 4) {
+                                clan.delete();
+                                user.clan = undefined;
+                                playerEntity.clan = undefined;
+                                user.save();
+                            }
                             playerEntity.clanOwner = clan.owner == playerEntity.name;
                             playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
-                        } else log(`red`, `Player ${playerEntity.name} tried to get nonexistent clan ${playerEntity.clan}.`);
+                        } else {
+                            log(`red`, `Player ${playerEntity.name} tried to get nonexistent clan ${playerEntity.clan}.`);
+                            user.clan = undefined;
+                            playerEntity.clan = undefined;
+                            user.save();
+                        }
                     });
                 }
 
@@ -376,8 +387,7 @@ io.on(`connection`, async socket => {
 
                             // Authenticate the player object as privileged user.
                             isAdmin ? playerEntity.isAdmin = true : isMod ? playerEntity.isMod = true : isDev ? playerEntity.isDev = true : null;
-                        }
-                        else return playerEntity.socket.emit(`showCenterMessage`, `Invalid password.`);
+                        } else return playerEntity.socket.emit(`showCenterMessage`, `Invalid password.`);
                     }
                 } else {
                     log(`blue`, `Player ${playerEntity.name} ran command ${command} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -1292,7 +1302,7 @@ io.on(`connection`, async socket => {
                     action.id = filter.clean(xssFilters.inHTMLData(action.id));
 
                     let newClan = new Clan({
-                        name: action.id,
+                        name: action.id.substr(0, 4),
                         owner: playerEntity.name,
                         leaders: [playerEntity.name]
                     });
