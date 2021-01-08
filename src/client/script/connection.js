@@ -111,7 +111,7 @@ var initSocketBinds = function () {
             pings.push(latency)
             recievedPong = true;
 
-            if (pings.length > 4) pings.shift();
+            if (pings.length > 3) pings.shift();
             $(`#ping-wrapper > span`).text(`${Math.round(pings.reduce((a, b) => a + b) / pings.length)} MS`);
         });
 
