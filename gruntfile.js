@@ -41,6 +41,7 @@ module.exports = (grunt => {
                     `src/client/script/rangeInput.js`,
 
                     `src/client/script/environment.js`,
+                    `src/client/script/water.js`,
                     `src/client/script/window.js`,
                     `src/client/script/geometry.js`,
                     `src/client/script/loader.js`,
