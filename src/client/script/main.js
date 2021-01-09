@@ -402,7 +402,6 @@ var cleanScene = function () {
                         sceneLines[l].geometry.dispose();
                         delete sceneLines[l];
                     }
-
                 }
             }
         })
