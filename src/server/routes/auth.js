@@ -160,7 +160,7 @@ router.post(`/register`, (req, res, next) => {
                                         }
                                     });
                                     user.save(() => {
-                                        log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
+                                        log(`yellow`, `Created account "${user.username}" with email "${user.email}"`);
                                         return res.json({
                                             success: `Succesfully registered! A verification email has been sent to ${user.email}.`
                                         });
@@ -202,7 +202,7 @@ router.post(`/login`, (req, res, next) => {
             if (err) return res.json({
                 errors: err
             });
-            log(`magenta`, `User "${user.username}" successfully authenticated`);
+            log(`yellow`, `User "${user.username}" successfully authenticated.`);
             return res.json({
                 success: `Logged in`
             });
@@ -256,7 +256,7 @@ router.post(`/change_username`, (req, res, next) => {
             user.lastModified = new Date();
 
             user.save(() => {
-                log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
+                log(`yellow`, `User "${currentUsername}" changed username to "${username}".`);
                 req.logOut();
                 return res.json({
                     success: `Succesfully changed username`
@@ -340,7 +340,7 @@ router.post(`/change_email`, (req, res, next) => {
                 }
             });
             user.save(() => {
-                log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
+                log(`yellow`, `User "${user.username}" sent a change email verification link to "${user.email}".`);
                 req.logOut();
                 return res.json({
                     success: `Succesfully changed email`
@@ -389,7 +389,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         user.qualityMode = quality;
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" updated their account's game settings`);
+            log(`yellow`, `User "${user.username}" updated their account's game settings.`);
             return res.json({
                 success: `Succesfully changed account game settings`
             });
@@ -426,7 +426,7 @@ router.post(`/change_default_krew_name`, (req, res, next) => {
         user.defaultKrewName = krewName;
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" changed their default Krew name to "${krewName}"`);
+            log(`yellow`, `User "${user.username}" changed their default Krew name to "${krewName}".`);
             return res.json({
                 success: `Succesfully changed default Krew name`
             });
@@ -459,7 +459,7 @@ router.post(`/customization`, (req, res, next) => {
         user.playerModel = parseInt(model);
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" set their player model to "${model}"`);
+            log(`yellow`, `User "${user.username}" set their player model to "${model}".`);
             return res.json({
                 success: `Succesfully updated player customization`
             });
@@ -547,7 +547,7 @@ router.post(`/reset_password`, (req, res, next) => {
                 }
             });
             user.save(() => {
-                log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
+                log(`yellow`, `User "${user.username}" sent a change password verification link to "${user.email}".`);
                 req.logOut();
                 return res.json({
                     success: `Succesfully sent confirm password email`
@@ -573,7 +573,7 @@ router.get(`/verify/*`, (req, res, next) => {
             user.verifyToken = undefined;
 
             user.save(() => {
-                log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
+                log(`yellow`, `User "${user.username}" verified email address "${user.email}".`);
                 return res.redirect(`/`);
             });
         }
@@ -595,7 +595,7 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
         user.newPasswordToken = undefined;
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" verified resetting their password`);
+            log(`yellow`, `User "${user.username}" verified resetting their password.`);
             return res.redirect(`/`);
         });
     });
@@ -603,7 +603,7 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
 
 router.get(`/logout`, (req, res, next) => {
     if (req.isAuthenticated()) {
-        log(`magenta`, `User "${req.user.username}" logged out`);
+        log(`yellow`, `User "${req.user.username}" logged out.`);
         req.logOut();
     }
     res.redirect(`/`);
@@ -611,7 +611,7 @@ router.get(`/logout`, (req, res, next) => {
 
 router.get(`/authenticated`, (req, res, next) => {
     if (req.isAuthenticated()) {
-        log(`magenta`, `User "${req.user.username}" logged in`);
+        log(`yellow`, `User "${req.user.username}" logged in.`);
         return res.json({
             isLoggedIn: true,
             username: req.user.username,
