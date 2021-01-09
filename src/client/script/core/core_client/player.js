@@ -365,7 +365,7 @@ Player.prototype.clientlogic = function (dt) {
             this.pitch = controls.cameraX;
             this.crosshair.position.x = camera.position.x;
             this.crosshair.position.y = camera.position.y + 0.01;
-            this.crosshair.position.z = camera.position.z - 0.3;
+            this.crosshair.position.z = camera.position.z - 0.4;
 
         }
 
