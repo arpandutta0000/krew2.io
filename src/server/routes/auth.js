@@ -93,80 +93,80 @@ router.post(`/register`, (req, res, next) => {
                     User.findOne({
                         creationIP
                     }).then(cUser => {
-                        // if (cUser) {
-                        //     user.delete();
-                        //     return res.json({
-                        //         errors: `You can only create one account`
-                        //     });
-                        // }
+                        if (cUser) {
+                            // user.delete();
+                            // return res.json({
+                            //     errors: `You can only create one account`
+                            // });
+                        }
 
                         User.findOne({
                             lastIP: creationIP
                         }).then(lUser => {
-                            // if (lUser) {
-                            //     user.delete();
-                            //     return res.json({
-                            //         errors: `You can only create one account`
-                            //     });
-                            // }
-
-                            // axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
-                            // if (!vpnData) {
-                            //     log(`red`, `There was an error while performing the VPN check request.`);
-                            //     user.delete();
-                            //     return res.json({
-                            //         errors: `There was an error in creating your account`
-                            //     });
-                            // }
-
-                            // if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
-                            //     log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
-                            //     user.delete();
-                            //     return res.json({
-                            //         errors: `Disable VPN to create an account`
-                            //     });
-                            // } else {
-                            let transporter = nodemailer.createTransport({
-                                service: "Gmail",
-                                auth: {
-                                    user: process.env.EMAIL_USERNAME,
-                                    pass: process.env.EMAIL_PASSWORD
-                                }
-                            });
-
-                            let ssl;
-                            let address;
-                            if (DEV_ENV) {
-                                ssl = `http`;
-                                address = req.headers.host;
-                            } else {
-                                ssl = `https`;
-                                address = config.domain;
+                            if (lUser) {
+                                // user.delete();
+                                // return res.json({
+                                //     errors: `You can only create one account`
+                                // });
                             }
 
-                            let mailOptions = {
-                                from: 'noreply@krew.io',
-                                to: user.email,
-                                subject: 'Verify your Krew.io Account',
-                                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
-                            }
-
-                            transporter.sendMail(mailOptions, function (err) {
-                                if (err) {
+                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
+                                if (!vpnData) {
+                                    log(`red`, `There was an error while performing the VPN check request.`);
                                     user.delete();
                                     return res.json({
-                                        error: `Error sending to the specified email address.`
+                                        errors: `There was an error in creating your account`
                                     });
                                 }
-                            });
-                            user.save(() => {
-                                log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
-                                return res.json({
-                                    success: `Succesfully registered! A verification email has been sent to ${user.email}.`
-                                });
-                            });
-                            // }
-                            // });
+
+                                if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
+                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
+                                    user.delete();
+                                    return res.json({
+                                        errors: `Disable VPN to create an account`
+                                    });
+                                } else {
+                                    let transporter = nodemailer.createTransport({
+                                        service: "Gmail",
+                                        auth: {
+                                            user: process.env.EMAIL_USERNAME,
+                                            pass: process.env.EMAIL_PASSWORD
+                                        }
+                                    });
+
+                                    let ssl;
+                                    let address;
+                                    if (DEV_ENV) {
+                                        ssl = `http`;
+                                        address = req.headers.host;
+                                    } else {
+                                        ssl = `https`;
+                                        address = config.domain;
+                                    }
+
+                                    let mailOptions = {
+                                        from: 'noreply@krew.io',
+                                        to: user.email,
+                                        subject: 'Verify your Krew.io Account',
+                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
+                                    }
+
+                                    transporter.sendMail(mailOptions, function (err) {
+                                        if (err) {
+                                            user.delete();
+                                            return res.json({
+                                                error: `Error sending to the specified email address.`
+                                            });
+                                        }
+                                    });
+                                    user.save(() => {
+                                        log(`yellow`, `Created account "${user.username}" with email "${user.email}"`);
+                                        return res.json({
+                                            success: `Succesfully registered! A verification email has been sent to ${user.email}.`
+                                        });
+                                    });
+                                }
+                            }).catch(() => log(`red`, `Cannot check if "${username}"'s account was created with a VPN.`));
                         });
                     });
                 });
@@ -202,7 +202,7 @@ router.post(`/login`, (req, res, next) => {
             if (err) return res.json({
                 errors: err
             });
-            log(`magenta`, `User "${user.username}" successfully authenticated`);
+            log(`yellow`, `User "${user.username}" successfully authenticated.`);
             return res.json({
                 success: `Logged in`
             });
@@ -256,7 +256,7 @@ router.post(`/change_username`, (req, res, next) => {
             user.lastModified = new Date();
 
             user.save(() => {
-                log(`magenta`, `User "${currentUsername}" changed username to "${username}"`);
+                log(`yellow`, `User "${currentUsername}" changed username to "${username}".`);
                 req.logOut();
                 return res.json({
                     success: `Succesfully changed username`
@@ -340,7 +340,7 @@ router.post(`/change_email`, (req, res, next) => {
                 }
             });
             user.save(() => {
-                log(`magenta`, `User "${user.username}" sent a change email verification link to "${user.email}"`);
+                log(`yellow`, `User "${user.username}" sent a change email verification link to "${user.email}".`);
                 req.logOut();
                 return res.json({
                     success: `Succesfully changed email`
@@ -389,7 +389,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         user.qualityMode = quality;
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" updated their account's game settings`);
+            log(`yellow`, `User "${user.username}" updated their account's game settings.`);
             return res.json({
                 success: `Succesfully changed account game settings`
             });
@@ -426,7 +426,7 @@ router.post(`/change_default_krew_name`, (req, res, next) => {
         user.defaultKrewName = krewName;
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" changed their default Krew name to "${krewName}"`);
+            log(`yellow`, `User "${user.username}" changed their default Krew name to "${krewName}".`);
             return res.json({
                 success: `Succesfully changed default Krew name`
             });
@@ -459,7 +459,7 @@ router.post(`/customization`, (req, res, next) => {
         user.playerModel = parseInt(model);
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" set their player model to "${model}"`);
+            log(`yellow`, `User "${user.username}" set their player model to "${model}".`);
             return res.json({
                 success: `Succesfully updated player customization`
             });
@@ -547,7 +547,7 @@ router.post(`/reset_password`, (req, res, next) => {
                 }
             });
             user.save(() => {
-                log(`magenta`, `User "${user.username}" sent a change password verification link to "${user.email}"`);
+                log(`yellow`, `User "${user.username}" sent a change password verification link to "${user.email}".`);
                 req.logOut();
                 return res.json({
                     success: `Succesfully sent confirm password email`
@@ -573,7 +573,7 @@ router.get(`/verify/*`, (req, res, next) => {
             user.verifyToken = undefined;
 
             user.save(() => {
-                log(`magenta`, `User "${user.username}" verified email address "${user.email}"`);
+                log(`yellow`, `User "${user.username}" verified email address "${user.email}".`);
                 return res.redirect(`/`);
             });
         }
@@ -595,7 +595,7 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
         user.newPasswordToken = undefined;
 
         user.save(() => {
-            log(`magenta`, `User "${user.username}" verified resetting their password`);
+            log(`yellow`, `User "${user.username}" verified resetting their password.`);
             return res.redirect(`/`);
         });
     });
@@ -603,7 +603,7 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
 
 router.get(`/logout`, (req, res, next) => {
     if (req.isAuthenticated()) {
-        log(`magenta`, `User "${req.user.username}" logged out`);
+        log(`yellow`, `User "${req.user.username}" logged out.`);
         req.logOut();
     }
     res.redirect(`/`);
@@ -611,7 +611,7 @@ router.get(`/logout`, (req, res, next) => {
 
 router.get(`/authenticated`, (req, res, next) => {
     if (req.isAuthenticated()) {
-        log(`magenta`, `User "${req.user.username}" logged in`);
+        log(`yellow`, `User "${req.user.username}" logged in.`);
         return res.json({
             isLoggedIn: true,
             username: req.user.username,

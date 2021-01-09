@@ -140,20 +140,23 @@ io.on(`connection`, async socket => {
         axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
-            if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
-                socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
-                log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
+            if (res.data && res.data.status == `success`) {
+                let result = parseInt(res.data.result);
+                if (result == 1) {
+                    socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
+                    log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
 
-                // Ban the IP.
-                let ban = new Ban({
-                    username: data.name,
-                    timestamp: new Date(),
-                    IP: socket.handshake.address,
-                    comment: `Auto VPN temp ban`
-                });
-                return ban.save(() => socket.disconnect());
+                    // Ban the IP.
+                    let ban = new Ban({
+                        username: data.name,
+                        IP: socket.handshake.address,
+                        comment: `Auto VPN temp ban`
+                    });
+                    return ban.save(() => socket.disconnect());
+                } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
+                else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
             }
-        }).catch(() => log(`red`, `Failed to VPN check the user | IP: ${socket.handshake.address}.`));
+        }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
 
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > config.maxPlayerCount) {
@@ -225,7 +228,7 @@ io.on(`connection`, async socket => {
 
                 // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
                 if (false && user.lastIP && !(playerEntity.socket.handshake.address == user.lastIP)) {
-                    log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    log(`cyan`, `Player ${playerEntity.name} tried to connect from a different IP than what they logged in with. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return playerEntity.socket.disconnect();
                 }
             }
