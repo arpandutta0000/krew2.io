@@ -4,10 +4,10 @@ let water, light, ceiling, envSphere;
 // Main environment setup method
 let setUpEnvironment = () => {
     // Set scene background
-    scene.background = new THREE.Color(0xd5e1e3);
+    scene.background = new THREE.Color(0xbff0ff);
 
     // Add Fog
-    scene.fog = new THREE.FogExp2(0xd5e1e3, 0.007);
+    scene.fog = new THREE.FogExp2(0xbff0ff, 0.007);
 
     // Add warm and cold ambient lights
     warmAmbientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
@@ -105,9 +105,9 @@ let doDaylightCycle = (time) => {
     };
 
     let daySceneColor = {
-        r: 213,
-        g: 225,
-        b: 227
+        r: 191,
+        g: 240,
+        b: 255
     }
     let nightSceneColor = {
         r: 6,
@@ -136,7 +136,6 @@ let doDaylightCycle = (time) => {
             envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
             scene.background = new THREE.Color(colorFade(nightSceneColor, daySceneColor, i / 100))
-            console.log(scene.background)
             if (i == 100) clearInterval(anim);
         }, 20);
     }
