@@ -1,3 +1,6 @@
+v1.4.0b
+- Patched register VPN detection
+
 v1.4.0 - [1-9-2020]
 - Remade Water
 - Remade sun lighting
