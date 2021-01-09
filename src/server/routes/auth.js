@@ -166,7 +166,12 @@ router.post(`/register`, (req, res, next) => {
                                         });
                                     });
                                 }
-                            }).catch(() => log(`red`, `Cannot check if "${username}"'s account was created with a VPN.`));
+                            }).catch(() => {
+                                log(`red`, `Cannot check if "${username}"'s account was created with a VPN.`);
+                                return res.json({
+                                    error: `Error with VPN detection.`
+                                });
+                            });
                         });
                     });
                 });
