@@ -382,30 +382,31 @@ var $cancelExitButtonSpan = $cancelExitButton.find('span');
 var $dockingModal = $('#docking-modal');
 
 var cleanScene = function () {
-    if (!scene) return;
-    scene.traverse(function (node) {
-        if (node instanceof THREE.Mesh) {
-            for (o in sceneCanBalls) {
-                var cannonBall = sceneCanBalls[o];
-                if (cannonBall == node) {
-                    scene.remove(node);
-                    delete sceneCanBalls[o];
-                }
+    if (scene != undefined) {
+        scene.traverse(function (node) {
+            if (node instanceof THREE.Mesh) {
+                for (o in sceneCanBalls) {
+                    var cannonBall = sceneCanBalls[o];
+                    if (cannonBall == node) {
+                        scene.remove(node);
+                        delete sceneCanBalls[o];
+                    }
 
-            }
-        }
-        if (node instanceof THREE.Line) {
-            for (l in sceneLines) {
-                var line = sceneLines[l];
-                if (line == node) {
-                    scene.remove(node);
-                    sceneLines[l].geometry.dispose();
-                    delete sceneLines[l];
                 }
-
             }
-        }
-    })
+            if (node instanceof THREE.Line) {
+                for (l in sceneLines) {
+                    var line = sceneLines[l];
+                    if (line == node) {
+                        scene.remove(node);
+                        sceneLines[l].geometry.dispose();
+                        delete sceneLines[l];
+                    }
+
+                }
+            }
+        })
+    }
 };
 
 /*var deleteBots = function() {
