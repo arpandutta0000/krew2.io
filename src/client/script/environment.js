@@ -1,5 +1,5 @@
 let environment = {};
-let water, light, ceiling;
+let water, light, ceiling, envSphere;
 
 // Main environment setup method
 let setUpEnvironment = () => {
@@ -8,7 +8,7 @@ let setUpEnvironment = () => {
     renderer.setClearColor(0x00c5ff);
 
     // Add Fog
-    scene.fog = new THREE.FogExp2(0xd5e1e3, 0.01);
+    scene.fog = new THREE.FogExp2(0xd5e1e3, 0.007);
 
     // Add warm and cold ambient lights
     warmAmbientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
@@ -19,18 +19,23 @@ let setUpEnvironment = () => {
     // Add ceiling
     ceiling = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(worldsize * 1.5, worldsize * 1.5),
-        new THREE.MeshBasicMaterial({
-            color: 0x00c5ff,
-            side: THREE.DoubleSide
-        })
+        materials.sky
     );
     ceiling.rotation.x = -Math.PI * 0.5;
-    ceiling.position.set(worldsize * 0.5, 30, worldsize * 0.5)
+    ceiling.position.set(worldsize * 0.5, 55, worldsize * 0.5)
     scene.add(ceiling)
 
+    // Add environment sphere
+    envSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(worldsize * 2),
+        materials.sky
+    );
+    envSphere.position.set(worldsize * 0.5, 0, worldsize * 0.5)
+    scene.add(envSphere)
+
     // Add directional light
-    light = new THREE.DirectionalLight(0xffdfab, 0.8);
-    light.position.set(0, 5, 5);
+    light = new THREE.DirectionalLight(0xffdfab, 1.0);
+    light.position.set(0, 10, 20);
     light.castShadow = true;
     scene.add(light);
 
@@ -89,32 +94,58 @@ let setUpEnvironment = () => {
 let doDaylightCycle = (time) => {
     if (!water || (water && window.currentTime == time)) return;
 
+    let daySkyColor = {
+        r: 0,
+        g: 197,
+        b: 255
+    };
+    let nightSkyColor = {
+        r: 15,
+        g: 0,
+        b: 41
+    };
+
+    let daySceneColor = {
+        r: 213,
+        g: 225,
+        b: 227
+    }
+    let nightSceneColor = {
+        r: 6,
+        g: 0,
+        b: 31
+    }
+
     window.currentTime = time;
     if (time == 1) {
         let i = 0;
         let anim = setInterval(() => {
             i++;
-            light.intensity -= 0.01;
-            ceiling.material.color.set(lightenColor(0x00c5ff, 100 - i))
+            light.intensity -= 0.02;
+            ceiling.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
+            envSphere.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
+            scene.background.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
+            water.parent.fog.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
             if (i == 100) clearInterval(anim);
         }, 20);
     } else if (time == 0) {
         let i = 0;
         let anim = setInterval(() => {
             i++;
-            light.intensity += 0.01;
-            ceiling.material.color.set(lightenColor(0x00c5ff, i))
+            light.intensity += 0.02;
+            ceiling.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
+            envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
+            scene.background.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
+            water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
             if (i == 100) clearInterval(anim);
         }, 20);
     }
 }
 
-let lightenColor = (color, percent) => {
-    let num = parseInt(color, 16),
-        amt = Math.round(2.55 * percent),
-        R = (num >> 16) + amt,
-        B = (num >> 8 & 0x00FF) + amt,
-        G = (num & 0x0000FF) + amt;
-
-    console.log(typeof (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (B < 255 ? B < 1 ? 0 : B : 255) * 0x100 + (G < 255 ? G < 1 ? 0 : G : 255)).toString(16).slice(1));
-};
+// Fade between two RGB colors
+let colorFade = (start, end, i) => {
+    let R = Math.round((end.r - start.r) * i + start.r);
+    let G = Math.round((end.g - start.g) * i + start.g);
+    let B = Math.round((end.b - start.b) * i + start.b);
+    return 0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255);
+}

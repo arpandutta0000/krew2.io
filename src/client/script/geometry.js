@@ -216,8 +216,8 @@ materials.fishing_line = new THREE.MeshBasicMaterial({
 });
 
 materials.sky = new THREE.MeshBasicMaterial({
-    color: 0x0AD1FA,
-    side: THREE.BackSide
+    color: 0x00c5ff,
+    side: THREE.DoubleSide
 });
 
 // colors for text labels for player & boat names
