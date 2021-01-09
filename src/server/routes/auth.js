@@ -93,80 +93,80 @@ router.post(`/register`, (req, res, next) => {
                     User.findOne({
                         creationIP
                     }).then(cUser => {
-                        // if (cUser) {
-                        //     user.delete();
-                        //     return res.json({
-                        //         errors: `You can only create one account`
-                        //     });
-                        // }
+                        if (cUser) {
+                            // user.delete();
+                            // return res.json({
+                            //     errors: `You can only create one account`
+                            // });
+                        }
 
                         User.findOne({
                             lastIP: creationIP
                         }).then(lUser => {
-                            // if (lUser) {
-                            //     user.delete();
-                            //     return res.json({
-                            //         errors: `You can only create one account`
-                            //     });
-                            // }
-
-                            // axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
-                            // if (!vpnData) {
-                            //     log(`red`, `There was an error while performing the VPN check request.`);
-                            //     user.delete();
-                            //     return res.json({
-                            //         errors: `There was an error in creating your account`
-                            //     });
-                            // }
-
-                            // if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
-                            //     log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
-                            //     user.delete();
-                            //     return res.json({
-                            //         errors: `Disable VPN to create an account`
-                            //     });
-                            // } else {
-                            let transporter = nodemailer.createTransport({
-                                service: "Gmail",
-                                auth: {
-                                    user: process.env.EMAIL_USERNAME,
-                                    pass: process.env.EMAIL_PASSWORD
-                                }
-                            });
-
-                            let ssl;
-                            let address;
-                            if (DEV_ENV) {
-                                ssl = `http`;
-                                address = req.headers.host;
-                            } else {
-                                ssl = `https`;
-                                address = config.domain;
+                            if (lUser) {
+                                // user.delete();
+                                // return res.json({
+                                //     errors: `You can only create one account`
+                                // });
                             }
 
-                            let mailOptions = {
-                                from: 'noreply@krew.io',
-                                to: user.email,
-                                subject: 'Verify your Krew.io Account',
-                                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
-                            }
-
-                            transporter.sendMail(mailOptions, function (err) {
-                                if (err) {
+                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
+                                if (!vpnData) {
+                                    log(`red`, `There was an error while performing the VPN check request.`);
                                     user.delete();
                                     return res.json({
-                                        error: `Error sending to the specified email address.`
+                                        errors: `There was an error in creating your account`
+                                    });
+                                }
+
+                                if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
+                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
+                                    user.delete();
+                                    return res.json({
+                                        errors: `Disable VPN to create an account`
+                                    });
+                                } else {
+                                    let transporter = nodemailer.createTransport({
+                                        service: "Gmail",
+                                        auth: {
+                                            user: process.env.EMAIL_USERNAME,
+                                            pass: process.env.EMAIL_PASSWORD
+                                        }
+                                    });
+
+                                    let ssl;
+                                    let address;
+                                    if (DEV_ENV) {
+                                        ssl = `http`;
+                                        address = req.headers.host;
+                                    } else {
+                                        ssl = `https`;
+                                        address = config.domain;
+                                    }
+
+                                    let mailOptions = {
+                                        from: 'noreply@krew.io',
+                                        to: user.email,
+                                        subject: 'Verify your Krew.io Account',
+                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
+                                    }
+
+                                    transporter.sendMail(mailOptions, function (err) {
+                                        if (err) {
+                                            user.delete();
+                                            return res.json({
+                                                error: `Error sending to the specified email address.`
+                                            });
+                                        }
+                                    });
+                                    user.save(() => {
+                                        log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
+                                        return res.json({
+                                            success: `Succesfully registered! A verification email has been sent to ${user.email}.`
+                                        });
                                     });
                                 }
                             });
-                            user.save(() => {
-                                log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
-                                return res.json({
-                                    success: `Succesfully registered! A verification email has been sent to ${user.email}.`
-                                });
-                            });
-                            // }
-                            // });
                         });
                     });
                 });
