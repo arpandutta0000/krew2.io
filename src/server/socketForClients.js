@@ -149,7 +149,6 @@ io.on(`connection`, async socket => {
                     // Ban the IP.
                     let ban = new Ban({
                         username: data.name,
-                        timestamp: new Date(),
                         IP: socket.handshake.address,
                         comment: `Auto VPN temp ban`
                     });
@@ -229,7 +228,7 @@ io.on(`connection`, async socket => {
 
                 // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
                 if (false && user.lastIP && !(playerEntity.socket.handshake.address == user.lastIP)) {
-                    log(`cyan`, `Player ${playerEntity.name} tried to connect from different IP than login. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    log(`cyan`, `Player ${playerEntity.name} tried to connect from a different IP than what they logged in with. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     return playerEntity.socket.disconnect();
                 }
             }
