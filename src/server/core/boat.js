@@ -333,7 +333,7 @@ Boat.prototype.logic = function (dt) {
         if (this.hpRegTimer > this.hpRegInterval) {
             this.hpRegTimer = 0;
             this.hp += boatTypes[this.shipclassId].regeneration;
-            if (entities[this.captainId].regenBonus) this.hp += entities[this.captainId].regenBonus;
+            if (entities[this.captainId] && entities[this.captainId].regenBonus) this.hp += entities[this.captainId].regenBonus;
             this.hp = Math.min(this.hp, this.maxHp);
         }
     }
