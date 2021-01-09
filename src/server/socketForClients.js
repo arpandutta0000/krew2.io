@@ -142,7 +142,7 @@ io.on(`connection`, async socket => {
 
             if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
                 socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
-                log(`cyan`, `VPN connection. Disconnecting IP: ${socket.handshake.address}.`);
+                log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
 
                 // Ban the IP.
                 let ban = new Ban({
