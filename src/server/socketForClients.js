@@ -140,18 +140,21 @@ io.on(`connection`, async socket => {
         axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
-            if (res.data && res.data.status == `success` && parseInt(res.data.result) == 1) {
-                socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
-                log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
+            if (res.data && res.data.status == `success`) {
+                let result = parseInt(res.data.result);
+                if (result == 1) {
+                    socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
+                    log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
 
-                // Ban the IP.
-                let ban = new Ban({
-                    username: data.name,
-                    timestamp: new Date(),
-                    IP: socket.handshake.address,
-                    comment: `Auto VPN temp ban`
-                });
-                return ban.save(() => socket.disconnect());
+                    // Ban the IP.
+                    let ban = new Ban({
+                        username: data.name,
+                        timestamp: new Date(),
+                        IP: socket.handshake.address,
+                        comment: `Auto VPN temp ban`
+                    });
+                    return ban.save(() => socket.disconnect());
+                } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection.`);
             }
         }).catch(() => log(`red`, `Failed to VPN check the user | IP: ${socket.handshake.address}.`));
 
