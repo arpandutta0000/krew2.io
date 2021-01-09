@@ -49,7 +49,7 @@ let setUpEnvironment = () => {
             textureHeight: 512,
             waterNormals: textures.water,
             alpha: 1.0,
-            sunDirection: new THREE.Vector3(),
+            sunDirection: light.position.clone().normalize(),
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
             distortionScale: 1.0,
