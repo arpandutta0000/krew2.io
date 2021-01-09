@@ -36,12 +36,13 @@ let waterSetup = () => {
 
         var textureMatrix = new THREE.Matrix4();
 
-        var mirrorCamera = new THREE.PerspectiveCamera();
+        mirrorCamera = new THREE.PerspectiveCamera();
 
         var parameters = {
             minFilter: THREE.LinearFilter,
             magFilter: THREE.LinearFilter,
-            format: THREE.RGBFormat
+            format: THREE.RGBFormat,
+            stencilBuffer: false
         };
 
         var renderTarget = new THREE.WebGLRenderTarget(textureWidth, textureHeight, parameters);
@@ -83,7 +84,7 @@ let waterSetup = () => {
                         value: new THREE.Color(0x7F7F7F)
                     },
                     "sunDirection": {
-                        value: new THREE.Vector3(0.70707, 0.70707, 0)
+                        value: new THREE.Vector3(0, 0.70707, 0.70707)
                     },
                     "eye": {
                         value: new THREE.Vector3()
@@ -335,17 +336,6 @@ let waterSetup = () => {
             renderer.shadowMap.autoUpdate = currentShadowAutoUpdate;
 
             renderer.setRenderTarget(currentRenderTarget);
-
-            // Restore viewport
-
-            var viewport = camera.viewport;
-
-            if (viewport !== undefined) {
-
-                renderer.state.viewport(viewport);
-
-            }
-
         };
 
     };
