@@ -19,170 +19,159 @@ router.post(`/register`, (req, res, next) => {
         errors: `Please verify the CAPTCHA`
     });
 
-    let captchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`
-    axios.get(captchaVerificationUrl).then(cRes => {
-        if (!cRes.data) return res.json({
-            errors: `Error validating CAPTCHA response`
-        });
+    if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
+        typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
+        errors: `Please fill out all fields`
+    });
 
-        if (!cRes.data.success || cRes.data.success == undefined) return res.json({
-            errors: `Please correctly verify the CAPTCHA`
-        });
+    if (!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
+        errors: `Your username must contain at least one letter`
+    });
 
-        if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
-            typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
-            errors: `Please fill out all fields`
-        });
+    if (req.body[`register-username`].length < 3 || req.body[`register-username`].length > 20) return res.json({
+        errors: `Your username must be between 3 and 20 characters`
+    });
 
-        if (!/[a-zA-Z]/.test(req.body[`register-username`])) return res.json({
-            errors: `Your username must contain at least one letter`
-        });
+    if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
+        errors: `Invalid Username`
+    });
 
-        if (req.body[`register-username`].length < 3 || req.body[`register-username`].length > 20) return res.json({
-            errors: `Your username must be between 3 and 20 characters`
-        });
+    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body[`register-email`])) return res.json({
+        errors: `Invalid email`
+    });
 
-        if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
-            errors: `Invalid Username`
-        });
+    if (req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
+        errors: `Invalid Password`
+    });
 
-        if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(req.body[`register-email`])) return res.json({
-            errors: `Invalid email`
-        });
+    if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
+        errors: `Passwords do not match`
+    });
 
-        if (req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
-            errors: `Invalid Password`
-        });
+    if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
+        errors: `Password must be between 7 and 48 characters`
+    });
 
-        if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
-            errors: `Passwords do not match`
-        });
+    let email = req.body[`register-email`];
 
-        if (req.body[`register-password`] < 7 || req.body[`register-password`] > 48) return res.json({
-            errors: `Password must be between 7 and 48 characters`
-        });
-
-        let email = req.body[`register-email`];
-
-        User.findOne({
-            email
-        }).then(user => {
-            if (user) {
-                if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
-                    user.delete();
-                } else {
-                    return res.json({
-                        errors: `That email is already in use`
-                    });
-                }
-            }
-
-            passport.authenticate(`register`, (err, user, info) => {
-                if (err) return res.json({
-                    errors: err
+    User.findOne({
+        email
+    }).then(user => {
+        if (user) {
+            if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
+                user.delete();
+            } else {
+                return res.json({
+                    errors: `That email is already in use`
                 });
+            }
+        }
 
-                let username = user.username ? user.username : ``;
+        passport.authenticate(`register`, (err, user, info) => {
+            if (err) return res.json({
+                errors: err
+            });
 
-                if (info) {
+            let username = user.username ? user.username : ``;
+
+            if (info) {
+                User.findOne({
+                    username
+                }).then(user => {
+                    if (!user) return log(`red`, err);
+
+                    let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
+                    let token = `n` + crypto.randomBytes(16).toString('hex') + user.username;
+
+                    user.email = email;
+                    user.verified = false;
+                    user.verifyToken = token;
+                    user.creationIP = creationIP;
+                    user.lastIP = user.creationIP;
+                    user.lastModified = new Date();
+
                     User.findOne({
-                        username
-                    }).then(user => {
-                        if (!user) return log(`red`, err);
-
-                        let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
-                        let token = `n` + crypto.randomBytes(16).toString('hex') + user.username;
-
-                        user.email = email;
-                        user.verified = false;
-                        user.verifyToken = token;
-                        user.creationIP = creationIP;
-                        user.lastIP = user.creationIP;
-                        user.lastModified = new Date();
+                        creationIP
+                    }).then(cUser => {
+                        if (cUser) {
+                            // user.delete();
+                            // return res.json({
+                            //     errors: `You can only create one account`
+                            // });
+                        }
 
                         User.findOne({
-                            creationIP
-                        }).then(cUser => {
-                            if (cUser) {
+                            lastIP: creationIP
+                        }).then(lUser => {
+                            if (lUser) {
                                 // user.delete();
                                 // return res.json({
                                 //     errors: `You can only create one account`
                                 // });
                             }
 
-                            User.findOne({
-                                lastIP: creationIP
-                            }).then(lUser => {
-                                if (lUser) {
-                                    // user.delete();
-                                    // return res.json({
-                                    //     errors: `You can only create one account`
-                                    // });
+                            axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
+                                if (!vpnData) {
+                                    log(`red`, `There was an error while performing the VPN check request.`);
+                                    user.delete();
+                                    return res.json({
+                                        errors: `There was an error in creating your account`
+                                    });
                                 }
 
-                                axios.get(`https://check.getipintel.net/check.php?ip=${creationIP}&contact=dzony@gmx.de&flags=f&format=json`).then(vpnData => {
-                                    if (!vpnData) {
-                                        log(`red`, `There was an error while performing the VPN check request.`);
-                                        user.delete();
-                                        return res.json({
-                                            errors: `There was an error in creating your account`
-                                        });
-                                    }
+                                if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
+                                    log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
+                                    user.delete();
+                                    return res.json({
+                                        errors: `Disable VPN to create an account`
+                                    });
+                                } else {
+                                    let transporter = nodemailer.createTransport({
+                                        service: "Gmail",
+                                        auth: {
+                                            user: process.env.EMAIL_USERNAME,
+                                            pass: process.env.EMAIL_PASSWORD
+                                        }
+                                    });
 
-                                    if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
-                                        log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
-                                        user.delete();
-                                        return res.json({
-                                            errors: `Disable VPN to create an account`
-                                        });
+                                    let ssl;
+                                    let address;
+                                    if (DEV_ENV) {
+                                        ssl = `http`;
+                                        address = req.headers.host;
                                     } else {
-                                        let transporter = nodemailer.createTransport({
-                                            service: "Gmail",
-                                            auth: {
-                                                user: process.env.EMAIL_USERNAME,
-                                                pass: process.env.EMAIL_PASSWORD
-                                            }
-                                        });
-
-                                        let ssl;
-                                        let address;
-                                        if (DEV_ENV) {
-                                            ssl = `http`;
-                                            address = req.headers.host;
-                                        } else {
-                                            ssl = `https`;
-                                            address = config.domain;
-                                        }
-
-                                        let mailOptions = {
-                                            from: 'noreply@krew.io',
-                                            to: user.email,
-                                            subject: 'Verify your Krew.io Account',
-                                            text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
-                                        }
-
-                                        transporter.sendMail(mailOptions, function (err) {
-                                            if (err) {
-                                                user.delete();
-                                                return res.json({
-                                                    error: `Error sending to the specified email address.`
-                                                });
-                                            }
-                                        });
-                                        user.save(() => {
-                                            log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
-                                            return res.json({
-                                                success: `Succesfully registered! A verification email has been sent to ${user.email}.`
-                                            });
-                                        });
+                                        ssl = `https`;
+                                        address = config.domain;
                                     }
-                                });
+
+                                    let mailOptions = {
+                                        from: 'noreply@krew.io',
+                                        to: user.email,
+                                        subject: 'Verify your Krew.io Account',
+                                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
+                                    }
+
+                                    transporter.sendMail(mailOptions, function (err) {
+                                        if (err) {
+                                            user.delete();
+                                            return res.json({
+                                                error: `Error sending to the specified email address.`
+                                            });
+                                        }
+                                    });
+                                    user.save(() => {
+                                        log(`magenta`, `Created account "${user.username}" with email "${user.email}"`);
+                                        return res.json({
+                                            success: `Succesfully registered! A verification email has been sent to ${user.email}.`
+                                        });
+                                    });
+                                }
                             });
                         });
                     });
-                }
-            })(req, res, next);
-        });
+                });
+            }
+        })(req, res, next);
     });
 });
 
