@@ -5,7 +5,6 @@ let water, light, ceiling, envSphere;
 let setUpEnvironment = () => {
     // Set scene background
     scene.background = new THREE.Color(0xd5e1e3);
-    renderer.setClearColor(0x00c5ff);
 
     // Add Fog
     scene.fog = new THREE.FogExp2(0xd5e1e3, 0.007);
@@ -100,9 +99,9 @@ let doDaylightCycle = (time) => {
         b: 255
     };
     let nightSkyColor = {
-        r: 15,
-        g: 0,
-        b: 41
+        r: 0,
+        g: 36,
+        b: 112
     };
 
     let daySceneColor = {
@@ -124,8 +123,8 @@ let doDaylightCycle = (time) => {
             light.intensity -= 0.02;
             ceiling.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             envSphere.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
-            scene.background.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
             water.parent.fog.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
+            scene.background = new THREE.Color(colorFade(daySceneColor, nightSceneColor, i / 100))
             if (i == 100) clearInterval(anim);
         }, 20);
     } else if (time == 0) {
@@ -135,8 +134,9 @@ let doDaylightCycle = (time) => {
             light.intensity += 0.02;
             ceiling.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
-            scene.background.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
             water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
+            scene.background = new THREE.Color(colorFade(nightSceneColor, daySceneColor, i / 100))
+            console.log(scene.background)
             if (i == 100) clearInterval(anim);
         }, 20);
     }
