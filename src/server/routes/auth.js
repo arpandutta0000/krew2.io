@@ -166,7 +166,7 @@ router.post(`/register`, (req, res, next) => {
                                         });
                                     });
                                 }
-                            });
+                            }).catch(() => log(`red`, `Failed to VPN check user ${username}.`));
                         });
                     });
                 });
