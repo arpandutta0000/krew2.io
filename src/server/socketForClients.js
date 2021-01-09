@@ -155,6 +155,7 @@ io.on(`connection`, async socket => {
                     });
                     return ban.save(() => socket.disconnect());
                 } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
+                else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
             }
         }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
 
