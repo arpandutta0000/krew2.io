@@ -459,7 +459,7 @@ body {
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    max-height: 558px;
+    max-height: 750px;
     margin-top: 10px;
     border-radius: 10px 10px 10px 10px;
 }
