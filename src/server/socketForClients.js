@@ -154,9 +154,9 @@ io.on(`connection`, async socket => {
                         comment: `Auto VPN temp ban`
                     });
                     return ban.save(() => socket.disconnect());
-                } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection.`);
+                } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
             }
-        }).catch(() => log(`red`, `Failed to VPN check the user | IP: ${socket.handshake.address}.`));
+        }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
 
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > config.maxPlayerCount) {
