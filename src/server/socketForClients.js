@@ -52,7 +52,7 @@ if (!global.io) {
             methods: [`GET`, `POST`],
             credentials: true
         },
-        maxHttpBufferSize: 1e8
+        maxHttpBufferSize: 1e9
     });
     server.listen(process.env.port);
 }
