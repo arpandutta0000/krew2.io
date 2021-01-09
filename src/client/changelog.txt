@@ -1,3 +1,8 @@
+v1.4.0 - [1-9-2020]
+- Remade Water
+- Remade sun lighting
+- Client performance optimizations
+
 v1.3.1 - [1-7-2020]
 - Added Krewmate skin
 - Added Steel Reinforced Planks and Advanced Toolkit Items
