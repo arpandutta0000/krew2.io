@@ -2073,10 +2073,10 @@ var ui = {
                         tableContent = '<tr><td class="rank">' + (parseInt(p) + 1) + '</td><td class="top-1">' + data[p]["playerName"] + '</td><td class="top-1">' + clan + '</td><td class="top-1">' + highscore + '</td></tr>';
                     } else if (p <= 2) {
                         tableContent = '<tr><td class="rank">' + (parseInt(p) + 1) + '</td><td class="top-2-3">' + data[p]["playerName"] + '</td><td class="top-2-3">' + clan + '</td><td class="top-2-3">' + highscore + '</td></tr>';
-                    } else if (p <= 19) {
+                    } else if (p <= 24) {
                         tableContent = '<tr><td class="rank">' + (parseInt(p) + 1) + '</td><td>' + data[p]["playerName"] + '</td><td>' + clan + '</td><td>' + highscore + '</td></tr>';
                     } else {
-                        tableContent = '<tr class="top40" style="display:none"><td class="rank">' + (parseInt(p) + 1) + '</td><td>' + data[p]["playerName"] + '</td><td>' + clan + '</td><td>' + highscore + '</td></tr>';
+                        tableContent = '<tr class="top50" style="display:none"><td class="rank">' + (parseInt(p) + 1) + '</td><td>' + data[p]["playerName"] + '</td><td>' + clan + '</td><td>' + highscore + '</td></tr>';
                     }
                     $("#wall-of-fame-table").append(tableContent)
                 }
