@@ -143,16 +143,18 @@ io.on(`connection`, async socket => {
             if (res.data) {
                 let result = parseInt(res.data.result);
                 if (result == 1) {
-                    socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
-                    log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
-
                     // Ban the IP.
                     let ban = new Ban({
                         username: data.name,
                         IP: socket.handshake.address,
                         comment: `Auto VPN temp ban`
                     });
-                    return ban.save(() => socket.disconnect());
+                    return ban.save(() => {
+                        socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
+                        log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
+
+                        socket.disconnect()
+                    });
                 } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
                 else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
             }
