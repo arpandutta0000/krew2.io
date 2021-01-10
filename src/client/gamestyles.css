@@ -582,9 +582,14 @@ body {
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    max-height: 558px;
+    max-height: 750px;
     margin-top: 10px;
     border-radius: 10px 10px 10px 10px;
+}
+
+#wall-of-fame-table-div::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 #wall-of-fame-table {
@@ -594,7 +599,7 @@ body {
 }
 
 #wall-of-fame-table th {
-    padding: 10px;
+    padding: 8px;
     border-top: 1px solid;
     border-bottom: 1px solid;
     text-align: center;

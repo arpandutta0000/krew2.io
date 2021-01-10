@@ -850,10 +850,10 @@ $(document).ready(function () {
 
     $('#show-more').on('click', function () {
         if ($('#show-more').text().indexOf('Show more') > -1) {
-            $('.top20').show();
+            $('.top40').show();
             $('#show-more').html('<i class="icofont icofont-medal"></i> Show less')
         } else {
-            $('.top20').hide();
+            $('.top40').hide();
             $('#show-more').html('<i class="icofont icofont-medal"></i> Show more')
         }
     });

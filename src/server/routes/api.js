@@ -16,7 +16,7 @@ router.get(`/wall_of_fame`, async (req, res) => {
 
     let playerDocs = await User.find({}).sort({
         highscore: -1
-    }).limit(20);
+    }).limit(40);
 
     let wofPlayers = [];
     for (const player of playerDocs) {
