@@ -12,7 +12,7 @@ let setUpEnvironment = () => {
     // Add warm and cold ambient lights
     warmAmbientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
     scene.add(warmAmbientlight);
-    coldAmbientlight = new THREE.AmbientLight(0xd4efff, 0.3);
+    coldAmbientlight = new THREE.AmbientLight(0xd4e4ff, 0.25);
     scene.add(coldAmbientlight);
 
     // Add ceiling
