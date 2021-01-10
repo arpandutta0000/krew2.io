@@ -94,20 +94,19 @@ client.on(`message`, message => {
 
         message.channel.send(`Server restart queued.`);
 
-        bus.emit(`restart`, `Server is restarting in 1 minute.`)
+        bus.emit(`restart`, `Server is restarting in 1 minute.`);
         client.channels.get(config.discord.channels.chatLogs).send(`Server is restarting in 1 minute.`);
 
         setTimeout(() => {
-            bus.emit(`restart`, `Server is restarting in 30 seconds.`)
+            bus.emit(`restart`, `Server is restarting in 30 seconds.`);
             client.channels.get(config.discord.channels.chatLogs).send(`Server is restarting in 30 seconds.`);
         }, 1e3 * 30);
 
         setTimeout(() => {
-            bus.emit(`restart`, `Server is restarting in 1 minute.`)
+            bus.emit(`restart`, `Server is restarting in 1 minute.`);
             client.channels.get(config.discord.channels.chatLogs).send(`Server is restarting in 10 seconds.`);
         }, 1e3 * 50);
         setTimeout(() => {
-
             let sEmbed = new Discord.MessageEmbed()
                 .setAuthor(`Server Restart`)
                 .setColor(0xffa500)
@@ -117,8 +116,8 @@ client.on(`message`, message => {
             config.mode == `dev` ? client.channels.get(config.discord.channels.chatLogs).send(`Failed to auto-restart: Server is running in a development environment. Autorestarter can only be used in a production environment.`) : client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
 
             if (config.mode == `prod`) {
-                bus.emit(`restart`, `Server is restarting...`)
-                exec(`./scripts/restart.${os.platform() == `win32` ? `bat`: `sh`}`);
+                bus.emit(`restart`, `Server is restarting...`);
+                exec(`./scripts/restart.${os.platform() == `win32` ? `bat` : `sh`}`);
             } else bus.emit(`restart`, `Failed to restart server.`);
         }, 1e3 * 60);
     }
