@@ -140,7 +140,7 @@ io.on(`connection`, async socket => {
         axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
             if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`)
 
-            if (res.data && res.data.status == `success`) {
+            if (res.data) {
                 let result = parseInt(res.data.result);
                 if (result == 1) {
                     socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
