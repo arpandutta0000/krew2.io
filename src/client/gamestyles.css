@@ -1363,3 +1363,14 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     min-width: 60px;
     margin-bottom: 2.5px;
 }
+
+.t-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
