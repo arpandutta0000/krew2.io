@@ -137,7 +137,6 @@ Landmark.prototype.clientlogic = function (dt) {
 
 Landmark.prototype.logic = function (dt) {
     // if this landmark is a dockable thing (rocks etc dont have docks)
-    if (this.dockType > 0) {}
 };
 
 Landmark.prototype.isWithinDockingRadius = function (x, z) {

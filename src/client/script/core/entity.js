@@ -129,6 +129,7 @@ Entity.prototype.getDelta = function () {
 // function that parses a snapshot
 Entity.prototype.parseSnap = function (snap, id) {
     if (snap.p && entities[snap.p] && this.parent !== entities[snap.p]) {
+        let oldPosition;
         let newparent = entities[snap.p];
         let oldparent = this.parent;
         if (myPlayerId === id && newparent !== oldparent) {
@@ -140,11 +141,8 @@ Entity.prototype.parseSnap = function (snap, id) {
                 newparent.geometry !== undefined &&
                 oldparent &&
                 oldparent.geometry !== undefined
-            ) {
-                var oldPosition = newparent.geometry.worldToLocal(oldparent.geometry.localToWorld(this.geometry.position));
-            } else {
-                var oldPosition = newparent.toLocal(this.worldPos());
-            }
+            ) oldPosition = newparent.geometry.worldToLocal(oldparent.geometry.localToWorld(this.geometry.position));
+            else oldPosition = newparent.toLocal(this.worldPos());
 
             this.position.x = oldPosition.x;
             this.position.y = oldPosition.y;

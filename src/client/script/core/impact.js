@@ -30,7 +30,7 @@ function Impact (type, x, z) {
         case 0: { // water
             this.baseGeometry = geometry.impact_water;
             this.baseMaterial = materials.impact_water;
-            for (var i = 0; i < 3; ++i) {
+            for (let i = 0; i < 3; ++i) {
                 createParticle({
                     vx: -5 + Math.random() * 10,
                     vy: 4 + Math.random() * 2,
@@ -41,7 +41,6 @@ function Impact (type, x, z) {
                     w: 0.3,
                     h: 0.3,
                     d: 0.3,
-                    gravity: 5,
                     gravity: 5,
                     rotaSpeed: Math.random() * 20,
                     duration: 5,
@@ -56,7 +55,7 @@ function Impact (type, x, z) {
 
         case 1: { // ship
             GameAnalytics(`addDesignEvent`, `Game:Session:Hit`);
-            for (var i = 0; i < 5; ++i) {
+            for (let i = 0; i < 5; ++i) {
                 createParticle({
                     vx: -10 + Math.random() * 20,
                     vy: 5 + Math.random() * 5,
