@@ -24,7 +24,7 @@ if (cluster.isMaster) {
     // Load the bot if it is running in production.
     if (!DEV_ENV && config.domain == `krew.io`) require(`./bot.js`);
 
-    process.on('uncaughtException', function (e) {
+    process.on(`uncaughtException`, (e) => {
         if (!DEV_ENV) {
             log(`red`, e, e.stack ? e.stack : ``);
         }
@@ -70,10 +70,10 @@ if (cluster.isMaster) {
     }
 } else {
     // Create the game.
-    let socket = require('./socketForClients.js');
-    let game = require('./game/game.js');
+    let socket = require(`./socketForClients.js`);
+    let game = require(`./game/game.js`);
 
-    process.on('uncaughtException', function (e) {
+    process.on(`uncaughtException`, (e) => {
         if (!DEV_ENV) {
             log(`red`, e, e.stack ? e.stack : ``);
         }
