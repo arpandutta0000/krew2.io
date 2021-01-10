@@ -1,7 +1,7 @@
 let parseSnap = function (id, data) {
     // this is the function that reads in the snapshot data for a single entity
     // first, check if we have already created the entity
-    if (entities[id] == undefined) {
+    if (entities[id] === undefined) {
         // switch on the data.n (netcode id). depending on id, we create a entity of that tpye
         switch (data.n) {
             default: {
@@ -15,7 +15,7 @@ let parseSnap = function (id, data) {
                 entities[id].playerModel = data.playerModel ? data.playerModel : 0;
 
                 // if this entity has the id that the player was assigned, then we know its the player id
-                if (id == myPlayerId) {
+                if (id === myPlayerId) {
                     myPlayer = entities[id];
                     myPlayer.isPlayer = true;
                 }
@@ -60,7 +60,7 @@ let parseSnap = function (id, data) {
         }
     }
 
-    // if(myPlayer && myPlayer.parent && id == myPlayer.parent.id) console.log(data)
+    // if(myPlayer && myPlayer.parent && id === myPlayer.parent.id) console.log(data)
     // now that we have made sure that we have the entity, we give it the data
     if (entities[id] !== undefined) {
         entities[id].parseSnap(data, id);

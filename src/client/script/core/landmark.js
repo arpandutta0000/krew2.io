@@ -37,7 +37,7 @@ function Landmark (type, x, z, config) {
     this.baseMaterial = materials.colorset;
 
     // Palm Tree (Commented out for performance lol)
-    // if (this.name == 'Jamaica') {
+    // if (this.name === 'Jamaica') {
     //     this.palm = new THREE.Mesh(geometry.palm, materials.colorset);
     //     this.palm.position.set(1250, 0, 1250);
     //     this.palm.scale.x = 8;
@@ -125,7 +125,7 @@ Landmark.prototype.clientlogic = function (dt) {
     // this.visualCue.position.y = 0.1 + scale * 0.5;
     water.position.y = 0.1 + scale * 0.5;
 
-    // if (this.PickupType == 0) {
+    // if (this.PickupType === 0) {
 
     //     this.geometry.scale.y = (this.timeout < 0.5 ? Ease.easeOutQuad(this.timeout * 2) : 1.0 - Ease.easeInQuint((this.timeout - 0.5) * 2)) * 3;
 

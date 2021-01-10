@@ -78,7 +78,7 @@ Entity.prototype.getSnap = function (force) {
     };
 
     // pass name variable if we're first time creating this entity
-    if (this.netType == 0 && this.isNew) {
+    if (this.netType === 0 && this.isNew) {
         snap.name = this.name;
         snap.id = this.id;
 
@@ -128,7 +128,7 @@ Entity.prototype.getDelta = function () {
 
 // function that parses a snapshot
 Entity.prototype.parseSnap = function (snap, id) {
-    if (snap.p && entities[snap.p] && this.parent != entities[snap.p]) {
+    if (snap.p && entities[snap.p] && this.parent !== entities[snap.p]) {
         let newparent = entities[snap.p];
         let oldparent = this.parent;
         if (myPlayerId === id && newparent !== oldparent) {
@@ -211,27 +211,27 @@ Entity.prototype.parseSnap = function (snap, id) {
 
     // Update the player experience only when its needed
     if (snap.t !== undefined && snap.t.e !== undefined && snap.t.e !== null) {
-        if (snap.t.e.l !== undefined && snap.t.e.l != this.level) {
+        if (snap.t.e.l !== undefined && snap.t.e.l !== this.level) {
             this.level = parseInt(snap.t.e.l);
         }
 
         // Only do the computation if this is the player
         if (this.isPlayer) {
-            if (snap.t.e.e !== undefined && snap.t.e.e != this.experience) {
+            if (snap.t.e.e !== undefined && snap.t.e.e !== this.experience) {
                 this.experience = parseInt(snap.t.e.e);
                 this.experienceNeedsUpdate = true;
                 this.updateExperience();
             }
 
-            if (snap.t.e.p.fr !== undefined && snap.t.e.p.fr != this.points.fireRate) {
+            if (snap.t.e.p.fr !== undefined && snap.t.e.p.fr !== this.points.fireRate) {
                 this.points.fireRate = parseInt(snap.t.e.p.fr);
             }
 
-            if (snap.t.e.p.ds !== undefined && snap.t.e.p.ds != this.points.distance) {
+            if (snap.t.e.p.ds !== undefined && snap.t.e.p.ds !== this.points.distance) {
                 this.points.distance = parseInt(snap.t.e.p.ds);
             }
 
-            if (snap.t.e.p.dm !== undefined && snap.t.e.p.dm != this.points.damage) {
+            if (snap.t.e.p.dm !== undefined && snap.t.e.p.dm !== this.points.damage) {
                 this.points.damage = parseInt(snap.t.e.p.dm);
             }
         }
@@ -251,7 +251,7 @@ Entity.prototype.addChildren = function (entity) {
 
 Entity.prototype.hasChild = function (id) {
     for (key in this.children) {
-        if (this.children[key].id == id) {
+        if (this.children[key].id === id) {
             return true;
         }
     }
@@ -298,9 +298,9 @@ Entity.prototype.toLocal = function (coord) {
 };
 
 Entity.prototype.onDestroy = function () {
-    if (this.parent != undefined) {
+    if (this.parent !== undefined) {
         let parent = this.parent;
-        if (parent.children[this.id] != undefined) {
+        if (parent.children[this.id] !== undefined) {
             delete parent.children[this.id];
         }
     }

@@ -44,8 +44,8 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
             }
         } else if (spawnPoint) {
             // If the player is not using an invite link.
-            if (spawnPoint == `sea`) spawnNewPlayerOnSea(boat, playerEntity);
-            else if (spawnPoint == `island` || islandNames.includes(spawnPoint)) {
+            if (spawnPoint === `sea`) spawnNewPlayerOnSea(boat, playerEntity);
+            else if (spawnPoint === `island` || islandNames.includes(spawnPoint)) {
                 let spawnIsland = islandNames.includes(spawnPoint) ? core.Landmarks[Object.keys(core.Landmarks)[islandNames.indexOf(spawnPoint)]] : core.Landmarks[Object.keys(core.Landmarks)[Math.floor(Math.random() * Object.keys(core.Landmarks).length)]];
 
                 spawnIsland.addChildren(playerEntity);
@@ -53,12 +53,12 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                 // Create a new boat for the player.
                 playerEntity.gold += 500;
                 setTimeout(() => playerEntity.purchaseShip(1, krewName), 200);
-            } else if (spawnPoint == `krew`) {
+            } else if (spawnPoint === `krew`) {
                 // Get all krews with a free spot on board.
                 let availableKrews = Object.values(core.boats).filter(boat => boat.krewCount < boat.maxKrewCapacity && !boat.isLocked);
 
                 // Add the player if a suitable krew is available.
-                if (availableKrews.length != 0) {
+                if (availableKrews.length !== 0) {
                     boat = availableKrews[Math.floor(Math.random() * availableKrews.length)];
                     boat = core.boats[boat.id];
 
@@ -70,7 +70,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                 } else spawnNewPlayerOnSea(boat, playerEntity);
             } else {
                 // Spawning on island as captain.
-                let spawnIsland = Object.values(core.Landmarks).find(island => island.name.toLowerCase() == spawnPoint);
+                let spawnIsland = Object.values(core.Landmarks).find(island => island.name.toLowerCase() === spawnPoint);
                 if (!spawnIsland) spawnNewPlayerOnSea(boat, playerEntity);
                 else {
                     spawnIsland.addChildren(playerEntity);
@@ -86,7 +86,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
             playerEntity.disableSnapAndDelta = false;
             playerEntity.socket.emit(`startGame`);
 
-            if (DEV_ENV && spawnPoint && spawnPoint != `sea` && spawnPoint != `krew`) playerEntity.gold += 1e9;
+            if (DEV_ENV && spawnPoint && spawnPoint !== `sea` && spawnPoint !== `krew`) playerEntity.gold += 1e9;
         }, 1e3);
     });
 };

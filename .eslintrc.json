@@ -16,12 +16,12 @@
     "rules": {
         "func-call-spacing": 0,
         "no-unexpected-multiline": 0,
-        "eqeqeq": 0,
+        "eqeqeq": 1,
         "no-eval": 2,
         "array-bracket-newline": 1,
         "brace-style": 1,
         "comma-spacing": 1,
-        "no-var": 1,
+        "no-var": 0,
         "indent": ["error", 4, {
             "SwitchCase": 1
         }],
@@ -37,6 +37,9 @@
         "prefer-template": 1,
         "no-unreachable-loop": 0,
         "no-unused-expressions": 0,
-        "no-useless-escape": 0
+        "no-useless-escape": 0,
+        "camelcase": 0,
+        "node/no-callback-literal": 0,
+        "no-return-assign": 0
     }
 }

@@ -348,8 +348,8 @@ let enterIsland = function (data) {
     // release mouseLook
     // controls.unLockMouseLook();
 
-    if (data.captainId == myPlayerId) {
-        if (myPlayer && myPlayer.parent && myPlayer.parent.shipState != 2) {
+    if (data.captainId === myPlayerId) {
+        if (myPlayer && myPlayer.parent && myPlayer.parent.shipState !== 2) {
             $(`#docking-modal`).show();
         }
     }
@@ -372,12 +372,12 @@ let $cancelExitButtonSpan = $cancelExitButton.find(`span`);
 let $dockingModal = $(`#docking-modal`);
 
 var cleanScene = function () {
-    if (scene != undefined || scene !== [] || scene !== {}) {
+    if (scene !== undefined || scene !== [] || scene !== {}) {
         scene.traverse((node) => {
             if (node instanceof THREE.Mesh) {
                 for (o in sceneCanBalls) {
                     let cannonBall = sceneCanBalls[o];
-                    if (cannonBall == node) {
+                    if (cannonBall === node) {
                         scene.remove(node);
                         delete sceneCanBalls[o];
                     }
@@ -386,7 +386,7 @@ var cleanScene = function () {
             if (node instanceof THREE.Line) {
                 for (l in sceneLines) {
                     let line = sceneLines[l];
-                    if (line == node) {
+                    if (line === node) {
                         scene.remove(node);
                         sceneLines[l].geometry.dispose();
                         delete sceneLines[l];
@@ -430,7 +430,7 @@ var islandTimer = function () {
             return;
         }
 
-        if (myPlayer.parent.netType == 5) {
+        if (myPlayer.parent.netType === 5) {
             $portName.text(myPlayer.parent.name);
             if ($dockingModal.is(`:visible`)) {
                 $dockingModal.hide();
@@ -509,13 +509,13 @@ let exitIsland = function (data) {
     // lock mouse
     controls.lockMouseLook();
 
-    if (data.captainId == myPlayerId) {
+    if (data.captainId === myPlayerId) {
         $(`#docking-modal`).hide();
         $(`#departure-modal`).hide();
     }
 
     /* if (myPlayer && myPlayer.parent)
-        myPlayer.parent.shipState == 3 */
+        myPlayer.parent.shipState === 3 */
 
     // $("#recruiting-div").fadeOut();
     // $('#suggestion-ui').hide();
@@ -759,7 +759,7 @@ function isAlphaNumeric (str) {
         if (!(code > 47 && code < 58) && // numeric (0-9)
             !(code > 64 && code < 91) && // upper alpha (A-Z)
             !(code > 96 && code < 123) && // lower alpha (a-z)
-            !(code === 190 || code == 46)) {
+            !(code === 190 || code === 46)) {
             return false;
         }
     }
@@ -936,18 +936,18 @@ $(document).ready(() => {
 
     // send chat message by enter key
     $(`#chat-message`).on(`keypress`, (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             sendMessage();
         }
     });
 
     $(`#make-deposit`).on(`keypress`, (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             makeDeposit();
         }
     });
     $(`#take-deposit`).on(`keypress`, (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             takeDeposit();
         }
     });
@@ -980,7 +980,7 @@ $(document).ready(() => {
     // TODO: check if this is needed. If not, delete or comment
     $(`#hide-shopping-modal-button`).on(`click`, () => {
         $(`#shopping-modal`).fadeOut();
-        if (myBoat.shipState == 3) {
+        if (myBoat.shipState === 3) {
             $(`#show-shopping-modal-button`).fadeIn();
         }
     });
@@ -1010,7 +1010,7 @@ $(document).ready(() => {
                 if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
                     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
                 }
-                if (myPlayer.parent.netType == 1 && !$(`#exit-island-button`).is(`:visible`)) {
+                if (myPlayer.parent.netType === 1 && !$(`#exit-island-button`).is(`:visible`)) {
                     $(`#exit-island-button`).show();
                 }
             }

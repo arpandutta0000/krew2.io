@@ -92,7 +92,7 @@ let setUpEnvironment = () => {
 
 // Day Night Cycle Transition Method
 let doDaylightCycle = (time) => {
-    if (!water || (water && window.currentTime == time)) return;
+    if (!water || (water && window.currentTime === time)) return;
 
     let daySkyColor = {
         r: 0,
@@ -117,7 +117,7 @@ let doDaylightCycle = (time) => {
     };
 
     window.currentTime = time;
-    if (time == 1) {
+    if (time === 1) {
         let i = 0;
         let anim = setInterval(() => {
             i++;
@@ -126,9 +126,9 @@ let doDaylightCycle = (time) => {
             envSphere.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             water.parent.fog.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
             scene.background = new THREE.Color(colorFade(daySceneColor, nightSceneColor, i / 100));
-            if (i == 100) clearInterval(anim);
+            if (i === 100) clearInterval(anim);
         }, 20);
-    } else if (time == 0) {
+    } else if (time === 0) {
         let i = 0;
         let anim = setInterval(() => {
             i++;
@@ -137,7 +137,7 @@ let doDaylightCycle = (time) => {
             envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
             scene.background = new THREE.Color(colorFade(nightSceneColor, daySceneColor, i / 100));
-            if (i == 100) clearInterval(anim);
+            if (i === 100) clearInterval(anim);
         }, 20);
     }
 };

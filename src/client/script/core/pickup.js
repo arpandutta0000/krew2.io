@@ -16,8 +16,8 @@ function Pickup (size, x, z, type) {
     this.captainsCutRatio = 0.3;
 
     // net data
-    this.sendDelta = type != 1;
-    this.sendSnap = type != 1;
+    this.sendDelta = type !== 1;
+    this.sendSnap = type !== 1;
     this.sendCreationSnapOnDelta = true;
     this.spawnPacket = false;
 
@@ -42,7 +42,7 @@ function Pickup (size, x, z, type) {
     this.position.z = z;
     this.pickerId = ``;
     this.type = type;
-    this.picking = type == 1;
+    this.picking = type === 1;
     this.catchingFish = false;
     this.timeout = 1;
     /**
@@ -86,7 +86,7 @@ function Pickup (size, x, z, type) {
     }
 
     if (this.type <= 1 || this.type === 4) {
-        this.floattimer = this.type == 0 ? Math.random() * 5 : (Math.random() * 5 + 0.5);
+        this.floattimer = this.type === 0 ? Math.random() * 5 : (Math.random() * 5 + 0.5);
         this.rotationspeed = Math.random() * 0.5 + 0.5;
     } else {
         this.floattimer = 1;
@@ -180,7 +180,7 @@ Pickup.prototype.clientlogic = function (dt) {
     this.geometry.rotation.x += dt * this.rotationspeed;
     this.geometry.rotation.z += dt * this.rotationspeed;
 
-    if (this.picking == true && entities[this.pickerId]) {
+    if (this.picking === true && entities[this.pickerId]) {
         // Reduce cargo scale and move it towards player
         if (entities[this.pickerId].geometry) {
             let pickerPos = entities[this.pickerId].geometry.getWorldPosition(new THREE.Vector3());
@@ -188,7 +188,7 @@ Pickup.prototype.clientlogic = function (dt) {
             if (this.type === 0 || this.type === 4) {
                 this.geometry.translateOnAxis(this.geometry.worldToLocal(pickerPos), 0.05);
                 this.geometry.scale.set(this.geometry.scale.x - 0.05, this.geometry.scale.y - 0.05, this.geometry.scale.z - 0.05);
-                if (myPlayer && this.pickerId == myPlayer.id && this.geometry.scale.x <= 0.05 && this.geometry.scale.x > 0) {
+                if (myPlayer && this.pickerId === myPlayer.id && this.geometry.scale.x <= 0.05 && this.geometry.scale.x > 0) {
                     ui.playAudioFile(false, `get-crate`);
                 }
             }
@@ -201,7 +201,7 @@ Pickup.prototype.clientlogic = function (dt) {
 
                 if (this.geometry.position.y >= 20) {
                     this.catchingFish = true;
-                    if (myPlayer && this.pickerId == myPlayer.id)
+                    if (myPlayer && this.pickerId === myPlayer.id)
                         ui.playAudioFile(false, `catch-fish`);
                 }
 
@@ -215,7 +215,7 @@ Pickup.prototype.clientlogic = function (dt) {
                 if ((entities[this.pickerId] !== undefined && entities[this.pickerId].gold > 500 &&
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
-                                entities[this.pickerId].parent.netType != 1))
+                                entities[this.pickerId].parent.netType !== 1))
                 )) {
                     ui.hideSuggestionBox = false;
                 }
@@ -225,13 +225,13 @@ Pickup.prototype.clientlogic = function (dt) {
                 this.geometry.translateOnAxis(this.geometry.worldToLocal(pickerPos), 0.05);
                 this.geometry.scale.set(this.geometry.scale.x - 0.05, this.geometry.scale.y - 0.05, this.geometry.scale.z - 0.05);
 
-                if (myPlayer && this.pickerId == myPlayer.id)
+                if (myPlayer && this.pickerId === myPlayer.id)
                     ui.playAudioFile(false, `catch-crab`);
 
                 if ((entities[this.pickerId] !== undefined && entities[this.pickerId].gold > 500 &&
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
-                                entities[this.pickerId].parent.netType != 1))
+                                entities[this.pickerId].parent.netType !== 1))
                 )) {
                     ui.hideSuggestionBox = false;
                 }
@@ -284,7 +284,7 @@ Pickup.prototype.clientlogic = function (dt) {
         }
     }
 
-    // if (this.PickupSize == 0) {
+    // if (this.PickupSize === 0) {
 
     //     this.geometry.scale.y = (this.timeout < 0.5 ? Ease.easeOutQuad(this.timeout * 2) : 1.0 - Ease.easeInQuint((this.timeout - 0.5) * 2)) * 3;
 
@@ -333,7 +333,7 @@ Pickup.prototype.getTypeSnap = function () {
 };
 
 Pickup.prototype.getTypeDelta = function () {
-    if (this.type == 1) {
+    if (this.type === 1) {
         if (!this.spawnPacket) {
             this.spawnPacket = true;
             return this.getTypeSnap();
@@ -357,19 +357,19 @@ Pickup.prototype.getTypeDelta = function () {
 
 // function that parses a snapshot
 Pickup.prototype.parseTypeSnap = function (snap) {
-    if (snap.s !== undefined && snap.s != this.pickupSize) {
+    if (snap.s !== undefined && snap.s !== this.pickupSize) {
         this.pickupSize = parseInt(snap.s);
     }
 
-    if (snap.p !== undefined && snap.p != this.picking) {
+    if (snap.p !== undefined && snap.p !== this.picking) {
         this.picking = parseBool(snap.p);
     }
 
-    if (snap.i !== undefined && snap.i != this.pickerId) {
+    if (snap.i !== undefined && snap.i !== this.pickerId) {
         this.pickerId = snap.i;
     }
 
-    if (snap.t !== undefined && snap.t != this.type) {
+    if (snap.t !== undefined && snap.t !== this.type) {
         this.type = parseInt(snap.t);
     }
 };

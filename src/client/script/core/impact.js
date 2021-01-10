@@ -95,7 +95,7 @@ Impact.prototype.logic = function (dt) {
 };
 
 Impact.prototype.clientlogic = function (dt) {
-    if (this.impactType == 0) {
+    if (this.impactType === 0) {
         this.geometry.position.set(this.position.x, this.position.y, this.position.z);
         this.geometry.scale.y = (this.timeout < 0.5 ? Ease.easeOutQuad(this.timeout * 2) : 1.0 - Ease.easeInQuint((this.timeout - 0.5) * 2)) * 5;
 

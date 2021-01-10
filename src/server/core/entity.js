@@ -145,7 +145,7 @@ Entity.prototype.addChildren = function (entity) {
 
 Entity.prototype.hasChild = function (id) {
     for (key in this.children) {
-        if (this.children[key].id == id) {
+        if (this.children[key].id === id) {
             return true;
         }
     }
@@ -192,9 +192,9 @@ Entity.prototype.toLocal = function (coord) {
 };
 
 Entity.prototype.onDestroy = function () {
-    if (this.parent != undefined) {
+    if (this.parent !== undefined) {
         let parent = this.parent;
-        if (parent.children[this.id] != undefined) {
+        if (parent.children[this.id] !== undefined) {
             delete parent.children[this.id];
         }
     }

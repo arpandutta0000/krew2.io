@@ -31,13 +31,13 @@ loader.loadTexture = path => {
         let ext = parts.pop();
         let name = parts.pop();
 
-        if (ext == `tga`) {
+        if (ext === `tga`) {
             tgaLoader.load(path, texture => {
                 textures[name] = texture;
                 resolve();
             });
             return;
-        } else if (ext == `tga`) {
+        } else if (ext === `tga`) {
             let folder = path.split(`/`);
             folder.pop();
             folder = `${folder.join(`/`)}/`;

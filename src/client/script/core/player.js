@@ -497,7 +497,7 @@ Player.prototype.parseTypeSnap = function (snap) {
         this.checkedItemsList = parseBool(snap.c);
     }
 
-    if (snap.d !== undefined && snap.d != this.itemId) {
+    if (snap.d !== undefined && snap.d !== this.itemId) {
         this.itemId = parseInt(snap.d);
         if (ui !== undefined)
             ui.updateStore($(`.btn-shopping-modal.active`));

@@ -18,7 +18,7 @@ let Devs = [`Yaz_`];
 // connect to the first available server
 let connect = function (pid) {
     // player is already connected to the game.
-    if (socket != undefined) {
+    if (socket !== undefined) {
         return;
     }
 
@@ -206,7 +206,7 @@ var initSocketBinds = function () {
 
         socket.on(`showDamageMessage`, (message, type) => {
             if (ui && ui.showDamageMessage) {
-                if (type == 2)
+                if (type === 2)
                     ui.playAudioFile(false, `cannon-hit`);
 
                 ui.showDamageMessage(message, type);
@@ -368,8 +368,8 @@ var initSocketBinds = function () {
         $(`.global-chat`).remove();
     });
     socket.on(`cycle`, (time) => {
-        if (time == `day`) doDaylightCycle(0);
-        else if (time == `night`) doDaylightCycle(1);
+        if (time === `day`) doDaylightCycle(0);
+        else if (time === `night`) doDaylightCycle(1);
     });
 };
 

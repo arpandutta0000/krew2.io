@@ -15,7 +15,7 @@ const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
 
 router.post(`/register`, (req, res, next) => {
-    if (!req.body[`g-recaptcha-response`] || req.body[`g-recaptcha-response`].length == 0) return res.json({
+    if (!req.body[`g-recaptcha-response`] || req.body[`g-recaptcha-response`].length === 0) return res.json({
         errors: `Please verify the CAPTCHA`
     });
 
@@ -32,7 +32,7 @@ router.post(`/register`, (req, res, next) => {
         errors: `Your username must be between 3 and 20 characters`
     });
 
-    if (req.body[`register-username`] != xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
+    if (req.body[`register-username`] !== xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
         errors: `Invalid Username`
     });
 
@@ -40,11 +40,11 @@ router.post(`/register`, (req, res, next) => {
         errors: `Invalid email`
     });
 
-    if (req.body[`register-password`] != xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
+    if (req.body[`register-password`] !== xssFilters.inHTMLData(req.body[`register-password`])) return res.json({
         errors: `Invalid Password`
     });
 
-    if (req.body[`register-password`] != req.body[`register-password-confirm`]) return res.json({
+    if (req.body[`register-password`] !== req.body[`register-password-confirm`]) return res.json({
         errors: `Passwords do not match`
     });
 
@@ -119,7 +119,7 @@ router.post(`/register`, (req, res, next) => {
                             //     });
                             // }
 
-                            // if (vpnData.data && vpnData.data.status == `success` && parseInt(vpnData.data.result) == 1) {
+                            // if (vpnData.data && vpnData.data.status === `success` && parseInt(vpnData.data.result) === 1) {
                             //     log(`cyan`, `VPN connection. Preventing account creation by IP: ${creationIP}.`);
                             //     user.delete();
                             //     return res.json({
@@ -235,7 +235,7 @@ router.post(`/change_username`, (req, res, next) => {
         errors: `Your username must be between 3 and 20 characters`
     });
 
-    if (username != xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || config.whitespaceRegex.test(username)) return res.json({
+    if (username !== xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || config.whitespaceRegex.test(username)) return res.json({
         errors: `Invalid Username`
     });
 
@@ -360,7 +360,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         errors: `You must be logged in to change your account's game settings`
     });
 
-    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] != undefined) || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
+    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
         errors: `Please fill out all fields`
     });
 
@@ -417,7 +417,7 @@ router.post(`/change_default_krew_name`, (req, res, next) => {
         errors: `Your Krew name must be between 1 and 20 characters`
     });
 
-    if (krewName != xssFilters.inHTMLData(krewName) || /[\[\]{}()/\\]/g.test(krewName)) return res.json({
+    if (krewName !== xssFilters.inHTMLData(krewName) || /[\[\]{}()/\\]/g.test(krewName)) return res.json({
         errors: `Invalid Krew name`
     });
 
@@ -485,11 +485,11 @@ router.post(`/reset_password`, (req, res, next) => {
         errors: `Invalid email`
     });
 
-    if (password != xssFilters.inHTMLData(password)) return res.json({
+    if (password !== xssFilters.inHTMLData(password)) return res.json({
         errors: `Invalid Password`
     });
 
-    if (password != confirmPassword) return res.json({
+    if (password !== confirmPassword) return res.json({
         errors: `Passwords do not match`
     });
 
@@ -640,7 +640,7 @@ router.get(`/account_game_settings`, (req, res, next) => {
                 errors: `Unauthorized`
             });
 
-            if (user.fpMode == undefined || user.musicVolume == undefined || user.sfxVolume == undefined || user.qualityMode == undefined) return res.json({
+            if (user.fpMode === undefined || user.musicVolume === undefined || user.sfxVolume === undefined || user.qualityMode === undefined) return res.json({
                 errors: `User does not have valid data stored`
             });
 
@@ -666,7 +666,7 @@ router.post(`/delete_account`, (req, res, next) => {
         errors: `Please fill out all fields`
     });
 
-    if (username != req.body[`delete-account-username`]) return res.json({
+    if (username !== req.body[`delete-account-username`]) return res.json({
         errors: `Wrong Username`
     });
 

@@ -170,7 +170,7 @@ Boat.prototype.updateProps = function () {
     }
 
     this.krewCount = krewCount;
-    if (this.krewCount == 0)
+    if (this.krewCount === 0)
         removeEntity(this);
 };
 
@@ -207,7 +207,7 @@ Boat.prototype.logic = function (dt) {
     let moveVector = new THREE.Vector3(0, 0, (this.speed));
 
     // if boat is not anchored or not in docking state, we will move
-    if (this.shipState == 0) {
+    if (this.shipState === 0) {
         // if the steering button is pressed, the rotation changes slowly
         (kaptain !== undefined)
             ? this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
@@ -224,7 +224,7 @@ Boat.prototype.logic = function (dt) {
 
     // find out who the captain is
     // if captain is not defined, assign the first crew member as a captain
-    if (this.children[this.captainId] == undefined) {
+    if (this.children[this.captainId] === undefined) {
         for (let playerId in this.children) {
             this.captainId = playerId;
             break;
@@ -237,7 +237,7 @@ Boat.prototype.logic = function (dt) {
     this.steering = 0;
 
     // do the steering, captain position is what determines it. only steer when anchored
-    if (this.captain && (this.shipState != 3 || this.shipState != -1 || this.shipState != 4)) {
+    if (this.captain && (this.shipState !== 3 || this.shipState !== -1 || this.shipState !== 4)) {
         if (this.captain.position.x > this.size.x * 0.25) {
             // right
             this.steering = 1;
@@ -259,7 +259,7 @@ Boat.prototype.logic = function (dt) {
     /*
     for (e in entities)
     {
-        if(entities[e] != this && entities[e].netType == 5)
+        if(entities[e] !== this && entities[e].netType === 5)
         {
             let dist = entityDistance(this, entities[e]) - (entities[e].collisionRadius + this.collisionRadius );
 
@@ -354,7 +354,7 @@ Boat.prototype.logic = function (dt) {
 
     //             let krewMember = this.children[id];
     //             let salary = (krewMember.score / totalScore) * (this.supply * .7)
-    //             if (this.captainId == id)
+    //             if (this.captainId === id)
     //             {
     //                 captainsCut = salary;
     //             }
@@ -465,7 +465,7 @@ Boat.prototype.getHeightAboveWater = function () {
 
 Boat.prototype.enterIsland = function (islandId) {
     // we only want to change the ship state to docking once.
-    if (this.shipState == 0) {
+    if (this.shipState === 0) {
         this.shipState = 1;
     }
 

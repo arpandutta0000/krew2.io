@@ -38,7 +38,7 @@ filter.addWords(...config.additionalBadWords);
 
 // Configure socket.
 if (!global.io) {
-    let server = process.env.NODE_ENV == `prod`
+    let server = process.env.NODE_ENV === `prod`
         ? https.createServer({
             key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
             cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
@@ -75,7 +75,7 @@ let PlayerRestore = require(`./models/playerRestore.model.js`);
 // Log socket.io starting.
 log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
 
-// Globally define serverside admins / mods / devs.j
+// Globally define serverside admins / mods / devs.
 Admins = config.admins;
 Mods = config.mods;
 Devs = config.devs;
@@ -83,7 +83,7 @@ Devs = config.devs;
 const gameCookies = {};
 
 setInterval(() => {
-    if (currentTime == `day`) currentTime = `night`;
+    if (currentTime === `day`) currentTime = `night`;
     else currentTime = `day`;
 
     io.emit(`cycle`, currentTime);
@@ -143,7 +143,7 @@ io.on(`connection`, async socket => {
 
             if (res.data) {
                 let result = parseInt(res.data.result);
-                if (result == 1) {
+                if (result === 1) {
                     // Ban the IP.
                     let ban = new Ban({
                         username: data.name,
@@ -156,7 +156,7 @@ io.on(`connection`, async socket => {
 
                         socket.disconnect();
                     });
-                } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
+                } else if (result === -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
                 else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
             }
         }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
@@ -174,7 +174,7 @@ io.on(`connection`, async socket => {
 
         if (!DEV_ENV) {
             // Check if cookie has been blocked.
-            if (data.cookie != undefined && data.cookie != ``) {
+            if (data.cookie !== undefined && data.cookie !== ``) {
                 if (Object.values(gameCookies).includes(data.cookie)) return log(`cyan`, `Trying to spam multiple players... ${socket.handshake.address}.`);
                 gameCookies[socketId] = data.cookie;
             }
@@ -183,7 +183,7 @@ io.on(`connection`, async socket => {
         // No same account usage.
         for (let i in core.players) {
             let player = core.players[i];
-            if (player.name == data.name) {
+            if (player.name === data.name) {
                 socket.emit(`showCenterMessage`, `Your account has already connected to the game!`, 1, 6e4);
                 log(`cyan`, `${player.name} tried to connect with multiple accounts. Disconnecting IP: ${socket.handshake.address}.`);
 
@@ -217,7 +217,7 @@ io.on(`connection`, async socket => {
                                 playerEntity.clan = undefined;
                                 user.save();
                             }
-                            playerEntity.clanOwner = clan.owner == playerEntity.name;
+                            playerEntity.clanOwner = clan.owner === playerEntity.name;
                             playerEntity.clanLeader = clan.leaders.includes(playerEntity.name);
                         } else {
                             log(`red`, `Player ${playerEntity.name} tried to get nonexistent clan ${playerEntity.clan}.`);
@@ -229,10 +229,10 @@ io.on(`connection`, async socket => {
                 }
 
                 // Check if user is logged in, and if so, that they are coming from their last IP logged in with.
-                if (false && user.lastIP && !(playerEntity.socket.handshake.address == user.lastIP)) {
-                    log(`cyan`, `Player ${playerEntity.name} tried to connect from a different IP than what they logged in with. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    return playerEntity.socket.disconnect();
-                }
+                // if (user.lastIP && !(playerEntity.socket.handshake.address === user.lastIP)) {
+                //     log(`cyan`, `Player ${playerEntity.name} tried to connect from a different IP than what they logged in with. Kick | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                //     return playerEntity.socket.disconnect();
+                // }
             }
         });
 
@@ -309,11 +309,11 @@ io.on(`connection`, async socket => {
         });
 
         let checkPlayerStatus = () => {
-            if (playerEntity.parent.shipState == 1 || playerEntity.parent.shipState == 0) log(`cyan`, `Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            if (playerEntity.parent.shipState === 1 || playerEntity.parent.shipState === 0) log(`cyan`, `Possible Exploit detected (buying from sea) ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
         };
 
         // Emit the time to the player.
-        if (currentTime == `night`) playerEntity.socket.emit(`cycle`, currentTime);
+        if (currentTime === `night`) playerEntity.socket.emit(`cycle`, currentTime);
 
         // Gather all stats and return them to the client.
         socket.on(`get-stats`, fn => {
@@ -332,7 +332,7 @@ io.on(`connection`, async socket => {
         // Chat message handling.
         socket.on(`chat message`, async msgData => {
             // Catch client modifications.
-            if (!msgData.message || !msgData.recipient || typeof msgData.message != `string` || typeof msgData.recipient != `string`) return;
+            if (!msgData.message || !msgData.recipient || typeof msgData.message !== `string` || typeof msgData.recipient !== `string`) return;
             if (msgData.message.length < 1) return;
 
             if (!playerEntity.isMuted) {
@@ -371,15 +371,15 @@ io.on(`connection`, async socket => {
 
                 // If the user has not authenticated, only give them access to login command.
                 if (!playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
-                    if (command == `login`) {
+                    if (command === `login`) {
                         // let staffPassword = args.shift();
 
                         // if (!staffPassword) return playerEntity.socket.emit(`showCenterMessage`, `You did not enter your password!`, 1, 1e4);
                         // staffPassword = md5(staffPassword);
 
-                        // let isAdmin = thugConfig.Admins[playerEntity.name] == staffPassword;
-                        // let isMod = thugConfig.Mods[playerEntity.name] == staffPassword;
-                        // let isDev = thugConfig.Devs[playerEntity.name] == staffPassword;
+                        // let isAdmin = thugConfig.Admins[playerEntity.name] === staffPassword;
+                        // let isMod = thugConfig.Mods[playerEntity.name] === staffPassword;
+                        // let isDev = thugConfig.Devs[playerEntity.name] === staffPassword;
 
                         let isAdmin = Admins.includes(playerEntity.name);
                         let isMod = Mods.includes(playerEntity.name);
@@ -402,13 +402,13 @@ io.on(`connection`, async socket => {
                     let isDev = playerEntity.isDev;
 
                     // Staff commands after authentication.
-                    if (command == `say` && isAdmin) {
+                    if (command === `say` && isAdmin) {
                         let msg = args.join(` `);
                         if (!msg) return;
 
                         log(`blue`, `${isAdmin ? `ADMIN` : `MOD`} SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return io.emit(`showAdminMessage`, msg);
-                    } else if (command == `recompense` && (isAdmin || isDev)) {
+                    } else if (command === `recompense` && (isAdmin || isDev)) {
                         let amt = args[0];
 
                         if (!amt || isNaN(parseInt(amt))) return;
@@ -417,62 +417,62 @@ io.on(`connection`, async socket => {
                         }
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${amt} gold to all players.`, 4, 1e4);
+                            if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${amt} gold to all players.`, 4, 1e4);
                         }
 
                         log(`blue`, `ADMIN RECOMPENSED ${amt} GOLD | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return io.emit(`showAdminMessage`, `You have been recompensed for the server restart!`);
-                    } else if (command == `nick` && isAdmin) {
+                    } else if (command === `nick` && isAdmin) {
                         let nick = args[0];
                         if (nick) {
                             playerEntity.name = nick;
                             return log(`blue`, `ADMIN NICK: ${nick} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         }
-                    } else if (command == `whois` && isAdmin) {
+                    } else if (command === `whois` && isAdmin) {
                         let user = args[0];
                         let output = `That player does not exist.`;
                         if (user.startsWith(`seadog`)) {
-                            let player = Object.values(core.players).find(player => player.name == user);
+                            let player = Object.values(core.players).find(player => player.name === user);
                             if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                             log(`blue`, `ADMIN WHOIS SEADOG: ${input} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             output = player.id;
                         } else {
-                            let player = Object.values(core.boats).find(boat => boat.crewName == user);
+                            let player = Object.values(core.boats).find(boat => boat.crewName === user);
                             if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                             log(`blue`, `ADMIN WHOIS CAPTAIN: ${input} --> ${player.captainId} | PLAYER NAME: ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             output = player.captainId;
                         }
                         return playerEntity.socket.emit(`showCenterMessage`, output, 4, 1e4);
-                    } else if (command == `kick` && (isAdmin || isMod)) {
+                    } else if (command === `kick` && (isAdmin || isMod)) {
                         let kickUser = args.shift();
                         let kickReason = args.join(` `);
 
-                        let player = Object.values(core.players).find(player => player.name == kickUser);
+                        let player = Object.values(core.players).find(player => player.name === kickUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
-                        if (!kickReason || kickReason == ``) kickReason == `No reason specified`;
+                        if (!kickReason || kickReason === ``) kickReason === `No reason specified`;
 
                         player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}` : `.`}`, 1, 1e4);
                         playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked ${player.name}.`, 4, 1e4);
+                            if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked ${player.name}.`, 4, 1e4);
                         }
 
                         log(`blue`, `${isAdmin ? `ADMIN` : `MOD`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         bus.emit(`report`, `Kick Player`, `Admin / Mod ${playerEntity.name} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n` : ``}\nServer ${player.serverNumber}.`);
                         return player.socket.disconnect();
-                    } else if (command == `ban` && (isAdmin || isMod)) {
+                    } else if (command === `ban` && (isAdmin || isMod)) {
                         let banUser = args.shift();
                         let banReason = args.join(` `);
 
-                        let player = Object.values(core.players).find(player => player.name == banUser);
+                        let player = Object.values(core.players).find(player => player.name === banUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
-                        if (!banReason || banReason == ``) banReason == `No reason specified`;
+                        if (!banReason || banReason === ``) banReason === `No reason specified`;
 
                         let isBanned = await Ban.findOne({
                             username: player.name
@@ -492,20 +492,20 @@ io.on(`connection`, async socket => {
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} banned ${player.name}.`, 4, 1e4);
+                                if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} banned ${player.name}.`, 4, 1e4);
                             }
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${playerEntity.name} permanently banned ${player.name} --> ${player.id}\n${banReason ? `Reason: ${banReason}\n` : ``}\nServer ${player.serverNumber}.`);
-                    } else if (command == `tempban` && (isAdmin || isMod)) {
+                    } else if (command === `tempban` && (isAdmin || isMod)) {
                         let tempbanUser = args.shift();
                         let tempbanReason = args.join(` `);
 
-                        let player = Object.values(core.players).find(player => player.name == tempbanUser);
+                        let player = Object.values(core.players).find(player => player.name === tempbanUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
-                        if (!tempbanReason || tempbanReason == ``) tempbanReason == `No reason specified`;
+                        if (!tempbanReason || tempbanReason === ``) tempbanReason === `No reason specified`;
 
                         let ban = new Ban({
                             username: player.name,
@@ -520,13 +520,13 @@ io.on(`connection`, async socket => {
                             playerEntity.socket.emit(`showCenterMessage`, `You temporarily banned ${player.name}.`, 3, 1e4);
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} temporarily banned ${player.name}.`, 4, 1e4);
+                                if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} temporarily banned ${player.name}.`, 4, 1e4);
                             }
                         });
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         return bus.emit(`report`, `Temporary Ban Player`, `Admin / Mod ${playerEntity.name} temporarily banned ${player.name} --> ${player.id}\n${tempbanReason ? `Reason: ${tempbanReason}\n` : ``}\n Server ${player.serverNumber}.`);
-                    } else if (command == `unban` && (isAdmin || isMod)) {
+                    } else if (command === `unban` && (isAdmin || isMod)) {
                         let unbanUser = args.shift();
 
                         let player = await Ban.findOne({
@@ -540,19 +540,19 @@ io.on(`connection`, async socket => {
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unbanned ${player.username}.`, 4, 1e4);
+                                if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unbanned ${player.username}.`, 4, 1e4);
                             }
 
                             log(`blue`, `Admin / Mod ${playerEntity.name} unbanned ${player.username} | IP: ${player.IP}.`);
                             return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unbanned ${player.username}.`);
                         });
-                    } else if ((command == `reload` || command == `update`) && (isAdmin || isDev) && !serverRestart) {
+                    } else if ((command === `reload` || command === `update`) && (isAdmin || isDev) && !serverRestart) {
                         serverRestart = true;
                         playerEntity.socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} started a server restart.`, 4, 1e4);
+                            if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} started a server restart.`, 4, 1e4);
                         }
 
                         io.emit(`showCenterMessage`, `Server is restarting in 1 minute!`, 4, 1e4);
@@ -591,7 +591,7 @@ io.on(`connection`, async socket => {
                                                 overall_kills: player.overall_kills ? player.overall_kills : 0,
 
                                                 isCaptain: player.isCaptain,
-                                                shipId: player.parent ? player.parent.captainId == player.id ? player.parent.shipclassId : undefined : undefined,
+                                                shipId: player.parent ? player.parent.captainId === player.id ? player.parent.shipclassId : undefined : undefined,
 
                                                 itemId: player.itemId ? player.itemId : undefined,
                                                 bonus: {
@@ -632,11 +632,11 @@ io.on(`connection`, async socket => {
                                 serverRestart = false;
                             }
                         }, 6e4);
-                    } else if (command == `report` && (isAdmin || isMod)) {
+                    } else if (command === `report` && (isAdmin || isMod)) {
                         let reportUser = args.shift();
                         let reportReason = args.join(` `);
 
-                        let player = Object.values(core.players).find(player => player.name == reportUser);
+                        let player = Object.values(core.players).find(player => player.name === reportUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                         if (reportIPs.includes(player.socket.handshake.address)) {
@@ -647,7 +647,7 @@ io.on(`connection`, async socket => {
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} reported ${player.name}.`, 4, 1e4);
+                                if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} reported ${player.name}.`, 4, 1e4);
                             }
 
                             playerEntity.socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
@@ -659,17 +659,17 @@ io.on(`connection`, async socket => {
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
-                                if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} reported ${player.name} for the second time.`, 4, 1e4);
+                                if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} reported ${player.name} for the second time.`, 4, 1e4);
                             }
 
                             log(`blue`, `Reporter ${playerEntity.name} reported ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                             return bus.emit(`report`, `Second Report --> Kick`, `Reporter ${playerEntity.name} reported ${reportedPlayer}\n${reportReason ? `Reason: ${reportReason}\n` : ``}\nServer ${player.serverNumber}.`);
                         }
-                    } else if (command == `mute` && (isAdmin || isMod)) {
+                    } else if (command === `mute` && (isAdmin || isMod)) {
                         let playerToMute = args.shift();
                         let muteReason = args.join(` `);
 
-                        let player = Object.values(core.players).find(player => player.name == playerToMute);
+                        let player = Object.values(core.players).find(player => player.name === playerToMute);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (player.isAdmin || player.isMod || player.isDev) return playerEntity.socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
 
@@ -680,42 +680,42 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} muted ${player.name}.`, 4, 1e4);
+                            if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} muted ${player.name}.`, 4, 1e4);
                         }
 
                         log(`blue`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
                         return bus.emit(`report`, `Muted Player`, `Admin / Mod ${playerEntity.name} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n` : ``}\nServer ${player.serverNumber}.`);
-                    } else if (command == `online` && isAdmin) {
+                    } else if (command === `online` && isAdmin) {
                         let playerToCheck = args.shift();
 
-                        let player = Object.values(core.players).find(player => player.name == playerToCheck);
+                        let player = Object.values(core.players).find(player => player.name === playerToCheck);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player is not online!`, 1, 1e4);
                         else return playerEntity.socket.emit(`showCenterMessage`, `That player is currently online!`, 3, 1e4);
-                    } else if (command == `unmute` && (isAdmin || isMod)) {
+                    } else if (command === `unmute` && (isAdmin || isMod)) {
                         let unmuteUser = args.shift();
 
-                        let player = Object.values(core.players).find(player => player.name == unmuteUser);
+                        let player = Object.values(core.players).find(player => player.name === unmuteUser);
 
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
                         else if (!player.isMuted) return playerEntity.socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
 
                         for (let i in core.players) {
                             let mutedPlayer = core.players[i];
-                            if (mutedPlayer.name == player.name) {
+                            if (mutedPlayer.name === player.name) {
                                 mutedPlayer.isMuted = false;
                                 playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
                                 mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
 
                                 for (let i in core.players) {
                                     let curPlayer = core.players[i];
-                                    if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unmuted ${player.name}.`, 4, 1e4);
+                                    if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unmuted ${player.name}.`, 4, 1e4);
                                 }
 
                                 log(`blue`, `Admin / Mod ${playerEntity.name} unmuted ${player.name} | IP: ${player.socket.handshake.address}.`);
                                 return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}.`);
                             }
                         }
-                    } else if (command == `clear` && isAdmin) {
+                    } else if (command === `clear` && isAdmin) {
                         playerEntity.socket.emit(`showCenterMessage`, `You have cleared the chat.`, 3, 1e4);
 
                         io.emit(`showCenterMessage`, `An admin has cleared the chat!`, 1, 1e4);
@@ -723,13 +723,13 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} cleared the chat.`, 4, 1e4);
+                            if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} cleared the chat.`, 4, 1e4);
                         }
 
                         log(`blue`, `Admin ${playerEntity.name} cleared global chat | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Chat Clear`, `Admin ${playerEntity.name} cleared the global chat.`);
-                    } else if (command == `cycle` && isAdmin) {
-                        if (currentTime == `night`) currentTime = `day`;
+                    } else if (command === `cycle` && isAdmin) {
+                        if (currentTime === `night`) currentTime = `day`;
                         else currentTime = `night`;
 
                         playerEntity.socket.emit(`showCenterMessage`, `Succesfully set the time to ${currentTime}!`, 3, 1e4);
@@ -737,16 +737,16 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
-                            if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} changed the time to ${currentTime}.`, 4, 1e4);
+                            if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} changed the time to ${currentTime}.`, 4, 1e4);
                         }
 
                         log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.`);
-                    } else if (command == `give` && isAdmin) {
+                    } else if (command === `give` && isAdmin) {
                         let giveUser = args.shift();
                         let giveAmount = args[0] ? parseInt(args.shift()) : undefined;
 
-                        let player = Object.values(core.players).find(player => player.name == giveUser);
+                        let player = Object.values(core.players).find(player => player.name === giveUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
                         if (!giveAmount || isNaN(giveAmount)) return playerEntity.socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
@@ -754,21 +754,21 @@ io.on(`connection`, async socket => {
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
 
-                            if (player.name == curPlayer.name) {
+                            if (player.name === curPlayer.name) {
                                 curPlayer.gold += giveAmount;
                                 curPlayer.socket.emit(`showCenterMessage`, `You have received ${giveAmount} gold!`, 4, 1e4);
-                            } else if (curPlayer.name != playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
+                            } else if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
                         }
                         log(`blue`, `Player ${playerEntity.name} gave ${giveUser} ${giveAmount} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Give Gold`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.`);
-                    } else if (command == `captain` && isAdmin) {
+                    } else if (command === `captain` && isAdmin) {
                         let captainUser = args.shift();
                         let boat = playerEntity.parent;
 
-                        let player = Object.values(core.players).find(player => player.name == captainUser);
+                        let player = Object.values(core.players).find(player => player.name === captainUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
-                        if (boat.captainId == player.id) return playerEntity.socket.emit(`showCenterMessage`, `That player is already the captain of the ship!`, 1, 1e4);
+                        if (boat.captainId === player.id) return playerEntity.socket.emit(`showCenterMessage`, `That player is already the captain of the ship!`, 1, 1e4);
 
                         boat.captainId = player.id;
                         playerEntity.socket.emit(`showCenterMessage`, `You have succesfully set the captain of the ship to ${captainUser}!`, 3, 1e4);
@@ -788,7 +788,7 @@ io.on(`connection`, async socket => {
 
                 msg = filter.clean(xssFilters.inHTMLData(msg));
 
-                if (msgData.recipient == `global`) {
+                if (msgData.recipient === `global`) {
                     io.emit(`chat message`, {
                         playerId: playerEntity.id,
                         playerName: playerEntity.name,
@@ -796,8 +796,8 @@ io.on(`connection`, async socket => {
                         recipient: `global`,
                         message: charLimit(msg, 150)
                     });
-                    if (config.mode == `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, playerEntity.serverNumber, charLimit(msg, 150));
-                } else if (msgData.recipient == `local` && entities[playerEntity.parent.id]) {
+                    if (config.mode === `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, playerEntity.serverNumber, charLimit(msg, 150));
+                } else if (msgData.recipient === `local` && entities[playerEntity.parent.id]) {
                     for (let i in entities[playerEntity.parent.id].children) {
                         let player = entities[playerEntity.parent.id].children[i];
                         player.socket.emit(`chat message`, {
@@ -808,11 +808,11 @@ io.on(`connection`, async socket => {
                             message: charLimit(msg, 150)
                         });
                     }
-                } else if (msgData.recipient == `clan` && playerEntity.clan) {
+                } else if (msgData.recipient === `clan` && playerEntity.clan) {
                     let clan = playerEntity.clan;
                     for (let i in entities) {
                         let entity = entities[i];
-                        if (entity && entity.netType == 0 && entity.clan == clan) {
+                        if (entity && entity.netType === 0 && entity.clan === clan) {
                             entity.socket.emit(`chat message`, {
                                 playerId: playerEntity.id,
                                 playerName: playerEntity.name,
@@ -822,7 +822,7 @@ io.on(`connection`, async socket => {
                             });
                         }
                     }
-                } else if (msgData.recipient == `staff` && (Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Devs.includes(playerEntity.name) || playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev)) {
+                } else if (msgData.recipient === `staff` && (Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Devs.includes(playerEntity.name) || playerEntity.isAdmin || playerEntity.isMod || playerEntity.isDev)) {
                     for (let i in core.players) {
                         let player = core.players[i];
                         if (Admins.includes(player.name) || Mods.includes(player.name) || Devs.includes(player.name)) player.socket.emit(`chat message`, {
@@ -847,7 +847,7 @@ io.on(`connection`, async socket => {
         socket.on(`changeWeapon`, index => {
             index = xssFilters.inHTMLData(index);
             index = parseInt(index);
-            if (playerEntity != undefined && (index == 0 || index == 1 || index == 2)) {
+            if (playerEntity !== undefined && (index === 0 || index === 1 || index === 2)) {
                 playerEntity.activeWeapon = index;
                 playerEntity.isFishing = false;
             }
@@ -858,7 +858,7 @@ io.on(`connection`, async socket => {
             log(`magenta`, `Player ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
-            if (playerEntity.isLoggedIn && playerEntity.serverNumber == 1 && playerEntity.gold > playerEntity.highscore) {
+            if (playerEntity.isLoggedIn && playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
                 log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
@@ -869,7 +869,7 @@ io.on(`connection`, async socket => {
                 });
             }
 
-            if (playerEntity.parent && playerEntity.parent.netType == 1 && (playerEntity.parent.shipState != 4 || playerEntity.parent.shipState != 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length == 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
+            if (playerEntity.parent && playerEntity.parent.netType === 1 && (playerEntity.parent.shipState !== 4 || playerEntity.parent.shipState !== 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length === 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
                 log(`magenta`, `Player ${playerEntity.name} tried to chicken out --> Ghost ship | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Lower the boat HP and remove it from the game.
@@ -887,9 +887,9 @@ io.on(`connection`, async socket => {
                     delete playerEntity.parent.children[playerEntity.id];
 
                     // If the player was on a boat, physically delete it from the boat.
-                    if (playerEntity.parent.netType == 1) {
+                    if (playerEntity.parent.netType === 1) {
                         playerEntity.parent.updateProps();
-                        if (Object.keys(playerEntity.parent.children).length == 0) core.removeEntity(playerEntity.parent);
+                        if (Object.keys(playerEntity.parent.children).length === 0) core.removeEntity(playerEntity.parent);
                     }
                 }
             }
@@ -899,7 +899,7 @@ io.on(`connection`, async socket => {
             // Do not allow any form of brackets in the name.
             name = name.replace(/[\[\]{}()/\\]/g, ``);
 
-            if (name != null && name.length > 1) {
+            if (name !== null && name.length > 1) {
                 if (name.length > 60) {
                     log(`cyan`, `Exploit detected (crew name length). Player ${playerEntity.name} kicked | Adding IP ${playerEntity.socket.handshake.address} to the ban list | Server ${playerEntity.serverNumber}.`);
                     if (playerEntity.socket.handshake.address.length > 5) {
@@ -918,7 +918,7 @@ io.on(`connection`, async socket => {
                 log(`magenta`, `Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Make sure that the player is the captain of the krew.
-                if (core.boats[playerEntity.parent.id] != undefined && playerEntity && playerEntity.parent && playerEntity.parent.captainId == playerEntity.id) {
+                if (core.boats[playerEntity.parent.id] !== undefined && playerEntity && playerEntity.parent && playerEntity.parent.captainId === playerEntity.id) {
                     if (krewioData) krewioService.save(krewioData.user, {
                         krewname: name
                     }).then(data => krewioData = data);
@@ -934,47 +934,47 @@ io.on(`connection`, async socket => {
             let typeEntity = type;
             let count = 0;
             for (let i in entities)
-                if (entities[i].type == typeEntity) count++;
+                if (entities[i].type === typeEntity) count++;
             socket.emit(count);
         });
         socket.on(`removeAllCrates`, () => {
             for (let i in entities)
-                if (entities[i].type == 0) core.removeEntity(core.entities[i]);
+                if (entities[i].type === 0) core.removeEntity(core.entities[i]);
         });
         socket.on(`minAmountCratesInSea`, amount => cratesInSea.min = amount);
         socket.on(`maxAmountCratesInSea`, amount => cratesInSea.max = amount);
 
         socket.on(`departure`, async departureCounter => {
             // Check if player who sends exitIsland command is docked at island.
-            if (playerEntity.parent.anchorIslandId == undefined) log(`cyan`, `Exploit detected (docking at sea). Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            if (playerEntity.parent.anchorIslandId === undefined) log(`cyan`, `Exploit detected (docking at sea). Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             else {
                 // Check if player has already clicked sail button. If yes, do nothing.
-                if (playerEntity.parent.shipState == 3) {
+                if (playerEntity.parent.shipState === 3) {
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player && player.parent && ((player.parent.netType == 1 && player.parent.anchorIslandId == playerEntity.parent.anchorIslandId) ||
-                                (player.parent.netType == 5 && player.parent.id == playerEntity.parent.anchorIslandId))) {
-                            if (player.parent.id != playerEntity.parent.id) {
+                        if (player && player.parent && ((player.parent.netType === 1 && player.parent.anchorIslandId === playerEntity.parent.anchorIslandId) ||
+                                (player.parent.netType === 5 && player.parent.id === playerEntity.parent.anchorIslandId))) {
+                            if (player.parent.id !== playerEntity.parent.id) {
                                 // If conditions are fulfilled and parent.id is not my parent.id, let the krew list button glow.
                                 player.socket.emit(`departureWarning`);
                             }
                         }
                     }
 
-                    if (playerEntity && playerEntity.parent && playerEntity.parent.captainId == playerEntity.id) {
+                    if (playerEntity && playerEntity.parent && playerEntity.parent.captainId === playerEntity.id) {
                         let boat = playerEntity.parent;
                         boat.shipState = 4;
                         boat.lastMoved = new Date();
                         boat.recruiting = true;
                         boat.dock_countdown = undefined;
 
-                        if (departureCounter == 1) {
+                        if (departureCounter === 1) {
                             boat.departureTime = 25;
                             for (let i in boat.children) {
                                 let player = boat.children[i];
-                                if (!DEV_ENV && player != undefined && player.netType == 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
+                                if (!DEV_ENV && player !== undefined && player.netType === 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
-                                if (player.isLoggedIn == true && player.gold > player.highscore) {
+                                if (player.isLoggedIn === true && player.gold > player.highscore) {
                                     log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                                     player.highscore = parseInt(player.gold);
 
@@ -997,12 +997,12 @@ io.on(`connection`, async socket => {
             let boat = playerEntity.parent;
 
             // If captains ends to exit island request.
-            if (playerEntity && playerEntity.parent && playerEntity.parent.captainId == playerEntity.id) {
+            if (playerEntity && playerEntity.parent && playerEntity.parent.captainId === playerEntity.id) {
                 boat.exitIsland();
 
                 for (let i in boat.children) {
                     let player = boat.children[i];
-                    if (player != undefined && player.netType == 0) {
+                    if (player !== undefined && player.netType === 0) {
                         player.socket.emit(`exitIsland`, {
                             captainId: boat.captainId
                         });
@@ -1018,8 +1018,8 @@ io.on(`connection`, async socket => {
 
             // Only non-captains can abandon ship.
             if (motherShip) {
-                if (motherShip.captainId != playerEntity.id) {
-                    if (motherShip.shipState == 0) {
+                if (motherShip.captainId !== playerEntity.id) {
+                    if (motherShip.shipState === 0) {
                         let boat = core.createBoat(playerEntity.id, (krewioData || {}).krewname, false);
                         boat.addChildren(playerEntity);
                         boat.setShipClass(0);
@@ -1051,7 +1051,7 @@ io.on(`connection`, async socket => {
 
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.parent && motherShip.id == player.parent.id) {
+                        if (player.parent && motherShip.id === player.parent.id) {
                             crewKillCount += player.shipsSank;
                             crewTradeCount += player.overall_cargo;
                         }
@@ -1067,7 +1067,7 @@ io.on(`connection`, async socket => {
                 playerEntity.parent.recruiting = false;
             } else if (playerEntity.isCaptain && !lockBool) {
                 playerEntity.parent.isLocked = false;
-                if (playerEntity.parent.shipState == 2 || playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4) playerEntity.parent.recruiting = true;
+                if (playerEntity.parent.shipState === 2 || playerEntity.parent.shipState === 3 || playerEntity.parent.shipState === 4) playerEntity.parent.recruiting = true;
             }
         });
 
@@ -1102,7 +1102,7 @@ io.on(`connection`, async socket => {
                 }
 
                 // Actions for all members.
-                if (action == `get-data`) {
+                if (action === `get-data`) {
                     let clanMemberDocs = await User.find({
                         clan: clan.name
                     });
@@ -1123,15 +1123,15 @@ io.on(`connection`, async socket => {
                         clanMembers
                     };
 
-                    if (clan.leaders.includes(playerEntity.name) || clan.owner == playerEntity.name) clanData.clanRequests = clanRequests;
+                    if (clan.leaders.includes(playerEntity.name) || clan.owner === playerEntity.name) clanData.clanRequests = clanRequests;
                     return callback(clanData);
-                } else if (action == `leave`) {
-                    if (clan.owner == playerEntity.name) {
+                } else if (action === `leave`) {
+                    if (clan.owner === playerEntity.name) {
                         let clanMembers = await User.find({
                             clan: clan.name
                         });
 
-                        if (clanMembers.length == 1) {
+                        if (clanMembers.length === 1) {
                             // Delete the clan from the player.
                             user.clan = undefined;
                             user.clanRequest = undefined;
@@ -1164,7 +1164,7 @@ io.on(`connection`, async socket => {
                                     clan: clan.name
                                 });
 
-                                if (clan.leaders.length != 0) clan.owner = clan.leaders[0];
+                                if (clan.leaders.length !== 0) clan.owner = clan.leaders[0];
                                 else {
                                     clan.owner = newClanMembers.limit(1).username;
                                     clan.leaders.push(clan.owner);
@@ -1189,7 +1189,7 @@ io.on(`connection`, async socket => {
 
                             for (let i in core.players) {
                                 let player = core.players[i];
-                                if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
+                                if (player.clan === clan.name) player.socket.emit(`showCenterMessage`, `${playerEntity.name} has left your clan.`, 4, 5e3);
                             }
 
                             log(`magenta`, `CLAN LEFT | Player ${playerEntity.name} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -1199,7 +1199,7 @@ io.on(`connection`, async socket => {
                 }
 
                 // From this point on there should be a player passed to the emit.
-                else if (action.id && (clan.leaders.includes(playerEntity.name) || clan.owner == playerEntity.name)) {
+                else if (action.id && (clan.leaders.includes(playerEntity.name) || clan.owner === playerEntity.name)) {
                     let otherUser = await User.findOne({
                         username: action.id
                     });
@@ -1208,18 +1208,18 @@ io.on(`connection`, async socket => {
                     if (!otherUser) return log(`red`, `CLAN UPDATE ERROR | Player ${playerEntity.name} tried to update nonexistent player ${action.id} | Clan: ${clan.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                     // Actions for leader / owners / assistants.
-                    if (action.action && action.action == `accept`) {
+                    if (action.action && action.action === `accept`) {
                         // If player is not in a clan and is currently requesting to join this clan.
-                        if (!otherUser.clan && otherUser.clanRequest == user.clan) {
+                        if (!otherUser.clan && otherUser.clanRequest === user.clan) {
                             otherUser.clan = user.clan;
                             otherUser.clanRequest = undefined;
 
                             otherUser.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == user.clan && player.name != action.id && player.name != playerEntity.name && !player.clanLeader && !player.clanOwner) player.socket.emit(`showCenterMessage`, `Player ${otherUser.username} joined your clan.`, 4, 5e3);
-                                    else if (player.clan == user.clan && (player.clanLeader || player.clanOwner)) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} accepted ${otherUser.username} into the clan.`, 4, 5e3);
-                                    else if (player.name == action.id) {
+                                    if (player.clan === user.clan && player.name !== action.id && player.name !== playerEntity.name && !player.clanLeader && !player.clanOwner) player.socket.emit(`showCenterMessage`, `Player ${otherUser.username} joined your clan.`, 4, 5e3);
+                                    else if (player.clan === user.clan && (player.clanLeader || player.clanOwner)) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} accepted ${otherUser.username} into the clan.`, 4, 5e3);
+                                    else if (player.name === action.id) {
                                         player.clan = user.clan;
                                         player.clanRequest = undefined;
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} accepted your request to join [${playerEntity.clan}].`, 3, 5e3);
@@ -1230,14 +1230,14 @@ io.on(`connection`, async socket => {
                                 return callback(true);
                             });
                         } else return callback(false);
-                    } else if (action.action && action.action == `decline`) {
+                    } else if (action.action && action.action === `decline`) {
                         otherUser.clanRequest = undefined;
                         otherUser.clan = undefined;
 
                         otherUser.save(() => {
                             for (let i in core.players) {
                                 let player = core.players[i];
-                                if (player.name == action.id) {
+                                if (player.name === action.id) {
                                     player.clan = undefined;
                                     player.clanRequest = undefined;
                                     player.socket.emit(`showCenterMessage`, `${playerEntity.name} rejected your request to join [${playerEntity.clan}].`, 1, 5e3);
@@ -1249,15 +1249,15 @@ io.on(`connection`, async socket => {
                             log(`magenta`, `${playerEntity.name} declined player ${otherUser.username} from joining clan ${playerEntity.clan} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                             return callback(true);
                         });
-                    } else if (action.action && action.action == `promote`) {
-                        if (clan.owner == playerEntity.name && !clan.leaders.includes(action.id)) {
+                    } else if (action.action && action.action === `promote`) {
+                        if (clan.owner === playerEntity.name && !clan.leaders.includes(action.id)) {
                             // Only clan owner can promote to leaders.
                             clan.leaders.push(action.id);
                             clan.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
-                                    else if (player.name == action.id) {
+                                    if (player.clan === clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
+                                    else if (player.name === action.id) {
                                         player.clanLeader = true;
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} promoted you to be a clan leader!`, 3, 5e3);
                                     }
@@ -1265,7 +1265,7 @@ io.on(`connection`, async socket => {
                                 return callback(true);
                             });
                         } else callback(false);
-                    } else if (action.action && action.action == `kick`) {
+                    } else if (action.action && action.action === `kick`) {
                         otherUser.clan = undefined;
                         otherUser.clanRequest = undefined;
 
@@ -1274,8 +1274,8 @@ io.on(`connection`, async socket => {
                             clan.save(() => {
                                 for (let i in core.players) {
                                     let player = core.players[i];
-                                    if (player.clan == clan.name && player.name != action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
-                                    else if (player.name == action.id) {
+                                    if (player.clan === clan.name && player.name !== action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
+                                    else if (player.name === action.id) {
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked you from the clan`, 1, 5e3);
                                         player.clanLeader = false;
 
@@ -1291,7 +1291,7 @@ io.on(`connection`, async socket => {
                     }
                 }
             } else {
-                if (action.action && action.action == `create`) {
+                if (action.action && action.action === `create`) {
                     let clanExists = await Clan.findOne({
                         name: action.id
                     });
@@ -1322,7 +1322,7 @@ io.on(`connection`, async socket => {
                             return callback(true);
                         });
                     });
-                } else if (action.action && action.action == `join`) {
+                } else if (action.action && action.action === `join`) {
                     if (playerEntity.clanRequest || playerEntity.clan) return callback(false);
 
                     let clan = await Clan.findOne({
@@ -1339,10 +1339,10 @@ io.on(`connection`, async socket => {
                         callback(true);
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.clan == action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan.`, 4, 5e3);
+                            if (player.clan === action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan.`, 4, 5e3);
                         }
                     });
-                } else if (action.action && action.action == `cancel-request`) {
+                } else if (action.action && action.action === `cancel-request`) {
                     user.clanRequest = undefined;
                     playerEntity.clanRequest = undefined;
 
@@ -1359,7 +1359,7 @@ io.on(`connection`, async socket => {
             if (playerEntity.parent.hp >= 1) return log(`cyan`, `Player ${playerEntity.name} tried to respawn while his boat still has health | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
             // Check for timestamp of last respawn and ban if it was less than 2 seconds ago.
-            if (socket.timestamp != undefined && Date.now() - socket.timestamp < 2e3) {
+            if (socket.timestamp !== undefined && Date.now() - socket.timestamp < 2e3) {
                 log(`cyan`, `Exploit detected: multiple respawn | Player: ${playerEntity.name} | Adding IP ${playerEntity.socket.handshake.address} to bannedIPs | Server ${playerEntity.serverNumber}.`);
                 if (playerEntity.socket.handshake.address.length > 5) {
                     let ban = new Ban({
@@ -1402,14 +1402,14 @@ io.on(`connection`, async socket => {
 
                 if (motherShip) {
                     // Only captains can boot, and they cannot boot themselves.
-                    if (motherShip.captainId == playerEntity.id && playerEntity.id != player.id) {
+                    if (motherShip.captainId === playerEntity.id && playerEntity.id !== player.id) {
                         let boat = core.createBoat(player.id, (krewioData || {}).krewname, false);
                         boat.setShipClass(0);
                         boat.addChildren(player);
                         boat.updateProps();
                         boat.shipState = 0;
 
-                        if (motherShip.shipState == 0) {
+                        if (motherShip.shipState === 0) {
                             boat.exitMotherShip(motherShip);
 
                             boat.speed += parseFloat(playerEntity.movementSpeedBonus / 10);
@@ -1426,7 +1426,7 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.parent && motherShip.id == player.parent.id) {
+                            if (player.parent && motherShip.id === player.parent.id) {
                                 crewKillCount += player.shipsSank;
                                 crewTradeCount += player.overall_cargo;
                             }
@@ -1442,7 +1442,7 @@ io.on(`connection`, async socket => {
             let player = core.players[playerId];
             if (player) {
                 let motherShip = playerEntity.parent;
-                if (motherShip.captainId == playerEntity.id && playerEntity.id != player.id && player.parent.id == motherShip.id) playerEntity.parent.captainId = playerId;
+                if (motherShip.captainId === playerEntity.id && playerEntity.id !== player.id && player.parent.id === motherShip.id) playerEntity.parent.captainId = playerId;
             }
         });
 
@@ -1470,23 +1470,23 @@ io.on(`connection`, async socket => {
 
                     for (let id in boat.children) {
                         if (entities[id] && entities[id] && !movedIds[id]) {
-                            if (Object.keys(movedIds).length == 1)
+                            if (Object.keys(movedIds).length === 1)
                                 for (let i in movedIds) entities[id].socket.emit(`showCenterMessage`, `New krew member ${movedIds[i]} has joined your krew!`, 3);
                             else if (Object.keys(movedIds).length > 1) entities[id].socket.emit(`showCenterMessage`, `New krew members ${names} have joined your krew!`, 3);
                         }
                     }
                 };
                 // Event filtering.
-                if (boat && (boat.shipState == 3 || boat.shipState == 2 || boat.shipState == -1 || boat.shipState == 4) &&
-                    playerBoat && (playerBoat.shipState == 3 || playerBoat.shipState == 2 || playerBoat.shipState == -1 || playerBoat.shipState == 4 || playerBoat.netType == 5) &&
-                    boat != playerBoat) {
+                if (boat && (boat.shipState === 3 || boat.shipState === 2 || boat.shipState === -1 || boat.shipState === 4) &&
+                    playerBoat && (playerBoat.shipState === 3 || playerBoat.shipState === 2 || playerBoat.shipState === -1 || playerBoat.shipState === 4 || playerBoat.netType === 5) &&
+                    boat !== playerBoat) {
                     if (joinCargoAmount > maxShipCargo) {
                         callback(1);
                     } else {
                         callback(0);
 
                         // If player doesn't own a ship.
-                        if (playerBoat.netType == 5) {
+                        if (playerBoat.netType === 5) {
                             boat.addChildren(playerEntity);
                             boat.updateProps();
 
@@ -1504,7 +1504,7 @@ io.on(`connection`, async socket => {
                                 boat.updateProps();
 
                                 // If the player was originally a captain.
-                                if (playerBoat.captainId == playerEntity.id) {
+                                if (playerBoat.captainId === playerEntity.id) {
                                     playerEntity.isCaptain = false;
 
                                     // Check if the boat has enough space for all players to join.
@@ -1529,7 +1529,7 @@ io.on(`connection`, async socket => {
                                         emitJoinKrew(playerEntity.id);
                                         movedIds[playerEntity.id] = playerEntity.name;
 
-                                        if (Object.keys(playerBoat.children).length == 0) core.removeEntity(playerBoat);
+                                        if (Object.keys(playerBoat.children).length === 0) core.removeEntity(playerBoat);
                                     }
                                 }
                             }
@@ -1542,7 +1542,7 @@ io.on(`connection`, async socket => {
 
                         for (let i in core.players) {
                             let player = core.players[i];
-                            if (player.parent && playerEntity.parent.id == player.parent.id) {
+                            if (player.parent && playerEntity.parent.id === player.parent.id) {
                                 crewKillCount += player.shipsSank;
                                 crewTradeCount += player.overall_cargo;
                             }
@@ -1556,12 +1556,12 @@ io.on(`connection`, async socket => {
 
         // When ship enters docking area.
         socket.on(`dock`, () => {
-            if (playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.dock_countdown = new Date();
+            if (playerEntity.parent.shipState === 1 && playerEntity.parent.captainId === playerEntity.id) playerEntity.parent.dock_countdown = new Date();
         });
 
         // When ship docks completely (anchors) in the island.
         socket.on(`anchor`, () => {
-            if (playerEntity.parent.dock_countdown < new Date() - 8e3 && playerEntity.parent.shipState == 1 && playerEntity.parent.captainId == playerEntity.id) playerEntity.parent.shipState = 2;
+            if (playerEntity.parent.dock_countdown < new Date() - 8e3 && playerEntity.parent.shipState === 1 && playerEntity.parent.captainId === playerEntity.id) playerEntity.parent.shipState = 2;
         });
 
         // When player buys an item.
@@ -1573,7 +1573,7 @@ io.on(`connection`, async socket => {
             if (!isNormalInteger(item.id)) return;
 
             // If it is a ship.
-            if (item.type == 0 && playerEntity.parent.shipState != 4) {
+            if (item.type === 0 && playerEntity.parent.shipState !== 4) {
                 if (playerEntity) {
                     let ships = {};
 
@@ -1591,7 +1591,7 @@ io.on(`connection`, async socket => {
                     let response = item.type + item.id;
                     callback(response);
 
-                    playerEntity.other_quest_level = playerEntity.other_quest_level == undefined ? 0 : playerEntity.other_quest_level;
+                    playerEntity.other_quest_level = playerEntity.other_quest_level === undefined ? 0 : playerEntity.other_quest_level;
 
                     // Give the rewards for the quests.
                     if (playerEntity.gold >= core.boatTypes[item.id].price) {
@@ -1601,19 +1601,19 @@ io.on(`connection`, async socket => {
                             [`014`, `020`] // Queen Barb's Justice
                         ];
 
-                        if (questLists[0].includes(response) && playerEntity.other_quest_level == 0) {
+                        if (questLists[0].includes(response) && playerEntity.other_quest_level === 0) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +5,000 Gold & 500 XP`);
                             playerEntity.gold += 5e3;
                             playerEntity.experience += 500;
                             playerEntity.other_quest_level++;
                         }
-                        if (questLists[1].includes(response) && playerEntity.other_quest_level == 0) {
+                        if (questLists[1].includes(response) && playerEntity.other_quest_level === 0) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +10,000 Gold & 1,000 XP`);
                             playerEntity.gold += 1e4;
                             playerEntity.experience += 1e3;
                             playerEntity.other_quest_level++;
                         }
-                        if (questLists[2].includes(response) && playerEntity.other_quest_level == 0) {
+                        if (questLists[2].includes(response) && playerEntity.other_quest_level === 0) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +50,000 Gold & 5,000 XP`);
                             playerEntity.gold += 5e4;
                             playerEntity.experience += 5e3;
@@ -1626,21 +1626,21 @@ io.on(`connection`, async socket => {
                     let other_quest_level;
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (player.parent && playerEntity.parent.id == player.parent.id && player.isCaptain) other_quest_level = player.other_quest_level;
+                        if (player.parent && playerEntity.parent.id === player.parent.id && player.isCaptain) other_quest_level = player.other_quest_level;
                     }
                     playerEntity.parent.other_quest_level = other_quest_level;
                 }
-            } else if (item.type == 1) {
+            } else if (item.type === 1) {
                 // Item.
                 callback(item.id);
 
                 // Check conditions for buying demolisher.
-                if (item.id == `11` && playerEntity.gold >= 1e5) {
+                if (item.id === `11` && playerEntity.gold >= 1e5) {
                     if (playerEntity.overall_cargo >= 1e3 && playerEntity.shipsSank >= 10) {
                         playerEntity.purchaseItem(item.id);
                         log(`magenta`, `Player ${playerEntity.name} is buying item`, item, ` (Demolisher) while having ${Math.floor(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     }
-                } else if (item.id == `14` && playerEntity.gold >= 15e4) {
+                } else if (item.id === `14` && playerEntity.gold >= 15e4) {
                     // Player can buy this item only once.
                     if (!playerEntity.statsReset) {
                         // Reset stats.
@@ -1662,7 +1662,7 @@ io.on(`connection`, async socket => {
 
             for (let i in core.players) {
                 let player = core.players[i];
-                if (player.parent != undefined && playerEntity.parent.id == player.parent.id) {
+                if (player.parent !== undefined && playerEntity.parent.id === player.parent.id) {
                     crewKillCount += player.shipsSank;
                     crewTradeCount += player.overall_cargo;
                 }
@@ -1677,15 +1677,15 @@ io.on(`connection`, async socket => {
                 let ships = {};
                 let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
 
-                if (!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not at an island.`));
+                if (!island || island.netType !== 5) return (callback && callback.call && callback(`Oops, it seems you are not at an island.`));
 
                 let cargoUsed = 0;
                 for (let i in playerEntity.goods) cargoUsed += playerEntity.goods[i] * core.goodsTypes[i].cargoSpace;
                 playerEntity.cargoUsed = cargoUsed;
 
                 for (let i in core.boatTypes) {
-                    if ((!island.onlySellOwnShips && (core.boatTypes[i].availableAt == undefined || core.boatTypes[i].availableAt.indexOf(island.name) != -1)) ||
-                        (core.boatTypes[i].availableAt && core.boatTypes[i].availableAt.indexOf(island.name) != -1)) {
+                    if ((!island.onlySellOwnShips && (core.boatTypes[i].availableAt === undefined || core.boatTypes[i].availableAt.indexOf(island.name) !== -1)) ||
+                        (core.boatTypes[i].availableAt && core.boatTypes[i].availableAt.indexOf(island.name) !== -1)) {
                         ships[i] = core.boatTypes[i];
                         ships[i].purchasable =
                             playerEntity.gold >= ships[i].price &&
@@ -1703,20 +1703,20 @@ io.on(`connection`, async socket => {
                 let items = {};
                 let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
 
-                if (!island || island.netType != 5) return (callback && callback.call && callback(`Oops, it seems you are not in an island.`));
+                if (!island || island.netType !== 5) return (callback && callback.call && callback(`Oops, it seems you are not in an island.`));
 
                 for (let i in core.itemTypes) {
                     let itemProb = Math.random().toFixed(2);
 
-                    if (playerEntity.itemId == core.itemTypes[i].id || (playerEntity.checkedItemsList && playerEntity.rareItemsFound.includes(core.itemTypes[i].id))) itemProb = 0;
+                    if (playerEntity.itemId === core.itemTypes[i].id || (playerEntity.checkedItemsList && playerEntity.rareItemsFound.includes(core.itemTypes[i].id))) itemProb = 0;
                     if (playerEntity.checkedItemsList && !playerEntity.rareItemsFound.includes(core.itemTypes[i].id)) itemProb = 1;
 
                     if (itemProb <= core.itemTypes[i].rarity &&
-                        (core.itemTypes[i].availableAt == undefined || core.itemTypes[i].availableAt.indexOf(island.name) != -1 ||
-                            (core.itemTypes[i].availableAt && core.itemTypes[i].availableAt.indexOf(island.name) != -1))) {
+                        (core.itemTypes[i].availableAt === undefined || core.itemTypes[i].availableAt.indexOf(island.name) !== -1 ||
+                            (core.itemTypes[i].availableAt && core.itemTypes[i].availableAt.indexOf(island.name) !== -1))) {
                         items[i] = core.itemTypes[i];
 
-                        if (!playerEntity.checkedItemsList && core.itemTypes[i].rarity != 1) playerEntity.rareItemsFound.push(core.itemTypes[i].id);
+                        if (!playerEntity.checkedItemsList && core.itemTypes[i].rarity !== 1) playerEntity.rareItemsFound.push(core.itemTypes[i].id);
                         items[i].purchasable = false;
 
                         if (playerEntity.gold >= items[i].price) items[i].purchasable = true;
@@ -1743,7 +1743,7 @@ io.on(`connection`, async socket => {
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
-                    if (child && child.netType == 0 && core.entities[child.id]) {
+                    if (child && child.netType === 0 && core.entities[child.id]) {
                         let cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                         data.cargoUsed += cargoUsed;
@@ -1771,7 +1771,7 @@ io.on(`connection`, async socket => {
 
             log(`magenta`, `Operation: ${transaction.action} - `, transaction, ` | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
-            if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId && (playerEntity.parent.shipState == 3 || playerEntity.parent.shipState == 4)) {
+            if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId && (playerEntity.parent.shipState === 3 || playerEntity.parent.shipState === 4)) {
                 Object.assign(transaction, {
                     goodsPrice: entities[playerEntity.parent.anchorIslandId].goodsPrice,
                     gold: playerEntity.gold,
@@ -1782,7 +1782,7 @@ io.on(`connection`, async socket => {
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
-                    if (child && child.netType == 0 && core.entities[child.id]) {
+                    if (child && child.netType === 0 && core.entities[child.id]) {
                         let cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] * core.goodsTypes[i].cargoSpace;
                         transaction.cargoUsed += cargoUsed;
@@ -1793,7 +1793,7 @@ io.on(`connection`, async socket => {
 
                 // Start quantity validation.
                 let island = core.entities[playerEntity.parent.anchorIslandId || playerEntity.parent.id];
-                if (transaction.action == `buy`) {
+                if (transaction.action === `buy`) {
                     playerEntity.last_island = island.name;
                     let max = parseInt(transaction.gold / transaction.goodsPrice[transaction.good]);
                     let maxCargo = (transaction.cargo - transaction.cargoUsed) / core.goodsTypes[transaction.good].cargoSpace;
@@ -1802,20 +1802,20 @@ io.on(`connection`, async socket => {
                     max = Math.floor(max);
                     if (transaction.action.quantity > max) transaction.quantity = max;
                 }
-                if (transaction.quantity.action == `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
+                if (transaction.quantity.action === `sell` && transaction.quantity > transaction.goods[transaction.good]) transaction.quantity = transaction.goods[transaction.good];
                 if (transaction.quantity < 0) transaction.quantity = 0;
 
                 // Start transaction.
-                if (transaction.action == `buy`) {
+                if (transaction.action === `buy`) {
                     // Remove gold and add goods.
                     let gold = transaction.quantity * transaction.goodsPrice[transaction.good];
                     transaction.gold -= gold;
                     transaction.goods[transaction.good] += transaction.quantity;
-                } else if (transaction.action == `sell`) {
+                } else if (transaction.action === `sell`) {
                     // Add gold and remove goods.
                     // This is a stub of validation to stop active exploits, consider to expand this to only player-owned goods.
                     if (transaction.cargoUsed < transaction.quantity) {
-                        log(`cyan`, `Exploit detected (sell more than you have). Kicking player ${playerEntity.name} | IP: ${playerEntity.socket.hanshake.address} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}`);
+                        log(`cyan`, `Exploit detected (sell more than you have). Kicking player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}`);
                         return playerEntity.socket.disconnect();
                     }
 
@@ -1823,7 +1823,7 @@ io.on(`connection`, async socket => {
                     transaction.gold += gold;
                     transaction.goods[transaction.good] -= transaction.quantity;
 
-                    if (playerEntity.last_island != island.name) playerEntity.overall_cargo += gold;
+                    if (playerEntity.last_island !== island.name) playerEntity.overall_cargo += gold;
                     if (transaction.goods[transaction.good] < 0 || playerEntity.goods[transaction.good] < 0) {
                         log(`cyan`, `Exploit detected (sell wrong goods) | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return playerEntity.socket.disconnect();
@@ -1831,25 +1831,25 @@ io.on(`connection`, async socket => {
 
                     // Trading achievement.
                     playerEntity.trade_level = !playerEntity.trade_level ? 0 : playerEntity.trade_level;
-                    if (playerEntity.overall_cargo >= 1e3 && playerEntity.trade_level == 0) {
+                    if (playerEntity.overall_cargo >= 1e3 && playerEntity.trade_level === 0) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading beginner: +1,000 Gold +100 XP`, 3);
                         transaction.gold += 1e3;
 
                         playerEntity.experience += 100;
                         playerEntity.trade_level++;
-                    } else if (playerEntity.overall_cargo >= 6e3 && playerEntity.trade_level == 1) {
+                    } else if (playerEntity.overall_cargo >= 6e3 && playerEntity.trade_level === 1) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading master: +2,000 Gold +200 XP`, 3);
                         transaction.gold += 2e3;
 
                         playerEntity.experience += 200;
                         playerEntity.trade_level++;
-                    } else if (playerEntity.overall_cargo >= 15e3 && playerEntity.trade_level == 2) {
+                    } else if (playerEntity.overall_cargo >= 15e3 && playerEntity.trade_level === 2) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading master: +2,000 Gold +200 XP`, 3);
                         transaction.gold += 5e3;
 
                         playerEntity.experience += 500;
                         playerEntity.trade_level++;
-                    } else if (playerEntity.overall_cargo >= 3e4 && playerEntity.trade_level == 3) {
+                    } else if (playerEntity.overall_cargo >= 3e4 && playerEntity.trade_level === 3) {
                         playerEntity.socket.emit(`showCenterMessage`, `Achievement trading master: +2,000 Gold +200 XP`, 3);
                         transaction.gold += 1e4;
 
@@ -1862,7 +1862,7 @@ io.on(`connection`, async socket => {
                 let crewTradeCount = 0;
                 for (let i in core.players) {
                     let player = core.players[i];
-                    if (player.parent != undefined && playerEntity.parent.id == player.parent.id) crewTradeCount += player.overall_cargo;
+                    if (player.parent !== undefined && playerEntity.parent.id === player.parent.id) crewTradeCount += player.overall_cargo;
                 }
                 playerEntity.parent.overall_cargo = crewTradeCount;
 
@@ -1877,13 +1877,13 @@ io.on(`connection`, async socket => {
 
                 for (let i in playerEntity.parent.children) {
                     let child = playerEntity.parent.children[i];
-                    if (child && child.netType == 0 && core.entities[child.id] != undefined) {
+                    if (child && child.netType === 0 && core.entities[child.id] !== undefined) {
                         cargoUsed = 0;
                         for (let i in child.goods) cargoUsed += child.goods[i] & core.goodsTypes[i].cargoSpace;
 
                         transaction.cargoUsed += cargoUsed;
                         core.entities[child.id].cargoUsed = cargoUsed;
-                        if (child.id != playerEntity.id) child.socket.emit(`cargoUpdated`);
+                        if (child.id !== playerEntity.id) child.socket.emit(`cargoUpdated`);
                     }
                 }
                 return log(`cyan`, `After Operation ${transaction.action} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -1926,8 +1926,8 @@ io.on(`connection`, async socket => {
                     let point = points[i];
                     countAllocatedPoints += point;
 
-                    if (point < 0 || !Number.isInteger(point) || !(i == `fireRate` || i == `distance` || i == `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    else if (point != undefined && typeof point == `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
+                    if (point < 0 || !Number.isInteger(point) || !(i === `fireRate` || i === `distance` || i === `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                    else if (point !== undefined && typeof point === `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
                         playerEntity.points[i] += point;
                         playerEntity.availablePoints -= point;
                     }
@@ -1943,7 +1943,7 @@ io.on(`connection`, async socket => {
         socket.on(`bank`, async data => {
             // If the player is logged in, allow them to use bank, else show warning that they need to log in.
             if (playerEntity.isLoggedIn) {
-                if (playerEntity.parent.name == `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name == `Labrador`)) {
+                if (playerEntity.parent.name === `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name === `Labrador`)) {
                     // Function to callback the bank data to the player.
                     let setBankData = async () => {
                         let bankData = {
@@ -1959,7 +1959,7 @@ io.on(`connection`, async socket => {
                     };
 
                     if (data) {
-                        if (data.deposit && parseInt(playerEntity.gold) >= parseInt(data.deposit) && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit == `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
+                        if (data.deposit && parseInt(playerEntity.gold) >= parseInt(data.deposit) && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit === `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
                             let integerDeposit = parseInt(data.deposit);
                             playerEntity.gold -= integerDeposit;
 
@@ -1974,7 +1974,7 @@ io.on(`connection`, async socket => {
 
                             setBankData();
                             log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        } else if (data.takedeposit && parseInt(playerEntity.bank.deposit) >= parseInt(data.takedeposit) && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit == `number`) {
+                        } else if (data.takedeposit && parseInt(playerEntity.bank.deposit) >= parseInt(data.takedeposit) && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit === `number`) {
                             let integerDeposit = parseInt(data.takedeposit);
 
                             // Take 10% fee for bank transaction.
@@ -1999,11 +1999,11 @@ io.on(`connection`, async socket => {
         socket.on(`addMarker`, data => {
             if (playerEntity.clan) {
                 if (playerEntity.markerMapCount < new Date() - 5e3) {
-                    if (data.x && data.y && typeof data.x == `number` && typeof data.y == `number` && data.x > 0 && data.y > 0 && data.x < worldsize && data.y < worldsize) {
+                    if (data.x && data.y && typeof data.x === `number` && typeof data.y === `number` && data.x > 0 && data.y > 0 && data.x < worldsize && data.y < worldsize) {
                         playerEntity.markerMapCount = new Date();
                         let clan = playerEntity.clan;
                         for (let i in entities) {
-                            if (entities[i].netType == 0 && entities[i].clan == clan) {
+                            if (entities[i].netType === 0 && entities[i].clan === clan) {
                                 entities[i].socket.emit(`chat message`, {
                                     playerId: playerEntity.id,
                                     playerName: playerEntity.name,
@@ -2025,7 +2025,7 @@ io.on(`connection`, async socket => {
         //         return playerEntity.socket.disconnect();
         //     }
 
-        //     if (christmasGold == 0) playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
+        //     if (christmasGold === 0) playerEntity.socket.emit(`showCenterMessage`, `Christmas presents...`, 3);
         //     playerEntity.gold += 10;
         //     christmasGold += 10;
         // });
@@ -2045,7 +2045,7 @@ io.on(`connection`, async socket => {
 
     let createThePlayer = data => {
         if (data.name) {
-            if (!data.password || typeof data.name != `string` || typeof data.password != `string`) {
+            if (!data.password || typeof data.name !== `string` || typeof data.password !== `string`) {
                 log(`cyan`, `Exploit detected: Fradulent credential type. Refusing IP: ${socket.handshake.address}`);
                 socket.emit(`showCenterMessage`, `Failed to verify credentials`, 1, 6e4);
                 return socket.disconnect();
@@ -2055,7 +2055,7 @@ io.on(`connection`, async socket => {
                 username: data.name
             }).then(user => {
                 if (!user) return log(`cyan`, `Exploit detected: Fradulent user. Refusing IP: ${socket.handshake.address}.`);
-                if (data.password == user.password) data.name = data.name.toString();
+                if (data.password === user.password) data.name = data.name.toString();
                 else {
                     log(`cyan`, `Exploit detected: Incorrect password with username. Spawning IP as seadog: ${socket.handshake.address}`);
                     data.name = undefined;
@@ -2101,7 +2101,7 @@ exports.send = () => {
 };
 
 let isSpamming = (playerEntity, message) => {
-    if (typeof message != `string`) return true;
+    if (typeof message !== `string`) return true;
     if (message.length > 60 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
         mutePlayer(playerEntity, `Automatically muted by server`);
         return true;
@@ -2136,7 +2136,7 @@ let isSpamming = (playerEntity, message) => {
         } else if (totalTimeElapsed > 4e3) charCount = 0;
 
         if (playerEntity.sentMessages.length > 2) {
-            if (playerEntity.sentMessages[0].message == playerEntity.sentMessages[1].message && playerEntity.sentMessages[0].message == playerEntity.sentMessages[2].message) {
+            if (playerEntity.sentMessages[0].message === playerEntity.sentMessages[1].message && playerEntity.sentMessages[0].message === playerEntity.sentMessages[2].message) {
                 log(`cyan`, `Spam detected from player ${playerEntity.name} sending same messages multiple times | Server ${playerEntity.serverNumber}.`);
                 playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
                 mutePlayer(playerEntity, `Automatically muted by server`);
@@ -2170,10 +2170,10 @@ let isSpamming = (playerEntity, message) => {
             }
         }
     } else if (now - playerEntity.lastMessageSentAt < 0 && message.length > 1) {
-        if (playerEntity.spamCount == undefined) playerEntity.spamCount = 1;
+        if (playerEntity.spamCount === undefined) playerEntity.spamCount = 1;
         playerEntity.spamCount++;
 
-        if (playerEntity.spamCount == 15) {
+        if (playerEntity.spamCount === 15) {
             log(`cyan`, `Excessive spam by player ${playerEntity.name} --> KICK | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             playerEntity.socket.emit(`showCenterMessage`, `You have been kicked for spamming!`, 1);
             playerEntity.socket.disconnect();

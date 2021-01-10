@@ -34,7 +34,7 @@ let createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
     // check if it is in island position
     if (!collisionIsland) {
         for (l in entities) {
-            if (entities[l].netType == 5 && (type == 0 || type == 4)) {
+            if (entities[l].netType === 5 && (type === 0 || type === 4)) {
                 if (entities[l].isWithinDockingRadius(x, z)) {
                     // console.log("stopped pickup from spawning in docking radius")
                     return;

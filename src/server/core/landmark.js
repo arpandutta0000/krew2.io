@@ -72,7 +72,7 @@ Landmark.prototype.logic = function (dt) {
             let boat = boats[b];
 
             // dont check against boats that have died
-            if (boat.hp < 1 || boat.shipState == 3) {
+            if (boat.hp < 1 || boat.shipState === 3) {
                 continue;
             }
 

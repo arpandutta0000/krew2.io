@@ -483,7 +483,7 @@ Player.prototype.dequip = function () {
 Player.prototype.purchaseItem = function (itemId) {
     let item = null;
     for (i in itemTypes) {
-        if (itemTypes[i].id == parseInt(itemId)) {
+        if (itemTypes[i].id === parseInt(itemId)) {
             item = itemTypes[i];
         }
     }
@@ -492,7 +492,7 @@ Player.prototype.purchaseItem = function (itemId) {
     if (item && this.gold >= item.price) {
         this.gold -= item.price;
 
-        if (itemId != `14`) {
+        if (itemId !== `14`) {
             this.equip(item);
             this.itemId = itemId;
         }
@@ -502,7 +502,7 @@ Player.prototype.purchaseItem = function (itemId) {
 Player.prototype.purchaseShip = function (itemId, krewName) {
     let item;
     for (i in boatTypes) {
-        if (i == itemId) {
+        if (i === itemId) {
             item = boatTypes[i];
             break;
         }

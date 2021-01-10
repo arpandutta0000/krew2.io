@@ -314,8 +314,8 @@ var ui = {
         $(`#minimap`).on(`click`, (e) => {
             if (markerMapCount < performance.now() - 5000) {
                 markerMapCount = performance.now();
-                let x = (((e.offsetX == undefined ? e.layerX : e.offsetX) - 10) / 180) * worldsize;
-                let y = (((e.offsetY == undefined ? e.layerY : e.offsetY) - 10) / 180) * worldsize;
+                let x = (((e.offsetX === undefined ? e.layerX : e.offsetX) - 10) / 180) * worldsize;
+                let y = (((e.offsetY === undefined ? e.layerY : e.offsetY) - 10) / 180) * worldsize;
                 socket.emit(`addMarker`, {
                     x: x,
                     y: y
@@ -336,7 +336,7 @@ var ui = {
          */
         $(`#krew-list`).on(`click`, (e) => {
             let dataEvent = e.target.getAttribute(`data-event`);
-            if (dataEvent == `kick`) {
+            if (dataEvent === `kick`) {
                 var dataId = e.target.getAttribute(`data-id`);
                 if (typeof dataId === `string` && dataId.length > 0) {
                     socket.emit(`bootMember`, dataId);
@@ -345,7 +345,7 @@ var ui = {
                         GOODSCOMPONENT.getList();
                     }
                 }
-            } else if (dataEvent == `transfer`) {
+            } else if (dataEvent === `transfer`) {
                 var dataId = e.target.getAttribute(`data-id`);
                 if (typeof dataId === `string` && dataId.length > 0) {
                     socket.emit(`transferShip`, dataId);
@@ -364,7 +364,7 @@ var ui = {
         const sfxValue = document.getElementById(`sfx-control`);
 
         document.getElementById(fileId).loop = loop;
-        if (fileId == `cannon`)
+        if (fileId === `cannon`)
             document.getElementById(fileId).currentTime = 0;
 
         document.getElementById(fileId).play();
@@ -523,14 +523,14 @@ var ui = {
         let timeLastAd = localStorage.getItem(`lastAdTime`);
         let timeSinceLastAd = timeNow - timeLastAd;
         console.log(`Time since last ad: ${timeSinceLastAd / 1000}s`);
-        if (timeLastAd != 0 && timeLastAd != undefined && timeSinceLastAd > (5 * 60 * 1000)) {
+        if (timeLastAd !== 0 && timeLastAd !== undefined && timeSinceLastAd > (5 * 60 * 1000)) {
             console.log(`Showing ad`);
             localStorage.setItem(`lastAdTime`, timeNow);
             if (adplayer) {
                 adplayer.startPreRoll();
             }
         } else {
-            if (timeLastAd == null || timeLastAd === undefined) {
+            if (timeLastAd === null || timeLastAd === undefined) {
                 localStorage.setItem(`lastAdTime`, 1);
             }
 
@@ -591,30 +591,30 @@ var ui = {
     //
     //         var tr = '<tr>'
     //
-    //         boat.shipState == 4?
+    //         boat.shipState === 4?
     //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')<br/><small>Departing in '+Math.round(boat.departureTime)+' seconds</small></td>' :
     //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')</td>'
     //
     //         tr += '<td>' + boat.krewCount +'/'+ boatTypes[boat.shipclassId].maxKrewCapacity+' </td>'
     //         //tableContainer += '<td><button id="' + boat.id + '" type="button"  onclick="ui.joinKrew(this.id)" class="btn btn-primary">Join Krew!</button></td>'
-    //         if (boat.id == myBoat.id)
+    //         if (boat.id === myBoat.id)
     //         	tr += '<td>My Krew</td>'
     //
     //         tr += '</tr>'
     //         $tbody.append($(tr));
     //
-    //         if (boat.id != myBoat.id && boat.krewCount < boatTypes[boat.shipclassId].maxKrewCapacity)
+    //         if (boat.id !== myBoat.id && boat.krewCount < boatTypes[boat.shipclassId].maxKrewCapacity)
     //         {
     //         	var ButtonDiv = $("<button/>", {
     // 	            id: boat.id,
     // 	            class: "btn btn-primary btn-md",
     // 	            role: "button",
-    // 	            style: boat.shipState == 4? "position: absolute;right: 20px; margin-top:-50px;" :
+    // 	            style: boat.shipState === 4? "position: absolute;right: 20px; margin-top:-50px;" :
     //                 "position: absolute;right: 20px; margin-top:-35px;",
     // 	            html: "Join"
     // 	        }).on("click", function() {
     // 		        var id = $(this).attr('id');
-    // 				if (entities[id] === undefined || entities[id].maxKrewCapacity == entities[id].krewCount ||
+    // 				if (entities[id] === undefined || entities[id].maxKrewCapacity === entities[id].krewCount ||
     //                     entities[id].captainId === myPlayerId)
     //                     return;
     //
@@ -686,7 +686,7 @@ var ui = {
                 for (let i in ships) {
                     let ship = ships[i];
 
-                    if (ship.id == 0) {
+                    if (ship.id === 0) {
                         continue;
                     }
 
@@ -707,8 +707,8 @@ var ui = {
                         id: ship.id,
                         class: `btn btn-primary btn-sm`,
                         role: `button`,
-                        disabled: !!((myBoat !== undefined && ship.id == myBoat.shipclassId && myBoat.captainId == myPlayerId) || ship.purchasable !== true),
-                        html: (myBoat !== undefined && ship.id == myBoat.shipclassId && myBoat.captainId == myPlayerId)
+                        disabled: !!((myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) || ship.purchasable !== true),
+                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
                             ? `Purchased`
                             : `Buy`
                     }).on(`click`, function () {
@@ -822,8 +822,8 @@ var ui = {
                         id: item.id,
                         class: `btn btn-primary btn-sm`,
                         role: `button`,
-                        disabled: !!((myPlayer && myPlayer.itemId == item.id || item.purchasable !== true)),
-                        html: (myPlayer && myPlayer.itemId == item.id) ? `Equipped` : `Buy`
+                        disabled: !!((myPlayer && myPlayer.itemId === item.id || item.purchasable !== true)),
+                        html: (myPlayer && myPlayer.itemId === item.id) ? `Equipped` : `Buy`
                     }).on(`click`, function () {
                         let id = $(this).attr(`id`);
                         socket.emit(`purchase`, {
@@ -874,11 +874,11 @@ var ui = {
         //     var boatEntities = entities[id];
         //
         //     if (myBoat && boatEntities && boatEntities.anchorIslandId &&
-        //         (boatEntities.shipState == 3 || boatEntities.shipState == 4 || boatEntities.shipState == -1)
-        //      && boatEntities.recruiting == true)
+        //         (boatEntities.shipState === 3 || boatEntities.shipState === 4 || boatEntities.shipState === -1)
+        //      && boatEntities.recruiting === true)
         //     {
-        //         if ((myBoat.netType == 1 && boatEntities.anchorIslandId == myBoat.anchorIslandId) ||
-        //             boatEntities.anchorIslandId == myBoat.id)
+        //         if ((myBoat.netType === 1 && boatEntities.anchorIslandId === myBoat.anchorIslandId) ||
+        //             boatEntities.anchorIslandId === myBoat.id)
         //         {
         //             boatsList[id] = boatEntities;
         //         }
@@ -918,7 +918,7 @@ var ui = {
 
         if (id === `buy-ships`) {
             if (myPlayer !== undefined && myPlayer.parent !== undefined &&
-                myPlayer.parent.captainId != myPlayer.id && myPlayer.parent.netType == 1) {
+                myPlayer.parent.captainId !== myPlayer.id && myPlayer.parent.netType === 1) {
                 $(`#abandon-existing-krew`).show();
             }
 
@@ -968,10 +968,10 @@ var ui = {
     var boatEntities = entities[id];
 
     if (myBoat && boatEntities && boatEntities.anchorIsland &&
-                    (boatEntities.shipState == 3 || boatEntities.shipState == 4)
-                 && boatEntities.recruiting == true)
+                    (boatEntities.shipState === 3 || boatEntities.shipState === 4)
+                 && boatEntities.recruiting === true)
     {
-     if (boatEntities.anchorIsland.id == myBoat.anchorIsland.id)
+     if (boatEntities.anchorIsland.id === myBoat.anchorIsland.id)
      {
       boatsList[id] = boatEntities;
      }
@@ -998,7 +998,7 @@ var ui = {
     },
 
     getInviteLink: function () {
-        return `${window.location.protocol}//${window.location.hostname}${window.location.hostname == `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myBoat.id}`;
+        return `${window.location.protocol}//${window.location.hostname}${window.location.hostname === `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myBoat.id}`;
     },
 
     updateShipStats: function (data) {
@@ -1012,7 +1012,7 @@ var ui = {
             let cargoSize = boatTypes[myBoat.shipclassId].cargoSize;
 
             // check if cargo is full
-            // if ($("#supply").text() != myBoat.supply && myBoat.supply == cargoSize)
+            // if ($("#supply").text() !== myBoat.supply && myBoat.supply === cargoSize)
             // {
             //     this.showCenterMessage("Your cargo is full! Sell it at Island", 2);
 
@@ -1045,7 +1045,7 @@ var ui = {
                 type: 1,
                 isNew: true
             };
-            if (!$(`#gold`).hasClass(`glow-gold-plus`) && glowGoldTimeout == 0) {
+            if (!$(`#gold`).hasClass(`glow-gold-plus`) && glowGoldTimeout === 0) {
                 $(`#gold`).addClass(`glow-gold-plus`);
                 glowGoldTimeout = 1;
                 setTimeout(() => {
@@ -1064,7 +1064,7 @@ var ui = {
             // update gold value
             $(`.my-gold`).text(gold_short);
         } else if (deltaGold < 0) {
-            if (!$(`#gold`).hasClass(`glow-gold-minus`) && glowGoldTimeout == 0) {
+            if (!$(`#gold`).hasClass(`glow-gold-minus`) && glowGoldTimeout === 0) {
                 $(`#gold`).addClass(`glow-gold-minus`);
                 glowGoldTimeout = 1;
                 setTimeout(() => {
@@ -1482,7 +1482,7 @@ var ui = {
                 myPlayer.clan = player.c;
                 myPlayer.clanLeader = player.cL;
                 myPlayer.clanOwner = player.cO;
-                if (myPlayer.clanRequest != player.cR) {
+                if (myPlayer.clanRequest !== player.cR) {
                     myPlayer.clanRequest = player.cR;
                     ui.setClanData(`force`);
                 } else
@@ -2046,7 +2046,7 @@ var ui = {
                     } else if (highscore.toString().length >= 7) {
                         highscore = `${Math.floor(highscore / 1000) / 1000} M`;
                     }
-                    if (p == 0) {
+                    if (p === 0) {
                         tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td class="top-1">${data[p].playerName}</td><td class="top-1">${clan}</td><td class="top-1">${highscore}</td></tr>`;
                     } else if (p <= 2) {
                         tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td class="top-2-3">${data[p].playerName}</td><td class="top-2-3">${clan}</td><td class="top-2-3">${highscore}</td></tr>`;

@@ -1659,7 +1659,7 @@
             "58ae82e5b7a5777dc69b13b1a2f6045fbaf29281");
         let adEnabled = true;
         if (document.referrer) {
-            if (window.location != window.parent.location && document.referrer.includes("y8")) {
+            if (window.location !== window.parent.location && document.referrer.includes("y8")) {
                 adEnabled = false;
                 (function (d, s, id) {
                     let js, fjs = d.getElementsByTagName(s)[0];

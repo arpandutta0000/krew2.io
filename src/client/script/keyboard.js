@@ -104,7 +104,7 @@ document.onkeydown = function (evt) {
             $(`#chat-div`).show();
         }
     }
-    // else if (evt.keyCode == 84 && !$('#chat-message').is(':focus')) {
+    // else if (evt.keyCode === 84 && !$('#chat-message').is(':focus')) {
     //     if ($('#krew-div').is(':visible')) {
     //         $('#krew-div').hide();
     //

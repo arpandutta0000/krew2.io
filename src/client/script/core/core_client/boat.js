@@ -65,10 +65,10 @@ Boat.prototype.changeBoatModel = function (id) {
 
 Boat.prototype.docking = function (stateId) {
     let shipId = this.shipclassId;
-    let isPlayer = myPlayer && this == myPlayer.parent;
+    let isPlayer = myPlayer && this === myPlayer.parent;
 
     // if (this.body && this.sail) {
-    //     if (stateId == 0) {
+    //     if (stateId === 0) {
     //         // There is no need to change the ship here to make it transparent
     //     } else {
     //

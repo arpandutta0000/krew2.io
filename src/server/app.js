@@ -11,7 +11,7 @@ const cluster = require(`cluster`);
 
 // Require game core.
 const core = require(`./core/core_concatenated.js`);
-global.TEST_ENV = process.env.NODE_ENV == `test`;
+global.TEST_ENV = process.env.NODE_ENV === `test`;
 global.DEV_ENV = /test|dev/.test(process.env.NODE_ENV);
 global.core = core;
 
@@ -22,7 +22,7 @@ if (cluster.isMaster) {
     server.app.workers = {};
 
     // Load the bot if it is running in production.
-    if (!DEV_ENV && config.domain == `krew.io`) require(`./bot.js`);
+    if (!DEV_ENV && config.domain === `krew.io`) require(`./bot.js`);
 
     process.on(`uncaughtException`, (e) => {
         if (!DEV_ENV) {
@@ -36,7 +36,7 @@ if (cluster.isMaster) {
         // Create the development worker.
         let worker = cluster.fork();
         worker.on(`message`, msg => {
-            if (msg.type == `update-server`) {
+            if (msg.type === `update-server`) {
                 const {
                     data,
                     processId
@@ -54,17 +54,17 @@ if (cluster.isMaster) {
 
         let worker = cluster.fork();
         worker.on(`message`, msg => {
-            if (msg.type == `update-server`) {
+            if (msg.type === `update-server`) {
                 const {
                     data,
                     processId
                 } = msg;
                 server.app.workers[processId] = data;
-            } else if (msg.type == `message-bus`) {
+            } else if (msg.type === `message-bus`) {
                 let data = msg.data;
 
-                if (msg.name == `report`) bus.emit(`report`, data.title, data.description);
-                else if (msg.name == `msg`) bus.emit(`msg`, data.id, data.name, data.server, data.message);
+                if (msg.name === `report`) bus.emit(`report`, data.title, data.description);
+                else if (msg.name === `msg`) bus.emit(`msg`, data.id, data.name, data.server, data.message);
             }
         });
     }

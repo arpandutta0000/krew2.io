@@ -45,7 +45,7 @@ function Pickup (size, x, z, type, specialBonus) {
     this.position.z = z;
     this.pickerId = ``;
     this.type = type;
-    this.picking = type == 1;
+    this.picking = type === 1;
     this.catchingFish = false;
     this.timeout = 1;
     /**
@@ -142,7 +142,7 @@ Pickup.prototype.logic = function (dt) {
         removeEntity(this);
     }
 
-    /* if (this.picking == true && (this.type == 2 || this.type == 3))
+    /* if (this.picking === true && (this.type === 2 || this.type === 3))
     {
         removeEntity(this);
     } */
@@ -180,7 +180,7 @@ Pickup.prototype.logic = function (dt) {
                 let captainsCut = bonus;
                 for (id in boat.children) {
                     let player = boat.children[id];
-                    if (player != boat.captain) {
+                    if (player !== boat.captain) {
                         let playersCut = (player.score / totalScore) * (1 - this.captainsCutRatio) * bonus;
                         player.gold += playersCut;
                         captainsCut -= playersCut;
@@ -245,7 +245,7 @@ Pickup.prototype.getTypeSnap = function () {
 };
 
 Pickup.prototype.getTypeDelta = function () {
-    if (this.type == 1) {
+    if (this.type === 1) {
         if (!this.spawnPacket) {
             this.spawnPacket = true;
             return this.getTypeSnap();
@@ -269,19 +269,19 @@ Pickup.prototype.getTypeDelta = function () {
 
 // function that parses a snapshot
 Pickup.prototype.parseTypeSnap = function (snap) {
-    if (snap.s !== undefined && snap.s != this.pickupSize) {
+    if (snap.s !== undefined && snap.s !== this.pickupSize) {
         this.pickupSize = parseInt(snap.s);
     }
 
-    if (snap.p !== undefined && snap.p != this.picking) {
+    if (snap.p !== undefined && snap.p !== this.picking) {
         this.picking = parseBool(snap.p);
     }
 
-    if (snap.i !== undefined && snap.i != this.pickerId) {
+    if (snap.i !== undefined && snap.i !== this.pickerId) {
         this.pickerId = snap.i;
     }
 
-    if (snap.t !== undefined && snap.t != this.type) {
+    if (snap.t !== undefined && snap.t !== this.type) {
         this.type = parseInt(snap.t);
     }
 };

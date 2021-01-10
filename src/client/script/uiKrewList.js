@@ -38,8 +38,8 @@
                                 boat.recruiting === true
                             ) {
                                 if (
-                                    (myPlayer.parent.netType == 1 && boat.anchorIslandId == myPlayer.parent.anchorIslandId) ||
-                                    boat.anchorIslandId == myPlayer.parent.id
+                                    (myPlayer.parent.netType === 1 && boat.anchorIslandId === myPlayer.parent.anchorIslandId) ||
+                                    boat.anchorIslandId === myPlayer.parent.id
                                 ) {
                                     boats.push(boat);
                                     $(`#docked-krews-count`).html(boats.length);
@@ -52,13 +52,13 @@
                 boats.sort(
                     (a, b) => {
                         if (a.departureTime === b.departureTime) {
-                            return a.id < b.id ? -1 : a.id == b.id ? 0 : 1;
+                            return a.id < b.id ? -1 : a.id === b.id ? 0 : 1;
                         }
 
                         return a.departureTime - b.departureTime;
                     }
                 );
-                if (boats.length == 0)
+                if (boats.length === 0)
                     $(`#toggle-krew-list-modal-button`).popover(`hide`);
                 // $('#docked-krews-count').html(boats.length);
                 return {
@@ -88,7 +88,7 @@
                             let id = boat.id;
                             if (
                                 entities[id] === undefined ||
-                                entities[id].maxKrewCapacity == entities[id].krewCount ||
+                                entities[id].maxKrewCapacity === entities[id].krewCount ||
                                 entities[id].captainId === myPlayerId
                             ) {
                                 return;
@@ -120,7 +120,7 @@
                                     // if ((myPlayer !== undefined && myPlayer.gold > 500  &&
                                     // (!myPlayer.ownsCannon || !myPlayer.ownsFishingRod ||
                                     //     (myPlayer.parent !== undefined &&
-                                    //     myPlayer.parent.netType != 1))
+                                    //     myPlayer.parent.netType !== 1))
                                     // ))
                                     //     $('#toggle-shop-modal-button').popover('show');
                                 }
@@ -136,7 +136,7 @@
                             h(`td`, {}, [
                                 `${boat.crewName}(${boatTypes[boat.shipclassId].name})`,
                                 h(`br`),
-                                h(`small`, {}, boat.shipState == 4 ? `Departing in ${Math.round(boat.departureTime)} seconds` : ``)
+                                h(`small`, {}, boat.shipState === 4 ? `Departing in ${Math.round(boat.departureTime)} seconds` : ``)
                             ]),
                             h(`td`, {}, `${boat.krewCount}/${boatTypes[boat.shipclassId].maxKrewCapacity}`),
                             h(`td`, {}, boat.id === myPlayer.parent.id
@@ -146,7 +146,7 @@
                                     class: `btn btn-primary btn-md`,
                                     role: `button`,
                                     disabled: entities[boat.id] === undefined ||
-                                    entities[boat.id].maxKrewCapacity == entities[boat.id].krewCount ||
+                                    entities[boat.id].maxKrewCapacity === entities[boat.id].krewCount ||
                                     entities[boat.id].captainId === myPlayerId
 
                                 }, `Join`))

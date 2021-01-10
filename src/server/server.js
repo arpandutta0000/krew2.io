@@ -46,7 +46,7 @@ app.use((req, res, next) => {
     res.header(`Access-Control-Allow-Origin`, `*`);
     res.header(`Access-Control-Allow-Methods`, `POST, GET, OPTIONS, PUT, DELETE, PATCH, HEAD`);
     res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept`);
-    req.method.toLowerCase() == `options`
+    req.method.toLowerCase() === `options`
         ? res.sendStatus(200)
         : next();
 });
@@ -93,7 +93,7 @@ app.use(`/`, indexRouter);
 app.get(`/get_servers`, (req, res) => res.jsonp(app.workers));
 
 // Create the webfront.
-let server = config.mode == `dev`
+let server = config.mode === `dev`
     ? http.createServer(app)
     : https.createServer({
         key: fs.readFileSync(config.ssl.keyPath),
@@ -103,7 +103,7 @@ let server = config.mode == `dev`
     }, app);
 
 // Define socket.io for admins.
-if (process.env.NODE_ENV == `test-server`) global.io = require(`socket.io`)(server, {
+if (process.env.NODE_ENV === `test-server`) global.io = require(`socket.io`)(server, {
     cors: {
         origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
         methods: [`GET`, `POST`],

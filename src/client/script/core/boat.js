@@ -201,7 +201,7 @@ Boat.prototype.logic = function (dt) {
     let moveVector = new THREE.Vector3(0, 0, (this.speed));
 
     // if boat is not anchored or not in docking state, we will move
-    if (this.shipState == 0) {
+    if (this.shipState === 0) {
         // if the steering button is pressed, the rotation changes slowly
         (kaptain !== undefined)
             ? this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
@@ -266,7 +266,7 @@ Boat.prototype.logic = function (dt) {
     /*
     for (e in entities)
     {
-        if(entities[e] != this && entities[e].netType == 5)
+        if(entities[e] !== this && entities[e].netType === 5)
         {
             var dist = entityDistance(this, entities[e]) - (entities[e].collisionRadius + this.collisionRadius );
 
@@ -283,7 +283,7 @@ Boat.prototype.logic = function (dt) {
     // if our hp is low (we died)
     if (this.hp < 1) {
         // on client, disconnect the camera from the player
-        if (myPlayer && myPlayer.parent == this) {
+        if (myPlayer && myPlayer.parent === this) {
             ui.playAudioFile(false, `sink-crash`);
             THREE.SceneUtils.detach(camera, camera.parent, scene);
             $(`#shopping-modal`).hide();
@@ -322,7 +322,7 @@ Boat.prototype.logic = function (dt) {
 
     //             var krewMember = this.children[id];
     //             var salary = (krewMember.score / totalScore) * (this.supply * .7)
-    //             if (this.captainId == id)
+    //             if (this.captainId === id)
     //             {
     //                 captainsCut = salary;
     //             }
@@ -375,8 +375,8 @@ Boat.prototype.setShipClass = function (classId) {
 
     // console.log("changing boat model");
     this.changeBoatModel(this.shipclassId);
-    if (myPlayer != undefined) {
-        if (this == myPlayer.parent) {
+    if (myPlayer !== undefined) {
+        if (this === myPlayer.parent) {
             ui.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
             ui.updateStore($(`.btn-shopping-modal.active`));
         }
@@ -442,7 +442,7 @@ Boat.prototype.getTypeDelta = function () {
 
 // function that parses a snapshot
 Boat.prototype.parseTypeSnap = function (snap) {
-    if (snap.h !== undefined && snap.h != this.hp) {
+    if (snap.h !== undefined && snap.h !== this.hp) {
         this.hp = parseInt(snap.h);
     }
 
@@ -455,7 +455,7 @@ Boat.prototype.parseTypeSnap = function (snap) {
     // update supply
     if (snap.u !== undefined) {
         let newSupply = parseInt(snap.u);
-        if (myPlayer && this == myPlayer.parent && newSupply != this.supply) {
+        if (myPlayer && this === myPlayer.parent && newSupply !== this.supply) {
             let suppliesEarned = newSupply - this.supply;
             if (suppliesEarned > 1) {
                 ui.showCenterMessage(`+ ${suppliesEarned} supplies`, 2);
@@ -466,52 +466,52 @@ Boat.prototype.parseTypeSnap = function (snap) {
     }
 
     // if class has changed, change model
-    if ((snap.c !== undefined && snap.c != this.shipclassId) || this.body == undefined) {
+    if ((snap.c !== undefined && snap.c !== this.shipclassId) || this.body === undefined) {
         this.setShipClass(snap.c);
     }
 
     // if anchorIsland changed
-    if (snap.a !== undefined && snap.a != this.anchorIslandId) {
+    if (snap.a !== undefined && snap.a !== this.anchorIslandId) {
         this.anchorIslandId = snap.a;
     }
 
     // if krew count changed
-    if (snap.k !== undefined && snap.k != this.krewCount) {
+    if (snap.k !== undefined && snap.k !== this.krewCount) {
         this.krewCount = snap.k;
     }
 
     // if captain has changed
-    if (snap.b !== undefined && this.captainId != snap.b) {
+    if (snap.b !== undefined && this.captainId !== snap.b) {
         this.captainId = snap.b;
     }
 
     // if speed has changed
-    if (snap.e !== undefined && this.speed != snap.e) {
+    if (snap.e !== undefined && this.speed !== snap.e) {
         this.speed = parseInt(snap.e);
     }
 
     // if recruiting has changed
-    if (snap.r !== undefined && this.recruiting != snap.r) {
+    if (snap.r !== undefined && this.recruiting !== snap.r) {
         this.recruiting = parseBool(snap.r);
     }
 
     // if krew lock has changed
-    if (snap.l !== undefined && this.isLocked != snap.r) {
+    if (snap.l !== undefined && this.isLocked !== snap.r) {
         this.isLocked = parseBool(snap.l);
     }
 
     // if departure time has changed
-    if (snap.d !== undefined && this.departureTime != snap.d) {
+    if (snap.d !== undefined && this.departureTime !== snap.d) {
         this.departureTime = parseInt(snap.d);
     }
 
     // If the ship's state has changed, send a snap and change its transparency if it docked
-    if (snap.t !== undefined && this.shipState != snap.t) {
+    if (snap.t !== undefined && this.shipState !== snap.t) {
         this.shipState = parseInt(snap.t);
         if (this.shipState === 0) {
             this.getKrewOnBoard();
         }
-        /* var dockDecision = this.shipState == 3 || this.shipState == -1 || this.shipState == 4? 1 : 0;
+        /* var dockDecision = this.shipState === 3 || this.shipState === -1 || this.shipState === 4? 1 : 0;
         this.docking(dockDecision) */
     }
 };

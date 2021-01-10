@@ -32,8 +32,8 @@ setInterval(() => {
     // Delete residing impacts, pickups, and projectiles
     for (e in core.entities) {
         let entity = core.entities[e];
-        if (entity.netType == 2 || entity.netType == 3 || entity.netType == 4) {
-            if (entity.netType == 4 && entity.type != 1)
+        if (entity.netType === 2 || entity.netType === 3 || entity.netType === 4) {
+            if (entity.netType === 4 && entity.type !== 1)
                 continue;
 
             core.removeEntity(entity);
@@ -76,7 +76,7 @@ setInterval(() => {
         if ((now - player.lastMoved) > 18e5 && !Mods.includes(player.name) && !Devs.includes(player.name) && !Admins.includes(player.name)) {
             if (player.socket) {
                 // If he is the only player on his ship, then delete his boat with the loot.
-                if (player.parent && player.isCaptain && Object.keys(player.parent.children).length == 1) {
+                if (player.parent && player.isCaptain && Object.keys(player.parent.children).length === 1) {
                     player.parent.hp = 0;
 
                     // Remove the boat after 15 seconds.

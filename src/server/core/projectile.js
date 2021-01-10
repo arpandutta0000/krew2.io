@@ -63,7 +63,7 @@ function Projectile (shooter) {
     } else {
         this.position.y = 2.4;
     }
-    // this.position.y = shooter.parent.netType == 5 ? 2.4 : this.shooter.parent.getHeightAboveWater() + 0.5;
+    // this.position.y = shooter.parent.netType === 5 ? 2.4 : this.shooter.parent.getHeightAboveWater() + 0.5;
     this.rotation = shooter.rotation + (shooter.parent ? shooter.parent.rotation : 0);
     this.shooterStartPos = new THREE.Vector3(pos.x, pos.y, pos.z);
     let moveVector = new THREE.Vector3(0, 0, -1);
@@ -95,14 +95,14 @@ Projectile.prototype.logic = function (dt) {
         this.shooterid === `` ||
         entities[this.shooterid] === undefined ||
         (entities[this.shooterid] !== undefined &&
-            this.type != -1 && this.type != entities[this.shooterid].activeWeapon)
+            this.type !== -1 && this.type !== entities[this.shooterid].activeWeapon)
     ) {
         if (this.impact) this.impact.destroy = true;
         removeEntity(this);
         return;
     }
 
-    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use == false) {
+    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use === false) {
         entities[this.shooterid].isFishing = false;
     }
 
@@ -117,9 +117,9 @@ Projectile.prototype.logic = function (dt) {
 
         // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from player
         if (entities[this.shooterid].parent !== undefined &&
-            entities[this.shooterid].parent.netType == 5) {
-            if (playerPos.z.toFixed(2) != this.shooterStartPos.z.toFixed(2) &&
-                playerPos.x.toFixed(2) != this.shooterStartPos.x.toFixed(2)) {
+            entities[this.shooterid].parent.netType === 5) {
+            if (playerPos.z.toFixed(2) !== this.shooterStartPos.z.toFixed(2) &&
+                playerPos.x.toFixed(2) !== this.shooterStartPos.x.toFixed(2)) {
                 this.reel = true;
                 entities[this.shooterid].isFishing = false;
             }
@@ -335,7 +335,7 @@ Projectile.prototype.logic = function (dt) {
                 this.reel ||
                 this.shooterid === `` ||
                 entities[this.shooterid] === undefined ||
-                entities[this.shooterid].use == true ||
+                entities[this.shooterid].use === true ||
                 entities[this.shooterid].activeWeapon === 0 ||
                 this.position.x > worldsize ||
                 this.position.z > worldsize ||

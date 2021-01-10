@@ -291,11 +291,11 @@ Player.prototype.clientlogic = function (dt) {
         this.jumping = keys_jump ? 1 : 0;
 
         // Handle respawn bug (if player's boat has less than 0 HP and game over modal hasn't showed up)
-        if (this.state == 1 && !$(`#game-over-modal`).is(`:visible`))
+        if (this.state === 1 && !$(`#game-over-modal`).is(`:visible`))
             $(`#game-over-modal`).modal(`show`);
 
         // if the player is respawning, attach the camera again to it and set state to alive.
-        if (this.state == 2) {
+        if (this.state === 2) {
             camera.position.set(0, 1, 5);
             camera.rotation.z = 0;
             camera.rotation.y = 0;
@@ -305,7 +305,7 @@ Player.prototype.clientlogic = function (dt) {
             this.state = 0;
         }
 
-        if (camera.parent == this.geometry) {
+        if (camera.parent === this.geometry) {
             let lookingDownOffset;
             let cameraPosition = new THREE.Vector3();
             if (this.activeWeapon !== 2) {
@@ -324,7 +324,7 @@ Player.prototype.clientlogic = function (dt) {
                         8 + (lookingDownOffset * 8));
                 }
 
-                if (camera.zoom == 2) {
+                if (camera.zoom === 2) {
                     camera.zoom = 1;
                     camera.updateProjectionMatrix();
                     scene.fog.density = 0.007;
@@ -366,11 +366,11 @@ Player.prototype.clientlogic = function (dt) {
     }
 
     // jumping
-    if (this.jumping == 1) {
+    if (this.jumping === 1) {
         this.tryJump();
     }
 
-    this.jumpVel = this.fly == 0 ? this.jumpVel - 80 * dt : Math.max(0, this.jumpVel - 80 * dt);
+    this.jumpVel = this.fly === 0 ? this.jumpVel - 80 * dt : Math.max(0, this.jumpVel - 80 * dt);
     this.jump += this.jumpVel * dt;
 
     if (this.jump < 0) {
@@ -379,17 +379,17 @@ Player.prototype.clientlogic = function (dt) {
 
     if (this.isPlayer && this.parent) {
         if (this.parent.shipState === 0 || this.parent.shipState === 1) {
-            if (this.walkForward != 0) {
+            if (this.walkForward !== 0) {
                 ui.playAudioFile(false, `step-wood01`);
             }
-            if (this.walkSideward != 0) {
+            if (this.walkSideward !== 0) {
                 ui.playAudioFile(false, `step-wood02`);
             }
         } else {
-            if (this.walkForward != 0) {
+            if (this.walkForward !== 0) {
                 ui.playAudioFile(false, `step-sand01`);
             }
-            if (this.walkSideward != 0) {
+            if (this.walkSideward !== 0) {
                 ui.playAudioFile(false, `step-sand02`);
             }
         }
@@ -435,7 +435,7 @@ Player.prototype.clientlogic = function (dt) {
 
             var distanceFromIsland = playerPosition.distanceTo(islandPosition);
 
-            if (this.waterWalk == 0 && (island.dockRadius - 2 < distanceFromIsland)) { // note: players can exploit this!
+            if (this.waterWalk === 0 && (island.dockRadius - 2 < distanceFromIsland)) { // note: players can exploit this!
                 playerPosition.lerp(islandPosition, 1 - ((island.dockRadius - 2) / distanceFromIsland));
 
                 this.position.x = playerPosition.x;
@@ -472,7 +472,7 @@ Player.prototype.clientlogic = function (dt) {
     this.geometry.rotation.y = this.rotation;
 
     if (this.weapon !== undefined) {
-        if (this.activeWeapon == 1) {
+        if (this.activeWeapon === 1) {
             this.weapon.rotation.x += dt * this.rodRotationSpeed;
 
             if (this.weapon.rotation.x > 0.75) {
@@ -486,7 +486,7 @@ Player.prototype.clientlogic = function (dt) {
     }
 
     // check if we turned into the captain (or lost captainship)
-    if (this.isCaptain != this.oldCaptainState) {
+    if (this.isCaptain !== this.oldCaptainState) {
         if (this.parent && this.isPlayer && !this.isCaptain) {
             ui.showCenterMessage(`You are not the captain anymore!`, 4, 4000);
             if (this.parent.shipState === 3 || this.parent.shipState === 4 || this.parent.shipState === -1) {

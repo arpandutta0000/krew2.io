@@ -39,7 +39,7 @@
         },
 
         setStore: function (callback) {
-            if (myPlayer && myPlayer.parent && (myPlayer.parent.netType == 5 || myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0)) {
+            if (myPlayer && myPlayer.parent && (myPlayer.parent.netType === 5 || myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0)) {
                 socket.emit(`getGoodsStore`, (err, data) => {
                     if (err) {
                         console.warn(err);

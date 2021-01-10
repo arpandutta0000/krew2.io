@@ -68,7 +68,7 @@ let GameControls = function () {
                 break;
             }
         }
-        if (myPlayer && (_this.lmb || _this.rmb) && event.target == renderer.domElement) _this.lockMouseLook();
+        if (myPlayer && (_this.lmb || _this.rmb) && event.target === renderer.domElement) _this.lockMouseLook();
     };
 
     this.onMouseUp = event => {
@@ -88,7 +88,7 @@ let GameControls = function () {
     };
 
     this.mouseWheelEvent = event => {
-        if (event.target == renderer.domElement || event.target == document.body) {
+        if (event.target === renderer.domElement || event.target === document.body) {
             event.preventDefault();
 
             let delta = event.wheelDelta ? event.wheelDelta : (-1 * event.detail);
@@ -137,7 +137,7 @@ if (havePointerLock) {
     let element = document.body;
 
     let pointerLockChange = event => {
-        if (document.pointerLockElement == element || document.mozPointerLockElement == element || document.webkitPointerLockElement == element) {
+        if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
             controls.locked = true;
             document.addEventListener(`mousemove`, controls.mouseMoveLocked, false);
             document.removeEventListener(`mousemove`, controls.mouseMoveUnlocked, false);

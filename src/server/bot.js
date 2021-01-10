@@ -55,7 +55,7 @@ client.on(`ready`, async () => {
         .setTimestamp(new Date())
         .setFooter(config.discord.footer);
 
-    if (config.mode == `prod`) {
+    if (config.mode === `prod`) {
         chatLogChannel.send(sEmbed);
         chatLogChannel.setTopic(`Server has been up since ${formattedTime}.`);
     }
@@ -81,7 +81,7 @@ client.on(`message`, message => {
 
     const m = `${message.author} » `;
 
-    if (message.author.bot || message.channel.type == `dm`) return;
+    if (message.author.bot || message.channel.type === `dm`) return;
     if (!message.channel.name.split(`-`).includes(`commands`)) return;
 
     if (message.content.slice(0, config.discord.prefix.length).toString().toLowerCase() != config.discord.prefix) return;
@@ -89,7 +89,7 @@ client.on(`message`, message => {
     const args = message.content.slice(config.discord.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    if (command == `restart`) {
+    if (command === `restart`) {
         if (!message.member.roles.has(config.discord.roles.dev)) return;
 
         message.channel.send(`Server restart queued.`);
@@ -113,11 +113,11 @@ client.on(`message`, message => {
                 .setDescription(`Server is restarting...`)
                 .setTimestamp(new Date())
                 .setFooter(config.discord.footer);
-            config.mode == `dev` ? client.channels.get(config.discord.channels.chatLogs).send(`Failed to auto-restart: Server is running in a development environment. Autorestarter can only be used in a production environment.`) : client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
+            config.mode === `dev` ? client.channels.get(config.discord.channels.chatLogs).send(`Failed to auto-restart: Server is running in a development environment. Autorestarter can only be used in a production environment.`) : client.channels.get(config.discord.channels.chatLogs).send(sEmbed);
 
-            if (config.mode == `prod`) {
+            if (config.mode === `prod`) {
                 bus.emit(`restart`, `Server is restarting...`);
-                exec(`./scripts/restart.${os.platform() == `win32` ? `bat` : `sh`}`);
+                exec(`./scripts/restart.${os.platform() === `win32` ? `bat` : `sh`}`);
             } else bus.emit(`restart`, `Failed to restart server.`);
         }, 1e3 * 60);
     }
