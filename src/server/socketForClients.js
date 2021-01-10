@@ -153,7 +153,7 @@ io.on(`connection`, async socket => {
                         socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
                         log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
 
-                        socket.disconnect()
+                        socket.disconnect();
                     });
                 } else if (result == -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
                 else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
