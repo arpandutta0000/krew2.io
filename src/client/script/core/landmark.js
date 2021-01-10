@@ -3,10 +3,9 @@ Landmark.prototype = new Entity();
 Landmark.prototype.constructor = Landmark;
 
 function Landmark (type, x, z, config) {
-
     this.createProperties();
 
-    this.name = config.name || '';
+    this.name = config.name || ``;
 
     // netcode type
     this.netType = 5;
@@ -61,18 +60,17 @@ function Landmark (type, x, z, config) {
     // models.snowman.scale.z = 0.17;
     // scene.add(models.elka, models.snowman);
 
-    var modelscale = this.dockRadius / 10 / 8 * 9;
+    let modelscale = this.dockRadius / 10 / 8 * 9;
     this.modelscale.set(modelscale, modelscale, modelscale);
     this.modeloffset.set(0, 1, 0);
 
     this.visualCue = new THREE.Mesh(new THREE.RingBufferGeometry(this.dockRadius - 1, this.dockRadius, 30), materials.islandradius);
     this.visualCue.rotation.x = -Math.PI / 2;
-    //this.visualCue.scale.set(this.dockRadius, 1, this.dockRadius);
+    // this.visualCue.scale.set(this.dockRadius, 1, this.dockRadius);
     this.visualCue.position.set(this.position.x, 1, this.position.z);
     this.wavetimer = 0;
     scene.add(this.visualCue);
     this.setName(this.name);
-
 }
 
 Landmark.prototype.setName = function (name) {
@@ -84,15 +82,15 @@ Landmark.prototype.setName = function (name) {
                 redrawInterval: CONFIG.Labels.redrawInterval,
                 texture: {
                     text: name,
-                    fontFamily: CONFIG.Labels.fontFamily,
+                    fontFamily: CONFIG.Labels.fontFamily
                 },
                 material: {
                     color: 0x5e9628,
-                    fog: false,
-                },
+                    fog: false
+                }
             });
 
-            this.label.name = 'label';
+            this.label.name = `label`;
             this.label.position.set(0, 42, 0);
             this.geometry.add(this.label);
         }
@@ -105,10 +103,10 @@ Landmark.prototype.setName = function (name) {
 };
 
 Landmark.prototype.getTypeSnap = function () {
-    var snap = {
+    let snap = {
         t: this.landmarkType,
         name: this.name,
-        dockRadius: this.dockRadius,
+        dockRadius: this.dockRadius
     };
     return snap;
 };
@@ -121,11 +119,10 @@ Landmark.prototype.parseTypeSnap = function (snap) {
 };
 
 Landmark.prototype.clientlogic = function (dt) {
-
     this.wavetimer += dt;
-    var scale = 0.5 + Math.sin(this.wavetimer) * 0.5;
+    let scale = 0.5 + Math.sin(this.wavetimer) * 0.5;
     //  this.visualCue.scale.y = scale;
-    //this.visualCue.position.y = 0.1 + scale * 0.5;
+    // this.visualCue.position.y = 0.1 + scale * 0.5;
     water.position.y = 0.1 + scale * 0.5;
 
     // if (this.PickupType == 0) {
@@ -136,14 +133,11 @@ Landmark.prototype.clientlogic = function (dt) {
     //     this.geometry.scale.x = 1.5 - quad
     //     this.geometry.scale.z = 1.5 - quad
     // }
-
 };
 
 Landmark.prototype.logic = function (dt) {
-
     // if this landmark is a dockable thing (rocks etc dont have docks)
     if (this.dockType > 0) {}
-
 };
 
 Landmark.prototype.isWithinDockingRadius = function (x, z) {

@@ -3,20 +3,19 @@ Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
 function Player (data) {
-
     this.isLoggedIn = true;
-    this.name = data !== undefined ?
-        (data.name || '') :
-        '';
+    this.name = data !== undefined
+        ? (data.name || ``)
+        : ``;
 
-    if (this.name.trim() === '') {
-        this.name = 'seadog' + (Math.floor(Math.random() * 900) + 100);
-        this.isLoggedIn = false
+    if (this.name.trim() === ``) {
+        this.name = `seadog${Math.floor(Math.random() * 900) + 100}`;
+        this.isLoggedIn = false;
     }
 
     this.createProperties();
 
-    this.disableSnapAndDelta = data.disableSnapAndDelta ? true : false;
+    this.disableSnapAndDelta = !!data.disableSnapAndDelta;
 
     this.goods = Object.assign({}, data.startingItems.goods);
     this.cargoUsed = 0;
@@ -44,23 +43,23 @@ function Player (data) {
     this.score = 50; // player score
     this.salary = 0; // player score
     this.overall_cargo = 0; // sum up amount of cargo ever traded
-    this.last_island = ""; // last island the seadog bought goods on
+    this.last_island = ``; // last island the seadog bought goods on
     this.gold = (data.startingItems || {}).gold || 0; // player gold
 
     this.islandBoundary = {
         x: 0,
         z: 0
     }; // to limit  boundaries around island
-    this.shipsSank = 0; //Number of ships player has sunk
-    this.shotsFired = 0; //Number of projectiles player has used
-    this.shotsHit = 0; //Number of projectiles that hit other ships
+    this.shipsSank = 0; // Number of ships player has sunk
+    this.shotsFired = 0; // Number of projectiles player has used
+    this.shotsHit = 0; // Number of projectiles that hit other ships
 
     this.sentDockingMsg = false; // Used to stop server from emitting enterIsland message before docking.
     // Keep track of player state.
     this.state = {
         alive: 0,
         dead: 1,
-        respawning: 2,
+        respawning: 2
     };
     this.state = 0;
 
@@ -68,7 +67,7 @@ function Player (data) {
         nothing: -1,
         cannon: 0,
         fishingRod: 1,
-        spyglass: 2,
+        spyglass: 2
     };
     this.activeWeapon = 0;
 
@@ -94,7 +93,7 @@ function Player (data) {
     this.jumping = 0;
     this.jump_count = 0;
 
-    //this.items = [];
+    // this.items = [];
     this.itemId;
 
     this.ownsCannon = true;
@@ -113,9 +112,9 @@ function Player (data) {
     this.experienceBase = 100;
     this.experienceMaxLevel = 50;
     this.experienceNeedsUpdate = true;
-    //Bank and casino
+    // Bank and casino
     this.bank = {
-        deposit: 0,
+        deposit: 0
     };
     this.casino = {};
     this.markerMapCount = new Date();
@@ -145,7 +144,7 @@ function Player (data) {
     this.points = {
         fireRate: 0,
         distance: 0,
-        damage: 0,
+        damage: 0
     };
     let _this = this;
     this.pointsFormula = {
@@ -163,7 +162,7 @@ function Player (data) {
 
         getExperience: function (damage) {
             return parseInt(damage * 2.4);
-        },
+        }
     };
 
     this.usedPoints = 0;
@@ -172,12 +171,11 @@ function Player (data) {
 }
 
 Player.prototype.updateExperience = function (damage) {
-
     let experience = this.experience;
     let level = 0;
     let i;
 
-    if (typeof damage === 'number') {
+    if (typeof damage === `number`) {
         experience += this.pointsFormula.getExperience(damage);
     }
 
@@ -197,7 +195,7 @@ Player.prototype.updateExperience = function (damage) {
 
     if (level !== this.level) {
         if (this.socket) {
-            this.socket.emit('levelUpdate', {
+            this.socket.emit(`levelUpdate`, {
                 id: this.id,
                 level: level
             });
@@ -218,7 +216,6 @@ Player.prototype.updateExperience = function (damage) {
 Player.prototype.rotationOffset = -0.45;
 
 Player.prototype.logic = function (dt) {
-
     // check if we are the captain of our ship
     this.oldCaptainState = this.isCaptain;
     this.isCaptain = this.parent && this.id === this.parent.captainId;
@@ -228,7 +225,7 @@ Player.prototype.logic = function (dt) {
     moveVector.z = -this.walkForward;
     moveVector.x = this.walkSideward;
 
-    //this.changeWeapon();
+    // this.changeWeapon();
     // we create a movement vector depending on the walk buttons and normalize it
     if (moveVector.lengthSq() > 0) {
         moveVector.normalize();
@@ -279,7 +276,7 @@ Player.prototype.logic = function (dt) {
                 }
             }
             if (this.parent.arcBack > 0 && this.position.z < 0) {
-                var bound = this.parent.size.x / 2 + this.position.z * this.parent.arcBack;
+                let bound = this.parent.size.x / 2 + this.position.z * this.parent.arcBack;
                 if (this.position.x > 0) {
                     if (this.position.x > bound) {
                         this.position.x = bound;
@@ -290,7 +287,6 @@ Player.prototype.logic = function (dt) {
                     }
                 }
             }
-
         }
     }
 
@@ -308,12 +304,12 @@ Player.prototype.logic = function (dt) {
         if ((this.parent && this.parent.netType !== 5) || this.activeWeapon === 1) {
             ++this.useid;
             let projectile = new Projectile(this);
-            entities[this.id + '' + this.useid] = projectile;
-            projectile.id = this.id + '' + this.useid;
+            entities[`${this.id}${this.useid}`] = projectile;
+            projectile.id = `${this.id}${this.useid}`;
             if (this.activeWeapon === 1) {
                 this.isFishing = true;
-                if (entities[this.id + '' + (this.useid - 1)] !== undefined)
-                    removeEntity(entities[this.id + '' + (this.useid - 1)]);
+                if (entities[`${this.id}${this.useid - 1}`] !== undefined)
+                    removeEntity(entities[`${this.id}${this.useid - 1}`]);
             }
         }
     }
@@ -346,10 +342,10 @@ Player.prototype.getTypeSnap = function () {
             p: {
                 fr: this.fireRate,
                 ds: this.distance,
-                dm: this.damage,
+                dm: this.damage
             },
-            l: this.level,
-        },
+            l: this.level
+        }
     };
 
     return obj;
@@ -358,17 +354,17 @@ Player.prototype.getTypeSnap = function () {
 // function that generates boat specific snapshot data
 Player.prototype.getTypeDelta = function () {
     let delta = {
-        f: this.deltaTypeCompare('f', this.walkForward),
-        s: this.deltaTypeCompare('s', this.walkSideward),
-        u: this.deltaTypeCompare('u', this.use),
-        p: this.deltaTypeCompare('p', this.pitch.toFixed(2)),
-        j: this.deltaTypeCompare('j', this.jumping),
-        w: this.deltaTypeCompare('w', this.activeWeapon),
-        c: this.deltaTypeCompare('c', this.checkedItemsList),
-        d: this.deltaTypeCompare('d', this.itemId),
-        o: this.deltaTypeCompare('o', this.ownsCannon),
-        r: this.deltaTypeCompare('r', this.ownsFishingRod),
-        v: this.deltaTypeCompare('v', this.availablePoints),
+        f: this.deltaTypeCompare(`f`, this.walkForward),
+        s: this.deltaTypeCompare(`s`, this.walkSideward),
+        u: this.deltaTypeCompare(`u`, this.use),
+        p: this.deltaTypeCompare(`p`, this.pitch.toFixed(2)),
+        j: this.deltaTypeCompare(`j`, this.jumping),
+        w: this.deltaTypeCompare(`w`, this.activeWeapon),
+        c: this.deltaTypeCompare(`c`, this.checkedItemsList),
+        d: this.deltaTypeCompare(`d`, this.itemId),
+        o: this.deltaTypeCompare(`o`, this.ownsCannon),
+        r: this.deltaTypeCompare(`r`, this.ownsFishingRod),
+        v: this.deltaTypeCompare(`v`, this.availablePoints)
     };
     if (isEmpty(delta)) {
         delta = undefined;
@@ -399,7 +395,7 @@ Player.prototype.parseTypeSnap = function (snap) {
         this.jumping = parseInt(snap.j);
     }
 
-    //if (snap.m !== undefined) {this.movementSpeedBonus = parseInt(snap.m);}
+    // if (snap.m !== undefined) {this.movementSpeedBonus = parseInt(snap.m);}
 
     if (snap.v !== undefined && snap.v !== this.availablePoints) {
         this.availablePoints = parseInt(snap.v);
@@ -437,7 +433,7 @@ Player.prototype.parseTypeSnap = function (snap) {
 };
 
 Player.prototype.equip = function (item) {
-    //this.items.push(item);
+    // this.items.push(item);
 
     // reset player stats
     this.attackSpeedBonus = 0;
@@ -473,8 +469,7 @@ Player.prototype.equip = function (item) {
 };
 
 Player.prototype.dequip = function () {
-
-    //this.items = [];
+    // this.items = [];
 
     // reset player stats
     this.attackSpeedBonus = 0;
@@ -497,7 +492,7 @@ Player.prototype.purchaseItem = function (itemId) {
     if (item && this.gold >= item.price) {
         this.gold -= item.price;
 
-        if (itemId != '14') {
+        if (itemId != `14`) {
             this.equip(item);
             this.itemId = itemId;
         }
@@ -505,7 +500,6 @@ Player.prototype.purchaseItem = function (itemId) {
 };
 
 Player.prototype.purchaseShip = function (itemId, krewName) {
-
     let item;
     for (i in boatTypes) {
         if (i == itemId) {
@@ -516,7 +510,7 @@ Player.prototype.purchaseShip = function (itemId, krewName) {
 
     // check if crewCount is larger than maxKrewCapacity and if player is captain
     if (item && this.parent.krewCount > item.maxKrewCapacity && this.isCaptain) {
-        this.socket.emit('showCenterMessage', "This boat doesn't have enough space for your krew!", 1);
+        this.socket.emit(`showCenterMessage`, `This boat doesn't have enough space for your krew!`, 1);
     }
 
     // if player can afford the ship
@@ -544,7 +538,6 @@ Player.prototype.purchaseShip = function (itemId, krewName) {
 };
 
 Player.prototype.respawnShip = function (itemId, krewName) {
-
     let item;
     for (i in boatTypes) {
         if (i === itemId) {
@@ -563,7 +556,6 @@ Player.prototype.respawnShip = function (itemId, krewName) {
 };
 
 Player.prototype.onDestroy = function () {
-
     Entity.prototype.onDestroy.call(this);
 
     if (this.parent) {
@@ -574,7 +566,6 @@ Player.prototype.onDestroy = function () {
                 core.removeEntity(this.parent);
             }
         }
-
     }
 
     if (players[this.id]) {
@@ -587,5 +578,5 @@ Player.prototype.addScore = function (score) {
 };
 
 let parseBool = function (b) {
-    return b === true || b === 'true';
+    return b === true || b === `true`;
 };

@@ -5,7 +5,7 @@ let spawnNewPlayerOnSea = (boat, playerEntity) => {
         username: playerEntity.name
     }).then(user => {
         let krewName = user ? user.defaultKrewName ? user.defaultKrewName : `${playerEntity.name}'s krew` : `${playerEntity.name}'s krew`;
-  
+
         boat = core.createBoat(playerEntity.name, krewName, true);
         boat.addChildren(playerEntity);
 
@@ -15,7 +15,7 @@ let spawnNewPlayerOnSea = (boat, playerEntity) => {
         boat.isRecruiting = false;
         boat.isLocked = false;
     });
-}
+};
 
 let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
     User.findOne({
@@ -89,8 +89,8 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
             if (DEV_ENV && spawnPoint && spawnPoint != `sea` && spawnPoint != `krew`) playerEntity.gold += 1e9;
         }, 1e3);
     });
-}
+};
 
 module.exports = {
     allocatePlayerToBoat
-}
+};

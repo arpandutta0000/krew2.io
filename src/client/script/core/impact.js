@@ -3,7 +3,6 @@ Impact.prototype = new Entity();
 Impact.prototype.constructor = Impact;
 
 function Impact (type, x, z) {
-
     this.createProperties();
 
     // netcode type
@@ -29,7 +28,6 @@ function Impact (type, x, z) {
     // impacts have a type (impact in water vs impact in boat)
     switch (type) {
         case 0: { // water
-
             this.baseGeometry = geometry.impact_water;
             this.baseMaterial = materials.impact_water;
             for (var i = 0; i < 3; ++i) {
@@ -49,7 +47,7 @@ function Impact (type, x, z) {
                     duration: 5,
                     sizeSpeed: -0.6,
                     material: materials.impact_water,
-                    geometry: base_geometries.box,
+                    geometry: base_geometries.box
                 });
             }
 
@@ -57,7 +55,7 @@ function Impact (type, x, z) {
         }
 
         case 1: { // ship
-            GameAnalytics("addDesignEvent", "Game:Session:Hit");
+            GameAnalytics(`addDesignEvent`, `Game:Session:Hit`);
             for (var i = 0; i < 5; ++i) {
                 createParticle({
                     vx: -10 + Math.random() * 20,
@@ -75,7 +73,7 @@ function Impact (type, x, z) {
                     duration: 2,
                     sizeSpeed: -0.8,
                     material: materials.splinter,
-                    geometry: base_geometries.box,
+                    geometry: base_geometries.box
 
                 });
             }
@@ -89,31 +87,27 @@ function Impact (type, x, z) {
 }
 
 Impact.prototype.logic = function (dt) {
-
     // tick down the timer and delete on end
     this.timeout -= dt * 0.8;
     if (this.timeout <= 0) {
         removeEntity(this);
     }
-
 };
 
 Impact.prototype.clientlogic = function (dt) {
-
     if (this.impactType == 0) {
         this.geometry.position.set(this.position.x, this.position.y, this.position.z);
         this.geometry.scale.y = (this.timeout < 0.5 ? Ease.easeOutQuad(this.timeout * 2) : 1.0 - Ease.easeInQuint((this.timeout - 0.5) * 2)) * 5;
 
-        var quad = Ease.easeOutQuad(this.timeout);
+        let quad = Ease.easeOutQuad(this.timeout);
         this.geometry.scale.x = 1.5 - quad;
         this.geometry.scale.z = 1.5 - quad;
     }
-
 };
 
 Impact.prototype.getTypeSnap = function () {
-    var snap = {
-        a: this.impactType,
+    let snap = {
+        a: this.impactType
     };
     return snap;
 };

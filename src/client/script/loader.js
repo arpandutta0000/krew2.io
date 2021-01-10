@@ -5,15 +5,15 @@ let objLoader = new THREE.OBJLoader();
 let tgaLoader = new THREE.TGALoader();
 let mtlLoader = new THREE.MTLLoader();
 
-let textures = {}
-let shaders = {}
-let models = {}
-let json = {}
+let textures = {};
+let shaders = {};
+let models = {};
+let json = {};
 
 // Generic loader and async handler.
 let loader = {
     promises: []
-}
+};
 
 // Add a task to loader. Can be any function, request will be solved once function was called.
 loader.compute = fun => {
@@ -22,12 +22,12 @@ loader.compute = fun => {
         resolve();
     }));
     return loader.promises[loader.promises.length - 1];
-}
+};
 
 // Add a texture load to the loader. Wraps the async calls.
 loader.loadTexture = path => {
     loader.promises.push(new Promise((resolve, reject) => {
-        let parts = path.split(`/`).pop().split(`.`)
+        let parts = path.split(`/`).pop().split(`.`);
         let ext = parts.pop();
         let name = parts.pop();
 
@@ -40,7 +40,7 @@ loader.loadTexture = path => {
         } else if (ext == `tga`) {
             let folder = path.split(`/`);
             folder.pop();
-            folder = folder.join(`/`) + `/`;
+            folder = `${folder.join(`/`)}/`;
             mtlLoader.setPath(folder);
             mtlLoader.load(`${name}.${ext}`, materials => {
                 materials.preload();
@@ -58,7 +58,7 @@ loader.loadTexture = path => {
             xhr => {}
         );
     }));
-}
+};
 
 // Add a model load to the loader. Wraps the async calls.
 loader.loadModel = path => {
@@ -72,7 +72,7 @@ loader.loadModel = path => {
         );
     }));
     return loader.promises[loader.promises.length - 1];
-}
+};
 
 // Add an object tile load to the loader. Wraps the async calls.
 loader.loadObjWithMtl = path => {
@@ -84,7 +84,7 @@ loader.loadObjWithMtl = path => {
     let ext = parts.pop();
     let name = parts.pop();
 
-    folder = folder.join(`/`) + `/`;
+    folder = `${folder.join(`/`)}/`;
 
     loader.promises.push(new Promise((resolve, reject) => {
         mtlLoader.setPath(folder);
@@ -98,7 +98,7 @@ loader.loadObjWithMtl = path => {
         });
     }));
     return loader.promises[loader.promises.length - 1];
-}
+};
 
 // Add a shader load to the loader. Wraps the async calls.
 loader.loadShader = path => {
@@ -112,7 +112,7 @@ loader.loadShader = path => {
         );
     }));
     return loader.promises[loader.promises.length - 1];
-}
+};
 
 loader.loadJSON = path => {
     loader.promises.push(new Promise((resolve, reject) => {
@@ -122,10 +122,10 @@ loader.loadJSON = path => {
         });
     }));
     return loader.promises[loader.promises.length - 1];
-}
+};
 
 loader.onFinish = fn => {
     Promise.all(loader.promises).then(results => {
         if (fn) fn();
     });
-}
+};

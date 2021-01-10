@@ -4,8 +4,8 @@ let lerp = function (start, end, amount) {
 
 let charLimit = function (text, chars, suffix) {
     chars = chars || 140;
-    suffix = suffix || '';
-    text = ('' + text).replace(/(\t|\n)/gi, '').replace(/\s\s/gi, ' ');
+    suffix = suffix || ``;
+    text = (`${text}`).replace(/(\t|\n)/gi, ``).replace(/\s\s/gi, ` `);
     if (text.length > chars) {
         return text.slice(0, chars - suffix.length).replace(/(\.|\,|:|-)?\s?\w+\s?(\.|\,|:|-)?$/, suffix);
     }
@@ -99,10 +99,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum
@@ -121,7 +121,7 @@ function getFixedFrameRateMethod (fps, callback) {
         time = performance.now();
         if (time - previousTime > 1000 / fps) {
             previousTime = time;
-            if (typeof callback === 'function') {
+            if (typeof callback === `function`) {
                 requestAnimationFrame(callback.bind(this));
             }
         }

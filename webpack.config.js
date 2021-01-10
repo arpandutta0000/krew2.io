@@ -6,9 +6,7 @@ let appMode = process.env.NODE_ENV;
 
 module.exports = {
     mode: appMode == `prod` ? `production` : `development`,
-    entry: [
-        `./src/client/script/dist.js`,
-    ],
+    entry: [`./src/client/script/dist.js`],
     output: {
         path: path.resolve(__dirname, `dist/script`),
         filename: `dist.min.js`
@@ -19,4 +17,4 @@ module.exports = {
         removeAvailableModules: true
     },
     target: `node`
-}
+};

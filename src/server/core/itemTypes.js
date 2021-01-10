@@ -1,5 +1,5 @@
 let itemTypes = [
-    /*{
+    /* {
             id: 0,
             name: `Cannon`,
             Description: `Cannon for seadog`,
@@ -14,7 +14,7 @@ let itemTypes = [
             price: 500,
             rarity: 1,
             availableAt: []
-        },*/
+        }, */
     {
         id: 2,
         name: `Sinker's Gloves`,
@@ -186,5 +186,5 @@ let itemTypes = [
         attributes: {
             armor: `50`
         }
-    },
+    }
 ];

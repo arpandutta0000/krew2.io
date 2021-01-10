@@ -21,16 +21,16 @@ let setUpEnvironment = () => {
         materials.sky
     );
     ceiling.rotation.x = -Math.PI * 0.5;
-    ceiling.position.set(worldsize * 0.5, 55, worldsize * 0.5)
-    scene.add(ceiling)
+    ceiling.position.set(worldsize * 0.5, 55, worldsize * 0.5);
+    scene.add(ceiling);
 
     // Add environment sphere
     envSphere = new THREE.Mesh(
         new THREE.SphereGeometry(worldsize * 2),
         materials.sky
     );
-    envSphere.position.set(worldsize * 0.5, 0, worldsize * 0.5)
-    scene.add(envSphere)
+    envSphere.position.set(worldsize * 0.5, 0, worldsize * 0.5);
+    scene.add(envSphere);
 
     // Add directional light
     light = new THREE.DirectionalLight(0xffdfab, 1.0);
@@ -57,11 +57,11 @@ let setUpEnvironment = () => {
         });
 
         water.rotation.x = -Math.PI * 0.5;
-        water.position.set(worldsize * 0.5, 0, worldsize * 0.5)
+        water.position.set(worldsize * 0.5, 0, worldsize * 0.5);
         water.renderOrder = 32;
 
         scene.add(water);
-    }
+    };
 
     // Add World Boundries
     let initWorldBoundries = () => {
@@ -84,11 +84,11 @@ let setUpEnvironment = () => {
         environment.boundaryDown.position.set(worldsize, 1.5, worldsize * 0.5);
         environment.boundaryDown.scale.set(3, 0.1, worldsize);
         scene.add(environment.boundaryDown);
-    }
+    };
 
     initWater();
     initWorldBoundries();
-}
+};
 
 // Day Night Cycle Transition Method
 let doDaylightCycle = (time) => {
@@ -109,12 +109,12 @@ let doDaylightCycle = (time) => {
         r: 191,
         g: 240,
         b: 255
-    }
+    };
     let nightSceneColor = {
         r: 6,
         g: 0,
         b: 31
-    }
+    };
 
     window.currentTime = time;
     if (time == 1) {
@@ -125,7 +125,7 @@ let doDaylightCycle = (time) => {
             ceiling.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             envSphere.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             water.parent.fog.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
-            scene.background = new THREE.Color(colorFade(daySceneColor, nightSceneColor, i / 100))
+            scene.background = new THREE.Color(colorFade(daySceneColor, nightSceneColor, i / 100));
             if (i == 100) clearInterval(anim);
         }, 20);
     } else if (time == 0) {
@@ -136,11 +136,11 @@ let doDaylightCycle = (time) => {
             ceiling.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
-            scene.background = new THREE.Color(colorFade(nightSceneColor, daySceneColor, i / 100))
+            scene.background = new THREE.Color(colorFade(nightSceneColor, daySceneColor, i / 100));
             if (i == 100) clearInterval(anim);
         }, 20);
     }
-}
+};
 
 // Fade between two RGB colors
 let colorFade = (start, end, i) => {
@@ -148,4 +148,4 @@ let colorFade = (start, end, i) => {
     let G = Math.round((end.g - start.g) * i + start.g);
     let B = Math.round((end.b - start.b) * i + start.b);
     return 0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255);
-}
+};

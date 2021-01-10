@@ -15,7 +15,8 @@ let Config = {
         }
     },
     drainers: {},
-    landmarks: [{
+    landmarks: [
+        {
             type: 0,
             x: 500,
             y: 300,
@@ -196,4 +197,4 @@ let Config = {
             }
         }
     ]
-}
+};

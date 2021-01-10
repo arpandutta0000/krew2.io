@@ -1,19 +1,18 @@
-var setShipModels = function () {
-    for (var i in boatTypes) {
-        var boat = boatTypes[i];
+let setShipModels = function () {
+    for (let i in boatTypes) {
+        let boat = boatTypes[i];
         if (models[boat.body] !== undefined) {
-            boat.body = models[boat.body].getObjectByName('body');
+            boat.body = models[boat.body].getObjectByName(`body`);
         }
 
         if (boat.sail !== undefined && models[boat.sail] !== undefined) {
-            boat.sail = models[boat.sail].getObjectByName('sail');
+            boat.sail = models[boat.sail].getObjectByName(`sail`);
         }
 
         if (boat.mast !== undefined && models[boat.mast] !== undefined) {
-            boat.mast = models[boat.mast].getObjectByName('mast');
+            boat.mast = models[boat.mast].getObjectByName(`mast`);
         }
     }
-
 };
 
 Boat.prototype.changeBoatModel = function (id) {
@@ -62,13 +61,11 @@ Boat.prototype.changeBoatModel = function (id) {
         this.mast.rotation.set(boatTypes[id].rotation[0], boatTypes[id].rotation[1], boatTypes[id].rotation[2]);
         this.geometry.add(this.mast);
     }
-
 };
 
 Boat.prototype.docking = function (stateId) {
-
-    var shipId = this.shipclassId;
-    var isPlayer = myPlayer && this == myPlayer.parent;
+    let shipId = this.shipclassId;
+    let isPlayer = myPlayer && this == myPlayer.parent;
 
     // if (this.body && this.sail) {
     //     if (stateId == 0) {
@@ -77,5 +74,4 @@ Boat.prototype.docking = function (stateId) {
     //
     //     }
     // }
-
 };

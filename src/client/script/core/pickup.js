@@ -16,20 +16,20 @@ function Pickup (size, x, z, type) {
     this.captainsCutRatio = 0.3;
 
     // net data
-    this.sendDelta = type == 1 ? false : true;
-    this.sendSnap = type == 1 ? false : true;
+    this.sendDelta = type != 1;
+    this.sendSnap = type != 1;
     this.sendCreationSnapOnDelta = true;
     this.spawnPacket = false;
 
     // // size of a Pickup
-    var scale = 1;
+    let scale = 1;
     if (type === 0) {
         scale = parseInt(size) + 1;
     }
 
     if (type === 1) {
         scale = 0.05 * size;
-        GameAnalytics("addDesignEvent", "Game:Session:CatchFish");
+        GameAnalytics(`addDesignEvent`, `Game:Session:CatchFish`);
     }
 
     if (type === 3 || type === 2) {
@@ -40,9 +40,9 @@ function Pickup (size, x, z, type) {
     this.modelscale = new THREE.Vector3(scale, scale, scale);
     this.position.x = x;
     this.position.z = z;
-    this.pickerId = '';
+    this.pickerId = ``;
     this.type = type;
-    this.picking = type == 1 ? true : false;
+    this.picking = type == 1;
     this.catchingFish = false;
     this.timeout = 1;
     /**
@@ -55,7 +55,7 @@ function Pickup (size, x, z, type) {
     // client side visuals
     if (this.type === 0) {
         this.baseGeometry = geometry.boat;
-        //this.baseMaterial = materials.boat;
+        // this.baseMaterial = materials.boat;
         this.baseMaterial = materials.crate;
     }
 
@@ -73,7 +73,6 @@ function Pickup (size, x, z, type) {
             this.modeloffset = vectors.modeloffsetFishShellClam;
             this.modelscale = new THREE.Vector3(0.03, 0.03, 0.03);
         }
-
     }
 
     if (this.type === 3) {
@@ -104,12 +103,12 @@ Pickup.prototype.logic = function (dt) {};
 Pickup.prototype.timeCounters = {};
 
 Pickup.prototype.dockedLogic = function () {
-    var fps = 0.5;
+    let fps = 0.5;
 
     if (this.timeCounters.dockedLogic === undefined) {
         this.timeCounters.dockedLogic = {
             time: performance.now(),
-            previousTime: performance.now(),
+            previousTime: performance.now()
         };
     } else {
         this.timeCounters.dockedLogic.time = performance.now();
@@ -117,26 +116,26 @@ Pickup.prototype.dockedLogic = function () {
 
     if (this.timeCounters.dockedLogic.time - this.timeCounters.dockedLogic.previousTime > 1000 / fps) {
         this.timeCounters.dockedLogic.previousTime = this.timeCounters.dockedLogic.time;
-        requestAnimationFrame(function () {
-            for (var id in entities) {
-                var $this = entities[id];
+        requestAnimationFrame(() => {
+            for (let id in entities) {
+                let $this = entities[id];
                 if (
                     $this.netType === 4 &&
                     ($this.type === 2 || $this.type === 3)
                 ) {
-                    var Raycaster = new THREE.Raycaster();
+                    let Raycaster = new THREE.Raycaster();
                     var origin;
                     var direction;
-                    var height = 100;
+                    let height = 100;
                     var object;
                     var collision;
-                    var objects = [];
-                    var min = {
+                    let objects = [];
+                    let min = {
                         object: undefined,
-                        height: height,
+                        height: height
                     };
-                    var i = 0;
-                    var y = 0;
+                    let i = 0;
+                    let y = 0;
 
                     if (entities) {
                         direction = new THREE.Vector3(0, -1, 0);
@@ -145,7 +144,7 @@ Pickup.prototype.dockedLogic = function () {
 
                         Raycaster.set(origin, direction);
 
-                        for (var k in entities) {
+                        for (let k in entities) {
                             if (entities[k].netType === 5) {
                                 objects.push(entities[k].geometry.children[0]);
                             }
@@ -158,7 +157,7 @@ Pickup.prototype.dockedLogic = function () {
                                 if (collision[i].distance < min.height) {
                                     min = {
                                         height: collision[i].distance,
-                                        object: collision[i].object,
+                                        object: collision[i].object
                                     };
                                 }
                             }
@@ -172,11 +171,8 @@ Pickup.prototype.dockedLogic = function () {
                     }
                 }
             }
-
         });
-
     }
-
 };
 
 Pickup.prototype.clientlogic = function (dt) {
@@ -185,29 +181,28 @@ Pickup.prototype.clientlogic = function (dt) {
     this.geometry.rotation.z += dt * this.rotationspeed;
 
     if (this.picking == true && entities[this.pickerId]) {
-
         // Reduce cargo scale and move it towards player
         if (entities[this.pickerId].geometry) {
-            var pickerPos = entities[this.pickerId].geometry.getWorldPosition(new THREE.Vector3());
+            let pickerPos = entities[this.pickerId].geometry.getWorldPosition(new THREE.Vector3());
 
             if (this.type === 0 || this.type === 4) {
                 this.geometry.translateOnAxis(this.geometry.worldToLocal(pickerPos), 0.05);
                 this.geometry.scale.set(this.geometry.scale.x - 0.05, this.geometry.scale.y - 0.05, this.geometry.scale.z - 0.05);
                 if (myPlayer && this.pickerId == myPlayer.id && this.geometry.scale.x <= 0.05 && this.geometry.scale.x > 0) {
-                    ui.playAudioFile(false, 'get-crate');
+                    ui.playAudioFile(false, `get-crate`);
                 }
             }
 
             if (this.type === 1) {
                 if (!this.catchingFish)
-                    this.geometry.position.y += 0.5
+                    this.geometry.position.y += 0.5;
                 else
                     this.geometry.translateOnAxis(this.geometry.worldToLocal(pickerPos), 0.05);
 
                 if (this.geometry.position.y >= 20) {
                     this.catchingFish = true;
                     if (myPlayer && this.pickerId == myPlayer.id)
-                        ui.playAudioFile(false, 'catch-fish');
+                        ui.playAudioFile(false, `catch-fish`);
                 }
 
                 this.geometry.scale.set(this.geometry.scale.x - 0.009, this.geometry.scale.y - 0.009, this.geometry.scale.z - 0.009);
@@ -221,7 +216,7 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType != 1))
-                    )) {
+                )) {
                     ui.hideSuggestionBox = false;
                 }
             }
@@ -231,26 +226,25 @@ Pickup.prototype.clientlogic = function (dt) {
                 this.geometry.scale.set(this.geometry.scale.x - 0.05, this.geometry.scale.y - 0.05, this.geometry.scale.z - 0.05);
 
                 if (myPlayer && this.pickerId == myPlayer.id)
-                    ui.playAudioFile(false, 'catch-crab');
+                    ui.playAudioFile(false, `catch-crab`);
 
                 if ((entities[this.pickerId] !== undefined && entities[this.pickerId].gold > 500 &&
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType != 1))
-                    )) {
+                )) {
                     ui.hideSuggestionBox = false;
                 }
             }
         }
 
         // Send message to server to delete box if it's grabbed by player
-        /*if (this.geometry.scale.x <= 0 || this.geometry.scale.y <= 0 || this.geometry.scale.z <= 0) {
+        /* if (this.geometry.scale.x <= 0 || this.geometry.scale.y <= 0 || this.geometry.scale.z <= 0) {
             socket.emit('deletePickup', this.id);
-        }*/
-
+        } */
     } else {
         if (this.type <= 1) {
-            //this.geometry.position.set(this.position.x, 0.2 + Math.sin(this.floattimer) * 0.2, this.position.z);
+            // this.geometry.position.set(this.position.x, 0.2 + Math.sin(this.floattimer) * 0.2, this.position.z);
         }
 
         if (this.type === 2 || this.type === 3) {
@@ -285,7 +279,6 @@ Pickup.prototype.clientlogic = function (dt) {
                             )
                         );
                     }
-
                 }
             }
         }
@@ -299,7 +292,6 @@ Pickup.prototype.clientlogic = function (dt) {
     //     this.geometry.scale.x = 1.5 - quad
     //     this.geometry.scale.z = 1.5 - quad
     // }
-
 };
 
 Pickup.prototype.setName = function () {
@@ -311,39 +303,36 @@ Pickup.prototype.setName = function () {
                 redrawInterval: CONFIG.Labels.redrawInterval,
                 texture: {
                     text: this.id,
-                    fontFamily: CONFIG.Labels.fontFamily,
+                    fontFamily: CONFIG.Labels.fontFamily
                 },
                 material: {
                     color: labelcolors.player,
-                    fog: false,
-                },
+                    fog: false
+                }
             });
 
-            this.label.name = 'label';
+            this.label.name = `label`;
             this.label.position.set(0, 3, 0);
 
             this.geometry.add(this.label);
         }
 
         this.label.material.map.text = this.id;
-
     }
-
 };
 
 Pickup.prototype.getTypeSnap = function () {
-    var snap = {
+    let snap = {
         s: this.pickupSize,
         p: this.picking,
         i: this.pickerId,
-        t: this.type,
+        t: this.type
 
     };
     return snap;
 };
 
 Pickup.prototype.getTypeDelta = function () {
-
     if (this.type == 1) {
         if (!this.spawnPacket) {
             this.spawnPacket = true;
@@ -352,11 +341,11 @@ Pickup.prototype.getTypeDelta = function () {
 
         return undefined;
     } else {
-        var delta = {
-            s: this.deltaTypeCompare('s', this.pickupSize),
-            p: this.deltaTypeCompare('p', this.picking),
-            i: this.deltaTypeCompare('i', this.pickerId),
-            t: this.deltaTypeCompare('t', this.type),
+        let delta = {
+            s: this.deltaTypeCompare(`s`, this.pickupSize),
+            p: this.deltaTypeCompare(`p`, this.picking),
+            i: this.deltaTypeCompare(`i`, this.pickerId),
+            t: this.deltaTypeCompare(`t`, this.type)
         };
         if (isEmpty(delta)) {
             delta = undefined;
@@ -364,7 +353,6 @@ Pickup.prototype.getTypeDelta = function () {
 
         return delta;
     }
-
 };
 
 // function that parses a snapshot
@@ -384,12 +372,10 @@ Pickup.prototype.parseTypeSnap = function (snap) {
     if (snap.t !== undefined && snap.t != this.type) {
         this.type = parseInt(snap.t);
     }
-
 };
 
 // function that parses a snapshot
 Pickup.prototype.onDestroy = function () {
-
     // makre sure to also call the entity ondestroy
     Entity.prototype.onDestroy.call(this);
 

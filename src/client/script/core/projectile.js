@@ -11,18 +11,17 @@ function Projectile (shooter) {
     // size of a Projectile
     this.size = vectors.sizeProjectile;
 
-
     // projectiles dont send a lot of delta data
     this.sendDelta = false;
     this.sendSnap = false;
     this.sendCreationSnapOnDelta = true;
-    this.muted = ['x', 'z'];
-    this.shooterid = '';
-    this.shooterStartPos = new THREE.Vector3(); //initial world position of shooter
+    this.muted = [`x`, `z`];
+    this.shooterid = ``;
+    this.shooterStartPos = new THREE.Vector3(); // initial world position of shooter
     this.reel = false;
     this.impact = undefined;
 
-    this.type = -1 // 0 = cannon ball, 1 = fishing hook
+    this.type = -1; // 0 = cannon ball, 1 = fishing hook
 
     // duration of projectile being airbourne
     this.airtime = 0;
@@ -39,14 +38,12 @@ function Projectile (shooter) {
 }
 
 Projectile.prototype.logic = function (dt) {
-
     // Remove if the soooter does not exists
-    if (this.shooterid === '' || entities[this.shooterid] === undefined || (entities[this.shooterid] !== undefined && this.type != -1 && this.type != entities[this.shooterid].activeWeapon)) {
+    if (this.shooterid === `` || entities[this.shooterid] === undefined || (entities[this.shooterid] !== undefined && this.type != -1 && this.type != entities[this.shooterid].activeWeapon)) {
         if (this.impact) this.impact.destroy = true;
         removeEntity(this);
         return;
     }
-
 
     if (entities[this.shooterid] !== undefined && entities[this.shooterid].use == false) {
         entities[this.shooterid].isFishing = false;
@@ -59,7 +56,7 @@ Projectile.prototype.logic = function (dt) {
     }
 
     if (entities[this.shooterid] !== undefined && entities[this.shooterid].parent !== undefined) {
-        var playerPos = entities[this.shooterid].worldPos();
+        let playerPos = entities[this.shooterid].worldPos();
 
         // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from player
         if (entities[this.shooterid].parent !== undefined &&
@@ -70,8 +67,8 @@ Projectile.prototype.logic = function (dt) {
                 entities[this.shooterid].isFishing = false;
             }
         } else {
-            var fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
-            //var fromPlayertoRod = distance(playerPos,this.shooterStartPos)
+            let fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
+            // var fromPlayertoRod = distance(playerPos,this.shooterStartPos)
             if (fromPlayertoRod >= 40) {
                 this.reel = true;
                 entities[this.shooterid].isFishing = false;
@@ -80,16 +77,14 @@ Projectile.prototype.logic = function (dt) {
     }
 
     if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
-
-        var hasHitBoat = false;
+        let hasHitBoat = false;
 
         // if boat was hit or we fall in water, remove
         if (this.position.y < 0 || hasHitBoat) {
-
-            //if boat was hit or
+            // if boat was hit or
             if (
                 this.reel ||
-                this.shooterid === '' ||
+                this.shooterid === `` ||
                 entities[this.shooterid] === undefined ||
                 entities[this.shooterid].use == true ||
                 entities[this.shooterid].activeWeapon === 0 ||
@@ -104,7 +99,7 @@ Projectile.prototype.logic = function (dt) {
                 this.velocity.x = 0;
                 this.velocity.z = 0;
                 if (myPlayer && this.shooterid == myPlayer.id)
-                    ui.playAudioFile(false, 'fishing');
+                    ui.playAudioFile(false, `fishing`);
 
                 entities[this.shooterid].isFishing = true;
             }
@@ -115,9 +110,8 @@ Projectile.prototype.logic = function (dt) {
 };
 
 Projectile.prototype.clientlogic = function (dt) {
-
     // check if we didn't set a model yet
-    var shootingPlayer = entities[this.shooterid];
+    let shootingPlayer = entities[this.shooterid];
 
     if (shootingPlayer === undefined ||
         (shootingPlayer && shootingPlayer.parent && shootingPlayer.parent.hp <= 0)) {
@@ -130,19 +124,19 @@ Projectile.prototype.clientlogic = function (dt) {
 
     if (shootingPlayer && this.setProjectileModel == true) {
         scene.remove(this.geometry);
-        /*if (scene.getObjectByName(shootingPlayer.id + "fishing_line"))
-            scene.remove(scene.getObjectByName(shootingPlayer.id + "fishing_line"))*/
+        /* if (scene.getObjectByName(shootingPlayer.id + "fishing_line"))
+            scene.remove(scene.getObjectByName(shootingPlayer.id + "fishing_line")) */
 
         // determine projectile model based on player active weapon
         if (shootingPlayer.activeWeapon === 0) {
-            //this.baseGeometry = geometry.projectile;
-            //this.baseMaterial = materials.projectile;
+            // this.baseGeometry = geometry.projectile;
+            // this.baseMaterial = materials.projectile;
             this.geometry = new THREE.Sprite(materials.cannonball);
         } else if (shootingPlayer.activeWeapon === 1) {
             this.baseGeometry = geometry.hook;
             this.baseMaterial = materials.hook;
 
-            var lineGeometry = base_geometries.line.clone();
+            let lineGeometry = base_geometries.line.clone();
             lineGeometry.vertices.push(this.startPoint);
             lineGeometry.vertices.push(this.endPoint);
 
@@ -151,7 +145,7 @@ Projectile.prototype.clientlogic = function (dt) {
             }));
             sceneLines[this.id] = this.line;
 
-            //this.line.name = shootingPlayer.id + "fishing_line";
+            // this.line.name = shootingPlayer.id + "fishing_line";
             this.line.frustumCulled = false;
             if (entities[this.shooterid].weapon) {
                 var boundariesBox = new THREE.Box3();
@@ -164,8 +158,8 @@ Projectile.prototype.clientlogic = function (dt) {
             this.geometry = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
         }
 
-        //this.geometry = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
-        //this.geometry = projectileObj.clone();
+        // this.geometry = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
+        // this.geometry = projectileObj.clone();
         sceneCanBalls[this.id] = this.geometry;
         this.geometry.castShadow = true;
         scene.add(this.geometry);
@@ -189,11 +183,10 @@ Projectile.prototype.clientlogic = function (dt) {
 
         this.geometry.rotation.y += 1.5 * dt;
     } else if (shootingPlayer && shootingPlayer.activeWeapon === 0) {
-
         this.particletimer -= dt;
         if (this.particletimer < 0) {
-            var byPlayer = myPlayer && this.shooterid == myPlayer.id;
-            var friendly = myPlayer && myPlayer.parent && myPlayer.parent.children[this.shooterid];
+            let byPlayer = myPlayer && this.shooterid == myPlayer.id;
+            let friendly = myPlayer && myPlayer.parent && myPlayer.parent.children[this.shooterid];
             this.particletimer = 0.04;
             createParticle({
                 vx: 0,
@@ -211,12 +204,10 @@ Projectile.prototype.clientlogic = function (dt) {
                 sizeSpeed: -1.8,
                 material: byPlayer ? materials.smoke_player : (friendly ? materials.smoke_friendly : materials.smoke_enemy),
 
-                geometry: base_geometries.box,
+                geometry: base_geometries.box
             });
-
         }
     }
-
 };
 
 // Projectile.prototype.getTypeSnap = function () {
@@ -286,5 +277,4 @@ Projectile.prototype.parseTypeSnap = function (snap) {
     if (snap.sz !== undefined) {
         this.shooterStartPos.z = parseFloat(snap.sz);
     }
-
 };

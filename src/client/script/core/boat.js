@@ -3,15 +3,15 @@ Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
 function Boat (captainId, krewName, spawnBool) {
-    var captainsName = '';
-    var spawnIslandId = undefined;
+    let captainsName = ``;
+    let spawnIslandId;
 
     if (entities[captainId] !== undefined) {
         captainsName = entities[captainId].name;
         if (entities[captainId].parent !== undefined) {
-            spawnIslandId = entities[captainId].parent.netType === 5 ?
-                entities[captainId].parent.id :
-                entities[captainId].parent.anchorIslandId;
+            spawnIslandId = entities[captainId].parent.netType === 5
+                ? entities[captainId].parent.id
+                : entities[captainId].parent.anchorIslandId;
         }
     }
 
@@ -29,14 +29,14 @@ function Boat (captainId, krewName, spawnBool) {
     this.arcBack = 0.0;
 
     // info that is not sent via delta
-    this.muted = ['x', 'z', 'y'];
+    this.muted = [`x`, `z`, `y`];
 
-    //krew members
+    // krew members
     this.krewMembers = {};
 
     this.krewCount = 0; // Keep track of boat's krew count to update krew list window
 
-    //this.totalWorth = 0; // Keep track of boat's total worth to update krew list window
+    // this.totalWorth = 0; // Keep track of boat's total worth to update krew list window
 
     this.recruiting = false; // If the ship has been docked for more than 5 minutes, then it's not recruiting
     this.isLocked = false; // By default krew is not locked
@@ -56,12 +56,12 @@ function Boat (captainId, krewName, spawnBool) {
         docking: 1,
         finishedDocking: 2,
         anchored: 3,
-        departing: 4,
+        departing: 4
     };
 
     this.shipState = -1;
-    this.overall_kills = 0; //Number of ships the whole crew has sunk
-    this.overall_cargo = 0; //Amount of cargo (worth gold) traded by the whole crew
+    this.overall_kills = 0; // Number of ships the whole crew has sunk
+    this.overall_cargo = 0; // Amount of cargo (worth gold) traded by the whole crew
 
     this.sentDockingMsg = false;
 
@@ -77,19 +77,19 @@ function Boat (captainId, krewName, spawnBool) {
         this.captainId = captainId;
         this.clan = entities[captainId].clan;
     } else {
-        this.captainId = "";
-        this.clan = "";
+        this.captainId = ``;
+        this.clan = ``;
     }
 
     // Boats have a crew name, by default it's the captains name or the passed krew name,
     // this is setted on the update function, so initially is set to undefined
-    captainsName = typeof captainsName === 'string' ? captainsName : '';
-    this.crewName = typeof krewName === 'string' ?
-        krewName :
-        (
-            captainsName + "'" +
-            (captainsName.charAt(captainsName.length - 1) === 's' ? '' : 's') +
-            ' krew'
+    captainsName = typeof captainsName === `string` ? captainsName : ``;
+    this.crewName = typeof krewName === `string`
+        ? krewName
+        : (
+            `${captainsName}'${
+                captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`
+            } krew`
         );
 
     // on death, we drop things. this is a security value so it only happens once
@@ -105,9 +105,8 @@ function Boat (captainId, krewName, spawnBool) {
 }
 
 Boat.prototype.updateProps = function () {
-
-    var krewCount = 0;
-    for (var id in this.children) {
+    let krewCount = 0;
+    for (let id in this.children) {
         if (
             entities[id] === undefined ||
             entities[id].parent === undefined ||
@@ -117,7 +116,7 @@ Boat.prototype.updateProps = function () {
             continue;
         }
 
-        var child = this.children[id];
+        let child = this.children[id];
         if (child && child.netType === 0) {
             krewCount += 1;
         }
@@ -128,9 +127,9 @@ Boat.prototype.updateProps = function () {
 };
 
 Boat.prototype.setName = function (crewName) {
-    var clan = '';
-    if (this.clan !== undefined && this.clan !== '') {
-        clan = '[' + this.clan + '] ';
+    let clan = ``;
+    if (this.clan !== undefined && this.clan !== ``) {
+        clan = `[${this.clan}] `;
     }
     if (this.geometry !== undefined) {
         if (this.label === undefined) {
@@ -140,20 +139,20 @@ Boat.prototype.setName = function (crewName) {
                 redrawInterval: CONFIG.Labels.redrawInterval,
                 texture: {
                     text: clan + crewName,
-                    fontFamily: CONFIG.Labels.fontFamily,
+                    fontFamily: CONFIG.Labels.fontFamily
                 },
                 material: {
                     color: 0xc5a37c,
-                    fog: false,
-                },
+                    fog: false
+                }
             });
-            this.label.name = 'label';
+            this.label.name = `label`;
             this.label.position.set(0, boatTypes[this.shipclassId].labelHeight, 0);
 
-            for (var l = this.geometry.children.length; l--;) {
+            for (let l = this.geometry.children.length; l--;) {
                 if (
                     this.geometry.children[l].isTextSprite &&
-                    this.geometry.children[l].name === 'label'
+                    this.geometry.children[l].name === `label`
                 ) {
                     this.geometry.remove(this.geometry.children[l]);
                 }
@@ -170,9 +169,8 @@ Boat.prototype.setName = function (crewName) {
 };
 
 Boat.prototype.logic = function (dt) {
-
     // world boundaries
-    var boundaryCollision = false;
+    let boundaryCollision = false;
     if (this.position.x > worldsize) {
         this.position.x = worldsize;
         boundaryCollision = true;
@@ -193,26 +191,24 @@ Boat.prototype.logic = function (dt) {
         boundaryCollision = true;
     }
 
-    var kaptain = entities[this.captainId];
+    let kaptain = entities[this.captainId];
 
     // the boat movement is simple. it always moves forward, and rotates if the captain is steering
     if (kaptain !== undefined && this.crewName !== undefined) {
         this.speed = boatTypes[this.shipclassId].speed + parseFloat(kaptain.movementSpeedBonus / 100);
     }
 
-    var moveVector = new THREE.Vector3(0, 0, (this.speed));
+    let moveVector = new THREE.Vector3(0, 0, (this.speed));
 
     // if boat is not anchored or not in docking state, we will move
     if (this.shipState == 0) {
-
         // if the steering button is pressed, the rotation changes slowly
-        (kaptain !== undefined) ?
-        this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)):
-            this.rotation += this.steering * dt * 0.4 * this.turnspeed;
+        (kaptain !== undefined)
+            ? this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
+            : this.rotation += this.steering * dt * 0.4 * this.turnspeed;
 
         // we rotate the movement vector depending on the current rotation
         moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
-
     } else {
         moveVector.set(0, 0, 0);
     }
@@ -225,11 +221,11 @@ Boat.prototype.logic = function (dt) {
     this.rottimer += dt;
 
     if (myPlayer && myPlayer.parent && this.sail) {
-        this.sail.material.visible = this.id === myPlayer.parent.id ? false : true;
+        this.sail.material.visible = this.id !== myPlayer.parent.id;
     }
 
     if (myPlayer && myPlayer.parent && this.mast) {
-        this.mast.material.visible = this.id === myPlayer.parent.id ? false : true;
+        this.mast.material.visible = this.id !== myPlayer.parent.id;
     }
 
     if (this.body &&
@@ -266,7 +262,7 @@ Boat.prototype.logic = function (dt) {
     this.geometry.rotation.x = Math.sin(this.rottimer * 0.5 + 3) * Math.sin(this.rottimer) * 0.05;
     this.geometry.rotation.z = Math.sin(this.rottimer * 1.0) * 0.05 - this.leanvalue * 0.08;
 
-    //push away from islands
+    // push away from islands
     /*
     for (e in entities)
     {
@@ -282,17 +278,16 @@ Boat.prototype.logic = function (dt) {
                 this.rotation += -((local.x > 0 ? (10-local.x) : (10+local.x) )*(10-dist)*(local.z+10))*dt*0.0005;
             }
         }
-    }*/
+    } */
 
     // if our hp is low (we died)
     if (this.hp < 1) {
-
         // on client, disconnect the camera from the player
         if (myPlayer && myPlayer.parent == this) {
-            ui.playAudioFile(false, 'sink-crash');
+            ui.playAudioFile(false, `sink-crash`);
             THREE.SceneUtils.detach(camera, camera.parent, scene);
-            $('#shopping-modal').hide();
-            $('#show-shopping-modal-button').hide();
+            $(`#shopping-modal`).hide();
+            $(`#show-shopping-modal-button`).hide();
         }
 
         // increase the sink timer, make ship sink
@@ -339,16 +334,14 @@ Boat.prototype.logic = function (dt) {
 
     //     this.captain.salary = captainsCut + this.supply - totalSalary;
     // }
-
 };
 
 Boat.prototype.clientlogic = function () {
-
     // on client, always make the y position the height above the water (depends on how much hp the ship has)
     this.position.y = this.getHeightAboveWater();
 
     // rotate through water
-    var geometryPosition = new THREE.Vector3(
+    let geometryPosition = new THREE.Vector3(
         this.position.x,
         this.position.y,
         this.position.z
@@ -366,7 +359,7 @@ Boat.prototype.clientlogic = function () {
 Boat.prototype.setShipClass = function (classId) {
     this.shipclassId = classId;
 
-    var currentShipClass = boatTypes[classId];
+    let currentShipClass = boatTypes[classId];
 
     this.maxHp = currentShipClass.hp;
     this.hp = this.maxHp;
@@ -380,18 +373,18 @@ Boat.prototype.setShipClass = function (classId) {
     this.speed = currentShipClass.speed;
     this.shipState = 2;
 
-    //console.log("changing boat model");
+    // console.log("changing boat model");
     this.changeBoatModel(this.shipclassId);
     if (myPlayer != undefined) {
         if (this == myPlayer.parent) {
-            ui.showCenterMessage('Ship upgraded to ' + boatTypes[this.shipclassId].name, 3);
-            ui.updateStore($('.btn-shopping-modal.active'));
+            ui.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
+            ui.updateStore($(`.btn-shopping-modal.active`));
         }
     }
 };
 
 Boat.prototype.getKrewOnBoard = function () {
-    for (var i in this.children) {
+    for (let i in this.children) {
         if (this.children[i].parent && this.children[i].parent.id === this.id) {
             this.geometry.add(this.children[i].geometry);
             this.children[i].position.x = 0;
@@ -419,25 +412,25 @@ Boat.prototype.getTypeSnap = function () {
         e: this.speed,
         r: this.recruiting,
         l: this.isLocked,
-        d: this.departureTime,
+        d: this.departureTime
     };
 };
 
 // function that generates boat specific delta data
 Boat.prototype.getTypeDelta = function () {
-    var delta = {
-        h: this.deltaTypeCompare('h', this.hp),
-        s: this.deltaTypeCompare('s', this.steering.toFixed(4)),
-        c: this.deltaTypeCompare('c', this.shipclassId),
-        u: this.deltaTypeCompare('u', this.supply),
-        b: this.deltaTypeCompare('b', this.captainId),
-        t: this.deltaTypeCompare('t', this.shipState),
-        a: this.deltaTypeCompare('a', this.anchorIslandId),
-        k: this.deltaTypeCompare('k', this.krewCount),
-        e: this.deltaTypeCompare('e', this.speed),
-        r: this.deltaTypeCompare('r', this.recruiting),
-        l: this.deltaTypeCompare('l', this.isLocked),
-        d: this.deltaTypeCompare('d', this.departureTime),
+    let delta = {
+        h: this.deltaTypeCompare(`h`, this.hp),
+        s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
+        c: this.deltaTypeCompare(`c`, this.shipclassId),
+        u: this.deltaTypeCompare(`u`, this.supply),
+        b: this.deltaTypeCompare(`b`, this.captainId),
+        t: this.deltaTypeCompare(`t`, this.shipState),
+        a: this.deltaTypeCompare(`a`, this.anchorIslandId),
+        k: this.deltaTypeCompare(`k`, this.krewCount),
+        e: this.deltaTypeCompare(`e`, this.speed),
+        r: this.deltaTypeCompare(`r`, this.recruiting),
+        l: this.deltaTypeCompare(`l`, this.isLocked),
+        d: this.deltaTypeCompare(`d`, this.departureTime)
     };
 
     if (isEmpty(delta)) {
@@ -457,15 +450,15 @@ Boat.prototype.parseTypeSnap = function (snap) {
         this.steering = parseFloat(snap.s);
     }
 
-    //if (snap.d !== undefined) this.isDocking = snap.d;
+    // if (snap.d !== undefined) this.isDocking = snap.d;
 
     // update supply
     if (snap.u !== undefined) {
-        var newSupply = parseInt(snap.u);
+        let newSupply = parseInt(snap.u);
         if (myPlayer && this == myPlayer.parent && newSupply != this.supply) {
-            var suppliesEarned = newSupply - this.supply;
+            let suppliesEarned = newSupply - this.supply;
             if (suppliesEarned > 1) {
-                ui.showCenterMessage('+ ' + suppliesEarned + ' supplies', 2);
+                ui.showCenterMessage(`+ ${suppliesEarned} supplies`, 2);
             }
         }
 
@@ -518,14 +511,13 @@ Boat.prototype.parseTypeSnap = function (snap) {
         if (this.shipState === 0) {
             this.getKrewOnBoard();
         }
-        /*var dockDecision = this.shipState == 3 || this.shipState == -1 || this.shipState == 4? 1 : 0;
-        this.docking(dockDecision)*/
+        /* var dockDecision = this.shipState == 3 || this.shipState == -1 || this.shipState == 4? 1 : 0;
+        this.docking(dockDecision) */
     }
 };
 
 // function that parses a snapshot
 Boat.prototype.onDestroy = function () {
-
     this.children = {};
 
     // makre sure to also call the entity ondestroy
@@ -561,17 +553,16 @@ Boat.prototype.enterIsland = function (islandId) {
 };
 
 Boat.prototype.exitIsland = function () {
-
     this.shipState = 0;
     this.recruiting = false;
     this.departureTime = 5;
 
     if (this.anchorIslandId) {
-        //set rotation away from island
+        // set rotation away from island
         this.rotation = rotationToObject(this, entities[this.anchorIslandId]);
 
         // make a tiny jump so we dont instantly anchor again
-        var outward = angleToVector(this.rotation);
+        let outward = angleToVector(this.rotation);
         this.position.x = entities[this.anchorIslandId].position.x - outward.x * (entities[this.anchorIslandId].dockRadius + 5);
         this.position.z = entities[this.anchorIslandId].position.z - outward.y * (entities[this.anchorIslandId].dockRadius + 5); // <- careful. y value!
     }
@@ -581,13 +572,11 @@ Boat.prototype.exitIsland = function () {
 
 // when ship is abandoning its mothership!
 Boat.prototype.exitMotherShip = function (mothership) {
-
-    //set rotation away from mothership
+    // set rotation away from mothership
     this.rotation = rotationToObject(this, mothership);
 
     // make a tiny jump away from mothership
-    var outward = angleToVector(this.rotation);
+    let outward = angleToVector(this.rotation);
     this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
     this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
-
 };

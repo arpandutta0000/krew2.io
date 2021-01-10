@@ -1,7 +1,6 @@
-var particles = [];
+let particles = [];
 
 function Particle (params) {
-
     // parse parameters
     this.vx = params.vx;
     this.vy = params.vy;
@@ -32,7 +31,6 @@ function Particle (params) {
 }
 
 Particle.prototype.tick = function (dt) {
-
     // subtract gravity
     this.vy -= this.gravity * dt;
 
@@ -63,11 +61,10 @@ Particle.prototype.tick = function (dt) {
         scene.remove(this.geometry);
         this.deleteMe = true;
     }
-
 };
 
 // creeating a new particle
-var createParticle = function (params) {
+let createParticle = function (params) {
     if (!myPlayer || !myPlayer.parent || ((Math.pow(params.x - myPlayer.parent.position.x, 2) + Math.pow(params.z - myPlayer.parent.position.z, 2)) > 10000)) {
         return;
     }
@@ -76,8 +73,8 @@ var createParticle = function (params) {
 };
 
 // -------- Ticking the particles
-var tickParticles = function (dt) {
-    var i = particles.length;
+let tickParticles = function (dt) {
+    let i = particles.length;
     while (i--) {
         particles[i].tick(dt);
         if (particles[i].deleteMe) {

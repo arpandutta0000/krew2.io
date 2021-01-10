@@ -1,5 +1,5 @@
 global.entities = entities;
-let compressor = require('../compressor/compressor.js');
+let compressor = require(`../compressor/compressor.js`);
 
 let createPlayer = function (data) {
     data = data || {};
@@ -11,7 +11,7 @@ let createPlayer = function (data) {
 
     // real player
     if (TEST_ENV) {
-        //if (data && players[player.id] === undefined) {
+        // if (data && players[player.id] === undefined) {
         if (data) {
             player.id = data.socketId;
         } else {
@@ -28,7 +28,6 @@ let createPlayer = function (data) {
 };
 
 let createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
-
     x = Math.min(Math.max(0, x), worldsize);
     z = Math.min(Math.max(0, z), worldsize);
 
@@ -37,14 +36,14 @@ let createPickup = function (size, x, z, type, collisionIsland, specialBonus) {
         for (l in entities) {
             if (entities[l].netType == 5 && (type == 0 || type == 4)) {
                 if (entities[l].isWithinDockingRadius(x, z)) {
-                    //console.log("stopped pickup from spawning in docking radius")
+                    // console.log("stopped pickup from spawning in docking radius")
                     return;
                 }
             }
         }
     }
 
-    //core.createPickup
+    // core.createPickup
     let id;
     while (!id || entities[id] !== undefined) {
         id = randomid();
@@ -102,7 +101,6 @@ let createBot = function () {
 };
 
 let removeEntity = function (entity) {
-
     // remove it from entities object
     if (entity && entities.hasOwnProperty(entity.id)) {
         entity.onDestroy();
@@ -112,7 +110,6 @@ let removeEntity = function (entity) {
         let id = entity.id;
         delete entities[id];
     }
-
 };
 
 let randomid = function () {

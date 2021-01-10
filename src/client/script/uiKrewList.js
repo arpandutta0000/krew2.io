@@ -1,15 +1,15 @@
 (function (window) {
-    var h = hyperapp.h;
-    var state = {
-        boats: [],
+    let h = hyperapp.h;
+    let state = {
+        boats: []
     };
-    var actions = {
+    let actions = {
         boats: function () {
             return function (state) {
-                var id;
-                var boat;
-                var boats = [];
-                if (typeof entities === 'object' && entities !== null) {
+                let id;
+                let boat;
+                let boats = [];
+                if (typeof entities === `object` && entities !== null) {
                     for (id in entities) {
                         boat = entities[id];
 
@@ -42,16 +42,15 @@
                                     boat.anchorIslandId == myPlayer.parent.id
                                 ) {
                                     boats.push(boat);
-                                    $('#docked-krews-count').html(boats.length);
+                                    $(`#docked-krews-count`).html(boats.length);
                                 }
                             }
                         }
-
                     }
                 }
 
                 boats.sort(
-                    function (a, b) {
+                    (a, b) => {
                         if (a.departureTime === b.departureTime) {
                             return a.id < b.id ? -1 : a.id == b.id ? 0 : 1;
                         }
@@ -60,35 +59,33 @@
                     }
                 );
                 if (boats.length == 0)
-                    $('#toggle-krew-list-modal-button').popover('hide');
-                //$('#docked-krews-count').html(boats.length);
+                    $(`#toggle-krew-list-modal-button`).popover(`hide`);
+                // $('#docked-krews-count').html(boats.length);
                 return {
                     boats: boats
                 };
             };
-        },
+        }
     };
-    var view = function (state, actions) {
-        return h('div', {}, [
-            h('table', {
-                class: 'table table-sm'
+    let view = function (state, actions) {
+        return h(`div`, {}, [
+            h(`table`, {
+                class: `table table-sm`
             }, [
-                h('thead', {
-                    class: 'thead-inverse'
+                h(`thead`, {
+                    class: `thead-inverse`
                 }, [
-                    h('tr', {}, [
-                        h('th', {}, 'Krew Name'),
-                        h('th', {}, 'Capacity'),
-                        h('th'),
-                    ]),
+                    h(`tr`, {}, [
+                        h(`th`, {}, `Krew Name`),
+                        h(`th`, {}, `Capacity`),
+                        h(`th`)
+                    ])
                 ]),
-                h('tbody', {}, state.boats.map(function (boat) {
+                h(`tbody`, {}, state.boats.map((boat) => {
                     if (myPlayer !== undefined && myPlayer.parent !== undefined && boat !== undefined && entities[boat.captainId] !== undefined) {
-
-                        var test = "'#" + boat.id + "'";
-                        $(document).on('click', "#" + boat.id, function () {
-
-                            var id = boat.id;
+                        let test = `'#${boat.id}'`;
+                        $(document).on(`click`, `#${boat.id}`, () => {
+                            let id = boat.id;
                             if (
                                 entities[id] === undefined ||
                                 entities[id].maxKrewCapacity == entities[id].krewCount ||
@@ -96,21 +93,21 @@
                             ) {
                                 return;
                             }
-                            socket.emit('joinKrew', id, function (callback) {
+                            socket.emit(`joinKrew`, id, (callback) => {
                                 if (callback === 0) {
                                     // $('#island-menu-div').show();
-                                    $('#exit-island-button').hide();
-                                    $('#toggle-invite-link-button').hide();
-                                    $('#invite-div').hide();
+                                    $(`#exit-island-button`).hide();
+                                    $(`#toggle-invite-link-button`).hide();
+                                    $(`#invite-div`).hide();
 
-                                    if ($('#departure-modal').is(':visible')) {
-                                        $('#departure-modal').hide();
+                                    if ($(`#departure-modal`).is(`:visible`)) {
+                                        $(`#departure-modal`).hide();
                                     }
 
-                                    GameAnalytics("addDesignEvent", "Game:Session:JoinedBoat");
+                                    GameAnalytics(`addDesignEvent`, `Game:Session:JoinedBoat`);
 
-                                    $("#krew-div").show();
-                                    $('#abandon-ship-button').show();
+                                    $(`#krew-div`).show();
+                                    $(`#abandon-ship-button`).show();
 
                                     // if (krewListUpdateManually)
                                     // {
@@ -133,31 +130,33 @@
                             });
                         });
 
-                        return h('tr', {
+                        return h(`tr`, {
                             key: boat.id
                         }, [
-                            h('td', {}, [
-                                boat.crewName + '(' + boatTypes[boat.shipclassId].name + ')',
-                                h('br'),
-                                h('small', {}, boat.shipState == 4 ? 'Departing in ' + Math.round(boat.departureTime) + ' seconds' : ''),
+                            h(`td`, {}, [
+                                `${boat.crewName}(${boatTypes[boat.shipclassId].name})`,
+                                h(`br`),
+                                h(`small`, {}, boat.shipState == 4 ? `Departing in ${Math.round(boat.departureTime)} seconds` : ``)
                             ]),
-                            h('td', {}, boat.krewCount + '/' + boatTypes[boat.shipclassId].maxKrewCapacity),
-                            h('td', {}, boat.id === myPlayer.parent.id ? 'My Krew' : h('button', {
-                                id: boat.id,
-                                class: 'btn btn-primary btn-md',
-                                role: 'button',
-                                disabled: entities[boat.id] === undefined ||
+                            h(`td`, {}, `${boat.krewCount}/${boatTypes[boat.shipclassId].maxKrewCapacity}`),
+                            h(`td`, {}, boat.id === myPlayer.parent.id
+                                ? `My Krew`
+                                : h(`button`, {
+                                    id: boat.id,
+                                    class: `btn btn-primary btn-md`,
+                                    role: `button`,
+                                    disabled: entities[boat.id] === undefined ||
                                     entities[boat.id].maxKrewCapacity == entities[boat.id].krewCount ||
-                                    entities[boat.id].captainId === myPlayerId,
+                                    entities[boat.id].captainId === myPlayerId
 
-                            }, 'Join')),
+                                }, `Join`))
                         ]);
                     }
-                })),
-            ]),
+                }))
+            ])
         ]);
     };
 
-    window.KREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById('krews-list'));
-    window.DEPARTINGKREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById('departing-krews-list'));
+    window.KREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById(`krews-list`));
+    window.DEPARTINGKREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById(`departing-krews-list`));
 })(window);

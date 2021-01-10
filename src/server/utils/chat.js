@@ -6,8 +6,8 @@ let discordFilter = message => {
         .replace(`||`, `\\\|\\\|`)
         .replace(`_`, `\\_`)
         .replace(`*`, `\\*`);
-}
+};
 
 module.exports = {
     discordFilter
-}
+};

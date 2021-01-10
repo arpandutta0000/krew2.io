@@ -12,8 +12,8 @@ window.updateInputRange = $input => {
     $output.html(val);
     $input.attr(`style`, `--value:${percent}`);
     $output.attr(`style`, `left:${percent}%; transform: translate(-${percent}%);`);
-}
+};
 
 window.inputRange = $input => {
     $input.on(`input change`, () => updateInputRange($input));
-}
+};

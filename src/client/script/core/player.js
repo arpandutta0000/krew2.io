@@ -3,10 +3,9 @@ Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
 function Player (data) {
-
-    this.name = data !== undefined ?
-        (data.name || '') :
-        '';
+    this.name = data !== undefined
+        ? (data.name || ``)
+        : ``;
 
     this.createProperties();
 
@@ -32,23 +31,23 @@ function Player (data) {
     this.score = 50; // player score
     this.salary = 0; // player score
     this.overall_cargo = 0; // sum up amount of cargo ever traded
-    this.last_island = ""; // last island the seadog bought goods on
+    this.last_island = ``; // last island the seadog bought goods on
     this.gold = (data.startingItems || {}).gold || 0; // player gold
 
     this.islandBoundary = {
         x: 0,
         z: 0
     }; // to limit  boundaries around island
-    this.shipsSank = 0; //Number of ships player has sunk
-    this.shotsFired = 0; //Number of projectiles player has used
-    this.shotsHit = 0; //Number of projectiles that hit other ships
+    this.shipsSank = 0; // Number of ships player has sunk
+    this.shotsFired = 0; // Number of projectiles player has used
+    this.shotsHit = 0; // Number of projectiles that hit other ships
 
     this.sentDockingMsg = false; // Used to stop server from emitting enterIsland message before docking.
     // Keep track of player state.
     this.state = {
         alive: 0,
         dead: 1,
-        respawning: 2,
+        respawning: 2
     };
     this.state = 0;
 
@@ -56,7 +55,7 @@ function Player (data) {
         nothing: -1,
         cannon: 0,
         fishingRod: 1,
-        spyglass: 2,
+        spyglass: 2
     };
     this.activeWeapon = 0;
 
@@ -85,7 +84,7 @@ function Player (data) {
     this.fly = 0;
     this.waterWalk = 0;
 
-    //this.items = [];
+    // this.items = [];
     this.itemId;
 
     this.ownsCannon = true;
@@ -104,12 +103,12 @@ function Player (data) {
     this.experienceBase = 100;
     this.experienceMaxLevel = 50;
     this.experienceNeedsUpdate = true;
-    //Bank and casino
+    // Bank and casino
     this.bank = {
-        deposit: 0,
+        deposit: 0
     };
     this.casino = {};
-    this.clan = data.t.cl === "" ? undefined : data.t.cl;
+    this.clan = data.t.cl === `` ? undefined : data.t.cl;
     this.clanLeader = data.t.cll;
     this.clanOwner = data.t.clo;
     this.clanRequest = data.t.cr;
@@ -117,7 +116,7 @@ function Player (data) {
 
     // Build an object with the levels from 0 to max level for future references
     this.experienceNeededForLevels = (function (entity) {
-        var levels = {
+        let levels = {
             0: {
                 amount: 0,
                 total: 0
@@ -128,7 +127,7 @@ function Player (data) {
             }
         };
 
-        for (var i = 1; i < entity.experienceMaxLevel + 1; i++) {
+        for (let i = 1; i < entity.experienceMaxLevel + 1; i++) {
             levels[i + 1] = {};
             levels[i + 1].amount = Math.ceil(levels[i].amount * 1.07);
             levels[i + 1].total = levels[i + 1].amount + levels[i].total;
@@ -140,9 +139,9 @@ function Player (data) {
     this.points = {
         fireRate: 0,
         distance: 0,
-        damage: 0,
+        damage: 0
     };
-    var _this = this;
+    let _this = this;
     this.pointsFormula = {
         getFireRate: function () {
             return (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 1.2;
@@ -158,40 +157,40 @@ function Player (data) {
 
         getExperience: function (damage) {
             return parseInt(damage * 2.4);
-        },
+        }
     };
 
     // set up references to geometry and material
     this.jump = 0.0;
     this.jumpVel = 0.0;
 
-    //Let the current players know about this player
+    // Let the current players know about this player
     if (!playerNames[data.id]) {
         playerNames[data.id] = this.name;
     }
 
     this.notifiscationHeap = {};
 
-    //Create the label for this player when it is created
+    // Create the label for this player when it is created
     this.setName(this.name);
     this.crossHair();
 }
 
 Player.prototype.notifiscation = function () {
-    for (var z in this.notifiscationHeap) {
+    for (let z in this.notifiscationHeap) {
         if (this.notifiscationHeap[z].isNew) {
             this.notifiscationHeap[z].sprite = new THREE.TextSprite({
                 textSize: (this.notifiscationHeap[z].type) === 1 ? 0.6 : 0.9,
                 redrawInterval: 10,
                 texture: {
                     text: this.notifiscationHeap[z].text,
-                    fontFamily: CONFIG.Labels.fontFamily,
+                    fontFamily: CONFIG.Labels.fontFamily
                 },
                 material: {
                     color: (this.notifiscationHeap[z].type) === 1 ? 0xFFD700 : 0x62ff00,
                     fog: false,
-                    opacity: 0.0,
-                },
+                    opacity: 0.0
+                }
             });
             this.notifiscationHeap[z].sprite.position.set(3, 1, 0);
             this.geometry.add(this.notifiscationHeap[z].sprite);
@@ -209,12 +208,11 @@ Player.prototype.notifiscation = function () {
 };
 
 Player.prototype.updateExperience = function (damage) {
+    let experience = this.experience;
+    let level = 0;
+    let i;
 
-    var experience = this.experience;
-    var level = 0;
-    var i;
-
-    if (typeof damage === 'number') {
+    if (typeof damage === `number`) {
         experience += this.pointsFormula.getExperience(damage);
     }
 
@@ -244,17 +242,16 @@ Player.prototype.updateExperience = function (damage) {
 Player.prototype.rotationOffset = -0.45;
 
 Player.prototype.logic = function (dt) {
-
     // check if we are the captain of our ship
     this.oldCaptainState = this.isCaptain;
     this.isCaptain = this.parent && this.id === this.parent.captainId;
 
     // the player movemnt logic is depending on wether the walkSideward / forward buttons are pressed
-    var moveVector = new THREE.Vector3(0, 0, 0);
+    let moveVector = new THREE.Vector3(0, 0, 0);
     moveVector.z = -this.walkForward;
     moveVector.x = this.walkSideward;
 
-    //this.changeWeapon();
+    // this.changeWeapon();
     // we create a movement vector depending on the walk buttons and normalize it
     if (moveVector.lengthSq() > 0) {
         moveVector.normalize();
@@ -278,25 +275,25 @@ Player.prototype.logic = function (dt) {
             if (this.position.x > this.parent.size.x / 2) {
                 this.position.x = this.parent.size.x / 2;
                 if (this.isPlayer)
-                    ui.playAudioFile(false, 'turning');
+                    ui.playAudioFile(false, `turning`);
             }
 
             if (this.position.z > this.parent.size.z / 2) {
                 this.position.z = this.parent.size.z / 2;
                 if (this.isPlayer)
-                    ui.playAudioFile(false, 'turning');
+                    ui.playAudioFile(false, `turning`);
             }
 
             if (this.position.x < -this.parent.size.x / 2) {
                 this.position.x = -this.parent.size.x / 2;
                 if (this.isPlayer)
-                    ui.playAudioFile(false, 'turning');
+                    ui.playAudioFile(false, `turning`);
             }
 
             if (this.position.z < -this.parent.size.z / 2) {
                 this.position.z = -this.parent.size.z / 2;
                 if (this.isPlayer)
-                    ui.playAudioFile(false, 'turning');
+                    ui.playAudioFile(false, `turning`);
             }
 
             // oval boat shape collision
@@ -324,7 +321,6 @@ Player.prototype.logic = function (dt) {
                     }
                 }
             }
-
         }
     }
 
@@ -334,14 +330,14 @@ Player.prototype.logic = function (dt) {
     }
 
     if (this.use === true && this.cooldown <= 0) {
-        var attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
+        let attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
         this.cooldown = this.activeWeapon === 1 ? 2 : (1.5 - attackSpeedBonus).toFixed(2);
 
         if (this.activeWeapon === 0 && this.isPlayer && this.parent && this.parent.shipState !== 3 && this.parent.shipState !== 4)
-            ui.playAudioFile(false, 'cannon')
+            ui.playAudioFile(false, `cannon`);
 
         else if (this.isPlayer && this.activeWeapon === 1)
-            ui.playAudioFile(false, 'cast-rod');
+            ui.playAudioFile(false, `cast-rod`);
     }
     if (!this.isPlayer) {
         this.geometry.rotation.x = this.pitch + this.rotationOffset;
@@ -350,7 +346,7 @@ Player.prototype.logic = function (dt) {
 
 // function that generates boat specific snapshot data
 Player.prototype.getTypeSnap = function () {
-    var obj = {
+    let obj = {
         f: this.walkForward,
         s: this.walkSideward,
         u: this.use,
@@ -372,10 +368,10 @@ Player.prototype.getTypeSnap = function () {
             p: {
                 fr: this.fireRate,
                 ds: this.distance,
-                dm: this.damage,
+                dm: this.damage
             },
-            l: this.level,
-        },
+            l: this.level
+        }
     };
 
     return obj;
@@ -383,20 +379,20 @@ Player.prototype.getTypeSnap = function () {
 
 // function that generates boat specific snapshot data
 Player.prototype.getTypeDelta = function () {
-    var delta = {
-        f: this.deltaTypeCompare('f', this.walkForward),
-        s: this.deltaTypeCompare('s', this.walkSideward),
-        u: this.deltaTypeCompare('u', this.use),
-        p: this.deltaTypeCompare('p', this.pitch.toFixed(2)),
-        j: this.deltaTypeCompare('j', this.jumping),
-        fl: this.deltaTypeCompare('fl', this.fly),
-        ww: this.deltaTypeCompare('ww', this.waterWalk),
-        w: this.deltaTypeCompare('w', this.activeWeapon),
-        c: this.deltaTypeCompare('c', this.checkedItemsList),
-        d: this.deltaTypeCompare('d', this.itemId),
-        o: this.deltaTypeCompare('o', this.ownsCannon),
-        r: this.deltaTypeCompare('r', this.ownsFishingRod),
-        v: this.deltaTypeCompare('v', this.availablePoints),
+    let delta = {
+        f: this.deltaTypeCompare(`f`, this.walkForward),
+        s: this.deltaTypeCompare(`s`, this.walkSideward),
+        u: this.deltaTypeCompare(`u`, this.use),
+        p: this.deltaTypeCompare(`p`, this.pitch.toFixed(2)),
+        j: this.deltaTypeCompare(`j`, this.jumping),
+        fl: this.deltaTypeCompare(`fl`, this.fly),
+        ww: this.deltaTypeCompare(`ww`, this.waterWalk),
+        w: this.deltaTypeCompare(`w`, this.activeWeapon),
+        c: this.deltaTypeCompare(`c`, this.checkedItemsList),
+        d: this.deltaTypeCompare(`d`, this.itemId),
+        o: this.deltaTypeCompare(`o`, this.ownsCannon),
+        r: this.deltaTypeCompare(`r`, this.ownsFishingRod),
+        v: this.deltaTypeCompare(`v`, this.availablePoints)
     };
     if (isEmpty(delta)) {
         delta = undefined;
@@ -406,9 +402,9 @@ Player.prototype.getTypeDelta = function () {
 };
 
 Player.prototype.setName = function (name) {
-    var clan = '';
-    if (this.clan !== undefined && this.clan !== '') {
-        clan = '[' + this.clan + '] ';
+    let clan = ``;
+    if (this.clan !== undefined && this.clan !== ``) {
+        clan = `[${this.clan}] `;
     }
     if (this.geometry !== undefined) {
         if (this.label === undefined) {
@@ -417,22 +413,26 @@ Player.prototype.setName = function (name) {
                 textSize: 0.7,
                 redrawInterval: CONFIG.Labels.redrawInterval,
                 texture: {
-                    text: clan + (Admins.includes(this.name) ? '[Admin] ' : Mods.includes(this.name) ? '[Staff] ' : Devs.includes(this.name) ? '[Dev] ' : '') + name + ' (lvl ' + this.level + ')',
-                    fontFamily: CONFIG.Labels.fontFamily,
+                    text: `${clan + (Admins.includes(this.name) ? `[Admin] ` : Mods.includes(this.name) ? `[Staff] ` : Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`,
+                    fontFamily: CONFIG.Labels.fontFamily
                 },
                 material: {
-                    color: Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ? labelcolors.staff : this.isPlayer ?
-                        labelcolors.myself : this.isCaptain ?
-                        labelcolors.captain : labelcolors.player,
+                    color: Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
+                        ? labelcolors.staff
+                        : this.isPlayer
+                            ? labelcolors.myself
+                            : this.isCaptain
+                                ? labelcolors.captain
+                                : labelcolors.player,
                     fog: false
-                },
+                }
             });
 
-            this.label.name = 'label';
+            this.label.name = `label`;
             this.label.position.set(0, 2, 0);
             this.geometry.add(this.label);
         }
-        this.label.material.map.text = clan + (Admins.includes(this.name) ? '[Admin] ' : Mods.includes(this.name) ? '[Staff] ' : Devs.includes(this.name) ? '[Dev] ' : '') + name + ' (lvl ' + this.level + ')';
+        this.label.material.map.text = `${clan + (Admins.includes(this.name) ? `[Admin] ` : Mods.includes(this.name) ? `[Staff] ` : Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
         this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined &&
             (this.parent.netType === 5 || this.parent.inRange);
     }
@@ -484,14 +484,13 @@ Player.prototype.parseTypeSnap = function (snap) {
     if (snap.o !== undefined && snap.o !== this.ownsCannon) {
         this.ownsCannon = parseBool(snap.o);
         if (ui !== undefined)
-            ui.updateStore($('.btn-shopping-modal.active'));
-
+            ui.updateStore($(`.btn-shopping-modal.active`));
     }
 
     if (snap.r !== undefined && snap.r !== this.ownsFishingRod) {
         this.ownsFishingRod = parseBool(snap.r);
         if (ui !== undefined)
-            ui.updateStore($('.btn-shopping-modal.active'));
+            ui.updateStore($(`.btn-shopping-modal.active`));
     }
 
     if (snap.c !== undefined && snap.c !== this.checkedItemsList) {
@@ -501,7 +500,7 @@ Player.prototype.parseTypeSnap = function (snap) {
     if (snap.d !== undefined && snap.d != this.itemId) {
         this.itemId = parseInt(snap.d);
         if (ui !== undefined)
-            ui.updateStore($('.btn-shopping-modal.active'));
+            ui.updateStore($(`.btn-shopping-modal.active`));
     }
 
     if (snap.w !== undefined && snap.w !== this.activeWeapon) {
@@ -520,13 +519,11 @@ Player.prototype.parseTypeSnap = function (snap) {
 };
 
 Player.prototype.onDestroy = function () {
-
     Entity.prototype.onDestroy.call(this);
 
     if (this === myPlayer) {
         myPlayer = undefined;
     }
-
 
     if (this.parent) {
         delete this.parent.children[this.id];
@@ -545,7 +542,7 @@ Player.prototype.onDestroy = function () {
 
 Player.prototype.setPlayerBody = function (idx) {
     idx = idx || 0;
-    var bodyModel = playerModels[idx];
+    let bodyModel = playerModels[idx];
     this.playerBody = bodyModel.body.clone();
     this.playerBody.scale.set(bodyModel.scale.x, bodyModel.scale.y, bodyModel.scale.z);
     this.playerBody.position.set(bodyModel.offset.x, bodyModel.offset.y, bodyModel.offset.z);
@@ -558,56 +555,54 @@ Player.prototype.setPlayerBody = function (idx) {
     this.weapon.scale.set(0.05, 0.05, 0.05);
     this.weapon.position.set(0, 0, -0.4);
     this.weapon.rotation.set(0, 0, 0);
-    this.weapon.name = 'body';
+    this.weapon.name = `body`;
     this.geometry.add(this.weapon);
 
     this.captainHat = models.hat_pirate.clone();
     this.captainHat.scale.set(0.4, 0.4, 0.4);
     this.captainHat.position.set(0, 25, 0);
-    this.captainHat.name = 'captainHat';
+    this.captainHat.name = `captainHat`;
 };
 
 Player.prototype.crossHair = function () {
-
     this.crosshair = new THREE.TextSprite({
         textSize: 0.0365,
         redrawInterval: 10,
         texture: {
-            text: '+',
-            fontFamily: CONFIG.Labels.fontFamily,
+            text: `+`,
+            fontFamily: CONFIG.Labels.fontFamily
         },
         material: {
             color: 0x00ff00,
-            fog: false,
-        },
+            fog: false
+        }
     });
 };
 
 Player.prototype.changeWeapon = function () {
-
     if (this.weapon && this.activeWeapon === 0) {
         this.geometry.remove(this.weapon);
         this.weapon = models.cannon.clone();
         if (this.isPlayer)
-            ui.playAudioFile(false, 'switch-rod-cannon');
+            ui.playAudioFile(false, `switch-rod-cannon`);
 
         this.weapon.scale.set(0.05, 0.05, 0.05);
         this.weapon.position.set(0, 0.1, -0.4);
         this.weapon.rotation.set(0, 0, 0);
-        this.weapon.name = 'body';
+        this.weapon.name = `body`;
         this.geometry.add(this.weapon);
     } else if (this.weapon && this.activeWeapon === 1) {
         this.geometry.remove(this.weapon);
-        var fishingModel = new THREE.Mesh(geometry.fishingrod, materials.fishingrod);
+        let fishingModel = new THREE.Mesh(geometry.fishingrod, materials.fishingrod);
         fishingModel.castShadow = true;
         fishingModel.receiveShadow = true;
         if (this.isPlayer)
-            ui.playAudioFile(false, 'switch-rod-cannon');
+            ui.playAudioFile(false, `switch-rod-cannon`);
         this.weapon = fishingModel.clone();
         this.weapon.scale.set(0.03, 0.03, 0.03);
         this.weapon.position.set(0, 0.1, -0.2);
         this.weapon.rotation.set(0, Math.PI, 0);
-        this.weapon.name = 'body';
+        this.weapon.name = `body`;
         this.weapon.castShadow = true;
         this.weapon.receiveShadow = true;
         this.geometry.add(this.weapon);
@@ -617,11 +612,11 @@ Player.prototype.changeWeapon = function () {
         this.weapon.scale.set(0.7, 0.7, 0.7);
         this.weapon.position.set(0, 0.5, 0.3);
         this.weapon.rotation.set(0.5, Math.PI / 2 + 0.07, 0.5);
-        this.weapon.name = 'body';
+        this.weapon.name = `body`;
         this.geometry.add(this.weapon);
     }
 };
 
 var parseBool = function (b) {
-    return b === true || b === 'true';
+    return b === true || b === `true`;
 };

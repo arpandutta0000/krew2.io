@@ -26,7 +26,7 @@ passport.use(`login`, new LocalStrategy({
             return done(`Incorrect username or password`, false);
         }
 
-        if (!user.verified) return done(`You must verify your email before logging in`)
+        if (!user.verified) return done(`You must verify your email before logging in`);
 
         // Login a user.
         bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -34,7 +34,7 @@ passport.use(`login`, new LocalStrategy({
 
             if (isMatch) {
                 return done(null, user);
-            } else return done(`Incorrect username / password`, false)
+            } else return done(`Incorrect username / password`, false);
         });
     }).catch(err => {
         return done(err, false);
@@ -50,7 +50,7 @@ passport.use(`register`, new LocalStrategy({
         username
     }).then(user => {
         if (user) {
-            if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
+            if (!user.verified && ((new Date()) - user.creationDate) > (60 * 60 * 1e3)) {
                 user.delete();
             } else {
                 return done(`User already exists`, false);
@@ -73,7 +73,6 @@ passport.use(`register`, new LocalStrategy({
                 return done(null, registerUser, `success`);
             });
         }));
-
     });
 }));
 

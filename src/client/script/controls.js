@@ -27,7 +27,7 @@ let GameControls = function () {
             _this.lastX = event.x;
             _this.lastY = event.y;
         }
-    }
+    };
 
     this.mouseMoveLocked = event => {
         event.preventDefault();
@@ -51,7 +51,7 @@ let GameControls = function () {
             _this.lastY = event.y;
         }
         _this.cameraX = Math.max((-1 * PI_2), Math.min(PI_2, _this.cameraX));
-    }
+    };
 
     this.onMouseDown = event => {
         // Lock only if its on the rendering canvas.
@@ -69,7 +69,7 @@ let GameControls = function () {
             }
         }
         if (myPlayer && (_this.lmb || _this.rmb) && event.target == renderer.domElement) _this.lockMouseLook();
-    }
+    };
 
     this.onMouseUp = event => {
         switch (event.button) {
@@ -85,7 +85,7 @@ let GameControls = function () {
             }
         }
         return false;
-    }
+    };
 
     this.mouseWheelEvent = event => {
         if (event.target == renderer.domElement || event.target == document.body) {
@@ -96,7 +96,7 @@ let GameControls = function () {
             _this.cameraZoom -= delta > 0 ? 1 : -1;
             _this.cameraZoom = Math.min(30, Math.max(_this.cameraZoom, 3));
         }
-    }
+    };
 
     if (!havePointerLock) {
         this.locked = true;
@@ -116,7 +116,7 @@ let GameControls = function () {
             element.requestPointerLock();
         }
         this.isMouseLookLocked = true;
-    }
+    };
 
     this.unLockMouseLook = () => {
         if (havePointerLock) {
@@ -124,13 +124,13 @@ let GameControls = function () {
             document.exitPointerLock();
         }
         this.isMouseLookLocked = false;
-    }
-}
+    };
+};
 
 // Disable context menu.
 window.oncontextmenu = () => {
     return false;
-}
+};
 
 let havePointerLock = `pointerLockElement` in document || `mozPointerLockElement` in document || `webkitPointerLockElement` in document;
 if (havePointerLock) {
@@ -146,7 +146,7 @@ if (havePointerLock) {
             document.addEventListener(`mousemove`, controls.mouseMoveUnlocked, false);
             document.removeEventListener(`mousemove`, controls.mouseMoveLocked, false);
         }
-    }
+    };
 
     // Change events on hook pointer lock state.
     document.addEventListener(`pointerlockchange`, pointerLockChange, false);

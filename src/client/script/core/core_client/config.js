@@ -5,18 +5,18 @@
  */
 window.CONFIG = {
     setProperties: {
-        inVision: false,
+        inVision: false
     },
     Labels: {
         redrawInterval: 250,
-        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontFamily: `Arial, Helvetica, sans-serif`,
         distanceMultiplier: {
             0: 40,
             1: 160,
-            5: 300,
+            5: 300
         },
         boats: {
-            useMethod: 'inRange', // 'inVision' or 'inRange'
-        },
-    },
+            useMethod: `inRange` // 'inVision' or 'inRange'
+        }
+    }
 };

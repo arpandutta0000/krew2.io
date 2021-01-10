@@ -20,7 +20,7 @@ router.post(`/register`, (req, res, next) => {
     });
 
     if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
-        typeof req.body[`register-username`] != `string` || typeof req.body[`register-email`] != `string` || typeof req.body[`register-password`] != `string` || typeof req.body[`register-password-confirm`] != `string`) return res.json({
+        typeof req.body[`register-username`] !== `string` || typeof req.body[`register-email`] !== `string` || typeof req.body[`register-password`] !== `string` || typeof req.body[`register-password-confirm`] !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -58,7 +58,7 @@ router.post(`/register`, (req, res, next) => {
         email
     }).then(user => {
         if (user) {
-            if (!user.verified && ((new Date) - user.creationDate) > (60 * 60 * 1e3)) {
+            if (!user.verified && ((new Date()) - user.creationDate) > (60 * 60 * 1e3)) {
                 user.delete();
             } else {
                 return res.json({
@@ -81,7 +81,7 @@ router.post(`/register`, (req, res, next) => {
                     if (!user) return log(`red`, err);
 
                     let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
-                    let token = `n` + crypto.randomBytes(16).toString('hex') + user.username;
+                    let token = `n${crypto.randomBytes(16).toString(`hex`)}${user.username}`;
 
                     user.email = email;
                     user.verified = false;
@@ -127,7 +127,7 @@ router.post(`/register`, (req, res, next) => {
                             //     });
                             // } else {
                             let transporter = nodemailer.createTransport({
-                                service: "Gmail",
+                                service: `Gmail`,
                                 auth: {
                                     user: process.env.EMAIL_USERNAME,
                                     pass: process.env.EMAIL_PASSWORD
@@ -145,13 +145,13 @@ router.post(`/register`, (req, res, next) => {
                             }
 
                             let mailOptions = {
-                                from: 'noreply@krew.io',
+                                from: `noreply@krew.io`,
                                 to: user.email,
-                                subject: 'Verify your Krew.io Account',
+                                subject: `Verify your Krew.io Account`,
                                 text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
-                            }
+                            };
 
-                            transporter.sendMail(mailOptions, function (err) {
+                            transporter.sendMail(mailOptions, (err) => {
                                 if (err) {
                                     user.delete();
                                     return res.json({
@@ -187,7 +187,7 @@ router.post(`/login`, (req, res, next) => {
         });
     }
     if (!req.body[`login-username`] || !req.body[`login-password`] ||
-        typeof req.body[`login-username`] != `string` || typeof req.body[`login-password`] != `string`) return res.json({
+        typeof req.body[`login-username`] !== `string` || typeof req.body[`login-password`] !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -223,7 +223,7 @@ router.post(`/change_username`, (req, res, next) => {
     let currentUsername = req.user.username;
     let username = req.body[`change-username-input`];
 
-    if (!username || typeof username != `string`) return res.json({
+    if (!username || typeof username !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -253,7 +253,7 @@ router.post(`/change_username`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            if (((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+            if (((new Date()) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
                 errors: `You can only change your username or email once every 24 hours`
             });
 
@@ -279,7 +279,7 @@ router.post(`/change_email`, (req, res, next) => {
     let currentEmail = req.user.email;
     let email = req.body[`change-email-input`];
 
-    if (!email || typeof email != `string`) return res.json({
+    if (!email || typeof email !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -301,19 +301,19 @@ router.post(`/change_email`, (req, res, next) => {
                 errors: `Your account is Invalid`
             });
 
-            if (((new Date) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
+            if (((new Date()) - user.lastModified) < (24 * 60 * 60 * 1e3)) return res.json({
                 errors: `You can only change your username or email once every 24 hours`
             });
 
-            let token = `e` + crypto.randomBytes(16).toString('hex') + user.username;
+            let token = `e${crypto.randomBytes(16).toString(`hex`)}${user.username}`;
 
             user.email = email;
-            user.verified = false
+            user.verified = false;
             user.verifyToken = token;
             user.lastModified = new Date();
 
             let transporter = nodemailer.createTransport({
-                service: "Gmail",
+                service: `Gmail`,
                 auth: {
                     user: process.env.EMAIL_USERNAME,
                     pass: process.env.EMAIL_PASSWORD
@@ -331,13 +331,13 @@ router.post(`/change_email`, (req, res, next) => {
             }
 
             let mailOptions = {
-                from: 'noreply@krew.io',
+                from: `noreply@krew.io`,
                 to: user.email,
-                subject: 'Confirm changing your Krew.io email',
+                subject: `Confirm changing your Krew.io email`,
                 text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
-            }
+            };
 
-            transporter.sendMail(mailOptions, function (err) {
+            transporter.sendMail(mailOptions, (err) => {
                 if (err) {
                     return res.json({
                         error: `Error sending to the specified email address.`
@@ -409,7 +409,7 @@ router.post(`/change_default_krew_name`, (req, res, next) => {
 
     krewName = req.body[`change-default-krew-name-input`];
 
-    if (!krewName || typeof krewName != `string`) return res.json({
+    if (!krewName || typeof krewName !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -446,7 +446,7 @@ router.post(`/customization`, (req, res, next) => {
 
     let model = req.body.model;
 
-    if (!model || typeof model != `string`) return res.json({
+    if (!model || typeof model !== `string`) return res.json({
         errors: `Please specify a model ID`
     });
 
@@ -473,11 +473,11 @@ router.post(`/customization`, (req, res, next) => {
 });
 
 router.post(`/reset_password`, (req, res, next) => {
-    let email = req.body[`reset-password-email`]
+    let email = req.body[`reset-password-email`];
     let password = req.body[`reset-password-password`];
     let confirmPassword = req.body[`reset-password-password-confirm`];
 
-    if (!email || typeof email != `string` || !password || typeof password != `string` || !confirmPassword || typeof confirmPassword != `string`) return res.json({
+    if (!email || typeof email !== `string` || !password || typeof password !== `string` || !confirmPassword || typeof confirmPassword !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -508,7 +508,7 @@ router.post(`/reset_password`, (req, res, next) => {
             errors: `You must verify your email to change your password.`
         });
 
-        let token = `p` + crypto.randomBytes(16).toString('hex') + user.username;
+        let token = `p${crypto.randomBytes(16).toString(`hex`)}${user.username}`;
 
         bcrypt.genSalt(15, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
             if (err) return res.json({
@@ -519,7 +519,7 @@ router.post(`/reset_password`, (req, res, next) => {
             user.newPasswordToken = token;
 
             let transporter = nodemailer.createTransport({
-                service: "Gmail",
+                service: `Gmail`,
                 auth: {
                     user: process.env.EMAIL_USERNAME,
                     pass: process.env.EMAIL_PASSWORD
@@ -537,13 +537,13 @@ router.post(`/reset_password`, (req, res, next) => {
             }
 
             let mailOptions = {
-                from: 'noreply@krew.io',
+                from: `noreply@krew.io`,
                 to: user.email,
-                subject: 'Reset your Krew.io password',
+                subject: `Reset your Krew.io password`,
                 text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${address}\/verify_reset_password\/${user.newPasswordToken}\n`
-            }
+            };
 
-            transporter.sendMail(mailOptions, function (err) {
+            transporter.sendMail(mailOptions, (err) => {
                 if (err) {
                     user.delete();
                     return res.json({
@@ -564,7 +564,7 @@ router.post(`/reset_password`, (req, res, next) => {
 
 router.get(`/verify/*`, (req, res, next) => {
     let token = req.url.split(`/verify/`)[1];
-    if (!token) return res.redirect(`/`);;
+    if (!token) return res.redirect(`/`); ;
 
     User.findOne({
         verifyToken: token
@@ -583,7 +583,7 @@ router.get(`/verify/*`, (req, res, next) => {
             });
         }
     });
-})
+});
 
 router.get(`/verify_reset_password/*`, (req, res, next) => {
     let token = req.url.split(`/verify_reset_password/`)[1];
@@ -592,8 +592,8 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
     User.findOne({
         newPasswordToken: token
     }).then(user => {
-        if (!user) return res.redirect(`/`);;
-        if (!user.newPassword || !user.newPasswordToken) return res.redirect(`/`);;
+        if (!user) return res.redirect(`/`); ;
+        if (!user.newPassword || !user.newPasswordToken) return res.redirect(`/`); ;
 
         user.password = user.newPassword;
         user.newPassword = undefined;
@@ -632,7 +632,6 @@ router.get(`/account_game_settings`, (req, res, next) => {
         return res.json({
             errors: `Unauthorized`
         });
-
     } else {
         User.findOne({
             username: req.user.username
@@ -651,7 +650,7 @@ router.get(`/account_game_settings`, (req, res, next) => {
                 sfxVolume: user.sfxVolume,
                 qualityMode: user.qualityMode
             });
-        })
+        });
     }
 });
 
@@ -663,7 +662,7 @@ router.post(`/delete_account`, (req, res, next) => {
     let username = req.user.username;
 
     if (!req.body[`delete-account-username`] || !req.body[`delete-account-password`] ||
-        typeof req.body[`delete-account-username`] != `string` || typeof req.body[`delete-account-password`] != `string`) return res.json({
+        typeof req.body[`delete-account-username`] !== `string` || typeof req.body[`delete-account-password`] !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -694,7 +693,7 @@ router.post(`/delete_account`, (req, res, next) => {
                 });
             }
         });
-    })
+    });
 });
 
 module.exports = router;

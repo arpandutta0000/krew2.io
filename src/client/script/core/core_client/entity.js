@@ -12,7 +12,7 @@ Entity.prototype.createBody = function () {
     // create base object
     this.geometry = new THREE.Object3D();
     scene.add(this.geometry);
-    this.geometry.rotation.order = 'YXZ';
+    this.geometry.rotation.order = `YXZ`;
 
     this.geometry.castShadow = true;
     this.geometry.receiveShadow = true;
@@ -54,18 +54,17 @@ Entity.prototype.createBody = function () {
         this.geometry.add(this.crosshair);
     }
 
-    /*if ((this.netType == 0) && (this.hasOwnProperty("label"))) {
+    /* if ((this.netType == 0) && (this.hasOwnProperty("label"))) {
         this.label.position.set(0,2,0);
         this.geometry.add(this.label);
 
-    }*/
+    } */
 
     if (this.netType === 0) {
         this.setPlayerBody(this.playerModel);
     }
 
     this.clientlogic(0);
-
 };
 
 Entity.prototype.onClientDestroy = function () {
@@ -79,19 +78,15 @@ Entity.prototype.onClientDestroy = function () {
         scene.remove(this.line);
         this.line.geometry.dispose();
     }
-
 };
 
 Entity.prototype.clientlogic = function (dt) {
-
     this.geometry.position.set(this.position.x, this.position.y, this.position.z);
     this.geometry.rotation.y = this.rotation;
 };
 
-var removeEntity = function (entity) {
-
+let removeEntity = function (entity) {
     if (entities.hasOwnProperty(entity.id)) {
-
         entity.onDestroy();
         delete entities[entity.id];
     }

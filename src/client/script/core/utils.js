@@ -1,11 +1,11 @@
-var lerp = function (start, end, amount) {
+let lerp = function (start, end, amount) {
     return (1 - amount) * start + amount * end;
 };
 
-var charLimit = function (text, chars, suffix) {
+let charLimit = function (text, chars, suffix) {
     chars = chars || 140;
-    suffix = suffix || '';
-    text = ('' + text).replace(/(\t|\n)/gi, '').replace(/\s\s/gi, ' ');
+    suffix = suffix || ``;
+    text = (`${text}`).replace(/(\t|\n)/gi, ``).replace(/\s\s/gi, ` `);
     if (text.length > chars) {
         return text.slice(0, chars - suffix.length).replace(/(\.|\,|:|-)?\s?\w+\s?(\.|\,|:|-)?$/, suffix);
     }
@@ -13,18 +13,18 @@ var charLimit = function (text, chars, suffix) {
     return text;
 };
 
-var entityDistance = function (a, b) {
+let entityDistance = function (a, b) {
     return Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 };
 
 function distance (p1, p2) {
-    var dx = p2.x - p1.x;
-    var dz = p2.z - p1.z;
+    let dx = p2.x - p1.x;
+    let dz = p2.z - p1.z;
     return Math.sqrt(dx * dx + dz * dz);
 }
 
 function worldAngle (vector) {
-    var result = vector.angle() + Math.PI * 0.5;
+    let result = vector.angle() + Math.PI * 0.5;
     if (result > Math.PI * 2) {
         result -= Math.PI * 2;
     }
@@ -34,7 +34,7 @@ function worldAngle (vector) {
 }
 
 function anglediff (firstAngle, secondAngle) {
-    var difference = secondAngle - firstAngle;
+    let difference = secondAngle - firstAngle;
     while (difference < -Math.PI) {
         difference += Math.PI * 2.0;
     }
@@ -80,15 +80,15 @@ function distanceToObjectSquared (origin, target) {
  * not on every check
  * @return {Boolean}
  */
-var inPlayersVision = (function () {
-    var frustum = new THREE.Frustum();
+let inPlayersVision = (function () {
+    let frustum = new THREE.Frustum();
     /**
      * This is the exported function that will used for the check
      * @param  {Object} object3d    It must be a 3d object with a position property
      * @param  {Object} camera      It must be the camera to compare with
      * @return {Boolean}            Returns true if the player sees the object or false on the contrary
      */
-    var inPlayersVision = function (object3d, camera) {
+    let inPlayersVision = function (object3d, camera) {
         // If the object has no position property just return false
         if (object3d.position === undefined) {
             return false;
@@ -99,10 +99,10 @@ var inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum
@@ -115,13 +115,13 @@ var inPlayersVision = (function () {
 
 function getFixedFrameRateMethod (fps, callback) {
     fps = fps || 5;
-    var time = performance.now();
-    var previousTime = performance.now();
-    var method = function () {
+    let time = performance.now();
+    let previousTime = performance.now();
+    let method = function () {
         time = performance.now();
         if (time - previousTime > 1000 / fps) {
             previousTime = time;
-            if (typeof callback === 'function') {
+            if (typeof callback === `function`) {
                 requestAnimationFrame(callback.bind(this));
             }
         }

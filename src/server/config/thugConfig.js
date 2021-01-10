@@ -1,16 +1,16 @@
 module.exports = {
-    Admins: [/*{
+    Admins: [/* {
             name: `ITSDABOMB`,
             hash: `c699a0d37840edcc12be7975e47f86d3`
-        },*/
+        }, */
         {
             name: `LeoLeoLeo`,
             hash: `d9e1aafc0229b8f4380a1f5fdb9dc999`
-        },/*
+        }, /*
         {
             name: `harderman`,
             hash: `30d74ec70a7cbeed6e5533bc2d013d62`
-        },*/
+        }, */
         {
             name: `DamienVesper`,
             hash: `c9c0066ba38a78db4c7d3f6c2cec51752`
@@ -24,7 +24,8 @@ module.exports = {
             hash: `97ddaf7ed95d3753fb34a2c85a13cd1b`
         }
     ],
-    Mods: [{
+    Mods: [
+        {
             name: `Fiftyyyyy`,
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
         },
@@ -45,8 +46,8 @@ module.exports = {
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         }
     ],
-    Devs: [/*{
+    Devs: [/* {
         name: `Yaz_`,
         hash: `9b134a9d2d554752a94590f48209a9e3`
-    }*/]
-}
+    } */]
+};

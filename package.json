@@ -43,7 +43,8 @@
     "dist-test": "cross-env NODE_ENV=\"prod\" grunt build-dist && cross-env NODE_ENV=\"prod\" node src/server/app.js",
     "prod": "cross-env NODE_ENV=\"prod\" grunt build-dist && cross-env NODE_ENV=\"prod\" pm2 start src/server/app.js",
     "dev": "cross-env NODE_ENV=\"dev\" grunt build-dev && cross-env NODE_ENV=\"dev\" grunt dev",
-    "build": "cross-env NODE_ENV=\"prod\" grunt build-dist"
+    "build": "cross-env NODE_ENV=\"prod\" grunt build-dist",
+    "lint": "eslint . --fix --ext .js"
   },
   "repository": {
     "type": "git",
@@ -58,5 +59,12 @@
   "bugs": {
     "url": "https://github.com/Krew-io/krew2.io/issues"
   },
-  "homepage": "https://github.com/Krew-io/krew2.io#readme"
+  "homepage": "https://github.com/Krew-io/krew2.io#readme",
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  }
 }

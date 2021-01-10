@@ -35,7 +35,7 @@ const config = {
     maxAmountCratesInSea: 1100,
     minAmountCratesInSea: 480,
     whitespaceRegex: /" *"|\t|\n|\v|\f|\r|\040|\u0008|\u0009|\u000A|\u000B|\u000C|\u000D|\u0020|\u0022|\u0027|\u005C|\u00A0|\u2028|\u2029|\uFEFF/g
-}
+};
 
 config.staticDir = config.mode == `prod` ? `${__dirname}/../../../dist/` : `${__dirname}/../../client/`;
 
@@ -46,6 +46,6 @@ for (const dev of thugConfig.Devs) config.devs.push(dev.name);
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,
     certPath: `/etc/letsencrypt/live/${config.domain}/fullchain.pem`
-}
+};
 
 module.exports = config;

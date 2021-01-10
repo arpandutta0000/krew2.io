@@ -31,7 +31,7 @@ Entity.prototype.createProperties = function () {
     // if this is set to true, but sendSnap isnt, then it will simply send the first delta
     // as a full snap (good for things that only sned their creation)
     this.sendCreationSnapOnDelta = true;
-    //"true" to disable snap and delta completely
+    // "true" to disable snap and delta completely
     this.disableSnapAndDelta = false;
     this.last = {};
     this.lastType = {};
@@ -41,7 +41,6 @@ Entity.prototype.createProperties = function () {
 };
 
 Entity.prototype.tick = function (dt) {
-
     // compute the base class logic. this is set by the children classes
     this.logic(dt);
 
@@ -67,7 +66,7 @@ Entity.prototype.getSnap = function (force) {
         y: this.position.y.toFixed(2),
         z: this.position.z.toFixed(2),
         r: (this.rotation || 0).toFixed(2), // rotation
-        t: this.getTypeSnap(), // type based snapshot data
+        t: this.getTypeSnap() // type based snapshot data
     };
     // pass name variable if we're first time creating this entity
     if (this.netType === 0 && this.isNew) {
@@ -80,7 +79,6 @@ Entity.prototype.getSnap = function (force) {
 
 // function that generates a snapshot
 Entity.prototype.getDelta = function () {
-
     if (!this.sendDelta && !this.sendCreationSnapOnDelta || this.disableSnapAndDelta) {
         return undefined;
     }
@@ -93,13 +91,13 @@ Entity.prototype.getDelta = function () {
     }
 
     let delta = {
-        p: this.deltaCompare('p', this.parent ? this.parent.id : undefined),
-        n: this.deltaCompare('n', this.netType),
-        x: this.deltaCompare('x', this.position.x.toFixed(2)),
-        y: this.deltaCompare('y', this.position.y.toFixed(2)),
-        z: this.deltaCompare('z', this.position.z.toFixed(2)),
-        r: this.deltaCompare('r', this.rotation.toFixed(2)),
-        t: this.getTypeDelta(),
+        p: this.deltaCompare(`p`, this.parent ? this.parent.id : undefined),
+        n: this.deltaCompare(`n`, this.netType),
+        x: this.deltaCompare(`x`, this.position.x.toFixed(2)),
+        y: this.deltaCompare(`y`, this.position.y.toFixed(2)),
+        z: this.deltaCompare(`z`, this.position.z.toFixed(2)),
+        r: this.deltaCompare(`r`, this.rotation.toFixed(2)),
+        t: this.getTypeDelta()
     };
 
     if (isEmpty(delta)) {
@@ -116,19 +114,19 @@ Entity.prototype.parseSnap = function (snap, id) {
     }
 
     if (!this.isPlayer) {
-        if (snap.x !== undefined && typeof (snap.x) === "number") {
+        if (snap.x !== undefined && typeof (snap.x) === `number`) {
             this.position.x = parseFloat(snap.x);
         }
 
-        if (snap.y !== undefined && typeof (snap.y) === "number") {
+        if (snap.y !== undefined && typeof (snap.y) === `number`) {
             this.position.y = parseFloat(snap.y);
         }
 
-        if (snap.z !== undefined && typeof (snap.z) === "number") {
+        if (snap.z !== undefined && typeof (snap.z) === `number`) {
             this.position.z = parseFloat(snap.z);
         }
 
-        if (snap.r !== undefined && typeof (snap.r) === "number") {
+        if (snap.r !== undefined && typeof (snap.r) === `number`) {
             this.rotation = parseFloat(snap.r);
         }
     }
@@ -136,10 +134,10 @@ Entity.prototype.parseSnap = function (snap, id) {
 
 Entity.prototype.addChildren = function (entity) {
     // remove entity from its previous parent
-    /*if (entity !== undefined &&
+    /* if (entity !== undefined &&
         entity.parent !== undefined
      && entity.parent.children[entity.id] !== undefined)
-        entity.parent.children[entity.id] = undefined;*/
+        entity.parent.children[entity.id] = undefined; */
 
     this.children[entity.id] = entity;
     entity.parent = this;
@@ -194,9 +192,7 @@ Entity.prototype.toLocal = function (coord) {
 };
 
 Entity.prototype.onDestroy = function () {
-
     if (this.parent != undefined) {
-
         let parent = this.parent;
         if (parent.children[this.id] != undefined) {
             delete parent.children[this.id];

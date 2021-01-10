@@ -47,7 +47,6 @@ Entity.prototype.createProperties = function () {
 };
 
 Entity.prototype.tick = function (dt) {
-
     // compute the base class logic. this is set by the children classes
     this.logic(dt);
 
@@ -68,14 +67,14 @@ Entity.prototype.getSnap = function (force) {
         console.log(this); // Bots don't have a rotation so this fails
     }
 
-    var snap = {
+    let snap = {
         p: this.parent ? this.parent.id : undefined,
         n: this.netType, // netcode id is for entity type (e.g. 0 player)
         x: this.position.x.toFixed(2), // x and z position relative to parent
         y: this.position.y.toFixed(2),
         z: this.position.z.toFixed(2),
         r: (this.rotation || 0).toFixed(2), // rotation
-        t: this.getTypeSnap(), // type based snapshot data
+        t: this.getTypeSnap() // type based snapshot data
     };
 
     // pass name variable if we're first time creating this entity
@@ -85,7 +84,7 @@ Entity.prototype.getSnap = function (force) {
 
         // check if there's been names queued (for names that were recieved prior to player entity creation). set names
         for (playerId in playerNames) {
-            var name = playerNames[playerId];
+            let name = playerNames[playerId];
             if (name && entities[playerId]) {
                 entities[playerId].setName(name);
             }
@@ -99,26 +98,25 @@ Entity.prototype.getSnap = function (force) {
 
 // function that generates a snapshot
 Entity.prototype.getDelta = function () {
-
     if (!this.sendDelta && !this.sendCreationSnapOnDelta) {
         return undefined;
     }
 
     // send a full snapshot on the delta data, for creation?
     if (this.sendCreationSnapOnDelta) {
-        var result = this.getSnap(true);
+        let result = this.getSnap(true);
         this.sendCreationSnapOnDelta = false;
         return result;
     }
 
-    var delta = {
-        p: this.deltaCompare('p', this.parent ? this.parent.id : undefined),
-        n: this.deltaCompare('n', this.netType),
-        x: this.deltaCompare('x', Number(this.position.x.toFixed(2))),
-        y: this.deltaCompare('y', Number(this.position.y.toFixed(2))),
-        z: this.deltaCompare('z', Number(this.position.z.toFixed(2))),
-        r: this.deltaCompare('r', Number(this.rotation.toFixed(2))),
-        t: this.getTypeDelta(),
+    let delta = {
+        p: this.deltaCompare(`p`, this.parent ? this.parent.id : undefined),
+        n: this.deltaCompare(`n`, this.netType),
+        x: this.deltaCompare(`x`, Number(this.position.x.toFixed(2))),
+        y: this.deltaCompare(`y`, Number(this.position.y.toFixed(2))),
+        z: this.deltaCompare(`z`, Number(this.position.z.toFixed(2))),
+        r: this.deltaCompare(`r`, Number(this.rotation.toFixed(2))),
+        t: this.getTypeDelta()
     };
 
     if (isEmpty(delta)) {
@@ -130,10 +128,9 @@ Entity.prototype.getDelta = function () {
 
 // function that parses a snapshot
 Entity.prototype.parseSnap = function (snap, id) {
-
     if (snap.p && entities[snap.p] && this.parent != entities[snap.p]) {
-        var newparent = entities[snap.p];
-        var oldparent = this.parent;
+        let newparent = entities[snap.p];
+        let oldparent = this.parent;
         if (myPlayerId === id && newparent !== oldparent) {
             ui.setActiveBtn(snap.p);
         }
@@ -154,7 +151,6 @@ Entity.prototype.parseSnap = function (snap, id) {
             this.position.z = oldPosition.z;
         }
 
-
         // if (this.netType === 0 && newparent.netType === 5) {
         //     this.position.x = 0;
         //     this.position.y = 0;
@@ -169,18 +165,18 @@ Entity.prototype.parseSnap = function (snap, id) {
             newparent.krewMembers[this.id] = this.geometry.children[0];
         }
         if (myPlayer && myPlayer.isCaptain === false && myPlayer.parent.netType === 5 && newparent.netType === 5 && oldparent !== undefined && oldparent.netType === 1 && oldparent.shipState === 1) {
-            $('#abandon-ship-button').hide();
+            $(`#abandon-ship-button`).hide();
             showIslandMenu();
         }
 
         if (this.isPlayer && this.parent && !this.isCaptain && this.parent.netType === 1) {
             if (this.parent.shipState === 3) {
-                $('#exit-island-button').hide();
+                $(`#exit-island-button`).hide();
                 // $('#toggle-invite-link-button').hide();
-                $('#invite-div').hide();
+                $(`#invite-div`).hide();
             }
 
-            $('#abandon-ship-button').show();
+            $(`#abandon-ship-button`).show();
         }
     }
 
@@ -208,7 +204,6 @@ Entity.prototype.parseSnap = function (snap, id) {
 
     // parse deletion packets
     if (snap.del !== undefined) {
-
         this.onDestroy();
         delete entities[this.id];
         delete playerNames[this.id];
@@ -240,16 +235,15 @@ Entity.prototype.parseSnap = function (snap, id) {
                 this.points.damage = parseInt(snap.t.e.p.dm);
             }
         }
-
     }
 };
 
 Entity.prototype.addChildren = function (entity) {
     // remove entity from its previous parent
-    /*if (entity !== undefined &&
+    /* if (entity !== undefined &&
         entity.parent !== undefined
      && entity.parent.children[entity.id] !== undefined)
-        entity.parent.children[entity.id] = undefined;*/
+        entity.parent.children[entity.id] = undefined; */
 
     this.children[entity.id] = entity;
     entity.parent = this;
@@ -284,7 +278,7 @@ Entity.prototype.deltaTypeCompare = function (old, fresh) {
 };
 
 Entity.prototype.worldPos = function () {
-    var pos = new THREE.Vector3();
+    let pos = new THREE.Vector3();
     pos.copy(this.position);
     if (this.parent !== undefined) {
         pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.parent.rotation);
@@ -296,7 +290,7 @@ Entity.prototype.worldPos = function () {
 
 // turns a world coordinate into our local coordinate space (subtract rotation, set relative)
 Entity.prototype.toLocal = function (coord) {
-    var pos = new THREE.Vector3();
+    let pos = new THREE.Vector3();
     pos.copy(coord);
     pos.sub(this.position);
     pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), -this.rotation);
@@ -304,10 +298,8 @@ Entity.prototype.toLocal = function (coord) {
 };
 
 Entity.prototype.onDestroy = function () {
-
     if (this.parent != undefined) {
-
-        var parent = this.parent;
+        let parent = this.parent;
         if (parent.children[this.id] != undefined) {
             delete parent.children[this.id];
         }

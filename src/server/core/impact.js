@@ -3,7 +3,6 @@ Impact.prototype = new Entity();
 Impact.prototype.constructor = Impact;
 
 function Impact (type, x, z) {
-
     this.createProperties();
 
     // netcode type
@@ -31,18 +30,16 @@ function Impact (type, x, z) {
 }
 
 Impact.prototype.logic = function (dt) {
-
     // tick down the timer and delete on end
     this.timeout -= dt * 0.8;
     if (this.timeout <= 0) {
         removeEntity(this);
     }
-
 };
 
 Impact.prototype.getTypeSnap = function () {
     let snap = {
-        a: this.impactType,
+        a: this.impactType
     };
     return snap;
 };

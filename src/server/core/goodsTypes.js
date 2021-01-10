@@ -19,5 +19,5 @@ let goodsTypes = {
     },
     bananas: {
         cargoSpace: 5
-    },
+    }
 };

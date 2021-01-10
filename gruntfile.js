@@ -1,7 +1,7 @@
 const webpackConfig = require(`./webpack.config.js`);
 const dotenv = require(`dotenv`).config();
 
-module.exports = (grunt => {
+module.exports = grunt => {
     grunt.initConfig({
         pkg: grunt.file.readJSON(`package.json`),
         concat: {
@@ -127,7 +127,8 @@ module.exports = (grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [{
+                files: [
+                    {
                         expand: true,
                         nonull: true,
                         flatten: true,
@@ -230,7 +231,7 @@ module.exports = (grunt => {
                         src: [`src/client/assets/models/sea_animals/*`],
                         dest: `dist/assets/models/sea_animals/`,
                         filter: `isFile`
-                    },
+                    }
                 ]
             }
         }
@@ -264,4 +265,4 @@ module.exports = (grunt => {
     grunt.loadNpmTasks(`grunt-nodemon`);
     grunt.loadNpmTasks(`grunt-concurrent`);
     grunt.loadNpmTasks(`grunt-webpack`);
-});
+};

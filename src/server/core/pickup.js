@@ -7,12 +7,11 @@ function Pickup (size, x, z, type, specialBonus) {
 
     // netcode type
     this.netType = 4;
-    this.bonusValues = [50, 75, 100, 10000, specialBonus]; //"specialBonus" for special bonus lul
+    this.bonusValues = [50, 75, 100, 10000, specialBonus]; // "specialBonus" for special bonus lul
 
     // Pickup type, there are different Pickup types. supplies = 0
     this.pickupSize = size;
     this.bonus = this.bonusValues[this.pickupSize] || 25;
-
 
     this.captainsCutRatio = 0.3;
 
@@ -44,9 +43,9 @@ function Pickup (size, x, z, type, specialBonus) {
     this.modelscale = new THREE.Vector3(scale, scale, scale);
     this.position.x = x;
     this.position.z = z;
-    this.pickerId = '';
+    this.pickerId = ``;
     this.type = type;
-    this.picking = type == 1 ? true : false;
+    this.picking = type == 1;
     this.catchingFish = false;
     this.timeout = 1;
     /**
@@ -82,7 +81,7 @@ Pickup.prototype.randomMovementLogic = function () {
             if (landmark !== false) {
                 let pickupPosition = {
                     x: 0,
-                    z: 0,
+                    z: 0
                 };
 
                 let distanceFromCenter = 0;
@@ -132,7 +131,6 @@ Pickup.prototype.randomMovementLogic = function () {
 };
 
 Pickup.prototype.logic = function (dt) {
-
     if (this.picking) {
         this.timeout -= dt * 0.5;
         if (this.timeout <= 0 || this.timeout === 1)
@@ -140,20 +138,18 @@ Pickup.prototype.logic = function (dt) {
     }
 
     // if pickup should be picked but the picker player is undefined, delete it
-    if (this.picking === true && this.pickerId !== '' && entities[this.pickerId] === undefined) {
+    if (this.picking === true && this.pickerId !== `` && entities[this.pickerId] === undefined) {
         removeEntity(this);
     }
 
-    /*if (this.picking == true && (this.type == 2 || this.type == 3))
+    /* if (this.picking == true && (this.type == 2 || this.type == 3))
     {
         removeEntity(this);
-    }*/
-
+    } */
 
     if (this.type === 0 || this.type === 4 && (this.picking !== true)) {
         // check for all boats that's within pickup distance of pickups
         for (b in boats) {
-
             let boat = boats[b];
 
             // dont check against boats that have died
@@ -166,7 +162,6 @@ Pickup.prototype.logic = function (dt) {
             // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
             if (!isNaN(loc.x) && !(Math.abs(loc.x) > Math.abs(boat.size.x * 0.6 + 3) ||
                     Math.abs(loc.z) > Math.abs(boat.size.z * 0.6 + 3))) {
-
                 // if (
                 //     boat.supply < boatTypes[boat.shipclassId].cargoSize ||
                 //     boat.hp < boatTypes[boat.shipclassId].hp
@@ -233,9 +228,9 @@ Pickup.prototype.logic = function (dt) {
         }
     }
 
-    //if (this.type === 3) {
+    // if (this.type === 3) {
     //    this.randomMovementLogic();
-    //}
+    // }
 };
 
 Pickup.prototype.getTypeSnap = function () {
@@ -243,14 +238,13 @@ Pickup.prototype.getTypeSnap = function () {
         s: this.pickupSize,
         p: this.picking,
         i: this.pickerId,
-        t: this.type,
+        t: this.type
 
     };
     return snap;
 };
 
 Pickup.prototype.getTypeDelta = function () {
-
     if (this.type == 1) {
         if (!this.spawnPacket) {
             this.spawnPacket = true;
@@ -260,10 +254,10 @@ Pickup.prototype.getTypeDelta = function () {
         return undefined;
     } else {
         let delta = {
-            s: this.deltaTypeCompare('s', this.pickupSize),
-            p: this.deltaTypeCompare('p', this.picking),
-            i: this.deltaTypeCompare('i', this.pickerId),
-            t: this.deltaTypeCompare('t', this.type),
+            s: this.deltaTypeCompare(`s`, this.pickupSize),
+            p: this.deltaTypeCompare(`p`, this.picking),
+            i: this.deltaTypeCompare(`i`, this.pickerId),
+            t: this.deltaTypeCompare(`t`, this.type)
         };
         if (isEmpty(delta)) {
             delta = undefined;
@@ -271,7 +265,6 @@ Pickup.prototype.getTypeDelta = function () {
 
         return delta;
     }
-
 };
 
 // function that parses a snapshot
@@ -291,12 +284,10 @@ Pickup.prototype.parseTypeSnap = function (snap) {
     if (snap.t !== undefined && snap.t != this.type) {
         this.type = parseInt(snap.t);
     }
-
 };
 
 // function that parses a snapshot
 Pickup.prototype.onDestroy = function () {
-
     // makre sure to also call the entity ondestroy
     Entity.prototype.onDestroy.call(this);
 

@@ -3,10 +3,9 @@ Landmark.prototype = new Entity();
 Landmark.prototype.constructor = Landmark;
 
 function Landmark (type, x, z, config) {
-
     this.createProperties();
 
-    this.name = config.name || '';
+    this.name = config.name || ``;
 
     this.goodsPrice = config.goodsPrice;
 
@@ -40,7 +39,7 @@ Landmark.prototype.getTypeSnap = function () {
     let snap = {
         t: this.landmarkType,
         name: this.name,
-        dockRadius: this.dockRadius,
+        dockRadius: this.dockRadius
     };
     return snap;
 };
@@ -53,7 +52,6 @@ Landmark.prototype.parseTypeSnap = function (snap) {
 };
 
 Landmark.prototype.logic = function (dt) {
-
     for (c in this.children) {
         let child = this.children[c];
         if (child.netType !== 0)
@@ -63,17 +61,14 @@ Landmark.prototype.logic = function (dt) {
                 this.children[child.id] = undefined;
                 delete this.children[child.id];
             }
-
         }
     }
 
     // if this landmark is a dockable thing (rocks etc dont have docks)
     if (this.dockType > 0) {
-
         // check for nearby boats. anchor them automatically if they just entered
         // check against all boats
         for (b in boats) {
-
             let boat = boats[b];
 
             // dont check against boats that have died
@@ -84,7 +79,7 @@ Landmark.prototype.logic = function (dt) {
             if (this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
                 boat.enterIsland(this.id);
 
-                //boat.anchorIsland = this;
+                // boat.anchorIsland = this;
 
                 boat.updateProps();
 
@@ -96,7 +91,7 @@ Landmark.prototype.logic = function (dt) {
                         let child = boat.children[c];
                         if (child && child.netType === 0) {
                             if (child.socket && child.id !== boat.captainId) {
-                                child.socket.emit('showIslandMenu');
+                                child.socket.emit(`showIslandMenu`);
                             }
                         }
                     }
@@ -109,7 +104,7 @@ Landmark.prototype.logic = function (dt) {
                     // see if child is a player and has a socket
                     if (child && child.netType === 0 && child.socket) {
                         if (!child.sentDockingMsg) {
-                            child.socket.emit('enterIsland', {
+                            child.socket.emit(`enterIsland`, {
                                 gold: child.gold,
                                 captainId: boat.captainId
                             });
@@ -120,7 +115,6 @@ Landmark.prototype.logic = function (dt) {
             }
         }
     }
-
 };
 
 Landmark.prototype.isWithinDockingRadius = function (x, z) {
