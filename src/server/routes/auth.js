@@ -510,55 +510,61 @@ router.post(`/reset_password`, (req, res, next) => {
 
         let token = `p${crypto.randomBytes(16).toString(`hex`)}${user.username}`;
 
-        bcrypt.genSalt(15, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
+        bcrypt.genSalt(15, (err, salt) => {
             if (err) return res.json({
                 errors: err
             });
 
-            user.newPassword = hash;
-            user.newPasswordToken = token;
+            bcrypt.hash(password, salt, (err, hash) => {
+                if (err) return res.json({
+                    errors: err
+                });
 
-            let transporter = nodemailer.createTransport({
-                service: `Gmail`,
-                auth: {
-                    user: process.env.EMAIL_USERNAME,
-                    pass: process.env.EMAIL_PASSWORD
+                user.newPassword = hash;
+                user.newPasswordToken = token;
+
+                let transporter = nodemailer.createTransport({
+                    service: `Gmail`,
+                    auth: {
+                        user: process.env.EMAIL_USERNAME,
+                        pass: process.env.EMAIL_PASSWORD
+                    }
+                });
+
+                let ssl;
+                let address;
+                if (DEV_ENV) {
+                    ssl = `http`;
+                    address = req.headers.host;
+                } else {
+                    ssl = `https`;
+                    address = config.domain;
                 }
-            });
 
-            let ssl;
-            let address;
-            if (DEV_ENV) {
-                ssl = `http`;
-                address = req.headers.host;
-            } else {
-                ssl = `https`;
-                address = config.domain;
-            }
+                let mailOptions = {
+                    from: `noreply@krew.io`,
+                    to: user.email,
+                    subject: `Reset your Krew.io password`,
+                    text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${address}\/verify_reset_password\/${user.newPasswordToken}\n`
+                };
 
-            let mailOptions = {
-                from: `noreply@krew.io`,
-                to: user.email,
-                subject: `Reset your Krew.io password`,
-                text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${address}\/verify_reset_password\/${user.newPasswordToken}\n`
-            };
-
-            transporter.sendMail(mailOptions, (err) => {
-                if (err) {
-                    user.delete();
+                transporter.sendMail(mailOptions, (err) => {
+                    if (err) {
+                        user.delete();
+                        return res.json({
+                            error: `Error sending to the specified email address.`
+                        });
+                    }
+                });
+                user.save(() => {
+                    log(`yellow`, `User "${user.username}" sent a change password verification link to "${user.email}".`);
+                    req.logOut();
                     return res.json({
-                        error: `Error sending to the specified email address.`
+                        success: `Succesfully sent confirm password email`
                     });
-                }
-            });
-            user.save(() => {
-                log(`yellow`, `User "${user.username}" sent a change password verification link to "${user.email}".`);
-                req.logOut();
-                return res.json({
-                    success: `Succesfully sent confirm password email`
                 });
             });
-        }));
+        });
     });
 });
 
