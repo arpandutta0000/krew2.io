@@ -6,7 +6,8 @@
         "node": true
     },
     "extends": [
-        "standard"
+        "standard",
+        "eslint:recommended"
     ],
     "parser": "babel-eslint",
     "parserOptions": {
@@ -21,7 +22,7 @@
         "array-bracket-newline": 1,
         "brace-style": 1,
         "comma-spacing": 1,
-        "no-var": 0,
+        "no-var": 1,
         "indent": ["error", 4, {
             "SwitchCase": 1
         }],

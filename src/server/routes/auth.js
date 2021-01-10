@@ -564,7 +564,7 @@ router.post(`/reset_password`, (req, res, next) => {
 
 router.get(`/verify/*`, (req, res, next) => {
     let token = req.url.split(`/verify/`)[1];
-    if (!token) return res.redirect(`/`); ;
+    if (!token) return res.redirect(`/`);
 
     User.findOne({
         verifyToken: token
@@ -592,8 +592,8 @@ router.get(`/verify_reset_password/*`, (req, res, next) => {
     User.findOne({
         newPasswordToken: token
     }).then(user => {
-        if (!user) return res.redirect(`/`); ;
-        if (!user.newPassword || !user.newPasswordToken) return res.redirect(`/`); ;
+        if (!user) return res.redirect(`/`);
+        if (!user.newPassword || !user.newPasswordToken) return res.redirect(`/`);
 
         user.password = user.newPassword;
         user.newPassword = undefined;

@@ -29,7 +29,7 @@ exports.getDelta = function () {
         Object.assign(delta, events);
         events = {};
         exports.events = events;
-    };
+    }
 
     if (isEmpty(delta)) {
         delta = undefined;

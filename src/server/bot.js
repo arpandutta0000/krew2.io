@@ -77,14 +77,13 @@ client.on(`ready`, async () => {
 });
 
 client.on(`message`, message => {
-    return; // Currently not working.
-
+    // Currently not working.
     const m = `${message.author} » `;
 
     if (message.author.bot || message.channel.type === `dm`) return;
     if (!message.channel.name.split(`-`).includes(`commands`)) return;
 
-    if (message.content.slice(0, config.discord.prefix.length).toString().toLowerCase() != config.discord.prefix) return;
+    if (message.content.slice(0, config.discord.prefix.length).toString().toLowerCase() !== config.discord.prefix) return;
 
     const args = message.content.slice(config.discord.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
@@ -123,4 +122,4 @@ client.on(`message`, message => {
     }
 });
 
-client.login(process.env.DISCORD_TOKEN).catch(err => log(`red`, `Failed to connect to Discord.`));
+client.login(process.env.DISCORD_TOKEN).catch(() => log(`red`, `Failed to connect to Discord.`));
