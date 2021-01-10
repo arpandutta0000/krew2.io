@@ -37,7 +37,7 @@ loader.loadTexture = path => {
                 resolve();
             });
             return;
-        } else if (ext === `tga`) {
+        } else if (ext === `mtl`) {
             let folder = path.split(`/`);
             folder.pop();
             folder = `${folder.join(`/`)}/`;
