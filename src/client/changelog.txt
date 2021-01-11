@@ -1,4 +1,15 @@
-v1.4.0b
+v1.4.1 - [1-11-2021]
+- Fixed incorrect player rotation on the minimap on islands
+- Fixed nametags showing water through boats
+- Improved water movement
+- Tweaked player nametag position
+- Improved lighting
+- Increased player triangle size on the minimap
+- Updated tutorial video link
+- Buffed spyglass
+- Minor performance improvements
+
+v1.4.0b - [1-9-2020]
 - Patched register VPN detection
 - Tweaked front page
 
