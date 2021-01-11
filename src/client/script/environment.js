@@ -21,7 +21,7 @@ let setUpEnvironment = () => {
         materials.sky
     );
     ceiling.rotation.x = -Math.PI * 0.5;
-    ceiling.position.set(worldsize * 0.5, 70, worldsize * 0.5);
+    ceiling.position.set(worldsize * 0.5, 90, worldsize * 0.5);
     scene.add(ceiling);
 
     // Add environment sphere
