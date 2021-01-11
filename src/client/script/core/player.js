@@ -429,7 +429,7 @@ Player.prototype.setName = function (name) {
             });
 
             this.label.name = `label`;
-            this.label.position.set(0, 2, 0);
+            this.label.position.set(0, 2.2, 1.5);
             this.geometry.add(this.label);
         }
         this.label.material.map.text = `${clan + (Admins.includes(this.name) ? `[Admin] ` : Mods.includes(this.name) ? `[Staff] ` : Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
