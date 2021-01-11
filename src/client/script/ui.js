@@ -368,9 +368,9 @@ var ui = {
             document.getElementById(fileId).currentTime = 0;
 
         document.getElementById(fileId).play();
-        document.getElementById(fileId).volume = loop
-            ? 0.1 * musicValue.value / musicValue.max
-            : 0.45 * sfxValue.value / sfxValue.max;
+        document.getElementById(fileId).volume = loop ?
+            0.1 * musicValue.value / musicValue.max :
+            0.45 * sfxValue.value / sfxValue.max;
     },
     stopAudioFile: function (fileId) {
         document.getElementById(fileId).pause();
@@ -539,118 +539,12 @@ var ui = {
     },
 
     showAdinplayCentered: function () {
-        // $('#island-menu-div').hide();
-        // $('#shopping-modal').hide();
-        // $('#krew-list-modal').hide();
-        // ui.hideSuggestionBox = true;
-        // $('#toggle-shop-modal-button').popover('hide');
-        // krewListUpdateManually = false;
-        // $('#toggle-krew-list-modal-button').popover('hide');
         if (typeof (adplayer) !== `undefined` && adEnabled) {
             adplayerCentered.startPreRoll();
         } else {
             console.log(`adplayer is not defined`);
         }
     },
-
-    // departingKrewsList: function()
-    // {
-    //     krewListUpdateManually = true;
-    //     DEPARTINGKREWLISTCOMPONENT.boats();
-    //     // let the krew list button glow for 5 seconds if another krew apart from mine is departing
-    //     $('#toggle-krew-list-modal-button').addClass('glowing');
-    //     setTimeout(function () {
-    //         $('#toggle-krew-list-modal-button').removeClass('glowing');
-    //     }, 5000);
-    // },
-
-    // getKrewList: function (boatsList) {
-    // 	var div = $("<div/>", {});
-    //
-    // 	var tableContainer = '<table class="table table-sm">'
-    //     tableContainer += '<thead class="thead-inverse">'
-    //     tableContainer += '<tr>'
-    //     tableContainer += '<th> Krew Name </th>'
-    //     tableContainer += '<th> Capacity </th>'
-    //     tableContainer += '<th></th>'
-    //     tableContainer += '</tr>'
-    //     tableContainer += '</thead>'
-    //     tableContainer += '<tbody></tbody>'
-    //     tableContainer += '</table>'
-    //
-    //
-    //     $tableContainer = $(tableContainer)
-    //     $tbody = $tableContainer.find('tbody');
-    //
-    // 	for (l in boatsList)
-    // 	{
-    //    		var boat = boatsList[l]
-    //
-    // 		if (myBoat === undefined || boat === undefined || entities[boat.captainId] === undefined)
-    // 			continue;
-    //
-    //         var tr = '<tr>'
-    //
-    //         boat.shipState === 4?
-    //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')<br/><small>Departing in '+Math.round(boat.departureTime)+' seconds</small></td>' :
-    //         tr += '<td>' + boat.crewName + '('+boatTypes[boat.shipclassId].name+')</td>'
-    //
-    //         tr += '<td>' + boat.krewCount +'/'+ boatTypes[boat.shipclassId].maxKrewCapacity+' </td>'
-    //         //tableContainer += '<td><button id="' + boat.id + '" type="button"  onclick="ui.joinKrew(this.id)" class="btn btn-primary">Join Krew!</button></td>'
-    //         if (boat.id === myBoat.id)
-    //         	tr += '<td>My Krew</td>'
-    //
-    //         tr += '</tr>'
-    //         $tbody.append($(tr));
-    //
-    //         if (boat.id !== myBoat.id && boat.krewCount < boatTypes[boat.shipclassId].maxKrewCapacity)
-    //         {
-    //         	var ButtonDiv = $("<button/>", {
-    // 	            id: boat.id,
-    // 	            class: "btn btn-primary btn-md",
-    // 	            role: "button",
-    // 	            style: boat.shipState === 4? "position: absolute;right: 20px; margin-top:-50px;" :
-    //                 "position: absolute;right: 20px; margin-top:-35px;",
-    // 	            html: "Join"
-    // 	        }).on("click", function() {
-    // 		        var id = $(this).attr('id');
-    // 				if (entities[id] === undefined || entities[id].maxKrewCapacity === entities[id].krewCount ||
-    //                     entities[id].captainId === myPlayerId)
-    //                     return;
-    //
-    //
-    // 				socket.emit("joinKrew",id);
-    //
-    //                 $("#island-menu-div").show();
-    //                 $("#exit-island-button").hide();
-    //
-    //                 if($("#departure-modal").is(':visible'))
-    //                 {
-    //                     $("#departure-modal").hide();
-    //                 }
-    // 				$("#abandon-ship-button").show();
-    // 		    })
-    //
-    // 		    $tbody.append(ButtonDiv);
-    //         }
-    //         else
-    //         {
-    //         	// $tbody.append($("<span/>", {html: "my krew"}));
-    //         }
-    //
-    //    }
-    //
-    // /*$tbody.find('tr').sort(function (a, b) {
-    //         var tda = parseInt($(a).find('td:eq(' + 1 + ')').text());
-    //         var tdb = parseInt($(b).find('td:eq(' + 1 + ')').text());
-    //
-    //         return tda > tdb ? 1
-    //                : tda < tdb ? -1
-    //                : 0;
-    //     }).appendTo($tbody);*/
-    //     div.append($tableContainer)
-    //     return div;
-    // },
 
     getShips: function (callback) {
         if (myPlayer && myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
@@ -708,9 +602,8 @@ var ui = {
                         class: `btn btn-primary btn-sm`,
                         role: `button`,
                         disabled: !!((myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) || ship.purchasable !== true),
-                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
-                            ? `Purchased`
-                            : `Buy`
+                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) ?
+                            `Purchased` : `Buy`
                     }).on(`click`, function () {
                         if ($(`#abandon-existing-krew`).is(`:visible`)) {
                             $(`#abandon-existing-krew`).hide();
@@ -854,56 +747,6 @@ var ui = {
     updateKrewList: getFixedFrameRateMethod(2, () => {
         KREWLISTCOMPONENT.boats();
         DEPARTINGKREWLISTCOMPONENT.boats();
-
-        // var krews = document.getElementById('departing-krews-list').innerHTML;
-        // var popover = $('#toggle-krew-list-modal-button').attr('data-content',krews).data('bs.popover');
-        // if (popover !== undefined)
-        //     popover.setContent();
-
-        // return;
-
-        // $krewsList = $("#krews-list")
-        // //$krewsList.html('');
-        //
-        // if ($("#abandon-existing-krew").is(':visible'))
-        //     $("#abandon-existing-krew").hide();
-        //
-        // var boatsList = {}
-        // for (id in entities)
-        // {
-        //     var boatEntities = entities[id];
-        //
-        //     if (myBoat && boatEntities && boatEntities.anchorIslandId &&
-        //         (boatEntities.shipState === 3 || boatEntities.shipState === 4 || boatEntities.shipState === -1)
-        //      && boatEntities.recruiting === true)
-        //     {
-        //         if ((myBoat.netType === 1 && boatEntities.anchorIslandId === myBoat.anchorIslandId) ||
-        //             boatEntities.anchorIslandId === myBoat.id)
-        //         {
-        //             boatsList[id] = boatEntities;
-        //         }
-        //     }
-        // }
-        //
-        // var preSortedBoats = {}
-        // for (id in boatsList)
-        // {
-        //     var boat = boatsList[id]
-        //     var key = boat.departureTime
-        //     if (preSortedBoats[key])
-        //         key = key + parseFloat((Math.random() * 1).toFixed(2))
-        //     preSortedBoats[key] = boat
-        // }
-        //
-        // var sortedBoats = {}
-        // for (key in preSortedBoats)
-        // {
-        //     var boat = preSortedBoats[key]
-        //     sortedBoats[boat.id] = boat
-        // }
-        //
-        // $krewsList.html(this.getKrewList(sortedBoats));
-        // return;
     }),
 
     updateStore: function ($btn) {
@@ -957,44 +800,6 @@ var ui = {
 
             EXPERIENCEPOINTSCOMPONENT.getList();
         }
-
-        /* if (id === "join-krew")
-  {
-   if ($("#abandon-existing-krew").is(':visible'))
-          $("#abandon-existing-krew").hide();
-   var boatsList = {}
-   for (id in entities)
-   {
-    var boatEntities = entities[id];
-
-    if (myBoat && boatEntities && boatEntities.anchorIsland &&
-                    (boatEntities.shipState === 3 || boatEntities.shipState === 4)
-                 && boatEntities.recruiting === true)
-    {
-     if (boatEntities.anchorIsland.id === myBoat.anchorIsland.id)
-     {
-      boatsList[id] = boatEntities;
-     }
-    }
-   }
-
-            var preSortedBoats = {}
-            for (id in boatsList)
-            {
-                var boat = boatsList[id]
-                preSortedBoats[boat.departureTime] = boat
-            }
-
-            var sortedBoats = {}
-            for (time in preSortedBoats)
-            {
-                var boat = preSortedBoats[time]
-                sortedBoats[boat.id] = boat
-            }
-
-   $shoppingItemList.html(_this.getKrewList(sortedBoats));
-            return;
-  } */
     },
 
     getInviteLink: function () {
@@ -1010,13 +815,6 @@ var ui = {
             $(`.ship-speed`).html(myPlayer.parent.speed.toFixed(1));
 
             let cargoSize = boatTypes[myBoat.shipclassId].cargoSize;
-
-            // check if cargo is full
-            // if ($("#supply").text() !== myBoat.supply && myBoat.supply === cargoSize)
-            // {
-            //     this.showCenterMessage("Your cargo is full! Sell it at Island", 2);
-
-            // }
 
             $(`#supply`).html(myBoat.supply);
             $(`#cargo-size`).html(cargoSize);

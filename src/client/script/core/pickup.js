@@ -216,7 +216,7 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType !== 1))
-                )) {
+                    )) {
                     ui.hideSuggestionBox = false;
                 }
             }
@@ -232,21 +232,13 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType !== 1))
-                )) {
+                    )) {
                     ui.hideSuggestionBox = false;
                 }
             }
         }
 
-        // Send message to server to delete box if it's grabbed by player
-        /* if (this.geometry.scale.x <= 0 || this.geometry.scale.y <= 0 || this.geometry.scale.z <= 0) {
-            socket.emit('deletePickup', this.id);
-        } */
     } else {
-        if (this.type <= 1) {
-            // this.geometry.position.set(this.position.x, 0.2 + Math.sin(this.floattimer) * 0.2, this.position.z);
-        }
-
         if (this.type === 2 || this.type === 3) {
             // this.setName();
             this.dockedLogic();
@@ -283,15 +275,6 @@ Pickup.prototype.clientlogic = function (dt) {
             }
         }
     }
-
-    // if (this.PickupSize === 0) {
-
-    //     this.geometry.scale.y = (this.timeout < 0.5 ? Ease.easeOutQuad(this.timeout * 2) : 1.0 - Ease.easeInQuint((this.timeout - 0.5) * 2)) * 3;
-
-    //     var quad = Ease.easeOutQuad(this.timeout)
-    //     this.geometry.scale.x = 1.5 - quad
-    //     this.geometry.scale.z = 1.5 - quad
-    // }
 };
 
 Pickup.prototype.setName = function () {
@@ -376,7 +359,7 @@ Pickup.prototype.parseTypeSnap = function (snap) {
 
 // function that parses a snapshot
 Pickup.prototype.onDestroy = function () {
-    // makre sure to also call the entity ondestroy
+    // make sure to also call the entity ondestroy
     Entity.prototype.onDestroy.call(this);
 
     if (pickups[this.id]) {

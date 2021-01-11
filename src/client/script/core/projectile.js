@@ -210,23 +210,6 @@ Projectile.prototype.clientlogic = function (dt) {
     }
 };
 
-// Projectile.prototype.getTypeSnap = function () {
-//     var snap = {
-//         x: this.position.x.toFixed(2), // x and z position relative to parent
-//         z: this.position.z.toFixed(2),
-//         y: this.position.y.toFixed(2),
-//         vx: this.velocity.x.toFixed(2),
-//         vy: this.velocity.y.toFixed(2),
-//         vz: this.velocity.z.toFixed(2),
-//         i: this.shooterid,
-//         r: this.reel,
-//         sx: this.shooterStartPos.x.toFixed(2),
-//         sz: this.shooterStartPos.z.toFixed(2),
-//     };
-//
-//     return snap;
-// };
-
 Projectile.prototype.getTypeDelta = function () {
     if (!this.spawnPacket) {
         this.spawnPacket = true;

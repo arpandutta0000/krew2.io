@@ -9,9 +9,9 @@ function Boat (captainId, krewName, spawnBool) {
     if (entities[captainId] !== undefined) {
         captainsName = entities[captainId].name;
         if (entities[captainId].parent !== undefined) {
-            spawnIslandId = entities[captainId].parent.netType === 5
-                ? entities[captainId].parent.id
-                : entities[captainId].parent.anchorIslandId;
+            spawnIslandId = entities[captainId].parent.netType === 5 ?
+                entities[captainId].parent.id :
+                entities[captainId].parent.anchorIslandId;
         }
     }
 
@@ -35,8 +35,6 @@ function Boat (captainId, krewName, spawnBool) {
     this.krewMembers = {};
 
     this.krewCount = 0; // Keep track of boat's krew count to update krew list window
-
-    // this.totalWorth = 0; // Keep track of boat's total worth to update krew list window
 
     this.recruiting = false; // If the ship has been docked for more than 5 minutes, then it's not recruiting
     this.isLocked = false; // By default krew is not locked
@@ -84,9 +82,9 @@ function Boat (captainId, krewName, spawnBool) {
     // Boats have a crew name, by default it's the captains name or the passed krew name,
     // this is setted on the update function, so initially is set to undefined
     captainsName = typeof captainsName === `string` ? captainsName : ``;
-    this.crewName = typeof krewName === `string`
-        ? krewName
-        : (
+    this.crewName = typeof krewName === `string` ?
+        krewName :
+        (
             `${captainsName}'${
                 captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`
             } krew`
@@ -203,9 +201,8 @@ Boat.prototype.logic = function (dt) {
     // if boat is not anchored or not in docking state, we will move
     if (this.shipState === 0) {
         // if the steering button is pressed, the rotation changes slowly
-        (kaptain !== undefined)
-            ? this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
-            : this.rotation += this.steering * dt * 0.4 * this.turnspeed;
+        (kaptain !== undefined) ?
+        this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)): this.rotation += this.steering * dt * 0.4 * this.turnspeed;
 
         // we rotate the movement vector depending on the current rotation
         moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
@@ -262,24 +259,6 @@ Boat.prototype.logic = function (dt) {
     this.geometry.rotation.x = Math.sin(this.rottimer * 0.5 + 3) * Math.sin(this.rottimer) * 0.05;
     this.geometry.rotation.z = Math.sin(this.rottimer * 1.0) * 0.05 - this.leanvalue * 0.08;
 
-    // push away from islands
-    /*
-    for (e in entities)
-    {
-        if(entities[e] !== this && entities[e].netType === 5)
-        {
-            var dist = entityDistance(this, entities[e]) - (entities[e].collisionRadius + this.collisionRadius );
-
-            if(dist < 10)
-            {
-                var local = this.toLocal(entities[e].position);
-                //var power = entities[e].inertia/this.inertia;
-                   // either add it to rotation, or to the steering
-                this.rotation += -((local.x > 0 ? (10-local.x) : (10+local.x) )*(10-dist)*(local.z+10))*dt*0.0005;
-            }
-        }
-    } */
-
     // if our hp is low (we died)
     if (this.hp < 1) {
         // on client, disconnect the camera from the player
@@ -299,41 +278,6 @@ Boat.prototype.logic = function (dt) {
             removeEntity(this);
         }
     }
-
-    // calculate the krew members' salary based on their score
-    // first, find total amount of all krew members' scores combined
-
-    // if (this.captain)
-    // {
-    //     var totalScore = 0;
-    //     for (id in this.children)
-    //     {
-    //         var krewMember = this.children[id];
-    //         totalScore += krewMember.score;
-    //     }
-
-    //     var totalSalary = 0;
-    //     var captainsCut = 0;
-    //     if (totalScore > 0)
-    //     {
-    //         // then, determine the salary
-    //         for (id in this.children)
-    //         {
-
-    //             var krewMember = this.children[id];
-    //             var salary = (krewMember.score / totalScore) * (this.supply * .7)
-    //             if (this.captainId === id)
-    //             {
-    //                 captainsCut = salary;
-    //             }
-
-    //             krewMember.salary = salary;
-    //             totalSalary += salary;
-    //         }
-    //     }
-
-    //     this.captain.salary = captainsCut + this.supply - totalSalary;
-    // }
 };
 
 Boat.prototype.clientlogic = function () {
@@ -450,8 +394,6 @@ Boat.prototype.parseTypeSnap = function (snap) {
         this.steering = parseFloat(snap.s);
     }
 
-    // if (snap.d !== undefined) this.isDocking = snap.d;
-
     // update supply
     if (snap.u !== undefined) {
         let newSupply = parseInt(snap.u);
@@ -539,17 +481,6 @@ Boat.prototype.enterIsland = function (islandId) {
     }
 
     this.anchorIslandId = islandId;
-
-    // pay everyone salary
-    // for (id in this.children)
-    // {
-    //     var krewMember = this.children[id]
-    //     krewMember.gold += krewMember.salary;
-    //     this.children[id].salary = 0;
-    //     this.children[id].score = 0;
-    // }
-
-    // this.supply = 0;
 };
 
 Boat.prototype.exitIsland = function () {

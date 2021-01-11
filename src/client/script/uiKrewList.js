@@ -108,25 +108,7 @@
 
                                     $(`#krew-div`).show();
                                     $(`#abandon-ship-button`).show();
-
-                                    // if (krewListUpdateManually)
-                                    // {
-                                    //     DEPARTINGKREWLISTCOMPONENT.boats();
-                                    //     $('#toggle-krew-list-modal-button').popover('show');
-                                    // }
-                                    // else
-                                    //     KREWLISTCOMPONENT.boats();
-                                    //
-                                    // if ((myPlayer !== undefined && myPlayer.gold > 500  &&
-                                    // (!myPlayer.ownsCannon || !myPlayer.ownsFishingRod ||
-                                    //     (myPlayer.parent !== undefined &&
-                                    //     myPlayer.parent.netType !== 1))
-                                    // ))
-                                    //     $('#toggle-shop-modal-button').popover('show');
                                 }
-                                // } else {
-                                //     ui.showCenterMessage('You can not join (too much cargo)', 1)
-                                // }
                             });
                         });
 
@@ -139,15 +121,15 @@
                                 h(`small`, {}, boat.shipState === 4 ? `Departing in ${Math.round(boat.departureTime)} seconds` : ``)
                             ]),
                             h(`td`, {}, `${boat.krewCount}/${boatTypes[boat.shipclassId].maxKrewCapacity}`),
-                            h(`td`, {}, boat.id === myPlayer.parent.id
-                                ? `My Krew`
-                                : h(`button`, {
+                            h(`td`, {}, boat.id === myPlayer.parent.id ?
+                                `My Krew` :
+                                h(`button`, {
                                     id: boat.id,
                                     class: `btn btn-primary btn-md`,
                                     role: `button`,
                                     disabled: entities[boat.id] === undefined ||
-                                    entities[boat.id].maxKrewCapacity === entities[boat.id].krewCount ||
-                                    entities[boat.id].captainId === myPlayerId
+                                        entities[boat.id].maxKrewCapacity === entities[boat.id].krewCount ||
+                                        entities[boat.id].captainId === myPlayerId
 
                                 }, `Join`))
                         ]);

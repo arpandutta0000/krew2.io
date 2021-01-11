@@ -60,7 +60,6 @@ let parseSnap = function (id, data) {
         }
     }
 
-    // if(myPlayer && myPlayer.parent && id === myPlayer.parent.id) console.log(data)
     // now that we have made sure that we have the entity, we give it the data
     if (entities[id] !== undefined) {
         entities[id].parseSnap(data, id);

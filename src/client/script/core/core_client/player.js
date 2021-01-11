@@ -394,8 +394,6 @@ Player.prototype.clientlogic = function (dt) {
             }
         }
     }
-    // if (!$('#earn-gold').is(':visible') && myPlayer.gold > 500)
-    //     $('#earn-gold').hide();
 
     // handle movement around the island if the boat is docked
     if (
@@ -417,11 +415,6 @@ Player.prototype.clientlogic = function (dt) {
             if (!$(`#shopping-modal`).is(`:visible`) && myPlayer.gold > 500) {
                 if ($(`#earn-gold`).is(`:visible`))
                     $(`#earn-gold`).hide();
-
-                // var shop = $('#toggle-shop-modal-button');
-                // var shopPopover = document.getElementById('suggestion-ui').innerHTML;
-                // shop.attr('data-content',shopPopover).popover('hide');
-                // ui.hideSuggestionBox = true;
             }
         }
 
@@ -479,7 +472,6 @@ Player.prototype.clientlogic = function (dt) {
                 this.weapon.rotation.x = 0;
             }
 
-            // this.weapon.rotation.z += dt*this.rodRotationSpeed;
         } else {
             this.weapon.rotation.x = -this.rotationOffset + 0.1;
         }
@@ -524,25 +516,25 @@ Player.prototype.clientlogic = function (dt) {
             this.playerBody.add(this.captainHat);
             if (this.label !== undefined) {
                 this.label.material.color =
-                    Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
-                        ? labelcolors.staff
-                        : this.isPlayer
-                            ? labelcolors.myself
-                            : this.isCaptain
-                                ? labelcolors.captain
-                                : labelcolors.player;
+                    Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ?
+                    labelcolors.staff :
+                    this.isPlayer ?
+                    labelcolors.myself :
+                    this.isCaptain ?
+                    labelcolors.captain :
+                    labelcolors.player;
             }
         } else {
             this.playerBody.remove(this.playerBody.getObjectByName(`captainHat`));
 
             if (this.label !== undefined) {
-                this.label.material.color = Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
-                    ? labelcolors.staff
-                    : this.isPlayer
-                        ? labelcolors.myself
-                        : this.isCaptain
-                            ? labelcolors.captain
-                            : labelcolors.player;
+                this.label.material.color = Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ?
+                    labelcolors.staff :
+                    this.isPlayer ?
+                    labelcolors.myself :
+                    this.isCaptain ?
+                    labelcolors.captain :
+                    labelcolors.player;
             }
         }
     }

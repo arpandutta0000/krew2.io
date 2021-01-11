@@ -54,12 +54,6 @@ Entity.prototype.createBody = function () {
         this.geometry.add(this.crosshair);
     }
 
-    /* if ((this.netType === 0) && (this.hasOwnProperty("label"))) {
-        this.label.position.set(0,2,0);
-        this.geometry.add(this.label);
-
-    } */
-
     if (this.netType === 0) {
         this.setPlayerBody(this.playerModel);
     }
