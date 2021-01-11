@@ -193,7 +193,7 @@ let createMinimap = () => {
                     map.add(map.triangle({
                         x: myPlayer.position.x,
                         y: myPlayer.position.z,
-                        size: 60,
+                        size: 80,
                         rotation: rotation,
                         fill: `white`,
                         stroke: {
