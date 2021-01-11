@@ -148,6 +148,7 @@ io.on(`connection`, async socket => {
                     let ban = new Ban({
                         username: data.name,
                         IP: socket.handshake.address,
+                        timestamp: new Date(),
                         comment: `Auto VPN temp ban`
                     });
                     return ban.save(() => {
