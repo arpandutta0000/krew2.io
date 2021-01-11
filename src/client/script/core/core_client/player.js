@@ -324,7 +324,7 @@ Player.prototype.clientlogic = function (dt) {
                         8 + (lookingDownOffset * 8));
                 }
 
-                if (camera.zoom === 2) {
+                if (camera.zoom === 4) {
                     camera.zoom = 1;
                     camera.updateProjectionMatrix();
                     scene.fog.density = 0.007;
@@ -339,7 +339,7 @@ Player.prototype.clientlogic = function (dt) {
                     -0.01
                 );
                 scene.fog.density = 0.005;
-                camera.zoom = 2;
+                camera.zoom = 4;
                 camera.updateProjectionMatrix();
             }
 
