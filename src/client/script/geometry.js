@@ -128,9 +128,6 @@ let createMaterials = function () {
     materials.crate = new THREE.MeshLambertMaterial({
         map: textures.crate
     });
-    materials.chest = new THREE.MeshLambertMaterial({
-        map: textures.chest
-    });
     // old wave repeat
     /* textures.wave.repeat.set(500, 500);
     textures.wave.wrapT = THREE.RepeatWrapping;

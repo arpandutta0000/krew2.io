@@ -804,7 +804,6 @@ $(document).ready(() => {
     loader.loadTexture(`./assets/img/water.jpg`);
     loader.loadTexture(`./assets/img/cannonball.png`);
     loader.loadTexture(`./assets/img/crate.jpg`);
-    loader.loadTexture(`./assets/models/tex_chest.png`);
 
     // Load Dogs
     loader.loadModel(`./assets/models/dogs/seadog.obj`);
