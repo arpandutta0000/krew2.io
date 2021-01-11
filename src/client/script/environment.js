@@ -12,7 +12,7 @@ let setUpEnvironment = () => {
     // Add warm and cold ambient lights
     warmAmbientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
     scene.add(warmAmbientlight);
-    coldAmbientlight = new THREE.AmbientLight(0xd4e4ff, 0.25);
+    coldAmbientlight = new THREE.AmbientLight(0xd4e4ff, 0.3);
     scene.add(coldAmbientlight);
 
     // Add ceiling
@@ -122,8 +122,6 @@ let doDaylightCycle = (time) => {
         let anim = setInterval(() => {
             i++;
             light.intensity -= 0.02;
-            warmAmbientlight.intensity -= 0.02;
-            coldAmbientlight.intensity += 0.02;
             ceiling.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             envSphere.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             water.parent.fog.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
@@ -135,8 +133,6 @@ let doDaylightCycle = (time) => {
         let anim = setInterval(() => {
             i++;
             light.intensity += 0.02;
-            warmAmbientlight.intensity += 0.02;
-            coldAmbientlight.intensity -= 0.02;
             ceiling.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
