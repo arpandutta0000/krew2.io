@@ -1,13 +1,13 @@
 let environment = {};
-let water, light, ceiling, envSphere;
+let water, light, ceiling, envSphere, coldAmbientlight, warmAmbientlight;
 
 // Main environment setup method
 let setUpEnvironment = () => {
     // Set scene background
-    scene.background = new THREE.Color(0xbff0ff);
+    scene.background = new THREE.Color(0xb3e3ff);
 
     // Add Fog
-    scene.fog = new THREE.FogExp2(0xbff0ff, 0.007);
+    scene.fog = new THREE.FogExp2(0xb3e3ff, 0.007);
 
     // Add warm and cold ambient lights
     warmAmbientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
@@ -21,7 +21,7 @@ let setUpEnvironment = () => {
         materials.sky
     );
     ceiling.rotation.x = -Math.PI * 0.5;
-    ceiling.position.set(worldsize * 0.5, 55, worldsize * 0.5);
+    ceiling.position.set(worldsize * 0.5, 70, worldsize * 0.5);
     scene.add(ceiling);
 
     // Add environment sphere
@@ -122,6 +122,8 @@ let doDaylightCycle = (time) => {
         let anim = setInterval(() => {
             i++;
             light.intensity -= 0.02;
+            warmAmbientlight.intensity -= 0.02;
+            coldAmbientlight.intensity += 0.02;
             ceiling.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             envSphere.material.color.set(colorFade(daySkyColor, nightSkyColor, i / 100));
             water.parent.fog.color.set(colorFade(daySceneColor, nightSceneColor, i / 100));
@@ -133,6 +135,8 @@ let doDaylightCycle = (time) => {
         let anim = setInterval(() => {
             i++;
             light.intensity += 0.02;
+            warmAmbientlight.intensity += 0.02;
+            coldAmbientlight.intensity -= 0.02;
             ceiling.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             envSphere.material.color.set(colorFade(nightSkyColor, daySkyColor, i / 100));
             water.parent.fog.color.set(colorFade(nightSceneColor, daySceneColor, i / 100));
