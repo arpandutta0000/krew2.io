@@ -172,19 +172,22 @@ let createMinimap = () => {
             if (myPlayer && myPlayer.geometry) {
                 let position = myPlayer.geometry.getWorldPosition(new THREE.Vector3());
                 let quaternion = new THREE.Quaternion();
+                let extraRotation;
 
-                // Get quartertation basd off of ship status
+                // Get quartertation based off of ship status
                 if (myPlayer.parent && myPlayer.parent.netType === 1 && myPlayer.parent.shipState === 0) {
                     myPlayer.parent.geometry.getWorldQuaternion(quaternion);
+                    extraRotation = 180;
                 } else {
                     myPlayer.geometry.getWorldQuaternion(quaternion);
+                    extraRotation = 0;
                 }
                 // Calculate heading in degrees
                 let pVec = new THREE.Vector3(1, 0, 0).applyQuaternion(quaternion);
                 let heading = Math.atan2(pVec.z, pVec.x) * 180 / Math.PI;
                 heading = heading > 0 ? heading : heading + 360;
                 // Return heading in radians
-                rotation = (heading % 360 + 180) * Math.PI / 180;
+                rotation = (heading % 360 + extraRotation) * Math.PI / 180;
 
                 if (map.elements[myPlayer.id] === undefined) {
                     map.add(map.triangle({
