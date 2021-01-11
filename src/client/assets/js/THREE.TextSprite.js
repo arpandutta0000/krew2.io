@@ -31,6 +31,7 @@
             this.roundFontSizeToNearestPowerOfTwo = roundFontSizeToNearestPowerOfTwo;
             this.maxFontSize = maxFontSize;
             this.lastRedraw = 0;
+            this.renderOrder = 32;
 
             this._renderMesh = new THREE.Mesh();
             this._renderMesh.onBeforeRender = onBeforeRender.bind(this);

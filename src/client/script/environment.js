@@ -58,7 +58,6 @@ let setUpEnvironment = () => {
 
         water.rotation.x = -Math.PI * 0.5;
         water.position.set(worldsize * 0.5, 0, worldsize * 0.5);
-        water.renderOrder = 32;
 
         scene.add(water);
     };
