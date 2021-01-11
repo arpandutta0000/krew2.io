@@ -37,6 +37,24 @@
     src: url(assets/fonts/Caribbean.ttf);
 }
 
+::-webkit-scrollbar {
+    background-color: rgba(0, 0, 0, 0);
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #babac093;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
 body {
     margin: 0;
     overflow: hidden;
