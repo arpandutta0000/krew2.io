@@ -220,14 +220,6 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
-                        src: [`src/client/assets/error-pages/*`],
-                        dest: `dist/assets/error-pages/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
                         src: [`src/client/assets/models/sea_animals/*`],
                         dest: `dist/assets/models/sea_animals/`,
                         filter: `isFile`
