@@ -134,7 +134,7 @@ var ui = {
                     $(`#lock-krew-label`).hide();
                 } else {
                     $(`#lock-krew-label`).show();
-                    if (myBoat.isLocked !== true) {
+                    if (myBoat && myBoat.isLocked !== true) {
                         $(`#lock-krew-button`).prop(`checked`, false);
                         $(`#lock-krew-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`Lock krew...`);
                     } else {
