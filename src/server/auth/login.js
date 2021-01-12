@@ -51,8 +51,21 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                 spawnIsland.addChildren(playerEntity);
 
                 // Create a new boat for the player.
-                playerEntity.gold += 500;
-                setTimeout(() => playerEntity.purchaseShip(1, krewName), 200);
+                setTimeout(() => {
+                    let boat = core.createBoat(playerEntity.id, krewName, false);
+
+                    boat.addChildren(playerEntity);
+
+                    boat.departureTime = 5;
+
+                    boat.recruiting = true;
+                    boat.isLocked = false;
+
+                    boat.shipState = 3;
+
+                    boat.setShipClass(1);
+                    boat.updateProps();
+                }, 200);
             } else if (spawnPoint === `krew`) {
                 // Get all krews with a free spot on board.
                 let availableKrews = Object.values(core.boats).filter(boat => boat.krewCount < boat.maxKrewCapacity && !boat.isLocked);
@@ -77,7 +90,21 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
 
                     // Create a new boat for the player.
                     playerEntity.gold += 500;
-                    setTimeout(() => playerEntity.purchaseShip(1, krewName), 200);
+                    setTimeout(() => {
+                        let boat = core.createBoat(playerEntity.id, krewName, false);
+
+                        boat.addChildren(playerEntity);
+
+                        boat.departureTime = 5;
+
+                        boat.recruiting = true;
+                        boat.isLocked = false;
+
+                        boat.shipState = 3;
+
+                        boat.setShipClass(1);
+                        boat.updateProps();
+                    }, 200);
                 }
             }
         }
