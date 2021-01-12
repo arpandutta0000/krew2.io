@@ -216,7 +216,7 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType !== 1))
-                    )) {
+                )) {
                     ui.hideSuggestionBox = false;
                 }
             }
@@ -232,12 +232,11 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType !== 1))
-                    )) {
+                )) {
                     ui.hideSuggestionBox = false;
                 }
             }
         }
-
     } else {
         if (this.type === 2 || this.type === 3) {
             // this.setName();

@@ -368,9 +368,9 @@ var ui = {
             document.getElementById(fileId).currentTime = 0;
 
         document.getElementById(fileId).play();
-        document.getElementById(fileId).volume = loop ?
-            0.1 * musicValue.value / musicValue.max :
-            0.45 * sfxValue.value / sfxValue.max;
+        document.getElementById(fileId).volume = loop
+            ? 0.1 * musicValue.value / musicValue.max
+            : 0.45 * sfxValue.value / sfxValue.max;
     },
     stopAudioFile: function (fileId) {
         document.getElementById(fileId).pause();
@@ -602,8 +602,9 @@ var ui = {
                         class: `btn btn-primary btn-sm`,
                         role: `button`,
                         disabled: !!((myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) || ship.purchasable !== true),
-                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) ?
-                            `Purchased` : `Buy`
+                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
+                            ? `Purchased`
+                            : `Buy`
                     }).on(`click`, function () {
                         if ($(`#abandon-existing-krew`).is(`:visible`)) {
                             $(`#abandon-existing-krew`).hide();

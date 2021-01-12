@@ -158,7 +158,7 @@ Projectile.prototype.clientlogic = function (dt) {
         // this.geometry = projectileObj.clone();
         sceneCanBalls[this.id] = this.geometry;
         this.geometry.castShadow = true;
-        this.geometry.renderOrder = 16
+        this.geometry.renderOrder = 16;
         scene.add(this.geometry);
         this.setProjectileModel = false;
     }

@@ -9,9 +9,9 @@ function Boat (captainId, krewName, spawnBool) {
     if (entities[captainId] !== undefined) {
         captainsName = entities[captainId].name;
         if (entities[captainId].parent !== undefined) {
-            spawnIslandId = entities[captainId].parent.netType === 5 ?
-                entities[captainId].parent.id :
-                entities[captainId].parent.anchorIslandId;
+            spawnIslandId = entities[captainId].parent.netType === 5
+                ? entities[captainId].parent.id
+                : entities[captainId].parent.anchorIslandId;
         }
     }
 
@@ -82,9 +82,9 @@ function Boat (captainId, krewName, spawnBool) {
     // Boats have a crew name, by default it's the captains name or the passed krew name,
     // this is setted on the update function, so initially is set to undefined
     captainsName = typeof captainsName === `string` ? captainsName : ``;
-    this.crewName = typeof krewName === `string` ?
-        krewName :
-        (
+    this.crewName = typeof krewName === `string`
+        ? krewName
+        : (
             `${captainsName}'${
                 captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`
             } krew`
@@ -201,8 +201,9 @@ Boat.prototype.logic = function (dt) {
     // if boat is not anchored or not in docking state, we will move
     if (this.shipState === 0) {
         // if the steering button is pressed, the rotation changes slowly
-        (kaptain !== undefined) ?
-        this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)): this.rotation += this.steering * dt * 0.4 * this.turnspeed;
+        (kaptain !== undefined)
+            ? this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
+            : this.rotation += this.steering * dt * 0.4 * this.turnspeed;
 
         // we rotate the movement vector depending on the current rotation
         moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
