@@ -260,7 +260,8 @@ let createGame = function () {
 
     // Create three.js renderer object
     renderer = new THREE.WebGLRenderer({
-        antialias: true
+        antialias: true,
+        powerPreference: `high-performance`
     });
 
     renderer.shadowMap.enabled = true;
