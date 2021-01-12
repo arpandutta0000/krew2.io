@@ -550,7 +550,7 @@ var ui = {
         if (myPlayer && myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
             socket.emit(`getShips`, (err, ships) => {
                 if (err) {
-                    console.warn(err);
+                    console.log(err);
                 }
 
                 let $div = $(`<div/>`, {
@@ -673,7 +673,7 @@ var ui = {
         if (myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
             socket.emit(`getItems`, (err, items) => {
                 if (err) {
-                    console.warn(err);
+                    console.log(err);
                 }
 
                 let $div = $(`<div/>`);

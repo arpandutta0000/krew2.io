@@ -51,7 +51,7 @@
         setStore: function (callback) {
             socket.emit(`getExperiencePoints`, (err, data) => {
                 if (err) {
-                    console.warn(err);
+                    console.log(err);
                     return;
                 }
 
