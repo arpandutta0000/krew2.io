@@ -1,3 +1,6 @@
+v1.4.1b - [1-12-2021]
+- Fixed players not receiving a raft when spawning on islands
+
 v1.4.1 - [1-11-2021]
 - Fixed incorrect player rotation on the minimap on islands
 - Fixed projectiles, particles, and nametags showing water through boats
@@ -11,16 +14,16 @@ v1.4.1 - [1-11-2021]
 - Modified scrollbars
 - Minor performance improvements
 
-v1.4.0b - [1-9-2020]
+v1.4.0b - [1-9-2021]
 - Patched register VPN detection
 - Tweaked front page
 
-v1.4.0 - [1-9-2020]
+v1.4.0 - [1-9-2021]
 - Remade Water
 - Remade sun lighting
 - Client performance optimizations
 
-v1.3.1 - [1-7-2020]
+v1.3.1 - [1-7-2021]
 - Added Krewmate skin
 - Added Steel Reinforced Planks and Advanced Toolkit Items
 - Fixed players having a chance at spawning in an island
@@ -30,7 +33,7 @@ v1.3.1 - [1-7-2020]
 - Switched Philippines silk price from 125 to 200
 - Updated wiki link
 
-v1.3.0 - [1-6-2020]
+v1.3.0 - [1-6-2021]
 - Expanded and remade map with 5 new islands
 - Added 3 new good types; gems, sugar, and bananas
 - Added Seafox skin
