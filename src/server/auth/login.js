@@ -70,7 +70,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                 } else spawnNewPlayerOnSea(boat, playerEntity);
             } else {
                 // Spawning on island as captain.
-                let spawnIsland = Object.values(core.Landmarks).find(island => island.name.toLowerCase() === spawnPoint);
+                let spawnIsland = Object.values(core.Landmarks).find(island => island.name.toLowerCase() == spawnPoint);
                 if (!spawnIsland) spawnNewPlayerOnSea(boat, playerEntity);
                 else {
                     spawnIsland.addChildren(playerEntity);
