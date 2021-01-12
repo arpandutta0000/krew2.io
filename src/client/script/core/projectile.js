@@ -124,13 +124,9 @@ Projectile.prototype.clientlogic = function (dt) {
 
     if (shootingPlayer && this.setProjectileModel === true) {
         scene.remove(this.geometry);
-        /* if (scene.getObjectByName(shootingPlayer.id + "fishing_line"))
-            scene.remove(scene.getObjectByName(shootingPlayer.id + "fishing_line")) */
 
         // determine projectile model based on player active weapon
         if (shootingPlayer.activeWeapon === 0) {
-            // this.baseGeometry = geometry.projectile;
-            // this.baseMaterial = materials.projectile;
             this.geometry = new THREE.Sprite(materials.cannonball);
         } else if (shootingPlayer.activeWeapon === 1) {
             this.baseGeometry = geometry.hook;
@@ -162,6 +158,7 @@ Projectile.prototype.clientlogic = function (dt) {
         // this.geometry = projectileObj.clone();
         sceneCanBalls[this.id] = this.geometry;
         this.geometry.castShadow = true;
+        this.geometry.renderOrder = 16
         scene.add(this.geometry);
         this.setProjectileModel = false;
     }
