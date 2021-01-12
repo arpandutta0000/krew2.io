@@ -11,7 +11,7 @@
         },
         getList: function () {
             if (myPlayer === undefined || myPlayer.parent === undefined) {
-                console.warn(`Ooops, it seems you don't have a boat.`);
+                console.log(`Ooops, it seems you don't have a boat.`);
                 return;
             }
 
