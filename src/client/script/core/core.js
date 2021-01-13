@@ -1,18 +1,13 @@
-let entities = {};
-
-let boats = {};
-let players = {};
-let playerNames = {};
-let sceneCanBalls = {};
-let sceneLines = {};
-let Landmarks = {};
-let pickups = {};
-let bots = {};
-
+/* Create global variables used throughout the client*/
+let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight, SERVER;
+let entities, markers, boats, players, playerNames, sceneCanBalls, sceneLines, Landmarks, pickups, bots = {};
+let threejsStarted = false;
+let countDown = 10;
+let playerName = ``;
 let worldsize = config.worldsize;
 
-let iterateEntities = function (dt) {
-    // tick each entity
+let iterateEntities = (dt) => {
+    // Tick each entity
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
             entities[e].tick(dt);
