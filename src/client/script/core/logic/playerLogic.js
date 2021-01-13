@@ -184,7 +184,7 @@ Player.prototype.notifiscation = function () {
                 redrawInterval: 10,
                 texture: {
                     text: this.notifiscationHeap[z].text,
-                    fontFamily: CONFIG.Labels.fontFamily
+                    fontFamily: config.Labels.fontFamily
                 },
                 material: {
                     color: (this.notifiscationHeap[z].type) === 1 ? 0xFFD700 : 0x62ff00,
@@ -411,10 +411,10 @@ Player.prototype.setName = function (name) {
             // Set the name
             this.label = new THREE.TextSprite({
                 textSize: 0.7,
-                redrawInterval: CONFIG.Labels.redrawInterval,
+                redrawInterval: config.Labels.redrawInterval,
                 texture: {
                     text: `${clan + (Admins.includes(this.name) ? `[Admin] ` : Mods.includes(this.name) ? `[Staff] ` : Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`,
-                    fontFamily: CONFIG.Labels.fontFamily
+                    fontFamily: config.Labels.fontFamily
                 },
                 material: {
                     color: Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
@@ -570,7 +570,7 @@ Player.prototype.crossHair = function () {
         redrawInterval: 10,
         texture: {
             text: `+`,
-            fontFamily: CONFIG.Labels.fontFamily
+            fontFamily: config.Labels.fontFamily
         },
         material: {
             color: 0x00ff00,

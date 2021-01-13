@@ -79,10 +79,10 @@ Landmark.prototype.setName = function (name) {
             // Set the crews name
             this.label = new THREE.TextSprite({
                 textSize: 12,
-                redrawInterval: CONFIG.Labels.redrawInterval,
+                redrawInterval: config.Labels.redrawInterval,
                 texture: {
                     text: name,
-                    fontFamily: CONFIG.Labels.fontFamily
+                    fontFamily: config.Labels.fontFamily
                 },
                 material: {
                     color: 0x5e9628,

@@ -50,6 +50,15 @@ module.exports = grunt => {
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
 
+                    `src/client/script/core/logic/entityLogic.js`,
+                    `src/client/script/core/logic/boatLogic.js`,
+                    `src/client/script/core/logic/item.js`,
+                    `src/client/script/core/logic/playerLogic.js`,
+                    `src/client/script/core/logic/impact.js`,
+                    `src/client/script/core/logic/pickup.js`,
+                    `src/client/script/core/logic/landmark.js`,
+                    `src/client/script/core/logic/projectileLogic.js`,
+
                     `src/client/script/core/geometry/geometryModules/loader.js`,
                     `src/client/script/core/geometry/geometryModules/particles.js`,
                     `src/client/script/core/geometry/geometryModules/water.js`,
@@ -64,15 +73,6 @@ module.exports = grunt => {
                     `src/client/script/core/audio.js`,
                     `src/client/script/core/economy.js`,
                     `src/client/script/core/game.js`,
-
-                    `src/client/script/core/logic/entityLogic.js`,
-                    `src/client/script/core/logic/boatLogic.js`,
-                    `src/client/script/core/logic/item.js`,
-                    `src/client/script/core/logic/playerLogic.js`,
-                    `src/client/script/core/logic/impact.js`,
-                    `src/client/script/core/logic/pickup.js`,
-                    `src/client/script/core/logic/landmark.js`,
-                    `src/client/script/core/logic/projectileLogic.js`,
 
                     `src/client/script/ui/ads.js`,
                     `src/client/script/ui/chatUi.js`,

@@ -121,12 +121,12 @@ Player.prototype.namesLogic = function () {
                             cameraWorldPosition,
                             entities[id].geometry.getWorldPosition(new THREE.Vector3())
                         );
-                        let length = CONFIG.Labels.distanceMultiplier[entities[id].netType];
+                        let length = config.Labels.distanceMultiplier[entities[id].netType];
 
                         entities[id].inRange = actualDistance <= length;
 
                         // Do not set this property if it does not used for better performance
-                        if (CONFIG.setProperties.inVision) {
+                        if (config.setProperties.inVision) {
                             entities[id].inVision = entities[id].inRange && inPlayersVision(entities[id], camera);
                         }
 

@@ -282,10 +282,10 @@ Pickup.prototype.setName = function () {
             // Set the name
             this.label = new THREE.TextSprite({
                 textSize: 3,
-                redrawInterval: CONFIG.Labels.redrawInterval,
+                redrawInterval: config.Labels.redrawInterval,
                 texture: {
                     text: this.id,
-                    fontFamily: CONFIG.Labels.fontFamily
+                    fontFamily: config.Labels.fontFamily
                 },
                 material: {
                     color: labelcolors.player,

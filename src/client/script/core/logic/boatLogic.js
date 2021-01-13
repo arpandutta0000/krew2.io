@@ -134,10 +134,10 @@ Boat.prototype.setName = function (crewName) {
             // Set the crews name
             this.label = new THREE.TextSprite({
                 textSize: 4,
-                redrawInterval: CONFIG.Labels.redrawInterval,
+                redrawInterval: config.Labels.redrawInterval,
                 texture: {
                     text: clan + crewName,
-                    fontFamily: CONFIG.Labels.fontFamily
+                    fontFamily: config.Labels.fontFamily
                 },
                 material: {
                     color: 0xc5a37c,
@@ -161,7 +161,7 @@ Boat.prototype.setName = function (crewName) {
         this.label.visible = myPlayer &&
             myPlayer.parent &&
             this.id !== myPlayer.parent.id &&
-            this[CONFIG.Labels.boats.useMethod];
+            this[config.Labels.boats.useMethod];
     }
     this.crewName = crewName;
 };

@@ -7,6 +7,9 @@ let login = function () {
 
     ui.setQualitySettings();
 
+    gameplayUiInit();
+    ecoUiInit();
+
     $.ajax({
         url: `/account_game_settings`,
         type: `GET`,

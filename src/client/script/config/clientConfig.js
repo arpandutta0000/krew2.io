@@ -1,4 +1,4 @@
-let config = {
+const config = {
     // Client side staff
     Admins: [`devclied`, `LeoLeoLeo`, `DamienVesper`, `BR88C`, `itsdabomb`, `harderman`],
     Mods: [`Fiftyyyyy`, `Speedy_Sloth`, `Sjmun`, `TheChoco`, `Kekmw`],
@@ -12,13 +12,8 @@ let config = {
 
     // Set worldsize
     worldsize: 2500,
-};
 
-/**
- * This global variable, meant to hold all the posible configurations for the client.
- * @type {Object}
- */
-window.CONFIG = {
+    // Misc config
     setProperties: {
         inVision: false
     },
@@ -35,3 +30,8 @@ window.CONFIG = {
         }
     }
 };
+
+/* Set global staff values from config */
+let Admins = config.Admins;
+let Mods = config.Mods;
+let Devs = config.Devs;
