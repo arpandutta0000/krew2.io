@@ -16,6 +16,8 @@ let preGamplayUiInit = () => {
         GameAnalytics(`addDesignEvent`, `Game:Session:ClickedPlayButton`);
 
         if (threejsStarted) {
+            gameplayUiInit();
+            ecoUiInit();
             ui.showAdinplayCentered();
             login();
             setUpKeybinds();
