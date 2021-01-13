@@ -237,7 +237,7 @@ let gameplayUiInit = () => {
     });
 
     // Depart button
-    $(`#exit-island-button`).on(`click`, departure());
+    $(`#exit-island-button`).on(`click`, () => departure());
 
     // Help button
     $(`#toggle-help-button`).on(`click`, () => {
