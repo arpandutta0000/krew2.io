@@ -50,9 +50,9 @@ module.exports = grunt => {
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
 
-                    `src/client/script/geometry/geometry.js`,
-                    `src/client/script/geometry/geometryModules/loader.js`,
-                    `src/client/script/geometry/geometryModules/particles.js`,
+                    `src/client/script/core/geometry/geometry.js`,
+                    `src/client/script/core/geometry/geometryModules/loader.js`,
+                    `src/client/script/core/geometry/geometryModules/particles.js`,
                     `src/client/script/core/geometry/geometryModules/water.js`,
 
                     `src/client/script/core/geometry/loadModels.js`,

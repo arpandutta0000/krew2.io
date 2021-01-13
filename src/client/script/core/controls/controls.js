@@ -1,5 +1,5 @@
 /* Set up game controls */
-let GameControls = () => {
+let GameControls = function () {
     let _this = this;
     let PI_2 = Math.PI / 2;
 

@@ -129,6 +129,9 @@ var islandTimer = () => {
         }
     }
 };
+let timer = setInterval(() => {
+    islandTimer();
+}, 1000);
 
 /* Set player session highlights for respawn window */
 var setHighlights = (gold, fired, hit, sank) => {
