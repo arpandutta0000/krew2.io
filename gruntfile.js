@@ -37,43 +37,55 @@ module.exports = grunt => {
             // Add together client core.
             client: {
                 src: [
-                    `src/client/script/core/core_client/config.js`,
-                    `src/client/script/rangeInput.js`,
-
-                    `src/client/script/environment.js`,
-                    `src/client/script/water.js`,
-                    `src/client/script/window.js`,
-                    `src/client/script/geometry.js`,
-                    `src/client/script/loader.js`,
-                    `src/client/script/keyboard.js`,
-                    `src/client/script/controls.js`,
+                    `src/client/script/config/clientConfig.js`,
+                    `src/client/script/config/boatTypes.js`,
+                    `src/client/script/config/goodsTypes.js`,
 
                     `src/client/script/core/core.js`,
-                    `src/client/script/core/utils.js`,
-                    `src/client/script/core/entity.js`,
-                    `src/client/script/core/goodsTypes.js`,
-                    `src/client/script/core/core_client/parseSnap.js`,
-                    `src/client/script/core/boatTypes.js`,
-                    `src/client/script/core/boat.js`,
-                    `src/client/script/core/item.js`,
-                    `src/client/script/core/player.js`,
-                    `src/client/script/core/impact.js`,
-                    `src/client/script/core/pickup.js`,
-                    `src/client/script/core/landmark.js`,
-                    `src/client/script/core/projectile.js`,
+                    `src/client/script/core/parseSnap.js`,
 
-                    `src/client/script/core/core_client/entity.js`,
-                    `src/client/script/core/core_client/boat.js`,
-                    `src/client/script/core/core_client/player.js`,
+                    `src/client/script/core/controls/keyboard.js`,
+                    `src/client/script/core/controls/controls.js`,
 
-                    `src/client/script/uiSuggestion.js`,
-                    `src/client/script/uiKrewList.js`,
-                    `src/client/script/uiGoods.js`,
-                    `src/client/script/uiExperience.js`,
+                    `src/client/script/core/window.js`,
+                    `src/client/script/utils.js`,
 
-                    `src/client/script/ui.js`,
+                    `src/client/script/geometry/geometry.js`,
+                    `src/client/script/geometry/geometryModules/loader.js`,
+                    `src/client/script/geometry/geometryModules/particles.js`,
+                    `src/client/script/core/geometry/geometryModules/water.js`,
+
+                    `src/client/script/core/geometry/loadModels.js`,
+                    `src/client/script/core/geometry/entity.js`,
+                    `src/client/script/core/geometry/environment.js`,
+                    `src/client/script/core/geometry/boat.js`,
+                    `src/client/script/core/geometry/player.js`,
+
+                    `src/client/script/core/logic/entityLogic.js`,
+                    `src/client/script/core/logic/boatLogic.js`,
+                    `src/client/script/core/logic/item.js`,
+                    `src/client/script/core/logic/playerLogic.js`,
+                    `src/client/script/core/logic/impact.js`,
+                    `src/client/script/core/logic/pickup.js`,
+                    `src/client/script/core/logic/landmark.js`,
+                    `src/client/script/core/logic/projectileLogic.js`,
+
+                    `src/client/script/ui/ads.js`,
+                    `src/client/script/ui/chatUi.js`,
+                    `src/client/script/ui/experienceBar.js`,
+                    `src/client/script/ui/gameplayUi.js`,
+                    `src/client/script/ui/goodsUi.js`,
+                    `src/client/script/ui/islandsUi.js`,
+                    `src/client/script/ui/krewlistUi.js`,
+                    `src/client/script/ui/minimap.js`,
+                    `src/client/script/ui/preGameplayUi.js`,
+                    `src/client/script/ui/ui.js`,
+
+                    `src/client/script/core/audio.js`,
+                    `src/client/script/core/economy.js`,
+                    `src/client/script/core/game.js`,
+
                     `src/client/script/main.js`,
-                    `src/client/script/particles.js`,
                     `src/client/script/connection.js`
                 ],
                 dest: `src/client/script/${process.env.NODE_ENV == `prod` ? `dist.js` : `dist.min.js`}`
@@ -127,8 +139,7 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [
-                    {
+                files: [{
                         expand: true,
                         nonull: true,
                         flatten: true,
