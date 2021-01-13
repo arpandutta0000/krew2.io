@@ -1,9 +1,9 @@
 /* Create global variables used throughout the client*/
 let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight, SERVER;
+let markers, geometry, materials, labelcolors, vectors = {};
 let threejsStarted = false;
 let countDown = 10;
 let playerName = ``;
-let markers = {};
 
 /* When document is ready */
 $(document).ready(() => {
