@@ -50,16 +50,20 @@ module.exports = grunt => {
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
 
-                    `src/client/script/core/geometry/geometry.js`,
                     `src/client/script/core/geometry/geometryModules/loader.js`,
                     `src/client/script/core/geometry/geometryModules/particles.js`,
                     `src/client/script/core/geometry/geometryModules/water.js`,
 
+                    `src/client/script/core/geometry/environment.js`,
+                    `src/client/script/core/geometry/geometry.js`,
                     `src/client/script/core/geometry/loadModels.js`,
                     `src/client/script/core/geometry/entity.js`,
-                    `src/client/script/core/geometry/environment.js`,
                     `src/client/script/core/geometry/boat.js`,
                     `src/client/script/core/geometry/player.js`,
+
+                    `src/client/script/core/audio.js`,
+                    `src/client/script/core/economy.js`,
+                    `src/client/script/core/game.js`,
 
                     `src/client/script/core/logic/entityLogic.js`,
                     `src/client/script/core/logic/boatLogic.js`,
@@ -81,12 +85,8 @@ module.exports = grunt => {
                     `src/client/script/ui/preGameplayUi.js`,
                     `src/client/script/ui/ui.js`,
 
-                    `src/client/script/core/audio.js`,
-                    `src/client/script/core/economy.js`,
-                    `src/client/script/core/game.js`,
-
                     `src/client/script/main.js`,
-                    `src/client/script/connection.js`
+                    `src/client/script/core/connection.js`
                 ],
                 dest: `src/client/script/${process.env.NODE_ENV == `prod` ? `dist.js` : `dist.min.js`}`
             }
