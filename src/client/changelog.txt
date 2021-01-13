@@ -1,3 +1,6 @@
+v1.4.1c - [1-13-2021]
+- Fixed ads
+
 v1.4.1b - [1-12-2021]
 - Fixed players not receiving a raft when spawning on islands
 
