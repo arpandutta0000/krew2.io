@@ -11,9 +11,9 @@ let maxPlayerPerInstance = 100;
 let interval_update;
 
 // define here who is Mod or Admin (for client side)
-let Admins = [`DamienVesper`, `BR88C`];
+let Admins = [`devclied`, `LeoLeoLeo`, `DamienVesper`, `BR88C`, `itsdabomb`, `harderman`];
 let Mods = [`Fiftyyyyy`, `Speedy_Sloth`, `Sjmun`, `TheChoco`, `Kekmw`];
-let Devs = [];
+let Devs = [`Yaz_`];
 
 // connect to the first available server
 let connect = function (pid) {
