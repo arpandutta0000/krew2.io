@@ -742,7 +742,7 @@ let fbShare = function (message, link) {
                         'og:url': `http://${link}`, // your url to share
                         'og:title': `Krew.io`,
                         'og:description': message,
-                        'og:image': `https://tournament.krew.io/assets/img/logo.png`
+                        'og:image': `https://krew.io/assets/img/logo.png`
                     }
                 })
             });
