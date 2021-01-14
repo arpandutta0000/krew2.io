@@ -26,4 +26,4 @@ let preGamplayUiInit = () => {
             ui.playAudioFile(true, `ocean-ambience`);
         }
     }).text(`Loading...`).attr(`disabled`, true);
-}
+};

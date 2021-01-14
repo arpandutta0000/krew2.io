@@ -515,25 +515,25 @@ Player.prototype.clientlogic = function (dt) {
             this.playerBody.add(this.captainHat);
             if (this.label !== undefined) {
                 this.label.material.color =
-                    Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ?
-                    labelcolors.staff :
-                    this.isPlayer ?
-                    labelcolors.myself :
-                    this.isCaptain ?
-                    labelcolors.captain :
-                    labelcolors.player;
+                    Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
+                        ? labelcolors.staff
+                        : this.isPlayer
+                            ? labelcolors.myself
+                            : this.isCaptain
+                                ? labelcolors.captain
+                                : labelcolors.player;
             }
         } else {
             this.playerBody.remove(this.playerBody.getObjectByName(`captainHat`));
 
             if (this.label !== undefined) {
-                this.label.material.color = Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ?
-                    labelcolors.staff :
-                    this.isPlayer ?
-                    labelcolors.myself :
-                    this.isCaptain ?
-                    labelcolors.captain :
-                    labelcolors.player;
+                this.label.material.color = Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
+                    ? labelcolors.staff
+                    : this.isPlayer
+                        ? labelcolors.myself
+                        : this.isCaptain
+                            ? labelcolors.captain
+                            : labelcolors.player;
             }
         }
     }

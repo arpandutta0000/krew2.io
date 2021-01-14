@@ -60,7 +60,6 @@ let loadModels = () => {
     // loader.loadObjWithMtl('./assets/models/elka.obj');
     // loader.loadObjWithMtl('./assets/models/snowman.obj');
 
-
     // Once loader is done, create the objects in the world
     loader.onFinish(() => {
         createModels();

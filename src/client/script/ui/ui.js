@@ -1113,9 +1113,7 @@ var ui = {
         }
 
         /** ****************** Player score list start ********************/
-        players.sort((a, b) => {
-            return b.g - a.g;
-        });
+        players.sort((a, b) => b.g - a.g);
         let playersListSortedByGold = players.slice(0, 15);
         let playerScoreIndex = 0;
         let playerScoreLength = playersListSortedByGold.length;
@@ -1174,9 +1172,7 @@ var ui = {
         /** ****************** Player score list end ********************/
 
         /** ****************** Boats score list start ********************/
-        scores.boats.sort((a, b) => {
-            return b.g - a.g;
-        });
+        scores.boats.sort((a, b) => b.g - a.g);
 
         let boatsListSortedByGold = scores.boats.slice(0, 10);
         let $leaderboard_data = $(`<div id="leaderboard-data-div"/>`);
@@ -1239,9 +1235,7 @@ var ui = {
             }
         }
 
-        playerListSortedByScore.sort((a, b) => {
-            return a.value.s - b.value.s;
-        });
+        playerListSortedByScore.sort((a, b) => a.value.s - b.value.s);
 
         for (p in playerListSortedByScore) {
             let player = playerListSortedByScore[p].value;

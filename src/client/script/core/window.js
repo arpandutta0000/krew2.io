@@ -17,7 +17,7 @@ let updateViewport = () => {
 window.addEventListener(`resize`, updateViewport, false);
 
 /* Update game quality */
-var updateQuality = () => {
+let updateQuality = () => {
     switch (parseInt($(`#quality-list`).val())) {
         case 1: {
             if (gl !== undefined) {

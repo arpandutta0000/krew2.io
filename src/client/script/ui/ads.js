@@ -18,7 +18,7 @@ let adBlockCheck = () => {
             $(`#disable-adblock-message`).show();
         }
     }, 1000);
-}
+};
 
 let initAds = () => {
     localStorage.setItem(`lastAdTime`, Date.now() - 10000000);
@@ -60,4 +60,4 @@ let initAds = () => {
             });
         }
     }
-}
+};

@@ -161,13 +161,13 @@
             let $tbody;
 
             html += `<div class="col-xs-12 col-sm-6 trading">`,
-                html += `    <h6>Your ship's cargo ${Store.cargoUsed}/${Store.cargo}</h6>`,
-                html += `    <table class="table table-sm">`,
-                html += `        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Sell</th></tr></thead>`,
-                html += `        <tbody></tbody>`,
-                html += `    </table>`,
-                html += `    <br>`,
-                html += `</div>`;
+            html += `    <h6>Your ship's cargo ${Store.cargoUsed}/${Store.cargo}</h6>`,
+            html += `    <table class="table table-sm">`,
+            html += `        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Sell</th></tr></thead>`,
+            html += `        <tbody></tbody>`,
+            html += `    </table>`,
+            html += `    <br>`,
+            html += `</div>`;
 
             $html = $(html);
             $tbody = $html.find(`tbody`);
@@ -206,13 +206,13 @@
             let $tbody;
 
             html += `<div class="col-xs-12 col-sm-6 trading">`,
-                html += `    <h6>Merchant</h6>`,
-                html += `    <table class="table table-sm">`,
-                html += `        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Buy</th></tr></thead>`,
-                html += `        <tbody></tbody>`,
-                html += `    </table>`,
-                html += `    <br>`,
-                html += `</div>`;
+            html += `    <h6>Merchant</h6>`,
+            html += `    <table class="table table-sm">`,
+            html += `        <thead><tr><th>Name</th><th>Quantity</th><th></th><th>Buy</th></tr></thead>`,
+            html += `        <tbody></tbody>`,
+            html += `    </table>`,
+            html += `    <br>`,
+            html += `</div>`;
 
             $html = $(html);
             $tbody = $html.find(`tbody`);

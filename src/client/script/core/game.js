@@ -128,7 +128,7 @@ let departure = () => {
 };
 
 /* Function to delete all entities client side */
-var deleteEverything = function () {
+let deleteEverything = function () {
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
             entities[e].onDestroy();

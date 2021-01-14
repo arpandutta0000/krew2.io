@@ -1,5 +1,5 @@
 /* Function to update music volume */
-var updateMusic = () => {
+let updateMusic = () => {
     let elements = document.querySelectorAll(`audio`);
     const range = document.getElementById(`music-control`);
     for (let i = 0; i < elements.length; i++) {

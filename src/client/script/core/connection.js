@@ -63,9 +63,7 @@ var initSocketBinds = () => {
         console.log(`Jumped into handshake!`);
 
         // Confirmation message on unload
-        $(window).on(`beforeunload`, () => {
-            return `Do you really want to leave your ship and lose your progress?`;
-        });
+        $(window).on(`beforeunload`, () => `Do you really want to leave your ship and lose your progress?`);
 
         // Delete all entities
         deleteEverything();

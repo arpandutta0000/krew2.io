@@ -137,9 +137,7 @@ let GameControls = function () {
 };
 
 /* Disable context menu */
-window.oncontextmenu = () => {
-    return false;
-};
+window.oncontextmenu = () => false;
 
 /* Pointer lock */
 let havePointerLock = `pointerLockElement` in document || `mozPointerLockElement` in document || `webkitPointerLockElement` in document;

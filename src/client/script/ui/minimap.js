@@ -74,15 +74,12 @@ let createMinimap = () => {
 
     // Create loop to update player position
     let loop = () => {
-
         // If a new frame
         if (performance.now() - time > 1000 / fps) {
-
             // Checks if there are no entities defined
             if (entities === undefined) {
                 map.elements = {};
             } else {
-
                 // Remove entities to be redrawn from the map elements object (Chest, Player, and Islands)
                 for (let id in map.elements) {
                     if ((map.elements[id].netType === 5 || map.elements[id].netType === 0 || map.elements[id].netType === 4) && entities[id] === undefined) {

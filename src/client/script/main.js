@@ -1,6 +1,6 @@
 /* When document is ready */
 $(document).ready(() => {
-    console.log(`poggers bro`)
+    console.log(`poggers bro`);
     // Setup custom modal attributes
     // $(`.modal-custom`).on(`show.bs.modal`, (e) => {
     //     setTimeout(() => {
@@ -40,7 +40,7 @@ $(document).ready(() => {
     // Hide bootstrao elements as bootstrap by default un-hides elements inside .tab
     $(`#global-chat-alert`).hide();
 
-    $(`#login-modal`).modal(`show`)
+    $(`#login-modal`).modal(`show`);
 
     // Close socket connection on unload
     $(window).on(`unload`, () => {

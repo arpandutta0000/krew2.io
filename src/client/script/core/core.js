@@ -4,7 +4,7 @@ let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl,
 let boats = {};
 let bots = {};
 let entities = {};
-let Landmarks  = {};
+let Landmarks = {};
 let markers = {};
 let pickups = {};
 let playerNames = {};

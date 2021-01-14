@@ -121,9 +121,9 @@
                                 h(`small`, {}, boat.shipState === 4 ? `Departing in ${Math.round(boat.departureTime)} seconds` : ``)
                             ]),
                             h(`td`, {}, `${boat.krewCount}/${boatTypes[boat.shipclassId].maxKrewCapacity}`),
-                            h(`td`, {}, boat.id === myPlayer.parent.id ?
-                                `My Krew` :
-                                h(`button`, {
+                            h(`td`, {}, boat.id === myPlayer.parent.id
+                                ? `My Krew`
+                                : h(`button`, {
                                     id: boat.id,
                                     class: `btn btn-primary btn-md`,
                                     role: `button`,

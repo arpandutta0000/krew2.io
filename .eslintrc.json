@@ -13,7 +13,7 @@
     "parserOptions": {
         "ecmaVersion": 6
     },
-    "ignorePatterns": ["**/assets/js/*.js", "dist.min.js", "core_concatenated.js"],
+    "ignorePatterns": ["**/assets/js/*.js", "**/server/", "dist.min.js", "core_concatenated.js"],
     "rules": {
         "func-call-spacing": 0,
         "no-unexpected-multiline": 0,
@@ -22,7 +22,7 @@
         "array-bracket-newline": 1,
         "brace-style": 1,
         "comma-spacing": 1,
-        "no-var": 1,
+        // "no-var": 1,
         "indent": ["error", 4, {
             "SwitchCase": 1
         }],
@@ -41,6 +41,8 @@
         "no-useless-escape": 0,
         "camelcase": 0,
         "node/no-callback-literal": 0,
-        "no-return-assign": 0
+        "no-return-assign": 0,
+        "eol-last": 0,
+        "arrow-body-style": ["error", "as-needed"]
     }
 }

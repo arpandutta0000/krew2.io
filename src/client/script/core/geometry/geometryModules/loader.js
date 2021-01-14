@@ -23,7 +23,7 @@ loader.compute = fun => {
     return loader.promises[loader.promises.length - 1];
 };
 
-/*Add a texture load to the loader. Wraps the async calls */
+/* Add a texture load to the loader. Wraps the async calls */
 loader.loadTexture = path => {
     loader.promises.push(new Promise((resolve, reject) => {
         let parts = path.split(`/`).pop().split(`.`);

@@ -67,7 +67,7 @@ let login = function () {
 };
 
 /* Update info for island docking/departure timers */
-var islandTimer = () => {
+let islandTimer = () => {
     // Update the alive timer
     ++secondsAlive;
     $(`#seconds`).html(pad(secondsAlive % 60));
@@ -134,7 +134,7 @@ let timer = setInterval(() => {
 }, 1000);
 
 /* Set player session highlights for respawn window */
-var setHighlights = (gold, fired, hit, sank) => {
+let setHighlights = (gold, fired, hit, sank) => {
     $(`#total-score`).html(lastScore);
     $(`#total-damage`).html(lastScore);
     $(`#total-gold-collected`).html(gold.toFixed(0));
@@ -149,7 +149,7 @@ var setHighlights = (gold, fired, hit, sank) => {
 };
 
 /* Disconnect/game end listener */
-var endTheGame = (gold, fired, hit, sank) => {
+let endTheGame = (gold, fired, hit, sank) => {
     miniplaySend2API(`gameover`, 1);
     miniplaySend2API(`ships`, sank);
 
@@ -415,4 +415,4 @@ let gameplayUiInit = () => {
             $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
         }
     });
-}
+};

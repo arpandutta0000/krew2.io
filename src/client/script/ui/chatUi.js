@@ -13,7 +13,7 @@ let initChatListeners = () => {
     $(`#chat-message`).on(`keyup`, function () {
         let $this = $(this);
         let val = $this.val();
-    
+
         if (val.trim().length > 150) {
             $this.val(val.slice(0, 150));
         }
@@ -52,7 +52,7 @@ let initChatListeners = () => {
         $(`#show-chat`).hide();
         $(`#chat-div`).show();
     });
-}
+};
 
 var toggleGlobalChat = () => {
     $(`#chat-global`).addClass(`active`);

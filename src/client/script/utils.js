@@ -22,10 +22,10 @@ let isAlphaNumeric = (str) => {
         }
     }
     return true;
-}
+};
 
 /* Parse URL info */
-var getUrlVars = () => {
+let getUrlVars = () => {
     let vars = {};
     let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (
         m,
@@ -219,10 +219,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum

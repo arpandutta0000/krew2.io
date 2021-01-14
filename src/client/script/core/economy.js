@@ -94,4 +94,4 @@ let ecoUiInit = () => {
     $(`#btn-take-deposit`).on(`click`, () => {
         takeDeposit();
     });
-}
+};
