@@ -43,6 +43,14 @@
         "node/no-callback-literal": 0,
         "no-return-assign": 0,
         "eol-last": 0,
-        "arrow-body-style": ["error", "as-needed"]
+        "arrow-body-style": ["error", "as-needed"],
+        "func-style": ["error", "expression", {
+            "allowArrowFunctions": true
+        }],
+        "prefer-arrow/prefer-arrow-functions": ["error", {
+            "disallowPrototype": true,
+            "singleReturnOnly": false,
+            "classPropertiesAllowed": false
+        }]
     }
 }
