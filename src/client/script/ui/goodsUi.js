@@ -4,7 +4,7 @@
     };
 
     var GoodsComponent = {
-        getList: () => {
+        getList: function () {
             GoodsComponent
                 .removeListeners()
                 .clearStore()
@@ -15,7 +15,7 @@
                 });
         },
 
-        removeListeners: () => {
+        removeListeners: function () {
             if (Store.$html !== undefined) {
                 Store.$html.children().off();
                 Store.$html.off();
@@ -24,7 +24,7 @@
             return GoodsComponent;
         },
 
-        clearStore: () => {
+        clearStore: function () {
             Object.assign(Store, {
                 goodsPrice: {},
                 goods: {},
@@ -54,7 +54,7 @@
             }
         },
 
-        setContent: () => {
+        setContent: function () {
             let $html = $(`<div class="stock"/>`);
 
             if (
@@ -78,8 +78,8 @@
             return GoodsComponent;
         },
 
-        setListeners: () => {
-            $(`input[type=range]`).each(() => {
+        setListeners: function () {
+            $(`input[type=range]`).each(function () {
                 inputRange($(this));
             });
 
@@ -99,7 +99,7 @@
             let $slider = $tr.find(`.ui-slider`);
             let $handle = $slider.find(`.ui-slider-handle`);
             let options = {
-                create: () => {
+                create: function () {
                     $handle.text($slider.slider(`value`));
                 },
 
@@ -155,7 +155,7 @@
             });
         },
 
-        getInventory: () => {
+        getInventory: function () {
             let html = ``;
             let $html;
             let $tbody;
@@ -200,7 +200,7 @@
             return $html;
         },
 
-        getGoods: () => {
+        getGoods: function () {
             let html = ``;
             let $html;
             let $tbody;

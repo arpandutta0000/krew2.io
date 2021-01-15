@@ -2,7 +2,7 @@
 let particles = [];
 
 /* Create a new Particle */
-let createParticle = (params) => {
+let createParticle = function (params) {
     if (!myPlayer || !myPlayer.parent || ((Math.pow(params.x - myPlayer.parent.position.x, 2) + Math.pow(params.z - myPlayer.parent.position.z, 2)) > 10000)) {
         return;
     }
@@ -42,7 +42,7 @@ function Particle (params) {
     scene.add(this.geometry);
 }
 
-Particle.prototype.tick = (dt) => {
+Particle.prototype.tick = function (dt) {
     // subtract gravity
     this.vy -= this.gravity * dt;
 
@@ -76,7 +76,7 @@ Particle.prototype.tick = (dt) => {
 };
 
 /* Particle Ticks */
-let tickParticles = (dt) => {
+let tickParticles = function (dt) {
     let i = particles.length;
     while (i--) {
         particles[i].tick(dt);

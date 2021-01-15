@@ -1,9 +1,17 @@
 // these are functions that the entities only have on the client (Like Threejs bodies)
 Entity.prototype.clientInit = function () {
+<<<<<<< HEAD
+=======
+    // if (this.id === myPlayerId){
+    //     this.isPlayer = true;
+    //     this.baseMaterial = materials.colorset_captain;
+    // }
+    // if it isnt a play, we make a box. otherwise the camera is attached to the thing
+>>>>>>> parent of 7ee334f... more arrow functions
     this.createBody();
 };
 
-Entity.prototype.createBody = () => {
+Entity.prototype.createBody = function () {
     // create base object
     this.geometry = new THREE.Object3D();
     scene.add(this.geometry);
@@ -56,7 +64,7 @@ Entity.prototype.createBody = () => {
     this.clientlogic(0);
 };
 
-Entity.prototype.onClientDestroy = () => {
+Entity.prototype.onClientDestroy = function () {
     if (this.parent) {
         this.parent.geometry.remove(this.geometry);
     }
@@ -69,12 +77,12 @@ Entity.prototype.onClientDestroy = () => {
     }
 };
 
-Entity.prototype.clientlogic = (dt) => {
+Entity.prototype.clientlogic = function (dt) {
     this.geometry.position.set(this.position.x, this.position.y, this.position.z);
     this.geometry.rotation.y = this.rotation;
 };
 
-let removeEntity = (entity) => {
+let removeEntity = function (entity) {
     if (entities.hasOwnProperty(entity.id)) {
         entity.onDestroy();
         delete entities[entity.id];

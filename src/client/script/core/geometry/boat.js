@@ -1,4 +1,4 @@
-let setShipModels = () => {
+let setShipModels = function () {
     for (let i in boatTypes) {
         let boat = boatTypes[i];
         if (models[boat.body] !== undefined) {
@@ -15,7 +15,7 @@ let setShipModels = () => {
     }
 };
 
-Boat.prototype.changeBoatModel = (id) => {
+Boat.prototype.changeBoatModel = function (id) {
     if (this.geometry === undefined || boatTypes[id] === undefined) {
         return;
     }
@@ -63,7 +63,7 @@ Boat.prototype.changeBoatModel = (id) => {
     }
 };
 
-Boat.prototype.docking = (stateId) => {
+Boat.prototype.docking = function (stateId) {
     let shipId = this.shipclassId;
     let isPlayer = myPlayer && this === myPlayer.parent;
 };

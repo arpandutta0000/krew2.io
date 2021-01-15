@@ -104,14 +104,14 @@ Impact.prototype.clientlogic = function (dt) {
     }
 };
 
-Impact.prototype.getTypeSnap = () => {
+Impact.prototype.getTypeSnap = function () {
     let snap = {
         a: this.impactType
     };
     return snap;
 };
 
-Impact.prototype.getTypeDelta = () => {
+Impact.prototype.getTypeDelta = function () {
     if (!this.spawnPacket) {
         this.spawnPacket = true;
         return this.getTypeSnap();

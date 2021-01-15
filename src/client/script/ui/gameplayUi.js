@@ -2,7 +2,7 @@
 let $btnShoppingModal = $(`.btn-shopping-modal`);
 
 /* When a user joins the game */
-let login = () => {
+let login = function () {
     connect($(`#server-list`).val());
 
     ui.setQualitySettings();

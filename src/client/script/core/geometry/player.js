@@ -6,7 +6,7 @@ let refreshTimer = 0; // used to handle refreshing krew list
 let playerModels = [];
 let PlayerRaycaster = new THREE.Raycaster();
 
-let setPlayerModels = () => {
+let setPlayerModels = function () {
     materials.seadog = new THREE.MeshPhongMaterial({
         color: 0xffffff,
         map: textures.seadog
@@ -88,7 +88,7 @@ let setPlayerModels = () => {
 
 Player.prototype.timeCounters = {};
 
-Player.prototype.namesLogic = () => {
+Player.prototype.namesLogic = function () {
     if (this.isPlayer) {
         let fps = 5;
         let _this = this;
@@ -148,7 +148,7 @@ Player.prototype.namesLogic = () => {
     }
 };
 
-Player.prototype.dockedLogic = () => {
+Player.prototype.dockedLogic = function () {
     if (this.isPlayer) {
         let fps = 20;
         let _this = this;
@@ -261,7 +261,7 @@ Player.prototype.dockedLogic = () => {
     }
 };
 
-Player.prototype.clientlogic = (dt) => {
+Player.prototype.clientlogic = function (dt) {
     if (this.isPlayer && !isEmpty(this.notifiscationHeap)) {
         this.notifiscation();
     }
@@ -539,7 +539,7 @@ Player.prototype.clientlogic = (dt) => {
     }
 };
 
-Player.prototype.tryJump = (dt) => {
+Player.prototype.tryJump = function (dt) {
     if (this.jumpVel > 0.0 || this.jump > 0) {
         return;
     }

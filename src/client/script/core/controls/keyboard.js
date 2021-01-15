@@ -9,7 +9,7 @@ let keys_boot = false;
 let keyboard;
 let disableKeyboard = false;
 
-let setUpKeyboard = (renderer) => {
+let setUpKeyboard = function (renderer) {
     let my_defaults = {
         is_unordered: true,
         prevent_repeat: true,
@@ -24,7 +24,7 @@ let setUpKeyboard = (renderer) => {
         .bind(`blur`, () => {
             keyboard.listen();
         });
-    document.onkeyup = (evt) => {
+    document.onkeyup = function (evt) {
         evt = evt || window.event;
 
         if (evt.keyCode === 27) {
@@ -51,7 +51,7 @@ let setUpKeyboard = (renderer) => {
     };
 };
 
-document.onkeydown = (evt) => {
+document.onkeydown = function (evt) {
     evt = evt || window.event;
     if (evt.keyCode === 38 && !$(`#chat-message`).is(`:focus`) && !$(`#clan-request`).is(`:focus`) && !$(`#crew-name-edit-input`).is(`:focus`)) { // Up arrow to move forward
         keys_walkFwd = true;
@@ -137,7 +137,7 @@ document.onkeydown = (evt) => {
     }
 };
 
-let setUpIslandUI = () => {
+let setUpIslandUI = function () {
     socket.emit(`anchor`);
 
     lastScore = 0;
@@ -160,67 +160,67 @@ let setUpIslandUI = () => {
     controls.unLockMouseLook();
 };
 
-let setUpKeybinds = () => {
+let setUpKeybinds = function () {
     keyboard.reset();
 
     keyboard.register_combo({
         keys: `w`,
-        on_keydown: () => {
+        on_keydown: function () {
             keys_walkFwd = true;
         },
 
-        on_release: () => {
+        on_release: function () {
             keys_walkFwd = false;
         }
     });
 
     keyboard.register_combo({
         keys: `s`,
-        on_keydown: () => {
+        on_keydown: function () {
             keys_walkBwd = true;
         },
 
-        on_release: () => {
+        on_release: function () {
             keys_walkBwd = false;
         }
     });
 
     keyboard.register_combo({
         keys: `d`,
-        on_keydown: () => {
+        on_keydown: function () {
             keys_walkRight = true;
         },
 
-        on_release: () => {
+        on_release: function () {
             keys_walkRight = false;
         }
     });
 
     keyboard.register_combo({
         keys: `a`,
-        on_keydown: () => {
+        on_keydown: function () {
             keys_walkLeft = true;
         },
 
-        on_release: () => {
+        on_release: function () {
             keys_walkLeft = false;
         }
     });
 
     keyboard.register_combo({
         keys: `k`,
-        on_keydown: () => {
+        on_keydown: function () {
             keys_boot = true;
         },
 
-        on_release: () => {
+        on_release: function () {
             keys_boot = false;
         }
     });
 
     keyboard.register_combo({
         keys: `space`,
-        on_keydown: () => {
+        on_keydown: function () {
             keys_jump = true;
             myPlayer.jump_count++;
             if (myPlayer.jump_count === 50) {
@@ -228,14 +228,14 @@ let setUpKeybinds = () => {
             }
         },
 
-        on_release: () => {
+        on_release: function () {
             keys_jump = false;
         }
     });
 
     keyboard.register_combo({
         keys: `c`,
-        on_release: () => {
+        on_release: function () {
             if (myPlayer && myPlayer.parent) {
                 if ((myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) && $cancelExitButtonSpan.text() === `Cancel (c)`) {
                     socket.emit(`exitIsland`);
@@ -249,7 +249,7 @@ let setUpKeybinds = () => {
 
     keyboard.register_combo({
         keys: `z`,
-        on_release: () => {
+        on_release: function () {
             if (myPlayer &&
                 myPlayer.parent &&
                 (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
@@ -263,7 +263,7 @@ let setUpKeybinds = () => {
 
     keyboard.register_combo({
         keys: `tab`,
-        on_release: () => {
+        on_release: function () {
             if ($(`#li-staff-chat`).is(`:visible`) && $(`#li-clan-chat`).is(`:visible`)) {
                 if (staffChatOn) toggleClanChat();
                 else if (clanChatOn) toggleLocalChat();
@@ -285,7 +285,7 @@ let setUpKeybinds = () => {
     });
     keyboard.register_combo({
         keys: `h`,
-        on_release: () => {
+        on_release: function () {
             if ($(`#help-modal`).is(`:visible`)) $(`#help-modal`).hide();
             else $(`#help-modal`).show();
         }

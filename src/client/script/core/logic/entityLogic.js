@@ -2,7 +2,7 @@ function Entity () {
 
 }
 
-Entity.prototype.createProperties = () => {
+Entity.prototype.createProperties = function () {
     // Each and every thing in the game has a position and a velocity
     this.position = new THREE.Vector3(0, 0, 0);
     this.velocity = new THREE.Vector3(0, 0, 0);
@@ -97,7 +97,7 @@ Entity.prototype.getSnap = function (force) {
 };
 
 // function that generates a snapshot
-Entity.prototype.getDelta = () => {
+Entity.prototype.getDelta = function () {
     if (!this.sendDelta && !this.sendCreationSnapOnDelta) {
         return undefined;
     }
@@ -275,7 +275,7 @@ Entity.prototype.deltaTypeCompare = function (old, fresh) {
     return undefined;
 };
 
-Entity.prototype.worldPos = () => {
+Entity.prototype.worldPos = function () {
     let pos = new THREE.Vector3();
     pos.copy(this.position);
     if (this.parent !== undefined) {
@@ -295,7 +295,7 @@ Entity.prototype.toLocal = function (coord) {
     return pos;
 };
 
-Entity.prototype.onDestroy = () => {
+Entity.prototype.onDestroy = function () {
     if (this.parent !== undefined) {
         let parent = this.parent;
         if (parent.children[this.id] !== undefined) {
