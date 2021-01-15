@@ -189,11 +189,7 @@ let inPlayersVision = (function () {
     return inPlayersVision;
 })();
 
-<<<<<<< HEAD
-let getFixedFrameRateMethod = function (fps, callback) {
-=======
 function getFixedFrameRateMethod (fps, callback) {
->>>>>>> parent of 7ee334f... more arrow functions
     fps = fps || 5;
     let time = performance.now();
     let previousTime = performance.now();

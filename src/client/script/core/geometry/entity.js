@@ -1,13 +1,5 @@
 // these are functions that the entities only have on the client (Like Threejs bodies)
 Entity.prototype.clientInit = function () {
-<<<<<<< HEAD
-=======
-    // if (this.id === myPlayerId){
-    //     this.isPlayer = true;
-    //     this.baseMaterial = materials.colorset_captain;
-    // }
-    // if it isnt a play, we make a box. otherwise the camera is attached to the thing
->>>>>>> parent of 7ee334f... more arrow functions
     this.createBody();
 };
 
