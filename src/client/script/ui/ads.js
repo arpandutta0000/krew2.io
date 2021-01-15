@@ -47,16 +47,16 @@ let initAds = () => {
                 AD_HEIGHT: 540,
                 AD_FULLSCREEN: true,
                 PREROLL_ELEM: document.getElementById(`preroll`),
-                AIP_COMPLETE: function () {},
-                AIP_REMOVE: function () {}
+                AIP_COMPLETE: () => {},
+                AIP_REMOVE: () => {}
             });
             window.adplayerCentered = new aipPlayer({
                 AD_WIDTH: 560,
                 AD_HEIGHT: 315,
                 AD_FULLSCREEN: false,
                 PREROLL_ELEM: document.getElementById(`preroll-centered`),
-                AIP_COMPLETE: function () {},
-                AIP_REMOVE: function () {}
+                AIP_COMPLETE: () => {},
+                AIP_REMOVE: () => {}
             });
         }
     }

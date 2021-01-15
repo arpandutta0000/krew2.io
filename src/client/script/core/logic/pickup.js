@@ -100,7 +100,7 @@ Pickup.prototype.logic = function (dt) {};
 
 Pickup.prototype.timeCounters = {};
 
-Pickup.prototype.dockedLogic = function () {
+Pickup.prototype.dockedLogic = () => {
     let fps = 0.5;
 
     if (this.timeCounters.dockedLogic === undefined) {
@@ -274,7 +274,7 @@ Pickup.prototype.clientlogic = function (dt) {
     }
 };
 
-Pickup.prototype.setName = function () {
+Pickup.prototype.setName = () => {
     if (this.geometry !== undefined) {
         if (this.label === undefined) {
             // Set the name
@@ -301,7 +301,7 @@ Pickup.prototype.setName = function () {
     }
 };
 
-Pickup.prototype.getTypeSnap = function () {
+Pickup.prototype.getTypeSnap = () => {
     let snap = {
         s: this.pickupSize,
         p: this.picking,
@@ -312,7 +312,7 @@ Pickup.prototype.getTypeSnap = function () {
     return snap;
 };
 
-Pickup.prototype.getTypeDelta = function () {
+Pickup.prototype.getTypeDelta = () => {
     if (this.type === 1) {
         if (!this.spawnPacket) {
             this.spawnPacket = true;
@@ -355,7 +355,7 @@ Pickup.prototype.parseTypeSnap = function (snap) {
 };
 
 // function that parses a snapshot
-Pickup.prototype.onDestroy = function () {
+Pickup.prototype.onDestroy = () => {
     // make sure to also call the entity ondestroy
     Entity.prototype.onDestroy.call(this);
 

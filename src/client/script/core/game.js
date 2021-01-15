@@ -2,7 +2,7 @@
 let secondsAlive = 0;
 
 /* Method to start the game */
-let createGame = function () {
+let createGame = () => {
     // Create the minimap
     let minimap = createMinimap();
 
@@ -128,7 +128,7 @@ let departure = () => {
 };
 
 /* Function to delete all entities client side */
-let deleteEverything = function () {
+let deleteEverything = () => {
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
             entities[e].onDestroy();

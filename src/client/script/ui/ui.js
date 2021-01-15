@@ -27,7 +27,7 @@ var ui = {
      * This method will set the initial listeners
      * @return {Void}
      */
-    setListeners: function () {
+    setListeners: () => {
         let $crewName = $(`#crew-name`);
         let $crewNameEditButton = $(`#crew-name-edit-button`);
         let $crewNameAndEditButton = $crewName.add($crewNameEditButton);
@@ -381,14 +381,14 @@ var ui = {
     stopAudioFile: function (fileId) {
         document.getElementById(fileId).pause();
     },
-    updateUiExperience: function () {
+    updateUiExperience: () => {
         let $levelUpButton = $(`.level-up-button`);
         $levelUpButton.off();
 
         EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
             if (Store.originalPoints > 0) {
                 $levelUpButton.show(0);
-                $levelUpButton.one(`click`, function () {
+                $levelUpButton.one(`click`, () => {
                     let $this = $(this);
                     let attribute = $this.attr(`data-attribute`);
 
@@ -524,7 +524,7 @@ var ui = {
         $(`#center-div`).prepend(textDiv);
     },
 
-    showAdinplay: function () {
+    showAdinplay: () => {
         let timeNow = Date.now();
         let timeLastAd = localStorage.getItem(`lastAdTime`);
         let timeSinceLastAd = timeNow - timeLastAd;
@@ -544,7 +544,7 @@ var ui = {
         }
     },
 
-    showAdinplayCentered: function () {
+    showAdinplayCentered: () => {
         if (typeof (adplayer) !== `undefined` && adEnabled) {
             adplayerCentered.startPreRoll();
         } else {
@@ -611,7 +611,7 @@ var ui = {
                         html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
                             ? `Purchased`
                             : `Buy`
-                    }).on(`click`, function () {
+                    }).on(`click`, () => {
                         if ($(`#abandon-existing-krew`).is(`:visible`)) {
                             $(`#abandon-existing-krew`).hide();
                         }
@@ -724,7 +724,7 @@ var ui = {
                         role: `button`,
                         disabled: !!((myPlayer && myPlayer.itemId === item.id || item.purchasable !== true)),
                         html: (myPlayer && myPlayer.itemId === item.id) ? `Equipped` : `Buy`
-                    }).on(`click`, function () {
+                    }).on(`click`, () => {
                         let id = $(this).attr(`id`);
                         socket.emit(`purchase`, {
                             type: 1,
@@ -1037,7 +1037,7 @@ var ui = {
         }
     },
 
-    hideAllClanErrors: function () {
+    hideAllClanErrors: () => {
         $(`#errorInput`).hide();
         $(`#errorLength`).hide();
         $(`#error404`).hide();
@@ -1046,7 +1046,7 @@ var ui = {
         $(`#errorUnauthorized`).hide();
     },
 
-    showShipStatus: function () {
+    showShipStatus: () => {
         $(`#clan-management`).removeClass(`active`);
         $(`#ship-status`).addClass(`active`);
         $(`#notLoggedIn-container`).hide();
@@ -1769,13 +1769,13 @@ var ui = {
         });
     }),
 
-    prepareForPlay: function () {
+    prepareForPlay: () => {
         // show the player that he is logged in (top right corner) and show logout button
         $(`#logged-in`).html(`You are logged in as <b>${ui.username}</b>`).show();
         $(`#login-link`).attr(`href`, `/logout`).html(`Logout`).show();
     },
 
-    setSpawnPlace: function () {
+    setSpawnPlace: () => {
         spawn = $(`#spawn-selection`).val();
         if (spawn === 0 || spawn === 1)
             ui.playAudioFile(true, `ocean-music`);
@@ -1785,7 +1785,7 @@ var ui = {
         return spawn;
     },
 
-    updateServerList: function () {
+    updateServerList: () => {
         let _this = this;
 
         // construct server-list
@@ -1829,7 +1829,7 @@ var ui = {
         });
     },
 
-    createWallOfFame: function () {
+    createWallOfFame: () => {
         $.get(`api/wall_of_fame`, (data, status) => {
             if (status === `success`) {
                 let tableContent = ``;
@@ -1856,7 +1856,7 @@ var ui = {
         });
     },
 
-    setQualitySettings: function () {
+    setQualitySettings: () => {
         $(`#quality-list`).html(``);
         var $quality = $(`<option/>`, {
             html: `High Quality (slow)`,
@@ -1896,7 +1896,7 @@ var ui = {
         $(`#account-quality-list`).append($quality);
     },
 
-    getUrlVars: function () {
+    getUrlVars: () => {
         let vars = {};
         let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
             vars[key] = value;
@@ -1918,7 +1918,7 @@ var ui = {
      * This method wil update the leaders ui
      * @return {Void}
      */
-    updateLeadersUi: function () {
+    updateLeadersUi: () => {
         // If i am the captain and i am not editing the name, show the editing button
         let $crewNameEditButton = $(`#crew-name-edit-button`);
         if (this.leadersUiConfiguration.active && !this.leadersUiConfiguration.editingName) {

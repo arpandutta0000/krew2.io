@@ -9,7 +9,7 @@
             54: `distance`,
             55: `damage`
         },
-        getList: function () {
+        getList: () => {
             if (myPlayer === undefined || myPlayer.parent === undefined) {
                 console.log(`Oops, it seems you don't have a boat.`);
                 return;
@@ -25,7 +25,7 @@
                 });
         },
 
-        removeListeners: function () {
+        removeListeners: () => {
             if (Store.$html !== undefined) {
                 Store.$html.children().off();
                 Store.$html.off();
@@ -34,7 +34,7 @@
             return ExperiencePointsComponent;
         },
 
-        clearStore: function () {
+        clearStore: () => {
             Object.assign(Store, {
                 $html: undefined,
                 points: {},
@@ -72,7 +72,7 @@
             });
         },
 
-        setContent: function () {
+        setContent: () => {
             let $html = $(`<div/>`);
             $html.append(ExperiencePointsComponent.getPointsList());
             if (Store.originalPoints === 0) {
@@ -84,11 +84,11 @@
             return ExperiencePointsComponent;
         },
 
-        setListeners: function () {
+        setListeners: () => {
             let $btn = Store.$html.find(`.btn-allocate-points`);
             let i;
 
-            $(`input[type=range]`).each(function () {
+            $(`input[type=range]`).each(() => {
                 inputRange($(this));
             });
 
@@ -148,7 +148,7 @@
             }).trigger(`change`);
         },
 
-        updateAvailablePoints: function () {
+        updateAvailablePoints: () => {
             Store.usedPoints = 0;
             for (let i in Store.allocatedPoints) {
                 Store.usedPoints += Store.allocatedPoints[i];
@@ -158,7 +158,7 @@
             return ExperiencePointsComponent;
         },
 
-        getPointsList: function () {
+        getPointsList: () => {
             let html = ``;
             let $html;
             let $tbody;
@@ -194,7 +194,7 @@
             return $html;
         },
 
-        checkButtonTab: function () {
+        checkButtonTab: () => {
             ExperiencePointsComponent.clearStore().setStore((Store) => {
                 let $btnExperiencePoints = $(`#experience-points`);
                 if (Store.originalPoints > 0) {

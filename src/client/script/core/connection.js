@@ -11,7 +11,7 @@ let maxPlayerPerInstance = config.maxPlayerPerInstance;
 let interval_update;
 
 /* Connect to a server */
-let connect = function (pid) {
+let connect = (pid) => {
     // Return if a player is already in game
     if (socket !== undefined) return;
 
@@ -356,7 +356,7 @@ var initSocketBinds = () => {
             chatHistory.append($msgDiv);
 
             if (atTheBottom === true) {
-                chatHistory.scrollTop(function () {
+                chatHistory.scrollTop(() => {
                     return this.scrollHeight;
                 });
             }

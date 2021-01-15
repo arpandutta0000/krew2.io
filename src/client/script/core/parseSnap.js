@@ -1,4 +1,4 @@
-let parseSnap = function (id, data) {
+let parseSnap = (id, data) => {
     // this is the function that reads in the snapshot data for a single entity
     // first, check if we have already created the entity
     if (entities[id] === undefined) {

@@ -10,7 +10,7 @@ let sendMessage = () => {
 /* Function to init listeners for chat */
 let initChatListeners = () => {
     // On a keyup in chat
-    $(`#chat-message`).on(`keyup`, function () {
+    $(`#chat-message`).on(`keyup`, () => {
         let $this = $(this);
         let val = $this.val();
 

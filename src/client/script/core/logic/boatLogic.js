@@ -2,7 +2,7 @@
 Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
-function Boat (captainId, krewName, spawnBool) {
+let Boat = function (captainId, krewName, spawnBool) {
     let captainsName = ``;
     let spawnIslandId;
 
@@ -102,7 +102,7 @@ function Boat (captainId, krewName, spawnBool) {
     this.setName(this.crewName);
 }
 
-Boat.prototype.updateProps = function () {
+Boat.prototype.updateProps = () => {
     let krewCount = 0;
     for (let id in this.children) {
         if (
@@ -124,7 +124,7 @@ Boat.prototype.updateProps = function () {
     if (this.krewCount === 0) removeEntity(this);
 };
 
-Boat.prototype.setName = function (crewName) {
+Boat.prototype.setName = (crewName) => {
     let clan = ``;
     if (this.clan !== undefined && this.clan !== ``) {
         clan = `[${this.clan}] `;
@@ -166,7 +166,7 @@ Boat.prototype.setName = function (crewName) {
     this.crewName = crewName;
 };
 
-Boat.prototype.logic = function (dt) {
+Boat.prototype.logic = (dt) => {
     // world boundaries
     let boundaryCollision = false;
     if (this.position.x > worldsize) {
@@ -281,7 +281,7 @@ Boat.prototype.logic = function (dt) {
     }
 };
 
-Boat.prototype.clientlogic = function () {
+Boat.prototype.clientlogic = () => {
     // on client, always make the y position the height above the water (depends on how much hp the ship has)
     this.position.y = this.getHeightAboveWater();
 
@@ -301,7 +301,7 @@ Boat.prototype.clientlogic = function () {
     );
 };
 
-Boat.prototype.setShipClass = function (classId) {
+Boat.prototype.setShipClass = (classId) => {
     this.shipclassId = classId;
 
     let currentShipClass = boatTypes[classId];
@@ -328,7 +328,7 @@ Boat.prototype.setShipClass = function (classId) {
     }
 };
 
-Boat.prototype.getKrewOnBoard = function () {
+Boat.prototype.getKrewOnBoard = () => {
     for (let i in this.children) {
         if (this.children[i].parent && this.children[i].parent.id === this.id) {
             this.geometry.add(this.children[i].geometry);
@@ -344,7 +344,7 @@ Boat.prototype.getKrewOnBoard = function () {
 };
 
 // function that generates boat specific snapshot data
-Boat.prototype.getTypeSnap = function () {
+Boat.prototype.getTypeSnap = () => {
     return {
         h: this.hp,
         s: this.steering,
@@ -362,7 +362,7 @@ Boat.prototype.getTypeSnap = function () {
 };
 
 // function that generates boat specific delta data
-Boat.prototype.getTypeDelta = function () {
+Boat.prototype.getTypeDelta = () => {
     let delta = {
         h: this.deltaTypeCompare(`h`, this.hp),
         s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
@@ -460,7 +460,7 @@ Boat.prototype.parseTypeSnap = function (snap) {
 };
 
 // function that parses a snapshot
-Boat.prototype.onDestroy = function () {
+Boat.prototype.onDestroy = () => {
     this.children = {};
 
     // makre sure to also call the entity ondestroy
@@ -471,7 +471,7 @@ Boat.prototype.onDestroy = function () {
     }
 };
 
-Boat.prototype.getHeightAboveWater = function () {
+Boat.prototype.getHeightAboveWater = () => {
     return boatTypes[this.shipclassId].baseheight * (0.2 + 0.8 * (this.hp / this.maxHp)) - this.sinktimer; // this.hp*0.01 - 1 - this.sinktimer;
 };
 
@@ -484,7 +484,7 @@ Boat.prototype.enterIsland = function (islandId) {
     this.anchorIslandId = islandId;
 };
 
-Boat.prototype.exitIsland = function () {
+Boat.prototype.exitIsland = () => {
     this.shipState = 0;
     this.recruiting = false;
     this.departureTime = 5;

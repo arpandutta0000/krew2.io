@@ -102,7 +102,7 @@ Landmark.prototype.setName = function (name) {
     this.name = name;
 };
 
-Landmark.prototype.getTypeSnap = function () {
+Landmark.prototype.getTypeSnap = () => {
     let snap = {
         t: this.landmarkType,
         name: this.name,

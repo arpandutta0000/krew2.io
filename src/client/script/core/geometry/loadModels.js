@@ -158,7 +158,7 @@ let createModels = () => {
 };
 
 /* Create materials from textures */
-let createMaterials = function () {
+let createMaterials = () => {
     materials.cannonball = new THREE.SpriteMaterial({
         map: textures.cannonball,
         color: 0xffffff,

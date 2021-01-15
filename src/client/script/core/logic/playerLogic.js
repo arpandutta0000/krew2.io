@@ -168,7 +168,7 @@ function Player (data) {
     this.crossHair();
 }
 
-Player.prototype.notifiscation = function () {
+Player.prototype.notifiscation = () => {
     for (let z in this.notifiscationHeap) {
         if (this.notifiscationHeap[z].isNew) {
             this.notifiscationHeap[z].sprite = new THREE.TextSprite({
@@ -337,7 +337,7 @@ Player.prototype.logic = function (dt) {
 };
 
 // function that generates boat specific snapshot data
-Player.prototype.getTypeSnap = function () {
+Player.prototype.getTypeSnap = () => {
     let obj = {
         f: this.walkForward,
         s: this.walkSideward,
@@ -370,7 +370,7 @@ Player.prototype.getTypeSnap = function () {
 };
 
 // function that generates boat specific snapshot data
-Player.prototype.getTypeDelta = function () {
+Player.prototype.getTypeDelta = () => {
     let delta = {
         f: this.deltaTypeCompare(`f`, this.walkForward),
         s: this.deltaTypeCompare(`s`, this.walkSideward),
@@ -431,7 +431,7 @@ Player.prototype.setName = function (name) {
     this.name = name;
 };
 
-Player.prototype.getName = function () {
+Player.prototype.getName = () => {
     return this.name;
 };
 
@@ -510,7 +510,7 @@ Player.prototype.parseTypeSnap = function (snap) {
     }
 };
 
-Player.prototype.onDestroy = function () {
+Player.prototype.onDestroy = () => {
     Entity.prototype.onDestroy.call(this);
 
     if (this === myPlayer) {
@@ -556,7 +556,7 @@ Player.prototype.setPlayerBody = function (idx) {
     this.captainHat.name = `captainHat`;
 };
 
-Player.prototype.crossHair = function () {
+Player.prototype.crossHair = () => {
     this.crosshair = new THREE.TextSprite({
         textSize: 0.0365,
         redrawInterval: 10,
@@ -571,7 +571,7 @@ Player.prototype.crossHair = function () {
     });
 };
 
-Player.prototype.changeWeapon = function () {
+Player.prototype.changeWeapon = () => {
     if (this.weapon && this.activeWeapon === 0) {
         this.geometry.remove(this.weapon);
         this.weapon = models.cannon.clone();

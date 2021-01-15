@@ -219,7 +219,7 @@ let waterSetup = () => {
 
         scope.material = material;
 
-        scope.onBeforeRender = function (renderer, scene, camera) {
+        scope.onBeforeRender = (renderer, scene, camera) => {
             mirrorWorldPosition.setFromMatrixPosition(scope.matrixWorld);
             cameraWorldPosition.setFromMatrixPosition(camera.matrixWorld);
 
@@ -288,14 +288,14 @@ let waterSetup = () => {
 
             if (renderer.outputEncoding !== THREE.LinearEncoding) {
                 console.warn(`THREE.Water: WebGLRenderer must use LinearEncoding as outputEncoding.`);
-                scope.onBeforeRender = function () {};
+                scope.onBeforeRender = () => {};
 
                 return;
             }
 
             if (renderer.toneMapping !== THREE.NoToneMapping) {
                 console.warn(`THREE.Water: WebGLRenderer must use NoToneMapping as toneMapping.`);
-                scope.onBeforeRender = function () {};
+                scope.onBeforeRender = () => {};
 
                 return;
             }
