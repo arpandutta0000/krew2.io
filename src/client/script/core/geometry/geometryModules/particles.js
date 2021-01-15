@@ -11,7 +11,7 @@ let createParticle = (params) => {
 };
 
 /* Create main particle function */
-let Particle = function (params) {
+function Particle (params) {
     // parse parameters
     this.vx = params.vx;
     this.vy = params.vy;

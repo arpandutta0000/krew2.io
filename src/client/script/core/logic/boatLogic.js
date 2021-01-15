@@ -2,7 +2,7 @@
 Boat.prototype = new Entity();
 Boat.prototype.constructor = Boat;
 
-let Boat = function (captainId, krewName, spawnBool) {
+function Boat (captainId, krewName, spawnBool) {
     let captainsName = ``;
     let spawnIslandId;
 
