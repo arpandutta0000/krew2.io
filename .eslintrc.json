@@ -13,6 +13,9 @@
     "parserOptions": {
         "ecmaVersion": 6
     },
+    "plugins": [
+        "prefer-arrow"
+    ],
     "ignorePatterns": ["**/assets/js/*.js", "**/server/", "dist.min.js", "core_concatenated.js"],
     "rules": {
         "func-call-spacing": 0,
@@ -23,10 +26,10 @@
         "brace-style": 1,
         "comma-spacing": 1,
         // "no-var": 1,
-        "indent": ["error", 4, {
+        "indent": ["warn", 4, {
             "SwitchCase": 1
         }],
-        "semi": [2, "always"],
+        "semi": [1, "always"],
         "quotes": [2, "backtick", "avoid-escape"],
         "no-undef": 0,
         "no-unused-vars": 0,
@@ -43,13 +46,11 @@
         "node/no-callback-literal": 0,
         "no-return-assign": 0,
         "eol-last": 0,
-        "arrow-body-style": ["error", "as-needed"],
-        "func-style": ["error", "expression", {
-            "allowArrowFunctions": true
-        }],
-        "prefer-arrow/prefer-arrow-functions": ["error", {
+        "arrow-body-style": ["warn", "as-needed"],
+        "func-style": 1,
+        "prefer-arrow/prefer-arrow-functions": ["warn", {
             "disallowPrototype": true,
-            "singleReturnOnly": false,
+            "singleReturnOnly": true,
             "classPropertiesAllowed": false
         }]
     }
