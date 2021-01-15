@@ -39,10 +39,8 @@ let connect = function (pid) {
     // Since we are passing the url on the server object, we dont need to process the window.location
     // just put the url to the server.ip property and add the port
 
-    let url = window.location.hostname === `localhost` ? `http://localhost` : `https://krew.io`;
-    if (parseInt(server.port) !== 80) {
-        url += `:${server.port}`;
-    }
+    let url = `${window.location.protocol}//${window.location.hostname}`;
+    if (parseInt(server.port) !== 80) url += `:${server.port}`;
 
     socket = io.connect(url, {
         secure: true,

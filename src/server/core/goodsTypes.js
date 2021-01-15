@@ -1,23 +1,23 @@
 let goodsTypes = {
     rum: {
-        cargoSpace: 10
+        cargoSpace: 0
     },
     coffee: {
-        cargoSpace: 5
+        cargoSpace: 0
     },
     spice: {
-        cargoSpace: 8
+        cargoSpace: 0
     },
     silk: {
-        cargoSpace: 15
+        cargoSpace: 0
     },
     gems: {
-        cargoSpace: 20
+        cargoSpace: 0
     },
     sugar: {
-        cargoSpace: 12
+        cargoSpace: 0
     },
     bananas: {
-        cargoSpace: 5
+        cargoSpace: 0
     }
 };

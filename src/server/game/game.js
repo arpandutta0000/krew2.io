@@ -248,18 +248,18 @@ setInterval(() => {
         core.createPickup(size, core.worldsize * Math.random(), core.worldsize * Math.random(), 0, false);
     }
 
-    if (amountChests === 0) {
-        if (respawnChestsDate < Date.now()) {
-            let size = 4;
-            core.createPickup(size, core.worldsize * Math.random(), core.worldsize * Math.random(), 4, false, (10000 + Math.random() * (60000 - 10000)));
-            io.emit(`showCenterMessage`, `The old pirate threw his treasure chest! Hurry to pick up the gold first!`, 4, 5000);
-            respawnChestsDate = undefined;
-        } else {
-            if (respawnChestsDate === undefined) {
-                respawnChestsDate = Date.now() + 300000 + Math.random() * (900000 - 300000);
-            }
-        }
-    }
+    // if (amountChests === 0) {
+    //     if (respawnChestsDate < Date.now()) {
+    //         let size = 4;
+    //         core.createPickup(size, core.worldsize * Math.random(), core.worldsize * Math.random(), 4, false, (10000 + Math.random() * (60000 - 10000)));
+    //         io.emit(`showCenterMessage`, `The old pirate threw his treasure chest! Hurry to pick up the gold first!`, 4, 5000);
+    //         respawnChestsDate = undefined;
+    //     } else {
+    //         if (respawnChestsDate === undefined) {
+    //             respawnChestsDate = Date.now() + 300000 + Math.random() * (900000 - 300000);
+    //         }
+    //     }
+    // }
 
     // compress the snapshot data with lz-string
     scores = lzString.compress(JSON.stringify(scores));
