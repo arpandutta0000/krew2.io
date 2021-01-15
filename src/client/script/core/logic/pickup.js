@@ -38,6 +38,7 @@ function Pickup (size, x, z, type) {
 
     this.size = new THREE.Vector3(scale, scale, scale);
     this.modelscale = new THREE.Vector3(scale, scale, scale);
+    this.position = {};
     this.position.x = x;
     this.position.z = z;
     this.pickerId = ``;

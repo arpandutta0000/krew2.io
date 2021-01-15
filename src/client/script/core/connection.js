@@ -259,7 +259,7 @@ var initSocketBinds = () => {
     });
 
     // Chat messages listener
-    socket.on(`chat message`, (msgData) => {
+    socket.on(`chat message`, function (msgData) {
         if (
             myPlayer &&
             myPlayer.parent &&

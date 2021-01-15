@@ -1,5 +1,5 @@
 // these are functions that the entities only have on the client (Like Threejs bodies)
-Entity.prototype.clientInit = () => {
+Entity.prototype.clientInit = function () {
     this.createBody();
 };
 
