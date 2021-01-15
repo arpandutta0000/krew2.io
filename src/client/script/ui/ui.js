@@ -809,9 +809,7 @@ var ui = {
         }
     },
 
-    getInviteLink: function () {
-        return `${window.location.protocol}//${window.location.hostname}${window.location.hostname === `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myBoat.id}`;
-    },
+    getInviteLink: () => `${window.location.protocol}//${window.location.hostname}${window.location.hostname === `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myBoat.id}`,
 
     updateShipStats: function (data) {
         if (myPlayer && myPlayer.parent && myPlayer.parent.netType === 1) {
@@ -1344,423 +1342,254 @@ var ui = {
         }
     },
 
-    getKrewioData: function () {
-        return $.get(`${baseUrl}/authenticated`).then((response) => {
-            ui.username = !response.isLoggedIn ? undefined : response.username;
-            ui.password = !response.isLoggedIn ? undefined : response.password;
-            loginButton.attr(`disabled`, false).show();
+    getKrewioData: () => $.get(`${baseUrl}/authenticated`).then((response) => {
+        ui.username = !response.isLoggedIn ? undefined : response.username;
+        ui.password = !response.isLoggedIn ? undefined : response.password;
+        loginButton.attr(`disabled`, false).show();
 
-            if (ui.username === undefined) {
-                // When a user opens the login menu
-                loginButton.on(`click`, () => {
-                    // Show login box
-                    $(`#login-box`).modal(`show`);
+        if (ui.username === undefined) {
+            // When a user opens the login menu
+            loginButton.on(`click`, () => {
+                // Show login box
+                $(`#login-box`).modal(`show`);
+            });
+
+            // If register menu button is clicked, close login menu and open register menu
+            $(`#open-register`).on(`click`, () => {
+                $(`#login-box`).modal(`hide`);
+                $(`#register-box`).modal(`show`);
+                $(`#register-error`).addClass(`hidden`);
+            });
+
+            // If login menu button is clicked, close register menu and open logub menu
+            $(`#open-login`).on(`click`, () => {
+                $(`#register-box`).modal(`hide`);
+                $(`#login-box`).modal(`show`);
+                $(`#login-error`).addClass(`hidden`);
+            });
+
+            $(`#open-reset-password`).on(`click`, () => {
+                $(`#login-box`).modal(`hide`);
+                $(`#reset-password-box`).modal(`show`);
+                $(`#reset-password-error`).addClass(`hidden`);
+            });
+
+            // If a user submits a login
+            $(`#submit-login`).on(`click`, (e) => {
+                e.preventDefault();
+
+                $(`#submit-login`).attr(`disabled`, true);
+
+                $(`#login-error`).addClass(`hidden`);
+                $.ajax({
+                    type: `post`,
+                    url: `/login`,
+                    data: $(`#login-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-login`).attr(`disabled`, false);
+                        $(`#login-error`).removeClass(`hidden`);
+                        $(`#login-err-msg`).text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        $(`#submit-login`).attr(`disabled`, false);
+                        $(`#login-box`).modal(`hide`);
+                        window.location.reload();
+                        return true;
+                    }
                 });
+            });
 
-                // If register menu button is clicked, close login menu and open register menu
-                $(`#open-register`).on(`click`, () => {
-                    $(`#login-box`).modal(`hide`);
-                    $(`#register-box`).modal(`show`);
-                    $(`#register-error`).addClass(`hidden`);
-                });
+            // If a user attempts to register
+            $(`#submit-register`).on(`click`, (e) => {
+                e.preventDefault();
 
-                // If login menu button is clicked, close register menu and open logub menu
-                $(`#open-login`).on(`click`, () => {
-                    $(`#register-box`).modal(`hide`);
-                    $(`#login-box`).modal(`show`);
-                    $(`#login-error`).addClass(`hidden`);
-                });
+                $(`#submit-register`).attr(`disabled`, true);
 
-                $(`#open-reset-password`).on(`click`, () => {
-                    $(`#login-box`).modal(`hide`);
-                    $(`#reset-password-box`).modal(`show`);
-                    $(`#reset-password-error`).addClass(`hidden`);
-                });
+                $(`#register-error`).addClass(`hidden`);
 
-                // If a user submits a login
-                $(`#submit-login`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-login`).attr(`disabled`, true);
-
-                    $(`#login-error`).addClass(`hidden`);
-                    $.ajax({
-                        type: `post`,
-                        url: `/login`,
-                        data: $(`#login-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-login`).attr(`disabled`, false);
-                            $(`#login-error`).removeClass(`hidden`);
-                            $(`#login-err-msg`).text(res.errors);
-                            return false;
+                $.ajax({
+                    type: `post`,
+                    url: `/register`,
+                    data: $(`#register-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-register`).attr(`disabled`, false);
+                        $(`#register-error`).removeClass(`hidden`);
+                        $(`#register-err-msg`).text(res.errors);
+                        grecaptcha.reset();
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        $(`#submit-register`).attr(`disabled`, false);
+                        $(`#register-box`).modal(`hide`);
+                        if (navigator.credentials) {
+                            let credential = new PasswordCredential($(`#register-form`));
+                            navigator.credentials.store(credential);
                         }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            $(`#submit-login`).attr(`disabled`, false);
-                            $(`#login-box`).modal(`hide`);
-                            window.location.reload();
-                            return true;
-                        }
-                    });
+                        window.location.reload();
+                        return true;
+                    }
                 });
+            });
+        } else {
+            ui.setCookie(`username`, response.username, 1);
+            ui.setCookie(`password`, response.password, 1);
 
-                // If a user attempts to register
-                $(`#submit-register`).on(`click`, (e) => {
-                    e.preventDefault();
+            // player is authenticated, so show him personalized login button
+            playButton.html(`Play as <b>${ui.username}</b>`);
+            loginButton.html(`Account Settings`);
+            ui.isLoggedIn = true;
+            ui.prepareForPlay();
+            let currentModel = 0;
 
-                    $(`#submit-register`).attr(`disabled`, true);
+            loginButton.on(`click`, () => {
+                $(`#manage-account-box`).modal(`show`);
 
-                    $(`#register-error`).addClass(`hidden`);
-
-                    $.ajax({
-                        type: `post`,
-                        url: `/register`,
-                        data: $(`#register-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-register`).attr(`disabled`, false);
-                            $(`#register-error`).removeClass(`hidden`);
-                            $(`#register-err-msg`).text(res.errors);
-                            grecaptcha.reset();
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            $(`#submit-register`).attr(`disabled`, false);
-                            $(`#register-box`).modal(`hide`);
-                            if (navigator.credentials) {
-                                let credential = new PasswordCredential($(`#register-form`));
-                                navigator.credentials.store(credential);
-                            }
-                            window.location.reload();
-                            return true;
-                        }
-                    });
-                });
-            } else {
-                ui.setCookie(`username`, response.username, 1);
-                ui.setCookie(`password`, response.password, 1);
-
-                // player is authenticated, so show him personalized login button
-                playButton.html(`Play as <b>${ui.username}</b>`);
-                loginButton.html(`Account Settings`);
-                ui.isLoggedIn = true;
-                ui.prepareForPlay();
-                let currentModel = 0;
-
-                loginButton.on(`click`, () => {
-                    $(`#manage-account-box`).modal(`show`);
-
-                    ui.setQualitySettings();
-                    $.ajax({
-                        url: `/account_game_settings`,
-                        type: `GET`,
-                        success: function (res) {
-                            if (!res.errors) {
-                                if (res.fpMode) {
-                                    $(`#account-fp-mode-button`).prop(`checked`, true);
-                                } else {
-                                    $(`#account-fp-mode-button`).prop(`checked`, false);
-                                }
-                                $(`#account-music-control`).val(res.musicVolume);
-                                $(`#account-sfx-control`).val(res.sfxVolume);
-                                $(`#account-quality-list`).val(res.qualityMode);
+                ui.setQualitySettings();
+                $.ajax({
+                    url: `/account_game_settings`,
+                    type: `GET`,
+                    success: function (res) {
+                        if (!res.errors) {
+                            if (res.fpMode) {
+                                $(`#account-fp-mode-button`).prop(`checked`, true);
                             } else {
                                 $(`#account-fp-mode-button`).prop(`checked`, false);
-                                $(`#account-music-control`).val(50);
-                                $(`#account-sfx-control`).val(50);
-                                $(`#account-quality-list`).val(2);
                             }
-                        },
-                        error: function (res) {
+                            $(`#account-music-control`).val(res.musicVolume);
+                            $(`#account-sfx-control`).val(res.sfxVolume);
+                            $(`#account-quality-list`).val(res.qualityMode);
+                        } else {
                             $(`#account-fp-mode-button`).prop(`checked`, false);
                             $(`#account-music-control`).val(50);
                             $(`#account-sfx-control`).val(50);
                             $(`#account-quality-list`).val(2);
                         }
-                    });
+                    },
+                    error: function (res) {
+                        $(`#account-fp-mode-button`).prop(`checked`, false);
+                        $(`#account-music-control`).val(50);
+                        $(`#account-sfx-control`).val(50);
+                        $(`#account-quality-list`).val(2);
+                    }
                 });
+            });
 
-                $(`#username-edit-button`).on(`click`, () => {
-                    $(`#change-username`).removeClass(`hidden`);
-                    $(`#change-username-error`).addClass(`hidden`);
-                    $(`#change-username-button-container`).addClass(`hidden`);
+            $(`#username-edit-button`).on(`click`, () => {
+                $(`#change-username`).removeClass(`hidden`);
+                $(`#change-username-error`).addClass(`hidden`);
+                $(`#change-username-button-container`).addClass(`hidden`);
 
-                    $(`#change-email`).addClass(`hidden`);
-                    $(`#change-email-error`).addClass(`hidden`);
-                    $(`#change-email-button-container`).removeClass(`hidden`);
+                $(`#change-email`).addClass(`hidden`);
+                $(`#change-email-error`).addClass(`hidden`);
+                $(`#change-email-button-container`).removeClass(`hidden`);
 
-                    $(`#change-account-game-settings`).addClass(`hidden`);
-                    $(`#change-account-game-settings-error`).addClass(`hidden`);
-                    $(`#change-account-game-settings-button-container`).removeClass(`hidden`);
+                $(`#change-account-game-settings`).addClass(`hidden`);
+                $(`#change-account-game-settings-error`).addClass(`hidden`);
+                $(`#change-account-game-settings-button-container`).removeClass(`hidden`);
 
-                    $(`#change-default-krew-name`).addClass(`hidden`);
-                    $(`#change-default-krew-name-error`).addClass(`hidden`);
-                    $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
-                });
+                $(`#change-default-krew-name`).addClass(`hidden`);
+                $(`#change-default-krew-name-error`).addClass(`hidden`);
+                $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
+            });
 
-                $(`#email-edit-button`).on(`click`, () => {
-                    $(`#change-username`).addClass(`hidden`);
-                    $(`#change-username-error`).addClass(`hidden`);
-                    $(`#change-username-button-container`).removeClass(`hidden`);
+            $(`#email-edit-button`).on(`click`, () => {
+                $(`#change-username`).addClass(`hidden`);
+                $(`#change-username-error`).addClass(`hidden`);
+                $(`#change-username-button-container`).removeClass(`hidden`);
 
-                    $(`#change-email`).removeClass(`hidden`);
-                    $(`#change-email-error`).addClass(`hidden`);
-                    $(`#change-email-button-container`).addClass(`hidden`);
+                $(`#change-email`).removeClass(`hidden`);
+                $(`#change-email-error`).addClass(`hidden`);
+                $(`#change-email-button-container`).addClass(`hidden`);
 
-                    $(`#change-account-game-settings`).addClass(`hidden`);
-                    $(`#change-account-game-settings-error`).addClass(`hidden`);
-                    $(`#change-account-game-settings-button-container`).removeClass(`hidden`);
+                $(`#change-account-game-settings`).addClass(`hidden`);
+                $(`#change-account-game-settings-error`).addClass(`hidden`);
+                $(`#change-account-game-settings-button-container`).removeClass(`hidden`);
 
-                    $(`#change-default-krew-name`).addClass(`hidden`);
-                    $(`#change-default-krew-name-error`).addClass(`hidden`);
-                    $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
-                });
+                $(`#change-default-krew-name`).addClass(`hidden`);
+                $(`#change-default-krew-name-error`).addClass(`hidden`);
+                $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
+            });
 
-                $(`#change-account-game-settings-button`).on(`click`, () => {
-                    $(`#change-username`).addClass(`hidden`);
-                    $(`#change-username-error`).addClass(`hidden`);
-                    $(`#change-username-button-container`).removeClass(`hidden`);
+            $(`#change-account-game-settings-button`).on(`click`, () => {
+                $(`#change-username`).addClass(`hidden`);
+                $(`#change-username-error`).addClass(`hidden`);
+                $(`#change-username-button-container`).removeClass(`hidden`);
 
-                    $(`#change-email`).addClass(`hidden`);
-                    $(`#change-email-error`).addClass(`hidden`);
-                    $(`#change-email-button-container`).removeClass(`hidden`);
+                $(`#change-email`).addClass(`hidden`);
+                $(`#change-email-error`).addClass(`hidden`);
+                $(`#change-email-button-container`).removeClass(`hidden`);
 
-                    $(`#change-account-game-settings`).removeClass(`hidden`);
-                    $(`#change-account-game-settings-error`).addClass(`hidden`);
-                    $(`#change-account-game-settings-button-container`).addClass(`hidden`);
+                $(`#change-account-game-settings`).removeClass(`hidden`);
+                $(`#change-account-game-settings-error`).addClass(`hidden`);
+                $(`#change-account-game-settings-button-container`).addClass(`hidden`);
 
-                    $(`#change-default-krew-name`).addClass(`hidden`);
-                    $(`#change-default-krew-name-error`).addClass(`hidden`);
-                    $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
-                });
+                $(`#change-default-krew-name`).addClass(`hidden`);
+                $(`#change-default-krew-name-error`).addClass(`hidden`);
+                $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
+            });
 
-                $(`#change-default-krew-name-button`).on(`click`, () => {
-                    $(`#change-username`).addClass(`hidden`);
-                    $(`#change-username-error`).addClass(`hidden`);
-                    $(`#change-username-button-container`).removeClass(`hidden`);
+            $(`#change-default-krew-name-button`).on(`click`, () => {
+                $(`#change-username`).addClass(`hidden`);
+                $(`#change-username-error`).addClass(`hidden`);
+                $(`#change-username-button-container`).removeClass(`hidden`);
 
-                    $(`#change-email`).addClass(`hidden`);
-                    $(`#change-email-error`).addClass(`hidden`);
-                    $(`#change-email-button-container`).removeClass(`hidden`);
+                $(`#change-email`).addClass(`hidden`);
+                $(`#change-email-error`).addClass(`hidden`);
+                $(`#change-email-button-container`).removeClass(`hidden`);
 
-                    $(`#change-account-game-settings`).addClass(`hidden`);
-                    $(`#change-account-game-settings-error`).addClass(`hidden`);
-                    $(`#change-account-game-settings-button-container`).removeClass(`hidden`);
+                $(`#change-account-game-settings`).addClass(`hidden`);
+                $(`#change-account-game-settings-error`).addClass(`hidden`);
+                $(`#change-account-game-settings-button-container`).removeClass(`hidden`);
 
-                    $(`#change-default-krew-name`).removeClass(`hidden`);
-                    $(`#change-default-krew-name-error`).addClass(`hidden`);
-                    $(`#change-default-krew-name-button-container`).addClass(`hidden`);
-                });
+                $(`#change-default-krew-name`).removeClass(`hidden`);
+                $(`#change-default-krew-name-error`).addClass(`hidden`);
+                $(`#change-default-krew-name-button-container`).addClass(`hidden`);
+            });
 
-                $(`#customization-button`).on(`click`, () => {
-                    $(`#manage-account-box`).modal(`hide`);
-                    $(`#customization-box`).modal(`show`);
-                    $(`#customization-error`).addClass(`hidden`);
-                });
+            $(`#customization-button`).on(`click`, () => {
+                $(`#manage-account-box`).modal(`hide`);
+                $(`#customization-box`).modal(`show`);
+                $(`#customization-error`).addClass(`hidden`);
+            });
 
-                $(`#model-left`).on(`click`, () => {
-                    currentModel--;
-                    if (currentModel < 0) currentModel = 4;
-                    $(`#model-image`).attr(`src`, `/assets/img/model${currentModel}.png`);
-                });
+            $(`#model-left`).on(`click`, () => {
+                currentModel--;
+                if (currentModel < 0) currentModel = 4;
+                $(`#model-image`).attr(`src`, `/assets/img/model${currentModel}.png`);
+            });
 
-                $(`#model-right`).on(`click`, () => {
-                    currentModel++;
-                    if (currentModel > 4) currentModel = 0;
-                    $(`#model-image`).attr(`src`, `/assets/img/model${currentModel}.png`);
-                });
+            $(`#model-right`).on(`click`, () => {
+                currentModel++;
+                if (currentModel > 4) currentModel = 0;
+                $(`#model-image`).attr(`src`, `/assets/img/model${currentModel}.png`);
+            });
 
-                $(`#submit-customization`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-customization`).attr(`disabled`, true);
-
-                    $(`#customization-error`).addClass(`hidden`);
-
-                    $.ajax({
-                        type: `post`,
-                        url: `/customization`,
-                        data: {
-                            model: currentModel.toString()
-                        }
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-customization`).attr(`disabled`, false);
-                            $(`#customization-error`).removeClass(`hidden`);
-                            $(`#customization-err-msg`).text(res.errors);
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            window.location.reload();
-                            return true;
-                        }
-                    });
-                });
-
-                $(`#submit-change-username`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-change-username`).attr(`disabled`, true);
-
-                    $(`#change-username-error`).addClass(`hidden`);
-                    $.ajax({
-                        type: `post`,
-                        url: `/change_username`,
-                        data: $(`#change-username-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-change-username`).attr(`disabled`, false);
-                            $(`#change-username-error`).removeClass(`hidden`);
-                            $(`#change-username-err-msg`).text(res.errors);
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            window.location.reload();
-                            return true;
-                        }
-                    });
-                });
-
-                $(`#submit-change-email`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-change-email`).attr(`disabled`, true);
-
-                    $(`#change-email-error`).addClass(`hidden`);
-                    $.ajax({
-                        type: `post`,
-                        url: `/change_email`,
-                        data: $(`#change-email-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-change-email`).attr(`disabled`, false);
-                            $(`#change-email-error`).removeClass(`hidden`);
-                            $(`#change-email-err-msg`).text(res.errors);
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            window.location.reload();
-                            return true;
-                        }
-                    });
-                });
-
-                $(`#submit-change-account-game-settings`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-change-account-game-settings`).attr(`disabled`, true);
-
-                    $(`#change-account-game-settings-error`).addClass(`hidden`);
-                    $.ajax({
-                        type: `post`,
-                        url: `/change_account_game_settings`,
-                        data: $(`#change-account-game-settings-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-change-account-game-settings`).attr(`disabled`, false);
-                            $(`#change-account-game-settings-error`).removeClass(`hidden`);
-                            $(`#change-account-game-settings-err-msg`).text(res.errors);
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            window.location.reload();
-                            return true;
-                        }
-                    });
-                });
-
-                $(`#submit-change-default-krew-name`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-change-default-krew-name`).attr(`disabled`, true);
-
-                    $(`#change-default-krew-name-error`).addClass(`hidden`);
-                    $.ajax({
-                        type: `post`,
-                        url: `/change_default_krew_name`,
-                        data: $(`#change-default-krew-name-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-change-default-krew-name`).attr(`disabled`, false);
-                            $(`#change-default-krew-name-error`).removeClass(`hidden`);
-                            $(`#change-default-krew-name-err-msg`).text(res.errors);
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            window.location.reload();
-                            return true;
-                        }
-                    });
-                });
-
-                $(`#reset-password-button`).on(`click`, () => {
-                    $(`#manage-account-box`).modal(`hide`);
-                    $(`#reset-password-box`).modal(`show`);
-                    $(`#reset-password-error`).addClass(`hidden`);
-                });
-
-                $(`#delete-account-button`).on(`click`, () => {
-                    $(`#manage-account-box`).modal(`hide`);
-                    $(`#delete-account-box`).modal(`show`);
-                    $(`#delete-account-error`).addClass(`hidden`);
-                });
-
-                $(`#submit-delete-account`).on(`click`, (e) => {
-                    e.preventDefault();
-
-                    $(`#submit-delete-account`).attr(`disabled`, true);
-
-                    $(`#delete-account-error`).addClass(`hidden`);
-                    $.ajax({
-                        type: `post`,
-                        url: `/delete_account`,
-                        data: $(`#delete-account-form`).serialize()
-                    }).then((res) => {
-                        // If there is an error, return an error
-                        if (res.errors) {
-                            $(`#submit-delete-account`).attr(`disabled`, false);
-                            $(`#delete-account-error`).removeClass(`hidden`);
-                            $(`#delete-account-err-msg`).text(res.errors);
-                            return false;
-                        }
-                        // If the request is successful, close the menu
-                        if (res.success) {
-                            window.location.reload();
-                        }
-                    });
-                });
-            }
-
-            $(`#submit-reset-password`).on(`click`, (e) => {
+            $(`#submit-customization`).on(`click`, (e) => {
                 e.preventDefault();
 
-                $(`#submit-reset-password`).attr(`disabled`, true);
+                $(`#submit-customization`).attr(`disabled`, true);
 
-                $(`#reset-password-error`).addClass(`hidden`);
+                $(`#customization-error`).addClass(`hidden`);
+
                 $.ajax({
                     type: `post`,
-                    url: `/reset_password`,
-                    data: $(`#reset-password-form`).serialize()
+                    url: `/customization`,
+                    data: {
+                        model: currentModel.toString()
+                    }
                 }).then((res) => {
                     // If there is an error, return an error
                     if (res.errors) {
-                        $(`#submit-reset-password`).attr(`disabled`, false);
-                        $(`#reset-password-error`).removeClass(`hidden`);
-                        $(`#reset-password-err-msg`).text(res.errors);
+                        $(`#submit-customization`).attr(`disabled`, false);
+                        $(`#customization-error`).removeClass(`hidden`);
+                        $(`#customization-err-msg`).text(res.errors);
                         return false;
                     }
                     // If the request is successful, close the menu
@@ -1770,8 +1599,175 @@ var ui = {
                     }
                 });
             });
+
+            $(`#submit-change-username`).on(`click`, (e) => {
+                e.preventDefault();
+
+                $(`#submit-change-username`).attr(`disabled`, true);
+
+                $(`#change-username-error`).addClass(`hidden`);
+                $.ajax({
+                    type: `post`,
+                    url: `/change_username`,
+                    data: $(`#change-username-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-change-username`).attr(`disabled`, false);
+                        $(`#change-username-error`).removeClass(`hidden`);
+                        $(`#change-username-err-msg`).text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        window.location.reload();
+                        return true;
+                    }
+                });
+            });
+
+            $(`#submit-change-email`).on(`click`, (e) => {
+                e.preventDefault();
+
+                $(`#submit-change-email`).attr(`disabled`, true);
+
+                $(`#change-email-error`).addClass(`hidden`);
+                $.ajax({
+                    type: `post`,
+                    url: `/change_email`,
+                    data: $(`#change-email-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-change-email`).attr(`disabled`, false);
+                        $(`#change-email-error`).removeClass(`hidden`);
+                        $(`#change-email-err-msg`).text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        window.location.reload();
+                        return true;
+                    }
+                });
+            });
+
+            $(`#submit-change-account-game-settings`).on(`click`, (e) => {
+                e.preventDefault();
+
+                $(`#submit-change-account-game-settings`).attr(`disabled`, true);
+
+                $(`#change-account-game-settings-error`).addClass(`hidden`);
+                $.ajax({
+                    type: `post`,
+                    url: `/change_account_game_settings`,
+                    data: $(`#change-account-game-settings-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-change-account-game-settings`).attr(`disabled`, false);
+                        $(`#change-account-game-settings-error`).removeClass(`hidden`);
+                        $(`#change-account-game-settings-err-msg`).text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        window.location.reload();
+                        return true;
+                    }
+                });
+            });
+
+            $(`#submit-change-default-krew-name`).on(`click`, (e) => {
+                e.preventDefault();
+
+                $(`#submit-change-default-krew-name`).attr(`disabled`, true);
+
+                $(`#change-default-krew-name-error`).addClass(`hidden`);
+                $.ajax({
+                    type: `post`,
+                    url: `/change_default_krew_name`,
+                    data: $(`#change-default-krew-name-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-change-default-krew-name`).attr(`disabled`, false);
+                        $(`#change-default-krew-name-error`).removeClass(`hidden`);
+                        $(`#change-default-krew-name-err-msg`).text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        window.location.reload();
+                        return true;
+                    }
+                });
+            });
+
+            $(`#reset-password-button`).on(`click`, () => {
+                $(`#manage-account-box`).modal(`hide`);
+                $(`#reset-password-box`).modal(`show`);
+                $(`#reset-password-error`).addClass(`hidden`);
+            });
+
+            $(`#delete-account-button`).on(`click`, () => {
+                $(`#manage-account-box`).modal(`hide`);
+                $(`#delete-account-box`).modal(`show`);
+                $(`#delete-account-error`).addClass(`hidden`);
+            });
+
+            $(`#submit-delete-account`).on(`click`, (e) => {
+                e.preventDefault();
+
+                $(`#submit-delete-account`).attr(`disabled`, true);
+
+                $(`#delete-account-error`).addClass(`hidden`);
+                $.ajax({
+                    type: `post`,
+                    url: `/delete_account`,
+                    data: $(`#delete-account-form`).serialize()
+                }).then((res) => {
+                    // If there is an error, return an error
+                    if (res.errors) {
+                        $(`#submit-delete-account`).attr(`disabled`, false);
+                        $(`#delete-account-error`).removeClass(`hidden`);
+                        $(`#delete-account-err-msg`).text(res.errors);
+                        return false;
+                    }
+                    // If the request is successful, close the menu
+                    if (res.success) {
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $(`#submit-reset-password`).on(`click`, (e) => {
+            e.preventDefault();
+
+            $(`#submit-reset-password`).attr(`disabled`, true);
+
+            $(`#reset-password-error`).addClass(`hidden`);
+            $.ajax({
+                type: `post`,
+                url: `/reset_password`,
+                data: $(`#reset-password-form`).serialize()
+            }).then((res) => {
+                // If there is an error, return an error
+                if (res.errors) {
+                    $(`#submit-reset-password`).attr(`disabled`, false);
+                    $(`#reset-password-error`).removeClass(`hidden`);
+                    $(`#reset-password-err-msg`).text(res.errors);
+                    return false;
+                }
+                // If the request is successful, close the menu
+                if (res.success) {
+                    window.location.reload();
+                    return true;
+                }
+            });
         });
-    },
+    }),
 
     prepareForPlay: function () {
         // show the player that he is logged in (top right corner) and show logout button

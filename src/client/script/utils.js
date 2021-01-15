@@ -53,74 +53,46 @@ let cleanup = setInterval(() => {
 
 let Ease = {
     // no easing, no acceleration
-    linear: function (t) {
-        return t;
-    },
+    linear: (t) => t,
 
     // accelerating from zero velocity
-    easeInQuad: function (t) {
-        return t * t;
-    },
+    easeInQuad: (t) => t * t,
 
     // decelerating to zero velocity
-    easeOutQuad: function (t) {
-        return t * (2 - t);
-    },
+    easeOutQuad: (t) => t * (2 - t),
 
     // acceleration until halfway, then deceleration
-    easeInOutQuad: function (t) {
-        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    },
+    easeInOutQuad: (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t,
 
     // accelerating from zero velocity
-    easeInCubic: function (t) {
-        return t * t * t;
-    },
+    easeInCubic: (t) => t * t * t,
 
     // decelerating to zero velocity
-    easeOutCubic: function (t) {
-        return (--t) * t * t + 1;
-    },
+    easeOutCubic: (t) => (--t) * t * t + 1,
 
     // acceleration until halfway, then deceleration
-    easeInOutCubic: function (t) {
-        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-    },
+    easeInOutCubic: (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
 
     // accelerating from zero velocity
-    easeInQuart: function (t) {
-        return t * t * t * t;
-    },
+    easeInQuart: (t) => t * t * t * t,
 
     // decelerating to zero velocity
-    easeOutQuart: function (t) {
-        return 1 - (--t) * t * t * t;
-    },
+    easeOutQuart: (t) => 1 - (--t) * t * t * t,
 
     // acceleration until halfway, then deceleration
-    easeInOutQuart: function (t) {
-        return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t;
-    },
+    easeInOutQuart: (t) => t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t,
 
     // accelerating from zero velocity
-    easeInQuint: function (t) {
-        return t * t * t * t * t;
-    },
+    easeInQuint: (t) => t * t * t * t * t,
 
     // decelerating to zero velocity
-    easeOutQuint: function (t) {
-        return 1 + (--t) * t * t * t * t;
-    },
+    easeOutQuint: (t) => 1 + (--t) * t * t * t * t,
 
     // acceleration until halfway, then deceleration
-    easeInOutQuint: function (t) {
-        return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t;
-    }
+    easeInOutQuint: (t) => t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t
 };
 
-let lerp = function (start, end, amount) {
-    return (1 - amount) * start + amount * end;
-};
+let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
 
 let charLimit = function (text, chars, suffix) {
     chars = chars || 140;
@@ -133,9 +105,7 @@ let charLimit = function (text, chars, suffix) {
     return text;
 };
 
-let entityDistance = function (a, b) {
-    return Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
-};
+let entityDistance = (a, b) => Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 
 function distance (p1, p2) {
     let dx = p2.x - p1.x;
@@ -166,33 +136,19 @@ function anglediff (firstAngle, secondAngle) {
     return difference;
 }
 
-function angleToVector (angle) {
-    return new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
-}
+const angleToVector = (angle) => new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
 
-function rotationToPosition (origin, target) {
-    return worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
-}
+const rotationToPosition = (origin, target) => worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
 
-function rotationToObject (origin, target) {
-    return worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z));
-}
+const rotationToObject = (origin, target) => worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z));
 
-function distanceToPosition (origin, target) {
-    return origin.position.distanceTo(target);
-}
+const distanceToPosition = (origin, target) => origin.position.distanceTo(target);
 
-function distanceToPositionSquared (origin, target) {
-    return origin.position.distanceToSquared(target);
-}
+const distanceToPositionSquared = (origin, target) => origin.position.distanceToSquared(target);
 
-function distanceToObject (origin, target) {
-    return origin.position.distanceTo(target.position);
-}
+const distanceToObject = (origin, target) => origin.position.distanceTo(target.position);
 
-function distanceToObjectSquared (origin, target) {
-    return origin.position.distanceToSquared(target.position);
-}
+const distanceToObjectSquared = (origin, target) => origin.position.distanceToSquared(target.position);
 
 /**
  * This method checks if a 3d object is in the players vision range

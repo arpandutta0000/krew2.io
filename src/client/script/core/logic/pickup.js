@@ -94,9 +94,7 @@ function Pickup (size, x, z, type) {
     }
 }
 
-Pickup.prototype.randomTime = function (min, max) {
-    return (Math.floor(Math.random() * (max - min)) + min) * 1000;
-};
+Pickup.prototype.randomTime = (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000;
 
 Pickup.prototype.logic = function (dt) {};
 
