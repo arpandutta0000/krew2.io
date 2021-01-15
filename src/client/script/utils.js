@@ -1,5 +1,5 @@
 /* Calculate values for time alive */
-let pad = function (val) {
+let pad = (val) => {
     let valString = `${val}`;
     if (valString.length < 2) {
         return `0${valString}`;
@@ -94,7 +94,7 @@ let Ease = {
 
 let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
 
-let charLimit = function (text, chars, suffix) {
+let charLimit = (text, chars, suffix) => {
     chars = chars || 140;
     suffix = suffix || ``;
     text = (`${text}`).replace(/(\t|\n)/gi, ``).replace(/\s\s/gi, ` `);
