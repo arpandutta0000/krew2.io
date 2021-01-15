@@ -1785,7 +1785,7 @@ var ui = {
         return spawn;
     },
 
-    updateServerList: () => {
+    updateServerList: function () {
         let _this = this;
 
         // construct server-list
