@@ -87,7 +87,7 @@ let createGame = () => {
 };
 
 /* Function to clean up extra THREE.js objects */
-let cleanScene = () => {
+function cleanScene () {
     if (scene !== undefined && scene !== [] && scene !== {}) {
         scene.traverse((node) => {
             if (node instanceof THREE.Mesh) {
