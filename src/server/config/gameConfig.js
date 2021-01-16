@@ -1,5 +1,5 @@
 let Config = {
-    worldsize: 2500, // 1000 is default.
+    worldsize: 1000, // 1000 is default.
     startingItems: {
         gold: 0,
 
@@ -18,8 +18,8 @@ let Config = {
     landmarks: [
         {
             type: 0,
-            x: 1250,
-            y: 1250,
+            x: 500,
+            y: 500,
             name: `Zanzibar`,
             dockRadius: 100,
             spawnPlayers: true,

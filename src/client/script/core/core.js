@@ -9,7 +9,7 @@ let Landmarks = {};
 let pickups = {};
 let bots = {};
 
-let worldsize = 2500; // 1000 is default
+let worldsize = 1000; // 1000 is default
 
 let iterateEntities = function (dt) {
     // tick each entity
