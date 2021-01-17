@@ -1290,7 +1290,7 @@ var ui = {
                 myPlayer.gold = parseInt(player.g);
                 if (myPlayer.gold >= goldMultiplier) {
                     // console.log('goldMultiplier is: ',goldMultiplier);
-                    miniplaySend2API(`gold`, goldMultiplier);
+                    // miniplaySend2API(`gold`, goldMultiplier);
                     goldMultiplier *= 2;
                 }
 

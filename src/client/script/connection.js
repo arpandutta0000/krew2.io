@@ -398,8 +398,8 @@ var deleteEverything = function () {
 
 // Disconnect / game end listener
 var endTheGame = function (gold, fired, hit, sank) {
-    miniplaySend2API(`gameover`, 1);
-    miniplaySend2API(`ships`, sank);
+    // miniplaySend2API(`gameover`, 1);
+    // miniplaySend2API(`ships`, sank);
 
     controls.unLockMouseLook();
 
