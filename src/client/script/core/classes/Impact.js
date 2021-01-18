@@ -1,88 +1,86 @@
-// PLayers are entities, check core_entity.js for the base class
-Impact.prototype = new Entity();
-Impact.prototype.constructor = Impact;
+class Impact extends Entity {
+    constructor(type, x, z) {
+        super();
 
-function Impact (type, x, z) {
-    this.createProperties();
+        // netcode type
+        this.netType = 3;
 
-    // netcode type
-    this.netType = 3;
+        // very little net data
+        this.sendDelta = false;
+        this.sendSnap = false;
+        this.sendCreationSnapOnDelta = true;
 
-    // very little net data
-    this.sendDelta = false;
-    this.sendSnap = false;
-    this.sendCreationSnapOnDelta = true;
+        // impact type, there are different impact types (in water, in ship, etc)
+        this.impactType = type;
 
-    // impact type, there are different impact types (in water, in ship, etc)
-    this.impactType = type;
+        // // size of a Impact
+        this.size = new THREE.Vector3(1, 1, 1);
 
-    // // size of a Impact
-    this.size = new THREE.Vector3(1, 1, 1);
+        // impacts have a timeout
+        this.timeout = 1.0;
 
-    // impacts have a timeout
-    this.timeout = 1.0;
+        // set up references to geometry and material
+        this.position.y = 0;
 
-    // set up references to geometry and material
-    this.position.y = 0;
+        // impacts have a type (impact in water vs impact in boat)
+        switch (type) {
+            case 0: { // water
+                this.baseGeometry = geometry.impact_water;
+                this.baseMaterial = materials.impact_water;
+                for (let i = 0; i < 3; ++i) {
+                    createParticle({
+                        vx: -5 + Math.random() * 10,
+                        vy: 4 + Math.random() * 2,
+                        vz: -5 + Math.random() * 10,
+                        x: x,
+                        z: z,
+                        y: 0,
+                        w: 0.3,
+                        h: 0.3,
+                        d: 0.3,
+                        gravity: 5,
+                        rotaSpeed: Math.random() * 20,
+                        duration: 5,
+                        sizeSpeed: -0.6,
+                        material: materials.impact_water,
+                        geometry: base_geometries.box
+                    });
+                }
 
-    // impacts have a type (impact in water vs impact in boat)
-    switch (type) {
-        case 0: { // water
-            this.baseGeometry = geometry.impact_water;
-            this.baseMaterial = materials.impact_water;
-            for (let i = 0; i < 3; ++i) {
-                createParticle({
-                    vx: -5 + Math.random() * 10,
-                    vy: 4 + Math.random() * 2,
-                    vz: -5 + Math.random() * 10,
-                    x: x,
-                    z: z,
-                    y: 0,
-                    w: 0.3,
-                    h: 0.3,
-                    d: 0.3,
-                    gravity: 5,
-                    rotaSpeed: Math.random() * 20,
-                    duration: 5,
-                    sizeSpeed: -0.6,
-                    material: materials.impact_water,
-                    geometry: base_geometries.box
-                });
+                break;
             }
 
-            break;
-        }
+            case 1: { // ship
+                GameAnalytics(`addDesignEvent`, `Game:Session:Hit`);
+                for (let i = 0; i < 5; ++i) {
+                    createParticle({
+                        vx: -10 + Math.random() * 20,
+                        vy: 5 + Math.random() * 5,
+                        vz: -10 + Math.random() * 20,
+                        x: x,
+                        z: z,
+                        y: 0,
+                        w: 0.2 + Math.random() * 0.5,
+                        h: 0.2 + Math.random() * 0.5,
+                        d: 0.2 + Math.random() * 0.5,
 
-        case 1: { // ship
-            GameAnalytics(`addDesignEvent`, `Game:Session:Hit`);
-            for (let i = 0; i < 5; ++i) {
-                createParticle({
-                    vx: -10 + Math.random() * 20,
-                    vy: 5 + Math.random() * 5,
-                    vz: -10 + Math.random() * 20,
-                    x: x,
-                    z: z,
-                    y: 0,
-                    w: 0.2 + Math.random() * 0.5,
-                    h: 0.2 + Math.random() * 0.5,
-                    d: 0.2 + Math.random() * 0.5,
+                        gravity: 12,
+                        rotaSpeed: Math.random() * 10,
+                        duration: 2,
+                        sizeSpeed: -0.8,
+                        material: materials.splinter,
+                        geometry: base_geometries.box
 
-                    gravity: 12,
-                    rotaSpeed: Math.random() * 10,
-                    duration: 2,
-                    sizeSpeed: -0.8,
-                    material: materials.splinter,
-                    geometry: base_geometries.box
+                    });
+                }
 
-                });
+                break;
             }
-
-            break;
         }
+
+        this.position.x = x;
+        this.position.z = z;
     }
-
-    this.position.x = x;
-    this.position.z = z;
 }
 
 Impact.prototype.logic = function (dt) {

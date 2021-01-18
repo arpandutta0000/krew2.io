@@ -1,40 +1,40 @@
-// PLayers are entities, check core_entity.js for the base class
-Projectile.prototype = new Entity();
-Projectile.prototype.constructor = Projectile;
+class Projectile extends Entity {
+    constructor() {
+        super();
 
-function Projectile (shooter) {
-    this.createProperties();
+        // netcode type
+        this.netType = 2;
 
-    // netcode type
-    this.netType = 2;
+        // size of a Projectile
+        this.size = vectors.sizeProjectile;
 
-    // size of a Projectile
-    this.size = vectors.sizeProjectile;
+        // projectiles dont send a lot of delta data
+        this.sendDelta = false;
+        this.sendSnap = false;
+        this.sendCreationSnapOnDelta = true;
+        this.muted = [`x`, `z`];
+        this.shooterid = ``;
+        this.shooterStartPos = new THREE.Vector3(); // initial world position of shooter
+        this.reel = false;
+        this.impact = undefined;
 
-    // projectiles dont send a lot of delta data
-    this.sendDelta = false;
-    this.sendSnap = false;
-    this.sendCreationSnapOnDelta = true;
-    this.muted = [`x`, `z`];
-    this.shooterid = ``;
-    this.shooterStartPos = new THREE.Vector3(); // initial world position of shooter
-    this.reel = false;
-    this.impact = undefined;
+        this.type = -1; // 0 = cannon ball, 1 = fishing hook
 
-    this.type = -1; // 0 = cannon ball, 1 = fishing hook
+        // duration of projectile being airbourne
+        this.airtime = 0;
 
-    // duration of projectile being airbourne
-    this.airtime = 0;
+        // this is a flag that is used to amke sure the info is sent insantly once the ball spawns
+        this.spawnPacket = false;
 
-    // this is a flag that is used to amke sure the info is sent insantly once the ball spawns
-    this.spawnPacket = false;
+        this.setProjectileModel = true;
 
-    this.setProjectileModel = true;
+        // set up references to geometry and material
+        this.particletimer = 0;
+        this.startPoint = new THREE.Vector3(0, 0, 0);
+        this.endPoint = new THREE.Vector3(0, 0, 0);
+    }
 
-    // set up references to geometry and material
-    this.particletimer = 0;
-    this.startPoint = new THREE.Vector3(0, 0, 0);
-    this.endPoint = new THREE.Vector3(0, 0, 0);
+
 }
 
 Projectile.prototype.logic = function (dt) {

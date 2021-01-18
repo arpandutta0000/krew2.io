@@ -1,97 +1,95 @@
-// PLayers are entities, check core_entity.js for the base class
-Pickup.prototype = new Entity();
-Pickup.prototype.constructor = Pickup;
+class Pickup extends Entity {
+    constructor(size, x, z, type) {
+        super();
 
-function Pickup (size, x, z, type) {
-    this.createProperties();
+        // netcode type
+        this.netType = 4;
+        this.bonusValues = [50, 75, 100, 10000];
 
-    // netcode type
-    this.netType = 4;
-    this.bonusValues = [50, 75, 100, 10000];
+        // Pickup type, there are different Pickup types. supplies = 0
+        this.pickupSize = size;
+        this.bonus = this.bonusValues[this.pickupSize] || 25;
 
-    // Pickup type, there are different Pickup types. supplies = 0
-    this.pickupSize = size;
-    this.bonus = this.bonusValues[this.pickupSize] || 25;
+        this.captainsCutRatio = 0.3;
 
-    this.captainsCutRatio = 0.3;
+        // net data
+        this.sendDelta = type !== 1;
+        this.sendSnap = type !== 1;
+        this.sendCreationSnapOnDelta = true;
+        this.spawnPacket = false;
 
-    // net data
-    this.sendDelta = type !== 1;
-    this.sendSnap = type !== 1;
-    this.sendCreationSnapOnDelta = true;
-    this.spawnPacket = false;
-
-    // // size of a Pickup
-    let scale = 1;
-    if (type === 0) {
-        scale = parseInt(size) + 1;
-    }
-
-    if (type === 1) {
-        scale = 0.05 * size;
-        GameAnalytics(`addDesignEvent`, `Game:Session:CatchFish`);
-    }
-
-    if (type === 3 || type === 2) {
-        scale = 0.02;
-    }
-
-    this.size = new THREE.Vector3(scale, scale, scale);
-    this.modelscale = new THREE.Vector3(scale, scale, scale);
-    this.position = {};
-    this.position.x = x;
-    this.position.z = z;
-    this.pickerId = ``;
-    this.type = type;
-    this.picking = type === 1;
-    this.catchingFish = false;
-    this.timeout = 1;
-    /**
-     * Type 0 = supplies
-     * Type 1 = sea animals
-     * Type 2 = static supplies like shells
-     * Type 3 = island animal
-     */
-
-    // client side visuals
-    if (this.type === 0) {
-        this.baseGeometry = geometry.boat;
-        // this.baseMaterial = materials.boat;
-        this.baseMaterial = materials.crate;
-    }
-
-    if (this.type === 1) {
-        this.baseModel = models.fish;
-        this.modeloffset = vectors.modeloffsetFishShellClam;
-    }
-
-    if (this.type === 2) {
-        if (Math.round(Math.random())) {
-            this.baseModel = models.shell;
-            this.modeloffset = vectors.modeloffsetFishShellClam;
-        } else {
-            this.baseModel = models.clam;
-            this.modeloffset = vectors.modeloffsetFishShellClam;
-            this.modelscale = new THREE.Vector3(0.03, 0.03, 0.03);
+        // // size of a Pickup
+        let scale = 1;
+        if (type === 0) {
+            scale = parseInt(size) + 1;
         }
-    }
 
-    if (this.type === 3) {
-        this.baseModel = models.crab;
-        this.modeloffset = vectors.modeloffsetCrab;
-        this.modelrotation = new THREE.Vector3(0, Math.PI, 0);
-    }
+        if (type === 1) {
+            scale = 0.05 * size;
+            GameAnalytics(`addDesignEvent`, `Game:Session:CatchFish`);
+        }
 
-    if (this.type === 4) {
-        this.baseModel = models.chest;
-    }
+        if (type === 3 || type === 2) {
+            scale = 0.02;
+        }
 
-    if (this.type <= 1 || this.type === 4) {
-        this.floattimer = this.type === 0 ? Math.random() * 5 : (Math.random() * 5 + 0.5);
-        this.rotationspeed = Math.random() * 0.5 + 0.5;
-    } else {
-        this.floattimer = 1;
-        this.rotationspeed = 0;
+        this.size = new THREE.Vector3(scale, scale, scale);
+        this.modelscale = new THREE.Vector3(scale, scale, scale);
+        this.position = {};
+        this.position.x = x;
+        this.position.z = z;
+        this.pickerId = ``;
+        this.type = type;
+        this.picking = type === 1;
+        this.catchingFish = false;
+        this.timeout = 1;
+        /**
+         * Type 0 = supplies
+         * Type 1 = sea animals
+         * Type 2 = static supplies like shells
+         * Type 3 = island animal
+         */
+
+        // client side visuals
+        if (this.type === 0) {
+            this.baseGeometry = geometry.boat;
+            // this.baseMaterial = materials.boat;
+            this.baseMaterial = materials.crate;
+        }
+
+        if (this.type === 1) {
+            this.baseModel = models.fish;
+            this.modeloffset = vectors.modeloffsetFishShellClam;
+        }
+
+        if (this.type === 2) {
+            if (Math.round(Math.random())) {
+                this.baseModel = models.shell;
+                this.modeloffset = vectors.modeloffsetFishShellClam;
+            } else {
+                this.baseModel = models.clam;
+                this.modeloffset = vectors.modeloffsetFishShellClam;
+                this.modelscale = new THREE.Vector3(0.03, 0.03, 0.03);
+            }
+        }
+
+        if (this.type === 3) {
+            this.baseModel = models.crab;
+            this.modeloffset = vectors.modeloffsetCrab;
+            this.modelrotation = new THREE.Vector3(0, Math.PI, 0);
+        }
+
+        if (this.type === 4) {
+            this.baseModel = models.chest;
+        }
+
+        if (this.type <= 1 || this.type === 4) {
+            this.floattimer = this.type === 0 ? Math.random() * 5 : (Math.random() * 5 + 0.5);
+            this.rotationspeed = Math.random() * 0.5 + 0.5;
+        } else {
+            this.floattimer = 1;
+            this.rotationspeed = 0;
+        }
     }
 }
 
@@ -215,7 +213,7 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType !== 1))
-                )) {
+                    )) {
                     ui.hideSuggestionBox = false;
                 }
             }
@@ -231,7 +229,7 @@ Pickup.prototype.clientlogic = function (dt) {
                         (!entities[this.pickerId].ownsCannon || !entities[this.pickerId].ownsFishingRod ||
                             (entities[this.pickerId].parent !== undefined &&
                                 entities[this.pickerId].parent.netType !== 1))
-                )) {
+                    )) {
                     ui.hideSuggestionBox = false;
                 }
             }
