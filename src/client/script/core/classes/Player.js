@@ -1,10 +1,10 @@
 class Player extends Entity {
     constructor(data) {
+        super();
+
         this.name = data !== undefined ?
             (data.name || ``) :
             ``;
-
-        super();
 
         // stand on top of the boat
         this.position.y = 0.0;
@@ -408,12 +408,9 @@ Player.prototype.setName = function (name) {
                 },
                 material: {
                     color: Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ?
-                        labelcolors.staff :
-                        this.isPlayer ?
-                        labelcolors.myself :
-                        this.isCaptain ?
-                        labelcolors.captain :
-                        labelcolors.player,
+                        labelcolors.staff : this.isPlayer ?
+                        labelcolors.myself : this.isCaptain ?
+                        labelcolors.captain : labelcolors.player,
                     fog: false
                 }
             });
