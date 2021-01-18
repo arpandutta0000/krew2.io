@@ -50,14 +50,18 @@ module.exports = grunt => {
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
 
-                    `src/client/script/core/logic/entityLogic.js`,
-                    `src/client/script/core/logic/boatLogic.js`,
-                    `src/client/script/core/logic/item.js`,
-                    `src/client/script/core/logic/playerLogic.js`,
-                    `src/client/script/core/logic/impact.js`,
-                    `src/client/script/core/logic/pickup.js`,
-                    `src/client/script/core/logic/landmark.js`,
-                    `src/client/script/core/logic/projectileLogic.js`,
+                    `src/client/script/core/classes/logic/BoatLogic.js`,
+
+                    `src/client/script/core/classes/snap/EntitySnap.js`,
+                    `src/client/script/core/classes/snap/BoatSnap.js`,
+
+                    `src/client/script/core/classes/Entity.js`,
+                    `src/client/script/core/classes/Boat.js`,
+                    `src/client/script/core/classes/Impact.js`,
+                    `src/client/script/core/classes/Landmark.js`,
+                    `src/client/script/core/classes/Pickup.js`,
+                    `src/client/script/core/classes/Player.js`,
+                    `src/client/script/core/classes/Projectile.js`,
 
                     `src/client/script/core/geometry/geometryModules/loader.js`,
                     `src/client/script/core/geometry/geometryModules/particles.js`,
