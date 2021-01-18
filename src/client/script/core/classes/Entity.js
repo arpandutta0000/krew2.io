@@ -1,43 +1,41 @@
+/* Main Entity class */
+
 class Entity {
+    /* Constructor (Empty) */
     constructor() {}
 
+    /* Function to create entity properties */
     createProperties() {
-        // Each and every thing in the game has a position and a velocity
+        // Assign a position and velocity
         this.position = new THREE.Vector3(0, 0, 0);
         this.velocity = new THREE.Vector3(0, 0, 0);
 
-        // Everything has a size and rotation (y axis), and in terms of logic, everything is a box
+        // Setn size, rotation, and collision radius
         this.size = new THREE.Vector3(1, 1, 1);
         this.rotation = 0;
         this.collisionRadius = 1;
 
-        // Things can have a parent entity, for example a boat, which is a relative anchor in the world. things that dont have a parent, float freely
+        // Set up parent and children
         this.parent = undefined;
         this.children = {};
 
-        this.isNew = true; // if this is a new guy entering the server
+        // Set the entity to be a new entity
+        this.isNew = true;
 
-        // Things have a unique ID, which is used to identify things in the engine and via netcode
-        // this.id = "";
-
-        // things have a netcode type
+        // Create netType (Used for defining the type of entity)
         this.netType = -1;
 
-        // last snap, stores info to be able to get delta snaps
-        this.sendSnap = true; // decide if we want to send the snapshots (full entity info) once a second
-        this.sendDelta = true; // decide if we want to send the delta information if there is a change (up to 10 times a second)
-
-        // if this is set to true, but sendSnap isnt, then it will simply send the first delta
-        // as a full snap (good for things that only sned their creation)
+        // Set sending snap and delta
+        this.sendSnap = true; // Send a snapshot (full entity info) once every second
+        this.sendDelta = true; // Send the delta information if there is a change (up to 10 times a second)
         this.sendCreationSnapOnDelta = true;
         this.last = {};
         this.lastType = {};
 
-        // some entities have muted netcode parts
+        // Create muted array
         this.muted = [];
 
-        // on client, entities have a model scale and offset (multipied/added with the logical scale/position)
-        // we need that because the 3d geometry model files might not actually fit the logical sizes in the game so we have to bring them up to scale
+        // Set model scales based on model geometry
         this.modelscale = new THREE.Vector3(1, 1, 1);
         this.modeloffset = new THREE.Vector3(0, 0, 0);
         this.modelrotation = new THREE.Vector3(0, 0, 0);
@@ -45,11 +43,13 @@ class Entity {
         this.baseMaterial = undefined;
     }
 
+    /* Function to add child entities */
     addChildren(entity) {
         this.children[entity.id] = entity;
         entity.parent = this;
     }
 
+    /* Check if an entity has a child */
     hasChild(id) {
         for (key in this.children) {
             if (this.children[key].id === id) {
@@ -60,12 +60,13 @@ class Entity {
         return false;
     }
 
+    /* Get delta information */
     getDelta() {
         if (!this.sendDelta && !this.sendCreationSnapOnDelta) {
             return undefined;
         }
 
-        // send a full snapshot on the delta data, for creation?
+        // Send a full snapshot on the delta data
         if (this.sendCreationSnapOnDelta) {
             let result = this.getSnap(true);
             this.sendCreationSnapOnDelta = false;
@@ -89,6 +90,7 @@ class Entity {
         return delta;
     }
 
+    /* Compare deltas */
     deltaCompare(old, fresh) {
         if (this.last[old] !== fresh && this.muted.indexOf(old) < 0) {
             this.last[old] = fresh;
@@ -98,6 +100,7 @@ class Entity {
         return undefined;
     }
 
+    /* Compare delta types*/
     deltaTypeCompare(old, fresh) {
         if (this.lastType[old] !== fresh) {
             this.lastType[old] = fresh;
@@ -107,6 +110,7 @@ class Entity {
         return undefined;
     }
 
+    /* Function to get an entity's world position */
     worldPos() {
         let pos = new THREE.Vector3();
         pos.copy(this.position);
@@ -126,14 +130,17 @@ class Entity {
         return pos;
     }
 
+    /* Call entity parseSnap function in parseSnap.js */
     parseSnap(snap, id) {
         entitySnap.parseSnap(snap, id, this);
     }
 
+    /* Call entity getSnap function in parseSnap.js */
     getSnap(force) {
         entitySnap.getSnap(force, this);
     }
 
+    /* Destroy the entity */
     onDestroy() {
         if (this.parent !== undefined) {
             let parent = this.parent;
@@ -150,29 +157,14 @@ class Entity {
             delete sceneLines[this.id];
     }
 
+    /* Entity Tick */
     tick(dt) {
         this.logic(dt);
 
-        // move ourselves by the current speed
+        // Move the entity by it's velocity
         this.position.x += this.velocity.x * dt;
         this.position.z += this.velocity.z * dt;
 
         this.clientlogic(dt);
     }
 }
-
-var isEmpty = function (obj) {
-    // check if object is completely empty
-    if (Object.keys(obj).length === 0 && obj.constructor === Object) {
-        return true;
-    }
-
-    // check if object is full of undefined
-    for (p in obj) {
-        if (obj.hasOwnProperty(p) && obj[p] !== undefined) {
-            return false;
-        }
-    }
-
-    return true;
-};
