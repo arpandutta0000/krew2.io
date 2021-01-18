@@ -193,159 +193,85 @@ class Boat extends Entity {
             }
         }
     }
-};
 
-// function that generates boat specific snapshot data
-Boat.prototype.getTypeSnap = function () {
-    return {
-        h: this.hp,
-        s: this.steering,
-        c: this.shipclassId,
-        b: this.captainId,
-        t: this.shipState,
-        a: this.anchorIslandId,
-        k: this.krewCount,
-        e: this.speed,
-        r: this.recruiting,
-        l: this.isLocked,
-        d: this.departureTime
-    };
-};
-
-// function that generates boat specific delta data
-Boat.prototype.getTypeDelta = function () {
-    let delta = {
-        h: this.deltaTypeCompare(`h`, this.hp),
-        s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
-        c: this.deltaTypeCompare(`c`, this.shipclassId),
-        b: this.deltaTypeCompare(`b`, this.captainId),
-        t: this.deltaTypeCompare(`t`, this.shipState),
-        a: this.deltaTypeCompare(`a`, this.anchorIslandId),
-        k: this.deltaTypeCompare(`k`, this.krewCount),
-        e: this.deltaTypeCompare(`e`, this.speed),
-        r: this.deltaTypeCompare(`r`, this.recruiting),
-        l: this.deltaTypeCompare(`l`, this.isLocked),
-        d: this.deltaTypeCompare(`d`, this.departureTime)
-    };
-
-    if (isEmpty(delta)) {
-        delta = undefined;
+    parseTypeSnap(snap) {
+        BoatSnap.parseTypeSnap(snap, this);
     }
 
-    return delta;
-};
-
-// function that parses a snapshot
-Boat.prototype.parseTypeSnap = function (snap) {
-    if (snap.h !== undefined && snap.h !== this.hp) {
-        this.hp = parseInt(snap.h);
+    getTypeSnap() {
+        BoatSnap.getTypeSnap(this);
     }
 
-    if (snap.s !== undefined) {
-        this.steering = parseFloat(snap.s);
-    }
+    getTypeDelta() {
+        let delta = {
+            h: this.deltaTypeCompare(`h`, this.hp),
+            s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
+            c: this.deltaTypeCompare(`c`, this.shipclassId),
+            b: this.deltaTypeCompare(`b`, this.captainId),
+            t: this.deltaTypeCompare(`t`, this.shipState),
+            a: this.deltaTypeCompare(`a`, this.anchorIslandId),
+            k: this.deltaTypeCompare(`k`, this.krewCount),
+            e: this.deltaTypeCompare(`e`, this.speed),
+            r: this.deltaTypeCompare(`r`, this.recruiting),
+            l: this.deltaTypeCompare(`l`, this.isLocked),
+            d: this.deltaTypeCompare(`d`, this.departureTime)
+        };
 
-    // if class has changed, change model
-    if ((snap.c !== undefined && snap.c !== this.shipclassId) || this.body === undefined) {
-        this.setShipClass(snap.c);
-    }
-
-    // if anchorIsland changed
-    if (snap.a !== undefined && snap.a !== this.anchorIslandId) {
-        this.anchorIslandId = snap.a;
-    }
-
-    // if krew count changed
-    if (snap.k !== undefined && snap.k !== this.krewCount) {
-        this.krewCount = snap.k;
-    }
-
-    // if captain has changed
-    if (snap.b !== undefined && this.captainId !== snap.b) {
-        this.captainId = snap.b;
-    }
-
-    // if speed has changed
-    if (snap.e !== undefined && this.speed !== snap.e) {
-        this.speed = parseInt(snap.e);
-    }
-
-    // if recruiting has changed
-    if (snap.r !== undefined && this.recruiting !== snap.r) {
-        this.recruiting = parseBool(snap.r);
-    }
-
-    // if krew lock has changed
-    if (snap.l !== undefined && this.isLocked !== snap.r) {
-        this.isLocked = parseBool(snap.l);
-    }
-
-    // if departure time has changed
-    if (snap.d !== undefined && this.departureTime !== snap.d) {
-        this.departureTime = parseInt(snap.d);
-    }
-
-    // If the ship's state has changed, send a snap and change its transparency if it docked
-    if (snap.t !== undefined && this.shipState !== snap.t) {
-        this.shipState = parseInt(snap.t);
-        if (this.shipState === 0) {
-            this.getKrewOnBoard();
+        if (isEmpty(delta)) {
+            delta = undefined;
         }
-        /* var dockDecision = this.shipState === 3 || this.shipState === -1 || this.shipState === 4? 1 : 0;
-        this.docking(dockDecision) */
-    }
-};
 
-// function that parses a snapshot
-Boat.prototype.onDestroy = function () {
-    this.children = {};
-
-    // makre sure to also call the entity ondestroy
-    Entity.prototype.onDestroy.call(this);
-
-    if (boats[this.id]) {
-        delete boats[this.id];
-    }
-};
-
-Boat.prototype.getHeightAboveWater = function () {
-    return boatTypes[this.shipclassId].baseheight * (0.2 + 0.8 * (this.hp / this.maxHp)) - this.sinktimer; // this.hp*0.01 - 1 - this.sinktimer;
-};
-
-Boat.prototype.enterIsland = function (islandId) {
-    // we only want to change the ship state to docking once.
-    if (this.shipState === 0) {
-        this.shipState = 1;
+        return delta;
     }
 
-    this.anchorIslandId = islandId;
-};
+    onDestroy() {
+        this.children = {};
 
-Boat.prototype.exitIsland = function () {
-    this.shipState = 0;
-    this.recruiting = false;
-    this.departureTime = 5;
+        // makre sure to also call the entity ondestroy
+        Entity.prototype.onDestroy.call(this);
 
-    if (this.anchorIslandId) {
-        // set rotation away from island
-        this.rotation = rotationToObject(this, entities[this.anchorIslandId]);
+        if (boats[this.id]) {
+            delete boats[this.id];
+        }
+    }
 
-        // make a tiny jump so we dont instantly anchor again
+    getHeightAboveWater() {
+        return boatTypes[this.shipclassId].baseheight * (0.2 + 0.8 * (this.hp / this.maxHp)) - this.sinktimer;
+    }
+
+    enterIsland(islandId) {
+        if (this.shipState === 0) {
+            this.shipState = 1;
+        }
+
+        this.anchorIslandId = islandId;
+    }
+
+    exitIsland() {
+        this.shipState = 0;
+        this.recruiting = false;
+        this.departureTime = 5;
+
+        if (this.anchorIslandId) {
+            // set rotation away from island
+            this.rotation = rotationToObject(this, entities[this.anchorIslandId]);
+
+            // make a tiny jump so we dont instantly anchor again
+            let outward = angleToVector(this.rotation);
+            this.position.x = entities[this.anchorIslandId].position.x - outward.x * (entities[this.anchorIslandId].dockRadius + 5);
+            this.position.z = entities[this.anchorIslandId].position.z - outward.y * (entities[this.anchorIslandId].dockRadius + 5); // <- careful. y value!
+        }
+
+        this.anchorIslandId = undefined;
+    }
+
+    exitMotherShip() {
+        // set rotation away from mothership
+        this.rotation = rotationToObject(this, mothership);
+
+        // make a tiny jump away from mothership
         let outward = angleToVector(this.rotation);
-        this.position.x = entities[this.anchorIslandId].position.x - outward.x * (entities[this.anchorIslandId].dockRadius + 5);
-        this.position.z = entities[this.anchorIslandId].position.z - outward.y * (entities[this.anchorIslandId].dockRadius + 5); // <- careful. y value!
+        this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
+        this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
     }
-
-    this.anchorIslandId = undefined;
-};
-
-// when ship is abandoning its mothership!
-Boat.prototype.exitMotherShip = function (mothership) {
-    // set rotation away from mothership
-    this.rotation = rotationToObject(this, mothership);
-
-    // make a tiny jump away from mothership
-    let outward = angleToVector(this.rotation);
-    this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
-    this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
 };
