@@ -1,11 +1,8 @@
 /* Main Entity class */
 
 class Entity {
-    /* Constructor (Empty) */
-    constructor() {}
-
-    /* Function to create entity properties */
-    createProperties() {
+    /* Entity Constructor */
+    constructor() {
         // Assign a position and velocity
         this.position = new THREE.Vector3(0, 0, 0);
         this.velocity = new THREE.Vector3(0, 0, 0);
