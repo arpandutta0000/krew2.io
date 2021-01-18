@@ -607,7 +607,7 @@ io.on(`connection`, async socket => {
                                             });
 
                                             if (user) {
-                                                if (player.gold > user.highscore) {
+                                                if (player.serverNumber === 1 && player.gold > user.highscore) {
                                                     log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
                                                     user.highscore = player.gold;
                                                     user.save();
@@ -975,7 +975,7 @@ io.on(`connection`, async socket => {
                                 let player = boat.children[i];
                                 if (!DEV_ENV && player !== undefined && player.netType === 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
-                                if (player.isLoggedIn === true && player.gold > player.highscore) {
+                                if (player.isLoggedIn === true && player.serverNumber === 1 && player.gold > player.highscore) {
                                     log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                                     player.highscore = parseInt(player.gold);
 
