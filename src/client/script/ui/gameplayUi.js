@@ -209,7 +209,6 @@ let gameplayUiInit = () => {
             lastScore = 0;
             controls.unLockMouseLook();
             $(`#docking-modal`).hide();
-            $(`#supply`).tooltip(`show`);
 
             $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
             $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
@@ -382,7 +381,6 @@ let gameplayUiInit = () => {
         $(`#abandon-ship-button`).hide();
         if (myBoat !== undefined) {
             if (myBoat.shipState === 3 || myBoat.shipState === -1 || myBoat.shipState === 4) {
-                $(`#supply`).tooltip(`show`);
                 // $('#island-menu-div').show();
                 $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
                 $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);

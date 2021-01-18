@@ -821,7 +821,6 @@ var ui = {
 
             let cargoSize = boatTypes[myBoat.shipclassId].cargoSize;
 
-            $(`#supply`).html(myBoat.supply);
             $(`#cargo-size`).html(cargoSize);
 
             $(`.ship-krew-count`).html(data.krewCount);
@@ -830,7 +829,6 @@ var ui = {
             $(`.ship-hp`).html(``);
             $(`.ship-max-hp`).html(``);
             $(`#ship-name`).html(``);
-            $(`#supply`).html(``);
             $(`#cargo-size`).html(``);
             $(`.ship-krew-count`).html(``);
             $(`.ship-max-capacity`).html(``);
