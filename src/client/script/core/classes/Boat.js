@@ -145,52 +145,52 @@ class Boat extends Entity {
     }
 
     logic(dt) {
-        boatLogic.logic(dt, this);
+        BoatLogic.logic(dt, this);
     }
 
     clientlogic() {
-        boatLogic.clientLogic(this);
+        BoatLogic.clientLogic(this);
     }
-};
 
-Boat.prototype.setShipClass = function (classId) {
-    this.shipclassId = classId;
+    setShipClass(classId) {
+        this.shipclassId = classId;
 
-    let currentShipClass = boatTypes[classId];
+        let currentShipClass = boatTypes[classId];
 
-    this.maxHp = currentShipClass.hp;
-    this.hp = this.maxHp;
-    this.turnspeed = currentShipClass.turnspeed;
-    this.maxKrewCapacity = currentShipClass.maxKrewCapacity;
-    this.size.set(currentShipClass.width, currentShipClass.height, currentShipClass.depth);
-    this.arcFront = currentShipClass.arcFront;
-    this.arcBack = currentShipClass.arcBack;
-    this.inertia = currentShipClass.inertia;
-    this.collisionRadius = currentShipClass.radius;
-    this.speed = currentShipClass.speed;
-    this.shipState = 2;
+        this.maxHp = currentShipClass.hp;
+        this.hp = this.maxHp;
+        this.turnspeed = currentShipClass.turnspeed;
+        this.maxKrewCapacity = currentShipClass.maxKrewCapacity;
+        this.size.set(currentShipClass.width, currentShipClass.height, currentShipClass.depth);
+        this.arcFront = currentShipClass.arcFront;
+        this.arcBack = currentShipClass.arcBack;
+        this.inertia = currentShipClass.inertia;
+        this.collisionRadius = currentShipClass.radius;
+        this.speed = currentShipClass.speed;
+        this.shipState = 2;
 
-    // console.log("changing boat model");
-    this.changeBoatModel(this.shipclassId);
-    if (myPlayer !== undefined) {
-        if (this === myPlayer.parent) {
-            ui.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
-            ui.updateStore($(`.btn-shopping-modal.active`));
+        // console.log("changing boat model");
+        this.changeBoatModel(this.shipclassId);
+        if (myPlayer !== undefined) {
+            if (this === myPlayer.parent) {
+                ui.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
+                ui.updateStore($(`.btn-shopping-modal.active`));
+            }
         }
     }
-};
 
-Boat.prototype.getKrewOnBoard = function () {
-    for (let i in this.children) {
-        if (this.children[i].parent && this.children[i].parent.id === this.id) {
-            this.geometry.add(this.children[i].geometry);
-            this.children[i].position.x = 0;
-            this.children[i].position.y = 0;
-            this.children[i].position.z = 0;
-        }
+    getKrewOnBoard() {
+        for (let i in this.children) {
+            if (this.children[i].parent && this.children[i].parent.id === this.id) {
+                this.geometry.add(this.children[i].geometry);
+                this.children[i].position.x = 0;
+                this.children[i].position.y = 0;
+                this.children[i].position.z = 0;
+            }
 
-        if (this.children[i].parent === undefined || this.children[i].parent.id !== this.id) {
-            delete this.children[i];
+            if (this.children[i].parent === undefined || this.children[i].parent.id !== this.id) {
+                delete this.children[i];
+            }
         }
     }
 };
