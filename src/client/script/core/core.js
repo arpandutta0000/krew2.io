@@ -26,3 +26,36 @@ let iterateEntities = (dt) => {
         }
     }
 };
+
+/** --------------- Information --------------- **
+ * 
+ * -- Net Types --
+ * -1 = Standard Entity
+ * 0 = Player
+ * 1 = Boat
+ * 2 = Projectile
+ * 3 = Impact
+ * 4 = Pickup ( Fish / Crab / Shell / Cargo / Chest)
+ * 5 = Island
+ * 6 = Bot / Misc
+ * 
+ * -- Ship States --
+ * -1 = Starting
+ * 0 = Sailing
+ * 1 = Docking
+ * 2 = Finished Docking
+ * 3 = Anchored
+ * 4 = Departing
+ *
+ * -- Projectiles --
+ * 0 = Cannonball
+ * 1 = Fishing hook
+ * 
+ * -- Weapons --
+ * -1 = Nothing
+ * 0 = Cannon
+ * 1 = Fishing Rod
+ * 2 = Spyglass
+ *
+ ** ------------------------------------------- **
+ */
