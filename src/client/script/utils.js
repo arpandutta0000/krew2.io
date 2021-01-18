@@ -150,6 +150,21 @@ const distanceToObject = (origin, target) => origin.position.distanceTo(target.p
 
 const distanceToObjectSquared = (origin, target) => origin.position.distanceToSquared(target.position);
 
+let isEmpty = function (obj) {
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) {
+        return true;
+    }
+
+    // check if object is full of undefined
+    for (p in obj) {
+        if (obj.hasOwnProperty(p) && obj[p] !== undefined) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
 /**
  * This method checks if a 3d object is in the players vision range
  * Is created with a factory function to create the frustum only once and
