@@ -68,7 +68,7 @@ class Boat extends Entity {
         this.overall_cargo = 0;
 
         // Timer that counts down once your hp is below zero
-        this.sinktimer = 0;        
+        this.sinktimer = 0;
 
         // Set up geometry for client
         this.rottimer = Math.random() * 5;
@@ -79,204 +79,78 @@ class Boat extends Entity {
         // Set boat name
         this.setName(this.crewName);
     }
-}
 
-Boat.prototype.updateProps = function () {
-    let krewCount = 0;
-    for (let id in this.children) {
-        if (
-            entities[id] === undefined ||
-            entities[id].parent === undefined ||
-            entities[id].parent.id !== this.id
-        ) {
-            delete this.children[id];
-            continue;
-        }
-
-        let child = this.children[id];
-        if (child && child.netType === 0) {
-            krewCount += 1;
-        }
-    }
-
-    this.krewCount = krewCount;
-    if (this.krewCount === 0) removeEntity(this);
-};
-
-Boat.prototype.setName = function (crewName) {
-    let clan = ``;
-    if (this.clan !== undefined && this.clan !== ``) {
-        clan = `[${this.clan}] `;
-    }
-    if (this.geometry !== undefined) {
-        if (this.label === undefined) {
-            // Set the crews name
-            this.label = new THREE.TextSprite({
-                textSize: 4,
-                redrawInterval: config.Labels.redrawInterval,
-                texture: {
-                    text: clan + crewName,
-                    fontFamily: config.Labels.fontFamily
-                },
-                material: {
-                    color: 0xc5a37c,
-                    fog: false
-                }
-            });
-            this.label.name = `label`;
-            this.label.position.set(0, boatTypes[this.shipclassId].labelHeight, 0);
-
-            for (let l = this.geometry.children.length; l--;) {
-                if (
-                    this.geometry.children[l].isTextSprite &&
-                    this.geometry.children[l].name === `label`
-                ) {
-                    this.geometry.remove(this.geometry.children[l]);
-                }
+    updateProps() {
+        let krewCount = 0;
+        for (let id in this.children) {
+            if (
+                entities[id] === undefined ||
+                entities[id].parent === undefined ||
+                entities[id].parent.id !== this.id
+            ) {
+                delete this.children[id];
+                continue;
             }
-            this.geometry.add(this.label);
-        }
-        this.label.material.map.text = clan + crewName;
-        this.label.visible = myPlayer &&
-            myPlayer.parent &&
-            this.id !== myPlayer.parent.id &&
-            this[config.Labels.boats.useMethod];
-    }
-    this.crewName = crewName;
-};
 
-Boat.prototype.logic = function (dt) {
-    // world boundaries
-    let boundaryCollision = false;
-    if (this.position.x > worldsize) {
-        this.position.x = worldsize;
-        boundaryCollision = true;
-    }
-
-    if (this.position.z > worldsize) {
-        this.position.z = worldsize;
-        boundaryCollision = true;
-    }
-
-    if (this.position.x < 0) {
-        this.position.x = 0;
-        boundaryCollision = true;
-    }
-
-    if (this.position.z < 0) {
-        this.position.z = 0;
-        boundaryCollision = true;
-    }
-
-    let kaptain = entities[this.captainId];
-
-    // the boat movement is simple. it always moves forward, and rotates if the captain is steering
-    if (kaptain !== undefined && this.crewName !== undefined) {
-        this.speed = boatTypes[this.shipclassId].speed + parseFloat(kaptain.movementSpeedBonus / 100);
-    }
-
-    let moveVector = new THREE.Vector3(0, 0, (this.speed));
-
-    // if boat is not anchored or not in docking state, we will move
-    if (this.shipState === 0) {
-        // if the steering button is pressed, the rotation changes slowly
-        (kaptain !== undefined) ?
-        this.rotation += this.steering * dt * 0.4 * (this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)): this.rotation += this.steering * dt * 0.4 * this.turnspeed;
-
-        // we rotate the movement vector depending on the current rotation
-        moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
-    } else {
-        moveVector.set(0, 0, 0);
-    }
-
-    // set the velocity to be the move vector
-    this.velocity = moveVector;
-
-    // client side, calculate the ship leaning
-    this.leanvalue += (this.steering * 4 - this.leanvalue) * dt;
-    this.rottimer += dt;
-
-    if (myPlayer && myPlayer.parent && this.sail) {
-        this.sail.material.visible = this.id !== myPlayer.parent.id;
-    }
-
-    if (myPlayer && myPlayer.parent && this.mast) {
-        this.mast.material.visible = this.id !== myPlayer.parent.id;
-    }
-
-    if (this.body &&
-        (
-            this.shipState === 3 ||
-            this.shipState === -1 ||
-            this.shipState === 4
-        )
-    ) {
-        this.rottimer = 0;
-        this.leanvalue = 0;
-        if (this.body.material.opacity >= 0.5) {
-            this.body.material.opacity -= 0.0075;
+            let child = this.children[id];
+            if (child && child.netType === 0) {
+                krewCount += 1;
+            }
         }
 
-        if (this.sail && this.sail.material.opacity >= 0.5) {
-            this.sail.material.opacity -= 0.0075;
-        }
-
-        if (this.mast && this.mast.material.opacity >= 0.5) {
-            this.mast.material.opacity -= 0.0075;
-        }
-    } else {
-        this.body.material.opacity = 1;
-        if (this.sail) {
-            this.sail.material.opacity = 0.9;
-        }
-
-        if (this.mast) {
-            this.mast.material.opacity = 0.9;
-        }
+        this.krewCount = krewCount;
+        if (this.krewCount === 0) removeEntity(this);
     }
 
-    this.geometry.rotation.x = Math.sin(this.rottimer * 0.5 + 3) * Math.sin(this.rottimer) * 0.05;
-    this.geometry.rotation.z = Math.sin(this.rottimer * 1.0) * 0.05 - this.leanvalue * 0.08;
-
-    // if our hp is low (we died)
-    if (this.hp < 1) {
-        // on client, disconnect the camera from the player
-        if (myPlayer && myPlayer.parent === this) {
-            ui.playAudioFile(false, `sink-crash`);
-            THREE.SceneUtils.detach(camera, camera.parent, scene);
-            $(`#shopping-modal`).hide();
-            $(`#show-shopping-modal-button`).hide();
+    setName(crewName) {
+        let clan = ``;
+        if (this.clan !== undefined && this.clan !== ``) {
+            clan = `[${this.clan}] `;
         }
+        if (this.geometry !== undefined) {
+            if (this.label === undefined) {
+                // Set the crews name
+                this.label = new THREE.TextSprite({
+                    textSize: 4,
+                    redrawInterval: config.Labels.redrawInterval,
+                    texture: {
+                        text: clan + crewName,
+                        fontFamily: config.Labels.fontFamily
+                    },
+                    material: {
+                        color: 0xc5a37c,
+                        fog: false
+                    }
+                });
+                this.label.name = `label`;
+                this.label.position.set(0, boatTypes[this.shipclassId].labelHeight, 0);
 
-        // increase the sink timer, make ship sink
-        this.sinktimer += dt;
-
-        if (this.sinktimer > 4.0) {
-            // ships down, lets remove it from game
-
-            removeEntity(this);
+                for (let l = this.geometry.children.length; l--;) {
+                    if (
+                        this.geometry.children[l].isTextSprite &&
+                        this.geometry.children[l].name === `label`
+                    ) {
+                        this.geometry.remove(this.geometry.children[l]);
+                    }
+                }
+                this.geometry.add(this.label);
+            }
+            this.label.material.map.text = clan + crewName;
+            this.label.visible = myPlayer &&
+                myPlayer.parent &&
+                this.id !== myPlayer.parent.id &&
+                this[config.Labels.boats.useMethod];
         }
+        this.crewName = crewName;
     }
-};
 
-Boat.prototype.clientlogic = function () {
-    // on client, always make the y position the height above the water (depends on how much hp the ship has)
-    this.position.y = this.getHeightAboveWater();
+    logic(dt) {
+        boatLogic.logic(dt, this);
+    }
 
-    // rotate through water
-    let geometryPosition = new THREE.Vector3(
-        this.position.x,
-        this.position.y,
-        this.position.z
-    );
-
-    this.geometry.position.lerp(geometryPosition, 0.8);
-
-    this.geometry.rotation.y = lerp(
-        this.geometry.rotation.y,
-        this.rotation,
-        0.5
-    );
+    clientlogic() {
+        boatLogic.clientLogic(this);
+    }
 };
 
 Boat.prototype.setShipClass = function (classId) {
