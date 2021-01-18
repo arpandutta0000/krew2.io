@@ -1,4 +1,42 @@
 let EntitySnap = {
+    getSnap: (force, _this) => {
+        if (!force && !_this.sendSnap) {
+            return undefined;
+        }
+
+        if (_this.rotation === undefined) {
+            console.log(_this); // Bots don't have a rotation so _this fails
+        }
+
+        let snap = {
+            p: _this.parent ? _this.parent.id : undefined,
+            n: _this.netType, // netcode id is for entity type (e.g. 0 player)
+            x: _this.position.x.toFixed(2), // x and z position relative to parent
+            y: _this.position.y.toFixed(2),
+            z: _this.position.z.toFixed(2),
+            r: (_this.rotation || 0).toFixed(2), // rotation
+            t: _this.getTypeSnap() // type based snapshot data
+        };
+
+        // pass name variable if we're first time creating _this entity
+        if (_this.netType === 0 && _this.isNew) {
+            snap.name = _this.name;
+            snap.id = _this.id;
+
+            // check if there's been names queued (for names that were recieved prior to player entity creation). set names
+            for (playerId in playerNames) {
+                let name = playerNames[playerId];
+                if (name && entities[playerId]) {
+                    entities[playerId].setName(name);
+                }
+            }
+
+            _this.isNew = false;
+        }
+
+        return snap;
+    },
+
     parseSnap: (snap, id, _this) => {
         if (snap.p && entities[snap.p] && _this.parent !== entities[snap.p]) {
             let oldPosition;
@@ -99,43 +137,5 @@ let EntitySnap = {
                 }
             }
         }
-    },
-
-    getSnap: (force, _this) => {
-        if (!force && !_this.sendSnap) {
-            return undefined;
-        }
-
-        if (_this.rotation === undefined) {
-            console.log(_this); // Bots don't have a rotation so _this fails
-        }
-
-        let snap = {
-            p: _this.parent ? _this.parent.id : undefined,
-            n: _this.netType, // netcode id is for entity type (e.g. 0 player)
-            x: _this.position.x.toFixed(2), // x and z position relative to parent
-            y: _this.position.y.toFixed(2),
-            z: _this.position.z.toFixed(2),
-            r: (_this.rotation || 0).toFixed(2), // rotation
-            t: _this.getTypeSnap() // type based snapshot data
-        };
-
-        // pass name variable if we're first time creating _this entity
-        if (_this.netType === 0 && _this.isNew) {
-            snap.name = _this.name;
-            snap.id = _this.id;
-
-            // check if there's been names queued (for names that were recieved prior to player entity creation). set names
-            for (playerId in playerNames) {
-                let name = playerNames[playerId];
-                if (name && entities[playerId]) {
-                    entities[playerId].setName(name);
-                }
-            }
-
-            _this.isNew = false;
-        }
-
-        return snap;
     }
 };
