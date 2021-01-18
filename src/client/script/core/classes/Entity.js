@@ -129,12 +129,12 @@ class Entity {
 
     /* Call entity parseSnap function in parseSnap.js */
     parseSnap(snap, id) {
-        entitySnap.parseSnap(snap, id, this);
+        EntitySnap.parseSnap(snap, id, this);
     }
 
     /* Call entity getSnap function in parseSnap.js */
     getSnap(force) {
-        entitySnap.getSnap(force, this);
+        EntitySnap.getSnap(force, this);
     }
 
     /* Destroy the entity */

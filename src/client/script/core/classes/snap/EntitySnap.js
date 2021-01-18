@@ -1,4 +1,4 @@
-let entitySnap = {
+let EntitySnap = {
     parseSnap: (snap, id, _this) => {
         if (snap.p && entities[snap.p] && _this.parent !== entities[snap.p]) {
             let oldPosition;
@@ -138,4 +138,4 @@ let entitySnap = {
 
         return snap;
     }
-}
+};

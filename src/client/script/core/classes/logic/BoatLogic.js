@@ -1,4 +1,4 @@
-let boatLogic = {
+let BoatLogic = {
     logic: (dt, _this) => {
         let boundaryCollision = false;
         if (_this.position.x > worldsize) {
