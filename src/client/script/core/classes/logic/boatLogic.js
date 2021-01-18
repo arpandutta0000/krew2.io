@@ -115,19 +115,19 @@ let boatLogic = {
     clientLogic: (_this) => {
         _this.position.y = _this.getHeightAboveWater();
 
-    // rotate through water
-    let geometryPosition = new THREE.Vector3(
-        _this.position.x,
-        _this.position.y,
-        _this.position.z
-    );
+        // rotate through water
+        let geometryPosition = new THREE.Vector3(
+            _this.position.x,
+            _this.position.y,
+            _this.position.z
+        );
 
-    _this.geometry.position.lerp(geometryPosition, 0.8);
+        _this.geometry.position.lerp(geometryPosition, 0.8);
 
-    _this.geometry.rotation.y = lerp(
-        _this.geometry.rotation.y,
-        _this.rotation,
-        0.5
-    );
+        _this.geometry.rotation.y = lerp(
+            _this.geometry.rotation.y,
+            _this.rotation,
+            0.5
+        );
     }
-}
+};
