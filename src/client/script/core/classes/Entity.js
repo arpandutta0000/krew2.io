@@ -164,4 +164,4 @@ class Entity {
 
         this.clientlogic(dt);
     }
-}
+};
