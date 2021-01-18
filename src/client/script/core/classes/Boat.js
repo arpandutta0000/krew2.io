@@ -1,8 +1,11 @@
 class Boat extends Entity {
     constructor(captainId, krewName) {
-        let captainsName = ``;
-        let spawnIslandId;
+        // Get parent class (Entity) methods and create properties
+        super();
 
+        // Get krew name and spawn island
+        let spawnIslandId;
+        let captainsName = ``;
         if (entities[captainId] !== undefined) {
             captainsName = entities[captainId].name;
             if (entities[captainId].parent !== undefined) {
@@ -11,63 +14,13 @@ class Boat extends Entity {
                     entities[captainId].parent.anchorIslandId;
             }
         }
+        captainsName = typeof captainsName === `string` ? captainsName : ``;
 
-        this.createProperties();
-
-        // parse the ship values
-        this.supply = 0;
-
-        this.setShipClass(1); // start off with cheapest boat
-
-        this.hpRegTimer = 0;
-        this.hpRegInterval = 1;
-
-        this.arcFront = 0.0;
-        this.arcBack = 0.0;
-
-        // info that is not sent via delta
-        this.muted = [`x`, `z`, `y`];
-
-        // krew members
-        this.krewMembers = {};
-
-        this.krewCount = 0; // Keep track of boat's krew count to update krew list window
-
-        this.recruiting = false; // If the ship has been docked for more than 5 minutes, then it's not recruiting
-        this.isLocked = false; // By default krew is not locked
-        this.departureTime = 5;
-        this.lastMoved;
-
-        // netcode type
-        this.netType = 1;
-
-        // Boats can either steer left or right. 0 = no steering
-        this.steering = 0;
-
-        // boats states, 0 = sailing/ 1 = docking..,etc
-        this.shipState = {
-            starting: -1,
-            sailing: 0,
-            docking: 1,
-            finishedDocking: 2,
-            anchored: 3,
-            departing: 4
-        };
-
-        this.shipState = -1;
-        this.overall_kills = 0; // Number of ships the whole crew has sunk
-        this.overall_cargo = 0; // Amount of cargo (worth gold) traded by the whole crew
-
-        this.sentDockingMsg = false;
-
-        // this.anchorIsland = undefined;
+        // Set krew name and spawn island
+        this.crewName = typeof krewName === `string` ? krewName : `${captainsName}'${captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`} krew`;
         this.anchorIslandId = spawnIslandId;
 
-        // a timer that counts down once your hp is below zero - you are sinking
-        this.sinktimer = 0;
-
-        // boats have a captain, but we only reference it by ID (better for netcode)
-        // If there is no captain, the id is: ""
+        // Set captain ID and clan
         if (captainId && entities[captainId]) {
             this.captainId = captainId;
             this.clan = entities[captainId].clan;
@@ -76,26 +29,54 @@ class Boat extends Entity {
             this.clan = ``;
         }
 
-        // Boats have a crew name, by default it's the captains name or the passed krew name,
-        // this is setted on the update function, so initially is set to undefined
-        captainsName = typeof captainsName === `string` ? captainsName : ``;
-        this.crewName = typeof krewName === `string` ?
-            krewName :
-            (
-                `${captainsName}'${
-                    captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`
-                } krew`
-            );
+        // Set ship to a raft 1
+        this.setShipClass(1);
 
-        // on death, we drop things. this is a security value so it only happens once
-        this.hasDoneDeathDrops = false;
+        // Set arc front and arc back
+        this.arcFront = 0;
+        this.arcBack = 0;
 
-        // set up geometry for client
+        // Mute variables to not be sent via delta
+        this.muted = [`x`, `z`, `y`];
+
+        // Create krew members object
+        this.krewMembers = {};
+
+        // Create krew members count (Used in krew info modal)
+        this.krewCount = 0;
+
+        // Set variables for allowing others to join a krew
+        this.recruiting = false;
+        this.isLocked = false;
+
+        // Set default departure time
+        this.departureTime = 5;
+
+        // Set netType
+        this.netType = 1;
+
+        // Set steering (0 represents no motion)
+        this.steering = 0;
+
+        // Set Ship State to starting
+        this.shipState = -1;
+
+        // Set number of ships the whole crew has sunk
+        this.overall_kills = 0;
+
+        // Set amount of cargo (worth gold) that has been traded by the whole crew
+        this.overall_cargo = 0;
+
+        // Timer that counts down once your hp is below zero
+        this.sinktimer = 0;        
+
+        // Set up geometry for client
         this.rottimer = Math.random() * 5;
 
-        // value that makes the ship lean towards one side
+        // Value that makes the ship lean towards one side
         this.leanvalue = 0;
 
+        // Set boat name
         this.setName(this.crewName);
     }
 }
@@ -346,7 +327,6 @@ Boat.prototype.getTypeSnap = function () {
         h: this.hp,
         s: this.steering,
         c: this.shipclassId,
-        u: this.supply,
         b: this.captainId,
         t: this.shipState,
         a: this.anchorIslandId,
@@ -364,7 +344,6 @@ Boat.prototype.getTypeDelta = function () {
         h: this.deltaTypeCompare(`h`, this.hp),
         s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
         c: this.deltaTypeCompare(`c`, this.shipclassId),
-        u: this.deltaTypeCompare(`u`, this.supply),
         b: this.deltaTypeCompare(`b`, this.captainId),
         t: this.deltaTypeCompare(`t`, this.shipState),
         a: this.deltaTypeCompare(`a`, this.anchorIslandId),
@@ -390,19 +369,6 @@ Boat.prototype.parseTypeSnap = function (snap) {
 
     if (snap.s !== undefined) {
         this.steering = parseFloat(snap.s);
-    }
-
-    // update supply
-    if (snap.u !== undefined) {
-        let newSupply = parseInt(snap.u);
-        if (myPlayer && this === myPlayer.parent && newSupply !== this.supply) {
-            let suppliesEarned = newSupply - this.supply;
-            if (suppliesEarned > 1) {
-                ui.showCenterMessage(`+ ${suppliesEarned} supplies`, 2);
-            }
-        }
-
-        this.supply = newSupply;
     }
 
     // if class has changed, change model
