@@ -55,6 +55,26 @@ class Entity {
         return false;
     }
 
+    /* Function to get an entity's world position */
+    worldPos() {
+        let pos = new THREE.Vector3();
+        pos.copy(this.position);
+        if (this.parent !== undefined) {
+            pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.parent.rotation);
+            pos.add(this.parent.worldPos());
+        }
+
+        return pos;
+    }
+
+    toLocal(coord) {
+        let pos = new THREE.Vector3();
+        pos.copy(coord);
+        pos.sub(this.position);
+        pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), -this.rotation);
+        return pos;
+    }
+
     /* Get delta information */
     getDelta() {
         if (!this.sendDelta && !this.sendCreationSnapOnDelta) {
@@ -105,34 +125,14 @@ class Entity {
         return undefined;
     }
 
-    /* Function to get an entity's world position */
-    worldPos() {
-        let pos = new THREE.Vector3();
-        pos.copy(this.position);
-        if (this.parent !== undefined) {
-            pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.parent.rotation);
-            pos.add(this.parent.worldPos());
-        }
-
-        return pos;
-    }
-
-    toLocal(coord) {
-        let pos = new THREE.Vector3();
-        pos.copy(coord);
-        pos.sub(this.position);
-        pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), -this.rotation);
-        return pos;
+    /* Call entity getSnap function in parseSnap.js */
+    getSnap(force) {
+        EntitySnap.getSnap(force, this);
     }
 
     /* Call entity parseSnap function in parseSnap.js */
     parseSnap(snap, id) {
         EntitySnap.parseSnap(snap, id, this);
-    }
-
-    /* Call entity getSnap function in parseSnap.js */
-    getSnap(force) {
-        EntitySnap.getSnap(force, this);
     }
 
     /* Destroy the entity */
