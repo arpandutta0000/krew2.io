@@ -27,10 +27,9 @@ class Entity {
         this.position = new THREE.Vector3(0, 0, 0);
         this.velocity = new THREE.Vector3(0, 0, 0);
 
-        // Setn size, rotation, and collision radius
+        // Setn size, and rotation
         this.size = new THREE.Vector3(1, 1, 1);
         this.rotation = 0;
-        this.collisionRadius = 1;
 
         // Set model scales based on model geometry
         this.modelscale = new THREE.Vector3(1, 1, 1);
