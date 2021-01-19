@@ -10,6 +10,11 @@ const config = {
     // Set config.worldsize
     worldsize: 2500,
 
+    // Enable / Disable decorations
+    palmTree: false,
+    christmasTree: false,
+    snowman: false,
+
     // Misc config
     setProperties: {
         inVision: false

@@ -56,9 +56,9 @@ let loadModels = () => {
     loader.loadTexture(`./assets/models/props_diffuse1.tga`);
     loader.loadTexture(`./assets/img/water.jpg`);
 
-    // Christmas Models
-    // loader.loadObjWithMtl('./assets/models/elka.obj');
-    // loader.loadObjWithMtl('./assets/models/snowman.obj');
+    // Decoration Models
+    if (config.christmasTree) loader.loadObjWithMtl('./assets/models/elka.obj');
+    if (config.snowman) loader.loadObjWithMtl('./assets/models/snowman.obj');
 
     // Once loader is done, create the objects in the world
     loader.onFinish(() => {
@@ -80,7 +80,7 @@ let loadModels = () => {
 /* Function to set model geometry */
 let createModels = () => {
     geometry.island = models.island.children[0].geometry;
-    geometry.palm = models.island.children[1].geometry;
+    if (config.palmTree) geometry.palm = models.island.children[1].geometry;
     geometry.fishingrod = models.fishingrod.children[0].geometry;
 
     geometry.seadog = models.seadog.children[0].geometry;
