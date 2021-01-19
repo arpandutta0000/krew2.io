@@ -1,5 +1,6 @@
 /* When document is ready */
 $(document).ready(() => {
+    // Print console header
     printConsoleHeader();
 
     // Load all models
