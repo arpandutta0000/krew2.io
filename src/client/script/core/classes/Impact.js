@@ -1,3 +1,5 @@
+/* Impact class */
+
 class Impact extends Entity {
     /* Constructor */
     constructor(type, x, z) {
@@ -81,6 +83,15 @@ class Impact extends Entity {
         }
     }
 
+    getTypeDelta() {
+        if (!this.spawnPacket) {
+            this.spawnPacket = true;
+            return this.getTypeSnap();
+        }
+
+        return undefined;
+    }
+
     logic(dt) {
         ImpactLogic.logic(dt, this);
     }
@@ -95,14 +106,5 @@ class Impact extends Entity {
 
     parseTypeSnap(snap) {
         ImpactSnap.parseTypeSnap(snap, this);
-    }
-
-    getTypeDelta() {
-        if (!this.spawnPacket) {
-            this.spawnPacket = true;
-            return this.getTypeSnap();
-        }
-
-        return undefined;
     }
 };
