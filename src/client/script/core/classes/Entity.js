@@ -125,12 +125,12 @@ class Entity {
         return undefined;
     }
 
-    /* Call entity getSnap function in parseSnap.js */
+    /* Call entity getSnap function */
     getSnap(force) {
         EntitySnap.getSnap(force, this);
     }
 
-    /* Call entity parseSnap function in parseSnap.js */
+    /* Call entity parseSnap function */
     parseSnap(snap, id) {
         EntitySnap.parseSnap(snap, id, this);
     }
