@@ -13,15 +13,15 @@ class Entity {
         this.last = {};
         this.lastType = {};
 
+        // Create muted array
+        this.muted = [];
+
         // Set up parent and children
         this.parent = undefined;
         this.children = {};
 
         // Set the entity to be a new entity
         this.isNew = true;
-
-        // Create muted array
-        this.muted = [];
 
         // Assign a position and velocity
         this.position = new THREE.Vector3(0, 0, 0);

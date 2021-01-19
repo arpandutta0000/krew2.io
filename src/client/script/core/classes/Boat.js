@@ -3,11 +3,14 @@
 class Boat extends Entity {
     /* Constructor */
     constructor(captainId, krewName) {
+        // Get parent class (Entity) methods and create properties
+        super();
+
         // Set netType
         this.netType = 1;
 
-        // Get parent class (Entity) methods and create properties
-        super();
+        // Mute variables to not be sent via delta
+        this.muted = [`x`, `z`, `y`];
 
         // Get krew name and spawn island
         let spawnIslandId;
@@ -41,9 +44,6 @@ class Boat extends Entity {
         // Set arc front and arc back
         this.arcFront = 0;
         this.arcBack = 0;
-
-        // Mute variables to not be sent via delta
-        this.muted = [`x`, `z`, `y`];
 
         // Create krew members object
         this.krewMembers = {};
