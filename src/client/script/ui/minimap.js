@@ -1,7 +1,7 @@
 // Create variables
-let map = CanvasMap(document.getElementById(`minimap`), worldsize, worldsize);
+let map = CanvasMap(document.getElementById(`minimap`), config.worldsize, config.worldsize);
 let time = performance.now();
-let middle = worldsize / 2;
+let middle = config.worldsize / 2;
 let fps = 24;
 
 /* Create minimap and update player position every frame */
@@ -54,8 +54,8 @@ let createMinimap = () => {
         boundary: map.rect({
             x: 0,
             y: 0,
-            width: worldsize,
-            height: worldsize,
+            width: config.worldsize,
+            height: config.worldsize,
             stroke: {
                 color: `rgba(84,48,13,1)`,
                 width: 8

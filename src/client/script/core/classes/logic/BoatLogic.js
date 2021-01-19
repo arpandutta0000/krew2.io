@@ -1,13 +1,13 @@
 let BoatLogic = {
     logic: (dt, _this) => {
         let boundaryCollision = false;
-        if (_this.position.x > worldsize) {
-            _this.position.x = worldsize;
+        if (_this.position.x > config.worldsize) {
+            _this.position.x = config.worldsize;
             boundaryCollision = true;
         }
 
-        if (_this.position.z > worldsize) {
-            _this.position.z = worldsize;
+        if (_this.position.z > config.worldsize) {
+            _this.position.z = config.worldsize;
             boundaryCollision = true;
         }
 

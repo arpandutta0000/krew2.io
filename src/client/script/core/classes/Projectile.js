@@ -88,8 +88,8 @@ Projectile.prototype.logic = function (dt) {
                 entities[this.shooterid] === undefined ||
                 entities[this.shooterid].use === true ||
                 entities[this.shooterid].activeWeapon === 0 ||
-                this.position.x > worldsize ||
-                this.position.z > worldsize ||
+                this.position.x > config.worldsize ||
+                this.position.z > config.worldsize ||
                 this.position.x < 0 ||
                 this.position.z < 0
             ) {

@@ -10,7 +10,7 @@ const config = {
     // Set max players per server
     maxPlayerPerInstance: 250,
 
-    // Set worldsize
+    // Set config.worldsize
     worldsize: 2500,
 
     // Misc config

@@ -320,8 +320,8 @@ var ui = {
         $(`#minimap`).on(`click`, (e) => {
             if (markerMapCount < performance.now() - 5000) {
                 markerMapCount = performance.now();
-                let x = (((e.offsetX === undefined ? e.layerX : e.offsetX) - 10) / 180) * worldsize;
-                let y = (((e.offsetY === undefined ? e.layerY : e.offsetY) - 10) / 180) * worldsize;
+                let x = (((e.offsetX === undefined ? e.layerX : e.offsetX) - 10) / 180) * config.worldsize;
+                let y = (((e.offsetY === undefined ? e.layerY : e.offsetY) - 10) / 180) * config.worldsize;
                 socket.emit(`addMarker`, {
                     x: x,
                     y: y

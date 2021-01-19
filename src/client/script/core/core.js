@@ -15,7 +15,6 @@ let sceneLines = {};
 let threejsStarted = false;
 let countDown = 10;
 let playerName = ``;
-let worldsize = config.worldsize;
 
 /* Create function to iterate through each entity */
 let iterateEntities = (dt) => {

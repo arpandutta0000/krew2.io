@@ -18,19 +18,19 @@ let setUpEnvironment = () => {
 
     // Add ceiling
     ceiling = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(worldsize * 1.5, worldsize * 1.5),
+        new THREE.PlaneBufferGeometry(config.worldsize * 1.5, config.worldsize * 1.5),
         materials.sky
     );
     ceiling.rotation.x = -Math.PI * 0.5;
-    ceiling.position.set(worldsize * 0.5, 90, worldsize * 0.5);
+    ceiling.position.set(config.worldsize * 0.5, 90, config.worldsize * 0.5);
     scene.add(ceiling);
 
     // Add environment sphere
     envSphere = new THREE.Mesh(
-        new THREE.SphereGeometry(worldsize * 2),
+        new THREE.SphereGeometry(config.worldsize * 2),
         materials.sky
     );
-    envSphere.position.set(worldsize * 0.5, 0, worldsize * 0.5);
+    envSphere.position.set(config.worldsize * 0.5, 0, config.worldsize * 0.5);
     scene.add(envSphere);
 
     // Add directional light
@@ -100,7 +100,7 @@ let doDaylightCycle = (time) => {
 let initWater = () => {
     const Water = waterSetup();
 
-    let waterGeometry = new THREE.PlaneBufferGeometry(worldsize * 1.5, worldsize * 1.5);
+    let waterGeometry = new THREE.PlaneBufferGeometry(config.worldsize * 1.5, config.worldsize * 1.5);
 
     water = new Water(waterGeometry, {
         textureWidth: 512,
@@ -115,7 +115,7 @@ let initWater = () => {
     });
 
     water.rotation.x = -Math.PI * 0.5;
-    water.position.set(worldsize * 0.5, 0, worldsize * 0.5);
+    water.position.set(config.worldsize * 0.5, 0, config.worldsize * 0.5);
 
     scene.add(water);
 };
@@ -123,22 +123,22 @@ let initWater = () => {
 /* Add World Boundries function */
 let initWorldBoundries = () => {
     environment.boundaryLeft = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryLeft.position.set(worldsize * 0.5, 1.5, 0);
-    environment.boundaryLeft.scale.set(worldsize, 0.1, 3);
+    environment.boundaryLeft.position.set(config.worldsize * 0.5, 1.5, 0);
+    environment.boundaryLeft.scale.set(config.worldsize, 0.1, 3);
     scene.add(environment.boundaryLeft);
 
     environment.boundaryRight = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryRight.position.set(worldsize * 0.5, 1.5, worldsize);
-    environment.boundaryRight.scale.set(worldsize, 0.1, 3);
+    environment.boundaryRight.position.set(config.worldsize * 0.5, 1.5, config.worldsize);
+    environment.boundaryRight.scale.set(config.worldsize, 0.1, 3);
     scene.add(environment.boundaryRight);
 
     environment.boundaryUp = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryUp.position.set(0, 1.5, worldsize * 0.5);
-    environment.boundaryUp.scale.set(3, 0.1, worldsize);
+    environment.boundaryUp.position.set(0, 1.5, config.worldsize * 0.5);
+    environment.boundaryUp.scale.set(3, 0.1, config.worldsize);
     scene.add(environment.boundaryUp);
 
     environment.boundaryDown = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryDown.position.set(worldsize, 1.5, worldsize * 0.5);
-    environment.boundaryDown.scale.set(3, 0.1, worldsize);
+    environment.boundaryDown.position.set(config.worldsize, 1.5, config.worldsize * 0.5);
+    environment.boundaryDown.scale.set(3, 0.1, config.worldsize);
     scene.add(environment.boundaryDown);
 };
