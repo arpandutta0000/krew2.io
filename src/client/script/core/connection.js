@@ -280,9 +280,9 @@ var initSocketBinds = () => {
                 myPlayer.clan === entities[msgData.playerId].clan &&
                 !isPlayer;
             let classRec = `global-chat`;
-            let isAdmin = Admins.includes(msgData.playerName);
-            let isMod = Mods.includes(msgData.playerName);
-            let isDev = Devs.includes(msgData.playerName);
+            let isAdmin = config.Admins.includes(msgData.playerName);
+            let isMod = config.Mods.includes(msgData.playerName);
+            let isDev = config.Devs.includes(msgData.playerName);
             let chatHistory = $(`#chat-history`);
             if (msgData.recipient === `global`) {
                 classRec = `global-chat`;

@@ -515,7 +515,7 @@ Player.prototype.clientlogic = function (dt) {
             this.playerBody.add(this.captainHat);
             if (this.label !== undefined) {
                 this.label.material.color =
-                    Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
+                    config.Admins.includes(this.name) || config.Mods.includes(this.name) || config.Devs.includes(this.name)
                         ? labelcolors.staff
                         : this.isPlayer
                             ? labelcolors.myself
@@ -527,7 +527,7 @@ Player.prototype.clientlogic = function (dt) {
             this.playerBody.remove(this.playerBody.getObjectByName(`captainHat`));
 
             if (this.label !== undefined) {
-                this.label.material.color = Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name)
+                this.label.material.color = config.Admins.includes(this.name) || config.Mods.includes(this.name) || config.Devs.includes(this.name)
                     ? labelcolors.staff
                     : this.isPlayer
                         ? labelcolors.myself

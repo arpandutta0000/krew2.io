@@ -403,11 +403,11 @@ Player.prototype.setName = function (name) {
                 textSize: 0.7,
                 redrawInterval: config.Labels.redrawInterval,
                 texture: {
-                    text: `${clan + (Admins.includes(this.name) ? `[Admin] ` : Mods.includes(this.name) ? `[Staff] ` : Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`,
+                    text: `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`,
                     fontFamily: config.Labels.fontFamily
                 },
                 material: {
-                    color: Admins.includes(this.name) || Mods.includes(this.name) || Devs.includes(this.name) ?
+                    color: config.Admins.includes(this.name) || config.Mods.includes(this.name) || config.Devs.includes(this.name) ?
                         labelcolors.staff : this.isPlayer ?
                         labelcolors.myself : this.isCaptain ?
                         labelcolors.captain : labelcolors.player,
@@ -419,7 +419,7 @@ Player.prototype.setName = function (name) {
             this.label.position.set(0, 2.2, 1.5);
             this.geometry.add(this.label);
         }
-        this.label.material.map.text = `${clan + (Admins.includes(this.name) ? `[Admin] ` : Mods.includes(this.name) ? `[Staff] ` : Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
+        this.label.material.map.text = `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
         this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined &&
             (this.parent.netType === 5 || this.parent.inRange);
     }

@@ -30,8 +30,3 @@ const config = {
         }
     }
 };
-
-/* Set global staff values from config */
-let Admins = config.Admins;
-let Mods = config.Mods;
-let Devs = config.Devs;
