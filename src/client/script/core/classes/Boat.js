@@ -1,5 +1,11 @@
+/* Boat class */
+
 class Boat extends Entity {
+    /* Constructor */
     constructor(captainId, krewName) {
+        // Set netType
+        this.netType = 1;
+
         // Get parent class (Entity) methods and create properties
         super();
 
@@ -52,9 +58,6 @@ class Boat extends Entity {
         // Set default departure time
         this.departureTime = 5;
 
-        // Set netType
-        this.netType = 1;
-
         // Set steering (0 represents no motion)
         this.steering = 0;
 
@@ -80,6 +83,7 @@ class Boat extends Entity {
         this.setName(this.crewName);
     }
 
+    /* Function for updating boat children */
     updateProps() {
         let krewCount = 0;
         for (let id in this.children) {
@@ -102,6 +106,7 @@ class Boat extends Entity {
         if (this.krewCount === 0) removeEntity(this);
     }
 
+    /* Set krew name */
     setName(crewName) {
         let clan = ``;
         if (this.clan !== undefined && this.clan !== ``) {
@@ -144,14 +149,17 @@ class Boat extends Entity {
         this.crewName = crewName;
     }
 
+    /* Run boat logic */
     logic(dt) {
         BoatLogic.logic(dt, this);
     }
 
+    /* Run client boat logic */
     clientlogic() {
         BoatLogic.clientLogic(this);
     }
 
+    /* Set boat class based on boat type */
     setShipClass(classId) {
         this.shipclassId = classId;
 
@@ -179,6 +187,7 @@ class Boat extends Entity {
         }
     }
 
+    /* Teleport krew members to a boat (Used when undocking) */
     getKrewOnBoard() {
         for (let i in this.children) {
             if (this.children[i].parent && this.children[i].parent.id === this.id) {
@@ -194,14 +203,17 @@ class Boat extends Entity {
         }
     }
 
+    /* Parse type snap */
     parseTypeSnap(snap) {
         BoatSnap.parseTypeSnap(snap, this);
     }
 
+    /* Get type snap */
     getTypeSnap() {
         BoatSnap.getTypeSnap(this);
     }
 
+    /* Get delta type */
     getTypeDelta() {
         let delta = {
             h: this.deltaTypeCompare(`h`, this.hp),
@@ -224,6 +236,7 @@ class Boat extends Entity {
         return delta;
     }
 
+    /* Destroy the entity */
     onDestroy() {
         this.children = {};
 
@@ -235,10 +248,12 @@ class Boat extends Entity {
         }
     }
 
+    /* Get boat height based on baseheight and boat health */
     getHeightAboveWater() {
         return boatTypes[this.shipclassId].baseheight * (0.2 + 0.8 * (this.hp / this.maxHp)) - this.sinktimer;
     }
 
+    /* Set ship state when a boat docks */
     enterIsland(islandId) {
         if (this.shipState === 0) {
             this.shipState = 1;
@@ -247,6 +262,7 @@ class Boat extends Entity {
         this.anchorIslandId = islandId;
     }
 
+    /* When the boat undocks */
     exitIsland() {
         this.shipState = 0;
         this.recruiting = false;
@@ -265,6 +281,7 @@ class Boat extends Entity {
         this.anchorIslandId = undefined;
     }
 
+    /* When a player abandons ship */
     exitMotherShip() {
         // set rotation away from mothership
         this.rotation = rotationToObject(this, mothership);

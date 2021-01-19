@@ -1,9 +1,9 @@
 /* Main Entity class */
 
 class Entity {
-    /* Entity Constructor */
+    /* Constructor */
     constructor() {
-        // Create netType (Used for defining the type of entity)
+        // Set netType
         this.netType = -1;
 
         // Set sending snap and delta
