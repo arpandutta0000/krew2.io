@@ -83,29 +83,6 @@ class Boat extends Entity {
         this.setName(this.crewName);
     }
 
-    /* Function for updating boat children */
-    updateProps() {
-        let krewCount = 0;
-        for (let id in this.children) {
-            if (
-                entities[id] === undefined ||
-                entities[id].parent === undefined ||
-                entities[id].parent.id !== this.id
-            ) {
-                delete this.children[id];
-                continue;
-            }
-
-            let child = this.children[id];
-            if (child && child.netType === 0) {
-                krewCount += 1;
-            }
-        }
-
-        this.krewCount = krewCount;
-        if (this.krewCount === 0) removeEntity(this);
-    }
-
     /* Set krew name */
     setName(crewName) {
         let clan = ``;
@@ -149,14 +126,27 @@ class Boat extends Entity {
         this.crewName = crewName;
     }
 
-    /* Run boat logic */
-    logic(dt) {
-        BoatLogic.logic(dt, this);
-    }
+    /* Function for updating boat children */
+    updateProps() {
+        let krewCount = 0;
+        for (let id in this.children) {
+            if (
+                entities[id] === undefined ||
+                entities[id].parent === undefined ||
+                entities[id].parent.id !== this.id
+            ) {
+                delete this.children[id];
+                continue;
+            }
 
-    /* Run client boat logic */
-    clientlogic() {
-        BoatLogic.clientLogic(this);
+            let child = this.children[id];
+            if (child && child.netType === 0) {
+                krewCount += 1;
+            }
+        }
+
+        this.krewCount = krewCount;
+        if (this.krewCount === 0) removeEntity(this);
     }
 
     /* Set boat class based on boat type */
@@ -203,51 +193,6 @@ class Boat extends Entity {
         }
     }
 
-    /* Parse type snap */
-    parseTypeSnap(snap) {
-        BoatSnap.parseTypeSnap(snap, this);
-    }
-
-    /* Get type snap */
-    getTypeSnap() {
-        BoatSnap.getTypeSnap(this);
-    }
-
-    /* Get delta type */
-    getTypeDelta() {
-        let delta = {
-            h: this.deltaTypeCompare(`h`, this.hp),
-            s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
-            c: this.deltaTypeCompare(`c`, this.shipclassId),
-            b: this.deltaTypeCompare(`b`, this.captainId),
-            t: this.deltaTypeCompare(`t`, this.shipState),
-            a: this.deltaTypeCompare(`a`, this.anchorIslandId),
-            k: this.deltaTypeCompare(`k`, this.krewCount),
-            e: this.deltaTypeCompare(`e`, this.speed),
-            r: this.deltaTypeCompare(`r`, this.recruiting),
-            l: this.deltaTypeCompare(`l`, this.isLocked),
-            d: this.deltaTypeCompare(`d`, this.departureTime)
-        };
-
-        if (isEmpty(delta)) {
-            delta = undefined;
-        }
-
-        return delta;
-    }
-
-    /* Destroy the entity */
-    onDestroy() {
-        this.children = {};
-
-        // makre sure to also call the entity ondestroy
-        Entity.prototype.onDestroy.call(this);
-
-        if (boats[this.id]) {
-            delete boats[this.id];
-        }
-    }
-
     /* Get boat height based on baseheight and boat health */
     getHeightAboveWater() {
         return boatTypes[this.shipclassId].baseheight * (0.2 + 0.8 * (this.hp / this.maxHp)) - this.sinktimer;
@@ -290,5 +235,60 @@ class Boat extends Entity {
         let outward = angleToVector(this.rotation);
         this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
         this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
+    }
+
+    /* Get delta type */
+    getTypeDelta() {
+        let delta = {
+            h: this.deltaTypeCompare(`h`, this.hp),
+            s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
+            c: this.deltaTypeCompare(`c`, this.shipclassId),
+            b: this.deltaTypeCompare(`b`, this.captainId),
+            t: this.deltaTypeCompare(`t`, this.shipState),
+            a: this.deltaTypeCompare(`a`, this.anchorIslandId),
+            k: this.deltaTypeCompare(`k`, this.krewCount),
+            e: this.deltaTypeCompare(`e`, this.speed),
+            r: this.deltaTypeCompare(`r`, this.recruiting),
+            l: this.deltaTypeCompare(`l`, this.isLocked),
+            d: this.deltaTypeCompare(`d`, this.departureTime)
+        };
+
+        if (isEmpty(delta)) {
+            delta = undefined;
+        }
+
+        return delta;
+    }
+
+    /* Run boat logic */
+    logic(dt) {
+        BoatLogic.logic(dt, this);
+    }
+
+    /* Run client boat logic */
+    clientlogic() {
+        BoatLogic.clientLogic(this);
+    }
+
+    /* Parse type snap */
+    parseTypeSnap(snap) {
+        BoatSnap.parseTypeSnap(snap, this);
+    }
+
+    /* Get type snap */
+    getTypeSnap() {
+        BoatSnap.getTypeSnap(this);
+    }
+
+    /* Destroy the entity */
+    onDestroy() {
+        this.children = {};
+
+        // makre sure to also call the entity ondestroy
+        Entity.prototype.onDestroy.call(this);
+
+        if (boats[this.id]) {
+            delete boats[this.id];
+        }
     }
 };
