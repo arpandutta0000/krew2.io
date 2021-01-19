@@ -3,22 +3,6 @@
 class Entity {
     /* Entity Constructor */
     constructor() {
-        // Assign a position and velocity
-        this.position = new THREE.Vector3(0, 0, 0);
-        this.velocity = new THREE.Vector3(0, 0, 0);
-
-        // Setn size, rotation, and collision radius
-        this.size = new THREE.Vector3(1, 1, 1);
-        this.rotation = 0;
-        this.collisionRadius = 1;
-
-        // Set up parent and children
-        this.parent = undefined;
-        this.children = {};
-
-        // Set the entity to be a new entity
-        this.isNew = true;
-
         // Create netType (Used for defining the type of entity)
         this.netType = -1;
 
@@ -29,8 +13,24 @@ class Entity {
         this.last = {};
         this.lastType = {};
 
+        // Set up parent and children
+        this.parent = undefined;
+        this.children = {};
+
+        // Set the entity to be a new entity
+        this.isNew = true;
+
         // Create muted array
         this.muted = [];
+
+        // Assign a position and velocity
+        this.position = new THREE.Vector3(0, 0, 0);
+        this.velocity = new THREE.Vector3(0, 0, 0);
+
+        // Setn size, rotation, and collision radius
+        this.size = new THREE.Vector3(1, 1, 1);
+        this.rotation = 0;
+        this.collisionRadius = 1;
 
         // Set model scales based on model geometry
         this.modelscale = new THREE.Vector3(1, 1, 1);
@@ -53,7 +53,6 @@ class Entity {
                 return true;
             }
         }
-
         return false;
     }
 
