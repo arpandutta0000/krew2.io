@@ -1,28 +1,30 @@
 class Impact extends Entity {
+    /* Constructor */
     constructor(type, x, z) {
+        // Get parent class (Entity) methods and create properties
         super();
 
-        // netcode type
+        // Set netType
         this.netType = 3;
 
-        // very little net data
+        // Set sending snap and delta
         this.sendDelta = false;
         this.sendSnap = false;
         this.sendCreationSnapOnDelta = true;
 
-        // impact type, there are different impact types (in water, in ship, etc)
-        this.impactType = type;
-
-        // // size of a Impact
-        this.size = new THREE.Vector3(1, 1, 1);
-
-        // impacts have a timeout
+        // Set impact timeout
         this.timeout = 1.0;
 
-        // set up references to geometry and material
-        this.position.y = 0;
+        // Set impact size
+        this.size = new THREE.Vector3(1, 1, 1);
 
-        // impacts have a type (impact in water vs impact in boat)
+        // Set position
+        this.position.x = x;
+        this.position.y = 0;
+        this.position.z = z;
+
+        // Create particles based on impact type
+        this.impactType = type;
         switch (type) {
             case 0: { // water
                 this.baseGeometry = geometry.impact_water;
@@ -45,7 +47,7 @@ class Impact extends Entity {
                         material: materials.impact_water,
                         geometry: base_geometries.box
                     });
-                }
+                };
 
                 break;
             }
@@ -72,55 +74,35 @@ class Impact extends Entity {
                         geometry: base_geometries.box
 
                     });
-                }
+                };
 
                 break;
             }
         }
-
-        this.position.x = x;
-        this.position.z = z;
-    }
-}
-
-Impact.prototype.logic = function (dt) {
-    // tick down the timer and delete on end
-    this.timeout -= dt * 0.8;
-    if (this.timeout <= 0) {
-        removeEntity(this);
-    }
-};
-
-Impact.prototype.clientlogic = function (dt) {
-    if (this.impactType === 0) {
-        this.geometry.position.set(this.position.x, this.position.y, this.position.z);
-        this.geometry.scale.y = (this.timeout < 0.5 ? Ease.easeOutQuad(this.timeout * 2) : 1.0 - Ease.easeInQuint((this.timeout - 0.5) * 2)) * 5;
-
-        let quad = Ease.easeOutQuad(this.timeout);
-        this.geometry.scale.x = 1.5 - quad;
-        this.geometry.scale.z = 1.5 - quad;
-    }
-};
-
-Impact.prototype.getTypeSnap = function () {
-    let snap = {
-        a: this.impactType
-    };
-    return snap;
-};
-
-Impact.prototype.getTypeDelta = function () {
-    if (!this.spawnPacket) {
-        this.spawnPacket = true;
-        return this.getTypeSnap();
     }
 
-    return undefined;
-};
+    logic(dt) {
+        ImpactLogic.logic(dt, this);
+    }
 
-// function that parses a snapshot
-Impact.prototype.parseTypeSnap = function (snap) {
-    if (snap.a !== undefined) {
-        this.impactType = parseFloat(snap.a);
+    clientlogic(dt) {
+        ImpactLogic.clientLogic(dt, this);
+    }
+
+    getTypeSnap() {
+        ImpactSnap.getTypeSnap(this);
+    }
+
+    parseTypeSnap(snap) {
+        ImpactSnap.parseTypeSnap(snap, this);
+    }
+
+    getTypeDelta() {
+        if (!this.spawnPacket) {
+            this.spawnPacket = true;
+            return this.getTypeSnap();
+        }
+
+        return undefined;
     }
 };
