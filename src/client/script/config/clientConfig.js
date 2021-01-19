@@ -7,9 +7,6 @@ const config = {
     // Set URL
     url: `https://krew.io`,
 
-    // Set max players per server
-    maxPlayerPerInstance: 250,
-
     // Set config.worldsize
     worldsize: 2500,
 

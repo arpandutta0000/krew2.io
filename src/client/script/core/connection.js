@@ -6,8 +6,6 @@ let clanChatOn = false;
 let localChatOn = false;
 let globalChatOn = true;
 
-let maxPlayerPerInstance = config.maxPlayerPerInstance;
-
 let interval_update;
 
 /* Connect to a server */
