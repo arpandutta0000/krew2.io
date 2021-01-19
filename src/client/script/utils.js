@@ -8,6 +8,11 @@ let pad = (val) => {
     }
 };
 
+/* Function to print header in console */
+let printConsoleHeader = () => {
+    console.log(`\n ___   _  ______    _______  _     _        ___   _______ \n|   | | ||    _ |  |       || | _ | |      |   | |       |\n|   |_| ||   | ||  |    ___|| || || |      |   | |   _   |\n|      _||   |_||_ |   |___ |       |      |   | |  | |  |\n|     |_ |    __  ||    ___||       | ___  |   | |  |_|  |\n|    _  ||   |  | ||   |___ |   _   ||   | |   | |       |\n|___| |_||___|  |_||_______||__| |__||___| |___| |_______|\n`);
+};
+
 /* Check if a string is alphanumeric */
 let isAlphaNumeric = (str) => {
     let code, i, len;
@@ -190,10 +195,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-                .multiplyMatrices(
-                    camera.projectionMatrix,
-                    camera.matrixWorldInverse
-                )
+            .multiplyMatrices(
+                camera.projectionMatrix,
+                camera.matrixWorldInverse
+            )
         );
 
         // Return if the object is in the frustum

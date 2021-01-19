@@ -1,13 +1,6 @@
 /* When document is ready */
 $(document).ready(() => {
-    console.log(`poggers bro`);
-    // Setup custom modal attributes
-    // $(`.modal-custom`).on(`show.bs.modal`, (e) => {
-    //     setTimeout(() => {
-    //         $(`.modal-backdrop`).addClass(`modal-backdrop-custom`);
-    //         $(`.modal-custom`).removeClass(`modal-open`);
-    //     });
-    // });
+    printConsoleHeader();
 
     // Load all models
     loadModels();
