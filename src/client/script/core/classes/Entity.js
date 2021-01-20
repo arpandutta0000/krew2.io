@@ -154,6 +154,6 @@ class Entity {
         this.position.x += this.velocity.x * dt;
         this.position.z += this.velocity.z * dt;
 
-        this.clientLogic(dt);
+        this.clientlogic(dt);
     }
 };
