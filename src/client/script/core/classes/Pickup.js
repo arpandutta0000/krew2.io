@@ -153,6 +153,8 @@ class Pickup extends Entity {
         PickupLogic.dockedLogic(this);
     }
 
+    logic() {}
+
     clientLogic(dt) {
         PickupLogic.clientLogic(dt, this);
     }
