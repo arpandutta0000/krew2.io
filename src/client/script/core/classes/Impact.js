@@ -96,7 +96,7 @@ class Impact extends Entity {
         ImpactLogic.logic(dt, this);
     }
 
-    clientlogic(dt) {
+    clientLogic(dt) {
         ImpactLogic.clientLogic(dt, this);
     }
 

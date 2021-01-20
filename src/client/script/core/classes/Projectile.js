@@ -109,7 +109,7 @@ Projectile.prototype.logic = function (dt) {
     this.airtime += dt;
 };
 
-Projectile.prototype.clientlogic = function (dt) {
+Projectile.prototype.clientLogic = function (dt) {
     // check if we didn't set a model yet
     let shootingPlayer = entities[this.shooterid];
 

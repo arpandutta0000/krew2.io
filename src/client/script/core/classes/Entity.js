@@ -160,6 +160,6 @@ class Entity {
         this.position.x += this.velocity.x * dt;
         this.position.z += this.velocity.z * dt;
 
-        this.clientlogic(dt);
+        this.clientLogic(dt);
     }
 };

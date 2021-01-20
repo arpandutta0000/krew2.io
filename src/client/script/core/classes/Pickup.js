@@ -172,7 +172,7 @@ Pickup.prototype.dockedLogic = function () {
     }
 };
 
-Pickup.prototype.clientlogic = function (dt) {
+Pickup.prototype.clientLogic = function (dt) {
     this.floattimer += dt * 3;
     this.geometry.rotation.x += dt * this.rotationspeed;
     this.geometry.rotation.z += dt * this.rotationspeed;
