@@ -2,9 +2,7 @@ class Player extends Entity {
     constructor(data) {
         super();
 
-        this.name = data !== undefined ?
-            (data.name || ``) :
-            ``;
+        this.name = data !== undefined ? (data.name || ``) : ``;
 
         // stand on top of the boat
         this.position.y = 0.0;
