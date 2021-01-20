@@ -110,6 +110,8 @@ class Landmark extends Entity {
         this.name = name;
     }
 
+    logic() {}
+
     clientLogic(dt) {
         LandmarkLogic.clientLogic(dt, this);
     }
