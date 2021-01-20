@@ -49,6 +49,13 @@ let iterateEntities = (dt) => {
  * 0 = Cannonball
  * 1 = Fishing hook
  * 
+ * -- Pickups --
+ * 0 = Crate
+ * 1 = Fish
+ * 2 = Static island pickups
+ * 3 = Island animals
+ * 4 = Chests
+ * 
  * -- Weapons --
  * -1 = Nothing
  * 0 = Cannon
