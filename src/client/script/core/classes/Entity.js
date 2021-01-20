@@ -75,7 +75,6 @@ class Entity {
         return pos;
     }
 
-    /* Get delta information */
     getDelta() {
         if (!this.sendDelta && !this.sendCreationSnapOnDelta) {
             return undefined;
@@ -105,7 +104,6 @@ class Entity {
         return delta;
     }
 
-    /* Compare deltas */
     deltaCompare(old, fresh) {
         if (this.last[old] !== fresh && this.muted.indexOf(old) < 0) {
             this.last[old] = fresh;
@@ -115,7 +113,6 @@ class Entity {
         return undefined;
     }
 
-    /* Compare delta types*/
     deltaTypeCompare(old, fresh) {
         if (this.lastType[old] !== fresh) {
             this.lastType[old] = fresh;
@@ -125,17 +122,14 @@ class Entity {
         return undefined;
     }
 
-    /* Call entity getSnap function */
     getSnap(force) {
         EntitySnap.getSnap(force, this);
     }
 
-    /* Call entity parseSnap function */
     parseSnap(snap, id) {
         EntitySnap.parseSnap(snap, id, this);
     }
 
-    /* Destroy the entity */
     onDestroy() {
         if (this.parent !== undefined) {
             let parent = this.parent;

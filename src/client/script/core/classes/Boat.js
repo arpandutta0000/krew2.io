@@ -237,7 +237,6 @@ class Boat extends Entity {
         this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
     }
 
-    /* Get delta type */
     getTypeDelta() {
         let delta = {
             h: this.deltaTypeCompare(`h`, this.hp),
@@ -260,31 +259,25 @@ class Boat extends Entity {
         return delta;
     }
 
-    /* Run boat logic */
     logic(dt) {
         BoatLogic.logic(dt, this);
     }
 
-    /* Run client boat logic */
-    clientlogic() {
+    clientLogic() {
         BoatLogic.clientLogic(this);
     }
 
-    /* Parse type snap */
     parseTypeSnap(snap) {
         BoatSnap.parseTypeSnap(snap, this);
     }
 
-    /* Get type snap */
     getTypeSnap() {
         BoatSnap.getTypeSnap(this);
     }
 
-    /* Destroy the entity */
     onDestroy() {
         this.children = {};
 
-        // makre sure to also call the entity ondestroy
         Entity.prototype.onDestroy.call(this);
 
         if (boats[this.id]) {
