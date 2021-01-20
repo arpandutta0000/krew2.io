@@ -42,7 +42,6 @@ class Pickup extends Entity {
         this.pickerId = ``;
         this.type = type;
         this.picking = type === 1;
-        this.timeCounters = {};
         this.catchingFish = false;
 
         // Set model
