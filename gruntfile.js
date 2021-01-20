@@ -51,9 +51,15 @@ module.exports = grunt => {
                     `src/client/script/utils.js`,
 
                     `src/client/script/core/classes/logic/BoatLogic.js`,
+                    `src/client/script/core/classes/logic/ImpactLogic.js`,
+                    `src/client/script/core/classes/logic/LandmarkLogic.js`,
+                    `src/client/script/core/classes/logic/PickupLogic.js`,
 
                     `src/client/script/core/classes/snap/EntitySnap.js`,
                     `src/client/script/core/classes/snap/BoatSnap.js`,
+                    `src/client/script/core/classes/snap/ImpactSnap.js`,
+                    `src/client/script/core/classes/snap/LandmarkSnap.js`,
+                    `src/client/script/core/classes/snap/PickupSnap.js`,
 
                     `src/client/script/core/classes/Entity.js`,
                     `src/client/script/core/classes/Boat.js`,
