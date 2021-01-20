@@ -53,7 +53,7 @@ Entity.prototype.createBody = function () {
         this.setPlayerBody(this.playerModel);
     }
 
-    this.clientLogic(0);
+    this.clientlogic(0);
 };
 
 Entity.prototype.onClientDestroy = function () {
@@ -69,7 +69,7 @@ Entity.prototype.onClientDestroy = function () {
     }
 };
 
-Entity.prototype.clientLogic = function (dt) {
+Entity.prototype.clientlogic = function (dt) {
     this.geometry.position.set(this.position.x, this.position.y, this.position.z);
     this.geometry.rotation.y = this.rotation;
 };

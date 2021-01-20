@@ -98,8 +98,8 @@ class Impact extends Entity {
         ImpactLogic.logic(dt, this);
     }
 
-    clientLogic(dt) {
-        ImpactLogic.clientLogic(dt, this);
+    clientlogic(dt) {
+        ImpactLogic.clientlogic(dt, this);
     }
 
     getTypeSnap() {

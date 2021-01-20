@@ -261,7 +261,7 @@ Player.prototype.dockedLogic = function () {
     }
 };
 
-Player.prototype.clientLogic = function (dt) {
+Player.prototype.clientlogic = function (dt) {
     if (this.isPlayer && !isEmpty(this.notifiscationHeap)) {
         this.notifiscation();
     }

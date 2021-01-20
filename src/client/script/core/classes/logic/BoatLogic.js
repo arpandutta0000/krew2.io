@@ -112,7 +112,7 @@ let BoatLogic = {
         }
     },
 
-    clientLogic: (_this) => {
+    clientlogic: (_this) => {
         _this.position.y = _this.getHeightAboveWater();
 
         // rotate through water

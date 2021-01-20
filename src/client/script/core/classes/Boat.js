@@ -262,8 +262,8 @@ class Boat extends Entity {
         BoatLogic.logic(dt, this);
     }
 
-    clientLogic() {
-        BoatLogic.clientLogic(this);
+    clientlogic() {
+        BoatLogic.clientlogic(this);
     }
 
     parseTypeSnap(snap) {

@@ -72,7 +72,7 @@ let PickupLogic = {
         }
     },
 
-    clientLogic: (dt, _this) => {
+    clientlogic: (dt, _this) => {
         _this.floattimer += dt * 3;
         _this.geometry.rotation.x += dt * _this.rotationspeed;
         _this.geometry.rotation.z += dt * _this.rotationspeed;
