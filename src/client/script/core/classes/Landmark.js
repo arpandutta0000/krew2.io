@@ -121,4 +121,4 @@ class Landmark extends Entity {
     parseTypeSnap(snap) {
         LandmarkSnap.parseTypeSnap(snap, this);
     }
-}
+};
