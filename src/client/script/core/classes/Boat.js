@@ -91,7 +91,6 @@ class Boat extends Entity {
         }
         if (this.geometry !== undefined) {
             if (this.label === undefined) {
-                // Set the crews name
                 this.label = new THREE.TextSprite({
                     textSize: 4,
                     redrawInterval: config.Labels.redrawInterval,
