@@ -3,7 +3,7 @@
 class Boat extends Entity {
     /* Constructor */
     constructor(captainId, krewName) {
-        // Get parent class (Entity) methods and create properties
+        // Inherit parent class methods
         super();
 
         // Set netType

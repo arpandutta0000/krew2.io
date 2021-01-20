@@ -3,7 +3,7 @@
 class Landmark extends Entity {
     /* Constructor */
     constructor(type, x, z, _config) {
-        // Get parent class (Entity) methods and create properties
+        // Inherit parent class methods
         super();
 
         // Set netType

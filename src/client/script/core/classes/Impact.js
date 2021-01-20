@@ -3,7 +3,7 @@
 class Impact extends Entity {
     /* Constructor */
     constructor(type, x, z) {
-        // Get parent class (Entity) methods and create properties
+        // Inherit parent class methods
         super();
 
         // Set netType
