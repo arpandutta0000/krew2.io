@@ -28,7 +28,8 @@ class Impact extends Entity {
         // Create particles based on impact type
         this.impactType = type;
         switch (type) {
-            case 0: { // water
+            // Water
+            case 0: {
                 this.baseGeometry = geometry.impact_water;
                 this.baseMaterial = materials.impact_water;
                 for (let i = 0; i < 3; ++i) {
@@ -54,7 +55,8 @@ class Impact extends Entity {
                 break;
             }
 
-            case 1: { // ship
+            // Boat
+            case 1: {
                 GameAnalytics(`addDesignEvent`, `Game:Session:Hit`);
                 for (let i = 0; i < 5; ++i) {
                     createParticle({
