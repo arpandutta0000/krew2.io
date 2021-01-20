@@ -1,0 +1,30 @@
+let PickupSnap = {
+    getTypeSnap: (_this) => {
+        let snap = {
+            s: _this.pickupSize,
+            p: _this.picking,
+            i: _this.pickerId,
+            t: _this.type
+
+        };
+        return snap;
+    },
+
+    parseTypeSnap: (snap, _this) => {
+        if (snap.s !== undefined && snap.s !== _this.pickupSize) {
+            _this.pickupSize = parseInt(snap.s);
+        }
+
+        if (snap.p !== undefined && snap.p !== _this.picking) {
+            _this.picking = parseBool(snap.p);
+        }
+
+        if (snap.i !== undefined && snap.i !== _this.pickerId) {
+            _this.pickerId = snap.i;
+        }
+
+        if (snap.t !== undefined && snap.t !== _this.type) {
+            _this.type = parseInt(snap.t);
+        }
+    }
+};
