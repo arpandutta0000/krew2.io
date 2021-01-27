@@ -1,5 +1,5 @@
 v1.4.2 - [1-27-2021]
-- Fixed emailing system
+- Fixed email verification system
 
 v1.4.1c - [1-13-2021]
 - Fixed ads
