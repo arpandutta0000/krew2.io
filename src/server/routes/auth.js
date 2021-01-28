@@ -106,17 +106,19 @@ router.post(`/register`, (req, res, next) => {
                     };
 
                     let email = {
-                        "html": `<h1>Verify your Krew.io Account</h1><br><p>${emailContent}</p>`,
-                        "text": emailContent,
-                        "subject": `Verify your Krew.io Account`,
-                        "from": {
-                            "name": `Krew.io`,
-                            "email": `verify@krew2.io`
+                        html: `<h1>Verify your Krew.io Account</h1><br><p>${emailContent}</p>`,
+                        text: emailContent,
+                        subject: `Verify your Krew.io Account`,
+                        from: {
+                            name: `Krew.io`,
+                            email: `verify@krew2.io`
                         },
-                        "to": [{
-                            "name": user.username,
-                            "email": user.email
-                        }]
+                        to: [
+                            {
+                                name: user.username,
+                                email: user.email
+                            }
+                        ]
                     };
 
                     await sendpulse.smtpSendMail(answerGetter, email);
@@ -283,17 +285,19 @@ router.post(`/change_email`, (req, res, next) => {
             };
 
             let email = {
-                "html": `<h1>Verify your Krew.io Account</h1><br><p>${emailContent}</p>`,
-                "text": emailContent,
-                "subject": `Verify your Krew.io Account`,
-                "from": {
-                    "name": `Krew.io`,
-                    "email": `verify@krew2.io`
+                html: `<h1>Verify your Krew.io Account</h1><br><p>${emailContent}</p>`,
+                text: emailContent,
+                subject: `Verify your Krew.io Account`,
+                from: {
+                    name: `Krew.io`,
+                    email: `verify@krew2.io`
                 },
-                "to": [{
-                    "name": user.username,
-                    "email": user.email
-                }]
+                to: [
+                    {
+                        name: user.username,
+                        email: user.email
+                    }
+                ]
             };
 
             await sendpulse.smtpSendMail(answerGetter, email);
@@ -495,17 +499,19 @@ router.post(`/reset_password`, (req, res, next) => {
                 };
 
                 let email = {
-                    "html": `<h1>Reset your Krew.io password</h1><br><p>${emailContent}</p>`,
-                    "text": emailContent,
-                    "subject": `Reset your Krew.io password`,
-                    "from": {
-                        "name": `Krew.io`,
-                        "email": `verify@krew2.io`
+                    html: `<h1>Reset your Krew.io password</h1><br><p>${emailContent}</p>`,
+                    text: emailContent,
+                    subject: `Reset your Krew.io password`,
+                    from: {
+                        name: `Krew.io`,
+                        email: `verify@krew2.io`
                     },
-                    "to": [{
-                        "name": user.username,
-                        "email": user.email
-                    }]
+                    to: [
+                        {
+                            name: user.username,
+                            email: user.email
+                        }
+                    ]
                 };
 
                 await sendpulse.smtpSendMail(answerGetter, email);

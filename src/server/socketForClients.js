@@ -2041,7 +2041,7 @@ io.on(`connection`, async socket => {
 
     // Assing player data sent from the client.
     socket.on(`createPlayer`, data => {
-        createThePlayer(data);
+        if (!playerEntity) createThePlayer(data);
     });
 
     let createThePlayer = data => {
@@ -2198,7 +2198,7 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            mute.delete(() => {
+            Mute.deleteOne({ username: playerEntity.name }).then(() => {
                 log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerEntity.isMuted = false;
             });
