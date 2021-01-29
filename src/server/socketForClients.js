@@ -114,7 +114,7 @@ io.on(`connection`, async socket => {
 
     let initSocketForPlayer = async data => {
         // If the player entity already exists, ignore reconnect.
-        if (!process.env.TESTING_ENV && (playerEntity || socket.request.headers.origin === undefined)) {
+        if (!process.env.TESTING_ENV && (playerEntity || socket.request.headers.origin === undefined || socket.request.headers[`user-agent`] === `node-XMLHttpRequest`)) {
             log(`cyan`, `Exploit detected: Faulty connection. Disconnecting IP ${socket.handshake.address}.`);
 
             let ban = new Ban({
@@ -142,7 +142,7 @@ io.on(`connection`, async socket => {
             if (isIPBanned && new Date() - new Date(isIPBanned.timestamp) > 36e5) isIPBanned.delete();
             else if (isAccountBanned && new Date() - new Date(isAccountBanned.timestamp) > 36e5) isAccountBanned.delete();
             else {
-                log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
+                log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name ? data.name : `seadog`}.`);
                 socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
 
                 socket.banned = true;

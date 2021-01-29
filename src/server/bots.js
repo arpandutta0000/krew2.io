@@ -6,11 +6,13 @@ const log = require(`./utils/log.js`);
 let createBots = () => {
     for (let i = 0; i < config.maxBots; i++) {
         const socket = io.connect(`${config.mode === `dev` ? `http://localhost` : `https://${config.domain}`}:${config.gamePorts[0]}`, {
+            // extraHeaders: {
+            //     Origin: `https://krew.io`
+            // },
             secure: true,
             rejectUnauthorized: true,
             withCredentials: true
         });
-
         socket.on(`handshake`, () => {
             // EXPLOIT: Running createPlayer in a loop with little to no execution delay will crash the server! (Excess event handler attribution).
             socket.emit(`createPlayer`, {
