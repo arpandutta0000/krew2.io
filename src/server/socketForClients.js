@@ -116,6 +116,14 @@ io.on(`connection`, async socket => {
         // If the player entity already exists, ignore reconnect.
         if (!process.env.TESTING_ENV && (playerEntity || socket.request.headers.origin === undefined)) {
             log(`cyan`, `Exploit detected: Faulty connection. Disconnecting IP ${socket.handshake.address}.`);
+
+            let ban = new Ban({
+                username: data.name,
+                IP: socket.handshake.address,
+                timestamp: new Date(),
+                comment: `Auto exploit temp ban`
+            });
+            ban.save();
             return socket.disconnect();
         }
 
