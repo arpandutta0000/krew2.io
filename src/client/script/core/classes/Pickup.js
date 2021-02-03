@@ -20,7 +20,6 @@ class Pickup extends Entity {
         this.type = type;
         this.picking = type === 1;
         this.catchingFish = false;
-        this.timeCounters = {};
 
         // Set pickup size
         let scale = 1;
@@ -162,3 +161,5 @@ class Pickup extends Entity {
         }
     }
 };
+
+Pickup.prototype.timeCounters = {};
