@@ -1,35 +1,36 @@
+/* Projectile class */
+
 class Projectile extends Entity {
+    /* Constructor */
     constructor() {
+        // Inherit parent class methods
         super();
 
-        // netcode type
+        // Set netType
         this.netType = 2;
 
         // size of a Projectile
         this.size = vectors.sizeProjectile;
 
-        // projectiles dont send a lot of delta data
+        // Mute variables to not be sent via delta
+        this.muted = [`x`, `z`];
+
+        // Set sending snap and delta
         this.sendDelta = false;
         this.sendSnap = false;
         this.sendCreationSnapOnDelta = true;
-        this.muted = [`x`, `z`];
-        this.shooterid = ``;
-        this.shooterStartPos = new THREE.Vector3(); // initial world position of shooter
-        this.reel = false;
-        this.impact = undefined;
 
-        this.type = -1; // 0 = cannon ball, 1 = fishing hook
-
-        // duration of projectile being airbourne
-        this.airtime = 0;
-
-        // this is a flag that is used to amke sure the info is sent insantly once the ball spawns
+        // Misc variables
         this.spawnPacket = false;
-
+        this.type = -1; // 0 = cannon ball, 1 = fishing hook
+        this.reel = false;
+        this.shooterid = ``;
+        this.impact = undefined;
         this.setProjectileModel = true;
 
-        // set up references to geometry and material
+        // Set geometry references
         this.particletimer = 0;
+        this.shooterStartPos = new THREE.Vector3(0, 0, 0);
         this.startPoint = new THREE.Vector3(0, 0, 0);
         this.endPoint = new THREE.Vector3(0, 0, 0);
     }
@@ -38,7 +39,7 @@ class Projectile extends Entity {
 }
 
 Projectile.prototype.logic = function (dt) {
-    // Remove if the soooter does not exists
+    // Remove if the shooter does not exists
     if (this.shooterid === `` || entities[this.shooterid] === undefined || (entities[this.shooterid] !== undefined && this.type !== -1 && this.type !== entities[this.shooterid].activeWeapon)) {
         if (this.impact) this.impact.destroy = true;
         removeEntity(this);
@@ -105,8 +106,6 @@ Projectile.prototype.logic = function (dt) {
             }
         }
     }
-
-    this.airtime += dt;
 };
 
 Projectile.prototype.clientlogic = function (dt) {
