@@ -1,113 +1,114 @@
+/* Player class */
+
 class Player extends Entity {
+    /* Constructor */
     constructor(data) {
+        // Inherit parent class methods
         super();
 
+        // Set netType
+        this.netType = 0;
+
+        // Set player name
         this.name = data !== undefined ? (data.name || ``) : ``;
+        this.setName(this.name);
 
-        // stand on top of the boat
-        this.position.y = 0.0;
-
-        // netcode type
-        this.netType = 0; // when parseSnap reads this, netType of 0 means new player
-        // size of a player
-        this.size = vectors.sizePlayer;
-
-        // players can walk forward and sideward. 1 = forward, 0 = stop, -1 = backward, etc
-        this.walkForward = 0;
-        this.walkSideward = 0;
-
-        // playaers can use whatever they are holding
-        this.use = false;
-        this.useid = 0; // helper value to predict the id of the next cannonball
-        this.cooldown = 0;
-
-        // players have a pitch value (The angle at which they look into the sky)
-        this.pitch = 0;
-        this.score = 50; // player score
-        this.salary = 0; // player score
-        this.overall_cargo = 0; // sum up amount of cargo ever traded
-        this.last_island = ``; // last island the seadog bought goods on
-        this.gold = (data.startingItems || {}).gold || 0; // player gold
-
-        this.islandBoundary = {
-            x: 0,
-            z: 0
-        }; // to limit  boundaries around island
-        this.shipsSank = 0; // Number of ships player has sunk
-        this.shotsFired = 0; // Number of projectiles player has used
-        this.shotsHit = 0; // Number of projectiles that hit other ships
-
-        this.sentDockingMsg = false; // Used to stop server from emitting enterIsland message before docking.
-        // Keep track of player state.
-        this.state = {
-            alive: 0,
-            dead: 1,
-            respawning: 2
-        };
+        // Set player state
         this.state = 0;
 
-        this.activeWeapon = {
-            nothing: -1,
-            cannon: 0,
-            fishingRod: 1,
-            spyglass: 2
-        };
-        this.activeWeapon = 0;
+        // Set login status
+        this.isLoggedIn = data.t.l;
 
-        this.justLogged = true;
+        // Set position
+        this.position.y = 0.0;
 
+        // Set pitch (Looking up/down)
+        this.pitch = 0;
+
+        // Set player size
+        this.size = vectors.sizePlayer;
+
+        // Set motion (1 = forward, 0 = no motion, -1 = backwards)
+        this.walkForward = 0;
+        this.walkSideward = 0;
         this.isFishing = false;
 
-        this.checkedItemsList = false; // if player's boat docked into island and already checked island list
-        this.rareItemsFound = []; // Rare items found when player docks into island
-
-        this.rodRotationSpeed = Math.random() * 0.25 + 0.25; // rotation speed for fishing rod
-
-        // players keep track of wether they are captain or not.
-        this.isCaptain = false;
-        this.oldCaptainState = false; // this is a helper value that just helps us keep track of when our captain state changes
-
-        // anti-chat measures
-        this.sentMessages = [];
-        this.lastMessageSentAt = undefined;
-        this.isSpammer = false;
-        this.lastMoved = new Date();
-
-        this.jumping = 0;
-        this.jump_count = 0;
-
-        this.fly = 0;
-        this.waterWalk = 0;
-
-        // this.items = [];
-        this.itemId;
-
+        // Set tools variables
+        this.activeWeapon = 0;
+        this.use = false;
+        this.cooldown = 0;
         this.ownsCannon = true;
         this.ownsFishingRod = true;
+        this.rodRotationSpeed = Math.random() * 0.25 + 0.25;
 
+        // Set score variables
+        this.score = 50;
+        this.overall_cargo = 0;
+        this.gold = (data.startingItems || {}).gold || 0;
+        this.shipsSank = 0;
+
+        // If the player has checked the items list on an island
+        this.checkedItemsList = false;
+
+        // Ship captain variables
+        this.isCaptain = false;
+        this.oldCaptainState = false;
+
+        // Jumping variables
+        this.jumping = 0;
+        this.jump_count = 0;
+        this.jump = 0.0;
+        this.jumpVel = 0.0;
+
+        // Item variables
+        this.itemId;
         this.attackSpeedBonus = 0;
-        this.attackDamageBonus = 0;
-        this.attackDistanceBonus = 0;
         this.movementSpeedBonus = 0;
-        this.armorBonus = 0;
-        this.regenBonus = 0;
 
-        // Leveling system
+        // Leveling system variables
         this.level = 0;
         this.experience = 0;
         this.experienceBase = 100;
         this.experienceMaxLevel = 50;
         this.experienceNeedsUpdate = true;
-        // Bank and casino
+        this.points = {
+            fireRate: 0,
+            distance: 0,
+            damage: 0
+        };
+
+        // Bank variables
         this.bank = {
             deposit: 0
         };
-        this.casino = {};
+
+        // Clan variables
         this.clan = data.t.cl === `` ? undefined : data.t.cl;
         this.clanLeader = data.t.cll;
         this.clanOwner = data.t.clo;
         this.clanRequest = data.t.cr;
-        this.isLoggedIn = data.t.l;
+
+        // Add player to playernames
+        if (!playerNames[data.id]) playerNames[data.id] = this.name;
+
+        // Object for notifications
+        this.notifiscationHeap = {};
+
+        // Add crosshair
+        this.crossHair();
+
+
+
+        // Utilities for points
+        this.pointsFormula = {
+            getFireRate: () => (this.points.fireRate >= 50 ? 50 : this.points.fireRate) * 1.2,
+
+            getDistance: () => (this.points.distance >= 50 ? 50 : this.points.distance) / 2,
+
+            getDamage: () => (this.points.damage >= 50 ? 50 : this.points.damage) / 2,
+
+            getExperience: (damage) => parseInt(damage * 2.4)
+        };
 
         // Build an object with the levels from 0 to max level for future references
         this.experienceNeededForLevels = (function (entity) {
@@ -130,39 +131,8 @@ class Player extends Entity {
 
             return levels;
         })(this);
-
-        this.points = {
-            fireRate: 0,
-            distance: 0,
-            damage: 0
-        };
-        let _this = this;
-        this.pointsFormula = {
-            getFireRate: () => (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 1.2,
-
-            getDistance: () => (_this.points.distance >= 50 ? 50 : _this.points.distance) / 2,
-
-            getDamage: () => (_this.points.damage >= 50 ? 50 : _this.points.damage) / 2,
-
-            getExperience: (damage) => parseInt(damage * 2.4)
-        };
-
-        // set up references to geometry and material
-        this.jump = 0.0;
-        this.jumpVel = 0.0;
-
-        // Let the current players know about this player
-        if (!playerNames[data.id]) {
-            playerNames[data.id] = this.name;
-        }
-
-        this.notifiscationHeap = {};
-
-        // Create the label for this player when it is created
-        this.setName(this.name);
-        this.crossHair();
     }
-}
+};
 
 Player.prototype.notifiscation = function () {
     for (let z in this.notifiscationHeap) {
@@ -341,8 +311,6 @@ Player.prototype.getTypeDelta = function () {
         u: this.deltaTypeCompare(`u`, this.use),
         p: this.deltaTypeCompare(`p`, this.pitch.toFixed(2)),
         j: this.deltaTypeCompare(`j`, this.jumping),
-        fl: this.deltaTypeCompare(`fl`, this.fly),
-        ww: this.deltaTypeCompare(`ww`, this.waterWalk),
         w: this.deltaTypeCompare(`w`, this.activeWeapon),
         c: this.deltaTypeCompare(`c`, this.checkedItemsList),
         d: this.deltaTypeCompare(`d`, this.itemId),
@@ -418,14 +386,6 @@ Player.prototype.parseTypeSnap = function (snap) {
         this.jumping = parseInt(snap.j);
     }
 
-    if (snap.fl !== undefined && snap.fl !== this.fly) {
-        this.fly = parseInt(snap.fl);
-    }
-
-    if (snap.ww !== undefined && snap.ww !== this.waterWalk) {
-        this.waterWalk = parseInt(snap.ww);
-    }
-
     if (snap.m !== undefined) {
         this.movementSpeedBonus = parseInt(snap.m);
     }
@@ -459,15 +419,6 @@ Player.prototype.parseTypeSnap = function (snap) {
     if (snap.w !== undefined && snap.w !== this.activeWeapon) {
         this.activeWeapon = parseInt(snap.w);
         this.changeWeapon();
-    }
-
-    if (
-        snap.f !== undefined ||
-        snap.s !== undefined ||
-        snap.u !== undefined ||
-        snap.p !== undefined
-    ) {
-        this.lastMoved = new Date();
     }
 };
 

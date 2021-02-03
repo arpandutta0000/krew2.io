@@ -370,7 +370,7 @@ Player.prototype.clientlogic = function (dt) {
         this.tryJump();
     }
 
-    this.jumpVel = this.fly === 0 ? this.jumpVel - 80 * dt : Math.max(0, this.jumpVel - 80 * dt);
+    this.jumpVel = this.jumpVel - 80 * dt;
     this.jump += this.jumpVel * dt;
 
     if (this.jump < 0) {
@@ -428,7 +428,7 @@ Player.prototype.clientlogic = function (dt) {
 
             var distanceFromIsland = playerPosition.distanceTo(islandPosition);
 
-            if (this.waterWalk === 0 && (island.dockRadius - 2 < distanceFromIsland)) { // note: players can exploit this!
+            if (island.dockRadius - 2 < distanceFromIsland) { // note: players can exploit this!
                 playerPosition.lerp(islandPosition, 1 - ((island.dockRadius - 2) / distanceFromIsland));
 
                 this.position.x = playerPosition.x;
