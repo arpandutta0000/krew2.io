@@ -52,6 +52,8 @@ module.exports = grunt => {
 
                     `src/client/script/core/classes/delta/EntityDelta.js`,
                     `src/client/script/core/classes/delta/BoatDelta.js`,
+                    `src/client/script/core/classes/delta/ImpactDelta.js`,
+                    `src/client/script/core/classes/delta/PickupDelta.js`,
 
                     `src/client/script/core/classes/logic/BoatLogic.js`,
                     `src/client/script/core/classes/logic/ImpactLogic.js`,
