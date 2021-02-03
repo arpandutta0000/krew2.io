@@ -1,20 +1,4 @@
 let BoatSnap = {
-    getTypeSnap: (_this) => {
-        return {
-            h: _this.hp,
-            s: _this.steering,
-            c: _this.shipclassId,
-            b: _this.captainId,
-            t: _this.shipState,
-            a: _this.anchorIslandId,
-            k: _this.krewCount,
-            e: _this.speed,
-            r: _this.recruiting,
-            l: _this.isLocked,
-            d: _this.departureTime
-        };
-    },
-
     parseTypeSnap: (snap, _this) => {
         if (snap.h !== undefined && snap.h !== _this.hp) {
             _this.hp = parseInt(snap.h);

@@ -90,10 +90,6 @@ class Entity {
         return EntityDelta.deltaTypeCompare(old, fresh, this);
     }
 
-    getSnap(force) {
-        EntitySnap.getSnap(force, this);
-    }
-
     parseSnap(snap, id) {
         EntitySnap.parseSnap(snap, id, this);
     }

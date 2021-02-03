@@ -86,11 +86,7 @@ class Impact extends Entity {
     }
 
     getTypeDelta() {
-        if (!this.spawnPacket) {
-            this.spawnPacket = true;
-            return this.getTypeSnap();
-        }
-
+        if (!this.spawnPacket) this.spawnPacket = true;
         return undefined;
     }
 
@@ -100,10 +96,6 @@ class Impact extends Entity {
 
     clientlogic(dt) {
         ImpactLogic.clientlogic(dt, this);
-    }
-
-    getTypeSnap() {
-        ImpactSnap.getTypeSnap(this);
     }
 
     parseTypeSnap(snap) {

@@ -208,11 +208,7 @@ Projectile.prototype.clientlogic = function (dt) {
 };
 
 Projectile.prototype.getTypeDelta = function () {
-    if (!this.spawnPacket) {
-        this.spawnPacket = true;
-        return this.getTypeSnap();
-    }
-
+    if (!this.spawnPacket) this.spawnPacket = true;
     return undefined;
 };
 

@@ -116,10 +116,6 @@ class Landmark extends Entity {
         LandmarkLogic.clientlogic(dt, this);
     }
 
-    getTypeSnap() {
-        LandmarkSnap.getTypeSnap(this);
-    }
-
     parseTypeSnap(snap) {
         LandmarkSnap.parseTypeSnap(snap, this);
     }

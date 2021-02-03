@@ -112,11 +112,7 @@ class Pickup extends Entity {
 
     getTypeDelta() {
         if (this.type === 1) {
-            if (!this.spawnPacket) {
-                this.spawnPacket = true;
-                return this.getTypeSnap();
-            }
-
+            if (!this.spawnPacket) this.spawnPacket = true;
             return undefined;
         } else {
             let delta = {
@@ -143,10 +139,6 @@ class Pickup extends Entity {
 
     dockedLogic() {
         PickupLogic.dockedLogic(this);
-    }
-
-    getTypeSnap() {
-        PickupSnap.getTypeSnap(this);
     }
 
     parseTypeSnap(snap) {

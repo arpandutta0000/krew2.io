@@ -252,10 +252,6 @@ class Boat extends Entity {
         BoatSnap.parseTypeSnap(snap, this);
     }
 
-    getTypeSnap() {
-        BoatSnap.getTypeSnap(this);
-    }
-
     onDestroy() {
         this.children = {};
 

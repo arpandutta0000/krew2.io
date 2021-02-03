@@ -1,15 +1,4 @@
 let PickupSnap = {
-    getTypeSnap: (_this) => {
-        let snap = {
-            s: _this.pickupSize,
-            p: _this.picking,
-            i: _this.pickerId,
-            t: _this.type
-
-        };
-        return snap;
-    },
-
     parseTypeSnap: (snap, _this) => {
         if (snap.s !== undefined && snap.s !== _this.pickupSize) {
             _this.pickupSize = parseInt(snap.s);

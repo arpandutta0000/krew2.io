@@ -6,9 +6,8 @@ let EntityDelta = {
 
         // Send a full snapshot on the delta data
         if (_this.sendCreationSnapOnDelta) {
-            let result = _this.getSnap(true);
             _this.sendCreationSnapOnDelta = false;
-            return result;
+            return undefined;
         }
 
         let delta = {

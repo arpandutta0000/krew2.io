@@ -332,38 +332,6 @@ Player.prototype.logic = function (dt) {
     }
 };
 
-// function that generates boat specific snapshot data
-Player.prototype.getTypeSnap = function () {
-    let obj = {
-        f: this.walkForward,
-        s: this.walkSideward,
-        u: this.use,
-        p: this.pitch,
-        j: this.jumping,
-        fl: this.fly,
-        ww: this.waterWalk,
-        m: this.movementSpeedBonus,
-        g: this.armorBonus,
-        rb: this.regenBonus,
-        w: this.activeWeapon,
-        c: this.checkedItemsList,
-        d: this.itemId,
-        o: this.ownsCannon,
-        r: this.ownsFishingRod,
-        v: this.availablePoints,
-        e: {
-            e: this.experience,
-            p: {
-                fr: this.fireRate,
-                ds: this.distance,
-                dm: this.damage
-            },
-            l: this.level
-        }
-    };
-
-    return obj;
-};
 
 // function that generates boat specific snapshot data
 Player.prototype.getTypeDelta = function () {
