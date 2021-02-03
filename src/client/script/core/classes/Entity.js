@@ -79,15 +79,15 @@ class Entity {
     }
 
     getDelta() {
-        EntityDelta.getDelta(this);
+        return EntityDelta.getDelta(this);
     }
 
     deltaCompare(old, fresh) {
-        EntityDelta.deltaCompare(old, fresh, this);
+        return EntityDelta.deltaCompare(old, fresh, this);
     }
 
     deltaTypeCompare(old, fresh) {
-        EntityDelta.deltaTypeCompare(old, fresh, this);
+        return EntityDelta.deltaTypeCompare(old, fresh, this);
     }
 
     getSnap(force) {

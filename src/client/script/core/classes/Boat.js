@@ -237,7 +237,7 @@ class Boat extends Entity {
     }
 
     getTypeDelta() {
-        BoatDelta.getTypeDelta(this);
+        return BoatDelta.getTypeDelta(this);
     }
 
     logic(dt) {
