@@ -1,4 +1,6 @@
 let PickupLogic = {
+    logic: (dt, _this) => {},
+
     dockedLogic: (_this) => {
         let fps = 0.5;
 
