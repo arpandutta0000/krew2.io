@@ -21,7 +21,10 @@ class Entity {
         this.children = {};
 
         // Set the entity to be a new entity
-        this.isNew = true;
+        this.isNew = true;  
+
+        // Set collision radius
+        this.collisionRadius = 1;
 
         // Assign a position and velocity
         this.position = new THREE.Vector3(0, 0, 0);
