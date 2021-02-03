@@ -237,25 +237,7 @@ class Boat extends Entity {
     }
 
     getTypeDelta() {
-        let delta = {
-            h: this.deltaTypeCompare(`h`, this.hp),
-            s: this.deltaTypeCompare(`s`, this.steering.toFixed(4)),
-            c: this.deltaTypeCompare(`c`, this.shipclassId),
-            b: this.deltaTypeCompare(`b`, this.captainId),
-            t: this.deltaTypeCompare(`t`, this.shipState),
-            a: this.deltaTypeCompare(`a`, this.anchorIslandId),
-            k: this.deltaTypeCompare(`k`, this.krewCount),
-            e: this.deltaTypeCompare(`e`, this.speed),
-            r: this.deltaTypeCompare(`r`, this.recruiting),
-            l: this.deltaTypeCompare(`l`, this.isLocked),
-            d: this.deltaTypeCompare(`d`, this.departureTime)
-        };
-
-        if (isEmpty(delta)) {
-            delta = undefined;
-        }
-
-        return delta;
+        BoatDelta.getTypeDelta(this);
     }
 
     logic(dt) {
