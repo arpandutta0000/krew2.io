@@ -55,12 +55,14 @@ module.exports = grunt => {
                     `src/client/script/core/classes/delta/ImpactDelta.js`,
                     `src/client/script/core/classes/delta/PickupDelta.js`,
                     `src/client/script/core/classes/delta/PlayerDelta.js`,
+                    `src/client/script/core/classes/delta/ProjectileDelta.js`,
 
                     `src/client/script/core/classes/logic/BoatLogic.js`,
                     `src/client/script/core/classes/logic/ImpactLogic.js`,
                     `src/client/script/core/classes/logic/LandmarkLogic.js`,
                     `src/client/script/core/classes/logic/PickupLogic.js`,
                     `src/client/script/core/classes/logic/PlayerLogic.js`,
+                    `src/client/script/core/classes/logic/ProjectileLogic.js`,
 
                     `src/client/script/core/classes/snap/EntitySnap.js`,
                     `src/client/script/core/classes/snap/BoatSnap.js`,
@@ -68,6 +70,7 @@ module.exports = grunt => {
                     `src/client/script/core/classes/snap/LandmarkSnap.js`,
                     `src/client/script/core/classes/snap/PickupSnap.js`,
                     `src/client/script/core/classes/snap/PlayerSnap.js`,
+                    `src/client/script/core/classes/snap/ProjectileSnap.js`,
 
                     `src/client/script/core/classes/Entity.js`,
                     `src/client/script/core/classes/Boat.js`,
