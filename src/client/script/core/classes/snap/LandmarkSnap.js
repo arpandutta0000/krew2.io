@@ -8,9 +8,5 @@ let LandmarkSnap = {
         return snap;
     },
 
-    parseTypeSnap: (snap, _this) => {
-        if (snap.t !== undefined) {
-            _this.pickupSize = parseInt(snap.t);
-        }
-    }
+    parseTypeSnap: (snap, _this) => {}
 };

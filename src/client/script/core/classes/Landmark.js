@@ -79,66 +79,48 @@ class Landmark extends Entity {
             }
         };
     }
-};
 
-Landmark.prototype.setName = function (name) {
-    if (this.geometry !== undefined) {
-        if (this.label === undefined) {
-            // Set the crews name
-            this.label = new THREE.TextSprite({
-                textSize: 12,
-                redrawInterval: config.Labels.redrawInterval,
-                texture: {
-                    text: name,
-                    fontFamily: config.Labels.fontFamily
-                },
-                material: {
-                    color: 0x5e9628,
-                    fog: false
-                }
-            });
+    setName(name) {
+        if (this.geometry !== undefined) {
+            if (this.label === undefined) {
+                this.label = new THREE.TextSprite({
+                    textSize: 12,
+                    redrawInterval: config.Labels.redrawInterval,
+                    texture: {
+                        text: name,
+                        fontFamily: config.Labels.fontFamily
+                    },
+                    material: {
+                        color: 0x5e9628,
+                        fog: false
+                    }
+                });
 
-            this.label.name = `label`;
-            this.label.position.set(0, 42, 0);
-            this.geometry.add(this.label);
+                this.label.name = `label`;
+                this.label.position.set(0, 42, 0);
+                this.geometry.add(this.label);
+            }
+
+            this.label.material.map.text = name;
+            this.label.visible = this.inRange;
         }
 
-        this.label.material.map.text = name;
-        this.label.visible = this.inRange;
+        this.name = name;
     }
 
-    this.name = name;
-};
-
-Landmark.prototype.getTypeSnap = function () {
-    let snap = {
-        t: this.landmarkType,
-        name: this.name,
-        dockRadius: this.dockRadius
-    };
-    return snap;
-};
-
-// function that parses a snapshot
-Landmark.prototype.parseTypeSnap = function (snap) {
-    if (snap.t !== undefined) {
-        this.pickupSize = parseInt(snap.t);
+    logic(dt) {
+        LandmarkLogic.logic(dt, this);
     }
-};
 
-Landmark.prototype.clientlogic = function (dt) {
-    this.wavetimer += dt;
-    let scale = 0.5 + Math.sin(this.wavetimer) * 0.5;
-    water.position.y = 0.1 + scale * 0.5;
-};
+    clientlogic(dt) {
+        LandmarkLogic.clientlogic(dt, this);
+    }
 
-Landmark.prototype.logic = function (dt) {
-    // if this landmark is a dockable thing (rocks etc dont have docks)
-};
+    getTypeSnap() {
+        LandmarkSnap.getTypeSnap(this);
+    }
 
-Landmark.prototype.isWithinDockingRadius = function (x, z) {
-    return distance({
-        x: x,
-        z: z
-    }, this.position) < this.dockRadius - 2;
+    parseTypeSnap(snap) {
+        LandmarkSnap.parseTypeSnap(snap, this);
+    }
 };
