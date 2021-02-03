@@ -112,6 +112,8 @@ let charLimit = (text, chars, suffix) => {
 
 let entityDistance = (a, b) => Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 
+let parseBool = (b) => b === true || b === `true`;
+
 function distance (p1, p2) {
     let dx = p2.x - p1.x;
     let dz = p2.z - p1.z;
