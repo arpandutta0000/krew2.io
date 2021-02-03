@@ -137,12 +137,12 @@ class Pickup extends Entity {
         PickupLogic.logic(dt, this);
     }
 
-    dockedLogic() {
-        PickupLogic.dockedLogic(this);
-    }
-
     clientlogic(dt) {
         PickupLogic.clientlogic(dt, this);
+    }
+
+    dockedLogic() {
+        PickupLogic.dockedLogic(this);
     }
 
     getTypeSnap() {
