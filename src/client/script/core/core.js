@@ -62,5 +62,10 @@ let iterateEntities = (dt) => {
  * 1 = Fishing Rod
  * 2 = Spyglass
  *
+ * -- Player States --
+ * 0 = Alive
+ * 1 = Dead
+ * 2 = Respawning
+ * 
  ** ------------------------------------------- **
  */
