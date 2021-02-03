@@ -1,87 +1,68 @@
+/* Pickup class */
+
 class Pickup extends Entity {
+    /* Constructor */
     constructor(size, x, z, type) {
+        // Inherit parent class methods
         super();
 
-        // netcode type
+        // Set netType
         this.netType = 4;
-        this.bonusValues = [50, 75, 100, 10000];
 
-        // Pickup type, there are different Pickup types. supplies = 0
-        this.pickupSize = size;
-        this.bonus = this.bonusValues[this.pickupSize] || 25;
-
-        this.captainsCutRatio = 0.3;
-
-        // net data
+        // Set sending snap and delta
         this.sendDelta = type !== 1;
         this.sendSnap = type !== 1;
         this.sendCreationSnapOnDelta = true;
         this.spawnPacket = false;
 
-        // // size of a Pickup
+        // Set pickup size
         let scale = 1;
-        if (type === 0) {
-            scale = parseInt(size) + 1;
-        }
-
-        if (type === 1) {
+        if (type === 0) scale = parseInt(size) + 1;
+        else if (type === 1) {
             scale = 0.05 * size;
             GameAnalytics(`addDesignEvent`, `Game:Session:CatchFish`);
-        }
-
-        if (type === 3 || type === 2) {
-            scale = 0.02;
-        }
-
+        } else if (type === 3 || type === 2) scale = 0.02;
         this.size = new THREE.Vector3(scale, scale, scale);
         this.modelscale = new THREE.Vector3(scale, scale, scale);
+        this.pickupSize = size;
+
+        // Set position
         this.position.x = x;
         this.position.z = z;
-        this.pickerId = ``;
-        this.type = type;
-        this.picking = type === 1;
-        this.catchingFish = false;
-        this.timeout = 1;
-        /**
-         * Type 0 = supplies
-         * Type 1 = sea animals
-         * Type 2 = static supplies like shells
-         * Type 3 = island animal
-         */
 
-        // client side visuals
-        if (this.type === 0) {
-            this.baseGeometry = geometry.boat;
-            // this.baseMaterial = materials.boat;
-            this.baseMaterial = materials.crate;
-        }
+        // Set pickup model
+        switch (this.type) {
+            case 0: {
+                this.baseGeometry = geometry.boat;
+                this.baseMaterial = materials.crate;
+            }
 
-        if (this.type === 1) {
-            this.baseModel = models.fish;
-            this.modeloffset = vectors.modeloffsetFishShellClam;
-        }
-
-        if (this.type === 2) {
-            if (Math.round(Math.random())) {
-                this.baseModel = models.shell;
+            case 1: {
+                this.baseModel = models.fish;
                 this.modeloffset = vectors.modeloffsetFishShellClam;
-            } else {
-                this.baseModel = models.clam;
-                this.modeloffset = vectors.modeloffsetFishShellClam;
-                this.modelscale = new THREE.Vector3(0.03, 0.03, 0.03);
+            }
+
+            case 2: {
+                if (Math.round(Math.random())) {
+                    this.baseModel = models.shell;
+                    this.modeloffset = vectors.modeloffsetFishShellClam;
+                } else {
+                    this.baseModel = models.clam;
+                    this.modeloffset = vectors.modeloffsetFishShellClam;
+                    this.modelscale = new THREE.Vector3(0.03, 0.03, 0.03);
+                }
+            }
+
+            case 3: {
+                this.baseModel = models.crab;
+                this.modeloffset = vectors.modeloffsetCrab;
+                this.modelrotation = new THREE.Vector3(0, Math.PI, 0);
+            }
+
+            case 4: {
+                this.baseModel = models.chest;
             }
         }
-
-        if (this.type === 3) {
-            this.baseModel = models.crab;
-            this.modeloffset = vectors.modeloffsetCrab;
-            this.modelrotation = new THREE.Vector3(0, Math.PI, 0);
-        }
-
-        if (this.type === 4) {
-            this.baseModel = models.chest;
-        }
-
         if (this.type <= 1 || this.type === 4) {
             this.floattimer = this.type === 0 ? Math.random() * 5 : (Math.random() * 5 + 0.5);
             this.rotationspeed = Math.random() * 0.5 + 0.5;
@@ -89,6 +70,12 @@ class Pickup extends Entity {
             this.floattimer = 1;
             this.rotationspeed = 0;
         }
+
+        // Set misc values
+        this.pickerId = ``;
+        this.type = type;
+        this.picking = type === 1;
+        this.catchingFish = false;
     }
 }
 
