@@ -11,9 +11,9 @@ const config = {
     worldsize: 2500,
 
     // Set islands for decorations
-    palmTree: [`Spain`],
-    christmasTree: [`Malaysia`],
-    snowman: [` Malaysia`],
+    palmTree: [`Jamaica`],
+    christmasTree: [],
+    snowman: [],
 
     // Misc config
     setProperties: {
