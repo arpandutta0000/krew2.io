@@ -20,4 +20,4 @@ let BoatDelta = {
 
         return delta;
     }
-}
+};
