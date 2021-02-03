@@ -47,6 +47,7 @@ class Pickup extends Entity {
             case 1: {
                 this.baseModel = models.fish;
                 this.modeloffset = vectors.modeloffsetFishShellClam;
+                break;
             }
 
             case 2: {
