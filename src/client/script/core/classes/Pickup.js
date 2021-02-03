@@ -111,22 +111,7 @@ class Pickup extends Entity {
     }
 
     getTypeDelta() {
-        if (this.type === 1) {
-            if (!this.spawnPacket) this.spawnPacket = true;
-            return undefined;
-        } else {
-            let delta = {
-                s: this.deltaTypeCompare(`s`, this.pickupSize),
-                p: this.deltaTypeCompare(`p`, this.picking),
-                i: this.deltaTypeCompare(`i`, this.pickerId),
-                t: this.deltaTypeCompare(`t`, this.type)
-            };
-            if (isEmpty(delta)) {
-                delta = undefined;
-            }
-
-            return delta;
-        }
+        return PickupDelta.getTypeDelta(this);
     }
 
     logic(dt) {

@@ -86,8 +86,7 @@ class Impact extends Entity {
     }
 
     getTypeDelta() {
-        if (!this.spawnPacket) this.spawnPacket = true;
-        return undefined;
+        return ImpactDelta.getTypeDelta(this);
     }
 
     logic(dt) {
