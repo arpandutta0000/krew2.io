@@ -50,6 +50,17 @@ module.exports = grunt => {
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
 
+                    `src/client/script/core/geometry/geometryModules/loader.js`,
+                    `src/client/script/core/geometry/geometryModules/particles.js`,
+                    `src/client/script/core/geometry/geometryModules/water.js`,
+
+                    `src/client/script/core/geometry/environment.js`,
+                    `src/client/script/core/geometry/geometry.js`,
+                    `src/client/script/core/geometry/loadModels.js`,
+                    `src/client/script/core/geometry/entity.js`,
+                    `src/client/script/core/geometry/boat.js`,
+                    `src/client/script/core/geometry/player.js`,
+
                     `src/client/script/core/classes/logic/BoatLogic.js`,
                     `src/client/script/core/classes/logic/ImpactLogic.js`,
                     `src/client/script/core/classes/logic/LandmarkLogic.js`,
@@ -68,17 +79,6 @@ module.exports = grunt => {
                     `src/client/script/core/classes/Pickup.js`,
                     `src/client/script/core/classes/Player.js`,
                     `src/client/script/core/classes/Projectile.js`,
-
-                    `src/client/script/core/geometry/geometryModules/loader.js`,
-                    `src/client/script/core/geometry/geometryModules/particles.js`,
-                    `src/client/script/core/geometry/geometryModules/water.js`,
-
-                    `src/client/script/core/geometry/environment.js`,
-                    `src/client/script/core/geometry/geometry.js`,
-                    `src/client/script/core/geometry/loadModels.js`,
-                    `src/client/script/core/geometry/entity.js`,
-                    `src/client/script/core/geometry/boat.js`,
-                    `src/client/script/core/geometry/player.js`,
 
                     `src/client/script/core/audio.js`,
                     `src/client/script/core/economy.js`,
@@ -149,8 +149,7 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [
-                    {
+                files: [{
                         expand: true,
                         nonull: true,
                         flatten: true,
