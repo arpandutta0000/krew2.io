@@ -35,7 +35,6 @@ class Pickup extends Entity {
 
         this.size = new THREE.Vector3(scale, scale, scale);
         this.modelscale = new THREE.Vector3(scale, scale, scale);
-        this.position = {};
         this.position.x = x;
         this.position.z = z;
         this.pickerId = ``;
@@ -93,7 +92,9 @@ class Pickup extends Entity {
     }
 }
 
-Pickup.prototype.randomTime = (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000;
+Pickup.prototype.randomTime = function (min, max) {
+    return (Math.floor(Math.random() * (max - min)) + min) * 1000;
+};
 
 Pickup.prototype.logic = function (dt) {};
 
