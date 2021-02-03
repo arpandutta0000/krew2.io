@@ -21,7 +21,7 @@ class Entity {
         this.children = {};
 
         // Set the entity to be a new entity
-        this.isNew = true;  
+        this.isNew = true;
 
         // Set collision radius
         this.collisionRadius = 1;
@@ -79,50 +79,15 @@ class Entity {
     }
 
     getDelta() {
-        if (!this.sendDelta && !this.sendCreationSnapOnDelta) {
-            return undefined;
-        }
-
-        // Send a full snapshot on the delta data
-        if (this.sendCreationSnapOnDelta) {
-            let result = this.getSnap(true);
-            this.sendCreationSnapOnDelta = false;
-            return result;
-        }
-
-        let delta = {
-            p: this.deltaCompare(`p`, this.parent ? this.parent.id : undefined),
-            n: this.deltaCompare(`n`, this.netType),
-            x: this.deltaCompare(`x`, Number(this.position.x.toFixed(2))),
-            y: this.deltaCompare(`y`, Number(this.position.y.toFixed(2))),
-            z: this.deltaCompare(`z`, Number(this.position.z.toFixed(2))),
-            r: this.deltaCompare(`r`, Number(this.rotation.toFixed(2))),
-            t: this.getTypeDelta()
-        };
-
-        if (isEmpty(delta)) {
-            delta = undefined;
-        }
-
-        return delta;
+        EntityDelta.getDelta(this);
     }
 
     deltaCompare(old, fresh) {
-        if (this.last[old] !== fresh && this.muted.indexOf(old) < 0) {
-            this.last[old] = fresh;
-            return fresh;
-        }
-
-        return undefined;
+        EntityDelta.deltaCompare(old, fresh, this);
     }
 
     deltaTypeCompare(old, fresh) {
-        if (this.lastType[old] !== fresh) {
-            this.lastType[old] = fresh;
-            return fresh;
-        }
-
-        return undefined;
+        EntityDelta.deltaTypeCompare(old, fresh, this);
     }
 
     getSnap(force) {
