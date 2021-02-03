@@ -15,6 +15,12 @@ class Pickup extends Entity {
         this.sendCreationSnapOnDelta = true;
         this.spawnPacket = false;
 
+        // Set misc values
+        this.pickerId = ``;
+        this.type = type;
+        this.picking = type === 1;
+        this.catchingFish = false;
+
         // Set pickup size
         let scale = 1;
         if (type === 0) scale = parseInt(size) + 1;
@@ -35,6 +41,7 @@ class Pickup extends Entity {
             case 0: {
                 this.baseGeometry = geometry.boat;
                 this.baseMaterial = materials.crate;
+                break;
             }
 
             case 1: {
@@ -51,16 +58,19 @@ class Pickup extends Entity {
                     this.modeloffset = vectors.modeloffsetFishShellClam;
                     this.modelscale = new THREE.Vector3(0.03, 0.03, 0.03);
                 }
+                break;
             }
 
             case 3: {
                 this.baseModel = models.crab;
                 this.modeloffset = vectors.modeloffsetCrab;
                 this.modelrotation = new THREE.Vector3(0, Math.PI, 0);
+                break;
             }
 
             case 4: {
                 this.baseModel = models.chest;
+                break;
             }
         }
         if (this.type <= 1 || this.type === 4) {
@@ -70,12 +80,6 @@ class Pickup extends Entity {
             this.floattimer = 1;
             this.rotationspeed = 0;
         }
-
-        // Set misc values
-        this.pickerId = ``;
-        this.type = type;
-        this.picking = type === 1;
-        this.catchingFish = false;
     }
 }
 
