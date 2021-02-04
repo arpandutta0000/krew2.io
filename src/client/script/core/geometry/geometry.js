@@ -1,5 +1,5 @@
 /* Create reusable bodies */
-let base_geometries = {
+let baseGeometry = {
     box: new THREE.BoxBufferGeometry(1, 1, 1),
     sphere: new THREE.SphereBufferGeometry(0.65),
     line: new THREE.Geometry(),
@@ -8,20 +8,13 @@ let base_geometries = {
 
 /* Create geometry using base geometry */
 let geometry = {
-    player: base_geometries.box,
-    boat: base_geometries.box,
-    projectile: base_geometries.sphere,
-    hook: base_geometries.plane,
-    impact_water: base_geometries.sphere,
-    islandradius: new THREE.CylinderBufferGeometry(0.3, 1, 1, 20, 1)
+    boat: baseGeometry.box,
+    hook: baseGeometry.plane,
+    impact_water: baseGeometry.sphere,
 };
 
 /* Create reusable materials */
 let materials = {
-    player: new THREE.MeshLambertMaterial({
-        color: 0xF9A022
-    }),
-
     boat: new THREE.MeshLambertMaterial({
         color: 0x8A503E,
         side: THREE.DoubleSide
@@ -42,23 +35,10 @@ let materials = {
         flatShading: true
     }),
 
-    projectile: new THREE.MeshPhongMaterial({
-        color: 0x1E1A28,
-        shininess: 0.9,
-        flatShading: true
-    }),
-
     boundary: new THREE.MeshLambertMaterial({
         color: 0xB4EBFF,
         flatShading: true,
         opacity: 0.8,
-        transparent: true
-    }),
-
-    impact_water: new THREE.MeshBasicMaterial({
-        color: 0xE9F1FF,
-        flatShading: true,
-        opacity: 0.9,
         transparent: true
     }),
 
@@ -90,13 +70,6 @@ let materials = {
         transparent: true
     }),
 
-    fishing_line: new THREE.MeshBasicMaterial({
-        color: 0x000000,
-        flatShading: true,
-        opacity: 0.5,
-        transparent: true
-    }),
-
     sky: new THREE.MeshBasicMaterial({
         color: 0x00c5ff,
         side: THREE.DoubleSide
@@ -115,7 +88,6 @@ let labelcolors = {
 let vectors = {
     modeloffsetCrab: new THREE.Vector3(0, 0.9, 0),
     modeloffsetFishShellClam: new THREE.Vector3(0, 0.3, 0),
-    sizeEntity: new THREE.Vector3(1, 1, 1),
     sizePlayer: new THREE.Vector3(1, 1, 1),
     sizeProjectile: new THREE.Vector3(0.3, 0.3, 0.3)
 };
