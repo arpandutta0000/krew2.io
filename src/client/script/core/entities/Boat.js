@@ -99,7 +99,7 @@ class Boat extends Entity {
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
-                        color: 0xc5a37c,
+                        color: labelcolors.boat,
                         fog: false
                     }
                 });

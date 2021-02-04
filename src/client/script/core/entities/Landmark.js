@@ -91,7 +91,7 @@ class Landmark extends Entity {
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
-                        color: 0x5e9628,
+                        color: labelcolors.landmark,
                         fog: false
                     }
                 });

@@ -88,7 +88,10 @@ let labelcolors = {
     staff: new THREE.Color(0xd133ff),
     myself: new THREE.Color(0x2cf22f),
     player: new THREE.Color(0xffffff),
-    captain: new THREE.Color(0xff7a38)
+    captain: new THREE.Color(0xff7a38),
+    boat: new THREE.Color(0xc5a37c),
+    landmark: new THREE.Color(0x5e9628),
+    crosshair: new THREE.Color(0xffffff)
 };
 
 /* Create global vectors */

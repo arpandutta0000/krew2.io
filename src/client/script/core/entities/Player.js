@@ -103,7 +103,7 @@ class Player extends Entity {
                 fontFamily: config.Labels.fontFamily
             },
             material: {
-                color: 0xffffff,
+                color: labelcolors.crosshair,
                 fog: false
             }
         });
