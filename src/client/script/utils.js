@@ -57,60 +57,14 @@ let cleanup = setInterval(() => {
 }, 90000);
 
 let Ease = {
-    // no easing, no acceleration
-    linear: (t) => t,
-
     // accelerating from zero velocity
     easeInQuad: (t) => t * t,
 
     // decelerating to zero velocity
     easeOutQuad: (t) => t * (2 - t),
-
-    // acceleration until halfway, then deceleration
-    easeInOutQuad: (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t,
-
-    // accelerating from zero velocity
-    easeInCubic: (t) => t * t * t,
-
-    // decelerating to zero velocity
-    easeOutCubic: (t) => (--t) * t * t + 1,
-
-    // acceleration until halfway, then deceleration
-    easeInOutCubic: (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-
-    // accelerating from zero velocity
-    easeInQuart: (t) => t * t * t * t,
-
-    // decelerating to zero velocity
-    easeOutQuart: (t) => 1 - (--t) * t * t * t,
-
-    // acceleration until halfway, then deceleration
-    easeInOutQuart: (t) => t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t,
-
-    // accelerating from zero velocity
-    easeInQuint: (t) => t * t * t * t * t,
-
-    // decelerating to zero velocity
-    easeOutQuint: (t) => 1 + (--t) * t * t * t * t,
-
-    // acceleration until halfway, then deceleration
-    easeInOutQuint: (t) => t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t
 };
 
 let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
-
-let charLimit = (text, chars, suffix) => {
-    chars = chars || 140;
-    suffix = suffix || ``;
-    text = (`${text}`).replace(/(\t|\n)/gi, ``).replace(/\s\s/gi, ` `);
-    if (text.length > chars) {
-        return text.slice(0, chars - suffix.length).replace(/(\.|\,|:|-)?\s?\w+\s?(\.|\,|:|-)?$/, suffix);
-    }
-
-    return text;
-};
-
-let entityDistance = (a, b) => Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 
 let parseBool = (b) => b === true || b === `true`;
 
@@ -130,32 +84,7 @@ function worldAngle (vector) {
     return result;
 }
 
-function anglediff (firstAngle, secondAngle) {
-    let difference = secondAngle - firstAngle;
-    while (difference < -Math.PI) {
-        difference += Math.PI * 2.0;
-    }
-
-    while (difference > Math.PI) {
-        difference -= Math.PI * 2.0;
-    }
-
-    return difference;
-}
-
 const angleToVector = (angle) => new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
-
-const rotationToPosition = (origin, target) => worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
-
-const rotationToObject = (origin, target) => worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z));
-
-const distanceToPosition = (origin, target) => origin.position.distanceTo(target);
-
-const distanceToPositionSquared = (origin, target) => origin.position.distanceToSquared(target);
-
-const distanceToObject = (origin, target) => origin.position.distanceTo(target.position);
-
-const distanceToObjectSquared = (origin, target) => origin.position.distanceToSquared(target.position);
 
 let isEmpty = function (obj) {
     if (Object.keys(obj).length === 0 && obj.constructor === Object) {
