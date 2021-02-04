@@ -36,7 +36,6 @@ let setUpEnvironment = () => {
     // Add directional light
     light = new THREE.DirectionalLight(0xffdfab, 1.0);
     light.position.set(0, 10, 20);
-    light.castShadow = true;
     scene.add(light);
 
     // Create water and world boundries
