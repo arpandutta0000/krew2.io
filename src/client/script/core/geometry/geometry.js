@@ -85,10 +85,10 @@ let materials = {
 
 /* Set colors for text labels for player & boat names */
 let labelcolors = {
-    staff: new THREE.Color(0xbb15eb),
+    staff: new THREE.Color(0xd133ff),
     myself: new THREE.Color(0x00ff00),
     player: new THREE.Color(0xffffff),
-    captain: new THREE.Color(0xff0000)
+    captain: new THREE.Color(0xff7a38)
 };
 
 /* Create global vectors */
