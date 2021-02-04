@@ -465,7 +465,7 @@ var ui = {
             type: type,
             // type: 'danger',
             imageVisible: true,
-            imageCustom: `../assets/img/${type}-new.png`
+            imageCustom: `../assets/img/notifications/${type}-new.png`
         });
     },
 
@@ -479,7 +479,7 @@ var ui = {
             animationClose: `fade-out`,
             type: `info`,
             imageVisible: true,
-            imageCustom: `../assets/img/info-new.png`
+            imageCustom: `../assets/img/notifications/info-new.png`
         });
     },
 
@@ -492,7 +492,7 @@ var ui = {
             animationClose: `fade-out`,
             type: `danger`,
             imageVisible: true,
-            imageCustom: `../assets/img/cannon32x32.png`
+            imageCustom: `../assets/tools/cannon32x32.png`
         });
     },
 
@@ -1195,9 +1195,9 @@ var ui = {
                     `<span class='krewName' style='margin-left:2px;font-size: 13px'></span>` +
                     `</div>` +
                     `<div class="grid-middle">` +
-                    `<img src="/assets/img/medal_${tradecount >= 150000 ? `gold` : tradecount >= 50000 ? `silver` : `bronze`}.png"${tradecount >= 12000 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
-                    `<img src="/assets/img/medal_${killcount >= 50 ? `gold` : killcount >= 20 ? `silver` : `bronze`}.png"${killcount >= 10 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
-                    `<img src="/assets/img/medal_${other_lvl === 3 ? `gold` : other_lvl === 2 ? `silver` : `bronze`}.png"${other_lvl > 0 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
+                    `<img src="/assets/img/medals/medal_${tradecount >= 150000 ? `gold` : tradecount >= 50000 ? `silver` : `bronze`}.png"${tradecount >= 12000 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
+                    `<img src="/assets/img/medals/medal_${killcount >= 50 ? `gold` : killcount >= 20 ? `silver` : `bronze`}.png"${killcount >= 10 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
+                    `<img src="/assets/img/medals/medal_${other_lvl === 3 ? `gold` : other_lvl === 2 ? `silver` : `bronze`}.png"${other_lvl > 0 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
                     `</div>` +
                     `<div${boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-right"` : ` class="grid-right"`}>${display_gold}</div>`);
                 entry.find(`.krewName`).text(boatsListSortedByGold[scoreIndex].cN);
@@ -1560,13 +1560,13 @@ var ui = {
             $(`#model-left`).on(`click`, () => {
                 currentModel--;
                 if (currentModel < 0) currentModel = 4;
-                $(`#model-image`).attr(`src`, `/assets/img/model${currentModel}.png`);
+                $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
             });
 
             $(`#model-right`).on(`click`, () => {
                 currentModel++;
                 if (currentModel > 4) currentModel = 0;
-                $(`#model-image`).attr(`src`, `/assets/img/model${currentModel}.png`);
+                $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
             });
 
             $(`#submit-customization`).on(`click`, (e) => {
