@@ -174,6 +174,14 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
+                        src: [`src/client/assets/audio/*`],
+                        dest: `dist/assets/audio/`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
                         src: [`src/client/assets/css/*`],
                         dest: `dist/assets/css/`,
                         filter: `isFile`
@@ -222,6 +230,14 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
+                        src: [`src/client/assets/models/decorations/*`],
+                        dest: `dist/assets/models/decorations/`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
                         src: [`src/client/assets/models/dogs/*`],
                         dest: `dist/assets/models/dogs/`,
                         filter: `isFile`
@@ -230,16 +246,40 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
-                        src: [`src/client/assets/models/cannon/*`],
-                        dest: `dist/assets/models/cannon/`,
+                        src: [`src/client/assets/models/hats/*`],
+                        dest: `dist/assets/models/hats/`,
                         filter: `isFile`
                     },
                     {
                         expand: true,
                         nonull: true,
                         flatten: true,
-                        src: [`src/client/assets/audio/*`],
-                        dest: `dist/assets/audio/`,
+                        src: [`src/client/assets/models/islands/*`],
+                        dest: `dist/assets/models/islands/`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: [`src/client/assets/models/misc/*`],
+                        dest: `dist/assets/models/misc/`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: [`src/client/assets/models/pickups/*`],
+                        dest: `dist/assets/models/pickups/`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: [`src/client/assets/models/projectiles/*`],
+                        dest: `dist/assets/models/projectiles/`,
                         filter: `isFile`
                     },
                     {
@@ -254,8 +294,8 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: true,
-                        src: [`src/client/assets/models/sea_animals/*`],
-                        dest: `dist/assets/models/sea_animals/`,
+                        src: [`src/client/assets/models/tools/*`],
+                        dest: `dist/assets/models/tools/`,
                         filter: `isFile`
                     }
                 ]
