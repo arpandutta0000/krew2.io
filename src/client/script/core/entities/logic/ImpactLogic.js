@@ -2,7 +2,7 @@ let ImpactLogic = {
     logic: (dt, _this) => {
         _this.timeout -= dt * 0.8;
         if (_this.timeout <= 0) {
-            removeEntity(_this);
+            EntityModels.removeEntity(_this);
         }
     },
 

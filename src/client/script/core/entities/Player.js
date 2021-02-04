@@ -181,7 +181,7 @@ class Player extends Entity {
 
     setPlayerBody(idx) {
         idx = idx || 0;
-        let bodyModel = playerModels[idx];
+        let bodyModel = dogModels[idx];
         this.playerBody = bodyModel.body.clone();
         this.playerBody.scale.set(bodyModel.scale.x, bodyModel.scale.y, bodyModel.scale.z);
         this.playerBody.position.set(bodyModel.offset.x, bodyModel.offset.y, bodyModel.offset.z);
@@ -304,12 +304,29 @@ class Player extends Entity {
         }
     }
 
+    tryJump() {
+        if (this.jumpVel > 0.0 || this.jump > 0) return;
+        this.jumpVel = 16;
+    }
+
     getTypeDelta() {
         return PlayerDelta.getTypeDelta(this);
     }
 
     logic(dt) {
         PlayerLogic.logic(dt, this);
+    }
+
+    clientlogic(dt) {
+        PlayerLogic.clientlogic(dt, this);
+    }
+
+    namesLogic() {
+        PlayerLogic.namesLogic(this);
+    }
+
+    dockedLogic() {
+        PlayerLogic.dockedLogic(this);
     }
 
     parseTypeSnap(snap) {
@@ -328,7 +345,7 @@ class Player extends Entity {
             if (this.parent.netType === 1) {
                 this.parent.updateProps();
                 if (Object.keys(this.parent.children).length === 0) {
-                    removeEntity(this.parent);
+                    EntityModels.removeEntity(this.parent);
                 }
             }
         }
@@ -340,3 +357,4 @@ class Player extends Entity {
 };
 
 Player.prototype.rotationOffset = -0.45;
+Player.prototype.timeCounters = {};

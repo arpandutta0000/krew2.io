@@ -153,8 +153,8 @@ let createModels = () => {
     models.junk.children[2].name = `mast`;
 
     // Call setting ship and player models
-    setShipModels();
-    setPlayerModels();
+    BoatModels.setShipModels();
+    PlayerModels.setPlayerModels();
 };
 
 /* Create materials from textures */

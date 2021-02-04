@@ -3,7 +3,7 @@ let ProjectileLogic = {
         // Remove if the shooter does not exists
         if (_this.shooterid === `` || entities[_this.shooterid] === undefined || (entities[_this.shooterid] !== undefined && _this.type !== -1 && _this.type !== entities[_this.shooterid].activeWeapon)) {
             if (_this.impact) _this.impact.destroy = true;
-            removeEntity(_this);
+            EntityModels.removeEntity(_this);
             return;
         }
 
@@ -56,7 +56,7 @@ let ProjectileLogic = {
                     _this.position.z < 0
                 ) {
                     if (_this.impact) _this.impact.destroy = true;
-                    removeEntity(_this);
+                    EntityModels.removeEntity(_this);
                 } else {
                     _this.velocity.x = 0;
                     _this.velocity.z = 0;

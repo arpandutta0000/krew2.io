@@ -78,6 +78,10 @@ class Entity {
         return pos;
     }
 
+    createBody() {
+        EntityModels.createBody(this);
+    }
+
     getDelta() {
         return EntityDelta.getDelta(this);
     }
@@ -88,6 +92,10 @@ class Entity {
 
     deltaTypeCompare(old, fresh) {
         return EntityDelta.deltaTypeCompare(old, fresh, this);
+    }
+
+    clientlogic(dt) {
+        EntityLogic.clientlogic(dt, this);
     }
 
     parseSnap(snap, id) {
@@ -108,6 +116,10 @@ class Entity {
 
         if (sceneLines[this.id] !== undefined)
             delete sceneLines[this.id];
+    }
+
+    onClientDestroy() {
+        EntityModels.onClientDestroy(this);
     }
 
     /* Entity Tick */

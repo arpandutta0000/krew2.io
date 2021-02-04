@@ -145,7 +145,7 @@ class Boat extends Entity {
         }
 
         this.krewCount = krewCount;
-        if (this.krewCount === 0) removeEntity(this);
+        if (this.krewCount === 0) EntityModels.removeEntity(this);
     }
 
     /* Set boat class based on boat type */
@@ -234,6 +234,10 @@ class Boat extends Entity {
         let outward = angleToVector(this.rotation);
         this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
         this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
+    }
+
+    changeBoatModel(id) {
+        BoatModels.changeBoatModel(id, this);
     }
 
     getTypeDelta() {

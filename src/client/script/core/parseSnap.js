@@ -56,7 +56,7 @@ let parseSnap = function (id, data) {
 
         if (entities[id] !== undefined) {
             entities[id].id = e;
-            entities[id].clientInit();
+            entities[id].createBody();
         }
     }
 

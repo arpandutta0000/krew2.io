@@ -107,7 +107,7 @@ let BoatLogic = {
             if (_this.sinktimer > 4.0) {
                 // ships down, lets remove it from game
 
-                removeEntity(_this);
+                EntityModels.removeEntity(_this);
             }
         }
     },
