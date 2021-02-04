@@ -59,7 +59,6 @@ let loadModels = () => {
     loader.loadTexture(`./assets/models/misc/water.jpg`);
 
 
-
     // Once loader is done, create the objects in the world
     loader.onFinish(() => {
         createModels();
