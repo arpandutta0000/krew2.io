@@ -1,139 +1,125 @@
-/* Set up game controls */
-let GameControls = function () {
-    let _this = this;
-    let PI_2 = Math.PI / 2;
+/* Game Controls Class */
+class GameControls {
+    /* Constructor */
+    constructor() {
+        // Create controls variables
+        this.locked = false;
+        this.lmb = false;
+        this.rmb = false;
+        this.cameraX = 0;
+        this.cameraY = Math.PI;
+        this.mouse = new THREE.Vector2();
+        this.isMouseLookLocked = false;
+        this.lastX = 0;
+        this.lastY = 0;
 
-    // Create controls variables
-    this.blocker = document.querySelector(`#blocker`);
-    this.locked = false;
-    this.lmb = false;
-    this.rmb = false;
-    this.cameraX = 0;
-    this.cameraY = Math.PI;
-    this.cameraZoom = 8;
-    this.mouse = new THREE.Vector2();
-    this.mouseOld = new THREE.Vector2();
-    this.mouseElement = undefined;
-    this.isMouseLookLocked = false;
-    this.lmbLastDownTime = 0;
-    this.lastX = 0;
-    this.lastY = 0;
-
-    // Unlocked mouse move event (Blurred)
-    this.mouseMoveUnlocked = event => {
-        _this.mouseElement = event.target.getAttribute ? event.target.getAttribute(`data-infopanel`) : null;
-        _this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        _this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        // Set pointer lock
         if (!havePointerLock) {
-            _this.lastX = event.x;
-            _this.lastY = event.y;
-        }
-    };
+            this.locked = true;
+            document.addEventListener(`mousemove`, this.mouseMoveLocked, false);
+        } else document.addEventListener(`mousemove`, this.mouseMoveUnlocked, false);
 
-    // Locked mouse move event (Focused)
-    this.mouseMoveLocked = event => {
-        event.preventDefault();
-
-        let movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-        let movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-
-        if (havePointerLock) {
-            _this.cameraX -= movementY * 0.0016;
-            _this.cameraY -= movementX * 0.0023;
-        }
-
-        if (!havePointerLock) {
-            movementX = event.x - _this.lastX;
-            movementY = event.y - _this.lastY;
-
-            _this.cameraX -= movementY * 0.0082;
-            _this.cameraY -= movementX * 0.0064;
-
-            _this.lastX = event.x;
-            _this.lastY = event.y;
-        }
-        _this.cameraX = Math.max((-1 * PI_2), Math.min(PI_2, _this.cameraX));
-    };
-
-    // On a mouse click
-    this.onMouseDown = event => {
-        // Lock only if its on the rendering canvas
-        switch (event.button) {
-            case 0: {
-                // Left click
-                _this.lmb = true;
-                this.lmbLastDownTime = performance.now();
-                break;
+        /* Unlocked mouse move event (Blurred) */
+        this.mouseMoveUnlocked = (event) => {
+            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            if (!havePointerLock) {
+                this.lastX = event.x;
+                this.lastY = event.y;
             }
-            case 2: {
-                // Right click
-                _this.rmb = false;
-                break;
-            }
-        }
-        if (myPlayer && (_this.lmb || _this.rmb) && event.target === renderer.domElement) _this.lockMouseLook();
-    };
+        };
 
-    // On mouse click release
-    this.onMouseUp = event => {
-        switch (event.button) {
-            case 0: {
-                // Left click release
-                _this.lmb = false;
-                break;
-            }
-            case 2: {
-                // Right click release
-                _this.rmb = false;
-                break;
-            }
-        }
-        return false;
-    };
-
-    // On mouse wheel movement
-    this.mouseWheelEvent = event => {
-        if (event.target === renderer.domElement || event.target === document.body) {
+        /* Locked mouse move event (Focused) */
+        this.mouseMoveLocked = (event) => {
             event.preventDefault();
 
-            let delta = event.wheelDelta ? event.wheelDelta : (-1 * event.detail);
+            let movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+            let movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
-            _this.cameraZoom -= delta > 0 ? 1 : -1;
-            _this.cameraZoom = Math.min(30, Math.max(_this.cameraZoom, 3));
-        }
-    };
+            if (havePointerLock) {
+                this.cameraX -= movementY * 0.0016;
+                this.cameraY -= movementX * 0.0023;
+            }
 
-    // Set pointer lock
-    if (!havePointerLock) {
-        this.locked = true;
-        document.addEventListener(`mousemove`, this.mouseMoveLocked, false);
-    } else document.addEventListener(`mousemove`, this.mouseMoveUnlocked, false);
+            if (!havePointerLock) {
+                movementX = event.x - this.lastX;
+                movementY = event.y - this.lastY;
 
-    // Add listeners to document
-    document.addEventListener(`mousedown`, this.onMouseDown);
-    document.addEventListener(`mouseup`, this.onMouseUp);
-    document.addEventListener(`mouseweheel`, this.mouseWheelEvent);
-    document.addEventListener(`DOMouseScroll`, this.mouseWheelEvent);
+                this.cameraX -= movementY * 0.0082;
+                this.cameraY -= movementX * 0.0064;
 
-    // Set motion when mouse is locked
-    this.lockMouseLook = () => {
-        if (havePointerLock) {
-            let element = document.body;
+                this.lastX = event.x;
+                this.lastY = event.y;
+            }
+            this.cameraX = Math.max((-1 * (Math.PI / 2)), Math.min((Math.PI / 2), this.cameraX));
+        };
 
-            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-            element.requestPointerLock();
-        }
-        this.isMouseLookLocked = true;
-    };
+        /* On a mouse click */
+        this.onMouseDown = (event) => {
+            // Lock only if its on the rendering canvas
+            switch (event.button) {
+                case 0: {
+                    // Left click
+                    this.lmb = true;
+                    break;
+                }
+                case 2: {
+                    // Right click
+                    this.rmb = false;
+                    break;
+                }
+            }
+            if (myPlayer && (this.lmb || this.rmb) && event.target === renderer.domElement) this.lockMouseLook();
+        };
 
-    // Set motion when mouse is unlocked
-    this.unLockMouseLook = () => {
-        if (havePointerLock) {
-            document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
-            document.exitPointerLock();
-        }
-        this.isMouseLookLocked = false;
-    };
+        /* On mouse click release */
+        this.onMouseUp = (event) => {
+            switch (event.button) {
+                case 0: {
+                    // Left click release
+                    this.lmb = false;
+                    break;
+                }
+                case 2: {
+                    // Right click release
+                    this.rmb = false;
+                    break;
+                }
+            }
+            return false;
+        };
+
+        /* On mouse wheel movement */
+        this.mouseWheelEvent = (event) => {
+            if (event.target === renderer.domElement || event.target === document.body) event.preventDefault();
+        };
+
+        /* Add listeners to document */
+        document.addEventListener(`mousedown`, this.onMouseDown);
+        document.addEventListener(`mouseup`, this.onMouseUp);
+        document.addEventListener(`mouseweheel`, this.mouseWheelEvent);
+        document.addEventListener(`DOMouseScroll`, this.mouseWheelEvent);
+
+        /* Set motion when mouse is locked */
+        this.lockMouseLook = () => {
+            if (havePointerLock) {
+                let element = document.body;
+
+                element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+                element.requestPointerLock();
+            }
+            this.isMouseLookLocked = true;
+        };
+
+        /* Set motion when mouse is unlocked */
+        this.unLockMouseLook = () => {
+            if (havePointerLock) {
+                document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
+                document.exitPointerLock();
+            }
+            this.isMouseLookLocked = false;
+        };
+    }
 };
 
 /* Disable context menu */

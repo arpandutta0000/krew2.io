@@ -1,6 +1,5 @@
 let lookingDownLimit = -1;
 let lookingUpLimit = 1;
-let currControls = new GameControls();
 let lastCheck = Date.now();
 let refreshTimer = 0; // used to handle refreshing krew list
 let playerModels = [];
