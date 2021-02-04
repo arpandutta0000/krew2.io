@@ -328,3 +328,27 @@ let waterSetup = () => {
 
     return Water;
 };
+
+/* Add Water function */
+let initWater = () => {
+    const Water = waterSetup();
+
+    let waterGeometry = new THREE.PlaneBufferGeometry(config.worldsize * 1.5, config.worldsize * 1.5);
+
+    water = new Water(waterGeometry, {
+        textureWidth: 512,
+        textureHeight: 512,
+        waterNormals: textures.water,
+        alpha: 1.0,
+        sunDirection: light.position.clone().normalize(),
+        sunColor: 0xffffff,
+        waterColor: 0x001e0f,
+        distortionScale: 1.0,
+        fog: scene.fog
+    });
+
+    water.rotation.x = -Math.PI * 0.5;
+    water.position.set(config.worldsize * 0.5, 0, config.worldsize * 0.5);
+
+    scene.add(water);
+};
