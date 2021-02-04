@@ -50,6 +50,10 @@ module.exports = grunt => {
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
 
+                    `src/client/script/core/entities/models/EntityModels.js`,
+                    `src/client/script/core/entities/models/BoatModels.js`,
+                    `src/client/script/core/entities/models/PlayerModels.js`,
+
                     `src/client/script/core/entities/delta/EntityDelta.js`,
                     `src/client/script/core/entities/delta/BoatDelta.js`,
                     `src/client/script/core/entities/delta/ImpactDelta.js`,
@@ -57,6 +61,7 @@ module.exports = grunt => {
                     `src/client/script/core/entities/delta/PlayerDelta.js`,
                     `src/client/script/core/entities/delta/ProjectileDelta.js`,
 
+                    `src/client/script/core/entities/logic/EntityLogic.js`,
                     `src/client/script/core/entities/logic/BoatLogic.js`,
                     `src/client/script/core/entities/logic/ImpactLogic.js`,
                     `src/client/script/core/entities/logic/LandmarkLogic.js`,
@@ -87,9 +92,6 @@ module.exports = grunt => {
                     `src/client/script/core/geometry/environment.js`,
                     `src/client/script/core/geometry/geometry.js`,
                     `src/client/script/core/geometry/loadModels.js`,
-                    `src/client/script/core/geometry/entity.js`,
-                    `src/client/script/core/geometry/boat.js`,
-                    `src/client/script/core/geometry/player.js`,
 
                     `src/client/script/core/audio.js`,
                     `src/client/script/core/economy.js`,
@@ -160,8 +162,7 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [
-                    {
+                files: [{
                         expand: true,
                         nonull: true,
                         flatten: true,
