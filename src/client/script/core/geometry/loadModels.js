@@ -36,18 +36,18 @@ let loadModels = () => {
     loader.loadTexture(`./assets/models/projectiles/hook.png`);
 
     // Load ships
-    loader.loadModel(`./assets/models/ships/raft.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/babyFancy.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/blackOyster.obj`);
     loader.loadModel(`./assets/models/ships/boat.obj`);
-    loader.loadModel(`./assets/models/ships/trader.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/calmSpirit.obj`);
     loader.loadModel(`./assets/models/ships/destroyer.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/schooner.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/bigship.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/sloop.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/vessel.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/junk.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/fortuneTrader.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/junkie.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/queenBarbsJustice.obj`);
+    loader.loadModel(`./assets/models/ships/raft.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/raider.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/bo.obj`);
-    loader.loadObjWithMtl(`./assets/models/ships/ft.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/royalFortune.obj`);
+    loader.loadModel(`./assets/models/ships/trader.obj`);
 
     // Load tools
     loader.loadObjWithMtl(`./assets/models/tools/cannon.obj`);
@@ -88,40 +88,63 @@ let createModels = () => {
     geometry.seafox = models.seafox.children[0].geometry;
     geometry.krewmate = models.krewmate.children[0].geometry;
 
-    models.sloop.children[0].name = `sail`;
-    models.sloop.children[1].name = `body`;
-    models.sloop.children[2].name = `mast`;
+    // Baby Fancy
+    models.babyFancy.children[0].name = `sail`;
+    models.babyFancy.children[1].name = `body`;
+    models.babyFancy.children[2].name = `mast`;
 
-    // Queen Barb's Justice
-    models.bigship.children[0].name = `body`;
-    models.bigship.children[1].name = `mast`;
-    models.bigship.children[2].name = `sail`;
-
-    models.schooner.children[0].name = `body`;
-    models.schooner.children[1].name = `mast`;
-    models.schooner.children[2].name = `sail`;
-
-    models.vessel.children[0].name = `body`;
-    models.vessel.children[1].name = `mast`;
-    models.vessel.children[2].name = `sail`;
-
-    // Raft
-    models.raft.children[1].name = `body`;
-    models.raft.children[0].name = `sail`;
-
-    // Trader
-    models.trader.children[2].name = `body`;
-    models.trader.children[0].name = `sail`;
+    // Black Oyster
+    models.blackOyster.children[0].name = `body`;
+    models.blackOyster.children[1].name = `mast`;
+    models.blackOyster.children[2].name = `sail`;
 
     // Boat
     models.boat.children[2].name = `body`;
     models.boat.children[0].name = `sail`;
 
+    // Calm Spirit
+    models.calmSpirit.children[0].name = `body`;
+    models.calmSpirit.children[1].name = `mast`;
+    models.calmSpirit.children[2].name = `sail`;
+
     // Destroyer
     models.destroyer.children[1].name = `body`;
     models.destroyer.children[0].name = `sail`;
 
-    // Set default materials
+    // Fortune Trader
+    models.fortuneTrader.children[0].name = `body`;
+    models.fortuneTrader.children[1].name = `mast`;
+    models.fortuneTrader.children[2].name = `sail`;
+
+    // Junkie
+    models.junkie.children[0].name = `body`;
+    models.junkie.children[1].name = `sail`;
+    models.junkie.children[2].name = `mast`;
+
+    // Queen Barb's Justice
+    models.queenBarbsJustice.children[0].name = `body`;
+    models.queenBarbsJustice.children[1].name = `mast`;
+    models.queenBarbsJustice.children[2].name = `sail`;
+
+    // Raft
+    models.raft.children[1].name = `body`;
+    models.raft.children[0].name = `sail`;
+
+    // Raider
+    models.raider.children[0].name = `body`;
+    models.raider.children[1].name = `mast`;
+    models.raider.children[2].name = `sail`;
+
+    // Royal Fortune
+    models.royalFortune.children[0].name = `body`;
+    models.royalFortune.children[1].name = `mast`;
+    models.royalFortune.children[2].name = `sail`;
+
+    // Trader
+    models.trader.children[2].name = `body`;
+    models.trader.children[0].name = `sail`;
+
+    // Set materials for boats without an mtl
     models.raft.getObjectByName(`body`).material = materials.boat;
     models.raft.getObjectByName(`sail`).material = materials.sail;
     models.trader.getObjectByName(`body`).material = materials.boat;
@@ -130,26 +153,6 @@ let createModels = () => {
     models.boat.getObjectByName(`sail`).material = materials.sailRed;
     models.destroyer.getObjectByName(`body`).material = materials.boat;
     models.destroyer.getObjectByName(`sail`).material = materials.sail;
-
-    // Fortune Trader
-    models.ft.children[0].name = `body`;
-    models.ft.children[1].name = `mast`;
-    models.ft.children[2].name = `sail`;
-
-    // Black Oyster
-    models.bo.children[0].name = `body`;
-    models.bo.children[1].name = `mast`;
-    models.bo.children[2].name = `sail`;
-
-    // Raider
-    models.raider.children[0].name = `body`;
-    models.raider.children[1].name = `mast`;
-    models.raider.children[2].name = `sail`;
-
-    // Junkie
-    models.junk.children[0].name = `body`;
-    models.junk.children[1].name = `sail`;
-    models.junk.children[2].name = `mast`;
 
     // Call setting ship and player models
     BoatModels.setShipModels();
