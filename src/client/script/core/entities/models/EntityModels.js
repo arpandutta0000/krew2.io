@@ -5,9 +5,6 @@ EntityModels = {
         scene.add(_this.geometry);
         _this.geometry.rotation.order = `YXZ`;
 
-        _this.geometry.castShadow = true;
-        _this.geometry.receiveShadow = true;
-
         if (_this.baseGeometry) {
             _this.body = new THREE.Mesh(_this.baseGeometry, _this.baseMaterial);
             _this.body.scale.set(_this.modelscale.x, _this.modelscale.y, _this.modelscale.z);

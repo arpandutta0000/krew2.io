@@ -31,7 +31,7 @@ $(document).ready(() => {
     // Init ads
     initAds();
 
-    // Hide bootstrao elements as bootstrap by default un-hides elements inside .tab
+    // Hide bootstrap elements as bootstrap by default un-hides elements inside .tab
     $(`#global-chat-alert`).hide();
 
     $(`#login-modal`).modal(`show`);

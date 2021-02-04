@@ -33,7 +33,6 @@ class Particle {
         this.geometry = new THREE.Mesh(params.geometry, params.material);
         this.geometry.position.set(params.x, params.y, params.z);
         this.geometry.scale.set(params.w, params.h, params.d);
-        this.geometry.castShadow = true;
         this.geometry.renderOrder = 24;
 
         // set this to true and the particle will be removed

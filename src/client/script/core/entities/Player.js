@@ -187,7 +187,6 @@ class Player extends Entity {
         this.playerBody.position.set(bodyModel.offset.x, bodyModel.offset.y, bodyModel.offset.z);
         this.playerBody.rotation.set(bodyModel.rotation.x, bodyModel.rotation.y, bodyModel.rotation.z);
         this.geometry.add(this.playerBody);
-        this.geometry.castShadow = true;
         this.geometry.receiveShadow = true;
 
         this.weapon = models.cannon.clone();
@@ -281,7 +280,6 @@ class Player extends Entity {
         } else if (this.weapon && this.activeWeapon === 1) {
             this.geometry.remove(this.weapon);
             let fishingModel = new THREE.Mesh(geometry.fishingrod, materials.fishingrod);
-            fishingModel.castShadow = true;
             fishingModel.receiveShadow = true;
             if (this.isPlayer)
                 ui.playAudioFile(false, `switch-rod-cannon`);
@@ -290,8 +288,6 @@ class Player extends Entity {
             this.weapon.position.set(0, 0.1, -0.2);
             this.weapon.rotation.set(0, Math.PI, 0);
             this.weapon.name = `body`;
-            this.weapon.castShadow = true;
-            this.weapon.receiveShadow = true;
             this.geometry.add(this.weapon);
         } else if (this.weapon && this.activeWeapon === 2) {
             this.geometry.remove(this.weapon);

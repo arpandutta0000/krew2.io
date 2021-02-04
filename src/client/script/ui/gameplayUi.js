@@ -164,6 +164,8 @@ let endTheGame = (gold, fired, hit, sank) => {
 
 /* Gameplay UI init to be ran after document is ready */
 let gameplayUiInit = () => {
+    initChatListeners();
+
     // Play again button on game over
     $(`#play-again-button`).on(`click`, () => {
         if (threejsStarted) {

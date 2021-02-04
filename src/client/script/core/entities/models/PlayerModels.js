@@ -35,18 +35,6 @@ let PlayerModels = {
         let seafoxModel = new THREE.Mesh(geometry.seafox, materials.seafox);
         let krewmateModel = new THREE.Mesh(geometry.krewmate, materials.krewmate);
 
-        seadogModel.castShadow = true;
-        shibainuModel.castShadow = true;
-        arcticwolfModel.castShadow = true;
-        seafoxModel.castShadow = true;
-        krewmateModel.castShadow = true;
-
-        seadogModel.receiveShadow = true;
-        shibainuModel.receiveShadow = true;
-        arcticwolfModel.receiveShadow = true;
-        seafoxModel.receiveShadow = true;
-        krewmateModel.receiveShadow = true;
-
         dogModels.push({
             body: seadogModel,
             scale: new THREE.Vector3(0.04, 0.04, 0.04),
