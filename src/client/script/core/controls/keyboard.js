@@ -6,8 +6,8 @@ let keys_rotRight = false;
 let keys_rotLeft = false;
 let keys_jump = false;
 let keys_boot = false;
-let keyboard;
 let disableKeyboard = false;
+let keyboard;
 
 let setUpKeyboard = function (renderer) {
     let my_defaults = {
