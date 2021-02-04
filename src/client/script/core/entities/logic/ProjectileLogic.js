@@ -92,7 +92,7 @@ let ProjectileLogic = {
                 _this.baseGeometry = geometry.hook;
                 _this.baseMaterial = materials.hook;
 
-                let lineGeometry = base_geometries.line.clone();
+                let lineGeometry = baseGeometry.line.clone();
                 lineGeometry.vertices.push(_this.startPoint);
                 lineGeometry.vertices.push(_this.endPoint);
 
@@ -161,7 +161,7 @@ let ProjectileLogic = {
                     sizeSpeed: -1.8,
                     material: byPlayer ? materials.smoke_player : (friendly ? materials.smoke_friendly : materials.smoke_enemy),
 
-                    geometry: base_geometries.box
+                    geometry: baseGeometry.box
                 });
             }
         }

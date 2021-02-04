@@ -39,7 +39,7 @@ class Pickup extends Entity {
         // Set pickup model
         switch (this.type) {
             case 0: {
-                this.baseGeometry = geometry.boat;
+                this.baseGeometry = baseGeometry.box;
                 this.baseMaterial = materials.crate;
                 break;
             }

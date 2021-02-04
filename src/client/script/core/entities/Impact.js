@@ -48,7 +48,7 @@ class Impact extends Entity {
                         duration: 5,
                         sizeSpeed: -0.6,
                         material: materials.impact_water,
-                        geometry: base_geometries.box
+                        geometry: baseGeometry.box
                     });
                 };
 
@@ -75,7 +75,7 @@ class Impact extends Entity {
                         duration: 2,
                         sizeSpeed: -0.8,
                         material: materials.splinter,
-                        geometry: base_geometries.box
+                        geometry: baseGeometry.box
 
                     });
                 };
