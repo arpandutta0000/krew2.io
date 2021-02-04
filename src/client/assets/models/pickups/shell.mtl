@@ -3,6 +3,6 @@
 newmtl Mat
 Ka 1 1 1
 Kd 0.80000001192093 0.80000001192093 0.80000001192093
-map_Kd texture.png
+map_Kd pickupTexture.png
 illum 7
 

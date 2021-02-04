@@ -1,7 +1,7 @@
 # Blender v2.81 (sub 16) OBJ File: ''
 # www.blender.org
 mtllib spyglass.mtl
-o Catalejo_Mesh
+o spyglass_Mesh
 v 0.180623 -0.131928 0.491924
 v 0.008359 -0.215282 0.493423
 v 0.007247 -0.165638 0.421387
