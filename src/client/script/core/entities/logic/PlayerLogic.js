@@ -169,10 +169,8 @@ let PlayerLogic = {
                         camera.zoom = 1;
                         camera.updateProjectionMatrix();
                         scene.fog.density = 0.007;
-                        ui.showHideSpyglassBlackout(`hide`);
                     }
                 } else if (_this.activeWeapon === 2) {
-                    ui.showHideSpyglassBlackout(`show`);
                     lookingDownOffset = 0.4 - Math.max(controls.cameraX, 0.2);
                     cameraPosition = new THREE.Vector3(
                         camera.position.x,

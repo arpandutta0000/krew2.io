@@ -1933,14 +1933,6 @@ var ui = {
             $(`#loading-wheel`).hide();
         }
     },
-
-    showHideSpyglassBlackout: function (event) {
-        if (event === `show`) {
-            $(`#spyglass`).show();
-        } else {
-            $(`#spyglass`).hide();
-        }
-    }
 };
 
 let stoppedScroll, scrollLoop, chatHistory, prevScroll;
