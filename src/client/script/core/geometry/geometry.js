@@ -42,6 +42,13 @@ let materials = {
         transparent: true
     }),
 
+    impact_water: new THREE.MeshBasicMaterial({
+        color: 0xE9F1FF,
+        flatShading: true,
+        opacity: 0.9,
+        transparent: true
+    }),
+
     islandradius: new THREE.MeshBasicMaterial({
         color: 0xd4f7ff,
         flatShading: false,
