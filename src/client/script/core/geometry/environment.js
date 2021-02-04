@@ -44,6 +44,29 @@ let setUpEnvironment = () => {
     initWorldBoundries();
 };
 
+/* Add World Boundries function */
+let initWorldBoundries = () => {
+    environment.boundaryLeft = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryLeft.position.set(config.worldsize * 0.5, 1.5, 0);
+    environment.boundaryLeft.scale.set(config.worldsize, 0.1, 3);
+    scene.add(environment.boundaryLeft);
+
+    environment.boundaryRight = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryRight.position.set(config.worldsize * 0.5, 1.5, config.worldsize);
+    environment.boundaryRight.scale.set(config.worldsize, 0.1, 3);
+    scene.add(environment.boundaryRight);
+
+    environment.boundaryUp = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryUp.position.set(0, 1.5, config.worldsize * 0.5);
+    environment.boundaryUp.scale.set(3, 0.1, config.worldsize);
+    scene.add(environment.boundaryUp);
+
+    environment.boundaryDown = new THREE.Mesh(base_geometries.box, materials.boundary);
+    environment.boundaryDown.position.set(config.worldsize, 1.5, config.worldsize * 0.5);
+    environment.boundaryDown.scale.set(3, 0.1, config.worldsize);
+    scene.add(environment.boundaryDown);
+};
+
 /* Day Night Cycle Transition Method */
 let doDaylightCycle = (time) => {
     if (!water || (water && window.currentTime === time)) return;
@@ -94,27 +117,4 @@ let doDaylightCycle = (time) => {
             if (i === 100) clearInterval(anim);
         }, 20);
     }
-};
-
-/* Add World Boundries function */
-let initWorldBoundries = () => {
-    environment.boundaryLeft = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryLeft.position.set(config.worldsize * 0.5, 1.5, 0);
-    environment.boundaryLeft.scale.set(config.worldsize, 0.1, 3);
-    scene.add(environment.boundaryLeft);
-
-    environment.boundaryRight = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryRight.position.set(config.worldsize * 0.5, 1.5, config.worldsize);
-    environment.boundaryRight.scale.set(config.worldsize, 0.1, 3);
-    scene.add(environment.boundaryRight);
-
-    environment.boundaryUp = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryUp.position.set(0, 1.5, config.worldsize * 0.5);
-    environment.boundaryUp.scale.set(3, 0.1, config.worldsize);
-    scene.add(environment.boundaryUp);
-
-    environment.boundaryDown = new THREE.Mesh(base_geometries.box, materials.boundary);
-    environment.boundaryDown.position.set(config.worldsize, 1.5, config.worldsize * 0.5);
-    environment.boundaryDown.scale.set(3, 0.1, config.worldsize);
-    scene.add(environment.boundaryDown);
 };
