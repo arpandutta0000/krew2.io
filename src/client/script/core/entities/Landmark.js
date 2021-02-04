@@ -29,7 +29,7 @@ class Landmark extends Entity {
 
         // Set landmark models
         this.baseGeometry = geometry.island;
-        this.baseMaterial = materials.colorset;
+        this.baseMaterial = materials.island;
 
         // Set model scale
         let modelscale = this.dockRadius / 10 / 8 * 9;
@@ -49,7 +49,7 @@ class Landmark extends Entity {
         // Addd decorations
         for (const island of config.palmTree) {
             if (island === this.name) {
-                this.palm = new THREE.Mesh(geometry.palm, materials.colorset);
+                this.palm = new THREE.Mesh(geometry.palm, materials.island);
                 this.palm.position.set(this.position.x + (this.dockRadius / 4), 0, this.position.z - (this.dockRadius / 1.7));
                 this.palm.scale.x = this.dockRadius / 9;
                 this.palm.scale.y = this.dockRadius / 9;
@@ -59,7 +59,7 @@ class Landmark extends Entity {
         };
         for (const island of config.christmasTree) {
             if (island === this.name) {
-                this.christmasTree = models.elka;
+                this.christmasTree = models.christmasTree;
                 this.christmasTree.position.set(this.position.x - (this.dockRadius / 10), (this.dockRadius / 50), this.position.z - (this.dockRadius / 10));
                 this.christmasTree.scale.x = this.dockRadius / (100 / 0.35);
                 this.christmasTree.scale.y = this.dockRadius / (100 / 0.35);
