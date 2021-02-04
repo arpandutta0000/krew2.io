@@ -1,6 +1,6 @@
 # Blender v2.81 (sub 16) OBJ File: ''
 # www.blender.org
-mtllib sloop.mtl
+mtllib babyFancy.mtl
 o Sail
 v 0.684049 -23.944283 33.301010
 v 0.962384 1.310107 8.849975

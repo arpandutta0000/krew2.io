@@ -1,6 +1,5 @@
 # Blender v2.77 (sub 0) OBJ File: 'Ship_1.blend'
 # www.blender.org
-mtllib boat.mtl
 o Cylinder.002_Cylinder.000
 v -0.843310 1.391686 -0.507693
 v 0.839867 2.810101 -0.514246
