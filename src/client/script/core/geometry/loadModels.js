@@ -1,11 +1,41 @@
 /* Load models from files */
 let loadModels = () => {
-    // Items
-    loader.loadObjWithMtl(`./assets/models/cannon/cannon.obj`);
-    loader.loadModel(`./assets/models/fishingrod.obj`);
-    loader.loadObjWithMtl(`./assets/models/spyglass.obj`);
+    // Load decorations
+    if (config.christmasTree[0]) loader.loadObjWithMtl('./assets/models/decorations/christmasTree.obj');
+    if (config.snowman[0]) loader.loadObjWithMtl('./assets/models/decorations/snowman.obj');
 
-    // Load Boats
+    // Load dogs
+    loader.loadModel(`./assets/models/dogs/seadog.obj`);
+    loader.loadTexture(`./assets/models/dogs/seadog.tga`);
+    loader.loadModel(`./assets/models/dogs/shibainu.obj`);
+    loader.loadTexture(`./assets/models/dogs/shibainu.tga`);
+    loader.loadModel(`./assets/models/dogs/arcticwolf.obj`);
+    loader.loadTexture(`./assets/models/dogs/arcticwolf.tga`);
+    loader.loadModel(`./assets/models/dogs/seafox.obj`);
+    loader.loadTexture(`./assets/models/dogs/seafox.tga`);
+    loader.loadModel(`./assets/models/dogs/krewmate.obj`);
+    loader.loadTexture(`./assets/models/dogs/krewmate.tga`);
+
+    // Load hats
+    loader.loadObjWithMtl(`./assets/models/hats/hat_pirate.obj`);
+
+    // Load islands
+    loader.loadModel(`./assets/models/islands/island.obj`);
+    loader.loadTexture(`./assets/models/islands/island.png`);
+
+    // Load pickups
+    loader.loadObjWithMtl(`./assets/models/pickups/shell.obj`);
+    loader.loadObjWithMtl(`./assets/models/pickups/crab.obj`);
+    loader.loadObjWithMtl(`./assets/models/pickups/clam.obj`);
+    loader.loadObjWithMtl(`./assets/models/pickups/chest.obj`);
+    loader.loadTexture(`./assets/models/pickups/crate.jpg`);
+    loader.loadObjWithMtl(`./assets/models/pickups/fish.obj`);
+
+    // Load projectiles
+    loader.loadTexture(`./assets/models/projectiles/cannonball.png`);
+    loader.loadTexture(`./assets/models/projectiles/hook.png`);
+
+    // Load ships
     loader.loadModel(`./assets/models/ships/raft.obj`);
     loader.loadModel(`./assets/models/ships/boat.obj`);
     loader.loadModel(`./assets/models/ships/trader.obj`);
@@ -19,46 +49,16 @@ let loadModels = () => {
     loader.loadObjWithMtl(`./assets/models/ships/bo.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/ft.obj`);
 
-    // Load projectiles
-    loader.loadTexture(`./assets/img/cannonball.png`);
-    loader.loadTexture(`./assets/models/hook.png`);
-    loader.loadObjWithMtl(`./assets/models/fish.obj`);
+    // Load tools
+    loader.loadObjWithMtl(`./assets/models/tools/cannon.obj`);
+    loader.loadModel(`./assets/models/tools/fishingrod.obj`);
+    loader.loadTexture(`./assets/models/tools/fishingrod.tga`);
+    loader.loadObjWithMtl(`./assets/models/tools/spyglass.obj`);
 
-    // Load dogs
-    loader.loadModel(`./assets/models/dogs/seadog.obj`);
-    loader.loadModel(`./assets/models/dogs/shibainu.obj`);
-    loader.loadModel(`./assets/models/dogs/arcticwolf.obj`);
-    loader.loadModel(`./assets/models/dogs/seafox.obj`);
-    loader.loadModel(`./assets/models/dogs/krewmate.obj`);
-    loader.loadTexture(`./assets/models/dogs/seadog.tga`);
-    loader.loadTexture(`./assets/models/dogs/shibainu.tga`);
-    loader.loadTexture(`./assets/models/dogs/arcticwolf.tga`);
-    loader.loadTexture(`./assets/models/dogs/seafox.tga`);
-    loader.loadTexture(`./assets/models/dogs/krewmate.tga`);
+    // Load misc objects
+    loader.loadTexture(`./assets/models/misc/water.jpg`);
 
-    // Load hats
-    loader.loadObjWithMtl(`./assets/models/hat_pirate.obj`);
 
-    // Load islands
-    loader.loadModel(`./assets/models/island.obj`);
-
-    // Load island pickups
-    loader.loadObjWithMtl(`./assets/models/shell.obj`);
-    loader.loadObjWithMtl(`./assets/models/crab.obj`);
-    loader.loadObjWithMtl(`./assets/models/clam.obj`);
-
-    // Load sea pickups
-    loader.loadObjWithMtl(`./assets/models/chest.obj`);
-    loader.loadTexture(`./assets/img/crate.jpg`);
-
-    // Load misc textures
-    loader.loadTexture(`./assets/models/colorset.png`);
-    loader.loadTexture(`./assets/models/props_diffuse1.tga`);
-    loader.loadTexture(`./assets/img/water.jpg`);
-
-    // Decoration Models
-    if (config.christmasTree[0]) loader.loadObjWithMtl('./assets/models/elka.obj');
-    if (config.snowman[0]) loader.loadObjWithMtl('./assets/models/snowman.obj');
 
     // Once loader is done, create the objects in the world
     loader.onFinish(() => {
@@ -166,26 +166,15 @@ let createMaterials = function () {
     });
     materials.fishingrod = new THREE.MeshPhongMaterial({
         color: 0xffffff,
-        map: textures.props_diffuse1
+        map: textures.fishingrod
     });
-    materials.colorset = new THREE.MeshLambertMaterial({
-        map: textures.colorset,
+    materials.island = new THREE.MeshLambertMaterial({
+        map: textures.island,
         side: THREE.DoubleSide
     });
     materials.hook = new THREE.MeshLambertMaterial({
         map: textures.hook,
         side: THREE.DoubleSide,
-        transparent: true
-    });
-    materials.colorset_captain = new THREE.MeshLambertMaterial({
-        map: textures.colorset,
-        side: THREE.DoubleSide,
-        emissive: 0x1C1C1C
-    });
-    materials.transparentDetails = new THREE.MeshLambertMaterial({
-        map: textures.colorset,
-        side: THREE.DoubleSide,
-        opacity: 0.025,
         transparent: true
     });
     materials.crate = new THREE.MeshLambertMaterial({
