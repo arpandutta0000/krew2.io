@@ -1,5 +1,11 @@
 /* Pre-gameplay UI init to be ran after document is ready */
 let preGamplayUiInit = () => {
+    // Prevent pre gameplay UI from closing
+    $(`#login-modal`).modal({
+        backdrop: `static`,
+        keyboard: false
+    })
+
     // Show more button on Wall of Fame
     $(`#show-more`).on(`click`, () => {
         if ($(`#show-more`).text().indexOf(`Show more`) > -1) {
