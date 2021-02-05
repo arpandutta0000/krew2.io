@@ -62,6 +62,9 @@ let Ease = {
 
     // decelerating to zero velocity
     easeOutQuad: (t) => t * (2 - t),
+
+    // accelerating from zero velocity
+    easeInQuint: (t) => t * t * t * t * t,
 };
 
 let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
