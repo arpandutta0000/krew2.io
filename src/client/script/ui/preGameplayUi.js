@@ -4,7 +4,7 @@ let preGamplayUiInit = () => {
     $(`#login-modal`).modal({
         backdrop: `static`,
         keyboard: false
-    })
+    });
 
     // Show more button on Wall of Fame
     $(`#show-more`).on(`click`, () => {
