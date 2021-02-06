@@ -1855,7 +1855,7 @@ var ui = {
                 }
 
                 // if client is using invite link, automatically assign server
-                let params = _this.getUrlVars();
+                let params = getUrlVars();
                 if (params.sid) {
                     $(`#server-list`).val(params.sid);
                 }
