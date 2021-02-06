@@ -10,11 +10,6 @@
             55: `damage`
         },
         getList: function () {
-            if (myPlayer === undefined || myPlayer.parent === undefined) {
-                console.log(`Oops, it seems you don't have a boat.`);
-                return;
-            }
-
             ExperiencePointsComponent
                 .removeListeners()
                 .clearStore()
