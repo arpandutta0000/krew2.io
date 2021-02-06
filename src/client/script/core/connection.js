@@ -80,7 +80,7 @@ var initSocketBinds = () => {
         secondsAlive = 0;
 
         socket.on(`startGame`, () => {
-            ui.LoadingWheel(`hide`);
+            ui.loadingWheel(`hide`);
             ui.showCenterMessage(
                 `Use WASD to move. Click to shoot/fish. Use 1 & 2 to switch weapons.`,
                 4,
@@ -152,7 +152,7 @@ var initSocketBinds = () => {
         // oods update
         socket.on(`cargoUpdated`, () => {
             if ($(`#buy-goods`).hasClass(`active`)) {
-                GOODSCOMPONENT.getList();
+                GoodsComponent.getList();
             }
         });
 

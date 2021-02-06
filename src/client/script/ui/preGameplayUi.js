@@ -27,7 +27,7 @@ let preGamplayUiInit = () => {
             ui.showAdinplayCentered();
             login();
             setUpKeybinds();
-            ui.LoadingWheel(`show`);
+            ui.loadingWheel(`show`);
             ui.playAudioFile(false, `wheelspin`);
             ui.playAudioFile(true, `ocean-ambience`);
         }

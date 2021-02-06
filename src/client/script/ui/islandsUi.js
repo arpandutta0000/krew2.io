@@ -44,7 +44,6 @@ let exitIsland = (data) => {
         $(`#departure-modal`).hide();
     }
 
-    krewListUpdateManually = false;
     ui.hideSuggestionBox = true;
     if (myPlayer) {
         ui.stopAudioFile(`island-music`);

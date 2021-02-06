@@ -1,19 +1,10 @@
 let lastScore = 0;
 let lastGold = 0;
-let div = document.createElement(`div`);
-let krewListUpdateManually = false;
-let glowGoldTimeout = 0;
 let markerMapCount = performance.now();
 let goldMultiplier = 2000;
 let loginButton = $(`#login-button`);
 let playButton = $(`#play-button`);
 let baseUrl = window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``);
-
-let uiSuggest = {
-    setItems: () => {
-        if (myPlayer && myPlayer.gold > 500 && (!myPlayer.ownsCannon || myPlayer.ownsFishingRod || (myPlayer.parent && myPlayer.parent.netType !== 1))) {}
-    }
-};
 
 var ui = {
     isLoggedIn: false,
@@ -24,49 +15,37 @@ var ui = {
     serverList: {},
 
     /**
-     * This method will set the initial listeners
-     * @return {Void}
+     * Set the initial UI listeners
      */
     setListeners: function () {
-        let $crewName = $(`#crew-name`);
-        let $crewNameEditButton = $(`#crew-name-edit-button`);
-        let $crewNameAndEditButton = $crewName.add($crewNameEditButton);
-        let $crewNameEditInput = $(`#crew-name-edit-input`);
-        let $krewNameForm = $(`#krew-name-form`);
         let _this = this;
 
-        $crewNameEditButton.on(`click`, () => {
-            $crewNameEditButton.addClass(`hidden`);
-
-            // if i am the captain show the input to change the name of my crew
-            if (_this.leadersUiConfiguration.active) {
-                $crewName.addClass(`hidden`);
-                _this.leadersUiConfiguration.editingName = true;
-                $crewNameEditInput.val($crewName.html()).removeClass(`hidden`);
+        /* Setting Krew name */
+        $(`#crew-name-edit-button`).on(`click`, () => {
+            $(`#crew-name-edit-button`).addClass(`hidden`);
+            if (_this.captainUiConfiguration.active) {
+                $(`#crew-name`).addClass(`hidden`);
+                _this.captainUiConfiguration.editingName = true;
+                $(`#crew-name-edit-input`).val($(`#crew-name`).html()).removeClass(`hidden`);
             }
         });
-
-        $krewNameForm.on(`submit`, (e) => {
-            _this.leadersUiConfiguration.editingName = false;
-            $crewName.removeClass(`hidden`);
-            $crewNameEditInput.addClass(`hidden`);
-
-            // if i am the captain send the changed name to the backend
-            if (_this.leadersUiConfiguration.active) {
-                $crewNameEditButton.removeClass(`hidden`);
-                let val = $crewNameEditInput.val().trim().slice(0, 20);
+        $(`#krew-name-form`).on(`submit`, (e) => {
+            _this.captainUiConfiguration.editingName = false;
+            $(`#crew-name`).removeClass(`hidden`);
+            $(`#crew-name-edit-input`).addClass(`hidden`);
+            if (_this.captainUiConfiguration.active) {
+                $(`#crew-name-edit-button`).removeClass(`hidden`);
+                let val = $(`#crew-name-edit-input`).val().trim().slice(0, 20);
                 if (val.length > 0 && !val.includes(`⚔`)) {
                     myBoat.setName(val);
-                    $crewName.text(myBoat.crewName);
+                    $(`#crew-name`).text(myBoat.crewName);
                     socket.emit(`updateKrewName`, myBoat.crewName);
                 }
             }
-            // clean the input
-            $crewNameEditInput.val(``);
+            $(`#crew-name-edit-input`).val(``);
             e.preventDefault();
         });
-
-        $crewNameEditInput.on(`keyup`, function (e) {
+        $(`#crew-name-edit-input`).on(`keyup`, function (e) {
             let $this = $(this);
             let val = $this.val();
 
@@ -75,36 +54,31 @@ var ui = {
             }
         });
 
+        /* Open Shop */
         $(`.toggle-shop-modal-button`).on(`click`, () => {
             if ($(`#toggle-shop-modal-button`).hasClass(`enabled`)) {
                 if ($(`#shopping-modal`).is(`:visible`)) {
                     $(`#shopping-modal`).hide();
                 } else {
-                    // TODO: delete next 3 lines?
-                    ui.closeAllPagesExcept(`#shopping-modal`);
-                    ui.hideSuggestionBox = true;
-                    ui.updateStore($(`.btn-shopping-modal.active`));
                     $(`#toggle-shop-modal-button`).popover(`hide`);
                     $(`#shopping-modal`).show();
                 }
             }
         });
 
+        /* View list of docked Krews */
         $(`.toggle-krew-list-modal-button`).on(`click`, () => {
             if ($(`#toggle-krew-list-modal-button`).hasClass(`enabled`)) {
                 if ($(`#krew-list-modal`).is(`:visible`)) {
                     $(`#krew-list-modal`).hide();
                 } else {
-                    // TODO: delete next 3 lines?
-                    ui.closeAllPagesExcept(`#krew-list-modal`);
-                    ui.hideSuggestionBox = true;
-                    ui.updateStore($(`.btn-shopping-modal.active`));
                     $(`#toggle-shop-modal-button`).popover(`hide`);
                     $(`#krew-list-modal`).show();
                 }
             }
         });
 
+        /* Open bank */
         $(`.toggle-bank-modal-button`).on(`click`, () => {
             if ($(`#toggle-bank-modal-button`).hasClass(`enabled`)) {
                 if ($(`#bank-modal`).is(`:visible`)) {
@@ -121,6 +95,7 @@ var ui = {
             }
         });
 
+        /* Button to toggle map */
         $(`#toggle-map-button`).on(`click`, () => {
             if ($(`#minimap-container`).is(`:visible`)) {
                 $(`#minimap-container`).hide();
@@ -129,6 +104,7 @@ var ui = {
             }
         });
 
+        /* Toggle ship status */
         $(`.toggle-ship-status-button`).on(`click`, () => {
             if ($(`#ship-status-modal`).is(`:visible`)) {
                 $(`#ship-status-modal`).hide();
@@ -150,11 +126,11 @@ var ui = {
                 }
             }
         });
-
         $(`#ship-status`).on(`click`, () => {
             ui.showShipStatus();
         });
 
+        /* Clan managment panel */
         $(`#clan-management`).on(`click`, () => {
             $(`#clan-management`).addClass(`active`);
             $(`#ship-status`).removeClass(`active`);
@@ -171,6 +147,7 @@ var ui = {
             }
         });
 
+        /* Leave clan button */
         $(`#leave-clan-button`).on(`click`, () => {
             socket.emit(`clan`, `leave`, (callback) => {
                 if (callback === true) {
@@ -181,23 +158,26 @@ var ui = {
             ui.setClanData();
         });
 
+        /* Request to join a clan button */
         $(`#request-clan-button`).on(`click`, () => {
             $(`#clan-table`).hide();
             $(`#clan-request-table`).show();
             $(`#view-clan-button`).show();
         });
 
+        /* View clan button */
         $(`#view-clan-button`).on(`click`, () => {
             $(`#clan-table`).show();
             $(`#clan-request-table`).hide();
             $(`#view-clan-button`).hide();
         });
 
-        // hide all errors when clicking on the text input field
+        /* Hide errors on clan request */
         $(`#clan-request`).on(`click`, () => {
             ui.hideAllClanErrors();
         });
 
+        /* Join clan button */
         $(`#join-clan-button`).on(`click`, () => {
             ui.hideAllClanErrors();
             let clanRequest = $(`#clan-request`).val();
@@ -222,6 +202,7 @@ var ui = {
             }
         });
 
+        /* Create clan button */
         $(`#create-clan-button`).on(`click`, () => {
             ui.hideAllClanErrors();
             let clanRequest = $(`#clan-request`).val();
@@ -249,6 +230,7 @@ var ui = {
             }
         });
 
+        /* Clan table */
         $(`#clan-table`).on(`click`, (e) => {
             let clanEvent = e.target.getAttribute(`data-event`);
             let clanId = e.target.getAttribute(`data-id`);
@@ -275,6 +257,7 @@ var ui = {
             }
         });
 
+        /* Clan request table */
         $(`#clan-request-table`).on(`click`, (e) => {
             let requestEvent = e.target.getAttribute(`data-event`);
             let requestPlayer = e.target.getAttribute(`data-id`);
@@ -300,6 +283,7 @@ var ui = {
             }
         });
 
+        /* Player request table */
         $(`#player-request-table`).on(`click`, (e) => {
             let cancelRequestEvent = e.target.getAttribute(`data-event`);
             if (cancelRequestEvent === `cancel-request`) {
@@ -317,6 +301,7 @@ var ui = {
             }
         });
 
+        /* Add marker on minimap click */
         $(`#minimap`).on(`click`, (e) => {
             if (markerMapCount < performance.now() - 5000) {
                 markerMapCount = performance.now();
@@ -329,17 +314,7 @@ var ui = {
             }
         });
 
-        /**
-         * This listener adds the functionality to the captains to kick a crew member
-         * from the members list
-         *
-         * Since the list its been updated every 1000 milliseconds and to not add more listeners,
-         * we only attach the listener to the krew list and search if the target has an id
-         * If this is the case, send the event to the socket with the id to kick him
-         *
-         * @param  {Object} e   Browser event ('click')
-         * @return {Void}
-         */
+        /* Kick a krew member*/
         $(`#krew-list`).on(`click`, (e) => {
             let dataEvent = e.target.getAttribute(`data-event`);
             if (dataEvent === `kick`) {
@@ -348,7 +323,7 @@ var ui = {
                     socket.emit(`bootMember`, dataId);
                     $(e.target).closest(`.player-list-item`).remove();
                     if ($(`#buy-goods`).hasClass(`active`)) {
-                        GOODSCOMPONENT.getList();
+                        GoodsComponent.getList();
                     }
                 }
             } else if (dataEvent === `transfer`) {
@@ -356,15 +331,22 @@ var ui = {
                 if (typeof dataId === `string` && dataId.length > 0) {
                     socket.emit(`transferShip`, dataId);
                     if ($(`#buy-goods`).hasClass(`active`)) {
-                        GOODSCOMPONENT.getList();
+                        GoodsComponent.getList();
                     }
                 }
             }
         });
 
+        /* Update Music volume on music control change */
         $(`#music-control`).on(`change`, () => updateMusic());
     },
 
+    /**
+     * Play an audio file
+     * 
+     * @param {boolean} loop If the audio file should be looped
+     * @param {string} fileId The file ID for the audio file
+     */
     playAudioFile: function (loop, fileId) {
         const musicValue = document.getElementById(`music-control`);
         const sfxValue = document.getElementById(`sfx-control`);
@@ -374,66 +356,64 @@ var ui = {
             document.getElementById(fileId).currentTime = 0;
 
         document.getElementById(fileId).play();
-        document.getElementById(fileId).volume = loop
-            ? 0.1 * musicValue.value / musicValue.max
-            : 0.45 * sfxValue.value / sfxValue.max;
+        document.getElementById(fileId).volume = loop ?
+            0.1 * musicValue.value / musicValue.max :
+            0.45 * sfxValue.value / sfxValue.max;
     },
+
+    /**
+     * Stop an audio file
+     * 
+     * @param {string} fileId The file ID for the audio file
+     */
     stopAudioFile: function (fileId) {
         document.getElementById(fileId).pause();
     },
+
+    /**
+     * Update the experience UI
+     */
     updateUiExperience: function () {
-        let $levelUpButton = $(`.level-up-button`);
-        $levelUpButton.off();
+        $(`.level-up-button`).off();
 
         EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
             if (Store.originalPoints > 0) {
-                $levelUpButton.show(0);
-                $levelUpButton.one(`click`, function () {
-                    let $this = $(this);
-                    let attribute = $this.attr(`data-attribute`);
-
-                    Store.allocatedPoints[attribute] = 1;
+                $(`.level-up-button`).show(0);
+                $(`.level-up-button`).one(`click`, function () {
+                    Store.allocatedPoints[$(this).attr(`data-attribute`)] = 1;
                     EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
                         ui.updateUiExperience();
                     });
                 });
             }
 
-            if (Store.originalPoints <= 0) {
-                $levelUpButton.hide(0);
-            }
+            if (Store.originalPoints <= 0) $(`.level-up-button`).hide(0);
 
-            let $experiencebar = $(`#experience-bar`);
-            let $progressbar = $experiencebar.find(`div`);
-            let $fireRate = $(`.experience-attribute-fireRate`);
-            let $damage = $(`.experience-attribute-damage`);
-            let $distance = $(`.experience-attribute-distance`);
             let exp = myPlayer.experience;
             let level = parseInt(myPlayer.level);
-            let nextLevel;
-            let prevExp;
-            let nextExp;
-            let percent;
+            let nextLevel = level + 1;
+            let prevExp = myPlayer.experienceNeededForLevels[level].total;
+            let nextExp = myPlayer.experienceNeededForLevels[nextLevel].total;
+            let percent = parseInt(((exp - prevExp) / (nextExp - prevExp)) * 100);
 
-            nextLevel = level + 1;
-            prevExp = myPlayer.experienceNeededForLevels[level].total;
-            nextExp = myPlayer.experienceNeededForLevels[nextLevel].total;
-            percent = parseInt(((exp - prevExp) / (nextExp - prevExp)) * 100);
+            $(`#experience-bar`).attr(`data-info`, `Level ${level}`);
 
-            $experiencebar.attr(`data-info`, `Level ${level}`);
+            $(`.experience-attribute-fireRate`).find(`span`).html(myPlayer.points.fireRate);
+            $(`.experience-attribute-damage`).find(`span`).html(myPlayer.points.damage);
+            $(`.experience-attribute-distance`).find(`span`).html(myPlayer.points.distance);
 
-            $fireRate.find(`span`).html(myPlayer.points.fireRate);
-            $damage.find(`span`).html(myPlayer.points.damage);
-            $distance.find(`span`).html(myPlayer.points.distance);
-
-            if (level === myPlayer.experienceMaxLevel) {
-                $progressbar.attr(`style`, `width: 100%`);
-            } else {
-                $progressbar.attr(`style`, `width: ${percent}%`);
-            }
+            if (level === myPlayer.experienceMaxLevel) $(`#experience-bar`).find(`div`).attr(`style`, `width: 100%`);
+            else $(`#experience-bar`).find(`div`).attr(`style`, `width: ${percent}%`);
         });
     },
 
+    /**
+     * Shows a center message
+     * 
+     * @param {string} text The text to be shown
+     * @param {number} typeId The type of notification (1 = Danger, 3 = Success, 4 = Info, undefined = Info)
+     * @param {number} time The time for the message to stay on screen in milliseconds. Defaults to 4 seconds if undefined
+     */
     showCenterMessage: function (text, typeId, time) {
         let type = ``;
         switch (typeId) {
@@ -456,19 +436,22 @@ var ui = {
         }
 
         GrowlNotification.notify({
-            // title: 'Message from admin:',
             description: text,
             closeTimeout: time === undefined ? 4000 : time,
             position: `top-center`,
             animationOpen: `slide-in`,
             animationClose: `fade-out`,
             type: type,
-            // type: 'danger',
             imageVisible: true,
             imageCustom: `../assets/img/notifications/${type}-new.png`
         });
     },
 
+    /**
+     * Shows an admin message (center message)
+     * 
+     * @param {string} text The text to be shown
+     */
     showAdminMessage: function (text) {
         GrowlNotification.notify({
             title: `Message from admin:`,
@@ -483,6 +466,11 @@ var ui = {
         });
     },
 
+    /**
+     * Shows a kill message
+     * 
+     * @param {string} text The text to be shown
+     */
     showKillMessage: function (text) {
         GrowlNotification.notify({
             description: text,
@@ -496,17 +484,23 @@ var ui = {
         });
     },
 
+    /**
+     * Shows a damage message
+     * 
+     * @param {string} text The text to be shown
+     * @param {number} typeId The type of damage to be shown (1 = Ship damage, 2 = Shooter damage, undefined = Ship damage)
+     */
     showDamageMessage: function (text, typeId) {
         switch (typeId) {
             case undefined:
             case 1: {
                 color = `#a94442`;
                 break;
-            } // ship damage
+            } // Ship damage
             case 2: {
                 color = `#3c763d`;
                 break;
-            } // shooter damage
+            } // Shooter damage
         }
         let msgInterval = 3000;
         let textDiv = $(`<div/>`, {
@@ -517,41 +511,24 @@ var ui = {
 
         let $messageCount = $(`#center-div div`).length;
 
-        if ($messageCount > 3) {
-            $(`#center-div div:last-child`).remove();
-        }
+        if ($messageCount > 3) $(`#center-div div:last-child`).remove();
 
         $(`#center-div`).prepend(textDiv);
     },
 
-    showAdinplay: function () {
-        let timeNow = Date.now();
-        let timeLastAd = localStorage.getItem(`lastAdTime`);
-        let timeSinceLastAd = timeNow - timeLastAd;
-        console.log(`Time since last ad: ${timeSinceLastAd / 1000}s`);
-        if (timeLastAd !== 0 && timeLastAd !== undefined && timeSinceLastAd > (5 * 60 * 1000)) {
-            console.log(`Showing ad`);
-            localStorage.setItem(`lastAdTime`, timeNow);
-            if (adplayer) {
-                adplayer.startPreRoll();
-            }
-        } else {
-            if (timeLastAd === null || timeLastAd === undefined) {
-                localStorage.setItem(`lastAdTime`, 1);
-            }
-
-            console.log(`Last ad recent. Not showing ad`);
-        }
-    },
-
+    /**
+     * Shows an adinplay video ad
+     */
     showAdinplayCentered: function () {
-        if (typeof (adplayer) !== `undefined` && adEnabled) {
-            adplayerCentered.startPreRoll();
-        } else {
-            console.log(`adplayer is not defined`);
-        }
+        if (typeof (adplayer) !== `undefined` && adEnabled) adplayerCentered.startPreRoll();
+        else console.log(`Adplayer is not defined, skipped showing ad`);
     },
 
+    /**
+     * Creates ships store
+     * 
+     * @callback callback
+     */
     getShips: function (callback) {
         if (myPlayer && myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
             socket.emit(`getShips`, (err, ships) => {
@@ -608,9 +585,8 @@ var ui = {
                         class: `btn btn-primary btn-sm`,
                         role: `button`,
                         disabled: !!((myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) || ship.purchasable !== true),
-                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
-                            ? `Purchased`
-                            : `Buy`
+                        html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) ?
+                            `Purchased` : `Buy`
                     }).on(`click`, function () {
                         if ($(`#abandon-existing-krew`).is(`:visible`)) {
                             $(`#abandon-existing-krew`).hide();
@@ -658,10 +634,7 @@ var ui = {
                         if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType !== 1) {
                             GameAnalytics(`addDesignEvent`, `Game:Session:PurchasedBoat`);
                             $(`#raft-shop-div`).hide();
-                            if (krewListUpdateManually)
-                                $(`#toggle-krew-list-modal-button`).popover(`show`);
-                            if (!ui.hideSuggestionBox)
-                                $(`#toggle-shop-modal-button`).popover(`show`);
+                            if (!ui.hideSuggestionBox) $(`#toggle-shop-modal-button`).popover(`show`);
                         }
                     });
 
@@ -676,6 +649,11 @@ var ui = {
         }
     },
 
+    /**
+     * Creates items store
+     * 
+     * @callback callback
+     */
     getItems: function (callback) {
         if (myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
             socket.emit(`getItems`, (err, items) => {
@@ -751,22 +729,20 @@ var ui = {
         }
     },
 
-    updateKrewList: getFixedFrameRateMethod(2, () => {
-        KREWLISTCOMPONENT.boats();
-        DEPARTINGKREWLISTCOMPONENT.boats();
-    }),
-
+    /**
+     * Updates the store
+     * 
+     * @param {object} $btn The button pressed to update the store
+     */
     updateStore: function ($btn) {
         let _this = this;
-        let list = ``;
         let $shoppingItemList = $(`#shopping-item-list`);
-        let id = $btn.attr(`id`);
 
         $shoppingItemList.html(``);
 
-        EXPERIENCEPOINTSCOMPONENT.checkButtonTab();
+        console.log($(`#buy-items`).hasClass(`active`))
 
-        if (id === `buy-ships`) {
+        if ($(`#buy-ships`).hasClass(`active`)) {
             if (myPlayer !== undefined && myPlayer.parent !== undefined &&
                 myPlayer.parent.captainId !== myPlayer.id && myPlayer.parent.netType === 1) {
                 $(`#abandon-existing-krew`).show();
@@ -779,7 +755,7 @@ var ui = {
             return;
         }
 
-        if (id === `buy-items`) {
+        if ($(`#buy-items`).hasClass(`active`)) {
             if ($(`#abandon-existing-krew`).is(`:visible`)) {
                 $(`#abandon-existing-krew`).hide();
             }
@@ -787,30 +763,37 @@ var ui = {
             _this.getItems((div) => {
                 $shoppingItemList.html(div);
             });
-            // $shoppingItemList.html(_this.getItems());
             return;
         }
 
-        if (id === `buy-goods`) {
+        if ($(`#buy-goods`).hasClass(`active`)) {
             if ($(`#abandon-existing-krew`).is(`:visible`)) {
                 $(`#abandon-existing-krew`).hide();
             }
 
-            GOODSCOMPONENT.getList();
+            GoodsComponent.getList();
             return;
-        }
-
-        if (id === `experience-points`) {
-            if ($(`#abandon-existing-krew`).is(`:visible`)) {
-                $(`#abandon-existing-krew`).hide();
-            }
-
-            EXPERIENCEPOINTSCOMPONENT.getList();
         }
     },
 
+    /**
+     * Update krew list
+     */
+    updateKrewList: getFixedFrameRateMethod(2, () => {
+        KREWLISTCOMPONENT.boats();
+        DEPARTINGKREWLISTCOMPONENT.boats();
+    }),
+
+    /**
+     * Generates an invite link
+     */
     getInviteLink: () => `${window.location.protocol}//${window.location.hostname}${window.location.hostname === `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myBoat.id}`,
 
+    /**
+     * Update ship stats
+     * 
+     * @param {object} data Ship data
+     */
     updateShipStats: function (data) {
         if (myPlayer && myPlayer.parent && myPlayer.parent.netType === 1) {
             $(`.ship-hp`).html(myPlayer.parent.hp);
@@ -836,7 +819,14 @@ var ui = {
         }
     },
 
+    /**
+     * Formats and updates gold
+     * 
+     * @param {number} gold Amount of gold
+     */
     checkGoldDelta: function (gold) {
+        let glowGoldTimeout = 0;
+
         // update player gold in shopping window
         deltaGold = gold - lastGold;
         lastGold = gold;
@@ -885,16 +875,12 @@ var ui = {
             $(`.my-gold`).text(gold_short);
         }
     },
-
-    checkScoreDelta: function (score) {
-        deltaScore = score - lastScore;
-
-        if (deltaScore > 0) {
-            this.showDamageMessage(`+ ${parseFloat(deltaScore).toFixed(1)} hit`, 2);
-            lastScore = score;
-        }
-    },
-
+    
+    /**
+     * Updates buttons
+     * 
+     * @param {any} id The entity's ID
+     */
     setActiveBtn: function (id) {
         if (myPlayer.clan !== `` && myPlayer.clan !== undefined) {
             $(`#li-clan-chat`).show();
@@ -923,6 +909,11 @@ var ui = {
         }
     },
 
+    /**
+     * Closes all modals except a specified modal
+     * 
+     * @param {string} paramId The modal to leave open
+     */
     closeAllPagesExcept: function (pageId) {
         allPagesId = [`#help-modal`, `#bank-modal`, `#krew-list-modal`, `#shopping-modal`, `#quests-modal`, `#ship-status-modal`];
         for (let i = 0; i < allPagesId.length; i++) {
@@ -931,6 +922,12 @@ var ui = {
             }
         }
     },
+
+    /**
+     * Sets bank data
+     * 
+     * @param {object} data Bank data
+     */
     setBankData: function (data) {
         if (data.warn) {
             $(`#bankContainer`).hide();
@@ -958,6 +955,11 @@ var ui = {
         }
     },
 
+    /**
+     * Sets clan data
+     * 
+     * @param {string} option Force an update
+     */
     setClanData: function (option) {
         // if player has no clan and did not send join request yet
         if ((myPlayer.clan === undefined || myPlayer.clan === ``) && (!myPlayer.clanRequest || myPlayer.clanRequest === ``)) {
@@ -1035,6 +1037,9 @@ var ui = {
         }
     },
 
+    /**
+     * Hides all clan errors
+     */
     hideAllClanErrors: function () {
         $(`#errorInput`).hide();
         $(`#errorLength`).hide();
@@ -1044,6 +1049,9 @@ var ui = {
         $(`#errorUnauthorized`).hide();
     },
 
+    /**
+     * Show ship status
+     */
     showShipStatus: function () {
         $(`#clan-management`).removeClass(`active`);
         $(`#ship-status`).addClass(`active`);
@@ -1054,6 +1062,11 @@ var ui = {
         }
     },
 
+    /**
+     * Updates the leaderboard
+     * 
+     * @param {object} scores Player scores
+     */
     updateLeaderboard: function (scores) {
         let players = scores.players;
         let boats = scores.boats;
@@ -1094,8 +1107,8 @@ var ui = {
 
         if (myBoat && remoteBoat) {
             // Set if i am the leader of the boat and update the leaders ui
-            this.leadersUiConfiguration.active = remoteBoat.cI === myPlayer.id;
-            this.updateLeadersUi();
+            this.captainUiConfiguration.active = remoteBoat.cI === myPlayer.id;
+            this.updateCaptainUi();
             let cargoUsed = 0;
             for (var p in remoteBoat.players) {
                 cargoUsed += remoteBoat.players[p].cargoUsed;
@@ -1309,7 +1322,13 @@ var ui = {
         $(`#krew-list`).html($krewListDiv);
     },
 
-    // function for creating the login cookie
+    /**
+     * Create a cookie
+     * 
+     * @param {object} cname Cookie name
+     * @param {object} cvalue Cookie value
+     * @param {number} exdays The number of days until the cookie expires
+     */
     setCookie: function (cname, cvalue, exdays) {
         let d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -1317,6 +1336,12 @@ var ui = {
         document.cookie = `${cname}=${cvalue};${expires};path=/`;
     },
 
+    /**
+     * Get a cookie
+     * 
+     * @param {object} cname Cookie name
+     * @returns {object} Cookie
+     */
     getCookie: function (cname) {
         let cookies = document.cookie.split(`;`);
         for (let i in cookies) {
@@ -1329,6 +1354,11 @@ var ui = {
         }
     },
 
+    /**
+     * Set a cookie to be invalid
+     * 
+     * @param {object} cname Cookie name
+     */
     invalidateCookie: function (cname) {
         let cookies = document.cookie.split(`;`);
         for (let i in cookies) {
@@ -1340,7 +1370,10 @@ var ui = {
         }
     },
 
-    getKrewioData: () => $.get(`${baseUrl}/authenticated`).then((response) => {
+    /**
+     * Initiate login and register
+     */
+    initLoginRegister: () => $.get(`${baseUrl}/authenticated`).then((response) => {
         ui.username = !response.isLoggedIn ? undefined : response.username;
         ui.password = !response.isLoggedIn ? undefined : response.password;
         loginButton.attr(`disabled`, false).show();
@@ -1439,11 +1472,11 @@ var ui = {
             ui.setCookie(`username`, response.username, 1);
             ui.setCookie(`password`, response.password, 1);
 
-            // player is authenticated, so show him personalized login button
+            // Show personalized login button
             playButton.html(`Play as <b>${ui.username}</b>`);
             loginButton.html(`Account Settings`);
             ui.isLoggedIn = true;
-            ui.prepareForPlay();
+            ui.addLogout();
             let currentModel = 0;
 
             loginButton.on(`click`, () => {
@@ -1767,26 +1800,29 @@ var ui = {
         });
     }),
 
-    prepareForPlay: function () {
-        // show the player that he is logged in (top right corner) and show logout button
+    /**
+     * Add logout button in upper right corner
+     */
+    addLogout: function () {
         $(`#logged-in`).html(`You are logged in as <b>${ui.username}</b>`).show();
         $(`#login-link`).attr(`href`, `/logout`).html(`Logout`).show();
     },
 
+    /**
+     * Sets player spawn based off of selection
+     */
     setSpawnPlace: function () {
         spawn = $(`#spawn-selection`).val();
-        if (spawn === 0 || spawn === 1)
-            ui.playAudioFile(true, `ocean-music`);
-        else
-            ui.playAudioFile(true, `island-music`);
-
+        if (spawn === 0 || spawn === 1) ui.playAudioFile(true, `ocean-music`);
+        else ui.playAudioFile(true, `island-music`);
         return spawn;
     },
 
+    /**
+     * Update server list
+     */
     updateServerList: function () {
         let _this = this;
-
-        // construct server-list
         $.ajax({
             url: `${baseUrl}/get_servers`,
             data: {
@@ -1827,6 +1863,9 @@ var ui = {
         });
     },
 
+    /**
+     * Create wall of fame
+     */
     createWallOfFame: function () {
         $.get(`api/wall_of_fame`, (data, status) => {
             if (status === `success`) {
@@ -1854,6 +1893,9 @@ var ui = {
         });
     },
 
+    /**
+     * Create quality selection menu
+     */
     setQualitySettings: function () {
         $(`#quality-list`).html(``);
         var $quality = $(`<option/>`, {
@@ -1894,39 +1936,34 @@ var ui = {
         $(`#account-quality-list`).append($quality);
     },
 
-    getUrlVars: function () {
-        let vars = {};
-        let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
-            vars[key] = value;
-        });
-
-        return vars;
-    },
-
     /**
-     * This will store the captains configuration, it will set the active property if i am the captain
+     * Captain configuration, sets the active property if player is the captain
+     * 
      * @type {Object}
      */
-    leadersUiConfiguration: {
+    captainUiConfiguration: {
         editingName: false,
         active: false
     },
 
     /**
-     * This method wil update the leaders ui
-     * @return {Void}
+     * Updates captain UI
      */
-    updateLeadersUi: function () {
+    updateCaptainUi: function () {
         // If i am the captain and i am not editing the name, show the editing button
-        let $crewNameEditButton = $(`#crew-name-edit-button`);
-        if (this.leadersUiConfiguration.active && !this.leadersUiConfiguration.editingName) {
-            $crewNameEditButton.removeClass(`hidden`);
+        if (this.captainUiConfiguration.active && !this.captainUiConfiguration.editingName) {
+            $(`#crew-name-edit-button`).removeClass(`hidden`);
         } else { // If i am not the captain hide the edit button
-            $crewNameEditButton.addClass(`hidden`);
+            $(`#crew-name-edit-button`).addClass(`hidden`);
         }
     },
 
-    LoadingWheel: function (event) {
+    /**
+     * Shows or hides the loading wheel
+     * 
+     * @param {string} event Hide or show
+     */
+    loadingWheel: function (event) {
         if (event === `show`) {
             $(`#loading-wheel`).show();
         } else {
@@ -1934,38 +1971,6 @@ var ui = {
         }
     },
 };
-
-let stoppedScroll, scrollLoop, chatHistory, prevScroll;
-
-function scrollChat_init () {
-    chatHistory = document.querySelector(`#chat-history`);
-    stoppedScroll = false;
-
-    chatHistory.scrollTop = 0;
-    PreviousScrollTop = 0;
-
-    scrollLoop = setInterval(scrollChat, 1);
-}
-
-function scrollChat () {
-    chatHistory.scrollTop = PreviousScrollTop;
-    PreviousScrollTop += 0.25;
-
-    stoppedScroll = chatHistory.scrollTop >= (chatHistory.scrollHeight - chatHistory.offsetHeight);
-}
-
-function pauseChat () {
-    clearInterval(scrollLoop);
-}
-
-function resumeChat () {
-    PreviousScrollTop = chatHistory.scrollTop;
-    scrollLoop = setInterval(scrollChat, 1);
-}
-
-scrollChat_init();
-chatHistory.addEventListener(`mouseover`, pauseChat);
-chatHistory.addEventListener(`mouseout`, resumeChat);
 
 let times = [];
 const getFPS = () => {

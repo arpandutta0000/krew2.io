@@ -121,3 +121,36 @@ var toggleStaffChat = () => {
     globalChatOn = false;
     $(`#staff-chat-alert`).hide();
 };
+
+/* Chat auto scroll */
+let stoppedScroll, scrollLoop, chatHistory, prevScroll;
+
+function scrollChat_init () {
+    chatHistory = document.querySelector(`#chat-history`);
+    stoppedScroll = false;
+
+    chatHistory.scrollTop = 0;
+    PreviousScrollTop = 0;
+
+    scrollLoop = setInterval(scrollChat, 1);
+}
+
+function scrollChat () {
+    chatHistory.scrollTop = PreviousScrollTop;
+    PreviousScrollTop += 0.25;
+
+    stoppedScroll = chatHistory.scrollTop >= (chatHistory.scrollHeight - chatHistory.offsetHeight);
+}
+
+function pauseChat () {
+    clearInterval(scrollLoop);
+}
+
+function resumeChat () {
+    PreviousScrollTop = chatHistory.scrollTop;
+    scrollLoop = setInterval(scrollChat, 1);
+}
+
+scrollChat_init();
+chatHistory.addEventListener(`mouseover`, pauseChat);
+chatHistory.addEventListener(`mouseout`, resumeChat);

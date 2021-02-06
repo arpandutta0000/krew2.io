@@ -68,10 +68,10 @@ let loadModels = () => {
 
         $(`#play-button`).text(`Play as guest`).attr(`disabled`, false);
         if (!(ui.getCookie(`username`) && ui.getCookie(`token`))) {
-            ui.getKrewioData();
+            ui.initLoginRegister();
         } else {
             ui.username = ui.getCookie(`username`);
-            ui.prepareForPlay();
+            ui.addLogout();
         }
     });
 };

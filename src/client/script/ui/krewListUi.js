@@ -12,39 +12,23 @@
                 for (id in entities) {
                     boat = entities[id];
 
-                    if (krewListUpdateManually) {
+
+                    if (
+                        myPlayer &&
+                        boat &&
+                        boat.anchorIslandId &&
+                        (boat.shipState === 3 || boat.shipState === 2 || boat.shipState === -1 || boat.shipState === 4) &&
+                        boat.recruiting === true
+                    ) {
                         if (
-                            myPlayer &&
-                                boat &&
-                                boat.anchorIslandId &&
-                                boat.shipState === 4 &&
-                                boat.recruiting === true &&
-                                boat.isLocked !== true
+                            (myPlayer.parent.netType === 1 && boat.anchorIslandId === myPlayer.parent.anchorIslandId) ||
+                            boat.anchorIslandId === myPlayer.parent.id
                         ) {
-                            if (
-                                (myPlayer.parent.netType === 1 && boat.anchorIslandId === myPlayer.parent.anchorIslandId) ||
-                                    boat.anchorIslandId === myPlayer.parent.id
-                            ) {
-                                boats.push(boat);
-                            }
-                        }
-                    } else {
-                        if (
-                            myPlayer &&
-                                boat &&
-                                boat.anchorIslandId &&
-                                (boat.shipState === 3 || boat.shipState === 2 || boat.shipState === -1 || boat.shipState === 4) &&
-                                boat.recruiting === true
-                        ) {
-                            if (
-                                (myPlayer.parent.netType === 1 && boat.anchorIslandId === myPlayer.parent.anchorIslandId) ||
-                                    boat.anchorIslandId === myPlayer.parent.id
-                            ) {
-                                boats.push(boat);
-                                $(`#docked-krews-count`).html(boats.length);
-                            }
+                            boats.push(boat);
+                            $(`#docked-krews-count`).html(boats.length);
                         }
                     }
+
                 }
             }
 
@@ -59,7 +43,7 @@
             );
             if (boats.length === 0)
                 $(`#toggle-krew-list-modal-button`).popover(`hide`);
-                // $('#docked-krews-count').html(boats.length);
+            // $('#docked-krews-count').html(boats.length);
             return {
                 boats: boats
             };
@@ -85,8 +69,8 @@
                         let id = boat.id;
                         if (
                             entities[id] === undefined ||
-                                entities[id].maxKrewCapacity === entities[id].krewCount ||
-                                entities[id].captainId === myPlayerId
+                            entities[id].maxKrewCapacity === entities[id].krewCount ||
+                            entities[id].captainId === myPlayerId
                         ) {
                             return;
                         }
@@ -118,15 +102,15 @@
                             h(`small`, {}, boat.shipState === 4 ? `Departing in ${Math.round(boat.departureTime)} seconds` : ``)
                         ]),
                         h(`td`, {}, `${boat.krewCount}/${boatTypes[boat.shipclassId].maxKrewCapacity}`),
-                        h(`td`, {}, boat.id === myPlayer.parent.id
-                            ? `My Krew`
-                            : h(`button`, {
+                        h(`td`, {}, boat.id === myPlayer.parent.id ?
+                            `My Krew` :
+                            h(`button`, {
                                 id: boat.id,
                                 class: `btn btn-primary btn-md`,
                                 role: `button`,
                                 disabled: entities[boat.id] === undefined ||
-                                        entities[boat.id].maxKrewCapacity === entities[boat.id].krewCount ||
-                                        entities[boat.id].captainId === myPlayerId
+                                    entities[boat.id].maxKrewCapacity === entities[boat.id].krewCount ||
+                                    entities[boat.id].captainId === myPlayerId
 
                             }, `Join`))
                     ]);

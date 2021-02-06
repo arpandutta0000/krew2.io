@@ -254,6 +254,4 @@
             return $html;
         }
     };
-
-    window.GOODSCOMPONENT = GoodsComponent;
 })(window);
