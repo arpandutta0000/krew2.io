@@ -740,8 +740,6 @@ var ui = {
 
         $shoppingItemList.html(``);
 
-        console.log($(`#buy-items`).hasClass(`active`))
-
         if ($(`#buy-ships`).hasClass(`active`)) {
             if (myPlayer !== undefined && myPlayer.parent !== undefined &&
                 myPlayer.parent.captainId !== myPlayer.id && myPlayer.parent.netType === 1) {
@@ -875,7 +873,7 @@ var ui = {
             $(`.my-gold`).text(gold_short);
         }
     },
-    
+
     /**
      * Updates buttons
      * 
@@ -915,7 +913,7 @@ var ui = {
      * @param {string} paramId The modal to leave open
      */
     closeAllPagesExcept: function (pageId) {
-        allPagesId = [`#help-modal`, `#bank-modal`, `#krew-list-modal`, `#shopping-modal`, `#quests-modal`, `#ship-status-modal`];
+        let allPagesId = [`#help-modal`, `#bank-modal`, `#krew-list-modal`, `#shopping-modal`, `#quests-modal`, `#ship-status-modal`];
         for (let i = 0; i < allPagesId.length; i++) {
             if (pageId !== allPagesId[i]) {
                 $(allPagesId[i]).hide();
@@ -1298,7 +1296,6 @@ var ui = {
 
                 myPlayer.gold = parseInt(player.g);
                 if (myPlayer.gold >= goldMultiplier) {
-                    // console.log('goldMultiplier is: ',goldMultiplier);
                     miniplaySend2API(`gold`, goldMultiplier);
                     goldMultiplier *= 2;
                 }
