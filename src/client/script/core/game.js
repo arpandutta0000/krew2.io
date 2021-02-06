@@ -88,7 +88,7 @@ let createGame = function () {
 
 /* Function to clean up extra THREE.js objects */
 function cleanScene () {
-    if (scene !== undefined && scene !== [] && scene !== {}) {
+    if (scene != undefined && scene !== [] && scene !== {} && scene !== ``) {
         scene.traverse((node) => {
             if (node instanceof THREE.Mesh) {
                 for (o in sceneCanBalls) {
@@ -116,7 +116,7 @@ function cleanScene () {
 /* Function for island departure */
 let departure = () => {
     if (myPlayer && entities[myPlayer.id] && entities[myPlayer.id].parent) {
-        ui.playAudioFile(false, `sail`);
+        playAudioFile(false, `sail`);
         $(`#docking-modal`).hide();
         this.departureCounter = this.departureCounter || 0;
         socket.emit(`departure`, this.departureCounter);

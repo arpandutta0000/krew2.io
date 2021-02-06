@@ -61,3 +61,11 @@ let initAds = () => {
         }
     }
 };
+
+/**
+ * Shows an adinplay video ad
+ */
+let showAdinplayCentered = () => {
+    if (typeof (adplayer) !== `undefined` && adEnabled) adplayerCentered.startPreRoll();
+    else console.log(`Adplayer is not defined, skipped showing ad`);
+};

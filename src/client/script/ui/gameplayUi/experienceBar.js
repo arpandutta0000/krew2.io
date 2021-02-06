@@ -144,7 +144,7 @@
 
                 ExperiencePointsComponent.updateAvailablePoints();
                 Store.$html.find(`h6`).html(`Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span>`);
-                ui.updateUiExperience();
+                updateUiExperience();
             }).trigger(`change`);
         },
 
@@ -164,13 +164,13 @@
             let $tbody;
 
             html += `<div>`,
-            html += `    <h6>Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span></h6>`,
-            html += `    <table class="table table-sm">`,
-            html += `        <thead><tr><th>Name</th><th>Quantity</th></tr></thead>`,
-            html += `        <tbody></tbody>`,
-            html += `    </table>`,
-            html += `    <button class="btn btn-primary float-right btn-allocate-points">Allocate points</button>`,
-            html += `</div>`;
+                html += `    <h6>Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span></h6>`,
+                html += `    <table class="table table-sm">`,
+                html += `        <thead><tr><th>Name</th><th>Quantity</th></tr></thead>`,
+                html += `        <tbody></tbody>`,
+                html += `    </table>`,
+                html += `    <button class="btn btn-primary float-right btn-allocate-points">Allocate points</button>`,
+                html += `</div>`;
 
             $html = $(html);
             $tbody = $html.find(`tbody`);
@@ -209,3 +209,40 @@
 
     window.EXPERIENCEPOINTSCOMPONENT = ExperiencePointsComponent;
 })(window);
+
+/**
+ * Update the experience bar
+ */
+let experienceBarUpdate = () => {
+    $(`.level-up-button`).off();
+
+    EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
+        if (Store.originalPoints > 0) {
+            $(`.level-up-button`).show(0);
+            $(`.level-up-button`).one(`click`, () => {
+                Store.allocatedPoints[$(this).attr(`data-attribute`)] = 1;
+                EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
+                    updateUiExperience();
+                });
+            });
+        }
+
+        if (Store.originalPoints <= 0) $(`.level-up-button`).hide(0);
+
+        let exp = myPlayer.experience;
+        let level = parseInt(myPlayer.level);
+        let nextLevel = level + 1;
+        let prevExp = myPlayer.experienceNeededForLevels[level].total;
+        let nextExp = myPlayer.experienceNeededForLevels[nextLevel].total;
+        let percent = parseInt(((exp - prevExp) / (nextExp - prevExp)) * 100);
+
+        $(`#experience-bar`).attr(`data-info`, `Level ${level}`);
+
+        $(`.experience-attribute-fireRate`).find(`span`).html(myPlayer.points.fireRate);
+        $(`.experience-attribute-damage`).find(`span`).html(myPlayer.points.damage);
+        $(`.experience-attribute-distance`).find(`span`).html(myPlayer.points.distance);
+
+        if (level === myPlayer.experienceMaxLevel) $(`#experience-bar`).find(`div`).attr(`style`, `width: 100%`);
+        else $(`#experience-bar`).find(`div`).attr(`style`, `width: ${percent}%`);
+    });
+};

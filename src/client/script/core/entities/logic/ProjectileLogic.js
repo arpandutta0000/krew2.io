@@ -61,7 +61,7 @@ let ProjectileLogic = {
                     _this.velocity.x = 0;
                     _this.velocity.z = 0;
                     if (myPlayer && _this.shooterid === myPlayer.id)
-                        ui.playAudioFile(false, `fishing`);
+                        playAudioFile(false, `fishing`);
 
                     entities[_this.shooterid].isFishing = true;
                 }

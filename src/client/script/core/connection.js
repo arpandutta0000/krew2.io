@@ -49,7 +49,7 @@ let connect = function (pid) {
     initSocketBinds();
 
     $(`#game-ui`).show();
-    $(`#login-modal`).modal(`hide`);
+    $(`#splash-modal`).modal(`hide`);
 };
 
 /* Init socket binds function */
@@ -73,15 +73,15 @@ var initSocketBinds = () => {
         // Create player entity
         socket.emit(`createPlayer`, {
             boatId: getUrlVars().bid,
-            name: !ui.username ? undefined : ui.username,
-            password: !ui.password ? undefined : ui.password,
-            spawn: ui.setSpawnPlace()
+            name: !headers.username ? undefined : headers.username,
+            password: !headers.password ? undefined : headers.password,
+            spawn: splash.setSpawnPlace()
         });
         secondsAlive = 0;
 
         socket.on(`startGame`, () => {
-            ui.loadingWheel(`hide`);
-            ui.showCenterMessage(
+            splash.loadingWheel(`hide`);
+            notifications.showCenterMessage(
                 `Use WASD to move. Click to shoot/fish. Use 1 & 2 to switch weapons.`,
                 4,
                 15000
@@ -136,17 +136,17 @@ var initSocketBinds = () => {
         // On scores update decompress packet data
         socket.on(`scores`, (data) => {
             data = JSON.parse(LZString.decompress(data));
-            ui.updateLeaderboard(data);
+            updateLeaderboard(data);
         });
 
         // Update bank data
         socket.on(`setBankData`, (data) => {
-            ui.setBankData(data);
+            setBankData(data);
         });
 
         // Update list of krews/leaderboard
         socket.on(`updateKrewsList`, () => {
-            ui.updateKrewList();
+            updateKrewList();
         });
 
         // oods update
@@ -166,7 +166,7 @@ var initSocketBinds = () => {
         socket.on(`exitIsland`, (data) => exitIsland(data));
 
         // Show video ad
-        socket.on(`showAdinplayCentered`, () => ui.showAdinplayCentered());
+        socket.on(`showAdinplayCentered`, () => showAdinplayCentered());
 
         // Set departure timer
         socket.on(`departureWarning`, () => {
@@ -180,8 +180,8 @@ var initSocketBinds = () => {
 
         // On a center message (Game info, server restarts, achievements, etc)
         socket.on(`showCenterMessage`, (message, type, time) => {
-            if (ui && ui.showCenterMessage) {
-                ui.showCenterMessage(message, type || 3, time);
+            if (ui && notifications.showCenterMessage) {
+                notifications.showCenterMessage(message, type || 3, time);
             }
             if (message.startsWith(`Achievement trading`)) {
                 $(`#shopping-modal`).hide();
@@ -190,25 +190,25 @@ var initSocketBinds = () => {
 
         // Show death messages
         socket.on(`showKillMessage`, (killChain) => {
-            if (ui && ui.showKillMessage) {
-                ui.showKillMessage(killChain);
+            if (ui && notifications.showKillMessage) {
+                notifications.showKillMessage(killChain);
             }
         });
 
         // Play damage sounds and show hit info
         socket.on(`showDamageMessage`, (message, type) => {
-            if (ui && ui.showDamageMessage) {
+            if (ui && notifications.showDamageMessage) {
                 if (type === 2)
-                    ui.playAudioFile(false, `cannon-hit`);
+                    playAudioFile(false, `cannon-hit`);
 
-                ui.showDamageMessage(message, type);
+                notifications.showDamageMessage(message, type);
             }
         });
 
         // Admin says
         socket.on(`showAdminMessage`, (message) => {
-            if (ui && ui.showAdminMessage) {
-                ui.showAdminMessage(message);
+            if (ui && notifications.showAdminMessage) {
+                notifications.showAdminMessage(message);
             }
         });
 
@@ -217,7 +217,7 @@ var initSocketBinds = () => {
             if (entities[data.id] !== undefined && entities[data.id].netType === 0) {
                 entities[data.id].level = data.level;
                 if (data.id === myPlayerId) {
-                    ui.playAudioFile(false, `level-up`);
+                    playAudioFile(false, `level-up`);
                     myPlayer.updateExperience();
                     myPlayer.notifiscationHeap[
                         Math.random().toString(36).substring(6, 10)

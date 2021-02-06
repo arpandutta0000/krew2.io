@@ -1,8 +1,5 @@
-// Create variables
-let $btnShoppingModal = $(`.btn-shopping-modal`);
-
 /* When a user joins the game */
-let login = function () {
+let initGameUi = () => {
     connect($(`#server-list`).val());
 
     ui.setQualitySettings();
@@ -66,77 +63,8 @@ let login = function () {
     });
 };
 
-/* Update info for island docking/departure timers */
-let islandTimer = () => {
-    // Update the alive timer
-    ++secondsAlive;
-    $(`#seconds`).html(pad(secondsAlive % 60));
-    $(`#minutes`).html(pad(parseInt(secondsAlive % 3600 / 60)));
-    $(`#hours`).html(pad(parseInt(secondsAlive / 3600)));
-
-    if (myPlayer && myPlayer.parent) {
-        if (myPlayer.parent.shipState === -1 || myPlayer.parent.shipState === 3) {
-            $dockingModalButton.removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
-            $portName.text(entities[myPlayer.parent.anchorIslandId].name);
-            $dockingModalButtonSpan.text(`Countdown...`);
-            $cancelExitButtonSpan.text(`Sail (c)`);
-            return;
-        }
-
-        if (myPlayer.parent.netType === 5) {
-            $portName.text(myPlayer.parent.name);
-            if ($dockingModal.is(`:visible`)) {
-                $dockingModal.hide();
-                showIslandMenu();
-            }
-        }
-
-        if ($dockingModal.hasClass(`initial`)) {
-            $dockingModal.removeClass(`initial`).find(`#you-are-docked-message`).remove();
-        }
-
-        if (myPlayer.parent.shipState !== 1) {
-            countDown = 8;
-        }
-
-        if (myPlayer.parent.shipState === 1) {
-            if (countDown === 8) {
-                socket.emit(`dock`);
-            }
-            $cancelExitButtonSpan.text(`Cancel (c)`);
-
-            if (countDown !== 0 && countDown > 0) {
-                $dockingModalButtonSpan.text(`Docking in ${countDown} seconds`);
-            } else {
-                $dockingModalButtonSpan.text(`Dock (z)`);
-                $dockingModalButton.removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
-            }
-
-            countDown--;
-        }
-
-        if (myPlayer.parent.shipState === 4) {
-            $(`#docking-modal`).hide();
-            if (!$(`#departure-modal`).is(`:visible`)) {
-                $(`#departure-modal`).show(0);
-            }
-
-            $(`#cancel-departure-button`).find(`span`).text(`${(myPlayer && myPlayer.isCaptain ? `Departing in ` : `Krew departing in `) + entities[myPlayer.id].parent.departureTime} seconds`);
-        }
-
-        if (((!myPlayer.isCaptain && myPlayer.parent.shipState !== 4) || (myPlayer.isCaptain && myPlayer.parent.shipState === 0)) && $(`#departure-modal`).is(`:visible`)) {
-            $(`#departure-modal`).hide();
-        }
-    }
-};
-let timer = setInterval(() => {
-    islandTimer();
-}, 1000);
-
 /* Set player session highlights for respawn window */
 let setHighlights = (gold, fired, hit, sank) => {
-    $(`#total-score`).html(lastScore);
-    $(`#total-damage`).html(lastScore);
     $(`#total-gold-collected`).html(gold.toFixed(0));
     $(`#total-shots-fired`).html(fired);
     $(`#total-shots-hit`).html(hit);
@@ -169,7 +97,7 @@ let gameplayUiInit = () => {
     // Play again button on game over
     $(`#play-again-button`).on(`click`, () => {
         if (threejsStarted) {
-            ui.showAdinplayCentered();
+            showAdinplayCentered();
             secondsAlive = 0;
             socket.emit(`respawn`);
             myPlayer.itemId = undefined;
@@ -197,9 +125,9 @@ let gameplayUiInit = () => {
     $(`#docking-modal-button`).on(`click`, () => {
         if ($(`#docking-modal-button`).hasClass(`enabled`)) {
             if (myPlayer && myPlayer.parent) {
-                ui.playAudioFile(false, `dock`);
+                playAudioFile(false, `dock`);
                 socket.emit(`anchor`);
-                $btnShoppingModal.eq(2).trigger(`click`);
+                $(`.btn-shopping-modal`).eq(2).trigger(`click`);
                 if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
                     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
                 }
@@ -208,14 +136,13 @@ let gameplayUiInit = () => {
                 }
             }
 
-            lastScore = 0;
             controls.unLockMouseLook();
             $(`#docking-modal`).hide();
 
             $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
             $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
 
-            ui.updateStore($(`.btn-shopping-modal.active`));
+            updateStore($(`.btn-shopping-modal.active`));
             $(`#recruiting-div`).fadeIn(`slow`);
         }
     });
@@ -389,7 +316,7 @@ let gameplayUiInit = () => {
                 if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
                     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
                 }
-                ui.updateStore($(`.btn-shopping-modal.active`));
+                updateStore($(`.btn-shopping-modal.active`));
             } else if (myBoat.shipState === 1) {
                 $(`#docking-modal`).show();
             }

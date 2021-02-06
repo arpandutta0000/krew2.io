@@ -131,7 +131,7 @@ document.onkeydown = function (evt) {
         EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
             Store.allocatedPoints[attribute] = 1;
             EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
-                ui.updateUiExperience();
+                updateUiExperience();
             });
         });
     }
@@ -139,8 +139,6 @@ document.onkeydown = function (evt) {
 
 let setUpIslandUI = function () {
     socket.emit(`anchor`);
-
-    lastScore = 0;
 
     $(`#docking-modal`).hide();
 
@@ -223,7 +221,7 @@ let setUpKeybinds = function () {
             keys_jump = true;
             myPlayer.jump_count++;
             if (myPlayer.jump_count === 50) {
-                ui.showCenterMessage(`Jumping Hero! New quest available`, 3);
+                notifications.showCenterMessage(`Jumping Hero! New quest available`, 3);
             }
         },
 
@@ -254,7 +252,7 @@ let setUpKeybinds = function () {
                 (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
                 $(`#docking-modal-button`).hasClass(`enabled`)
             ) {
-                ui.playAudioFile(false, `dock`);
+                playAudioFile(false, `dock`);
                 setUpIslandUI();
             }
         }

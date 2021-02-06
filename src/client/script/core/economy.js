@@ -6,7 +6,7 @@ let makeDeposit = () => {
         socket.emit(`bank`, {
             deposit: deposit
         });
-        ui.playAudioFile(false, `deposit`);
+        playAudioFile(false, `deposit`);
         $(`#make-deposit`).val(``).focus();
         $(`#successMakeDepoMess`).show();
         $(`#errorMakeDepoMess`).hide();
@@ -69,7 +69,7 @@ let ecoUiInit = () => {
         $this.on(`click`, () => {
             $btnShoppingModal.removeClass(`active`);
             $this.addClass(`active`);
-            ui.updateStore($this);
+            updateStore($this);
         });
     });
 

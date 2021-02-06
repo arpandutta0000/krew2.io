@@ -143,7 +143,7 @@ let inPlayersVision = (function () {
     return inPlayersVision;
 })();
 
-function getFixedFrameRateMethod (fps, callback) {
+let getFixedFrameRateMethod = (fps, callback) => {
     fps = fps || 5;
     let time = performance.now();
     let previousTime = performance.now();

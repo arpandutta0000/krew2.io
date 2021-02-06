@@ -31,13 +31,13 @@ let PlayerSnap = {
         if (snap.o !== undefined && snap.o !== _this.ownsCannon) {
             _this.ownsCannon = parseBool(snap.o);
             if (ui !== undefined)
-                ui.updateStore($(`.btn-shopping-modal.active`));
+                updateStore($(`.btn-shopping-modal.active`));
         }
 
         if (snap.r !== undefined && snap.r !== _this.ownsFishingRod) {
             _this.ownsFishingRod = parseBool(snap.r);
             if (ui !== undefined)
-                ui.updateStore($(`.btn-shopping-modal.active`));
+                updateStore($(`.btn-shopping-modal.active`));
         }
 
         if (snap.c !== undefined && snap.c !== _this.checkedItemsList) {
@@ -47,7 +47,7 @@ let PlayerSnap = {
         if (snap.d !== undefined && snap.d !== _this.itemId) {
             _this.itemId = parseInt(snap.d);
             if (ui !== undefined)
-                ui.updateStore($(`.btn-shopping-modal.active`));
+                updateStore($(`.btn-shopping-modal.active`));
         }
 
         if (snap.w !== undefined && snap.w !== _this.activeWeapon) {

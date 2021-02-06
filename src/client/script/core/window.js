@@ -1,7 +1,7 @@
 /* Remove a user's cookies and log out */
 window.logoutUser = () => {
-    ui.invalidateCookie(`username`);
-    ui.invalidateCookie(`token`);
+    headers.invalidateCookie(`username`);
+    headers.invalidateCookie(`token`);
     window.location.pathname = `/logout`;
 };
 

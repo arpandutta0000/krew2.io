@@ -10,31 +10,16 @@ $(document).ready(() => {
     ui.setListeners();
 
     // Update server list
-    ui.updateServerList();
+    splash.updateServerList();
 
     // Create the wall of fame
-    ui.createWallOfFame();
-
-    // Init other ui listeners
-    preGamplayUiInit();
-
-    // Check if an invite link is being used
-    if (getUrlVars().sid && getUrlVars().bid) {
-        $(`#invite-is-used`).show();
-        $(`#select-server`).hide();
-        $(`#select-spawn`).hide();
-    }
+    splash.createWallOfFame();
 
     // Check if user is using adblock
     adBlockCheck();
 
     // Init ads
     initAds();
-
-    // Hide bootstrap elements as bootstrap by default un-hides elements inside .tab
-    $(`#global-chat-alert`).hide();
-
-    $(`#login-modal`).modal(`show`);
 
     // Close socket connection on unload
     $(window).on(`unload`, () => {

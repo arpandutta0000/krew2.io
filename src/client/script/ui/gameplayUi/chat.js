@@ -10,12 +10,11 @@ let sendMessage = () => {
 /* Function to init listeners for chat */
 let initChatListeners = () => {
     // On a keyup in chat
-    $(`#chat-message`).on(`keyup`, function () {
-        let $this = $(this);
-        let val = $this.val();
+    $(`#chat-message`).on(`keyup`, () => {
+        let val = (this).val();
 
         if (val.trim().length > 150) {
-            $this.val(val.slice(0, 150));
+            (this).val(val.slice(0, 150));
         }
     });
 

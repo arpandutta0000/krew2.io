@@ -122,3 +122,11 @@
     window.KREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById(`krews-list`));
     window.DEPARTINGKREWLISTCOMPONENT = hyperapp.app(state, actions, view, document.getElementById(`departing-krews-list`));
 })(window);
+
+/**
+ * Update krew list
+ */
+let updateKrewList = getFixedFrameRateMethod(2, () => {
+    KREWLISTCOMPONENT.boats();
+    DEPARTINGKREWLISTCOMPONENT.boats();
+});

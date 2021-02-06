@@ -67,11 +67,11 @@ let loadModels = () => {
         threejsStarted = true;
 
         $(`#play-button`).text(`Play as guest`).attr(`disabled`, false);
-        if (!(ui.getCookie(`username`) && ui.getCookie(`token`))) {
-            ui.initLoginRegister();
+        if (!(headers.getCookie(`username`) && headers.getCookie(`token`))) {
+            initLoginRegister();
         } else {
-            ui.username = ui.getCookie(`username`);
-            ui.addLogout();
+            headers.username = headers.getCookie(`username`);
+            addLogout();
         }
     });
 };

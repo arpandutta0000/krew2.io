@@ -33,25 +33,25 @@ let PlayerLogic = {
                 if (_this.position.x > _this.parent.size.x / 2) {
                     _this.position.x = _this.parent.size.x / 2;
                     if (_this.isPlayer)
-                        ui.playAudioFile(false, `turning`);
+                        playAudioFile(false, `turning`);
                 }
 
                 if (_this.position.z > _this.parent.size.z / 2) {
                     _this.position.z = _this.parent.size.z / 2;
                     if (_this.isPlayer)
-                        ui.playAudioFile(false, `turning`);
+                        playAudioFile(false, `turning`);
                 }
 
                 if (_this.position.x < -_this.parent.size.x / 2) {
                     _this.position.x = -_this.parent.size.x / 2;
                     if (_this.isPlayer)
-                        ui.playAudioFile(false, `turning`);
+                        playAudioFile(false, `turning`);
                 }
 
                 if (_this.position.z < -_this.parent.size.z / 2) {
                     _this.position.z = -_this.parent.size.z / 2;
                     if (_this.isPlayer)
-                        ui.playAudioFile(false, `turning`);
+                        playAudioFile(false, `turning`);
                 }
 
                 // oval boat shape collision
@@ -92,10 +92,10 @@ let PlayerLogic = {
             _this.cooldown = _this.activeWeapon === 1 ? 2 : (1.5 - attackSpeedBonus).toFixed(2);
 
             if (_this.activeWeapon === 0 && _this.isPlayer && _this.parent && _this.parent.shipState !== 3 && _this.parent.shipState !== 4)
-                ui.playAudioFile(false, `cannon`);
+                playAudioFile(false, `cannon`);
 
             else if (_this.isPlayer && _this.activeWeapon === 1)
-                ui.playAudioFile(false, `cast-rod`);
+                playAudioFile(false, `cast-rod`);
         }
         if (!_this.isPlayer) {
             _this.geometry.rotation.x = _this.pitch + _this.rotationOffset;
@@ -219,17 +219,17 @@ let PlayerLogic = {
         if (_this.isPlayer && _this.parent) {
             if (_this.parent.shipState === 0 || _this.parent.shipState === 1) {
                 if (_this.walkForward !== 0) {
-                    ui.playAudioFile(false, `step-wood01`);
+                    playAudioFile(false, `step-wood01`);
                 }
                 if (_this.walkSideward !== 0) {
-                    ui.playAudioFile(false, `step-wood02`);
+                    playAudioFile(false, `step-wood02`);
                 }
             } else {
                 if (_this.walkForward !== 0) {
-                    ui.playAudioFile(false, `step-sand01`);
+                    playAudioFile(false, `step-sand01`);
                 }
                 if (_this.walkSideward !== 0) {
-                    ui.playAudioFile(false, `step-sand02`);
+                    playAudioFile(false, `step-sand02`);
                 }
             }
         }
@@ -248,7 +248,7 @@ let PlayerLogic = {
                 _this.parent.netType === 5
             )
         ) {
-            ui.updateKrewList();
+            updateKrewList();
 
             if (!ui.hideSuggestionBox) {
                 if (!$(`#shopping-modal`).is(`:visible`) && myPlayer.gold > 500) {
@@ -318,7 +318,7 @@ let PlayerLogic = {
         // check if we turned into the captain (or lost captainship)
         if (_this.isCaptain !== _this.oldCaptainState) {
             if (_this.parent && _this.isPlayer && !_this.isCaptain) {
-                ui.showCenterMessage(`You are not the captain anymore!`, 4, 4000);
+                notifications.showCenterMessage(`You are not the captain anymore!`, 4, 4000);
                 if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
                     // $('#island-menu-div').show();
                     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
@@ -333,7 +333,7 @@ let PlayerLogic = {
                 $(`#abandon-ship-button`).show();
             }
             if (_this.parent && _this.isPlayer && _this.isCaptain) {
-                ui.showCenterMessage(`You are the captain now!`, 4, 4000);
+                notifications.showCenterMessage(`You are the captain now!`, 4, 4000);
 
                 if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
                     // $('#island-menu-div').show();

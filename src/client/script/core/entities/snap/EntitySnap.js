@@ -4,9 +4,8 @@ let EntitySnap = {
             let oldPosition;
             let newparent = entities[snap.p];
             let oldparent = _this.parent;
-            if (myPlayerId === id && newparent !== oldparent) {
-                ui.setActiveBtn(snap.p);
-            }
+            if (myPlayerId === id && newparent !== oldparent) setActiveBtn(snap.p);
+
             if (newparent.netType !== 5) {
                 if (
                     _this.geometry !== undefined &&

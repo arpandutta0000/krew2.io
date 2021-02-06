@@ -170,8 +170,8 @@ class Boat extends Entity {
         this.changeBoatModel(this.shipclassId);
         if (myPlayer !== undefined) {
             if (this === myPlayer.parent) {
-                ui.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
-                ui.updateStore($(`.btn-shopping-modal.active`));
+                notifications.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
+                updateStore($(`.btn-shopping-modal.active`));
             }
         }
     }
