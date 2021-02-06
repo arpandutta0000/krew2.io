@@ -144,7 +144,7 @@
 
                 ExperiencePointsComponent.updateAvailablePoints();
                 Store.$html.find(`h6`).html(`Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span>`);
-                updateUiExperience();
+                experienceBarUpdate();
             }).trigger(`change`);
         },
 
@@ -222,7 +222,7 @@ let experienceBarUpdate = () => {
             $(`.level-up-button`).one(`click`, () => {
                 Store.allocatedPoints[$(this).attr(`data-attribute`)] = 1;
                 EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
-                    updateUiExperience();
+                    experienceBarUpdate();
                 });
             });
         }

@@ -131,7 +131,7 @@ document.onkeydown = function (evt) {
         EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
             Store.allocatedPoints[attribute] = 1;
             EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
-                updateUiExperience();
+                experienceBarUpdate();
             });
         });
     }

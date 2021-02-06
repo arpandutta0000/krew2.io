@@ -260,7 +260,7 @@ class Player extends Entity {
         this.experience = experience;
 
         if (ui !== undefined && this.experienceNeedsUpdate) {
-            updateUiExperience();
+            experienceBarUpdate();
             this.experienceNeedsUpdate = false;
         }
     }

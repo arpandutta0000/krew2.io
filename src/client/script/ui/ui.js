@@ -25,17 +25,17 @@ let ui = {
         /* Setting Krew name */
         $(`#crew-name-edit-button`).on(`click`, () => {
             $(`#crew-name-edit-button`).addClass(`hidden`);
-            if (this.captainUiConfiguration.active) {
+            if (ui.captainUiConfiguration.active) {
                 $(`#crew-name`).addClass(`hidden`);
-                this.captainUiConfiguration.editingName = true;
+                ui.captainUiConfiguration.editingName = true;
                 $(`#crew-name-edit-input`).val($(`#crew-name`).html()).removeClass(`hidden`);
             }
         });
         $(`#krew-name-form`).on(`submit`, (e) => {
-            this.captainUiConfiguration.editingName = false;
+            ui.captainUiConfiguration.editingName = false;
             $(`#crew-name`).removeClass(`hidden`);
             $(`#crew-name-edit-input`).addClass(`hidden`);
-            if (this.captainUiConfiguration.active) {
+            if (ui.captainUiConfiguration.active) {
                 $(`#crew-name-edit-button`).removeClass(`hidden`);
                 let val = $(`#crew-name-edit-input`).val().trim().slice(0, 20);
                 if (val.length > 0 && !val.includes(`⚔`)) {
@@ -502,13 +502,10 @@ let ui = {
      */
     updateCaptainUi: () => {
         // If i am the captain and i am not editing the name, show the editing button
-        if (this.captainUiConfiguration.active && !this.captainUiConfiguration.editingName) {
+        if (ui.captainUiConfiguration.active && !ui.captainUiConfiguration.editingName) {
             $(`#crew-name-edit-button`).removeClass(`hidden`);
         } else { // If i am not the captain hide the edit button
             $(`#crew-name-edit-button`).addClass(`hidden`);
         }
-    },
-
-    /* Update experience bar through UI */
-    updateUiExperience: () => experienceBarUpdate()
+    }
 };

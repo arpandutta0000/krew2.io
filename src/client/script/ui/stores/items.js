@@ -59,7 +59,7 @@ let getItems = (callback) => {
                     }, (callback) => {
                         // update experience if player buys "Fountain of youth"
                         if (callback === `14`) {
-                            ui.updateUiExperience();
+                            experienceBarUpdate();
                             // close shopping window
                             $(`#shopping-modal`).hide();
                             // player can buy this only once
