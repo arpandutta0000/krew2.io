@@ -50,7 +50,7 @@ module.exports = grunt => {
                     `src/client/script/ui/authentication/headers.js`,
                     `src/client/script/ui/authentication/loginRegister.js`,
                     `src/client/script/ui/gameplayUi/chat.js`,
-                    `src/client/script/ui/gameplayUi/experience.js`,
+                    `src/client/script/ui/gameplayUi/experienceBar.js`,
                     `src/client/script/ui/gameplayUi/gameplayUi.js`,
                     `src/client/script/ui/gameplayUi/krewStatus.js`,
                     `src/client/script/ui/gameplayUi/leaderboard.js`,
