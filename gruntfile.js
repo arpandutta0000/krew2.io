@@ -44,11 +44,32 @@ module.exports = grunt => {
                     `src/client/script/core/core.js`,
                     `src/client/script/core/parseSnap.js`,
 
-                    `src/client/script/core/controls/keyboard.js`,
-                    `src/client/script/core/controls/controls.js`,
-
                     `src/client/script/core/window.js`,
                     `src/client/script/utils.js`,
+
+                    `src/client/script/ui/authentication/headers.js`,
+                    `src/client/script/ui/authentication/loginRegister.js`,
+                    `src/client/script/ui/gameplayUi/chat.js`,
+                    `src/client/script/ui/gameplayUi/experience.js`,
+                    `src/client/script/ui/gameplayUi/gameplayUi.js`,
+                    `src/client/script/ui/gameplayUi/krewStatus.js`,
+                    `src/client/script/ui/gameplayUi/leaderboard.js`,
+                    `src/client/script/ui/gameplayUi/minimap.js`,
+                    `src/client/script/ui/gameplayUi/notifications.js`,
+                    `src/client/script/ui/menus/bank.js`,
+                    `src/client/script/ui/menus/clan.js`,
+                    `src/client/script/ui/menus/krew.js`,
+                    `src/client/script/ui/stores/cargo.js`,
+                    `src/client/script/ui/stores/items.js`,
+                    `src/client/script/ui/stores/ships.js`,
+                    `src/client/script/ui/ads.js`,
+                    `src/client/script/ui/fps.js`,
+                    `src/client/script/ui/island.js`,
+                    `src/client/script/ui/splash.js`,
+                    `src/client/script/ui/ui.js`,
+
+                    `src/client/script/core/controls/keyboard.js`,
+                    `src/client/script/core/controls/controls.js`,
 
                     `src/client/script/core/entities/models/EntityModels.js`,
                     `src/client/script/core/entities/models/BoatModels.js`,
@@ -96,17 +117,6 @@ module.exports = grunt => {
                     `src/client/script/core/audio.js`,
                     `src/client/script/core/economy.js`,
                     `src/client/script/core/game.js`,
-
-                    `src/client/script/ui/ads.js`,
-                    `src/client/script/ui/chatUi.js`,
-                    `src/client/script/ui/experienceBar.js`,
-                    `src/client/script/ui/gameplayUi.js`,
-                    `src/client/script/ui/goodsUi.js`,
-                    `src/client/script/ui/islandsUi.js`,
-                    `src/client/script/ui/krewlistUi.js`,
-                    `src/client/script/ui/minimap.js`,
-                    `src/client/script/ui/preGameplayUi.js`,
-                    `src/client/script/ui/ui.js`,
 
                     `src/client/script/main.js`,
                     `src/client/script/core/connection.js`
