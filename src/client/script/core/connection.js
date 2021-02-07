@@ -7,7 +7,7 @@ let connect = function (pid) {
     if (getUrlVars().pid && ui.serverList[getUrlVars().pid]) pid = getUrlVars().pid;
 
     // Log connection info
-    console.log(ui.servers);
+    console.log(`Successfully connected!\nGood luck sailor! o7\n\nConnection information:\n${JSON.stringify(Object.values(ui.servers)[0], null, 2)}`);
 
     // Set server
     let server = ui.servers[pid];
