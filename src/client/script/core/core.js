@@ -2,7 +2,6 @@
 let camera, ceiling, controls, coldAmbientlight, defaultHeight, defaultWidth, envSphere, gl, keyboard, light, myBoat, myPlayer, raycaster, renderer, scene, socket, warmAmbientlight, water;
 
 let boats = {};
-let bots = {};
 let entities = {};
 let environment = {};
 let json = {};
@@ -13,7 +12,6 @@ let playerNames = {};
 let players = {};
 let sceneCanBalls = {};
 let sceneLines = {};
-let shaders = {};
 let textures = {};
 
 let fpsTimes = [];

@@ -93,8 +93,6 @@ loader.loadShader = path => {
     loader.promises.push(new Promise((resolve, reject) => {
         fileLoader.load(path, // Resource URL.
             data => {
-                // When resource is loaded.
-                shaders[path.substring(path.lastIndexOf(`/`) + 1, path.length)] = data;
                 resolve();
             }
         );
