@@ -6,9 +6,6 @@ let connect = function (pid) {
     // Connect to each IP to request a load
     if (getUrlVars().pid && ui.serverList[getUrlVars().pid]) pid = getUrlVars().pid;
 
-    // Log connection info
-    console.log(`Successfully connected!\nGood luck sailor! o7\n\nConnection information:\n${JSON.stringify(Object.values(ui.servers)[0], null, 2)}`);
-
     // Set server
     let server = ui.servers[pid];
 
@@ -16,9 +13,14 @@ let connect = function (pid) {
     if (window.location.hostname === `localhost`) {
         server = {
             ip: `http://localhost`,
-            port: `2053`
+            port: `2053`,
+            playerCount: Object.values(ui.servers)[0].playerCount,
+            maxPlayerCount: Object.values(ui.servers)[0].maxPlayerCount
         };
     }
+
+    // Log connection info
+    console.log(`Successfully connected!\nGood luck sailor! o7\n\nConnection information:\nIP: ${server.ip}\nPort: ${server.port}\nPlayers: ${server.playerCount}\nMax Players: ${server.maxPlayerCount}`);
 
     // Set URL
     let url = window.location.hostname === `localhost` ? `http://localhost` : config.url;
@@ -44,8 +46,6 @@ let connect = function (pid) {
 
 /* Init socket binds function */
 var initSocketBinds = () => {
-    console.log(`Jumped into bind function!`);
-
     // When server sends handshake paket
     socket.on(`handshake`, (msg) => {
         console.log(`Jumped into handshake!`);
