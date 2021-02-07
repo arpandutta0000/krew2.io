@@ -1,7 +1,3 @@
-// Create variables
-let environment = {};
-let water, light, ceiling, envSphere, coldAmbientlight, warmAmbientlight;
-
 /* Main environment setup method */
 let setUpEnvironment = () => {
     // Set scene background

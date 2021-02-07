@@ -1,15 +1,4 @@
-// Create variables
-let textureLoader = new THREE.TextureLoader();
-let fileLoader = new THREE.FileLoader();
-let objLoader = new THREE.OBJLoader();
-let tgaLoader = new THREE.TGALoader();
-let mtlLoader = new THREE.MTLLoader();
-let textures = {};
-let shaders = {};
-let models = {};
-let json = {};
-
-// Generic loader and async handler.
+/* Generic loader and async handler */
 let loader = {
     promises: []
 };

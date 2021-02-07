@@ -1,11 +1,7 @@
-// Create variables
-let map = CanvasMap(document.getElementById(`minimap`), config.worldsize, config.worldsize);
-let time = performance.now();
-let middle = config.worldsize / 2;
-let fps = 24;
-
 /* Create minimap and update player position every frame */
 let createMinimap = () => {
+    let map = CanvasMap(document.getElementById(`minimap`), config.worldsize, config.worldsize);
+
     map.useRadians = true;
     map.zoom = 0.9;
 
@@ -75,7 +71,7 @@ let createMinimap = () => {
     // Create loop to update player position
     let loop = () => {
         // If a new frame
-        if (performance.now() - time > 1000 / fps) {
+        if (performance.now() - time > 1000 / 24) {
             // Checks if there are no entities defined
             if (entities === undefined) {
                 map.elements = {};

@@ -1,6 +1,3 @@
-// Create variables
-let particles = [];
-
 /* Create a new Particle */
 let createParticle = function (params) {
     if (!myPlayer || !myPlayer.parent || ((Math.pow(params.x - myPlayer.parent.position.x, 2) + Math.pow(params.z - myPlayer.parent.position.z, 2)) > 10000)) {

@@ -1,6 +1,3 @@
-/* Define Variables */
-let goldMultiplier = 2000;
-
 /**
  * Updates the leaderboard
  * 

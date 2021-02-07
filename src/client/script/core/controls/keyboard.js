@@ -1,14 +1,3 @@
-let keys_walkLeft = false;
-let keys_walkRight = false;
-let keys_walkFwd = false;
-let keys_walkBwd = false;
-let keys_rotRight = false;
-let keys_rotLeft = false;
-let keys_jump = false;
-let keys_boot = false;
-let disableKeyboard = false;
-let keyboard;
-
 let setUpKeyboard = function (renderer) {
     let my_defaults = {
         is_unordered: true,

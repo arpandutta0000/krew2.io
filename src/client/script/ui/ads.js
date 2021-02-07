@@ -1,11 +1,9 @@
-// Create variables
-let adBlockEnabled = false;
-let testAd = document.createElement(`div`);
-testAd.innerHTML = `&nbsp;`;
-testAd.className = `adsbox`;
-
 /* Function to check if a user has ad block enabled */
 let adBlockCheck = () => {
+    let testAd = document.createElement(`div`);
+    testAd.innerHTML = `&nbsp;`;
+    testAd.className = `adsbox`;
+
     document.body.appendChild(testAd);
     window.setTimeout(() => {
         if (testAd.offsetHeight === 0) {

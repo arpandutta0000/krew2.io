@@ -1,13 +1,3 @@
-let socket;
-let address = document.location.host;
-let playerid;
-let staffChatOn = false;
-let clanChatOn = false;
-let localChatOn = false;
-let globalChatOn = true;
-
-let interval_update;
-
 /* Connect to a server */
 let connect = function (pid) {
     // Return if a player is already in game
@@ -236,15 +226,18 @@ var initSocketBinds = () => {
             markers[randid] = data;
         });
 
+        // Create interval update
+        let intervalUpdate;
+
         // Remove old interval if it exists
-        if (interval_update !== undefined) {
-            clearInterval(interval_update);
-            interval_update = undefined;
+        if (intervalUpdate !== undefined) {
+            clearInterval(intervalUpdate);
+            intervalUpdate = undefined;
         }
 
         // Set up interval that sends client snapshots
         let snapCounter = 0;
-        interval_update = setInterval(() => {
+        intervalUpdate = setInterval(() => {
             if (!myPlayer) {
                 return;
             }

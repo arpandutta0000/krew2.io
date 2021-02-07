@@ -1,29 +1,56 @@
-/* Create global variables used throughout the client */
-let renderer, scene, camera, myPlayer, myBoat, domEvents, raycaster, canvas, gl, defaultWidth, defaultHeight, SERVER;
+/* Create global variables to be used throughout the client */
+let camera, ceiling, controls, coldAmbientlight, defaultHeight, defaultWidth, envSphere, gl, keyboard, light, myBoat, myPlayer, raycaster, renderer, scene, socket, warmAmbientlight, water;
 
 let boats = {};
 let bots = {};
 let entities = {};
+let environment = {};
+let json = {};
 let markers = {};
+let models = {};
 let pickups = {};
 let playerNames = {};
 let players = {};
 let sceneCanBalls = {};
 let sceneLines = {};
+let shaders = {};
+let textures = {};
 
-let threejsStarted = false;
-let countDown = 10;
+let fpsTimes = [];
+let particles = [];
+
 let playerName = ``;
 
-/* Create function to iterate through each entity */
-let iterateEntities = (dt) => {
-    // Tick each entity
-    for (e in entities) {
-        if (entities.hasOwnProperty(e)) {
-            entities[e].tick(dt);
-        }
-    }
-};
+let countDown = 10;
+let goldMultiplier = 2000;
+let middle = config.worldsize / 2;
+let secondsAlive = 0;
+
+let adBlockEnabled = false;
+let threejsStarted = false;
+
+let staffChatOn = false;
+let clanChatOn = false;
+let localChatOn = false;
+let globalChatOn = true;
+
+let keys_walkLeft = false;
+let keys_walkRight = false;
+let keys_walkFwd = false;
+let keys_walkBwd = false;
+let keys_rotRight = false;
+let keys_rotLeft = false;
+let keys_jump = false;
+let keys_boot = false;
+
+let textureLoader = new THREE.TextureLoader();
+let fileLoader = new THREE.FileLoader();
+let objLoader = new THREE.OBJLoader();
+let tgaLoader = new THREE.TGALoader();
+let mtlLoader = new THREE.MTLLoader();
+
+let time = performance.now();
+
 
 /** --------------- Information --------------- **
  * 

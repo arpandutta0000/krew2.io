@@ -1,5 +1,12 @@
-// Create variables
-let secondsAlive = 0;
+/* Create function to iterate through each entity */
+let iterateEntities = (dt) => {
+    // Tick each entity
+    for (e in entities) {
+        if (entities.hasOwnProperty(e)) {
+            entities[e].tick(dt);
+        }
+    }
+};
 
 /* Method to start the game */
 let createGame = function () {
@@ -42,7 +49,7 @@ let createGame = function () {
     updateViewport();
 
     // Create canvas
-    canvas = renderer.domElement;
+    let canvas = renderer.domElement;
     gl = canvas.getContext(`webgl2`);
     if (!gl) {
         gl = canvas.getContext(`experimental-webgl`);
@@ -51,7 +58,7 @@ let createGame = function () {
     defaultHeight = gl.canvas.height;
 
     // Main loop function to render the game
-    lastFrameTime = performance.now();
+    let lastFrameTime = performance.now();
     var loop = () => {
         //  Calculate time between frames
         let thisFrame = performance.now();
