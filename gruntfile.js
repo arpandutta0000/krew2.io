@@ -42,6 +42,8 @@ module.exports = grunt => {
                     `src/client/script/config/goodsTypes.js`,
 
                     `src/client/script/core/core.js`,
+                    `src/client/script/core/geometry/geometry.js`,
+
                     `src/client/script/core/parseSnap.js`,
 
                     `src/client/script/core/window.js`,
@@ -111,7 +113,6 @@ module.exports = grunt => {
                     `src/client/script/core/geometry/geometryModules/water.js`,
 
                     `src/client/script/core/geometry/environment.js`,
-                    `src/client/script/core/geometry/geometry.js`,
                     `src/client/script/core/geometry/loadModels.js`,
 
                     `src/client/script/core/audio.js`,
