@@ -132,7 +132,7 @@ let ProjectileLogic = {
                 _this.startPoint.set(boundariesBox.max.x - 0.5, boundariesBox.max.y, boundariesBox.max.z - 0.5);
             }
 
-            _this.endPoint.set(_this.position.x, _this.position.y + 1, _this.position.z);
+            _this.endPoint.set(_this.position.x, _this.position.y + 0.8, _this.position.z);
             _this.line.geometry.verticesNeedUpdate = true;
 
             _this.geometry.rotation.y += 1.5 * dt;
