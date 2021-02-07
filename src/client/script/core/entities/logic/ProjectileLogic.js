@@ -111,10 +111,9 @@ let ProjectileLogic = {
 
                 scene.add(_this.line);
                 _this.geometry = new THREE.Mesh(_this.baseGeometry, _this.baseMaterial);
+                _this.geometry.rotation.x = Math.PI;
             }
 
-            // _this.geometry = new THREE.Mesh(_this.baseGeometry, _this.baseMaterial);
-            // _this.geometry = projectileObj.clone();
             sceneCanBalls[_this.id] = _this.geometry;
             _this.geometry.renderOrder = 16;
             scene.add(_this.geometry);
@@ -133,7 +132,7 @@ let ProjectileLogic = {
                 _this.startPoint.set(boundariesBox.max.x - 0.5, boundariesBox.max.y, boundariesBox.max.z - 0.5);
             }
 
-            _this.endPoint.set(_this.position.x, _this.position.y, _this.position.z);
+            _this.endPoint.set(_this.position.x, _this.position.y + 1, _this.position.z);
             _this.line.geometry.verticesNeedUpdate = true;
 
             _this.geometry.rotation.y += 1.5 * dt;

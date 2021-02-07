@@ -30,9 +30,9 @@ class Projectile extends Entity {
 
         // Set geometry references
         this.particletimer = 0;
-        this.shooterStartPos = new THREE.Vector3(0, 0, 0);
-        this.startPoint = new THREE.Vector3(0, 0, 0);
-        this.endPoint = new THREE.Vector3(0, 0, 0);
+        this.shooterStartPos = new THREE.Vector3();
+        this.startPoint = new THREE.Vector3();
+        this.endPoint = new THREE.Vector3();
     }
 
     getTypeDelta() {
