@@ -542,7 +542,7 @@ let PlayerLogic = {
                     if (min.object && min.object.name === `body`) {
                         y -= boatTypes[entities[_this.parent.id].shipclassId].baseheight;
                         let right = _this.position.x < 0;
-                        halfWidth = boatTypes[entities[_this.parent.id].shipclassId].width / 2;
+                        let halfWidth = boatTypes[entities[_this.parent.id].shipclassId].width / 2;
 
                         if (_this.position.x !== 0) {
                             if (_this.isCaptain) {
