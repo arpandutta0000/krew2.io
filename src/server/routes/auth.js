@@ -314,7 +314,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         errors: `You must be logged in to change your account's game settings`
     });
 
-    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-fov-control`] || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) return res.json({
+    if (!(req.body[`account-fp-mode-button`] !== undefined && req.body[`account-fov-control`] && req.body[`account-music-control`] && req.body[`account-sfx-control`] && req.body[`account-quality-list`])) return res.json({
         errors: `Please fill out all fields`
     });
 
