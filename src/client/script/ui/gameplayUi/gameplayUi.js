@@ -273,11 +273,11 @@ let initGameUi = () => {
 
     /* Abandon ship button */
     $(`#abandon-ship-button`).on(`click`, () => {
-        if (myBoat.hp <= 0) {
+        if (myPlayer.parent.hp <= 0) {
             return;
         }
 
-        if (myPlayer.goods && (myBoat.shipState === 3 || myBoat.shipState === 4)) {
+        if (myPlayer.goods && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) {
             for (let k in myPlayer.goods) {
                 if (myPlayer.goods[k] > 0) {
                     socket.emit(`buy-goods`, {
@@ -296,8 +296,8 @@ let initGameUi = () => {
         }
         socket.emit(`abandonShip`);
         $(`#abandon-ship-button`).hide();
-        if (myBoat !== undefined) {
-            if (myBoat.shipState === 3 || myBoat.shipState === -1 || myBoat.shipState === 4) {
+        if (myPlayer.parent !== undefined) {
+            if (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === -1 || myPlayer.parent.shipState === 4) {
                 // $('#island-menu-div').show();
                 $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
                 $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
@@ -305,7 +305,7 @@ let initGameUi = () => {
                     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
                 }
                 updateStore();
-            } else if (myBoat.shipState === 1) {
+            } else if (myPlayer.parent.shipState === 1) {
                 $(`#docking-modal`).show();
             }
         }
@@ -361,9 +361,9 @@ let initGameUi = () => {
             $(`#crew-name-edit-button`).removeClass(`hidden`);
             let val = $(`#crew-name-edit-input`).val().trim().slice(0, 20);
             if (val.length > 0 && !val.includes(`⚔`)) {
-                myBoat.setName(val);
-                $(`#crew-name`).text(myBoat.crewName);
-                socket.emit(`updateKrewName`, myBoat.crewName);
+                myPlayer.parent.setName(val);
+                $(`#crew-name`).text(myPlayer.parent.crewName);
+                socket.emit(`updateKrewName`, myPlayer.parent.crewName);
             }
         }
         $(`#crew-name-edit-input`).val(``);
@@ -408,7 +408,7 @@ let initGameUi = () => {
                 $(`#lock-krew-label`).hide();
             } else {
                 $(`#lock-krew-label`).show();
-                if (myBoat && myBoat.isLocked !== true) {
+                if (myPlayer.parent && myPlayer.parent.isLocked !== true) {
                     $(`#lock-krew-button`).prop(`checked`, false);
                     $(`#lock-krew-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`Lock krew...`);
                 } else {

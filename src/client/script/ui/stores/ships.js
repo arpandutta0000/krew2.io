@@ -56,8 +56,8 @@ let getShips = (callback) => {
                     id: ship.id,
                     class: `btn btn-primary btn-sm`,
                     role: `button`,
-                    disabled: (myBoat !== undefined && ship.id == myPlayer.parent.shipclassId && myBoat.captainId === myPlayerId) || !ship.purchasable,
-                    html: myBoat !== undefined && ship.id == myPlayer.parent.shipclassId && myBoat.captainId === myPlayerId ?
+                    disabled: (myPlayer.parent !== undefined && ship.id == myPlayer.parent.shipclassId && myPlayer.parent.captainId === myPlayerId) || !ship.purchasable,
+                    html: myPlayer.parent !== undefined && ship.id == myPlayer.parent.shipclassId && myPlayer.parent.captainId === myPlayerId ?
                         `Purchased` :
                         `Buy`
                 }).on(`click`, function () {

@@ -74,7 +74,7 @@ let ui = {
     /**
      * Generate an invite link
      */
-    getInviteLink: () => `${window.location.protocol}//${window.location.hostname}${window.location.hostname === `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myBoat.id}`,
+    getInviteLink: () => `${window.location.protocol}//${window.location.hostname}${window.location.hostname === `localhost` ? `:8080/?sid=` : `/?sid=`}${$(`#server-list`).val()}&bid=${myPlayer.parent.id}`,
 
     /**
      * Formats and updates gold

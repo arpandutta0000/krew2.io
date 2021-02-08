@@ -1,5 +1,5 @@
 /* Create global variables to be used throughout the client */
-let camera, ceiling, controls, coldAmbientlight, defaultHeight, defaultWidth, envSphere, gl, keyboard, light, myBoat, myPlayer, raycaster, renderer, scene, socket, warmAmbientlight, water;
+let camera, ceiling, controls, coldAmbientlight, defaultHeight, defaultWidth, envSphere, gl, keyboard, light, myPlayer, raycaster, renderer, scene, socket, warmAmbientlight, water;
 
 let boats = {};
 let entities = {};

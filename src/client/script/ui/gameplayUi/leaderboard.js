@@ -13,16 +13,15 @@ let updateLeaderboard = (scores) => {
 
     if (entities) {
         myPlayer = entities[myPlayerId];
-        myBoat = entities[myPlayer.parent.id];
     }
 
     // set correct overall_kills / overall_cargo number
     if (scores.boats.length > 0) {
         for (p in scores.boats) {
-            if (!myBoat) return;
-            if (scores.boats[p] && scores.boats[p].id === myBoat.id) {
-                myBoat.overall_kills = scores.boats[p].ok;
-                myBoat.overall_cargo = scores.boats[p].oc;
+            if (!myPlayer.parent) return;
+            if (scores.boats[p] && scores.boats[p].id === myPlayer.parent.id) {
+                myPlayer.parent.overall_kills = scores.boats[p].ok;
+                myPlayer.parent.overall_cargo = scores.boats[p].oc;
             }
         }
     }
@@ -36,12 +35,12 @@ let updateLeaderboard = (scores) => {
 
     // Get the remote boat properties
     let remoteBoat = boats.filter((boat) => {
-        if (myBoat) {
-            return boat.id === myBoat.id;
+        if (myPlayer.parent) {
+            return boat.id === myPlayer.parent.id;
         }
     }).pop();
 
-    if (myBoat && remoteBoat) {
+    if (myPlayer.parent && remoteBoat) {
         // Set if i am the leader of the boat and update the leaders ui
         ui.captainUiConfiguration.active = remoteBoat.cI === myPlayer.id;
         ui.updateCaptainUi();
@@ -50,8 +49,8 @@ let updateLeaderboard = (scores) => {
             cargoUsed += remoteBoat.players[p].cargoUsed;
         }
 
-        $(`.ship-cargo`).html(`${cargoUsed}/${boatTypes[myBoat.shipclassId].cargoSize}`);
-        $(`.my-krew-name`).text(myBoat.crewName);
+        $(`.ship-cargo`).html(`${cargoUsed}/${boatTypes[myPlayer.parent.shipclassId].cargoSize}`);
+        $(`.my-krew-name`).text(myPlayer.parent.crewName);
     } else {
         $(`.ship-cargo`).html(`/`);
         $(`.my-krew-name`).html(`Join a krew or buy a ship`).css(`fontSize`, 17);
@@ -124,7 +123,7 @@ let updateLeaderboard = (scores) => {
     let scoreIndex = 0;
     let scoreLength = boatsListSortedByGold.length;
 
-    if (myBoat) {
+    if (myPlayer.parent) {
         for (; scoreIndex < 10 && scoreIndex < scoreLength; scoreIndex++) {
             var boatcount = `${scores.boats.length} boats`;
             let killcount = boatsListSortedByGold[scoreIndex].ok;
@@ -138,9 +137,9 @@ let updateLeaderboard = (scores) => {
             } else {
                 display_gold = boatsListSortedByGold[scoreIndex].g;
             }
-            let entry = $(`<div${boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-left"` : ` class="grid-left"`}>${clan}</div>` +
+            let entry = $(`<div${boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-success grid-left"` : ` class="grid-left"`}>${clan}</div>` +
                 `<div style="max-width: 100%;"${
-                    boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-middle"` : ` class="grid-middle"`}>` +
+                    boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-success grid-middle"` : ` class="grid-middle"`}>` +
                 `<span class='krewName' style='margin-left:2px;font-size: 13px'></span>` +
                 `</div>` +
                 `<div class="grid-middle">` +
@@ -148,7 +147,7 @@ let updateLeaderboard = (scores) => {
                 `<img src="/assets/img/medals/medal_${killcount >= 50 ? `gold` : killcount >= 20 ? `silver` : `bronze`}.png"${killcount >= 10 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
                 `<img src="/assets/img/medals/medal_${other_lvl === 3 ? `gold` : other_lvl === 2 ? `silver` : `bronze`}.png"${other_lvl > 0 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
                 `</div>` +
-                `<div${boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-right"` : ` class="grid-right"`}>${display_gold}</div>`);
+                `<div${boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-success grid-right"` : ` class="grid-right"`}>${display_gold}</div>`);
             entry.find(`.krewName`).text(boatsListSortedByGold[scoreIndex].cN);
             $leaderboard_data.append(entry);
         }
@@ -169,9 +168,9 @@ let updateLeaderboard = (scores) => {
             entities[players[p].id].setName(players[p].n);
         }
 
-        if (myBoat) {
+        if (myPlayer.parent) {
             // current player is a krew member! (or myPlayer)
-            if (players[p].pI === myBoat.id) {
+            if (players[p].pI === myPlayer.parent.id) {
                 playerListSortedByScore.push({
                     key: p,
                     value: players[p]
@@ -212,7 +211,7 @@ let updateLeaderboard = (scores) => {
         $playerDiv = $(playerListItem);
 
         // indicate captain
-        if (myBoat.captainId === player.id) {
+        if (myPlayer.parent.captainId === player.id) {
             $playerDiv.prepend($(`<span/>`, {
                 class: `icofont icofont-ship-wheel text-warning`,
                 text: ` `
@@ -248,7 +247,7 @@ let updateLeaderboard = (scores) => {
         krewCount++;
     }
 
-    if (myBoat) {
+    if (myPlayer.parent) {
         updateShipStats({
             krewCount: krewCount
         });

@@ -8,15 +8,15 @@ let updateShipStats = (data) => {
         $(`.ship-hp`).html(myPlayer.parent.hp);
         $(`.ship-max-hp`).html(myPlayer.parent.maxHp);
 
-        $(`#ship-name`).html(boatTypes[myBoat.shipclassId].name);
+        $(`#ship-name`).html(boatTypes[myPlayer.parent.shipclassId].name);
         $(`.ship-speed`).html(myPlayer.parent.speed.toFixed(1));
 
-        let cargoSize = boatTypes[myBoat.shipclassId].cargoSize;
+        let cargoSize = boatTypes[myPlayer.parent.shipclassId].cargoSize;
 
         $(`#cargo-size`).html(cargoSize);
 
         $(`.ship-krew-count`).html(data.krewCount);
-        $(`.ship-max-capacity`).html(boatTypes[myBoat.shipclassId].maxKrewCapacity);
+        $(`.ship-max-capacity`).html(boatTypes[myPlayer.parent.shipclassId].maxKrewCapacity);
     } else {
         $(`.ship-hp`).html(``);
         $(`.ship-max-hp`).html(``);
