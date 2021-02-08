@@ -1,4 +1,10 @@
 let ImpactLogic = {
+    /**
+     * Impact logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Impact object
+     */
     logic: (dt, _this) => {
         _this.timeout -= dt * 0.8;
         if (_this.timeout <= 0) {
@@ -6,6 +12,12 @@ let ImpactLogic = {
         }
     },
 
+    /**
+     * Impact client logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Impact object
+     */
     clientlogic: (dt, _this) => {
         if (_this.impactType === 0) {
             _this.geometry.position.set(_this.position.x, _this.position.y, _this.position.z);

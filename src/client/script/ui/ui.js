@@ -366,11 +366,10 @@ let ui = {
             GameAnalytics(`addDesignEvent`, `Game:Session:ClickedPlayButton`);
 
             if (threejsStarted) {
-                gameplayUiInit();
-                ecoUiInit();
-                showAdinplayCentered();
                 initGameUi();
+                ecoUiInit();
                 setUpKeybinds();
+                showAdinplayCentered();
                 splash.loadingWheel(`show`);
                 playAudioFile(false, `wheelspin`);
                 playAudioFile(true, `ocean-ambience`);

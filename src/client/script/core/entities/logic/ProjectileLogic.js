@@ -1,4 +1,10 @@
 let ProjectileLogic = {
+    /**
+     * Projectile logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Projectile object
+     */
     logic: (dt, _this) => {
         // Remove if the shooter does not exists
         if (_this.shooterid === `` || entities[_this.shooterid] === undefined || (entities[_this.shooterid] !== undefined && _this.type !== -1 && _this.type !== entities[_this.shooterid].activeWeapon)) {
@@ -69,6 +75,12 @@ let ProjectileLogic = {
         }
     },
 
+    /**
+     * Projectile client logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Projectile object
+     */
     clientlogic: (dt, _this) => {
         // check if we didn't set a model yet
         let shootingPlayer = entities[_this.shooterid];

@@ -1,4 +1,6 @@
-/* Function to check if a user has ad block enabled */
+/**
+ * Checks if a user has ad block enabled
+ */
 let adBlockCheck = () => {
     let testAd = document.createElement(`div`);
     testAd.innerHTML = `&nbsp;`;
@@ -18,6 +20,9 @@ let adBlockCheck = () => {
     }, 1000);
 };
 
+/**
+ * Initiate ads
+ */
 let initAds = () => {
     localStorage.setItem(`lastAdTime`, Date.now() - 10000000);
 

@@ -1,4 +1,8 @@
-/* Connect to a server */
+/**
+ * Connect to a server
+ * 
+ * @param {number} pid Server pid
+ */
 let connect = function (pid) {
     // Return if a player is already in game
     if (socket !== undefined) return;
@@ -44,7 +48,9 @@ let connect = function (pid) {
     $(`#splash-modal`).modal(`hide`);
 };
 
-/* Init socket binds function */
+/**
+ * Initiate socket binds
+ */
 var initSocketBinds = () => {
     // When server sends handshake paket
     socket.on(`handshake`, (msg) => {

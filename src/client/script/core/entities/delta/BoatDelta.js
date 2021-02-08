@@ -1,4 +1,9 @@
 let BoatDelta = {
+    /**
+     * Get a boat's delta type
+     * 
+     * @param {object} _this Boat object
+     */
     getTypeDelta: (_this) => {
         let delta = {
             h: _this.deltaTypeCompare(`h`, _this.hp),

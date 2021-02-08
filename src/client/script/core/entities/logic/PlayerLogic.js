@@ -1,4 +1,10 @@
 let PlayerLogic = {
+    /**
+     * Player logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Player object
+     */
     logic: (dt, _this) => {
         // check if we are the captain of our ship
         _this.oldCaptainState = _this.isCaptain;
@@ -102,6 +108,12 @@ let PlayerLogic = {
         }
     },
 
+    /**
+     * Player client logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Player object
+     */
     clientlogic: (dt, _this) => {
         if (_this.isPlayer && !isEmpty(_this.notifiscationHeap)) {
             _this.notifiscation();
@@ -135,6 +147,7 @@ let PlayerLogic = {
             if (_this.state === 1 && !$(`#game-over-modal`).is(`:visible`))
                 $(`#game-over-modal`).modal(`show`);
 
+            let lookingUpLimit = 1;
             // if the player is respawning, attach the camera again to it and set state to alive.
             if (_this.state === 2) {
                 camera.position.set(0, 1, 5);
@@ -377,6 +390,11 @@ let PlayerLogic = {
         }
     },
 
+    /**
+     * Player names logic method
+     * 
+     * @param {object} _this Player object
+     */
     namesLogic: (_this) => {
         if (_this.isPlayer) {
             let fps = 5;
@@ -436,6 +454,11 @@ let PlayerLogic = {
         }
     },
 
+    /**
+     * Player docked logic
+     * 
+     * @param {object} _this Player object
+     */
     dockedLogic: (_this) => {
         if (_this.isPlayer) {
             let fps = 20;
@@ -473,6 +496,7 @@ let PlayerLogic = {
                     origin = _this.geometry.getWorldPosition(new THREE.Vector3()).clone();
                     origin.set(origin.x, height, origin.z);
 
+                    let PlayerRaycaster = new THREE.Raycaster();
                     PlayerRaycaster.set(origin, direction);
 
                     if (_this.parent) {

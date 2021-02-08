@@ -1,4 +1,7 @@
 let BoatModels = {
+    /**
+     * Method to set ship models
+     */
     setShipModels: () => {
         for (let i in boatTypes) {
             let boat = boatTypes[i];
@@ -16,6 +19,12 @@ let BoatModels = {
         }
     },
 
+    /**
+     * Method to change a boat's model
+     * 
+     * @param {number} id New model ID
+     * @param {object} _this Boat object
+     */
     changeBoatModel: (id, _this) => {
         if (_this.geometry === undefined || boatTypes[id] === undefined) {
             return;

@@ -1,7 +1,19 @@
-/* Landmark class */
-
+/**
+ * Landmark class
+ * 
+ * @class
+ * @extends Entity
+ */
 class Landmark extends Entity {
-    /* Constructor */
+    /**
+     * Landmark constructor
+     * 
+     * @param {any} type Landmark type
+     * @param {number} x Landmark x position
+     * @param {number} z Landmark x position
+     * @param {object} _config Landmark config (data) object
+     * @constructor
+     */
     constructor(type, x, z, _config) {
         // Inherit parent class methods
         super();
@@ -80,6 +92,11 @@ class Landmark extends Entity {
         };
     }
 
+    /**
+     * Set the landmark's name
+     * 
+     * @param {string} name New landmark name
+     */
     setName(name) {
         if (this.geometry !== undefined) {
             if (this.label === undefined) {
@@ -108,14 +125,29 @@ class Landmark extends Entity {
         this.name = name;
     }
 
+    /**
+     * Landmark logic method
+     * 
+     * @param {number} dt DT
+     */
     logic(dt) {
         LandmarkLogic.logic(dt, this);
     }
 
+    /**
+     * Landmark client logic method
+     * 
+     * @param {number} dt DT
+     */
     clientlogic(dt) {
         LandmarkLogic.clientlogic(dt, this);
     }
 
+    /**
+     * Method to parse a landmark type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     */
     parseTypeSnap(snap) {
         LandmarkSnap.parseTypeSnap(snap, this);
     }

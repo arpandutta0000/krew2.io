@@ -1,79 +1,18 @@
 let PickupLogic = {
+    /**
+     * Pickup logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Pickup object
+     */
     logic: (dt, _this) => {},
 
-    dockedLogic: (_this) => {
-        let fps = 0.5;
-
-        if (_this.timeCounters.dockedLogic === undefined) {
-            _this.timeCounters.dockedLogic = {
-                time: performance.now(),
-                previousTime: performance.now()
-            };
-        } else {
-            _this.timeCounters.dockedLogic.time = performance.now();
-        }
-
-        if (_this.timeCounters.dockedLogic.time - _this.timeCounters.dockedLogic.previousTime > 1000 / fps) {
-            _this.timeCounters.dockedLogic.previousTime = _this.timeCounters.dockedLogic.time;
-            requestAnimationFrame(() => {
-                for (let id in entities) {
-                    let $_this = entities[id];
-                    if (
-                        $_this.netType === 4 &&
-                        ($_this.type === 2 || $_this.type === 3)
-                    ) {
-                        let Raycaster = new THREE.Raycaster();
-                        var origin;
-                        var direction;
-                        let height = 100;
-                        var object;
-                        var collision;
-                        let objects = [];
-                        let min = {
-                            object: undefined,
-                            height: height
-                        };
-                        let i = 0;
-                        let y = 0;
-
-                        if (entities) {
-                            direction = new THREE.Vector3(0, -1, 0);
-                            origin = $_this.geometry.position.clone();
-                            origin.set(origin.x, height, origin.z);
-
-                            Raycaster.set(origin, direction);
-
-                            for (let k in entities) {
-                                if (entities[k].netType === 5) {
-                                    objects.push(entities[k].geometry.children[0]);
-                                }
-                            }
-
-                            collision = Raycaster.intersectObjects(objects);
-
-                            if (collision.length > 0) {
-                                for (; i < collision.length; i++) {
-                                    if (collision[i].distance < min.height) {
-                                        min = {
-                                            height: collision[i].distance,
-                                            object: collision[i].object
-                                        };
-                                    }
-                                }
-
-                                y = height - min.height;
-                            }
-
-                            $_this.position.y = y;
-                            $_this.actualY = y;
-                            $_this.geometry.position.setY(y);
-                        }
-                    }
-                }
-            });
-        }
-    },
-
+    /**
+     * Pickup client logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Pickup object
+     */
     clientlogic: (dt, _this) => {
         _this.floattimer += dt * 3;
         _this.geometry.rotation.x += dt * _this.rotationspeed;
@@ -171,6 +110,84 @@ let PickupLogic = {
                     }
                 }
             }
+        }
+    },
+
+    /**
+     * Pickup docked logic
+     * 
+     * @param {object} _this Pickup object
+     */
+    dockedLogic: (_this) => {
+        let fps = 0.5;
+
+        if (_this.timeCounters.dockedLogic === undefined) {
+            _this.timeCounters.dockedLogic = {
+                time: performance.now(),
+                previousTime: performance.now()
+            };
+        } else {
+            _this.timeCounters.dockedLogic.time = performance.now();
+        }
+
+        if (_this.timeCounters.dockedLogic.time - _this.timeCounters.dockedLogic.previousTime > 1000 / fps) {
+            _this.timeCounters.dockedLogic.previousTime = _this.timeCounters.dockedLogic.time;
+            requestAnimationFrame(() => {
+                for (let id in entities) {
+                    let $_this = entities[id];
+                    if (
+                        $_this.netType === 4 &&
+                        ($_this.type === 2 || $_this.type === 3)
+                    ) {
+                        let Raycaster = new THREE.Raycaster();
+                        var origin;
+                        var direction;
+                        let height = 100;
+                        var object;
+                        var collision;
+                        let objects = [];
+                        let min = {
+                            object: undefined,
+                            height: height
+                        };
+                        let i = 0;
+                        let y = 0;
+
+                        if (entities) {
+                            direction = new THREE.Vector3(0, -1, 0);
+                            origin = $_this.geometry.position.clone();
+                            origin.set(origin.x, height, origin.z);
+
+                            Raycaster.set(origin, direction);
+
+                            for (let k in entities) {
+                                if (entities[k].netType === 5) {
+                                    objects.push(entities[k].geometry.children[0]);
+                                }
+                            }
+
+                            collision = Raycaster.intersectObjects(objects);
+
+                            if (collision.length > 0) {
+                                for (; i < collision.length; i++) {
+                                    if (collision[i].distance < min.height) {
+                                        min = {
+                                            height: collision[i].distance,
+                                            object: collision[i].object
+                                        };
+                                    }
+                                }
+
+                                y = height - min.height;
+                            }
+
+                            $_this.position.y = y;
+                            $_this.actualY = y;
+                            $_this.geometry.position.setY(y);
+                        }
+                    }
+                }
+            });
         }
     }
 };

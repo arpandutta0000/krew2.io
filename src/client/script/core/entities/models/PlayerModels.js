@@ -1,8 +1,7 @@
-let lookingUpLimit = 1;
-let dogModels = [];
-let PlayerRaycaster = new THREE.Raycaster();
-
 let PlayerModels = {
+    /**
+     * Method to set up player models
+     */
     setPlayerModels: () => {
         materials.seadog = new THREE.MeshPhongMaterial({
             color: 0xffffff,

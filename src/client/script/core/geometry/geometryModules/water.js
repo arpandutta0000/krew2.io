@@ -1,4 +1,6 @@
-/* Setup Water and Water Shaders */
+/**
+ * Create the water constructor
+ */
 let waterSetup = () => {
     let Water = function (geometry, options) {
         THREE.Mesh.call(this, geometry);
@@ -329,7 +331,9 @@ let waterSetup = () => {
     return Water;
 };
 
-/* Add Water function */
+/**
+ * Add water to the scene
+ */
 let initWater = () => {
     const Water = waterSetup();
 

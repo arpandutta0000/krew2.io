@@ -1,4 +1,6 @@
-/* When a user makes a deposit */
+/**
+ * When a user makes a deposit to the bank
+ */
 let makeDeposit = () => {
     let deposit = +$(`#make-deposit`).val();
     let sumDeposits = parseInt($(`#my-deposits`).text()) + deposit;
@@ -28,7 +30,9 @@ let makeDeposit = () => {
     }
 };
 
-/* When a user makes a withdrawl */
+/**
+ * When a user withdraws from the bank
+ */
 let takeDeposit = () => {
     let deposit = +$(`#take-deposit`).val();
     if (deposit <= +$(`#my-deposits`).text()) {

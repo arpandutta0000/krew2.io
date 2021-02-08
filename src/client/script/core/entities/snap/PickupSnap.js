@@ -1,4 +1,10 @@
 let PickupSnap = {
+    /**
+     * Method to parse a pickup type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     * @param {object} _this Pickup object
+     */
     parseTypeSnap: (snap, _this) => {
         if (snap.s !== undefined && snap.s !== _this.pickupSize) {
             _this.pickupSize = parseInt(snap.s);

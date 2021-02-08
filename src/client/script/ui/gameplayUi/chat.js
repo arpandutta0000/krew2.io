@@ -1,4 +1,6 @@
-/* When a user sends a chat message */
+/**
+ * When a user sends a chat message
+ */
 let sendMessage = () => {
     socket.emit(`chat message`, {
         message: $(`#chat-message`).val(),
@@ -7,7 +9,9 @@ let sendMessage = () => {
     $(`#chat-message`).val(``).focus();
 };
 
-/* Function to init listeners for chat */
+/**
+ * Function to init listeners for chat
+ */
 let initChatListeners = () => {
     // On a keyup in chat
     $(`#chat-message`).on(`keyup`, () => {
@@ -53,7 +57,10 @@ let initChatListeners = () => {
     });
 };
 
-var toggleGlobalChat = () => {
+/**
+ * Show global chat
+ */
+let toggleGlobalChat = () => {
     $(`#chat-global`).addClass(`active`);
     $(`#chat-local`).removeClass(`active`);
     $(`#chat-clan`).removeClass(`active`);
@@ -70,7 +77,10 @@ var toggleGlobalChat = () => {
     $(`#global-chat-alert`).hide();
 };
 
-var toggleLocalChat = () => {
+/**
+ * Show local chat
+ */
+let toggleLocalChat = () => {
     $(`#chat-global`).removeClass(`active`);
     $(`#chat-clan`).removeClass(`active`);
     $(`#chat-local`).addClass(`active`);
@@ -87,7 +97,10 @@ var toggleLocalChat = () => {
     $(`#local-chat-alert`).hide();
 };
 
-var toggleClanChat = () => {
+/**
+ * Show clan chat
+ */
+let toggleClanChat = () => {
     $(`#chat-global`).removeClass(`active`);
     $(`#chat-local`).removeClass(`active`);
     $(`#chat-clan`).addClass(`active`);
@@ -104,7 +117,10 @@ var toggleClanChat = () => {
     $(`#clan-chat-alert`).hide();
 };
 
-var toggleStaffChat = () => {
+/**
+ * Show staff chat
+ */
+let toggleStaffChat = () => {
     $(`#chat-global`).removeClass(`active`);
     $(`#chat-local`).removeClass(`active`);
     $(`#chat-clan`).removeClass(`active`);
@@ -121,10 +137,13 @@ var toggleStaffChat = () => {
     $(`#staff-chat-alert`).hide();
 };
 
-/* Chat auto scroll */
+/* Chat auto scroll variables */
 let stoppedScroll, scrollLoop, chatHistory, prevScroll;
 
-function scrollChat_init () {
+/**
+ * Initiate chat scroll
+ */
+let scrollChatInit = () => {
     chatHistory = document.querySelector(`#chat-history`);
     stoppedScroll = false;
 
@@ -132,24 +151,27 @@ function scrollChat_init () {
     PreviousScrollTop = 0;
 
     scrollLoop = setInterval(scrollChat, 1);
-}
+};
 
-function scrollChat () {
+/**
+ * Scroll the chat
+ */
+let scrollChat = () => {
     chatHistory.scrollTop = PreviousScrollTop;
     PreviousScrollTop += 0.25;
 
     stoppedScroll = chatHistory.scrollTop >= (chatHistory.scrollHeight - chatHistory.offsetHeight);
-}
+};
 
-function pauseChat () {
+let pauseChat = () => {
     clearInterval(scrollLoop);
-}
+};
 
-function resumeChat () {
+let resumeChat = () => {
     PreviousScrollTop = chatHistory.scrollTop;
     scrollLoop = setInterval(scrollChat, 1);
-}
+};
 
-scrollChat_init();
+scrollChatInit();
 chatHistory.addEventListener(`mouseover`, pauseChat);
 chatHistory.addEventListener(`mouseout`, resumeChat);

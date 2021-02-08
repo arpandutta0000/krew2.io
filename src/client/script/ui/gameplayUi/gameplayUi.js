@@ -1,4 +1,27 @@
-/* When a user joins the game */
+/**
+ * Disconnect/game end listener
+ * 
+ * @param {number} gold Amount of gold
+ * @param {number} fired Number of times the user fired
+ * @param {number} hit Number of times the user hit another boat
+ * @param {number} sank Number of ships user sank
+ */
+let endTheGame = (gold, fired, hit, sank) => {
+    miniplaySend2API(`gameover`, 1);
+    miniplaySend2API(`ships`, sank);
+
+    controls.unLockMouseLook();
+
+    $(`.local-chat`).remove();
+    $(`#game-over-modal`).modal(`show`);
+
+    setHighlights(gold, fired, hit, sank);
+    myPlayer.state = 1;
+};
+
+/**
+ * Initiate game UI
+ */
 let initGameUi = () => {
     connect($(`#server-list`).val());
 
@@ -61,37 +84,7 @@ let initGameUi = () => {
             updateQuality();
         }
     });
-};
 
-/* Set player session highlights for respawn window */
-let setHighlights = (gold, fired, hit, sank) => {
-    $(`#total-gold-collected`).html(gold.toFixed(0));
-    $(`#total-shots-fired`).html(fired);
-    $(`#total-shots-hit`).html(hit);
-    $(`#accuracy`).html(Math.round((hit / fired) * 100));
-    $(`#total-ships-sank`).html(sank);
-    $(`#supplies-cut`).html((0.3 * gold).toFixed(0));
-    if ($(`#docking-modal`).is(`:visible`)) {
-        $(`#docking-modal`).hide();
-    }
-};
-
-/* Disconnect/game end listener */
-let endTheGame = (gold, fired, hit, sank) => {
-    miniplaySend2API(`gameover`, 1);
-    miniplaySend2API(`ships`, sank);
-
-    controls.unLockMouseLook();
-
-    $(`.local-chat`).remove();
-    $(`#game-over-modal`).modal(`show`);
-
-    setHighlights(gold, fired, hit, sank);
-    myPlayer.state = 1;
-};
-
-/* Gameplay UI init to be ran after document is ready */
-let gameplayUiInit = () => {
     initChatListeners();
 
     // Play again button on game over
@@ -342,4 +335,19 @@ let gameplayUiInit = () => {
             $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
         }
     });
+};
+
+/**
+ * Set player session highlights for respawn window
+ */
+let setHighlights = (gold, fired, hit, sank) => {
+    $(`#total-gold-collected`).html(gold.toFixed(0));
+    $(`#total-shots-fired`).html(fired);
+    $(`#total-shots-hit`).html(hit);
+    $(`#accuracy`).html(Math.round((hit / fired) * 100));
+    $(`#total-ships-sank`).html(sank);
+    $(`#supplies-cut`).html((0.3 * gold).toFixed(0));
+    if ($(`#docking-modal`).is(`:visible`)) {
+        $(`#docking-modal`).hide();
+    }
 };

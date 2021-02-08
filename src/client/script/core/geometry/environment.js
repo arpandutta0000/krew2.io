@@ -1,4 +1,6 @@
-/* Main environment setup method */
+/**
+ * Set up the environment
+ */
 let setUpEnvironment = () => {
     // Set scene background
     scene.background = new THREE.Color(0xa8ebff);
@@ -39,7 +41,9 @@ let setUpEnvironment = () => {
     initWorldBoundries();
 };
 
-/* Add World Boundries function */
+/**
+ * Add world boundries
+ */
 let initWorldBoundries = () => {
     environment.boundaryLeft = new THREE.Mesh(baseGeometry.box, materials.boundary);
     environment.boundaryLeft.position.set(config.worldsize * 0.5, 1.5, 0);
@@ -62,7 +66,11 @@ let initWorldBoundries = () => {
     scene.add(environment.boundaryDown);
 };
 
-/* Day Night Cycle Transition Method */
+/**
+ * Do a day/night transition
+ * 
+ * @param {number} time If it's day or night (0 = Day, 1 = Night)
+ */
 let doDaylightCycle = (time) => {
     if (!water || (water && window.currentTime === time)) return;
 

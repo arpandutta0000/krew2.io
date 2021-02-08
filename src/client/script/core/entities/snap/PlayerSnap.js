@@ -1,4 +1,10 @@
 let PlayerSnap = {
+    /**
+     * Method to parse a player type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     * @param {object} _this Player object
+     */
     parseTypeSnap: (snap, _this) => {
         if (snap.f !== undefined) {
             _this.walkForward = parseInt(snap.f);

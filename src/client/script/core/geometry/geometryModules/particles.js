@@ -1,4 +1,8 @@
-/* Create a new Particle */
+/**
+ * Create a particle
+ * 
+ * @param {object} params Particle parameters
+ */
 let createParticle = function (params) {
     if (!myPlayer || !myPlayer.parent || ((Math.pow(params.x - myPlayer.parent.position.x, 2) + Math.pow(params.z - myPlayer.parent.position.z, 2)) > 10000)) {
         return;
@@ -7,8 +11,18 @@ let createParticle = function (params) {
     particles.push(new Particle(params));
 };
 
-/* Particle class */
+/**
+ * Particle class
+ * 
+ * @class
+ */
 class Particle {
+    /**
+     * Particle constructor
+     * 
+     * @param {object} params Particle parameters
+     * @constructor
+     */
     constructor(params) {
         this.vx = params.vx;
         this.vy = params.vy;
@@ -38,6 +52,11 @@ class Particle {
         scene.add(this.geometry);
     }
 
+    /**
+     * Method to tick a particle
+     * 
+     * @param {number} dt DT
+     */
     tick(dt) {
         // subtract gravity
         this.vy -= this.gravity * dt;
@@ -72,7 +91,11 @@ class Particle {
     }
 }
 
-/* Particle Ticks */
+/**
+ * Tick all particles
+ * 
+ * @param {number} dt DT
+ */
 let tickParticles = function (dt) {
     let i = particles.length;
     while (i--) {

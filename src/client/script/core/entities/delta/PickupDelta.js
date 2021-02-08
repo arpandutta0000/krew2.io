@@ -1,4 +1,9 @@
 let PickupDelta = {
+    /**
+     * Get a pickup's delta type
+     * 
+     * @param {object} _this Pickup object
+     */
     getTypeDelta: (_this) => {
         if (_this.type === 1) {
             if (!_this.spawnPacket) _this.spawnPacket = true;

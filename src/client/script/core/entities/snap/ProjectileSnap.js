@@ -1,4 +1,10 @@
 let ProjectileSnap = {
+    /**
+     * Method to parse a pprojectile type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     * @param {object} _this Projectile object
+     */
     parseTypeSnap: (snap, _this) => {
         if (snap.vx !== undefined) {
             _this.velocity.x = parseFloat(snap.vx);

@@ -1,6 +1,12 @@
-/* Game Controls Class */
+/**
+ * Game Controls class
+ * @class
+ */
 class GameControls {
-    /* Constructor */
+    /**
+     * Game Controls Constructor
+     * @constructor
+     */
     constructor() {
         // Create controls variables
         this.locked = false;

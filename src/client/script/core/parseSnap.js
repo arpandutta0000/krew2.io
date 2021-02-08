@@ -4,7 +4,7 @@
  * @param {any} id ID of the snap/entity
  * @param {object} data Entity data
  */
-let parseSnap = function (id, data) {
+let parseSnap = (id, data) => {
     // Check if entity doesn't exist
     if (entities[id] === undefined) {
 

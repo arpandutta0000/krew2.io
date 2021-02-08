@@ -1,11 +1,15 @@
-/* Remove a user's cookies and log out */
+/**
+ * Remove a user's cookies and log out
+ */
 window.logoutUser = () => {
     headers.invalidateCookie(`username`);
     headers.invalidateCookie(`token`);
     window.location.pathname = `/logout`;
 };
 
-/* Automatically resize renderer when the window is resized */
+/**
+ * Automatically resize renderer when the window is resized
+ */
 let updateViewport = () => {
     if (renderer) renderer.setSize(window.innerWidth, window.innerHeight);
     if (camera) {
@@ -13,10 +17,11 @@ let updateViewport = () => {
         camera.updateProjectionMatrix();
     }
 };
-
 window.addEventListener(`resize`, updateViewport, false);
 
-/* Update game quality */
+/**
+ * Method to update game quality
+ */
 let updateQuality = () => {
     switch (parseInt($(`#quality-list`).val())) {
         case 1: {
@@ -60,8 +65,12 @@ let updateQuality = () => {
     }
 };
 
-/* Update input range */
-window.updateInputRange = $input => {
+/**
+ * Update an input's range
+ * 
+ * @param {object} $input Input element
+ */
+window.updateInputRange = ($input) => {
     let $output = $input.parent().find(`output`);
 
     let min = $input.attr(`min`);
@@ -76,7 +85,11 @@ window.updateInputRange = $input => {
     $output.attr(`style`, `left:${percent}%; transform: translate(-${percent}%);`);
 };
 
-/* Set input range */
-window.inputRange = $input => {
+/**
+ * Detect input changes
+ * 
+ * @param {object} $input Input element
+ */
+window.inputRange = ($input) => {
     $input.on(`input change`, () => updateInputRange($input));
 };

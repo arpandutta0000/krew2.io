@@ -1,4 +1,9 @@
 PlayerDelta = {
+    /**
+     * Get a player's delta type
+     * 
+     * @param {object} _this Player object
+     */
     getTypeDelta: (_this) => {
         let delta = {
             f: _this.deltaTypeCompare(`f`, _this.walkForward),

@@ -1,4 +1,9 @@
 let EntityDelta = {
+    /**
+     * Get an entity's delta
+     * 
+     * @param {object} _this Entity object
+     */
     getDelta: (_this) => {
         if (!_this.sendDelta && !_this.sendCreationSnapOnDelta) {
             return undefined;
@@ -27,6 +32,13 @@ let EntityDelta = {
         return delta;
     },
 
+    /**
+     * Compare deltas
+     * 
+     * @param {any} old Old delta
+     * @param {any} fresh Fresh delta
+     * @param {object} _this Entity object
+     */
     deltaCompare: (old, fresh, _this) => {
         if (_this.last[old] !== fresh && _this.muted.indexOf(old) < 0) {
             _this.last[old] = fresh;
@@ -36,6 +48,13 @@ let EntityDelta = {
         return undefined;
     },
 
+    /**
+     * Compare type deltas
+     * 
+     * @param {any} old Old delta
+     * @param {any} fresh Fresh delta
+     * @param {object} _this Entity object
+     */
     deltaTypeCompare: (old, fresh, _this) => {
         if (_this.lastType[old] !== fresh) {
             _this.lastType[old] = fresh;

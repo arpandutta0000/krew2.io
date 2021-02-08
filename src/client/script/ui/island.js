@@ -1,12 +1,6 @@
-// Create variables
-let $dockingModalButton = $(`#docking-modal-button`);
-let $dockingModalButtonSpan = $dockingModalButton.find(`span`);
-let $portName = $(`.port-name`);
-let $cancelExitButton = $(`#cancel-exit-button`);
-let $cancelExitButtonSpan = $cancelExitButton.find(`span`);
-let $dockingModal = $(`#docking-modal`);
-
-/* Enable island menus */
+/**
+ * Enable island menus 
+ */
 let showIslandMenu = () => {
     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
     $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
@@ -18,7 +12,11 @@ let showIslandMenu = () => {
     updateKrewList();
 };
 
-/* Update ui when a user docks */
+/**
+ * Update UI when a user docks
+ * 
+ * @param {object} data Docking data
+ */
 let enterIsland = (data) => {
     if (data.captainId === myPlayerId) {
         if (myPlayer && myPlayer.parent && myPlayer.parent.shipState !== 2) {
@@ -35,7 +33,32 @@ let enterIsland = (data) => {
     }
 };
 
-/* Update info for island docking/departure timers */
+/**
+ * Initiates island UI
+ */
+let setUpIslandUI = () => {
+    socket.emit(`anchor`);
+
+    $(`#docking-modal`).hide();
+
+    if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
+        $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
+    }
+
+    $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
+    $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
+
+    if (!$(`#exit-island-button`).is(`:visible`)) {
+        $(`#exit-island-button`).show();
+    }
+
+    $(`#recruiting-div`).fadeIn(`slow`);
+    controls.unLockMouseLook();
+};
+
+/**
+ * Update info for island docking/departure timers 
+ */
 let islandTimer = () => {
     // Update the alive timer
     ++secondsAlive;
@@ -43,25 +66,29 @@ let islandTimer = () => {
     $(`#minutes`).html(pad(parseInt(secondsAlive % 3600 / 60)));
     $(`#hours`).html(pad(parseInt(secondsAlive / 3600)));
 
+    // Create variables
+    let $dockingModalButtonSpan = $(`#docking-modal-button`).find(`span`);
+    let $cancelExitButtonSpan = $(`#cancel-exit-button`).find(`span`);
+
     if (myPlayer && myPlayer.parent) {
         if (myPlayer.parent.shipState === -1 || myPlayer.parent.shipState === 3) {
-            $dockingModalButton.removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
-            $portName.text(entities[myPlayer.parent.anchorIslandId].name);
+            $(`#docking-modal-button`).removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
+            $(`.port-name`).text(entities[myPlayer.parent.anchorIslandId].name);
             $dockingModalButtonSpan.text(`Countdown...`);
             $cancelExitButtonSpan.text(`Sail (c)`);
             return;
         }
 
         if (myPlayer.parent.netType === 5) {
-            $portName.text(myPlayer.parent.name);
-            if ($dockingModal.is(`:visible`)) {
-                $dockingModal.hide();
+            $(`.port-name`).text(myPlayer.parent.name);
+            if ($(`#docking-modal`).is(`:visible`)) {
+                $(`#docking-modal`).hide();
                 showIslandMenu();
             }
         }
 
-        if ($dockingModal.hasClass(`initial`)) {
-            $dockingModal.removeClass(`initial`).find(`#you-are-docked-message`).remove();
+        if ($(`#docking-modal`).hasClass(`initial`)) {
+            $(`#docking-modal`).removeClass(`initial`).find(`#you-are-docked-message`).remove();
         }
 
         if (myPlayer.parent.shipState !== 1) {
@@ -78,7 +105,7 @@ let islandTimer = () => {
                 $dockingModalButtonSpan.text(`Docking in ${countDown} seconds`);
             } else {
                 $dockingModalButtonSpan.text(`Dock (z)`);
-                $dockingModalButton.removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
+                $(`#docking-modal-button`).removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
             }
 
             countDown--;
@@ -102,7 +129,11 @@ let timer = setInterval(() => {
     islandTimer();
 }, 1000);
 
-/* Upate ui when a user departs */
+/**
+ * Upate ui when a user departs
+ * 
+ * @param {object} data Departure data
+ */
 let exitIsland = (data) => {
     controls.lockMouseLook();
 
@@ -199,6 +230,22 @@ let setActiveBtn = (id) => {
             } else {
                 $(`#toggle-bank-modal-button`).removeClass().addClass(`btn btn-md disabled toggle-bank-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
             }
+        }
+    }
+};
+
+/**
+ * Island departure
+ */
+let departure = () => {
+    if (myPlayer && entities[myPlayer.id] && entities[myPlayer.id].parent) {
+        playAudioFile(false, `sail`);
+        $(`#docking-modal`).hide();
+        this.departureCounter = this.departureCounter || 0;
+        socket.emit(`departure`, this.departureCounter);
+        this.departureCounter += 1;
+        if (this.departureCounter > 2) {
+            this.departureCounter = 0;
         }
     }
 };

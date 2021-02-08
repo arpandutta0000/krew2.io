@@ -1,4 +1,6 @@
-/* FPS Stat */
+/**
+ * Set FPS stat
+ */
 const getFPS = () => {
     window.requestAnimationFrame(() => {
         const now = performance.now();
@@ -10,5 +12,4 @@ const getFPS = () => {
         getFPS();
     });
 };
-
 getFPS();

@@ -1,4 +1,7 @@
-let setUpKeyboard = function (renderer) {
+/**
+ * Sets up the keyboard
+ */
+let setUpKeyboard = () => {
     let my_defaults = {
         is_unordered: true,
         prevent_repeat: true,
@@ -40,6 +43,11 @@ let setUpKeyboard = function (renderer) {
     };
 };
 
+/**
+ * When a key is pressed
+ * 
+ * @param {object} evt Keydown event
+ */
 document.onkeydown = function (evt) {
     evt = evt || window.event;
     if (evt.keyCode === 38 && !$(`#chat-message`).is(`:focus`) && !$(`#clan-request`).is(`:focus`) && !$(`#crew-name-edit-input`).is(`:focus`)) { // Up arrow to move forward
@@ -126,87 +134,70 @@ document.onkeydown = function (evt) {
     }
 };
 
-let setUpIslandUI = function () {
-    socket.emit(`anchor`);
-
-    $(`#docking-modal`).hide();
-
-    if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
-        $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-    }
-
-    $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
-    $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
-
-    if (!$(`#exit-island-button`).is(`:visible`)) {
-        $(`#exit-island-button`).show();
-    }
-
-    $(`#recruiting-div`).fadeIn(`slow`);
-    controls.unLockMouseLook();
-};
-
-let setUpKeybinds = function () {
+/**
+ * Function to set up keybinds
+ */
+let setUpKeybinds = () => {
     keyboard.reset();
 
     keyboard.register_combo({
         keys: `w`,
-        on_keydown: function () {
+        on_keydown: () => {
             keys_walkFwd = true;
         },
 
-        on_release: function () {
+        on_release: () => {
             keys_walkFwd = false;
         }
     });
 
     keyboard.register_combo({
         keys: `s`,
-        on_keydown: function () {
+        on_keydown: () => {
             keys_walkBwd = true;
         },
 
-        on_release: function () {
+        on_release: () => {
             keys_walkBwd = false;
         }
     });
 
     keyboard.register_combo({
         keys: `d`,
-        on_keydown: function () {
+        on_keydown: () => {
             keys_walkRight = true;
         },
 
-        on_release: function () {
+        on_release: () => {
             keys_walkRight = false;
         }
     });
 
     keyboard.register_combo({
         keys: `a`,
-        on_keydown: function () {
+        on_keydown: () => {
             keys_walkLeft = true;
         },
 
-        on_release: function () {
+        on_release: () => {
             keys_walkLeft = false;
         }
     });
 
     keyboard.register_combo({
         keys: `k`,
-        on_keydown: function () {
+        on_keydown: () => {
             keys_boot = true;
         },
 
-        on_release: function () {
+        on_release: () => {
             keys_boot = false;
         }
     });
 
     keyboard.register_combo({
         keys: `space`,
-        on_keydown: function () {
+        on_keydown: () => {
             keys_jump = true;
             myPlayer.jump_count++;
             if (myPlayer.jump_count === 50) {
@@ -214,14 +205,14 @@ let setUpKeybinds = function () {
             }
         },
 
-        on_release: function () {
+        on_release: () => {
             keys_jump = false;
         }
     });
 
     keyboard.register_combo({
         keys: `c`,
-        on_release: function () {
+        on_release: () => {
             if (myPlayer && myPlayer.parent) {
                 if ((myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) && $cancelExitButtonSpan.text() === `Cancel (c)`) {
                     socket.emit(`exitIsland`);
@@ -235,7 +226,7 @@ let setUpKeybinds = function () {
 
     keyboard.register_combo({
         keys: `z`,
-        on_release: function () {
+        on_release: () => {
             if (myPlayer &&
                 myPlayer.parent &&
                 (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
@@ -249,7 +240,7 @@ let setUpKeybinds = function () {
 
     keyboard.register_combo({
         keys: `tab`,
-        on_release: function () {
+        on_release: () => {
             if ($(`#li-staff-chat`).is(`:visible`) && $(`#li-clan-chat`).is(`:visible`)) {
                 if (staffChatOn) toggleClanChat();
                 else if (clanChatOn) toggleLocalChat();
@@ -271,7 +262,7 @@ let setUpKeybinds = function () {
     });
     keyboard.register_combo({
         keys: `h`,
-        on_release: function () {
+        on_release: () => {
             if ($(`#help-modal`).is(`:visible`)) $(`#help-modal`).hide();
             else $(`#help-modal`).show();
         }

@@ -1,7 +1,16 @@
-/* Player class */
-
+/**
+ * Player class
+ * 
+ * @class
+ * @extends Entity
+ */
 class Player extends Entity {
-    /* Constructor */
+    /**
+     * Player constructor
+     * 
+     * @param {object} data Player data
+     * @constructor
+     */
     constructor(data) {
         // Inherit parent class methods
         super();
@@ -144,6 +153,11 @@ class Player extends Entity {
         })(this);
     }
 
+    /**
+     * Set a player's name
+     * 
+     * @param {string} name New player name
+     */
     setName(name) {
         let clan = ``;
         if (this.clan !== undefined && this.clan !== ``) {
@@ -179,6 +193,11 @@ class Player extends Entity {
         this.name = name;
     }
 
+    /**
+     * Set the player body (model)
+     * 
+     * @param {number} idx Index of dogModels array
+     */
     setPlayerBody(idx) {
         idx = idx || 0;
         let bodyModel = dogModels[idx];
@@ -202,6 +221,9 @@ class Player extends Entity {
         this.captainHat.name = `captainHat`;
     }
 
+    /**
+     * Notifiscation Method
+     */
     notifiscation() {
         for (let z in this.notifiscationHeap) {
             if (this.notifiscationHeap[z].isNew) {
@@ -233,6 +255,11 @@ class Player extends Entity {
         }
     }
 
+    /**
+     * Update player experience
+     * 
+     * @param {number} damage Amount of damage a player did
+     */
     updateExperience(damage) {
         let experience = this.experience;
         let level = 0;
@@ -265,6 +292,9 @@ class Player extends Entity {
         }
     }
 
+    /**
+     * Change a player's weapon (tool)
+     */
     changeWeapon() {
         if (this.weapon && this.activeWeapon === 0) {
             this.geometry.remove(this.weapon);
@@ -300,35 +330,65 @@ class Player extends Entity {
         }
     }
 
+    /**
+     * Make a player jump
+     */
     tryJump() {
         if (this.jumpVel > 0.0 || this.jump > 0) return;
         this.jumpVel = 16;
     }
 
+    /**
+     * Get a player's delta type
+     */
     getTypeDelta() {
         return PlayerDelta.getTypeDelta(this);
     }
 
+    /**
+     * Player logic method
+     * 
+     * @param {number} dt DT
+     */
     logic(dt) {
         PlayerLogic.logic(dt, this);
     }
 
+    /**
+     * Player client logic method
+     * 
+     * @param {number} dt DT
+     */
     clientlogic(dt) {
         PlayerLogic.clientlogic(dt, this);
     }
 
+    /**
+     * Player names logic method
+     */
     namesLogic() {
         PlayerLogic.namesLogic(this);
     }
 
+    /**
+     * Player docked logic
+     */
     dockedLogic() {
         PlayerLogic.dockedLogic(this);
     }
 
+    /**
+     * Method to parse a player type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     */
     parseTypeSnap(snap) {
         PlayerSnap.parseTypeSnap(snap, this);
     }
 
+    /**
+     * Destroy a player
+     */
     onDestroy() {
         Entity.prototype.onDestroy.call(this);
 

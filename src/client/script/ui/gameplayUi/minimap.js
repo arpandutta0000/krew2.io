@@ -1,4 +1,6 @@
-/* Create minimap and update player position every frame */
+/**
+ * Create minimap and update player position every frame
+ */
 let createMinimap = () => {
     let map = CanvasMap(document.getElementById(`minimap`), config.worldsize, config.worldsize);
 

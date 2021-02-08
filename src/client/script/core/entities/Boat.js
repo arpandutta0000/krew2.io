@@ -1,7 +1,17 @@
-/* Boat class */
-
+/**
+ * Boat class
+ * 
+ * @class
+ * @extends Entity
+ */
 class Boat extends Entity {
-    /* Constructor */
+    /**
+     * Boat constructor
+     * 
+     * @param {any} captainId Captain ID
+     * @param {string} krewName The krew's (boat's) name
+     * @constructor
+     */
     constructor(captainId, krewName) {
         // Inherit parent class methods
         super();
@@ -83,7 +93,11 @@ class Boat extends Entity {
         this.setName(this.crewName);
     }
 
-    /* Set krew name */
+    /**
+     * Set the krew's (boat's) name
+     * 
+     * @param {string} crewName The new krew (boat) name
+     */
     setName(crewName) {
         let clan = ``;
         if (this.clan !== undefined && this.clan !== ``) {
@@ -125,15 +139,13 @@ class Boat extends Entity {
         this.crewName = crewName;
     }
 
-    /* Function for updating boat children */
+    /**
+     * Update a boat's child entities
+     */
     updateProps() {
         let krewCount = 0;
         for (let id in this.children) {
-            if (
-                entities[id] === undefined ||
-                entities[id].parent === undefined ||
-                entities[id].parent.id !== this.id
-            ) {
+            if (entities[id] === undefined || entities[id].parent === undefined || entities[id].parent.id !== this.id) {
                 delete this.children[id];
                 continue;
             }
@@ -148,7 +160,11 @@ class Boat extends Entity {
         if (this.krewCount === 0) EntityModels.removeEntity(this);
     }
 
-    /* Set boat class based on boat type */
+    /**
+     * Set a boat's class
+     * 
+     * @param {number} classId New ship class ID
+     */
     setShipClass(classId) {
         this.shipclassId = classId;
 
@@ -176,7 +192,9 @@ class Boat extends Entity {
         }
     }
 
-    /* Teleport krew members to a boat (Used when undocking) */
+    /**
+     * Teleport krew members to a boat (Used when undocking)
+     */
     getKrewOnBoard() {
         for (let i in this.children) {
             if (this.children[i].parent && this.children[i].parent.id === this.id) {
@@ -192,12 +210,18 @@ class Boat extends Entity {
         }
     }
 
-    /* Get boat height based on baseheight and boat health */
+    /**
+     * Get boat height based on baseheight and boat health
+     */
     getHeightAboveWater() {
         return boatTypes[this.shipclassId].baseheight * (0.2 + 0.8 * (this.hp / this.maxHp)) - this.sinktimer;
     }
 
-    /* Set ship state when a boat docks */
+    /**
+     * Set the boat's state when a boat docks
+     * 
+     * @param {any} islandId The ID of the island
+     */
     enterIsland(islandId) {
         if (this.shipState === 0) {
             this.shipState = 1;
@@ -206,7 +230,9 @@ class Boat extends Entity {
         this.anchorIslandId = islandId;
     }
 
-    /* When the boat undocks */
+    /**
+     * When the boat undocks
+     */
     exitIsland() {
         this.shipState = 0;
         this.recruiting = false;
@@ -225,7 +251,9 @@ class Boat extends Entity {
         this.anchorIslandId = undefined;
     }
 
-    /* When a player abandons ship */
+    /**
+     * When a player abandons ship
+     */
     exitMotherShip() {
         // set rotation away from mothership
         this.rotation = rotationToObject(this, mothership);
@@ -236,26 +264,50 @@ class Boat extends Entity {
         this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
     }
 
+    /**
+     * Method to change a boat's model
+     * 
+     * @param {number} id New model ID
+     */
     changeBoatModel(id) {
         BoatModels.changeBoatModel(id, this);
     }
 
+    /**
+     * Get a boat's delta type
+     */
     getTypeDelta() {
         return BoatDelta.getTypeDelta(this);
     }
 
+    /**
+     * Boat logic method
+     * 
+     * @param {number} dt DT
+     */
     logic(dt) {
         BoatLogic.logic(dt, this);
     }
 
+    /**
+     * Boat client logic method
+     */
     clientlogic() {
         BoatLogic.clientlogic(this);
     }
 
+    /**
+     * Method to parse a boat type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     */
     parseTypeSnap(snap) {
         BoatSnap.parseTypeSnap(snap, this);
     }
 
+    /**
+     * Destroy the boat object
+     */
     onDestroy() {
         this.children = {};
 

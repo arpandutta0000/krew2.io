@@ -1,4 +1,10 @@
 let BoatLogic = {
+    /**
+     * Boat logic method
+     * 
+     * @param {number} dt DT
+     * @param {object} _this Boat object
+     */
     logic: (dt, _this) => {
         let boundaryCollision = false;
         if (_this.position.x > config.worldsize) {
@@ -112,6 +118,11 @@ let BoatLogic = {
         }
     },
 
+    /**
+     * Boat client logic method
+     * 
+     * @param {object} _this  Boat object
+     */
     clientlogic: (_this) => {
         _this.position.y = _this.getHeightAboveWater();
 

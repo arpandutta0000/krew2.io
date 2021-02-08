@@ -14,6 +14,7 @@ let sceneCanBalls = {};
 let sceneLines = {};
 let textures = {};
 
+let dogModels = [];
 let fpsTimes = [];
 let particles = [];
 

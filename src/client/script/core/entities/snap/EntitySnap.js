@@ -1,4 +1,10 @@
 let EntitySnap = {
+    /**
+     * Method to parse an entity snap
+     * 
+     * @param {object} snap Snap to be parsed
+     * @param {object} _this Entity object
+     */
     parseSnap: (snap, id, _this) => {
         if (snap.p && entities[snap.p] && _this.parent !== entities[snap.p]) {
             let oldPosition;

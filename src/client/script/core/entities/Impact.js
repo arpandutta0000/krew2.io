@@ -1,7 +1,18 @@
-/* Impact class */
-
+/**
+ * Impact class
+ * 
+ * @class
+ * @extends Entity
+ */
 class Impact extends Entity {
-    /* Constructor */
+    /**
+     * Entity Constructor
+     * 
+     * @param {number} type Impact type
+     * @param {number} x Impact x position
+     * @param {number} z Impact z position
+     * @constructor
+     */
     constructor(type, x, z) {
         // Inherit parent class methods
         super();
@@ -85,18 +96,36 @@ class Impact extends Entity {
         }
     }
 
+    /**
+     * Get an impact's delta type
+     */
     getTypeDelta() {
         return ImpactDelta.getTypeDelta(this);
     }
 
+    /**
+     * Impact logic method
+     * 
+     * @param {number} dt DT
+     */
     logic(dt) {
         ImpactLogic.logic(dt, this);
     }
 
+    /**
+     * Impact client logic method
+     * 
+     * @param {number} dt DT
+     */
     clientlogic(dt) {
         ImpactLogic.clientlogic(dt, this);
     }
 
+    /**
+     * Method to parse an impact type snap
+     * 
+     * @param {object} snap Snap to be parsed
+     */
     parseTypeSnap(snap) {
         ImpactSnap.parseTypeSnap(snap, this);
     }

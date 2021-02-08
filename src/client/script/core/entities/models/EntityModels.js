@@ -1,4 +1,9 @@
 EntityModels = {
+    /**
+     * Method to create an entity body
+     * 
+     * @param {object} _this Entity object
+     */
     createBody: (_this) => {
         // create base object
         _this.geometry = new THREE.Object3D();
@@ -49,6 +54,11 @@ EntityModels = {
         _this.clientlogic(0);
     },
 
+    /**
+     * Method to destroy entity geometry
+     * 
+     * @param {object} _this Entity object
+     */
     onClientDestroy: (_this) => {
         if (_this.parent) {
             _this.parent.geometry.remove(_this.geometry);
@@ -62,6 +72,11 @@ EntityModels = {
         }
     },
 
+    /**
+     * Method to remove an entity
+     * 
+     * @param {object} entity Entity object
+     */
     removeEntity: (entity) => {
         if (entities.hasOwnProperty(entity.id)) {
             entity.onDestroy();

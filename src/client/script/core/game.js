@@ -1,4 +1,8 @@
-/* Create function to iterate through each entity */
+/**
+ * Method to iterate through all entities and tick each
+ * 
+ * @param {number} dt DT
+ */
 let iterateEntities = (dt) => {
     // Tick each entity
     for (e in entities) {
@@ -8,8 +12,10 @@ let iterateEntities = (dt) => {
     }
 };
 
-/* Method to start the game */
-let createGame = function () {
+/**
+ * Method to start the game
+ */
+let createGame = () => {
     // Create the minimap
     let minimap = createMinimap();
 
@@ -30,7 +36,7 @@ let createGame = function () {
 
     // Init controls
     controls = new GameControls();
-    setUpKeyboard(renderer);
+    setUpKeyboard();
 
     // Create the Scene
     scene = new THREE.Scene();
@@ -93,8 +99,10 @@ let createGame = function () {
     loop();
 };
 
-/* Function to clean up extra THREE.js objects */
-function cleanScene () {
+/**
+ * Clean up extra THREE objects
+ */
+let cleanScene = () => {
     if (scene != undefined && scene !== [] && scene !== {} && scene !== ``) {
         scene.traverse((node) => {
             if (node instanceof THREE.Mesh) {
@@ -120,22 +128,8 @@ function cleanScene () {
     }
 };
 
-/* Function for island departure */
-let departure = () => {
-    if (myPlayer && entities[myPlayer.id] && entities[myPlayer.id].parent) {
-        playAudioFile(false, `sail`);
-        $(`#docking-modal`).hide();
-        this.departureCounter = this.departureCounter || 0;
-        socket.emit(`departure`, this.departureCounter);
-        this.departureCounter += 1;
-        if (this.departureCounter > 2) {
-            this.departureCounter = 0;
-        }
-    }
-};
-
 /* Function to delete all entities client side */
-let deleteEverything = function () {
+let deleteEverything = () => {
     for (e in entities) {
         if (entities.hasOwnProperty(e)) {
             entities[e].onDestroy();

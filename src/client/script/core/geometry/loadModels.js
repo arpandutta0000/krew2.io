@@ -1,4 +1,6 @@
-/* Load models from files */
+/**
+ * Load all models
+ */
 let loadModels = () => {
     // Load decorations
     if (config.christmasTree[0]) loader.loadObjWithMtl('./assets/models/decorations/christmasTree.obj');
@@ -76,7 +78,9 @@ let loadModels = () => {
     });
 };
 
-/* Function to set model geometry */
+/**
+ * Set model geometry, materials, etc
+ */
 let createModels = () => {
     geometry.island = models.island.children[0].geometry;
     if (config.palmTree[0]) geometry.palm = models.island.children[1].geometry;
@@ -159,7 +163,9 @@ let createModels = () => {
     PlayerModels.setPlayerModels();
 };
 
-/* Create materials from textures */
+/**
+ * Create materials from textures
+ */
 let createMaterials = function () {
     materials.cannonball = new THREE.SpriteMaterial({
         map: textures.cannonball,

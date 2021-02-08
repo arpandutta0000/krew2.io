@@ -1,7 +1,14 @@
-/* Main Entity class */
-
+/**
+ * Entity Class
+ * 
+ * @class
+ */
 class Entity {
-    /* Constructor */
+    /**
+     * Entity constructor
+     * 
+     * @constructor
+     */
     constructor() {
         // Set netType
         this.netType = -1;
@@ -42,13 +49,21 @@ class Entity {
         this.baseMaterial = undefined;
     }
 
-    /* Function to add child entities */
+    /**
+     * Add a child entity
+     * 
+     * @param {object} entity The entity to be added as a child
+     */
     addChildren(entity) {
         this.children[entity.id] = entity;
         entity.parent = this;
     }
 
-    /* Check if an entity has a child */
+    /**
+     * Check if an entity has a child
+     * 
+     * @param {any} id The ID of the child entity
+     */
     hasChild(id) {
         for (key in this.children) {
             if (this.children[key].id === id) {
@@ -58,7 +73,9 @@ class Entity {
         return false;
     }
 
-    /* Function to get an entity's world position */
+    /**
+     * Get an entity's world position
+     */
     worldPos() {
         let pos = new THREE.Vector3();
         pos.copy(this.position);
@@ -70,6 +87,11 @@ class Entity {
         return pos;
     }
 
+    /**
+     * Get an entity's relative position
+     * 
+     * @param {object} coord Coordinates in a Vector3 format
+     */
     toLocal(coord) {
         let pos = new THREE.Vector3();
         pos.copy(coord);
@@ -78,30 +100,61 @@ class Entity {
         return pos;
     }
 
+    /**
+     * Method to create an entity body
+     */
     createBody() {
         EntityModels.createBody(this);
     }
 
+    /**
+     * Get an entity's delta
+     */
     getDelta() {
         return EntityDelta.getDelta(this);
     }
 
+    /**
+     * Compare deltas
+     * 
+     * @param {any} old Old delta
+     * @param {any} fresh Fresh delta
+     */
     deltaCompare(old, fresh) {
         return EntityDelta.deltaCompare(old, fresh, this);
     }
 
+    /**
+     * Compare type deltas
+     * 
+     * @param {any} old Old delta
+     * @param {any} fresh Fresh delta
+     */
     deltaTypeCompare(old, fresh) {
         return EntityDelta.deltaTypeCompare(old, fresh, this);
     }
 
+    /**
+     * Entity client logic method
+     * 
+     * @param {number} dt DT
+     */
     clientlogic(dt) {
         EntityLogic.clientlogic(dt, this);
     }
 
+    /**
+     * Method to parse an entity snap
+     * 
+     * @param {object} snap Snap to be parsed
+     */
     parseSnap(snap, id) {
         EntitySnap.parseSnap(snap, id, this);
     }
 
+    /**
+     * Destroy an entity
+     */
     onDestroy() {
         if (this.parent !== undefined) {
             let parent = this.parent;
@@ -118,11 +171,18 @@ class Entity {
             delete sceneLines[this.id];
     }
 
+    /**
+     * Method to destroy entity geometry
+     */
     onClientDestroy() {
         EntityModels.onClientDestroy(this);
     }
 
-    /* Entity Tick */
+    /**
+     * Tick an entity
+     * 
+     * @param {number} dt DT
+     */
     tick(dt) {
         this.logic(dt);
 
