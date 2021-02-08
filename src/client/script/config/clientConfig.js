@@ -5,7 +5,7 @@ const config = {
     Devs: [`Yaz_`],
 
     // Set URL
-    url: `https://krew.io`,
+    url: `https://beta.krew.io`,
 
     // Set config.worldsize
     worldsize: 2500,
