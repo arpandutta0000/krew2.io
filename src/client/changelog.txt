@@ -4,12 +4,13 @@ v1.5.0 - [2-10-2021]
 - Added FOV slider in game settings
 - Fixed fishing hook alignment
 - Fixed numerous console errors
-- Multiple performance improvements
 - Improved console logging
 - Removed spyglass vignette
 - Spyglass can now see ship labels at all distances
-- Decreased asset sizes for faster load times
+- Spyglass can now look up
 - Added all ships to buying ship quests
+- Decreased asset sizes for faster load times
+- Multiple performance improvements
 
 v1.4.2b - [1-27-2021]
 - Fixed whitespace detection on username creation
