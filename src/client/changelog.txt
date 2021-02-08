@@ -1,5 +1,6 @@
 v1.5.0 - [2-7-2021]
 - Rewrote client side
+- Added back the palm tree at Jamaica
 - Fixed fishing hook alignment
 - Fixed numerous console errors
 - Multiple performance improvements
