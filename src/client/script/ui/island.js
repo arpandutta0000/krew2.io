@@ -8,7 +8,7 @@ let showIslandMenu = () => {
         $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
     }
     $(`#exit-island-button`).hide();
-    updateStore($(`.btn-shopping-modal.active`));
+    updateStore();
     updateKrewList();
 };
 
@@ -152,7 +152,7 @@ let exitIsland = (data) => {
     $(`#exit-island-button`).hide();
     $(`#shopping-modal`).hide();
     $(`#krew-list-modal`).hide();
-    updateStore($(`.btn-shopping-modal.active`));
+    updateStore();
 
     $(`#docking-modal-button`).removeClass(`btn btn-primary enabled btn-lg`).addClass(`btn btn-primary disabled btn-lg`);
     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`);
@@ -163,39 +163,25 @@ let exitIsland = (data) => {
  * Updates the store
  */
 let updateStore = () => {
-    let $shoppingItemList = $(`#shopping-item-list`);
-
-    $shoppingItemList.html(``);
+    $(`#shopping-item-list`).html(``);
 
     if ($(`#buy-ships`).hasClass(`active`)) {
         if (myPlayer !== undefined && myPlayer.parent !== undefined &&
             myPlayer.parent.captainId !== myPlayer.id && myPlayer.parent.netType === 1) {
             $(`#abandon-existing-krew`).show();
         }
-
-        getShips((div) => {
-            $shoppingItemList.html(div);
-        });
-
+        getShips((div) => $(`#shopping-item-list`).html(div));
         return;
     }
 
     if ($(`#buy-items`).hasClass(`active`)) {
-        if ($(`#abandon-existing-krew`).is(`:visible`)) {
-            $(`#abandon-existing-krew`).hide();
-        }
-
-        getItems((div) => {
-            $shoppingItemList.html(div);
-        });
+        if ($(`#abandon-existing-krew`).is(`:visible`)) $(`#abandon-existing-krew`).hide();
+        getItems((div) => $(`#shopping-item-list`).html(div));
         return;
     }
 
     if ($(`#buy-goods`).hasClass(`active`)) {
-        if ($(`#abandon-existing-krew`).is(`:visible`)) {
-            $(`#abandon-existing-krew`).hide();
-        }
-
+        if ($(`#abandon-existing-krew`).is(`:visible`)) $(`#abandon-existing-krew`).hide();
         GoodsComponent.getList();
     }
 };

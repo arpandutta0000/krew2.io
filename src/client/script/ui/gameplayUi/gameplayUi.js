@@ -135,7 +135,7 @@ let initGameUi = () => {
             $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
             $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
 
-            updateStore($(`.btn-shopping-modal.active`));
+            updateStore();
             $(`#recruiting-div`).fadeIn(`slow`);
         }
     });
@@ -309,7 +309,7 @@ let initGameUi = () => {
                 if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
                     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
                 }
-                updateStore($(`.btn-shopping-modal.active`));
+                updateStore();
             } else if (myBoat.shipState === 1) {
                 $(`#docking-modal`).show();
             }

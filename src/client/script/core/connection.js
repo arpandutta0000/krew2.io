@@ -145,11 +145,9 @@ let initSocketBinds = () => {
             updateKrewList();
         });
 
-        // oods update
+        // Goods update
         socket.on(`cargoUpdated`, () => {
-            if ($(`#buy-goods`).hasClass(`active`)) {
-                GoodsComponent.getList();
-            }
+            if ($(`#buy-goods`).hasClass(`active`)) GoodsComponent.getList();
         });
 
         // Enter island event

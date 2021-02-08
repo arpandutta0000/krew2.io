@@ -182,12 +182,11 @@ class Boat extends Entity {
         this.speed = currentShipClass.speed;
         this.shipState = 2;
 
-        // console.log("changing boat model");
         this.changeBoatModel(this.shipclassId);
         if (myPlayer !== undefined) {
             if (this === myPlayer.parent) {
                 notifications.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
-                updateStore($(`.btn-shopping-modal.active`));
+                updateStore();
             }
         }
     }
