@@ -43,7 +43,6 @@ let initAds = () => {
     }
 
     function initAipPreroll () {
-        // console.log("adplayer set?!");
         if (typeof aipPlayer !== `undefined`) {
             adplayer = new aipPlayer({
                 AD_WIDTH: 960,

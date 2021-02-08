@@ -51,7 +51,7 @@ let connect = function (pid) {
 /**
  * Initiate socket binds
  */
-var initSocketBinds = () => {
+let initSocketBinds = () => {
     // When server sends handshake paket
     socket.on(`handshake`, (msg) => {
         console.log(`Jumped into handshake!`);
