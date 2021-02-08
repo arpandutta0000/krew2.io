@@ -113,12 +113,10 @@ router.post(`/register`, (req, res, next) => {
                             name: `Krew.io`,
                             email: `verify@krew2.io`
                         },
-                        to: [
-                            {
-                                name: user.username,
-                                email: user.email
-                            }
-                        ]
+                        to: [{
+                            name: user.username,
+                            email: user.email
+                        }]
                     };
 
                     await sendpulse.smtpSendMail(answerGetter, email);
@@ -292,12 +290,10 @@ router.post(`/change_email`, (req, res, next) => {
                     name: `Krew.io`,
                     email: `verify@krew2.io`
                 },
-                to: [
-                    {
-                        name: user.username,
-                        email: user.email
-                    }
-                ]
+                to: [{
+                    name: user.username,
+                    email: user.email
+                }]
             };
 
             await sendpulse.smtpSendMail(answerGetter, email);
@@ -318,19 +314,20 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         errors: `You must be logged in to change your account's game settings`
     });
 
-    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
+    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-fov-control`] || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
         errors: `Please fill out all fields`
     });
 
+    let fov = parseInt(req.body[`account-fov-control`]);
     let music = parseInt(req.body[`account-music-control`]);
     let sfx = parseInt(req.body[`account-sfx-control`]);
     let quality = parseInt(req.body[`account-quality-list`]);
 
-    if (isNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
+    if (isNaN(fov) || sNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
         errors: `Invalid values`
     });
 
-    if (music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
+    if (fov < 10 || fov > 50 || music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
         errors: `Invalid values`
     });
 
@@ -347,6 +344,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
             user.fpMode = false;
         }
 
+        user.fov = fov;
         user.musicVolume = music;
         user.sfxVolume = sfx;
         user.qualityMode = quality;
@@ -506,12 +504,10 @@ router.post(`/reset_password`, (req, res, next) => {
                         name: `Krew.io`,
                         email: `verify@krew2.io`
                     },
-                    to: [
-                        {
-                            name: user.username,
-                            email: user.email
-                        }
-                    ]
+                    to: [{
+                        name: user.username,
+                        email: user.email
+                    }]
                 };
 
                 await sendpulse.smtpSendMail(answerGetter, email);
@@ -606,12 +602,9 @@ router.get(`/account_game_settings`, (req, res, next) => {
                 errors: `Unauthorized`
             });
 
-            if (user.fpMode === undefined || user.musicVolume === undefined || user.sfxVolume === undefined || user.qualityMode === undefined) return res.json({
-                errors: `User does not have valid data stored`
-            });
-
             return res.json({
                 fpMode: user.fpMode,
+                fov: user.fov,
                 musicVolume: user.musicVolume,
                 sfxVolume: user.sfxVolume,
                 qualityMode: user.qualityMode

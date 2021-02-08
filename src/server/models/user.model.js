@@ -66,6 +66,10 @@ let userSchema = Mongoose.Schema({
         type: Boolean,
         required: false
     },
+    fov: {
+        type: Number,
+        required: false
+    },
     musicVolume: {
         type: Number,
         required: false
