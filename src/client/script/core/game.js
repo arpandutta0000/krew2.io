@@ -104,27 +104,27 @@ let createGame = () => {
  */
 let cleanScene = () => {
     if (scene != undefined && scene !== [] && scene !== {} && scene !== ``) {
-        scene.traverse((node) => {
-            if (node instanceof THREE.Mesh) {
+        for (let node in scene) {
+            if (scene[node] instanceof THREE.Mesh) {
                 for (o in sceneCanBalls) {
                     let cannonBall = sceneCanBalls[o];
-                    if (cannonBall === node) {
-                        scene.remove(node);
+                    if (cannonBall === scene[node]) {
+                        scene.remove(scene[node]);
                         delete sceneCanBalls[o];
                     }
                 }
             }
-            if (node instanceof THREE.Line) {
+            if (scene[node] instanceof THREE.Line) {
                 for (l in sceneLines) {
                     let line = sceneLines[l];
-                    if (line === node) {
-                        scene.remove(node);
+                    if (line === scene[node]) {
+                        scene.remove(scene[node]);
                         sceneLines[l].geometry.dispose();
                         delete sceneLines[l];
                     }
                 }
             }
-        });
+        };
     }
 };
 
