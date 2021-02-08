@@ -109,7 +109,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         headers.setCookie(`password`, response.password, 1);
 
         // Show personalized login button
-        playButton.html(`Play as <b>${headers.username}</b>`);
+        $(`#play-button`).html(`Play as <b>${headers.username}</b>`);
         $(`#login-button`).html(`Account Settings`);
         addLogout();
         let currentModel = 0;
