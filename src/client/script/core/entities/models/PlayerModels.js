@@ -3,6 +3,7 @@ let PlayerModels = {
      * Method to set up player models
      */
     setPlayerModels: () => {
+        /* Pushed dog models */
         materials.seadog = new THREE.MeshPhongMaterial({
             color: 0xffffff,
             map: textures.seadog
@@ -64,6 +65,22 @@ let PlayerModels = {
 
         dogModels.push({
             body: krewmateModel,
+            scale: new THREE.Vector3(0.04, 0.04, 0.04),
+            offset: new THREE.Vector3(0, -0.4, 0.8),
+            rotation: new THREE.Vector3(0.4, Math.PI, 0)
+        });
+
+
+        /* Push staff models */
+        materials.br88c = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            map: textures.br88c
+        });
+
+        let br88cModel = new THREE.Mesh(geometry.br88c, materials.br88c);
+
+        staffDogModels.push({
+            body: br88cModel,
             scale: new THREE.Vector3(0.04, 0.04, 0.04),
             offset: new THREE.Vector3(0, -0.4, 0.8),
             rotation: new THREE.Vector3(0.4, Math.PI, 0)

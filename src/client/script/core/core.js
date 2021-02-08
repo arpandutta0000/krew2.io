@@ -17,6 +17,7 @@ let textures = {};
 let dogModels = [];
 let fpsTimes = [];
 let particles = [];
+let staffDogModels = [];
 
 let playerName = ``;
 
