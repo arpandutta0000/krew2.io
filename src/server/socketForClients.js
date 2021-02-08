@@ -29,6 +29,10 @@ let reportIPs = [];
 let serverRestart = false;
 let currentTime = (new Date().getUTCMinutes() > 35 && new Date().getUTCMinutes() < 55) ? `night` : `day`;
 
+// Bots in testing environment.
+const createBots = require(`./bots.js`);
+if (config.mode === `dev` && process.env.TESTING_ENV) createBots();
+
 // Log when server starts.
 let serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
@@ -110,7 +114,18 @@ io.on(`connection`, async socket => {
 
     let initSocketForPlayer = async data => {
         // If the player entity already exists, ignore reconnect.
-        if (playerEntity) return;
+        if (!process.env.TESTING_ENV && (playerEntity || socket.request.headers.origin === undefined || socket.request.headers[`user-agent`] === `node-XMLHttpRequest`)) {
+            log(`cyan`, `Exploit detected: Faulty connection. Disconnecting IP ${socket.handshake.address}.`);
+
+            let ban = new Ban({
+                username: data.name,
+                IP: socket.handshake.address,
+                timestamp: new Date(),
+                comment: `Auto exploit temp ban`
+            });
+            ban.save();
+            return socket.disconnect();
+        }
 
         if (!data.name) data.name = ``;
         else data.name = filter.clean(xssFilters.inHTMLData(data.name));
@@ -127,7 +142,7 @@ io.on(`connection`, async socket => {
             if (isIPBanned && new Date() - new Date(isIPBanned.timestamp) > 36e5) isIPBanned.delete();
             else if (isAccountBanned && new Date() - new Date(isAccountBanned.timestamp) > 36e5) isAccountBanned.delete();
             else {
-                log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name}.`);
+                log(`cyan`, `Detected banned IP ${socket.handshake.address} attempting to connect. Disconnecting ${data.name ? data.name : `seadog`}.`);
                 socket.emit(`showCenterMessage`, `You have been banned... Contact us on Discord`, 1, 6e4);
 
                 socket.banned = true;
@@ -138,29 +153,31 @@ io.on(`connection`, async socket => {
         // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip.
 
         // VPNs are all IPv4.
-        axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
-            if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`);
+        if (config.mode === `prod`) {
+            axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
+                if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`);
 
-            if (res.data) {
-                let result = parseInt(res.data.result);
-                if (result === 1) {
-                    // Ban the IP.
-                    let ban = new Ban({
-                        username: data.name,
-                        IP: socket.handshake.address,
-                        timestamp: new Date(),
-                        comment: `Auto VPN temp ban`
-                    });
-                    return ban.save(() => {
-                        socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
-                        log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
+                if (res.data) {
+                    let result = parseInt(res.data.result);
+                    if (result === 1) {
+                        // Ban the IP.
+                        let ban = new Ban({
+                            username: data.name,
+                            IP: socket.handshake.address,
+                            timestamp: new Date(),
+                            comment: `Auto VPN temp ban`
+                        });
+                        return ban.save(() => {
+                            socket.emit(`showCenterMessage`, `Disable VPN to play this game`, 1, 6e4);
+                            log(`cyan`, `VPN connection. Banning IP: ${socket.handshake.address}.`);
 
-                        socket.disconnect();
-                    });
-                } else if (result === -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
-                else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
-            }
-        }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
+                            socket.disconnect();
+                        });
+                    } else if (result === -2) log(`yellow`, `IPv6 detected. Allowing user to pass VPN detection | IP: ${socket.handshake.address}`);
+                    else log(`magenta`, `VPN connection not detected. Allowing IP: ${socket.handshake.address}.`);
+                }
+            }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
+        }
 
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > config.maxPlayerCount) {
@@ -607,7 +624,7 @@ io.on(`connection`, async socket => {
                                             });
 
                                             if (user) {
-                                                if (player.gold > user.highscore) {
+                                                if (player.serverNumber === 1 && player.gold > user.highscore) {
                                                     log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
                                                     user.highscore = player.gold;
                                                     user.save();
@@ -975,7 +992,7 @@ io.on(`connection`, async socket => {
                                 let player = boat.children[i];
                                 if (!DEV_ENV && player !== undefined && player.netType === 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
-                                if (player.isLoggedIn === true && player.gold > player.highscore) {
+                                if (player.isLoggedIn === true && player.serverNumber === 1 && player.gold > player.highscore) {
                                     log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                                     player.highscore = parseInt(player.gold);
 
@@ -2041,7 +2058,7 @@ io.on(`connection`, async socket => {
 
     // Assing player data sent from the client.
     socket.on(`createPlayer`, data => {
-        createThePlayer(data);
+        if (!playerEntity) createThePlayer(data);
     });
 
     let createThePlayer = data => {
@@ -2103,7 +2120,7 @@ exports.send = () => {
 
 let isSpamming = (playerEntity, message) => {
     if (typeof message !== `string`) return true;
-    if (message.length > 60 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) {
+    if (message.length > 60 && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev && !Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Devs.includes(playerEntity.name)) {
         mutePlayer(playerEntity, `Automatically muted by server`);
         return true;
     }
@@ -2198,7 +2215,7 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            mute.delete(() => {
+            Mute.deleteOne({ username: playerEntity.name }).then(() => {
                 log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerEntity.isMuted = false;
             });

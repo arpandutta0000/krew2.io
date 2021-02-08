@@ -3,7 +3,7 @@ const log = require(`../utils/log.js`);
 const axios = require(`axios`);
 const config = require(`../config/config.js`);
 const bcrypt = require(`bcrypt`);
-const nodemailer = require(`nodemailer`);
+const sendpulse = require(`sendpulse-api`);
 const crypto = require(`crypto`);
 
 const express = require(`express`);
@@ -32,7 +32,7 @@ router.post(`/register`, (req, res, next) => {
         errors: `Your username must be between 3 and 20 characters`
     });
 
-    if (req.body[`register-username`] !== xssFilters.inHTMLData(req.body[`register-username`]) || /[^\w\s]/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
+    if (req.body[`register-username`] !== xssFilters.inHTMLData(req.body[`register-username`]) || /^\s+$/.test(req.body[`register-username`]) || config.whitespaceRegex.test(req.body[`register-username`])) return res.json({
         errors: `Invalid Username`
     });
 
@@ -75,7 +75,7 @@ router.post(`/register`, (req, res, next) => {
             if (info) {
                 User.findOne({
                     username
-                }).then(user => {
+                }).then(async user => {
                     if (!user) return log(`red`, err);
 
                     let creationIP = req.header(`x-forwarded-for`) || req.connection.remoteAddress;
@@ -88,14 +88,6 @@ router.post(`/register`, (req, res, next) => {
                     user.lastIP = user.creationIP;
                     user.lastModified = new Date();
 
-                    let transporter = nodemailer.createTransport({
-                        service: `Gmail`,
-                        auth: {
-                            user: process.env.EMAIL_USERNAME,
-                            pass: process.env.EMAIL_PASSWORD
-                        }
-                    });
-
                     let ssl;
                     let address;
                     if (DEV_ENV) {
@@ -105,27 +97,36 @@ router.post(`/register`, (req, res, next) => {
                         ssl = `https`;
                         address = config.domain;
                     }
+                    let emailContent = `Hello ${user.username}, please verify your Krew.io account by clicking the link: ${ssl}:\/\/${address}\/verify\/${user.verifyToken}`;
 
-                    let mailOptions = {
-                        from: `noreply@krew.io`,
-                        to: user.email,
-                        subject: `Verify your Krew.io Account`,
-                        text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
+                    sendpulse.init(process.env.EMAIL_ID, process.env.EMAIL_SECRET, `./temp`, () => {});
+                    let answerGetter = (data) => {
+                        log(`yellow`, `Sending email to ${user.email}...`);
+                        log(`yellow`, JSON.stringify(data));
                     };
 
-                    transporter.sendMail(mailOptions, (err) => {
-                        if (err) {
-                            user.delete();
-                            return res.json({
-                                error: `Error sending to the specified email address.`
-                            });
-                        }
+                    let email = {
+                        html: `<h1>Verify your Krew.io Account</h1><br><p>${emailContent}</p>`,
+                        text: emailContent,
+                        subject: `Verify your Krew.io Account`,
+                        from: {
+                            name: `Krew.io`,
+                            email: `verify@krew2.io`
+                        },
+                        to: [
+                            {
+                                name: user.username,
+                                email: user.email
+                            }
+                        ]
+                    };
 
-                        user.save(() => {
-                            log(`yellow`, `Created account "${user.username}" with email "${user.email}"`);
-                            return res.json({
-                                success: `Succesfully registered! A verification email has been sent to ${user.email}.`
-                            });
+                    await sendpulse.smtpSendMail(answerGetter, email);
+
+                    user.save(() => {
+                        log(`yellow`, `Created account "${user.username}" with email "${user.email}"`);
+                        return res.json({
+                            success: `Succesfully registered! A verification email has been sent to ${user.email}.`
                         });
                     });
                 });
@@ -189,7 +190,7 @@ router.post(`/change_username`, (req, res, next) => {
         errors: `Your username must be between 3 and 20 characters`
     });
 
-    if (username !== xssFilters.inHTMLData(username) || /[^\w\s]/.test(username) || config.whitespaceRegex.test(username)) return res.json({
+    if (username !== xssFilters.inHTMLData(username) || /^\s+$/.test(username) || config.whitespaceRegex.test(username)) return res.json({
         errors: `Invalid Username`
     });
 
@@ -231,18 +232,18 @@ router.post(`/change_email`, (req, res, next) => {
     });
 
     let currentEmail = req.user.email;
-    let email = req.body[`change-email-input`];
+    let newEmail = req.body[`change-email-input`];
 
-    if (!email || typeof email !== `string`) return res.json({
+    if (!newEmail || typeof newEmail !== `string`) return res.json({
         errors: `Please fill out all fields`
     });
 
-    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) return res.json({
+    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(newEmail)) return res.json({
         errors: `Invalid email`
     });
 
     User.findOne({
-        email
+        email: newEmail
     }).then(user => {
         if (user) return res.json({
             errors: `That email is already in use`
@@ -250,7 +251,7 @@ router.post(`/change_email`, (req, res, next) => {
 
         User.findOne({
             email: currentEmail
-        }).then(user => {
+        }).then(async user => {
             if (!user) return res.json({
                 errors: `Your account is Invalid`
             });
@@ -261,18 +262,10 @@ router.post(`/change_email`, (req, res, next) => {
 
             let token = `e${crypto.randomBytes(16).toString(`hex`)}${user.username}`;
 
-            user.email = email;
+            user.email = newEmail;
             user.verified = false;
             user.verifyToken = token;
             user.lastModified = new Date();
-
-            let transporter = nodemailer.createTransport({
-                service: `Gmail`,
-                auth: {
-                    user: process.env.EMAIL_USERNAME,
-                    pass: process.env.EMAIL_PASSWORD
-                }
-            });
 
             let ssl;
             let address;
@@ -283,21 +276,32 @@ router.post(`/change_email`, (req, res, next) => {
                 ssl = `https`;
                 address = config.domain;
             }
+            let emailContent = `Hello ${user.username}, please verify your Krew.io account by clicking the link: ${ssl}:\/\/${address}\/verify\/${user.verifyToken}`;
 
-            let mailOptions = {
-                from: `noreply@krew.io`,
-                to: user.email,
-                subject: `Confirm changing your Krew.io email`,
-                text: `Hello ${user.username},\n\nPlease verify your Krew.io account by clicking the link: \n${ssl}:\/\/${address}\/verify\/${user.verifyToken}\n`
+            sendpulse.init(process.env.EMAIL_ID, process.env.EMAIL_SECRET, `./temp`, () => {});
+            let answerGetter = (data) => {
+                log(`yellow`, `Sending email to ${user.email}...`);
+                log(`yellow`, JSON.stringify(data));
             };
 
-            transporter.sendMail(mailOptions, (err) => {
-                if (err) {
-                    return res.json({
-                        error: `Error sending to the specified email address.`
-                    });
-                }
-            });
+            let email = {
+                html: `<h1>Verify your Krew.io Account</h1><br><p>${emailContent}</p>`,
+                text: emailContent,
+                subject: `Verify your Krew.io Account`,
+                from: {
+                    name: `Krew.io`,
+                    email: `verify@krew2.io`
+                },
+                to: [
+                    {
+                        name: user.username,
+                        email: user.email
+                    }
+                ]
+            };
+
+            await sendpulse.smtpSendMail(answerGetter, email);
+
             user.save(() => {
                 log(`yellow`, `User "${user.username}" sent a change email verification link to "${user.email}".`);
                 req.logOut();
@@ -469,21 +473,13 @@ router.post(`/reset_password`, (req, res, next) => {
                 errors: err
             });
 
-            bcrypt.hash(password, salt, (err, hash) => {
+            bcrypt.hash(password, salt, async (err, hash) => {
                 if (err) return res.json({
                     errors: err
                 });
 
                 user.newPassword = hash;
                 user.newPasswordToken = token;
-
-                let transporter = nodemailer.createTransport({
-                    service: `Gmail`,
-                    auth: {
-                        user: process.env.EMAIL_USERNAME,
-                        pass: process.env.EMAIL_PASSWORD
-                    }
-                });
 
                 let ssl;
                 let address;
@@ -494,22 +490,32 @@ router.post(`/reset_password`, (req, res, next) => {
                     ssl = `https`;
                     address = config.domain;
                 }
+                let emailContent = `Hello ${user.username}, please verify that you would like to reset your password on Krew.io by clicking the link: ${ssl}:\/\/${address}\/verify\/${user.newPasswordToken}`;
 
-                let mailOptions = {
-                    from: `noreply@krew.io`,
-                    to: user.email,
-                    subject: `Reset your Krew.io password`,
-                    text: `Hello ${user.username},\n\nPlease verify that you would like to reset your password on Krew.io by clicking the link: \n${ssl}:\/\/${address}\/verify_reset_password\/${user.newPasswordToken}\n`
+                sendpulse.init(process.env.EMAIL_ID, process.env.EMAIL_SECRET, `./temp`, () => {});
+                let answerGetter = (data) => {
+                    log(`yellow`, `Sending email to ${user.email}...`);
+                    log(`yellow`, JSON.stringify(data));
                 };
 
-                transporter.sendMail(mailOptions, (err) => {
-                    if (err) {
-                        user.delete();
-                        return res.json({
-                            error: `Error sending to the specified email address.`
-                        });
-                    }
-                });
+                let email = {
+                    html: `<h1>Reset your Krew.io password</h1><br><p>${emailContent}</p>`,
+                    text: emailContent,
+                    subject: `Reset your Krew.io password`,
+                    from: {
+                        name: `Krew.io`,
+                        email: `verify@krew2.io`
+                    },
+                    to: [
+                        {
+                            name: user.username,
+                            email: user.email
+                        }
+                    ]
+                };
+
+                await sendpulse.smtpSendMail(answerGetter, email);
+
                 user.save(() => {
                     log(`yellow`, `User "${user.username}" sent a change password verification link to "${user.email}".`);
                     req.logOut();
