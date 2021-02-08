@@ -1625,13 +1625,13 @@ io.on(`connection`, async socket => {
                             playerEntity.experience += 500;
                             playerEntity.other_quest_level++;
                         }
-                        if (questLists[1].includes(response) && playerEntity.other_quest_level === 0) {
+                        if (questLists[1].includes(response) && playerEntity.other_quest_level === 1) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +10,000 Gold & 1,000 XP`);
                             playerEntity.gold += 1e4;
                             playerEntity.experience += 1e3;
                             playerEntity.other_quest_level++;
                         }
-                        if (questLists[2].includes(response) && playerEntity.other_quest_level === 0) {
+                        if (questLists[2].includes(response) && playerEntity.other_quest_level === 2) {
                             playerEntity.socket.emit(`showCenterMessage`, `Achievement: Peaceful Sailor: +50,000 Gold & 5,000 XP`);
                             playerEntity.gold += 5e4;
                             playerEntity.experience += 5e3;
