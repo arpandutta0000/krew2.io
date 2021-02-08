@@ -117,7 +117,6 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         $(`#login-button`).on(`click`, () => {
             $(`#manage-account-box`).modal(`show`);
 
-            ui.setQualitySettings();
             $.ajax({
                 url: `/account_game_settings`,
                 type: `GET`,
