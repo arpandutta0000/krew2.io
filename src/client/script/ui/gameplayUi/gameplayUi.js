@@ -633,6 +633,11 @@ let initGameUi = () => {
 
 /**
  * Set player session highlights for respawn window
+ *
+ * @param {number} gold Amount of gold
+ * @param {number} fired Number of times the user fired
+ * @param {number} hit Number of times the user hit another boat
+ * @param {number} sank Number of ships user sank
  */
 let setHighlights = (gold, fired, hit, sank) => {
     $(`#total-gold-collected`).html(gold.toFixed(0));
