@@ -69,5 +69,5 @@ let initAds = () => {
  */
 let showAdinplayCentered = () => {
     if (typeof (adplayer) !== `undefined` && adEnabled) adplayerCentered.startPreRoll();
-    else console.log(`Adplayer is not defined, skipped showing ad`);
+    else console.log(`Adplayer is not defined, skipped showing ads`);
 };
