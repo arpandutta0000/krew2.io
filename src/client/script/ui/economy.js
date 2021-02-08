@@ -3,8 +3,16 @@
  */
 let ecoUiInit = () => {
     // When shop button is pressed open shop modal
-    $(`#show-shopping-modal-button`).on(`click`, () => {
-        $(`#shopping-modal`).fadeIn();
+    $(`.toggle-shop-modal-button`).on(`click`, () => {
+        if ($(`#toggle-shop-modal-button`).hasClass(`enabled`)) {
+            if ($(`#shopping-modal`).is(`:visible`)) {
+                $(`#shopping-modal`).hide();
+            } else {
+                $(`#toggle-shop-modal-button`).popover(`hide`);
+                $(`#shopping-modal`).show();
+            }
+        }
+        showIslandMenu();
     });
 
     // Create listeners for the shop

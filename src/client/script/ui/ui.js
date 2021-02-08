@@ -48,18 +48,6 @@ let ui = {
             e.preventDefault();
         });
 
-        /* Open Shop */
-        $(`.toggle-shop-modal-button`).on(`click`, () => {
-            if ($(`#toggle-shop-modal-button`).hasClass(`enabled`)) {
-                if ($(`#shopping-modal`).is(`:visible`)) {
-                    $(`#shopping-modal`).hide();
-                } else {
-                    $(`#toggle-shop-modal-button`).popover(`hide`);
-                    $(`#shopping-modal`).show();
-                }
-            }
-        });
-
         /* View list of docked Krews */
         $(`.toggle-krew-list-modal-button`).on(`click`, () => {
             if ($(`#toggle-krew-list-modal-button`).hasClass(`enabled`)) {
