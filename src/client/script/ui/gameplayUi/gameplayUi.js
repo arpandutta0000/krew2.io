@@ -264,6 +264,11 @@ let initGameUi = () => {
         $(`#quests-modal`).css(`display`, `none`);
     });
 
+    /* Close quests modal button */
+    $(`#close-help-button`).on(`click`, () => {
+        $(`#help-modal`).css(`display`, `none`);
+    });
+
     /* Cancel docking */
     $(`#cancel-exit-button`).on(`click`, () => {
         if ($(`#cancel-exit-button`).find(`span`).text() === `Cancel (c)`) {
