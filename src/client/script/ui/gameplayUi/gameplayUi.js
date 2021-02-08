@@ -335,6 +335,9 @@ let initGameUi = () => {
             $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
         }
     });
+
+    // Make sure player leaderboard is hidden
+    $(`#player-leaderboard`).hide();
 };
 
 /**
