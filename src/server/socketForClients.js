@@ -1614,9 +1614,9 @@ io.on(`connection`, async socket => {
                     // Give the rewards for the quests.
                     if (playerEntity.gold >= core.boatTypes[item.id].price) {
                         let questLists = [
-                            [`04`, `05`, `06`, `07`, `015`, `016`], // Trader or boat.
-                            [`08`, `09`, `010`, `012`, `013`, `018`, `019`], // Destroyer, calm spirit, or royal fortune.
-                            [`014`, `020`] // Queen Barb's Justice
+                            [`04`, `05`, `06`, `07`, `08`, `09`], // Boat and Trader
+                            [`010`, `011`, `012`, `013`, `014`, `015`, `016`, `017`, `018`, `019`, `020`], // Destroyer, Baby Fancy, Royal Fortune, Calm Spirit, Junkie, and Raider
+                            [`021`, `022`, `023`, `024`] // Queen Barb's Justice, Black Oyster, and Fortune Trader
                         ];
 
                         if (questLists[0].includes(response) && playerEntity.other_quest_level === 0) {
