@@ -201,7 +201,7 @@ class Player extends Entity {
      */
     setPlayerBody (idx) {
         idx = idx || 0;
-        let bodyModel = idx < 0 ? staffDogModels[-1 * idx]: dogModels[idx];
+        let bodyModel = idx < 0 ? staffDogModels[(-1 * idx) - 1]: dogModels[idx];
         this.playerBody = bodyModel.body.clone();
         this.playerBody.scale.set(bodyModel.scale.x, bodyModel.scale.y, bodyModel.scale.z);
         this.playerBody.position.set(bodyModel.offset.x, bodyModel.offset.y, bodyModel.offset.z);
