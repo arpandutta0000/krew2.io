@@ -15,10 +15,8 @@ let sendMessage = () => {
 let initChatListeners = () => {
     // On a keyup in chat
     $(`#chat-message`).on(`keyup`, () => {
-        let val = (this).val();
-
-        if (val.trim().length > 150) {
-            (this).val(val.slice(0, 150));
+        if ($(`#chat-message`).val().trim().length > 150) {
+            $(`#chat-message`).val($(`#chat-message`).val().slice(0, 150));
         }
     });
 
@@ -27,11 +25,6 @@ let initChatListeners = () => {
         if (e.keyCode === 13) {
             sendMessage();
         }
-    });
-
-    // Send chat message by pressing send message button
-    $(`#send-message-button`).on(`click`, () => {
-        sendMessage();
     });
 
     // Init other chat buttons

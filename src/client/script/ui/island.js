@@ -228,11 +228,6 @@ let departure = () => {
     if (myPlayer && entities[myPlayer.id] && entities[myPlayer.id].parent) {
         playAudioFile(false, `sail`);
         $(`#docking-modal`).hide();
-        this.departureCounter = this.departureCounter || 0;
-        socket.emit(`departure`, this.departureCounter);
-        this.departureCounter += 1;
-        if (this.departureCounter > 2) {
-            this.departureCounter = 0;
-        }
+        socket.emit(`departure`, 0);
     }
 };
