@@ -65,7 +65,7 @@ class Entity {
      * @param {any} id The ID of the child entity
      */
     hasChild (id) {
-        for (key in this.children) {
+        for (let key in this.children) {
             if (this.children[key].id === id) {
                 return true;
             }
