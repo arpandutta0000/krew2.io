@@ -186,7 +186,7 @@ module.exports = grunt => {
                         expand: true,
                         nonull: true,
                         flatten: false,
-                        src: [`src/client/assets/**`],
+                        src: [`src/client/assets/*`],
                         dest: `dist/assets/`,
                         filter: `isFile`
                     }
