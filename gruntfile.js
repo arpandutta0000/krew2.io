@@ -65,6 +65,7 @@ module.exports = grunt => {
                     `src/client/script/ui/stores/items.js`,
                     `src/client/script/ui/stores/ships.js`,
                     `src/client/script/ui/ads.js`,
+                    `src/client/script/ui/economy.js`,
                     `src/client/script/ui/fps.js`,
                     `src/client/script/ui/island.js`,
                     `src/client/script/ui/splash.js`,
@@ -116,7 +117,6 @@ module.exports = grunt => {
                     `src/client/script/core/geometry/loadModels.js`,
 
                     `src/client/script/core/audio.js`,
-                    `src/client/script/core/economy.js`,
                     `src/client/script/core/game.js`,
 
                     `src/client/script/main.js`,
