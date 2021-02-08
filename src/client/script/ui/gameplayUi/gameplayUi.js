@@ -291,9 +291,7 @@ let initGameUi = () => {
                         action: `sell`,
                         good: k
                     }, (err, data) => {
-                        if (err) {
-                            console.log(err);
-                        }
+                        if (err) return
                         if (!err) {
                             myPlayer.gold = data.gold;
                             myPlayer.goods = data.goods;

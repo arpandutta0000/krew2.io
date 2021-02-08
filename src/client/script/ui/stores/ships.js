@@ -6,9 +6,7 @@
 let getShips = (callback) => {
     if (myPlayer && myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
         socket.emit(`getShips`, (err, ships) => {
-            if (err) {
-                console.log(err);
-            }
+            if (err) return;
 
             let $div = $(`<div/>`, {
                 style: `font-size: 15px;text-align: center;`

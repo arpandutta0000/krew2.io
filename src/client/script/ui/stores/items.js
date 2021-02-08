@@ -6,9 +6,7 @@
 let getItems = (callback) => {
     if (myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0) {
         socket.emit(`getItems`, (err, items) => {
-            if (err) {
-                console.log(err);
-            }
+            if (err) return;
 
             let $div = $(`<div/>`);
 

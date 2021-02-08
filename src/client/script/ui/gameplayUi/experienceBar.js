@@ -40,10 +40,7 @@ let ExperiencePointsComponent = {
 
     setStore: (callback) => {
         socket.emit(`getExperiencePoints`, (err, data) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
+            if (err) return;
 
             Object.assign(Store, data);
 
@@ -94,9 +91,7 @@ let ExperiencePointsComponent = {
 
     allocatePoints: (callback) => {
         socket.emit(`allocatePoints`, Store.allocatedPoints, (err) => {
-            if (err) {
-                console.log(err);
-            }
+            if (err) return;
 
             if (typeof callback === `function`) {
                 callback();

@@ -36,13 +36,7 @@ let GoodsComponent = {
     setStore: (callback) => {
         if (myPlayer && myPlayer.parent && (myPlayer.parent.netType === 5 || myPlayer.parent.shipState !== 1 && myPlayer.parent.shipState !== 0)) {
             socket.emit(`getGoodsStore`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                }
-
-                if (!err) {
-                    Object.assign(Store, data);
-                }
+                if (!err) Object.assign(Store, data);
 
                 callback && callback.call && callback();
             });
@@ -135,10 +129,6 @@ let GoodsComponent = {
                     action: action,
                     good: good
                 }, (err, data) => {
-                    if (err) {
-                        console.log(err);
-                    }
-
                     if (!err) {
                         myPlayer.gold = data.gold;
                         myPlayer.goods = data.goods;
