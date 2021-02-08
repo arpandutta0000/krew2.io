@@ -1,7 +1,3 @@
-let Store = {
-    $shoppingList: $(`#shopping-item-list`)
-};
-
 let GoodsComponent = {
     getList: () => {
         GoodsComponent

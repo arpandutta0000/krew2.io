@@ -101,9 +101,7 @@ let notifications = {
             style: `color: ${color}`
         }).delay(msgInterval).fadeOut(`slow`);
 
-        let $messageCount = $(`#center-div div`).length;
-
-        if ($messageCount > 3) $(`#center-div div:last-child`).remove();
+        if ($(`#center-div div`).length > 3) $(`#center-div div:last-child`).remove();
 
         $(`#center-div`).prepend(textDiv);
     }

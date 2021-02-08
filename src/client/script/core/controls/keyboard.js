@@ -124,10 +124,10 @@ document.onkeydown = function (evt) {
     // For experience points allocation
     else if (evt.keyCode >= 53 && evt.keyCode <= 55 &&
         myPlayer && myPlayer.geometry && !$(`#chat-message`).is(`:focus`) && !$(`#clan-request`).is(`:focus`) && !$(`#make-deposit`).is(`:focus`) && !$(`#take-deposit`).is(`:focus`)) {
-        let attribute = EXPERIENCEPOINTSCOMPONENT.keys[evt.keyCode];
-        EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
+        let attribute = ExperiencePointsComponent.keys[evt.keyCode];
+        ExperiencePointsComponent.clearStore().setStore((Store) => {
             Store.allocatedPoints[attribute] = 1;
-            EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
+            ExperiencePointsComponent.allocatePoints(() => {
                 experienceBarUpdate();
             });
         });

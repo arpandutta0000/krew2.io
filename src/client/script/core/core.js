@@ -50,6 +50,10 @@ let mtlLoader = new THREE.MTLLoader();
 
 let time = performance.now();
 
+let Store = {
+    $shoppingList: $(`#shopping-item-list`)
+};
+
 /** --------------- Information --------------- **
  *
  * -- Net Types --

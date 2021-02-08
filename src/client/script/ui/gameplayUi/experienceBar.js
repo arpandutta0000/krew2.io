@@ -1,164 +1,155 @@
-(function (window) {
-    let Store = {
-        $shoppingList: $(`#shopping-item-list`)
-    };
+let ExperiencePointsComponent = {
+    keys: {
+        53: `fireRate`,
+        54: `distance`,
+        55: `damage`
+    },
+    getList: () => {
+        ExperiencePointsComponent
+            .removeListeners()
+            .clearStore()
+            .setStore(() => {
+                ExperiencePointsComponent
+                    .setContent()
+                    .setListeners();
+            });
+    },
 
-    var ExperiencePointsComponent = {
-        keys: {
-            53: `fireRate`,
-            54: `distance`,
-            55: `damage`
-        },
-        getList: function () {
-            ExperiencePointsComponent
-                .removeListeners()
-                .clearStore()
-                .setStore(() => {
-                    ExperiencePointsComponent
-                        .setContent()
-                        .setListeners();
-                });
-        },
+    removeListeners: () => {
+        if (Store.$html !== undefined) {
+            Store.$html.children().off();
+            Store.$html.off();
+        }
 
-        removeListeners: function () {
-            if (Store.$html !== undefined) {
-                Store.$html.children().off();
-                Store.$html.off();
+        return ExperiencePointsComponent;
+    },
+
+    clearStore: () => {
+        Object.assign(Store, {
+            $html: undefined,
+            points: {},
+            originalPoints: 0,
+            availablePoints: 0,
+            usedPoints: 0,
+            allocatedPoints: {},
+            pointsTr: {},
+            experience: myPlayer ? myPlayer.experience : 0
+        });
+        return ExperiencePointsComponent;
+    },
+
+    setStore: (callback) => {
+        socket.emit(`getExperiencePoints`, (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
             }
 
-            return ExperiencePointsComponent;
-        },
+            Object.assign(Store, data);
 
-        clearStore: function () {
-            Object.assign(Store, {
-                $html: undefined,
-                points: {},
-                originalPoints: 0,
-                availablePoints: 0,
-                usedPoints: 0,
-                allocatedPoints: {},
-                pointsTr: {},
-                experience: myPlayer ? myPlayer.experience : 0
-            });
-            return ExperiencePointsComponent;
-        },
-
-        setStore: function (callback) {
-            socket.emit(`getExperiencePoints`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-
-                Object.assign(Store, data);
-
-                if (myPlayer) {
-                    myPlayer.experience = data.experience;
-                    myPlayer.points = data.points;
-                }
-
-                for (let i in Store.points) {
-                    Store.allocatedPoints[i] = 0;
-                }
-
-                Store.originalPoints = Store.availablePoints;
-
-                callback && callback.call && callback(Store);
-            });
-        },
-
-        setContent: function () {
-            let $html = $(`<div/>`);
-            $html.append(ExperiencePointsComponent.getPointsList());
-            if (Store.originalPoints === 0) {
-                $html.find(`.btn-allocate-points`).attr(`disabled`, true);
+            if (myPlayer) {
+                myPlayer.experience = data.experience;
+                myPlayer.points = data.points;
             }
 
-            Store.$html = $html;
-            Store.$shoppingList.html(Store.$html);
-            return ExperiencePointsComponent;
-        },
-
-        setListeners: function () {
-            let $btn = Store.$html.find(`.btn-allocate-points`);
-            let i;
-
-            $(`input[type=range]`).each(function () {
-                inputRange($(this));
-            });
-
-            for (i in Store.pointsTr) {
-                ExperiencePointsComponent.setInputRangeListeners(Store.pointsTr[i], i);
+            for (let i in Store.points) {
+                Store.allocatedPoints[i] = 0;
             }
 
-            $btn.one(`click`, (e) => {
-                e.preventDefault();
-                ExperiencePointsComponent.allocatePoints(() => {
-                    ExperiencePointsComponent.getList();
-                });
+            Store.originalPoints = Store.availablePoints;
+
+            callback && callback.call && callback(Store);
+        });
+    },
+
+    setContent: () => {
+        $(`<div/>`).append(ExperiencePointsComponent.getPointsList());
+        if (Store.originalPoints === 0) {
+            $(`<div/>`).find(`.btn-allocate-points`).attr(`disabled`, true);
+        }
+
+        Store.$html = $(`<div/>`);
+        Store.$shoppingList.html(Store.$html);
+        return ExperiencePointsComponent;
+    },
+
+    setListeners: () => {
+        $(`input[type=range]`).each(() => {
+            inputRange($(this));
+        });
+
+        for (let i in Store.pointsTr) {
+            ExperiencePointsComponent.setInputRangeListeners(Store.pointsTr[i], i);
+        }
+
+        Store.$html.find(`.btn-allocate-points`).one(`click`, (e) => {
+            e.preventDefault();
+            ExperiencePointsComponent.allocatePoints(() => {
+                ExperiencePointsComponent.getList();
             });
+        });
 
-            return ExperiencePointsComponent;
-        },
+        return ExperiencePointsComponent;
+    },
 
-        allocatePoints: function (callback) {
-            socket.emit(`allocatePoints`, Store.allocatedPoints, (err) => {
-                if (err) {
-                    console.log(err);
-                }
-
-                if (typeof callback === `function`) {
-                    callback();
-                }
-            });
-        },
-
-        setInputRangeListeners: function ($tr, name) {
-            let $input = $tr.find(`input`);
-
-            $input.on(`change input`, () => {
-                ExperiencePointsComponent.updateAvailablePoints();
-
-                let val = parseInt($input.val()) - Store.points[name];
-                if (val <= 0) {
-                    val = 0;
-                }
-
-                if (val > Store.allocatedPoints[name] + Store.availablePoints) {
-                    val = Store.allocatedPoints[name] + Store.availablePoints;
-                }
-
-                if (Store.availablePoints <= 0 && val >= Store.allocatedPoints[name]) {
-                    val = Store.allocatedPoints[name];
-                }
-
-                Store.allocatedPoints[name] = val;
-                val += Store.points[name];
-                $input.val(val);
-                updateInputRange($input);
-
-                ExperiencePointsComponent.updateAvailablePoints();
-                Store.$html.find(`h6`).html(`Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span>`);
-                experienceBarUpdate();
-            }).trigger(`change`);
-        },
-
-        updateAvailablePoints: function () {
-            Store.usedPoints = 0;
-            for (let i in Store.allocatedPoints) {
-                Store.usedPoints += Store.allocatedPoints[i];
+    allocatePoints: (callback) => {
+        socket.emit(`allocatePoints`, Store.allocatedPoints, (err) => {
+            if (err) {
+                console.log(err);
             }
 
-            Store.availablePoints = Store.originalPoints - Store.usedPoints;
-            return ExperiencePointsComponent;
-        },
+            if (typeof callback === `function`) {
+                callback();
+            }
+        });
+    },
 
-        getPointsList: function () {
-            let html = ``;
-            let $html;
-            let $tbody;
+    setInputRangeListeners: ($tr, name) => {
+        let $input = $tr.find(`input`);
 
-            html += `<div>`,
+        $input.on(`change input`, () => {
+            ExperiencePointsComponent.updateAvailablePoints();
+
+            let val = parseInt($input.val()) - Store.points[name];
+            if (val <= 0) {
+                val = 0;
+            }
+
+            if (val > Store.allocatedPoints[name] + Store.availablePoints) {
+                val = Store.allocatedPoints[name] + Store.availablePoints;
+            }
+
+            if (Store.availablePoints <= 0 && val >= Store.allocatedPoints[name]) {
+                val = Store.allocatedPoints[name];
+            }
+
+            Store.allocatedPoints[name] = val;
+            val += Store.points[name];
+            $input.val(val);
+            updateInputRange($input);
+
+            ExperiencePointsComponent.updateAvailablePoints();
+            Store.$html.find(`h6`).html(`Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span>`);
+            experienceBarUpdate();
+        }).trigger(`change`);
+    },
+
+    updateAvailablePoints: () => {
+        Store.usedPoints = 0;
+        for (let i in Store.allocatedPoints) {
+            Store.usedPoints += Store.allocatedPoints[i];
+        }
+
+        Store.availablePoints = Store.originalPoints - Store.usedPoints;
+        return ExperiencePointsComponent;
+    },
+
+    getPointsList: () => {
+        let html = ``;
+        let $html;
+        let $tbody;
+
+        html += `<div>`,
             html += `    <h6>Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span></h6>`,
             html += `    <table class="table table-sm">`,
             html += `        <thead><tr><th>Name</th><th>Quantity</th></tr></thead>`,
@@ -167,43 +158,39 @@
             html += `    <button class="btn btn-primary float-right btn-allocate-points">Allocate points</button>`,
             html += `</div>`;
 
-            $html = $(html);
-            $tbody = $html.find(`tbody`);
+        $html = $(html);
+        $tbody = $html.find(`tbody`);
 
-            for (let i in Store.points) {
-                let tr = ``;
-                tr += `<tr>`;
-                tr += `    <td>${i}</td>`;
-                tr += `    <td>`;
-                tr += `        <div class="range-group">`;
-                tr += `            <input type="range" min="0" max="50" step="1" value="${Store.points[i]}">`;
-                tr += `            <output></output>`;
-                tr += `        </div>`;
-                tr += `    </td>`;
-                tr += `</tr>`;
+        for (let i in Store.points) {
+            let tr = ``;
+            tr += `<tr>`;
+            tr += `    <td>${i}</td>`;
+            tr += `    <td>`;
+            tr += `        <div class="range-group">`;
+            tr += `            <input type="range" min="0" max="50" step="1" value="${Store.points[i]}">`;
+            tr += `            <output></output>`;
+            tr += `        </div>`;
+            tr += `    </td>`;
+            tr += `</tr>`;
 
-                Store.pointsTr[i] = $(tr);
-                $tbody.append(Store.pointsTr[i]);
+            Store.pointsTr[i] = $(tr);
+            $tbody.append(Store.pointsTr[i]);
+        }
+
+        return $html;
+    },
+
+    checkButtonTab: () => {
+        ExperiencePointsComponent.clearStore().setStore((Store) => {
+            if (Store.originalPoints > 0) {
+                $(`#experience-points`).show(0);
+                return;
             }
 
-            return $html;
-        },
-
-        checkButtonTab: function () {
-            ExperiencePointsComponent.clearStore().setStore((Store) => {
-                let $btnExperiencePoints = $(`#experience-points`);
-                if (Store.originalPoints > 0) {
-                    $btnExperiencePoints.show(0);
-                    return;
-                }
-
-                $btnExperiencePoints.hide(0);
-            });
-        }
-    };
-
-    window.EXPERIENCEPOINTSCOMPONENT = ExperiencePointsComponent;
-})(window);
+            $(`#experience-points`).hide(0);
+        });
+    }
+};
 
 /**
  * Update the experience bar
@@ -211,12 +198,12 @@
 let experienceBarUpdate = () => {
     $(`.level-up-button`).off();
 
-    EXPERIENCEPOINTSCOMPONENT.clearStore().setStore((Store) => {
+    ExperiencePointsComponent.clearStore().setStore((Store) => {
         if (Store.originalPoints > 0) {
             $(`.level-up-button`).show(0);
             $(`.level-up-button`).one(`click`, () => {
                 Store.allocatedPoints[$(this).attr(`data-attribute`)] = 1;
-                EXPERIENCEPOINTSCOMPONENT.allocatePoints(() => {
+                ExperiencePointsComponent.allocatePoints(() => {
                     experienceBarUpdate();
                 });
             });
