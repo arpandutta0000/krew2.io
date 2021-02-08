@@ -1,11 +1,13 @@
-v1.5.0 - [2-7-2021]
+v1.5.0 - [2-10-2021]
 - Rewrote client side
 - Added back the palm tree at Jamaica
+- Added FOV slider in game settings
 - Fixed fishing hook alignment
 - Fixed numerous console errors
 - Multiple performance improvements
 - Improved console logging
 - Removed spyglass vignette
+- Spyglass can now see ship labels at all distances
 - Decreased asset sizes for faster load times
 - Added all ships to buying ship quests
 
