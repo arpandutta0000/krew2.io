@@ -7,8 +7,8 @@
  * @param {number} sank Number of ships user sank
  */
 let endTheGame = (gold, fired, hit, sank) => {
-    miniplaySend2API(`gameover`, 1);
-    miniplaySend2API(`ships`, sank);
+    //miniplaySend2API(`gameover`, 1);
+    //miniplaySend2API(`ships`, sank);
 
     controls.unLockMouseLook();
 
