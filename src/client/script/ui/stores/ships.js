@@ -59,9 +59,9 @@ let getShips = (callback) => {
                     class: `btn btn-primary btn-sm`,
                     role: `button`,
                     disabled: !!((myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) || ship.purchasable !== true),
-                    html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
-                        ? `Purchased`
-                        : `Buy`
+                    html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) ?
+                        `Purchased` :
+                        `Buy`
                 }).on(`click`, function () {
                     if ($(`#abandon-existing-krew`).is(`:visible`)) {
                         $(`#abandon-existing-krew`).hide();
@@ -79,9 +79,9 @@ let getShips = (callback) => {
                         type: 0,
                         id: id
                     }, (callback) => {
-                        let quest_2_list = [`04`, `05`, `06`, `07`, `015`, `016`];
-                        let quest_3_list = [`08`, `09`, `010`, `012`, `013`, `018`, `019`];
-                        let quest_4_list = [`014`, `020`];
+                        let quest_2_list = [`04`, `05`, `06`, `07`, `08`, `09`]; // Boat and Trader
+                        let quest_3_list = [`010`, `011`, `012`, `013`, `014`, `015`, `016`, `017`, `018`, `019`, `020`]; // Destroyer, Baby Fancy, Royal Fortune, Calm Spirit, Junkie, and Raider
+                        let quest_4_list = [`021`, `022`, `023`, `024`]; // Queen Barb's Justice, Black Oyster, and Fortune Trader
                         // other-quest-2
                         if (quest_2_list.includes(callback)) {
                             $(`#shopping-modal`).hide();
