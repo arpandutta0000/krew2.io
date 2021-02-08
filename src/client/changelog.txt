@@ -7,6 +7,7 @@ v1.5.0 - [2-7-2021]
 - Improved console logging
 - Removed spyglass vignette
 - Decreased asset sizes for faster load times
+- Added all ships to buying ship quests
 
 v1.4.2b - [1-27-2021]
 - Fixed whitespace detection on username creation
