@@ -1,6 +1,6 @@
 /**
  * Creates ships store
- * 
+ *
  * @callback callback
  */
 let getShips = (callback) => {
@@ -59,8 +59,9 @@ let getShips = (callback) => {
                     class: `btn btn-primary btn-sm`,
                     role: `button`,
                     disabled: !!((myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) || ship.purchasable !== true),
-                    html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId) ?
-                        `Purchased` : `Buy`
+                    html: (myBoat !== undefined && ship.id === myBoat.shipclassId && myBoat.captainId === myPlayerId)
+                        ? `Purchased`
+                        : `Buy`
                 }).on(`click`, function () {
                     if ($(`#abandon-existing-krew`).is(`:visible`)) {
                         $(`#abandon-existing-krew`).hide();

@@ -1,7 +1,7 @@
 let ImpactLogic = {
     /**
      * Impact logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Impact object
      */
@@ -14,7 +14,7 @@ let ImpactLogic = {
 
     /**
      * Impact client logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Impact object
      */

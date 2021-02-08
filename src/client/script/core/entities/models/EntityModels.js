@@ -1,7 +1,7 @@
 EntityModels = {
     /**
      * Method to create an entity body
-     * 
+     *
      * @param {object} _this Entity object
      */
     createBody: (_this) => {
@@ -56,7 +56,7 @@ EntityModels = {
 
     /**
      * Method to destroy entity geometry
-     * 
+     *
      * @param {object} _this Entity object
      */
     onClientDestroy: (_this) => {
@@ -74,7 +74,7 @@ EntityModels = {
 
     /**
      * Method to remove an entity
-     * 
+     *
      * @param {object} entity Entity object
      */
     removeEntity: (entity) => {

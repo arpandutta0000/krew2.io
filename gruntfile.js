@@ -173,7 +173,8 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [{
+                files: [
+                    {
                         expand: true,
                         nonull: true,
                         flatten: true,

@@ -1,7 +1,7 @@
 let clanUi = {
     /**
      * Sets clan data
-     * 
+     *
      * @param {string} option Force an update
      */
     setClanData: function (option) {
@@ -91,5 +91,5 @@ let clanUi = {
         $(`#errorExists`).hide();
         $(`#errorUndefined`).hide();
         $(`#errorUnauthorized`).hide();
-    },
+    }
 };

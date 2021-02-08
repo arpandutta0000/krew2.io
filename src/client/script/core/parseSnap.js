@@ -1,13 +1,12 @@
 /**
  * Parse a snap
- * 
+ *
  * @param {any} id ID of the snap/entity
  * @param {object} data Entity data
  */
 let parseSnap = (id, data) => {
     // Check if entity doesn't exist
     if (entities[id] === undefined) {
-
         // Switch for entity type
         switch (data.n) {
             default: {
@@ -60,7 +59,7 @@ let parseSnap = (id, data) => {
 
             // Bot (Depreciated)
             case 6: {
-                //entities[id] = new Bot();
+                // entities[id] = new Bot();
                 break;
             }
         }

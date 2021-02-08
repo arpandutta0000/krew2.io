@@ -1,7 +1,7 @@
 let PickupSnap = {
     /**
      * Method to parse a pickup type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      * @param {object} _this Pickup object
      */

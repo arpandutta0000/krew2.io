@@ -1,7 +1,7 @@
 PlayerDelta = {
     /**
      * Get a player's delta type
-     * 
+     *
      * @param {object} _this Player object
      */
     getTypeDelta: (_this) => {

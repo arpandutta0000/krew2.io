@@ -1,7 +1,7 @@
 let ImpactSnap = {
     /**
      * Method to parse an impact type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      * @param {object} _this Impact object
      */

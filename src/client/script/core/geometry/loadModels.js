@@ -3,8 +3,8 @@
  */
 let loadModels = () => {
     // Load decorations
-    if (config.christmasTree[0]) loader.loadObjWithMtl('./assets/models/decorations/christmasTree.obj');
-    if (config.snowman[0]) loader.loadObjWithMtl('./assets/models/decorations/snowman.obj');
+    if (config.christmasTree[0]) loader.loadObjWithMtl(`./assets/models/decorations/christmasTree.obj`);
+    if (config.snowman[0]) loader.loadObjWithMtl(`./assets/models/decorations/snowman.obj`);
 
     // Load dogs
     loader.loadModel(`./assets/models/dogs/seadog.obj`);
@@ -59,7 +59,6 @@ let loadModels = () => {
 
     // Load misc objects
     loader.loadTexture(`./assets/models/misc/water.jpg`);
-
 
     // Once loader is done, create the objects in the world
     loader.onFinish(() => {

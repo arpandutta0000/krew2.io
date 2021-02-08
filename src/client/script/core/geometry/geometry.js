@@ -10,7 +10,7 @@ let baseGeometry = {
 let geometry = {
     boat: baseGeometry.box,
     hook: baseGeometry.plane,
-    impact_water: baseGeometry.sphere,
+    impact_water: baseGeometry.sphere
 };
 
 /* Create reusable materials */

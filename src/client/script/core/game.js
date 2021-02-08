@@ -1,6 +1,6 @@
 /**
  * Method to iterate through all entities and tick each
- * 
+ *
  * @param {number} dt DT
  */
 let iterateEntities = (dt) => {

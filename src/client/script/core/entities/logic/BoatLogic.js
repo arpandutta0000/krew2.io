@@ -1,7 +1,7 @@
 let BoatLogic = {
     /**
      * Boat logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Boat object
      */
@@ -39,8 +39,9 @@ let BoatLogic = {
         // if boat is not anchored or not in docking state, we will move
         if (_this.shipState === 0) {
             // if the steering button is pressed, the rotation changes slowly
-            (kaptain !== undefined) ?
-            _this.rotation += _this.steering * dt * 0.4 * (_this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)): _this.rotation += _this.steering * dt * 0.4 * _this.turnspeed;
+            (kaptain !== undefined)
+                ? _this.rotation += _this.steering * dt * 0.4 * (_this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
+                : _this.rotation += _this.steering * dt * 0.4 * _this.turnspeed;
 
             // we rotate the movement vector depending on the current rotation
             moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), _this.rotation);
@@ -120,7 +121,7 @@ let BoatLogic = {
 
     /**
      * Boat client logic method
-     * 
+     *
      * @param {object} _this  Boat object
      */
     clientlogic: (_this) => {

@@ -1,7 +1,7 @@
 let PickupDelta = {
     /**
      * Get a pickup's delta type
-     * 
+     *
      * @param {object} _this Pickup object
      */
     getTypeDelta: (_this) => {

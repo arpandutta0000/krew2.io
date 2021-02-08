@@ -1,20 +1,20 @@
 /**
  * Pickup class
- * 
+ *
  * @class
  * @extends Entity
  */
 class Pickup extends Entity {
     /**
      * Pickup constructor
-     * 
+     *
      * @param {number} size Pickup size
      * @param {number} x Pickup x position
      * @param {number} z Pickup y position
      * @param {number} type Pickup type
      * @constructor
      */
-    constructor(size, x, z, type) {
+    constructor (size, x, z, type) {
         // Inherit parent class methods
         super();
 
@@ -98,7 +98,7 @@ class Pickup extends Entity {
     /**
      * Set the pickup name
      */
-    setName() {
+    setName () {
         if (this.geometry !== undefined) {
             if (this.label === undefined) {
                 // Set the name
@@ -128,54 +128,54 @@ class Pickup extends Entity {
     /**
      * Get a pickup's delta type
      */
-    getTypeDelta() {
+    getTypeDelta () {
         return PickupDelta.getTypeDelta(this);
     }
 
     /**
      * Pickup logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    logic(dt) {
+    logic (dt) {
         PickupLogic.logic(dt, this);
     }
 
     /**
      * Pickup client logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    clientlogic(dt) {
+    clientlogic (dt) {
         PickupLogic.clientlogic(dt, this);
     }
 
     /**
      * Pickup docked logic
      */
-    dockedLogic() {
+    dockedLogic () {
         PickupLogic.dockedLogic(this);
     }
 
     /**
      * Method to parse a pickup type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap(snap) {
+    parseTypeSnap (snap) {
         PickupSnap.parseTypeSnap(snap, this);
     }
 
     /**
      * Destroy a pickup
      */
-    onDestroy() {
+    onDestroy () {
         Entity.prototype.onDestroy.call(this);
 
         if (pickups[this.id]) {
             delete pickups[this.id];
         }
     }
-};
+}
 
 Pickup.prototype.timeCounters = {};

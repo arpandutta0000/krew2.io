@@ -1,6 +1,6 @@
 /**
  * Calculates values for time alive
- * 
+ *
  * @param {number} val Time
  */
 let pad = (val) => {
@@ -21,7 +21,7 @@ let printConsoleHeader = () => {
 
 /**
  * Checks if a string is alphanumeric
- * 
+ *
  * @param {string} string String to be tested
  */
 let isAlphaNumeric = (str) => {
@@ -57,7 +57,7 @@ let getUrlVars = () => {
 
 /**
  * Fade between 2 RGB colors
- * 
+ *
  * @param {object} start Starting RGB color object
  * @param {object} end Ending RGB color object
  * @param {number} i Percent of fade to return
@@ -82,12 +82,12 @@ let Ease = {
     easeOutQuad: (t) => t * (2 - t),
 
     // Accelerating from zero velocity
-    easeInQuint: (t) => t * t * t * t * t,
+    easeInQuint: (t) => t * t * t * t * t
 };
 
 /**
  * Function to calculate linear interpolation
- * 
+ *
  * @param {number} start Start
  * @param {number} end End
  * @param {number} amount Amount
@@ -96,14 +96,14 @@ let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
 
 /**
  * Parse a boolean value (String or boolean)
- * 
+ *
  * @param {any} b String or boolean to be tested
  */
 let parseBool = (b) => b === true || b === `true`;
 
 /**
  * Calculate the distance between two sets of coordinates
- * 
+ *
  * @param {object} p1 Starting coordinate
  * @param {object} p2 Ending coordinate
  */
@@ -111,11 +111,11 @@ let distance = (p1, p2) => {
     let dx = p2.x - p1.x;
     let dz = p2.z - p1.z;
     return Math.sqrt(dx * dx + dz * dz);
-}
+};
 
 /**
  * Calculate world angle
- * 
+ *
  * @param {object} vector A Vector
  */
 let worldAngle = (vector) => {
@@ -126,18 +126,18 @@ let worldAngle = (vector) => {
 
     result = Math.PI * 2 - result;
     return result;
-}
+};
 
 /**
  * Convert an angle to a vector
- * 
+ *
  * @param {number} angle Angle to be converted
  */
 const angleToVector = (angle) => new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
 
 /**
  * Check if an object is empty
- * 
+ *
  * @param {object} obj Object to be tested
  */
 let isEmpty = (obj) => {
@@ -159,7 +159,7 @@ let isEmpty = (obj) => {
  * This method checks if a 3D object is in the players vision range
  * Is created with a factory function to create the frustum only once and
  * not on every check
- * 
+ *
  * @return {boolean}
  */
 let inPlayersVision = (function () {
@@ -181,10 +181,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum
@@ -197,7 +197,7 @@ let inPlayersVision = (function () {
 
 /**
  * Get a fixed framerate
- * 
+ *
  * @param {number} fps FPS
  * @callback callback
  */
@@ -216,4 +216,4 @@ let getFixedFrameRateMethod = (fps, callback) => {
     };
 
     return method;
-}
+};

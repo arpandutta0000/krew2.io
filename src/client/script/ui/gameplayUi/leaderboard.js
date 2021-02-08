@@ -1,6 +1,6 @@
 /**
  * Updates the leaderboard
- * 
+ *
  * @param {object} scores Player scores
  */
 let updateLeaderboard = (scores) => {
@@ -140,7 +140,7 @@ let updateLeaderboard = (scores) => {
             }
             let entry = $(`<div${boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-left"` : ` class="grid-left"`}>${clan}</div>` +
                 `<div style="max-width: 100%;"${
-                        boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-middle"` : ` class="grid-middle"`}>` +
+                    boatsListSortedByGold[scoreIndex].id === myBoat.id ? ` class="text-success grid-middle"` : ` class="grid-middle"`}>` +
                 `<span class='krewName' style='margin-left:2px;font-size: 13px'></span>` +
                 `</div>` +
                 `<div class="grid-middle">` +
@@ -191,8 +191,8 @@ let updateLeaderboard = (scores) => {
         playerListItem += `${playerName}${(player.id === myPlayerId) ? ` (ME)` : ``}`;
         if (player.id !== myPlayerId && myPlayer.isCaptain === true) {
             playerListItem += `<span class="btn btn-danger btn-kick-player float-sm-right" data-event="kick" data-id="${
-                    player.id}"><i data-event="kick" data-id="${player.id}" class="icofont icofont-delete"></i></span><span class="btn btn-warning btn-transfer-ship float-sm-right" data-event="transfer" data-id="${
-                    player.id}"><i data-event="transfer" data-id="${player.id}" class="icofont icofont-ship-wheel"></i></span>`;
+                player.id}"><i data-event="kick" data-id="${player.id}" class="icofont icofont-delete"></i></span><span class="btn btn-warning btn-transfer-ship float-sm-right" data-event="transfer" data-id="${
+                player.id}"><i data-event="transfer" data-id="${player.id}" class="icofont icofont-ship-wheel"></i></span>`;
         }
 
         playerListItem += `<span class="float-sm-right">`;

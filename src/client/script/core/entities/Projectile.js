@@ -1,16 +1,16 @@
 /**
  * Projectile class
- * 
+ *
  * @class
  * @extends Entity
  */
 class Projectile extends Entity {
     /**
      * Projectile Constructor
-     * 
+     *
      * @constructor
      */
-    constructor() {
+    constructor () {
         // Inherit parent class methods
         super();
 
@@ -46,33 +46,34 @@ class Projectile extends Entity {
     /**
      * Get a projectile's delta type
      */
-    getTypeDelta() {
+    getTypeDelta () {
         return ProjectileDelta.getTypeDelta(this);
     }
+
     /**
      * Projectile logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    logic(dt) {
+    logic (dt) {
         ProjectileLogic.logic(dt, this);
     }
 
     /**
      * Projectile client logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    clientlogic(dt) {
+    clientlogic (dt) {
         ProjectileLogic.clientlogic(dt, this);
     }
 
     /**
      * Method to parse a pprojectile type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap(snap) {
+    parseTypeSnap (snap) {
         ProjectileSnap.parseTypeSnap(snap, this);
     }
-};
+}

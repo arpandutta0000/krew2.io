@@ -68,7 +68,7 @@ let initWorldBoundries = () => {
 
 /**
  * Do a day/night transition
- * 
+ *
  * @param {number} time If it's day or night (0 = Day, 1 = Night)
  */
 let doDaylightCycle = (time) => {

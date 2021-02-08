@@ -1,7 +1,7 @@
 let notifications = {
     /**
      * Shows a center message
-     * 
+     *
      * @param {string} text The text to be shown
      * @param {number} typeId The type of notification (1 = Danger, 3 = Success, 4 = Info, undefined = Info)
      * @param {number} time The time for the message to stay on screen in milliseconds. Defaults to 4 seconds if undefined
@@ -41,7 +41,7 @@ let notifications = {
 
     /**
      * Shows an admin message (center message)
-     * 
+     *
      * @param {string} text The text to be shown
      */
     showAdminMessage: function (text) {
@@ -60,7 +60,7 @@ let notifications = {
 
     /**
      * Shows a kill message
-     * 
+     *
      * @param {string} text The text to be shown
      */
     showKillMessage: function (text) {
@@ -78,7 +78,7 @@ let notifications = {
 
     /**
      * Shows a damage message
-     * 
+     *
      * @param {string} text The text to be shown
      * @param {number} typeId The type of damage to be shown (1 = Ship damage, 2 = Shooter damage, undefined = Ship damage)
      */
@@ -106,5 +106,5 @@ let notifications = {
         if ($messageCount > 3) $(`#center-div div:last-child`).remove();
 
         $(`#center-div`).prepend(textDiv);
-    },
+    }
 };

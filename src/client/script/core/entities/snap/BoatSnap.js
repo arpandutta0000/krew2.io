@@ -1,7 +1,7 @@
 let BoatSnap = {
     /**
      * Method to parse a boat type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      * @param {object} _this Boat object
      */

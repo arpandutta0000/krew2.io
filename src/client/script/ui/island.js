@@ -1,5 +1,5 @@
 /**
- * Enable island menus 
+ * Enable island menus
  */
 let showIslandMenu = () => {
     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
@@ -14,7 +14,7 @@ let showIslandMenu = () => {
 
 /**
  * Update UI when a user docks
- * 
+ *
  * @param {object} data Docking data
  */
 let enterIsland = (data) => {
@@ -57,7 +57,7 @@ let setUpIslandUI = () => {
 };
 
 /**
- * Update info for island docking/departure timers 
+ * Update info for island docking/departure timers
  */
 let islandTimer = () => {
     // Update the alive timer
@@ -131,7 +131,7 @@ let timer = setInterval(() => {
 
 /**
  * Upate ui when a user departs
- * 
+ *
  * @param {object} data Departure data
  */
 let exitIsland = (data) => {
@@ -197,13 +197,12 @@ let updateStore = () => {
         }
 
         GoodsComponent.getList();
-        return;
     }
 };
 
 /**
  * Updates buttons based on docked status
- * 
+ *
  * @param {any} id The entity's ID
  */
 let setActiveBtn = (id) => {

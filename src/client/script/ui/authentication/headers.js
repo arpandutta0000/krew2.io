@@ -4,7 +4,7 @@ let headers = {
 
     /**
      * Create a cookie
-     * 
+     *
      * @param {object} cname Cookie name
      * @param {object} cvalue Cookie value
      * @param {number} exdays The number of days until the cookie expires
@@ -18,7 +18,7 @@ let headers = {
 
     /**
      * Get a cookie
-     * 
+     *
      * @param {object} cname Cookie name
      * @returns {object} Cookie
      */
@@ -36,7 +36,7 @@ let headers = {
 
     /**
      * Set a cookie to be invalid
-     * 
+     *
      * @param {object} cname Cookie name
      */
     invalidateCookie: function (cname) {
@@ -48,5 +48,5 @@ let headers = {
                 document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
             }
         }
-    },
-}
+    }
+};

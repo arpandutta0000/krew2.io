@@ -67,7 +67,7 @@ let updateQuality = () => {
 
 /**
  * Update an input's range
- * 
+ *
  * @param {object} $input Input element
  */
 window.updateInputRange = ($input) => {
@@ -87,7 +87,7 @@ window.updateInputRange = ($input) => {
 
 /**
  * Detect input changes
- * 
+ *
  * @param {object} $input Input element
  */
 window.inputRange = ($input) => {

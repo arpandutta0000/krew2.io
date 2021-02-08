@@ -21,7 +21,7 @@ let BoatModels = {
 
     /**
      * Method to change a boat's model
-     * 
+     *
      * @param {number} id New model ID
      * @param {object} _this Boat object
      */

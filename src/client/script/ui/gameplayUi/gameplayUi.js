@@ -1,6 +1,6 @@
 /**
  * Disconnect/game end listener
- * 
+ *
  * @param {number} gold Amount of gold
  * @param {number} fired Number of times the user fired
  * @param {number} hit Number of times the user hit another boat

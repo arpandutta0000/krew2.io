@@ -1,7 +1,7 @@
 let PickupLogic = {
     /**
      * Pickup logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Pickup object
      */
@@ -9,7 +9,7 @@ let PickupLogic = {
 
     /**
      * Pickup client logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Pickup object
      */
@@ -54,7 +54,7 @@ let PickupLogic = {
                             (!entities[_this.pickerId].ownsCannon || !entities[_this.pickerId].ownsFishingRod ||
                                 (entities[_this.pickerId].parent !== undefined &&
                                     entities[_this.pickerId].parent.netType !== 1))
-                        )) {
+                    )) {
                         ui.hideSuggestionBox = false;
                     }
                 }
@@ -70,7 +70,7 @@ let PickupLogic = {
                             (!entities[_this.pickerId].ownsCannon || !entities[_this.pickerId].ownsFishingRod ||
                                 (entities[_this.pickerId].parent !== undefined &&
                                     entities[_this.pickerId].parent.netType !== 1))
-                        )) {
+                    )) {
                         ui.hideSuggestionBox = false;
                     }
                 }
@@ -115,7 +115,7 @@ let PickupLogic = {
 
     /**
      * Pickup docked logic
-     * 
+     *
      * @param {object} _this Pickup object
      */
     dockedLogic: (_this) => {

@@ -50,9 +50,8 @@ let mtlLoader = new THREE.MTLLoader();
 
 let time = performance.now();
 
-
 /** --------------- Information --------------- **
- * 
+ *
  * -- Net Types --
  * -1 = Standard Entity
  * 0 = Player
@@ -62,7 +61,7 @@ let time = performance.now();
  * 4 = Pickup ( Fish / Crab / Shell / Cargo / Chest)
  * 5 = Island
  * 6 = Bot / Misc
- * 
+ *
  * -- Ship States --
  * -1 = Starting
  * 0 = Sailing
@@ -74,14 +73,14 @@ let time = performance.now();
  * -- Projectiles --
  * 0 = Cannonball
  * 1 = Fishing hook
- * 
+ *
  * -- Pickups --
  * 0 = Crate
  * 1 = Fish
  * 2 = Static island pickups
  * 3 = Island animals
  * 4 = Chests
- * 
+ *
  * -- Weapons --
  * -1 = Nothing
  * 0 = Cannon
@@ -92,6 +91,6 @@ let time = performance.now();
  * 0 = Alive
  * 1 = Dead
  * 2 = Respawning
- * 
+ *
  ** ------------------------------------------- **
  */

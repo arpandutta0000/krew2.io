@@ -1,7 +1,7 @@
 let ProjectileLogic = {
     /**
      * Projectile logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Projectile object
      */
@@ -77,7 +77,7 @@ let ProjectileLogic = {
 
     /**
      * Projectile client logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Projectile object
      */

@@ -1,6 +1,6 @@
 /**
  * Update ship stats
- * 
+ *
  * @param {object} data Ship data
  */
 let updateShipStats = (data) => {

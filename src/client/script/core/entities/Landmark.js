@@ -1,20 +1,20 @@
 /**
  * Landmark class
- * 
+ *
  * @class
  * @extends Entity
  */
 class Landmark extends Entity {
     /**
      * Landmark constructor
-     * 
+     *
      * @param {any} type Landmark type
      * @param {number} x Landmark x position
      * @param {number} z Landmark x position
      * @param {object} _config Landmark config (data) object
      * @constructor
      */
-    constructor(type, x, z, _config) {
+    constructor (type, x, z, _config) {
         // Inherit parent class methods
         super();
 
@@ -68,7 +68,7 @@ class Landmark extends Entity {
                 this.palm.scale.z = this.dockRadius / 9;
                 scene.add(this.palm);
             }
-        };
+        }
         for (const island of config.christmasTree) {
             if (island === this.name) {
                 this.christmasTree = models.christmasTree;
@@ -78,7 +78,7 @@ class Landmark extends Entity {
                 this.christmasTree.scale.z = this.dockRadius / (100 / 0.35);
                 scene.add(this.christmasTree);
             }
-        };
+        }
         for (const island of config.snowman) {
             if (island === this.name) {
                 this.snowman = models.snowman;
@@ -89,15 +89,15 @@ class Landmark extends Entity {
                 this.snowman.scale.z = this.dockRadius / (100 / 0.17);
                 scene.add(this.snowman);
             }
-        };
+        }
     }
 
     /**
      * Set the landmark's name
-     * 
+     *
      * @param {string} name New landmark name
      */
-    setName(name) {
+    setName (name) {
         if (this.geometry !== undefined) {
             if (this.label === undefined) {
                 this.label = new THREE.TextSprite({
@@ -127,28 +127,28 @@ class Landmark extends Entity {
 
     /**
      * Landmark logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    logic(dt) {
+    logic (dt) {
         LandmarkLogic.logic(dt, this);
     }
 
     /**
      * Landmark client logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    clientlogic(dt) {
+    clientlogic (dt) {
         LandmarkLogic.clientlogic(dt, this);
     }
 
     /**
      * Method to parse a landmark type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap(snap) {
+    parseTypeSnap (snap) {
         LandmarkSnap.parseTypeSnap(snap, this);
     }
-};
+}

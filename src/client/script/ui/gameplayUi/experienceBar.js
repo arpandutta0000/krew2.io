@@ -159,13 +159,13 @@
             let $tbody;
 
             html += `<div>`,
-                html += `    <h6>Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span></h6>`,
-                html += `    <table class="table table-sm">`,
-                html += `        <thead><tr><th>Name</th><th>Quantity</th></tr></thead>`,
-                html += `        <tbody></tbody>`,
-                html += `    </table>`,
-                html += `    <button class="btn btn-primary float-right btn-allocate-points">Allocate points</button>`,
-                html += `</div>`;
+            html += `    <h6>Available points: ${Store.originalPoints}<span class="float-right">Points left: ${Store.availablePoints}</span></h6>`,
+            html += `    <table class="table table-sm">`,
+            html += `        <thead><tr><th>Name</th><th>Quantity</th></tr></thead>`,
+            html += `        <tbody></tbody>`,
+            html += `    </table>`,
+            html += `    <button class="btn btn-primary float-right btn-allocate-points">Allocate points</button>`,
+            html += `</div>`;
 
             $html = $(html);
             $tbody = $html.find(`tbody`);

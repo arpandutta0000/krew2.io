@@ -1,7 +1,7 @@
 let EntitySnap = {
     /**
      * Method to parse an entity snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      * @param {object} _this Entity object
      */

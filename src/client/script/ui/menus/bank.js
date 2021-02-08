@@ -1,6 +1,6 @@
 /**
  * Sets bank data
- * 
+ *
  * @param {object} data Bank data
  */
 setBankData = (data) => {

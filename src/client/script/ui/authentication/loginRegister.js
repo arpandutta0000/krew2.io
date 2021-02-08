@@ -4,7 +4,7 @@
 let addLogout = () => {
     $(`#logged-in`).html(`You are logged in as <b>${headers.username}</b>`).show();
     $(`#login-link`).attr(`href`, `/logout`).html(`Logout`).show();
-}
+};
 
 /**
  * Initiate login and register

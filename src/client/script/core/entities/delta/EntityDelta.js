@@ -1,7 +1,7 @@
 let EntityDelta = {
     /**
      * Get an entity's delta
-     * 
+     *
      * @param {object} _this Entity object
      */
     getDelta: (_this) => {
@@ -34,7 +34,7 @@ let EntityDelta = {
 
     /**
      * Compare deltas
-     * 
+     *
      * @param {any} old Old delta
      * @param {any} fresh Fresh delta
      * @param {object} _this Entity object
@@ -50,7 +50,7 @@ let EntityDelta = {
 
     /**
      * Compare type deltas
-     * 
+     *
      * @param {any} old Old delta
      * @param {any} fresh Fresh delta
      * @param {object} _this Entity object

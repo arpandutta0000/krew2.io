@@ -1,6 +1,6 @@
 /**
  * Creates items store
- * 
+ *
  * @callback callback
  */
 let getItems = (callback) => {

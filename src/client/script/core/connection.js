@@ -1,6 +1,6 @@
 /**
  * Connect to a server
- * 
+ *
  * @param {number} pid Server pid
  */
 let connect = function (pid) {
@@ -256,7 +256,7 @@ var initSocketBinds = () => {
     });
 
     // Chat messages listener
-    socket.on(`chat message`, function (msgData) {
+    socket.on(`chat message`, (msgData) => {
         if (
             myPlayer &&
             myPlayer.parent &&

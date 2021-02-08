@@ -1,6 +1,6 @@
 /**
  * Create a particle
- * 
+ *
  * @param {object} params Particle parameters
  */
 let createParticle = function (params) {
@@ -13,17 +13,17 @@ let createParticle = function (params) {
 
 /**
  * Particle class
- * 
+ *
  * @class
  */
 class Particle {
     /**
      * Particle constructor
-     * 
+     *
      * @param {object} params Particle parameters
      * @constructor
      */
-    constructor(params) {
+    constructor (params) {
         this.vx = params.vx;
         this.vy = params.vy;
         this.vz = params.vz;
@@ -54,10 +54,10 @@ class Particle {
 
     /**
      * Method to tick a particle
-     * 
+     *
      * @param {number} dt DT
      */
-    tick(dt) {
+    tick (dt) {
         // subtract gravity
         this.vy -= this.gravity * dt;
 
@@ -93,7 +93,7 @@ class Particle {
 
 /**
  * Tick all particles
- * 
+ *
  * @param {number} dt DT
  */
 let tickParticles = function (dt) {

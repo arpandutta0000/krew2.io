@@ -1,7 +1,7 @@
 let splash = {
     /**
      * Shows or hides the loading wheel
-     * 
+     *
      * @param {string} event Hide or show
      */
     loadingWheel: (event) => {

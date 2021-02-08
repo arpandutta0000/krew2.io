@@ -1,7 +1,7 @@
 let LandmarkLogic = {
     /**
      * Landmark logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this  Landmark object
      */
@@ -9,7 +9,7 @@ let LandmarkLogic = {
 
     /**
      * Landmark client logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Landmark object
      */

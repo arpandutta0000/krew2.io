@@ -7,7 +7,7 @@ let ui = {
 
     /**
      * Captain configuration, sets the active property if player is the captain
-     * 
+     *
      * @type {object}
      */
     captainUiConfiguration: {
@@ -308,7 +308,7 @@ let ui = {
             }
         });
 
-        /* Kick a krew member*/
+        /* Kick a krew member */
         $(`#krew-list`).on(`click`, (e) => {
             let dataEvent = e.target.getAttribute(`data-event`);
             if (dataEvent === `kick`) {
@@ -384,7 +384,7 @@ let ui = {
 
     /**
      * Formats and updates gold
-     * 
+     *
      * @param {number} gold Amount of gold
      */
     checkGoldDelta: (gold) => {
@@ -441,7 +441,7 @@ let ui = {
 
     /**
      * Closes all modals except a specified modal
-     * 
+     *
      * @param {string} paramId The modal to leave open
      */
     closeAllPagesExcept: (pageId) => {

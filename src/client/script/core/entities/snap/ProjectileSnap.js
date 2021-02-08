@@ -1,7 +1,7 @@
 let ProjectileSnap = {
     /**
      * Method to parse a pprojectile type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      * @param {object} _this Projectile object
      */

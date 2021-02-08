@@ -45,7 +45,7 @@ let setUpKeyboard = () => {
 
 /**
  * When a key is pressed
- * 
+ *
  * @param {object} evt Keydown event
  */
 document.onkeydown = function (evt) {

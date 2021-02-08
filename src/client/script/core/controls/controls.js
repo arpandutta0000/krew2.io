@@ -7,7 +7,7 @@ class GameControls {
      * Game Controls Constructor
      * @constructor
      */
-    constructor() {
+    constructor () {
         // Create controls variables
         this.locked = false;
         this.lmb = false;
@@ -126,7 +126,7 @@ class GameControls {
             this.isMouseLookLocked = false;
         };
     }
-};
+}
 
 /* Disable context menu */
 window.oncontextmenu = () => false;

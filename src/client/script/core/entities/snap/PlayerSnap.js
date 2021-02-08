@@ -1,7 +1,7 @@
 let PlayerSnap = {
     /**
      * Method to parse a player type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      * @param {object} _this Player object
      */
@@ -61,4 +61,4 @@ let PlayerSnap = {
             _this.changeWeapon();
         }
     }
-}
+};

@@ -1,17 +1,17 @@
 /**
  * Player class
- * 
+ *
  * @class
  * @extends Entity
  */
 class Player extends Entity {
     /**
      * Player constructor
-     * 
+     *
      * @param {object} data Player data
      * @constructor
      */
-    constructor(data) {
+    constructor (data) {
         // Inherit parent class methods
         super();
 
@@ -117,8 +117,6 @@ class Player extends Entity {
             }
         });
 
-
-
         // Utilities for points
         this.pointsFormula = {
             getFireRate: () => (this.points.fireRate >= 50 ? 50 : this.points.fireRate) * 1.2,
@@ -155,10 +153,10 @@ class Player extends Entity {
 
     /**
      * Set a player's name
-     * 
+     *
      * @param {string} name New player name
      */
-    setName(name) {
+    setName (name) {
         let clan = ``;
         if (this.clan !== undefined && this.clan !== ``) {
             clan = `[${this.clan}] `;
@@ -174,10 +172,13 @@ class Player extends Entity {
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
-                        color: config.Admins.includes(this.name) || config.Mods.includes(this.name) || config.Devs.includes(this.name) ?
-                            labelcolors.staff : this.isPlayer ?
-                            labelcolors.myself : this.isCaptain ?
-                            labelcolors.captain : labelcolors.player,
+                        color: config.Admins.includes(this.name) || config.Mods.includes(this.name) || config.Devs.includes(this.name)
+                            ? labelcolors.staff
+                            : this.isPlayer
+                                ? labelcolors.myself
+                                : this.isCaptain
+                                    ? labelcolors.captain
+                                    : labelcolors.player,
                         fog: false
                     }
                 });
@@ -195,10 +196,10 @@ class Player extends Entity {
 
     /**
      * Set the player body (model)
-     * 
+     *
      * @param {number} idx Index of dogModels array
      */
-    setPlayerBody(idx) {
+    setPlayerBody (idx) {
         idx = idx || 0;
         let bodyModel = dogModels[idx];
         this.playerBody = bodyModel.body.clone();
@@ -224,7 +225,7 @@ class Player extends Entity {
     /**
      * Notifiscation Method
      */
-    notifiscation() {
+    notifiscation () {
         for (let z in this.notifiscationHeap) {
             if (this.notifiscationHeap[z].isNew) {
                 this.notifiscationHeap[z].sprite = new THREE.TextSprite({
@@ -257,10 +258,10 @@ class Player extends Entity {
 
     /**
      * Update player experience
-     * 
+     *
      * @param {number} damage Amount of damage a player did
      */
-    updateExperience(damage) {
+    updateExperience (damage) {
         let experience = this.experience;
         let level = 0;
         let i;
@@ -295,7 +296,7 @@ class Player extends Entity {
     /**
      * Change a player's weapon (tool)
      */
-    changeWeapon() {
+    changeWeapon () {
         if (this.weapon && this.activeWeapon === 0) {
             this.geometry.remove(this.weapon);
             this.weapon = models.cannon.clone();
@@ -333,7 +334,7 @@ class Player extends Entity {
     /**
      * Make a player jump
      */
-    tryJump() {
+    tryJump () {
         if (this.jumpVel > 0.0 || this.jump > 0) return;
         this.jumpVel = 16;
     }
@@ -341,55 +342,55 @@ class Player extends Entity {
     /**
      * Get a player's delta type
      */
-    getTypeDelta() {
+    getTypeDelta () {
         return PlayerDelta.getTypeDelta(this);
     }
 
     /**
      * Player logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    logic(dt) {
+    logic (dt) {
         PlayerLogic.logic(dt, this);
     }
 
     /**
      * Player client logic method
-     * 
+     *
      * @param {number} dt DT
      */
-    clientlogic(dt) {
+    clientlogic (dt) {
         PlayerLogic.clientlogic(dt, this);
     }
 
     /**
      * Player names logic method
      */
-    namesLogic() {
+    namesLogic () {
         PlayerLogic.namesLogic(this);
     }
 
     /**
      * Player docked logic
      */
-    dockedLogic() {
+    dockedLogic () {
         PlayerLogic.dockedLogic(this);
     }
 
     /**
      * Method to parse a player type snap
-     * 
+     *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap(snap) {
+    parseTypeSnap (snap) {
         PlayerSnap.parseTypeSnap(snap, this);
     }
 
     /**
      * Destroy a player
      */
-    onDestroy() {
+    onDestroy () {
         Entity.prototype.onDestroy.call(this);
 
         if (this === myPlayer) {
@@ -410,7 +411,7 @@ class Player extends Entity {
             delete players[this.id];
         }
     }
-};
+}
 
 Player.prototype.rotationOffset = -0.45;
 Player.prototype.timeCounters = {};

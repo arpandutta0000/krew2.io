@@ -1,7 +1,7 @@
 let EntityLogic = {
     /**
      * Entity client logic method
-     * 
+     *
      * @param {number} dt DT
      * @param {object} _this Entity object
      */
