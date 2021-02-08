@@ -1062,7 +1062,7 @@ a.text-mod-color:hover {
 
 .leaderbord-logo {
     width: 100%;
-    background-image: url(/assets/img/logoleaderboard.png);
+    background-image: url(/assets/img/logos/logoleaderboard.png);
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;
@@ -1335,7 +1335,7 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     position: absolute;
     right: 0;
     bottom: -30px;
-    background-image: url('assets/img/map.png');
+    background-image: url('assets/img/misc/map.png');
     border-radius: 5px;
     background-size: contain;
     background-position: center;

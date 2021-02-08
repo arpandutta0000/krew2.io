@@ -1,6 +1,6 @@
 {
   "name": "krew.io",
-  "version": "1.4.2b",
+  "version": "1.5.0",
   "description": "A 3D browser game",
   "main": "gruntfile.js",
   "dependencies": {
@@ -66,6 +66,7 @@
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.2",
     "eslint-plugin-promise": "^4.2.1",
     "socket.io-client": "^3.1.0"
   }
