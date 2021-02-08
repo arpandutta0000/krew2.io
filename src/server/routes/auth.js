@@ -314,7 +314,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         errors: `You must be logged in to change your account's game settings`
     });
 
-    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-fov-control`] || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) res.json({
+    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-fov-control`] || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -323,11 +323,11 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
     let sfx = parseInt(req.body[`account-sfx-control`]);
     let quality = parseInt(req.body[`account-quality-list`]);
 
-    if (isNaN(fov) || sNaN(music) || isNaN(sfx) || isNaN(quality)) res.json({
+    if (isNaN(fov) || sNaN(music) || isNaN(sfx) || isNaN(quality)) return res.json({
         errors: `Invalid values`
     });
 
-    if (fov < 10 || fov > 50 || music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) res.json({
+    if (fov < 10 || fov > 50 || music < 0 || music > 100 || sfx < 0 || sfx > 100 || !(quality !== 1 || quality !== 2 || quality !== 3)) return res.json({
         errors: `Invalid values`
     });
 
