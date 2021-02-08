@@ -169,7 +169,8 @@ let PlayerLogic = {
                         cameraPosition = new THREE.Vector3(
                             camera.position.x,
                             1.5 + Math.min(8, Math.max(0, controls.cameraX * 0.5)),
-                            1.21 + (lookingDownOffset * 0.21));
+                            1.21 + (lookingDownOffset * 0.21)
+                        );
                     } else {
                         lookingDownOffset = 0.2 - Math.max(controls.cameraX, 0.2);
                         cameraPosition = new THREE.Vector3(
@@ -187,13 +188,13 @@ let PlayerLogic = {
 
                     _this.crosshair.visible = true;
                 } else if (_this.activeWeapon === 2) {
-                    lookingDownOffset = 0.4 - Math.max(controls.cameraX, 0.2);
+                    lookingDownOffset = 2 - Math.max(controls.cameraX, 2);
                     cameraPosition = new THREE.Vector3(
                         camera.position.x,
                         2,
                         -0.01
                     );
-                    scene.fog.density = 0.0045;
+                    scene.fog.density = 0.0055;
                     labelViewDistance = `inVision`;
                     camera.zoom = 4;
                     camera.updateProjectionMatrix();
