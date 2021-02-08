@@ -54,9 +54,9 @@ let ui = {
                 if ($(`#krew-list-modal`).is(`:visible`)) {
                     $(`#krew-list-modal`).hide();
                 } else {
-                    ui.closeAllPagesExcept(`#krew-list-modal`);
                     $(`#toggle-shop-modal-button`).popover(`hide`);
                     $(`#krew-list-modal`).show();
+                    ui.closeAllPagesExcept(`#krew-list-modal`);
                 }
             }
         });
@@ -435,7 +435,7 @@ let ui = {
      */
     closeAllPagesExcept: (pageId) => {
         let allPagesId = [`#help-modal`, `#bank-modal`, `#krew-list-modal`, `#shopping-modal`, `#quests-modal`, `#ship-status-modal`];
-        for (let page in allPagesId) {
+        for (let page of allPagesId) {
             if (pageId !== page) {
                 $(page).hide();
             }
