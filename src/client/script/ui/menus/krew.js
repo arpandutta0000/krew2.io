@@ -74,7 +74,6 @@
                         }
                         socket.emit(`joinKrew`, id, (callback) => {
                             if (callback === 0) {
-                                // $('#island-menu-div').show();
                                 $(`#exit-island-button`).hide();
                                 $(`#toggle-invite-link-button`).hide();
                                 $(`#invite-div`).hide();

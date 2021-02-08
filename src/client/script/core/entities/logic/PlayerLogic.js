@@ -333,7 +333,6 @@ let PlayerLogic = {
             if (_this.parent && _this.isPlayer && !_this.isCaptain) {
                 notifications.showCenterMessage(`You are not the captain anymore!`, 4, 4000);
                 if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
-                    // $('#island-menu-div').show();
                     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
                     $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
                     $(`#exit-island-button`).hide();
@@ -349,7 +348,6 @@ let PlayerLogic = {
                 notifications.showCenterMessage(`You are the captain now!`, 4, 4000);
 
                 if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
-                    // $('#island-menu-div').show();
                     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
                     $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
                     $(`#exit-island-button`).show();
