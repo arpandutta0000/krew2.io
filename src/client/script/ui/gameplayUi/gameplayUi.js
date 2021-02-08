@@ -266,9 +266,9 @@ let initGameUi = () => {
 
     /* Cancel docking */
     $(`#cancel-exit-button`).on(`click`, () => {
-        if ($cancelExitButtonSpan.text() === `Cancel (c)`) {
+        if ($(`#cancel-exit-button`).find(`span`).text() === `Cancel (c)`) {
             socket.emit(`exitIsland`);
-            $dockingModalButtonSpan.text(`Countdown...`);
+            $(`#docking-modal-button`).find(`span`).text(`Countdown...`);
         }
     });
 

@@ -214,9 +214,9 @@ let setUpKeybinds = () => {
         keys: `c`,
         on_release: () => {
             if (myPlayer && myPlayer.parent) {
-                if ((myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) && $cancelExitButtonSpan.text() === `Cancel (c)`) {
+                if ((myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) && $(`#cancel-exit-button`).find(`span`).text() === `Cancel (c)`) {
                     socket.emit(`exitIsland`);
-                    $dockingModalButtonSpan.text(`Countdown...`);
+                    $(`#docking-modal-button`).find(`span`).text(`Countdown...`);
                 } else if (myPlayer.parent.shipState === 3) {
                     departure();
                 }

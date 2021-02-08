@@ -68,16 +68,12 @@ let islandTimer = () => {
     $(`#minutes`).html(pad(parseInt(secondsAlive % 3600 / 60)));
     $(`#hours`).html(pad(parseInt(secondsAlive / 3600)));
 
-    // Create variables
-    let $dockingModalButtonSpan = $(`#docking-modal-button`).find(`span`);
-    let $cancelExitButtonSpan = $(`#cancel-exit-button`).find(`span`);
-
     if (myPlayer && myPlayer.parent) {
         if (myPlayer.parent.shipState === -1 || myPlayer.parent.shipState === 3) {
             $(`#docking-modal-button`).removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
             $(`.port-name`).text(entities[myPlayer.parent.anchorIslandId].name);
-            $dockingModalButtonSpan.text(`Countdown...`);
-            $cancelExitButtonSpan.text(`Sail (c)`);
+            $(`#docking-modal-button`).find(`span`).text(`Countdown...`);
+            $(`#cancel-exit-button`).find(`span`).text(`Sail (c)`);
             return;
         }
 
@@ -101,12 +97,12 @@ let islandTimer = () => {
             if (countDown === 8) {
                 socket.emit(`dock`);
             }
-            $cancelExitButtonSpan.text(`Cancel (c)`);
+            $(`#cancel-exit-button`).find(`span`).text(`Cancel (c)`);
 
             if (countDown !== 0 && countDown > 0) {
-                $dockingModalButtonSpan.text(`Docking in ${countDown} seconds`);
+                $(`#docking-modal-button`).find(`span`).text(`Docking in ${countDown} seconds`);
             } else {
-                $dockingModalButtonSpan.text(`Dock (z)`);
+                $(`#docking-modal-button`).find(`span`).text(`Dock (z)`);
                 $(`#docking-modal-button`).removeClass(`btn btn-primary disabled btn-lg`).addClass(`btn btn-primary enabled btn-lg`);
             }
 
