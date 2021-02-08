@@ -93,7 +93,7 @@
     </script> -->
 
     <!-- AdinPlay Ads Initialization -->
-    <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js">
+    <!-- <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js">
         window.aiptag = window.aiptag || {
             cmd: []
         };
@@ -108,7 +108,7 @@
         }
         aiptag.gdprShowConsentTool = true;
         aiptag.gdprConsentToolPosition = "bottom";
-    </script>
+    </script> -->
 
 </head>
 
@@ -620,6 +620,10 @@
                                     </div>
                                 </label>
                             </div>
+                            <div id="account-fov-control-div" class="lock-text-info">
+                                FOV <input id="account-fov-control" type="range" min="10" max="100" value="10">
+                            </div>
+                            <br>
                             <div id="account-music-control-div" class="lock-text-info">
                                 Music <input id="account-music-control" name="account-music-control" type="range" min="0" max="100" value="50"></input>
                             </div>
@@ -1001,6 +1005,10 @@
                             </div>
                         </label>
                     </div>
+                    <div id="fov-control-div" class="lock-text-info">
+                        FOV <input id="fov-control" type="range" min="10" max="100" value="10">
+                    </div>
+                    <br>
                     <div id="music-control-div" class="lock-text-info">
                         Music <input id="music-control" type="range" min="0" max="100" value="50">
                     </div>

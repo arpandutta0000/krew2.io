@@ -635,9 +635,14 @@ let initGameUi = () => {
         }
     });
 
-
     /* Make sure player leaderboard is hidden */
     $(`#player-leaderboard`).hide();
+
+    /* On FOV slider update */
+    $(`#fov-control`).on(`change`, () => {
+        fov = document.getElementById(`fov-control`).value / 10;
+        console.log(fov)
+    });
 };
 
 /**

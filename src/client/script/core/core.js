@@ -22,6 +22,7 @@ let staffDogModels = [];
 let playerName = ``;
 
 let countDown = 10;
+let fov = 1;
 let goldMultiplier = 2000;
 let middle = config.worldsize / 2;
 let secondsAlive = 0;

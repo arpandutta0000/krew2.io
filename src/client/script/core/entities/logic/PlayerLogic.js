@@ -174,8 +174,8 @@ let PlayerLogic = {
                         lookingDownOffset = 0.2 - Math.max(controls.cameraX, 0.2);
                         cameraPosition = new THREE.Vector3(
                             camera.position.x,
-                            2 + Math.min(8, Math.max(0, controls.cameraX * 10)),
-                            8 + (lookingDownOffset * 8));
+                            (fov * 2) + Math.min((fov * 8), Math.max(0, controls.cameraX * 10)),
+                            (fov * 8) + (lookingDownOffset * (fov * 8)));
                     }
 
                     if (camera.zoom === 4) {
@@ -191,7 +191,7 @@ let PlayerLogic = {
                         2,
                         -0.01
                     );
-                    scene.fog.density = 0.004;
+                    scene.fog.density = 0.0045;
                     labelViewDistance = `inVision`;
                     camera.zoom = 4;
                     camera.updateProjectionMatrix();
