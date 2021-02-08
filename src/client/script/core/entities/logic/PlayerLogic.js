@@ -180,6 +180,7 @@ let PlayerLogic = {
 
                     if (camera.zoom === 4) {
                         camera.zoom = 1;
+                        labelViewDistance = `inRange`
                         camera.updateProjectionMatrix();
                         scene.fog.density = 0.007;
                     }
@@ -190,7 +191,8 @@ let PlayerLogic = {
                         2,
                         -0.01
                     );
-                    scene.fog.density = 0.005;
+                    scene.fog.density = 0.004;
+                    labelViewDistance = `inVision`;
                     camera.zoom = 4;
                     camera.updateProjectionMatrix();
                 }
