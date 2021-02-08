@@ -603,11 +603,11 @@ router.get(`/account_game_settings`, (req, res, next) => {
             });
 
             return res.json({
-                fpMode: user.fpMode,
-                fov: user.fov,
-                musicVolume: user.musicVolume,
-                sfxVolume: user.sfxVolume,
-                qualityMode: user.qualityMode
+                fpMode: user.fpMode ? user.fpMode : false,
+                fov: user.fov ? user.fov : 10,
+                musicVolume: user.musicVolume ? user.musicVolume : 50,
+                sfxVolume: user.sfxVolume ? user.sfxVolume : 50,
+                qualityMode: user.qualityMode ? user.qualityMode : 2
             });
         });
     }
