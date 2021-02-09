@@ -449,6 +449,10 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
     });
 });
 
+/**
+ * Function set game settings based off of account game settings
+ * If the user is not logged in, it sets the game settings to default values
+ */
 let getGameSettings = () => {
     $.ajax({
         url: `/account_game_settings`,
