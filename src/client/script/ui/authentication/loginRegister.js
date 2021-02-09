@@ -457,7 +457,7 @@ let getGameSettings = () => {
     $.ajax({
         url: `/account_game_settings`,
         type: `GET`,
-        success: function (res) {
+        success: (res) => {
             if (res.fpMode) {
                 $(`#account-fp-mode-button`).prop(`checked`, true);
                 $(`#fp-mode-button`).prop(`checked`, true);
@@ -477,13 +477,9 @@ let getGameSettings = () => {
             $(`#account-quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
             $(`#quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
 
-            $(`#account-game-settings-save-notice`).removeClass(`hidden`);
-
-            fov = document.getElementById(`fov-control`).value / 10;
-            updateMusic();
-            updateQuality();
+            if (!res.errors) $(`#account-game-settings-save-notice`).removeClass(`hidden`);
         },
-        error: function (res) {
+        error: (res) => {
             $(`#account-fp-mode-button`).prop(`checked`, false);
             $(`#fp-mode-button`).prop(`checked`, false);
 
@@ -497,12 +493,10 @@ let getGameSettings = () => {
 
             $(`#account-quality-list`).val(2);
             $(`#quality-list`).val(2);
-
-            $(`#quality-list`).emit(`change`);
-            $(`#music-control`).emit(`change`);
-
-            updateMusic();
-            updateQuality();
         }
     });
+
+    fov = document.getElementById(`fov-control`).value / 10;
+    updateMusic();
+    updateQuality();
 };
