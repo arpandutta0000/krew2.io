@@ -20,6 +20,8 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
     // Show login button and enable it
     $(`#login-button`).attr(`disabled`, false).show();
 
+
+
     /* If the user is not logged in */
     if (headers.username === undefined) {
         // When a user clicks to login button, opens the login menu
@@ -112,6 +114,8 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             });
         });
     }
+
+
 
     /* If the user is logged in*/
     if (headers.username !== undefined) {
