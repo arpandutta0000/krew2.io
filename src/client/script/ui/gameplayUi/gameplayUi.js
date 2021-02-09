@@ -23,8 +23,10 @@ let endTheGame = (gold, fired, hit, sank) => {
  * Initiate game UI
  */
 let initGameUi = () => {
+    /* Connect to a server */
     connect($(`#server-list`).val());
 
+    /* Initiate Chat */
     initChatListeners();
 
     /* Play again button on game over */
