@@ -5,6 +5,7 @@ v1.5.0 - [2-10-2021]
 - Fixed fishing hook alignment
 - Fixed numerous console errors
 - Improved console logging
+- UI improvements
 - Removed spyglass vignette
 - Spyglass can now see ship labels at all distances
 - Spyglass can now look up
