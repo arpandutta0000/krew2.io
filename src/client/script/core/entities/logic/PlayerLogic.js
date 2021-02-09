@@ -435,7 +435,6 @@ let PlayerLogic = {
 
                             entities[id].inRange = actualDistance <= length;
 
-                            // Do not set _this property if it does not used for better performance
                             if (config.setProperties.inVision) {
                                 entities[id].inVision = entities[id].inRange && inPlayersVision(entities[id], camera);
                             }
