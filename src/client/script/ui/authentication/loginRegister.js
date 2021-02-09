@@ -10,8 +10,11 @@ let addLogout = () => {
  * Initiate login and register
  */
 let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``)}/authenticated`).then((response) => {
+    // Set headers
     headers.username = !response.isLoggedIn ? undefined : response.username;
     headers.password = !response.isLoggedIn ? undefined : response.password;
+
+    // Show login button and enable it
     $(`#login-button`).attr(`disabled`, false).show();
 
     if (headers.username === undefined) {
@@ -111,7 +114,10 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         // Show personalized login button
         $(`#play-button`).html(`Play as <b>${headers.username}</b>`);
         $(`#login-button`).html(`Account Settings`);
-        $(`#customization-button`).prop(`title`, ``).prop(`disabled`, false);
+
+        // Show player customization button
+        $(`#customization-button`).prop(`title`, ``).prop(`disabled`, false).prop(`hidden`, false);
+
         addLogout();
         let currentModel = 0;
 
