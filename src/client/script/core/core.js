@@ -4,7 +4,6 @@ let camera, ceiling, controls, coldAmbientlight, defaultHeight, defaultWidth, en
 let boats = {};
 let entities = {};
 let environment = {};
-let json = {};
 let markers = {};
 let models = {};
 let pickups = {};

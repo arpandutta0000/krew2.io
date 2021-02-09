@@ -3,11 +3,16 @@ let loader = {
     promises: []
 };
 
-/* Add a task to loader. Can be any function, request will be solved once function was called */
-loader.compute = fun => {
+/* Add a model load to the loader. Wraps the async calls */
+loader.loadModel = path => {
     loader.promises.push(new Promise((resolve, reject) => {
-        fun();
-        resolve();
+        objLoader.load(path, // Resource URL.
+            object => {
+                // When resource is loaded.
+                models[path.substring(path.lastIndexOf(`/`) + 1, path.length).replace(/\.[^/.]+$/, ``)] = object;
+                resolve();
+            }
+        );
     }));
     return loader.promises[loader.promises.length - 1];
 };
@@ -48,20 +53,6 @@ loader.loadTexture = path => {
     }));
 };
 
-/* Add a model load to the loader. Wraps the async calls */
-loader.loadModel = path => {
-    loader.promises.push(new Promise((resolve, reject) => {
-        objLoader.load(path, // Resource URL.
-            object => {
-                // When resource is loaded.
-                models[path.substring(path.lastIndexOf(`/`) + 1, path.length).replace(/\.[^/.]+$/, ``)] = object;
-                resolve();
-            }
-        );
-    }));
-    return loader.promises[loader.promises.length - 1];
-};
-
 /* Add an object tile load to the loader. Wraps the async calls */
 loader.loadObjWithMtl = path => {
     let objLoader = new THREE.OBJLoader();
@@ -83,29 +74,6 @@ loader.loadObjWithMtl = path => {
                 models[path.substring(path.lastIndexOf(`/`) + 1, path.length).replace(/\.[^/.]+$/, ``)] = object;
                 resolve();
             });
-        });
-    }));
-    return loader.promises[loader.promises.length - 1];
-};
-
-/* Add a shader load to the loader. Wraps the async calls */
-loader.loadShader = path => {
-    loader.promises.push(new Promise((resolve, reject) => {
-        fileLoader.load(path, // Resource URL.
-            data => {
-                resolve();
-            }
-        );
-    }));
-    return loader.promises[loader.promises.length - 1];
-};
-
-/* Create json loader */
-loader.loadJSON = path => {
-    loader.promises.push(new Promise((resolve, reject) => {
-        $.getJSON(path, data => {
-            json[path.substring(path.lastIndexOf(`/`) + 1, path.length).replace(/\.[^/.]+$/, ``)] = data;
-            resolve();
         });
     }));
     return loader.promises[loader.promises.length - 1];
