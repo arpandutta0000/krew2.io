@@ -10,6 +10,9 @@ let addLogout = () => {
  * Initiate login and register
  */
 let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``)}/authenticated`).then((response) => {
+    // Set game settings
+    getGameSettings();
+
     // Set headers
     headers.username = !response.isLoggedIn ? undefined : response.username;
     headers.password = !response.isLoggedIn ? undefined : response.password;
@@ -17,10 +20,10 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
     // Show login button and enable it
     $(`#login-button`).attr(`disabled`, false).show();
 
+    /* If the user is not logged in */
     if (headers.username === undefined) {
-        // When a user opens the login menu
+        // When a user clicks to login button, opens the login menu
         $(`#login-button`).on(`click`, () => {
-            // Show login box
             $(`#login-box`).modal(`show`);
         });
 
@@ -38,6 +41,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             $(`#login-error`).addClass(`hidden`);
         });
 
+        // If the user clicks the reset password link in the login modal
         $(`#open-reset-password`).on(`click`, () => {
             $(`#login-box`).modal(`hide`);
             $(`#reset-password-box`).modal(`show`);
@@ -107,50 +111,31 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
                 }
             });
         });
-    } else {
+    }
+
+    /* If the user is logged in*/
+    if (headers.username !== undefined) {
+        // Set cookies
         headers.setCookie(`username`, response.username, 1);
         headers.setCookie(`password`, response.password, 1);
 
         // Show personalized login button
         $(`#play-button`).html(`Play as <b>${headers.username}</b>`);
+
+        // Add logout
+        addLogout();
+
+        // Set login/register button to be used to open account settings
         $(`#login-button`).html(`Account Settings`);
 
         // Show player customization button
         $(`#customization-button`).prop(`title`, ``).prop(`disabled`, false).prop(`hidden`, false);
 
-        addLogout();
-        let currentModel = 0;
+
+
 
         $(`#login-button`).on(`click`, () => {
             $(`#manage-account-box`).modal(`show`);
-
-            $.ajax({
-                url: `/account_game_settings`,
-                type: `GET`,
-                success: function (res) {
-                    if (!res.errors) {
-                        if (res.fpMode) {
-                            $(`#account-fp-mode-button`).prop(`checked`, true);
-                        } else {
-                            $(`#account-fp-mode-button`).prop(`checked`, false);
-                        }
-                        $(`#account-music-control`).val(res.musicVolume);
-                        $(`#account-sfx-control`).val(res.sfxVolume);
-                        $(`#account-quality-list`).val(res.qualityMode);
-                    } else {
-                        $(`#account-fp-mode-button`).prop(`checked`, false);
-                        $(`#account-music-control`).val(50);
-                        $(`#account-sfx-control`).val(50);
-                        $(`#account-quality-list`).val(2);
-                    }
-                },
-                error: function (res) {
-                    $(`#account-fp-mode-button`).prop(`checked`, false);
-                    $(`#account-music-control`).val(50);
-                    $(`#account-sfx-control`).val(50);
-                    $(`#account-quality-list`).val(2);
-                }
-            });
         });
 
         $(`#username-edit-button`).on(`click`, () => {
@@ -235,6 +220,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             $(`#customization-error`).addClass(`hidden`);
         });
 
+        let currentModel = 0;
         $(`#model-left`).on(`click`, () => {
             currentModel--;
             if (currentModel < 0) currentModel = 4;
@@ -444,3 +430,57 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         });
     });
 });
+
+let getGameSettings = () => {
+    $.ajax({
+        url: `/account_game_settings`,
+        type: `GET`,
+        success: function (res) {
+            if (res.fpMode) {
+                $(`#account-fp-mode-button`).prop(`checked`, true);
+                $(`#fp-mode-button`).prop(`checked`, true);
+            } else {
+                $(`#account-fp-mode-button`).prop(`checked`, false);
+                $(`#fp-mode-button`).prop(`checked`, false);
+            }
+
+            $(`#account-fov-control`).val(res.fov != undefined ? res.fov : 10);
+            $(`#fov-control`).val(res.fov != undefined ? res.fov : 10);
+
+            $(`#account-music-control`).val(res.musicVolume != undefined ? res.musicVolume : 50);
+            $(`#music-control`).val(res.musicVolume != undefined ? res.musicVolume : 50);
+            $(`#account-sfx-control`).val(res.sfxVolume != undefined ? res.sfxVolume : 50);
+            $(`#sfx-control`).val(res.sfxVolume != undefined ? res.sfxVolume : 50);
+
+            $(`#account-quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
+            $(`#quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
+
+            $(`#account-game-settings-save-notice`).removeClass(`hidden`);
+
+            fov = document.getElementById(`fov-control`).value / 10;
+            updateMusic();
+            updateQuality();
+        },
+        error: function (res) {
+            $(`#account-fp-mode-button`).prop(`checked`, false);
+            $(`#fp-mode-button`).prop(`checked`, false);
+
+            $(`#account-fov-control`).val(10);
+            $(`#fov-control`).val(10);
+
+            $(`#account-music-control`).val(50);
+            $(`#music-control`).val(50);
+            $(`#account-sfx-control`).val(50);
+            $(`#sfx-control`).val(50);
+
+            $(`#account-quality-list`).val(2);
+            $(`#quality-list`).val(2);
+
+            $(`#quality-list`).emit(`change`);
+            $(`#music-control`).emit(`change`);
+
+            updateMusic();
+            updateQuality();
+        }
+    });
+};

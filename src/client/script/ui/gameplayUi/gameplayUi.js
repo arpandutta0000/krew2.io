@@ -27,58 +27,6 @@ let initGameUi = () => {
 
     initChatListeners();
 
-    $.ajax({
-        url: `/account_game_settings`,
-        type: `GET`,
-        success: function (res) {
-            if (res.fpMode) {
-                $(`#account-fp-mode-button`).prop(`checked`, true);
-                $(`#fp-mode-button`).prop(`checked`, true);
-            } else {
-                $(`#account-fp-mode-button`).prop(`checked`, false);
-                $(`#fp-mode-button`).prop(`checked`, false);
-            }
-
-            $(`#account-fov-control`).val(res.fov != undefined ? res.fov : 10);
-            $(`#fov-control`).val(res.fov != undefined ? res.fov : 10);
-
-            $(`#account-music-control`).val(res.musicVolume != undefined ? res.musicVolume : 50);
-            $(`#music-control`).val(res.musicVolume != undefined ? res.musicVolume : 50);
-            $(`#account-sfx-control`).val(res.sfxVolume != undefined ? res.sfxVolume : 50);
-            $(`#sfx-control`).val(res.sfxVolume != undefined ? res.sfxVolume : 50);
-
-            $(`#account-quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
-            $(`#quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
-
-            $(`#account-game-settings-save-notice`).removeClass(`hidden`);
-
-            fov = document.getElementById(`fov-control`).value / 10;
-            updateMusic();
-            updateQuality();
-        },
-        error: function (res) {
-            $(`#account-fp-mode-button`).prop(`checked`, false);
-            $(`#fp-mode-button`).prop(`checked`, false);
-
-            $(`#account-fov-control`).val(10);
-            $(`#fov-control`).val(10);
-
-            $(`#account-music-control`).val(50);
-            $(`#music-control`).val(50);
-            $(`#account-sfx-control`).val(50);
-            $(`#sfx-control`).val(50);
-
-            $(`#account-quality-list`).val(2);
-            $(`#quality-list`).val(2);
-
-            $(`#quality-list`).emit(`change`);
-            $(`#music-control`).emit(`change`);
-
-            updateMusic();
-            updateQuality();
-        }
-    });
-
     /* Play again button on game over */
     $(`#play-again-button`).on(`click`, () => {
         if (threejsStarted) {
