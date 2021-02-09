@@ -181,7 +181,6 @@ let PlayerLogic = {
 
                     if (camera.zoom === 4) {
                         camera.zoom = 1;
-                        labelViewDistance = `inRange`
                         camera.updateProjectionMatrix();
                         scene.fog.density = 0.007;
                     }
@@ -195,7 +194,6 @@ let PlayerLogic = {
                         -0.01
                     );
                     scene.fog.density = 0.0055;
-                    labelViewDistance = `inVision`;
                     camera.zoom = 4;
                     camera.updateProjectionMatrix();
                     _this.crosshair.visible = false;
@@ -431,7 +429,7 @@ let PlayerLogic = {
                                 cameraWorldPosition,
                                 entities[id].geometry.getWorldPosition(new THREE.Vector3())
                             );
-                            let length = config.Labels.distanceMultiplier[entities[id].netType];
+                            let length = _this.activeWeapon === 2 ? camera.far : config.Labels.distanceMultiplier[entities[id].netType];
 
                             entities[id].inRange = actualDistance <= length;
 

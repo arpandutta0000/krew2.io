@@ -55,8 +55,6 @@ let Store = {
     $shoppingList: $(`#shopping-item-list`)
 };
 
-let labelViewDistance = config.Labels.boats.useMethod;
-
 /** --------------- Information --------------- **
  *
  * -- Net Types --

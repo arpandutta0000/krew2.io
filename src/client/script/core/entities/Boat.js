@@ -134,7 +134,7 @@ class Boat extends Entity {
             this.label.visible = myPlayer &&
                 myPlayer.parent &&
                 this.id !== myPlayer.parent.id &&
-                this[labelViewDistance];
+                this[config.Labels.boats.useMethod];
         }
         this.crewName = crewName;
     }
