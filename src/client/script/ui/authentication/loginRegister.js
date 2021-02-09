@@ -131,13 +131,12 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         // Show player customization button
         $(`#customization-button`).prop(`title`, ``).prop(`disabled`, false).prop(`hidden`, false);
 
-
-
-
+        // If the login button is clicked open the manage account modal
         $(`#login-button`).on(`click`, () => {
             $(`#manage-account-box`).modal(`show`);
         });
 
+        // If the username edit button is clicked, show username edit form and hide all other menus in account settings
         $(`#username-edit-button`).on(`click`, () => {
             $(`#change-username`).removeClass(`hidden`);
             $(`#change-username-error`).addClass(`hidden`);
@@ -156,6 +155,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
         });
 
+        // If the email edit button is clicked, show email edit form and hide all other menus in account settings
         $(`#email-edit-button`).on(`click`, () => {
             $(`#change-username`).addClass(`hidden`);
             $(`#change-username-error`).addClass(`hidden`);
@@ -174,6 +174,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
         });
 
+        // If the account game settings edit button is clicked, show account game settings edit form and hide all other menus in account settings
         $(`#change-account-game-settings-button`).on(`click`, () => {
             $(`#change-username`).addClass(`hidden`);
             $(`#change-username-error`).addClass(`hidden`);
@@ -192,6 +193,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             $(`#change-default-krew-name-button-container`).removeClass(`hidden`);
         });
 
+        // If the default krew name edit button is clicked, show default krew name edit form and hide all other menus in account settings
         $(`#change-default-krew-name-button`).on(`click`, () => {
             $(`#change-username`).addClass(`hidden`);
             $(`#change-username-error`).addClass(`hidden`);
@@ -210,29 +212,155 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             $(`#change-default-krew-name-button-container`).addClass(`hidden`);
         });
 
+        // If the player customization button on the center modal is clicked
         $(`#customization-button`).on(`click`, () => {
             $(`#customization-box`).modal(`show`);
             $(`#customization-error`).addClass(`hidden`);
         });
+
+        // if the player customization button in account settings is clicked
         $(`#customization-button-2`).on(`click`, () => {
             $(`#manage-account-box`).modal(`hide`);
             $(`#customization-box`).modal(`show`);
             $(`#customization-error`).addClass(`hidden`);
         });
 
+        // If the reset password button is clicked
+        $(`#reset-password-button`).on(`click`, () => {
+            $(`#manage-account-box`).modal(`hide`);
+            $(`#reset-password-box`).modal(`show`);
+            $(`#reset-password-error`).addClass(`hidden`);
+        });
+
+        // If the delete account button is clicked
+        $(`#delete-account-button`).on(`click`, () => {
+            $(`#manage-account-box`).modal(`hide`);
+            $(`#delete-account-box`).modal(`show`);
+            $(`#delete-account-error`).addClass(`hidden`);
+        });
+
+        // If a user submits changing their username
+        $(`#submit-change-username`).on(`click`, (e) => {
+            e.preventDefault();
+
+            $(`#submit-change-username`).attr(`disabled`, true);
+
+            $(`#change-username-error`).addClass(`hidden`);
+            $.ajax({
+                type: `post`,
+                url: `/change_username`,
+                data: $(`#change-username-form`).serialize()
+            }).then((res) => {
+                // If there is an error, return an error
+                if (res.errors) {
+                    $(`#submit-change-username`).attr(`disabled`, false);
+                    $(`#change-username-error`).removeClass(`hidden`);
+                    $(`#change-username-err-msg`).text(res.errors);
+                    return false;
+                }
+                // If the request is successful, close the menu
+                if (res.success) {
+                    window.location.reload();
+                    return true;
+                }
+            });
+        });
+
+        // If a user submits changing their email
+        $(`#submit-change-email`).on(`click`, (e) => {
+            e.preventDefault();
+
+            $(`#submit-change-email`).attr(`disabled`, true);
+
+            $(`#change-email-error`).addClass(`hidden`);
+            $.ajax({
+                type: `post`,
+                url: `/change_email`,
+                data: $(`#change-email-form`).serialize()
+            }).then((res) => {
+                // If there is an error, return an error
+                if (res.errors) {
+                    $(`#submit-change-email`).attr(`disabled`, false);
+                    $(`#change-email-error`).removeClass(`hidden`);
+                    $(`#change-email-err-msg`).text(res.errors);
+                    return false;
+                }
+                // If the request is successful, close the menu
+                if (res.success) {
+                    window.location.reload();
+                    return true;
+                }
+            });
+        });
+
+        // If a user submits changing their account game settings
+        $(`#submit-change-account-game-settings`).on(`click`, (e) => {
+            e.preventDefault();
+
+            $(`#submit-change-account-game-settings`).attr(`disabled`, true);
+
+            $(`#change-account-game-settings-error`).addClass(`hidden`);
+            $.ajax({
+                type: `post`,
+                url: `/change_account_game_settings`,
+                data: $(`#change-account-game-settings-form`).serialize()
+            }).then((res) => {
+                // If there is an error, return an error
+                if (res.errors) {
+                    $(`#submit-change-account-game-settings`).attr(`disabled`, false);
+                    $(`#change-account-game-settings-error`).removeClass(`hidden`);
+                    $(`#change-account-game-settings-err-msg`).text(res.errors);
+                    return false;
+                }
+                // If the request is successful, close the menu
+                if (res.success) {
+                    window.location.reload();
+                    return true;
+                }
+            });
+        });
+
+        // If a user submits changing their default krew name
+        $(`#submit-change-default-krew-name`).on(`click`, (e) => {
+            e.preventDefault();
+
+            $(`#submit-change-default-krew-name`).attr(`disabled`, true);
+
+            $(`#change-default-krew-name-error`).addClass(`hidden`);
+            $.ajax({
+                type: `post`,
+                url: `/change_default_krew_name`,
+                data: $(`#change-default-krew-name-form`).serialize()
+            }).then((res) => {
+                // If there is an error, return an error
+                if (res.errors) {
+                    $(`#submit-change-default-krew-name`).attr(`disabled`, false);
+                    $(`#change-default-krew-name-error`).removeClass(`hidden`);
+                    $(`#change-default-krew-name-err-msg`).text(res.errors);
+                    return false;
+                }
+                // If the request is successful, close the menu
+                if (res.success) {
+                    window.location.reload();
+                    return true;
+                }
+            });
+        });
+
+        // Change model previews in player customization menu
         let currentModel = 0;
         $(`#model-left`).on(`click`, () => {
             currentModel--;
             if (currentModel < 0) currentModel = 4;
             $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
         });
-
         $(`#model-right`).on(`click`, () => {
             currentModel++;
             if (currentModel > 4) currentModel = 0;
             $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
         });
 
+        // If a user submits the player customization form
         $(`#submit-customization`).on(`click`, (e) => {
             e.preventDefault();
 
@@ -262,122 +390,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
             });
         });
 
-        $(`#submit-change-username`).on(`click`, (e) => {
-            e.preventDefault();
-
-            $(`#submit-change-username`).attr(`disabled`, true);
-
-            $(`#change-username-error`).addClass(`hidden`);
-            $.ajax({
-                type: `post`,
-                url: `/change_username`,
-                data: $(`#change-username-form`).serialize()
-            }).then((res) => {
-                // If there is an error, return an error
-                if (res.errors) {
-                    $(`#submit-change-username`).attr(`disabled`, false);
-                    $(`#change-username-error`).removeClass(`hidden`);
-                    $(`#change-username-err-msg`).text(res.errors);
-                    return false;
-                }
-                // If the request is successful, close the menu
-                if (res.success) {
-                    window.location.reload();
-                    return true;
-                }
-            });
-        });
-
-        $(`#submit-change-email`).on(`click`, (e) => {
-            e.preventDefault();
-
-            $(`#submit-change-email`).attr(`disabled`, true);
-
-            $(`#change-email-error`).addClass(`hidden`);
-            $.ajax({
-                type: `post`,
-                url: `/change_email`,
-                data: $(`#change-email-form`).serialize()
-            }).then((res) => {
-                // If there is an error, return an error
-                if (res.errors) {
-                    $(`#submit-change-email`).attr(`disabled`, false);
-                    $(`#change-email-error`).removeClass(`hidden`);
-                    $(`#change-email-err-msg`).text(res.errors);
-                    return false;
-                }
-                // If the request is successful, close the menu
-                if (res.success) {
-                    window.location.reload();
-                    return true;
-                }
-            });
-        });
-
-        $(`#submit-change-account-game-settings`).on(`click`, (e) => {
-            e.preventDefault();
-
-            $(`#submit-change-account-game-settings`).attr(`disabled`, true);
-
-            $(`#change-account-game-settings-error`).addClass(`hidden`);
-            $.ajax({
-                type: `post`,
-                url: `/change_account_game_settings`,
-                data: $(`#change-account-game-settings-form`).serialize()
-            }).then((res) => {
-                // If there is an error, return an error
-                if (res.errors) {
-                    $(`#submit-change-account-game-settings`).attr(`disabled`, false);
-                    $(`#change-account-game-settings-error`).removeClass(`hidden`);
-                    $(`#change-account-game-settings-err-msg`).text(res.errors);
-                    return false;
-                }
-                // If the request is successful, close the menu
-                if (res.success) {
-                    window.location.reload();
-                    return true;
-                }
-            });
-        });
-
-        $(`#submit-change-default-krew-name`).on(`click`, (e) => {
-            e.preventDefault();
-
-            $(`#submit-change-default-krew-name`).attr(`disabled`, true);
-
-            $(`#change-default-krew-name-error`).addClass(`hidden`);
-            $.ajax({
-                type: `post`,
-                url: `/change_default_krew_name`,
-                data: $(`#change-default-krew-name-form`).serialize()
-            }).then((res) => {
-                // If there is an error, return an error
-                if (res.errors) {
-                    $(`#submit-change-default-krew-name`).attr(`disabled`, false);
-                    $(`#change-default-krew-name-error`).removeClass(`hidden`);
-                    $(`#change-default-krew-name-err-msg`).text(res.errors);
-                    return false;
-                }
-                // If the request is successful, close the menu
-                if (res.success) {
-                    window.location.reload();
-                    return true;
-                }
-            });
-        });
-
-        $(`#reset-password-button`).on(`click`, () => {
-            $(`#manage-account-box`).modal(`hide`);
-            $(`#reset-password-box`).modal(`show`);
-            $(`#reset-password-error`).addClass(`hidden`);
-        });
-
-        $(`#delete-account-button`).on(`click`, () => {
-            $(`#manage-account-box`).modal(`hide`);
-            $(`#delete-account-box`).modal(`show`);
-            $(`#delete-account-error`).addClass(`hidden`);
-        });
-
+        // If a user submits the delete account form
         $(`#submit-delete-account`).on(`click`, (e) => {
             e.preventDefault();
 
@@ -404,6 +417,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         });
     }
 
+    // If a user submits the reset password form
     $(`#submit-reset-password`).on(`click`, (e) => {
         e.preventDefault();
 
