@@ -111,6 +111,7 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         // Show personalized login button
         $(`#play-button`).html(`Play as <b>${headers.username}</b>`);
         $(`#login-button`).html(`Account Settings`);
+        $(`#customization-button`).prop(`title`, ``).prop(`disabled`, false);
         addLogout();
         let currentModel = 0;
 
@@ -219,6 +220,10 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         });
 
         $(`#customization-button`).on(`click`, () => {
+            $(`#customization-box`).modal(`show`);
+            $(`#customization-error`).addClass(`hidden`);
+        });
+        $(`#customization-button-2`).on(`click`, () => {
             $(`#manage-account-box`).modal(`hide`);
             $(`#customization-box`).modal(`show`);
             $(`#customization-error`).addClass(`hidden`);
