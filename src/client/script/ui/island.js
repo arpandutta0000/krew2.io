@@ -149,6 +149,7 @@ let exitIsland = (data) => {
     $(`#exit-island-button`).hide();
     $(`#shopping-modal`).hide();
     $(`#krew-list-modal`).hide();
+    $(`#bank-modal`).hide();
     updateStore();
 
     $(`#docking-modal-button`).removeClass(`btn btn-primary enabled btn-lg`).addClass(`btn btn-primary disabled btn-lg`);
