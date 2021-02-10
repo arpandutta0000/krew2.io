@@ -170,7 +170,7 @@ let inPlayersVision = (function () {
      * @param  {Object} camera      It must be the camera to compare with
      * @return {Boolean}            Returns true if the player sees the object or false on the contrary
      */
-    let inPlayersVision = function (object3d, camera) {
+    let inPlayersVision = (object3d, camera) => {
         // If the object has no position property just return false
         if (object3d.position === undefined) {
             return false;
