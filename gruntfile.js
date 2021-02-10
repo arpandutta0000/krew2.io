@@ -132,9 +132,22 @@ module.exports = grunt => {
             preMinified: [`src/client/script/dist.js`]
         },
 
-        // TODO: Minify the source with webpack.
+        // Minify the source with webpack.
         webpack: {
             prod: webpackConfig
+        },
+
+        // Minify CSS
+        cssmin: {
+            styles: {
+                files: [{
+                    expand: true,
+                    cwd: `src/client/styles`,
+                    src: [`*.css`],
+                    dest: process.env.NODE_ENV == `prod` ? `dist/styles` : `src/client/styles`,
+                    ext: `.min.css`
+                }]
+            }
         },
 
         // Watch for file changes.
@@ -173,8 +186,7 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [
-                    {
+                files: [{
                         expand: true,
                         nonull: true,
                         flatten: true,
@@ -201,6 +213,7 @@ module.exports = grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
+        `cssmin:styles`,
         `webpack:prod`,
         `clean:preMinified`,
         `copy:dist`
@@ -210,7 +223,8 @@ module.exports = grunt => {
     grunt.registerTask(`build-dev`, [
         `clean:dist`,
         `concat:server`,
-        `concat:client`
+        `concat:client`,
+        `cssmin:styles`
     ]);
 
     // Run in dev.
@@ -224,4 +238,5 @@ module.exports = grunt => {
     grunt.loadNpmTasks(`grunt-nodemon`);
     grunt.loadNpmTasks(`grunt-concurrent`);
     grunt.loadNpmTasks(`grunt-webpack`);
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 };
