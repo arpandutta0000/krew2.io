@@ -17,7 +17,7 @@ module.exports = {
         optimization: {
             minimizer: [
                 new ClosurePlugin({
-                    mode: 'STANDARD'
+                    mode: `AGGRESSIVE_BUNDLE`
                 }, {
                     renaming: true
                 })
@@ -38,7 +38,7 @@ module.exports = {
         optimization: {
             minimizer: [
                 new ClosurePlugin({
-                    mode: 'STANDARD'
+                    mode: `AGGRESSIVE_BUNDLE`
                 }, {
                     renaming: true
                 })
