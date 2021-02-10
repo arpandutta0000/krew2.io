@@ -126,4 +126,4 @@ logs/
 .jsbeautifyrc
 .vscode
 src/client/script/dist*
-src/client/style/*.min.css
+src/client/styles/*.min.css
