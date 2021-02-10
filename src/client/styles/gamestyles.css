@@ -3,7 +3,7 @@
 /* Create Caribbean font */
 @font-face {
     font-family: Caribbean;
-    src: url(assets/fonts/Caribbean.ttf);
+    src: url('/assets/fonts/Caribbean.ttf');
 }
 
 /* Scrollbar */
@@ -839,7 +839,7 @@ td {
     position: absolute;
     right: 0;
     bottom: -30px;
-    background-image: url('assets/img/misc/map.png');
+    background-image: url('/assets/img/misc/map.png');
     border-radius: 5px;
     background-size: contain;
     background-position: center;
