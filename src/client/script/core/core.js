@@ -1,5 +1,5 @@
 /* Create global variables to be used throughout the client */
-let camera, ceiling, controls, coldAmbientlight, defaultHeight, defaultWidth, envSphere, gl, keyboard, light, myPlayer, raycaster, renderer, scene, socket, warmAmbientlight, water;
+let camera, ceiling, chatHistory, controls, coldAmbientlight, defaultHeight, defaultWidth, envSphere, gl, keyboard, light, myPlayer, prevScroll, raycaster, renderer, scene, scrollLoop, socket, stoppedScroll, warmAmbientlight, water;
 
 let boats = {};
 let entities = {};
@@ -17,8 +17,6 @@ let dogModels = [];
 let fpsTimes = [];
 let particles = [];
 let staffDogModels = [];
-
-let playerName = ``;
 
 let countDown = 10;
 let fov = 1;

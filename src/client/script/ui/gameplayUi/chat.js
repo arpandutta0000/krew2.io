@@ -130,9 +130,6 @@ let toggleStaffChat = () => {
     $(`#staff-chat-alert`).hide();
 };
 
-/* Chat auto scroll variables */
-let stoppedScroll, scrollLoop, chatHistory, prevScroll;
-
 /**
  * Initiate chat scroll
  */
