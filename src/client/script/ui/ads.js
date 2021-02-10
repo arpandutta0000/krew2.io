@@ -34,24 +34,21 @@ let initAds = () => {
     aiptag.gdprShowConsentTool = true; // Show GDPR consent tool
     aiptag.gdprShowConsentToolButton = true;
     initAipPreroll();
+};
 
-    function aipGDPRCallback_OnAccept (googleConsent) {
-        if (googleConsent === true) {
-            initAipPreroll();
-        }
-    }
-
-    function initAipPreroll () {
-        if (typeof aipPlayer !== `undefined`) {
-            window.adplayerCentered = new aipPlayer({
-                AD_WIDTH: 560,
-                AD_HEIGHT: 315,
-                AD_FULLSCREEN: false,
-                PREROLL_ELEM: document.getElementById(`preroll-centered`),
-                AIP_COMPLETE: function () {},
-                AIP_REMOVE: function () {}
-            });
-        }
+/**
+ * Initiate the preroll ad
+ */
+let initAipPreroll = () => {
+    if (typeof aipPlayer !== `undefined`) {
+        window.adplayerCentered = new aipPlayer({
+            AD_WIDTH: 560,
+            AD_HEIGHT: 315,
+            AD_FULLSCREEN: false,
+            PREROLL_ELEM: document.getElementById(`preroll-centered`),
+            AIP_COMPLETE: () => {},
+            AIP_REMOVE: () => {}
+        });
     }
 };
 
