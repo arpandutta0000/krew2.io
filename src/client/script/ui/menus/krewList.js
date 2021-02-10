@@ -5,11 +5,10 @@
     };
     let actions = {
         boats: () => function (state) {
-            let id;
             let boat;
             let boats = [];
             if (typeof entities === `object` && entities !== null) {
-                for (id in entities) {
+                for (let id in entities) {
                     boat = entities[id];
 
                     if (

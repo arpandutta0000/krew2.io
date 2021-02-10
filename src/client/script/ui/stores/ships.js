@@ -28,8 +28,8 @@ let getShips = (callback) => {
             shopContainer += `<tbody></tbody>`;
             shopContainer += `</table>`;
 
-            $shopContainer = $(shopContainer);
-            $tbody = $shopContainer.find(`tbody`);
+            let $shopContainer = $(shopContainer);
+            let $tbody = $shopContainer.find(`tbody`);
 
             // construct shopping list
             for (let i in ships) {

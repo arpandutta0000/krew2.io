@@ -16,7 +16,7 @@ let splash = {
      * Sets player spawn based off of selection
      */
     setSpawnPlace: () => {
-        spawn = $(`#spawn-selection`).val();
+        let spawn = $(`#spawn-selection`).val();
         if (spawn === 0 || spawn === 1) playAudioFile(true, `ocean-music`);
         else playAudioFile(true, `island-music`);
         return spawn;

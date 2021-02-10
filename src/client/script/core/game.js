@@ -5,7 +5,7 @@
  */
 let iterateEntities = (dt) => {
     // Tick each entity
-    for (e in entities) {
+    for (let e in entities) {
         if (entities.hasOwnProperty(e)) {
             entities[e].tick(dt);
         }
@@ -106,7 +106,7 @@ let cleanScene = () => {
     if (scene != undefined && scene !== [] && scene !== {} && scene !== ``) {
         for (let node in scene) {
             if (scene[node] instanceof THREE.Mesh) {
-                for (o in sceneCanBalls) {
+                for (let o in sceneCanBalls) {
                     let cannonBall = sceneCanBalls[o];
                     if (cannonBall === scene[node]) {
                         scene.remove(scene[node]);
@@ -115,7 +115,7 @@ let cleanScene = () => {
                 }
             }
             if (scene[node] instanceof THREE.Line) {
-                for (l in sceneLines) {
+                for (let l in sceneLines) {
                     let line = sceneLines[l];
                     if (line === scene[node]) {
                         scene.remove(scene[node]);
@@ -130,7 +130,7 @@ let cleanScene = () => {
 
 /* Function to delete all entities client side */
 let deleteEverything = () => {
-    for (e in entities) {
+    for (let e in entities) {
         if (entities.hasOwnProperty(e)) {
             entities[e].onDestroy();
         }

@@ -38,6 +38,8 @@ class Boat extends Entity {
         this.crewName = typeof krewName === `string` ? krewName : `${captainsName}'${captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`} krew`;
         this.anchorIslandId = spawnIslandId;
 
+        console.log(captainId)
+
         // Set captain ID and clan
         if (captainId && entities[captainId]) {
             this.captainId = captainId;

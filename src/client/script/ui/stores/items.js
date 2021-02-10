@@ -22,11 +22,11 @@ let getItems = (callback) => {
             shopContainer += `<tbody></tbody>`;
             shopContainer += `</table>`;
 
-            $shopContainer = $(shopContainer);
-            $tbody = $shopContainer.find(`tbody`);
+            let $shopContainer = $(shopContainer);
+            let $tbody = $shopContainer.find(`tbody`);
 
             // construct shopping list
-            for (i in items) {
+            for (let i in items) {
                 let item = items[i];
                 if (item.id === 11 && (myPlayer.overall_kills < 10 || myPlayer.overall_cargo < 100000 || !myPlayer.shipsSank || !myPlayer.overall_cargo)) {
                     item.purchasable = false;

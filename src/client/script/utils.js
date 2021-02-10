@@ -27,7 +27,7 @@ let printConsoleHeader = () => {
 let isAlphaNumeric = (str) => {
     let code, i, len;
 
-    for (i = 0, len = str.length; i < len; i++) {
+    for (let i = 0, len = str.length; i < len; i++) {
         code = str.charCodeAt(i);
         if (!(code > 47 && code < 58) && // numeric (0-9)
             !(code > 64 && code < 91) && // upper alpha (A-Z)
@@ -146,7 +146,7 @@ let isEmpty = (obj) => {
     }
 
     // check if object is full of undefined
-    for (p in obj) {
+    for (let p in obj) {
         if (obj.hasOwnProperty(p) && obj[p] !== undefined) {
             return false;
         }

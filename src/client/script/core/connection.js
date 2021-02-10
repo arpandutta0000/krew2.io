@@ -117,7 +117,7 @@ let initSocketBinds = () => {
         socket.on(`s`, (data) => {
             // Decompress snapshot data
             data = JSON.parse(LZString.decompress(data));
-            for (e in data) {
+            for (let e in data) {
                 // Call parsesnap function
                 parseSnap(e, data[e]);
             }

@@ -172,7 +172,7 @@ let createMinimap = () => {
                 let heading = Math.atan2(pVec.z, pVec.x) * 180 / Math.PI;
                 heading = heading > 0 ? heading : heading + 360;
                 // Return heading in radians
-                rotation = (heading % 360 + extraRotation) * Math.PI / 180;
+                let rotation = (heading % 360 + extraRotation) * Math.PI / 180;
 
                 // Dray player triangle
                 if (map.elements[myPlayer.id] === undefined) {

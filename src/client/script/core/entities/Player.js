@@ -273,7 +273,7 @@ class Player extends Entity {
             experience = this.experienceNeededForLevels[this.experienceMaxLevel].total;
         }
 
-        for (i in this.experienceNeededForLevels) {
+        for (let i in this.experienceNeededForLevels) {
             if (experience < this.experienceNeededForLevels[i].total) {
                 break;
             }

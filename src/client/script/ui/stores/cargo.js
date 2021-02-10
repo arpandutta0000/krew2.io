@@ -72,11 +72,11 @@ let GoodsComponent = {
             inputRange($(this));
         });
 
-        for (var i in Store.inventory) {
+        for (let i in Store.inventory) {
             GoodsComponent.setInputRangeListeners(Store.inventory[i], i, `sell`);
         }
 
-        for (var i in Store.stock) {
+        for (let i in Store.stock) {
             GoodsComponent.setInputRangeListeners(Store.stock[i], i, `buy`);
         }
 

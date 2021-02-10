@@ -17,7 +17,7 @@ let updateLeaderboard = (scores) => {
 
     // set correct overall_kills / overall_cargo number
     if (scores.boats.length > 0) {
-        for (p in scores.boats) {
+        for (let p in scores.boats) {
             if (!myPlayer.parent) return;
             if (scores.boats[p] && scores.boats[p].id === myPlayer.parent.id) {
                 myPlayer.parent.overall_kills = scores.boats[p].ok;
@@ -45,7 +45,7 @@ let updateLeaderboard = (scores) => {
         ui.captainUiConfiguration.active = remoteBoat.cI === myPlayer.id;
         ui.updateCaptainUi();
         let cargoUsed = 0;
-        for (var p in remoteBoat.players) {
+        for (let p in remoteBoat.players) {
             cargoUsed += remoteBoat.players[p].cargoUsed;
         }
 
@@ -162,7 +162,7 @@ let updateLeaderboard = (scores) => {
     let krewCount = 0;
 
     let $krewListDiv = $(`<div/>`);
-    for (p in players) {
+    for (let p in players) {
         // Update the playee names (and clan tags)
         if (entities[players[p].id] !== undefined) {
             entities[players[p].id].setName(players[p].n);
@@ -181,7 +181,7 @@ let updateLeaderboard = (scores) => {
 
     playerListSortedByScore.sort((a, b) => a.value.s - b.value.s);
 
-    for (p in playerListSortedByScore) {
+    for (let p in playerListSortedByScore) {
         let player = playerListSortedByScore[p].value;
         let playerName = player.n;
 
