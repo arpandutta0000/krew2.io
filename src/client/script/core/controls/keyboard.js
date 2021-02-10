@@ -29,15 +29,15 @@ let setUpKeyboard = () => {
             } else {
                 $(`#chat-message`).blur();
             }
-        } else if (evt.keyCode === 38 && !textFieldFocused()) {
+        } else if (evt.keyCode === 38 && !ui.textFieldFocused()) {
             keys_walkFwd = false;
-        } else if (evt.keyCode === 39 && !textFieldFocused()) {
+        } else if (evt.keyCode === 39 && !ui.textFieldFocused()) {
             keys_walkRight = false;
-        } else if (evt.keyCode === 40 && !textFieldFocused()) {
+        } else if (evt.keyCode === 40 && !ui.textFieldFocused()) {
             keys_walkBwd = false;
-        } else if (evt.keyCode === 37 && !textFieldFocused()) {
+        } else if (evt.keyCode === 37 && !ui.textFieldFocused()) {
             keys_walkLeft = false;
-        } else if (evt.keyCode === 16 && !textFieldFocused()) {
+        } else if (evt.keyCode === 16 && !ui.textFieldFocused()) {
             $(`#player-leaderboard`).hide();
         }
     };
@@ -50,44 +50,44 @@ let setUpKeyboard = () => {
  */
 document.onkeydown = function (evt) {
     evt = evt || window.event;
-    if (evt.keyCode === 38 && !textFieldFocused()) { // Up arrow to move forward
+    if (evt.keyCode === 38 && !ui.textFieldFocused()) { // Up arrow to move forward
         keys_walkFwd = true;
-    } else if (evt.keyCode === 39 && !textFieldFocused()) { // Right arrow to move right
+    } else if (evt.keyCode === 39 && !ui.textFieldFocused()) { // Right arrow to move right
         keys_walkRight = true;
-    } else if (evt.keyCode === 40 && !textFieldFocused()) { // Down arrow to move backwards
+    } else if (evt.keyCode === 40 && !ui.textFieldFocused()) { // Down arrow to move backwards
         keys_walkBwd = true;
-    } else if (evt.keyCode === 37 && !textFieldFocused()) { // Left arrow to move left
+    } else if (evt.keyCode === 37 && !ui.textFieldFocused()) { // Left arrow to move left
         keys_walkLeft = true;
-    } else if ((evt.keyCode === 49 || evt.keyCode === 97) && !textFieldFocused()) {
+    } else if ((evt.keyCode === 49 || evt.keyCode === 97) && !ui.textFieldFocused()) {
         if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 0) {
             socket.emit(`changeWeapon`, 0);
             myPlayer.isFishing = false;
         }
-    } else if ((evt.keyCode === 50 || evt.keyCode === 98) && !textFieldFocused()) {
+    } else if ((evt.keyCode === 50 || evt.keyCode === 98) && !ui.textFieldFocused()) {
         if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 1) {
             socket.emit(`changeWeapon`, 1);
             myPlayer.isFishing = false;
         }
-    } else if ((evt.keyCode === 51 || evt.keyCode === 99) && !textFieldFocused()) {
+    } else if ((evt.keyCode === 51 || evt.keyCode === 99) && !ui.textFieldFocused()) {
         if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 2) {
             socket.emit(`changeWeapon`, 2);
             myPlayer.isFishing = false;
         }
-    } else if (evt.keyCode === 77 && !textFieldFocused()) {
+    } else if (evt.keyCode === 77 && !ui.textFieldFocused()) {
         if (!$(`#minimap-container`).is(`:visible`)) {
             $(`#minimap-container`).show();
         } else {
             $(`#minimap-container`).hide();
         }
-    } else if (evt.keyCode === 16 && !textFieldFocused()) {
+    } else if (evt.keyCode === 16 && !ui.textFieldFocused()) {
         $(`#player-leaderboard`).show();
-    } else if (evt.keyCode === 81 && !textFieldFocused()) {
+    } else if (evt.keyCode === 81 && !ui.textFieldFocused()) {
         if (!$(`#quests-modal`).is(`:visible`)) {
             document.getElementById(`toggle-quest-button`).click();
         } else {
             $(`#quests-modal`).hide();
         }
-    } else if (evt.keyCode === 188 && !textFieldFocused()) {
+    } else if (evt.keyCode === 188 && !ui.textFieldFocused()) {
         if (!$(`#show-chat`).is(`:visible`)) {
             $(`#show-chat`).show();
             $(`#chat-div`).hide();
@@ -122,7 +122,7 @@ document.onkeydown = function (evt) {
     }
     // For experience points allocation
     else if (evt.keyCode >= 53 && evt.keyCode <= 55 &&
-        myPlayer && myPlayer.geometry && !textFieldFocused()) {
+        myPlayer && myPlayer.geometry && !ui.textFieldFocused()) {
         let attribute = ExperiencePointsComponent.keys[evt.keyCode];
         ExperiencePointsComponent.clearStore().setStore((Store) => {
             Store.allocatedPoints[attribute] = 1;
