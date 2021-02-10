@@ -3,7 +3,7 @@
  *
  * @param {object} data Bank data
  */
-setBankData = (data) => {
+let setBankData = (data) => {
     if (data.warn) {
         $(`#bankContainer`).hide();
         $(`#nabankContainer`).show();
