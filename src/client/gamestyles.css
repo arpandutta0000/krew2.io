@@ -1032,6 +1032,13 @@ a.text-mod-color:hover {
     transform: translate(-50%, -43%);
 }
 
+.ad-player {
+    position: absolute;
+    top: 25%;
+    left: 80%;
+    transform: translate(-50%, -43%);
+}
+
 .container {
     position: relative;
     margin-left: auto;

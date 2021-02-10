@@ -82,6 +82,8 @@
     <audio id="turning" src="/assets/audio/Turning.mp3"></audio>
     <audio id="wheelspin" src="/assets/audio/Wheel Spin.mp3"></audio>
 
+    <!-- AdinPlay Ads Initialization -->
+    <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js"></script>
 
     <!-- LeChuckAPI API (Commented out due to lack of ID) -->
     <!-- <script src="https://ssl.minijuegosgratis.com/lechuck/js/latest.js" id='LeChuckAPIjs'>
@@ -90,24 +92,6 @@
         function miniplaySend2API (stat, value) {
             lechuck.stat.put(function (response) {}, stat, value);
         }
-    </script> -->
-
-    <!-- AdinPlay Ads Initialization -->
-    <!-- <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js">
-        window.aiptag = window.aiptag || {
-            cmd: []
-        };
-        aiptag.cmd.display = aiptag.cmd.display || [];
-        aiptag.cmd.player = aiptag.cmd.player || [];
-        aiptag.cmp = {
-            show: true,
-            position: "centered",
-            button: true,
-            buttonText: "Privacy settings",
-            buttonPosition: "bottom-left"
-        }
-        aiptag.gdprShowConsentTool = true;
-        aiptag.gdprConsentToolPosition = "bottom";
     </script> -->
 
 </head>
@@ -1697,9 +1681,8 @@
 
     <!-- START Miscellaneous HTML -->
 
-    <!-- Preroll Ad Container -->
-    <div id="preroll"></div>
-    <div id="preroll-centered" class="absolute-center"></div>
+    <!-- Preroll Ad Container (Centered class: absolute-center) -->
+    <div id="preroll-centered" class="ad-player"></div>
 
     <!-- GameAnalytics -->
     <script>
