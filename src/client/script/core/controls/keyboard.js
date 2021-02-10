@@ -111,7 +111,7 @@ document.onkeydown = function (evt) {
             if (myPlayer.gold > 500) {
                 GameAnalytics(`addDesignEvent`, `Game:Session:PurchasedBoat`);
                 $(`#raft-shop-div`).hide();
-                $(`#krew-div`).show();
+                $(`#krew-hud`).show();
                 let shopPopover = $(`#toggle-shop-modal-button`).attr(`data-content`, ``).data(`bs.popover`);
                 if (shopPopover !== undefined) {
                     shopPopover.setContent();

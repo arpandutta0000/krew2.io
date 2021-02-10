@@ -562,7 +562,7 @@
             <br>
 
             <!-- Change Account Game Settings -->
-            <form class="form-group h5" id="change-account-game-settings-form" action="/change_account_game_settings" method="post">
+            <form class="form-group h5" id="change-account-game-settings-form" action="/change_account_game_settings" method="post"></form>
                 <label style="font-size: 24px;">Game Settings</label>
 
                 <div id="change-account-game-settings-button-container" display="inline">
@@ -1285,7 +1285,7 @@
     </div>
 
 
-    <!-- START Game UI (Splash) -->
+    <!-- START Game UI -->
     <div id="game-ui" class="container-fluid">
 
         <!-- Krew Leaderboard (Upper Right) -->
@@ -1474,56 +1474,57 @@
         </div>
 
         <!-- Krew info HUD (Upper Left)-->
-        <div id="krew-hud">
-            <div id="krew-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px">
-                <form class="form-inline h5" id="open-krew-settings">
-                    <div data-tooltip="Krew settings: change krew name, manage krew members, lock your krew" data-tooltip-location="bottom" class="btn btn-secondary btn-sm float-sm-right toggle-ship-status-button">
-                        <i class="icofont icofont-options"></i>
-                    </div>
-                    <div class="form-group">
-                        <span class="my-krew-name"></span>
-                    </div>
-                </form>
+        <div id="krew-hud" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px">
+            <form class="form-inline h5" id="open-krew-settings">
+                <div data-tooltip="Krew settings: change krew name, manage krew members, lock your krew" data-tooltip-location="bottom" class="btn btn-secondary btn-sm float-sm-right toggle-ship-status-button">
+                    <i class="icofont icofont-options"></i>
+                </div>
+                <div class="form-group">
+                    <span class="my-krew-name"></span>
+                </div>
+            </form>
 
-                <div class="text-center" style="margin-bottom: 8px">
-                    <span class="text-danger">
-                        <i class="icofont icofont-heart"></i>
-                        <span class="ship-hp"></span> /
-                        <span class="ship-max-hp"></span>
-                    </span>
-                    <span style="color: #65d94f!important;">
-                        <i class="icofont icofont-speed-meter"></i>
-                        <span class="ship-speed"></span>
-                    </span>
-                    <span class="text-info">
-                        <i class="icofont icofont-people"></i>
-                        <span class="ship-krew-count"></span> /
-                        <span class="ship-max-capacity"></span>
-                    </span>
-                    <span class="text-warning">
-                        <i class="icofont icofont-cube"></i>
-                        <span class="ship-cargo"></span>
-                    </span>
-                </div>
-                <div>
-                    <span data-tooltip="Depart to sea" data-tooltip-location="right" class="btn btn-success btn-sm" id="exit-island-button" style="display: none; z-index: 2; margin-right: 2.5px;">
-                        <i class="icofont icofont-ship-wheel"></i>
-                        Sail
-                    </span>
-                    <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index: 1; margin-right: 2.5px;">
-                        <i class="icofont icofont-link"></i>
-                        Invite
-                    </span>
-                    <span data-tooltip="Abandon the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none;">
-                        <i class="icofont icofont-anchor"></i>
-                        Abandon Ship
-                    </span>
-                    <br>
-                </div>
-                <div id="invite-div">
-                    <input type="text" maxlength="30" class="form-control" id="invite-link">
-                </div>
+            <div class="text-center" style="margin-bottom: 8px">
+                <span class="text-danger">
+                    <i class="icofont icofont-heart"></i>
+                    <span class="ship-hp"></span> /
+                    <span class="ship-max-hp"></span>
+                </span>
+                <span style="color: #65d94f!important;">
+                    <i class="icofont icofont-speed-meter"></i>
+                    <span class="ship-speed"></span>
+                </span>
+                <span class="text-info">
+                    <i class="icofont icofont-people"></i>
+                    <span class="ship-krew-count"></span> /
+                    <span class="ship-max-capacity"></span>
+                </span>
+                <span class="text-warning">
+                    <i class="icofont icofont-cube"></i>
+                    <span class="ship-cargo"></span>
+                </span>
             </div>
+
+            <div>
+                <span data-tooltip="Depart to sea" data-tooltip-location="right" class="btn btn-success btn-sm" id="exit-island-button" style="display: none; z-index: 2; margin-right: 2.5px;">
+                    <i class="icofont icofont-ship-wheel"></i>
+                    Sail
+                </span>
+                <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index: 1; margin-right: 2.5px;">
+                    <i class="icofont icofont-link"></i>
+                    Invite
+                </span>
+                <span data-tooltip="Abandon the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none;">
+                    <i class="icofont icofont-anchor"></i>
+                    Abandon Ship
+                </span>
+                <br>
+            </div>
+
+            <div id="invite-div">
+                <input type="text" maxlength="30" class="form-control" id="invite-link">
+            </div>
+
             <div id="stats-wrapper">
                 <div id="fps-wrapper"><span>0 FPS</span></div>
                 <div id="ping-wrapper"><span>0 MS</span></div>

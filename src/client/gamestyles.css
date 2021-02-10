@@ -1,42 +1,10 @@
-@media (max-width: 900px) {
-    #modal-dialog {
-        width: 100%;
-    }
-}
-
-@media (min-width: 900px) {
-    #modal-dialog {
-        width: 80%;
-    }
-}
-
-@media (max-width: 750px) {
-    .changelog-box {
-        display: none;
-    }
-
-    .wall-of-fame-div {
-        display: none;
-    }
-
-    .main-menu-div {
-        width: 40%;
-        float: none;
-    }
-}
-
-@media (min-width: 750px) {
-    .main-menu-div {
-        width: 33%;
-        float: left;
-    }
-}
-
+/* Create Caribbean font */
 @font-face {
     font-family: Caribbean;
     src: url(assets/fonts/Caribbean.ttf);
 }
 
+/* Scrollbar */
 ::-webkit-scrollbar {
     background-color: rgba(0, 0, 0, 0);
     width: 8px;
@@ -55,18 +23,11 @@
     display: none;
 }
 
+/* Body */
 body {
     margin: 0;
     overflow: hidden;
     background-color: #000;
-}
-
-canvas {
-    width: 100%;
-    height: 100%
-}
-
-body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -76,6 +37,13 @@ body {
     cursor: default;
 }
 
+/* Canvas */
+canvas {
+    width: 100%;
+    height: 100%
+}
+
+/* Loading Wheel Div */
 #loading-wheel {
     position: absolute;
     z-index: 1060;
@@ -86,12 +54,12 @@ body {
     display: none;
 }
 
+/* Loading Wheel Image*/
 #wheel {
     animation: 3s linear 0s normal none infinite running wheel;
     -webkit-animation: 3s linear 0s normal none infinite running wheel;
     width: 12.5%;
 }
-
 @keyframes wheel {
     0% {
         transform: rotate(0deg);
@@ -101,7 +69,6 @@ body {
         transform: rotate(360deg);
     }
 }
-
 @-webkit-keyframes wheel {
     0% {
         transform: rotate(0deg);
@@ -112,21 +79,25 @@ body {
     }
 }
 
+/* Youtube Popup */
 .popup-youtube {
-    z-index: 99999;
+    z-index: 1e10;
 }
 
+/* Play button */
 #play-button {
     font-weight: 900;
     padding: 1.0rem 1rem;
 }
 
+/* Game UI (Container for all game elements) */
 #game-ui {
     font-weight: bold;
     color: #FFF;
     display: none;
 }
 
+/* Krew HUD (Upper Left) */
 #krew-hud {
     position: absolute;
     left: 0px;
@@ -136,17 +107,14 @@ body {
     z-index: 1051;
     width: 25.5%;
     max-width: 300px;
-}
-
-#krew-div {
     display: inline-block;
     width: 100%;
 }
-
-#krew-div>.form-inline>.form-group {
+#krew-hud>.form-inline>.form-group {
     margin-right: 0.625rem;
 }
 
+/* Toggle shop button */
 #toggle-shop-modal-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
@@ -155,14 +123,7 @@ body {
     font-size: 1.375rem;
 }
 
-#toggle-bank-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
+/* Toggle Krew list button */
 #toggle-krew-list-modal-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
@@ -171,12 +132,36 @@ body {
     font-size: 1.375rem;
 }
 
+/* Toggle bank button */
+#toggle-bank-modal-button {
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem .2rem;
+    font-size: 1.375rem;
+}
+
+/* -- START Glowing -- */
 .glowing {
     border-radius: 5px;
     -webkit-animation: glowing 1500ms infinite;
     -moz-animation: glowing 1500ms infinite;
     -o-animation: glowing 1500ms infinite;
     animation: glowing 1500ms infinite;
+}
+
+.glow-gold-plus {
+    color: #fff;
+    -webkit-animation: glow-gold-plus 1s ease-in-out 3 alternate;
+    -moz-animation: glow-gold-plus 1s ease-in-out 3 alternate;
+    animation: glow-gold-plus 1s ease-in-out 3 alternate;
+}
+
+.glow-gold-minus {
+    color: #fff;
+    -webkit-animation: glow-gold-minus 1s ease-in-out 3 alternate;
+    -moz-animation: glow-gold-minus 1s ease-in-out 3 alternate;
+    animation: glow-gold-minus 1s ease-in-out 3 alternate;
 }
 
 @-webkit-keyframes glowing {
@@ -247,13 +232,6 @@ body {
     }
 }
 
-.glow-gold-plus {
-    color: #fff;
-    -webkit-animation: glow-gold-plus 1s ease-in-out 3 alternate;
-    -moz-animation: glow-gold-plus 1s ease-in-out 3 alternate;
-    animation: glow-gold-plus 1s ease-in-out 3 alternate;
-}
-
 @keyframes glow-gold-plus {
     from {
         text-shadow: 0 0 5px #fff,
@@ -272,13 +250,6 @@ body {
             0 0 0px #f0ad4e;
 
     }
-}
-
-.glow-gold-minus {
-    color: #fff;
-    -webkit-animation: glow-gold-minus 1s ease-in-out 3 alternate;
-    -moz-animation: glow-gold-minus 1s ease-in-out 3 alternate;
-    animation: glow-gold-minus 1s ease-in-out 3 alternate;
 }
 
 @keyframes glow-gold-minus {
@@ -300,9 +271,9 @@ body {
 
     }
 }
+/* -- END Glowing -- */
 
-
-/* CSS for tooltips */
+/* -- START Tooltips Styling -- */
 [data-tooltip] {
     position: relative;
 }
@@ -346,12 +317,7 @@ body {
     border-width: 5px 5px 0px 5px;
     border-color: rgba(55, 64, 70, 0.9) transparent transparent transparent;
     transition-duration: 0s;
-    /* If the mouse leaves the element,
-                            the transition effects for the
-                            tooltip arrow are "turned off" */
     transform-origin: top;
-    /* Orientation setting for the
-                            slide-down effect */
     transform: translateX(-50%) scaleY(0);
 }
 
@@ -376,7 +342,6 @@ body {
     transform: translateX(-50%) scaleY(1);
 }
 
-/* LEFT */
 /* Tooltip + arrow */
 [data-tooltip-location="left"]:before,
 [data-tooltip-location="left"]:after {
@@ -384,31 +349,23 @@ body {
     right: calc(100% + 5px);
     bottom: 50%;
 }
-
-/* Tooltip */
 [data-tooltip-location="left"]:before {
     transform: translate(-5px, 50%) scale(0.5);
 }
-
 [data-tooltip-location="left"]:hover:before {
     transform: translate(-5px, 50%) scale(1);
 }
-
-/* Arrow */
 [data-tooltip-location="left"]:after {
     border-width: 5px 0px 5px 5px;
     border-color: transparent transparent transparent rgba(55, 64, 70, 0.9);
     transform-origin: left;
     transform: translateY(50%) scaleX(0);
 }
-
 [data-tooltip-location="left"]:hover:after {
     transform: translateY(50%) scaleX(1);
 }
 
-
-
-/* RIGHT */
+/* Right */
 [data-tooltip-location="right"]:before,
 [data-tooltip-location="right"]:after {
     left: calc(100% + 5px);
@@ -434,8 +391,7 @@ body {
     transform: translateY(50%) scaleX(1);
 }
 
-
-/* BOTTOM */
+/* Bottom */
 [data-tooltip-location="bottom"]:before,
 [data-tooltip-location="bottom"]:after {
     top: calc(100% + 5px);
@@ -455,10 +411,41 @@ body {
     border-color: transparent transparent rgba(55, 64, 70, 0.9) transparent;
     transform-origin: bottom;
 }
+/* -- END Tooltips Styling -- */
 
-/* Tooltip END */
+/* Media settings for pre-gameplay modals */
+@media (max-width: 900px) {
+    #modal-dialog {
+        width: 100%;
+    }
+}
+@media (min-width: 900px) {
+    #modal-dialog {
+        width: 80%;
+    }
+}
+@media (max-width: 750px) {
+    .changelog-box {
+        display: none;
+    }
 
-/* Changelog classes */
+    .wall-of-fame-div {
+        display: none;
+    }
+
+    .main-menu-div {
+        width: 40%;
+        float: none;
+    }
+}
+@media (min-width: 750px) {
+    .main-menu-div {
+        width: 33%;
+        float: left;
+    }
+}
+
+/* -- START Changelog -- */
 .changelog-box {
     width: 33%;
     float: left;
@@ -511,76 +498,9 @@ body {
     font-size: .95rem;
 }
 
-/* CHANGELOG END - TOGGLE BUTTON START*/
-.label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-}
+/* -- END Changelog -- */
 
-.toggle {
-    isolation: isolate;
-    position: relative;
-    height: 24px;
-    width: 48px;
-    border-radius: 15px;
-    background: #d6d6d6;
-    overflow: hidden;
-}
-
-.toggle-inner {
-    z-index: 2;
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    height: 1.375rem;
-    width: 46px;
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.active-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 200%;
-    background: #d9534f;
-    transform: translate3d(-100%, 0, 0);
-    transition: transform 0.05s linear 0.17s;
-}
-
-.toggle-state {
-    display: none;
-}
-
-.indicator {
-    height: 100%;
-    width: 200%;
-    background: white;
-    border-radius: 13px;
-    transform: translate3d(-75%, 0, 0);
-    transition: transform 0.35s cubic-bezier(0.85, 0.05, 0.18, 1.35);
-}
-
-.toggle-state:checked~.active-bg {
-    transform: translate3d(-50%, 0, 0);
-}
-
-.toggle-state:checked~.toggle-inner .indicator {
-    transform: translate3d(25%, 0, 0);
-}
-
-.lock-text-info {
-    color: #5bc0de !important
-}
-
-.lock-text-error {
-    color: #d9534f !important
-}
-
-/* TOGGLE BUTTON END */
-
+/* Main Menu (Center Modal) */
 .main-menu-div {
     margin-left: auto;
     margin-right: auto;
@@ -588,9 +508,7 @@ body {
     padding-left: 15px;
 }
 
-/* Changelog END */
-
-/* Wall of fame */
+/* -- START Wall of fame -- */
 .wall-of-fame-div {
     width: 33%;
     float: left;
@@ -651,10 +569,10 @@ td {
     border-collapse: collapse;
     opacity: .8;
 }
+/* -- END Wall of fame -- */
 
-/* Wall of fame END */
 
-/* Clan Management START */
+/* -- START Clan Management -- */
 #clan-table-div {
     overflow-y: auto;
     overflow-x: hidden;
@@ -690,22 +608,9 @@ td {
     margin: 3px;
     padding: 7px;
 }
+/* -- END Clan Management -- */
 
-/* Clan Management END */
-
-.text-mod-color {
-    color: #bb15eb !important;
-}
-
-a.text-mod-color:focus,
-a.text-mod-color:hover {
-    color: #761e8f !important;
-}
-
-.text-clan-color {
-    color: #ff9800 !important;
-}
-
+/* Toggle Map button */
 #toggle-map-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
@@ -714,6 +619,7 @@ a.text-mod-color:hover {
     font-size: 1.375rem;
 }
 
+/* Toggle Help button*/
 #toggle-help-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
@@ -722,10 +628,12 @@ a.text-mod-color:hover {
     font-size: 1.375rem;
 }
 
+/* Exit island button */
 #exit-island-button {
     margin-right: 4%
 }
 
+/* Toggle Quests button */
 #toggle-quest-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
@@ -734,11 +642,13 @@ a.text-mod-color:hover {
     font-size: 1.375rem;
 }
 
+/* Invite Div */
 #invite-div {
     padding-top: 15px;
     display: none;
 }
 
+/* Top Menu UI*/
 #top-menu-ui {
     top: -5px;
     left: 50%;
@@ -752,12 +662,12 @@ a.text-mod-color:hover {
     z-index: 1072;
     height: auto;
 }
-
 #top-menu-ui div {
     margin-left: 3px;
     margin-right: 3px;
 }
 
+/* -- START Leaderboard -- */
 #leaderboard {
     white-space: nowrap;
     width: 20%;
@@ -833,6 +743,20 @@ a.text-mod-color:hover {
     overflow: hidden;
 }
 
+.score-list-leaderboard {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.score-list-leaderboard li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+/* -- END Leaderboard -- */
+
 #center-div {
     font-size: 32px;
     position: absolute;
@@ -846,6 +770,7 @@ a.text-mod-color:hover {
     border-radius: 5px;
 }
 
+/* -- START Inventory / Experience UI -- */
 #inventory-container {
     display: inline-block;
     vertical-align: middle;
@@ -870,13 +795,15 @@ a.text-mod-color:hover {
     display: inline-block;
 }
 
+/* -- END Inventory / Experience UI -- */
+
+/* Gold */
 #earn-gold {
     bottom: 340px;
     right: 15px;
     position: absolute;
     margin-top: 225px;
 }
-
 #gold-div,
 #delta-gold {
     top: 8px;
@@ -886,6 +813,7 @@ a.text-mod-color:hover {
     text-align: center;
 }
 
+/* -- START Chat -- */
 #chat-history {
     white-space: pre-line;
     word-wrap: break-word;
@@ -897,6 +825,33 @@ a.text-mod-color:hover {
     max-height: 110px;
 }
 
+#chat-div {
+    display: block;
+    width: 32%;
+    max-width: 400px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    margin: 5px;
+    font-size: 12px;
+}
+
+#chat-div a:not(.active) {
+    color: white;
+}
+
+.text-mod-color {
+    color: #bb15eb !important;
+}
+a.text-mod-color:focus,
+a.text-mod-color:hover {
+    color: #761e8f !important;
+}
+.text-clan-color {
+    color: #ff9800 !important;
+}
+/* -- END Chat -- */
+
 #scrollable-table {
     font-size: 15px;
     height: 420px;
@@ -907,6 +862,7 @@ a.text-mod-color:hover {
     border-top: none;
 }
 
+/* Ship Status Menu*/
 #ship-status-modal {
     display: none;
     width: 500px;
@@ -923,6 +879,7 @@ a.text-mod-color:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Shopping Modal */
 #shopping-modal {
     top: 10%;
     left: 26%;
@@ -938,6 +895,7 @@ a.text-mod-color:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Krew List modal */
 #krew-list-modal {
     display: none;
     width: 500px;
@@ -953,7 +911,14 @@ a.text-mod-color:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Krew list container */
+#krew-list {
+    height: 120px;
+    overflow: auto;
+    padding: 0 5px;
+}
 
+/* Bank Modal */
 #bank-modal {
     width: 700px;
     margin-right: 20px;
@@ -969,6 +934,7 @@ a.text-mod-color:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Quests Modal */
 #quests-modal {
     position: absolute;
     width: 700px;
@@ -984,6 +950,7 @@ a.text-mod-color:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
+/* Help Modal */
 #help-modal {
     width: 700px;
     margin-right: 20px;
@@ -999,17 +966,7 @@ a.text-mod-color:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
-.blink {
-    animation: blinker 2 linear infinite;
-}
-
-.absolute-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -43%);
-}
-
+/* Preroll Ad */
 .ad-player {
     position: absolute;
     top: 25%;
@@ -1017,12 +974,15 @@ a.text-mod-color:hover {
     transform: translate(50%, -43%);
 }
 
+/* Container */
 .container {
     position: relative;
     margin-left: auto;
     margin-right: auto;
 }
 
+
+/* Transparent White modal Background */
 .white-transparent-bg {
     color: black;
     background-color: rgba(255, 255, 255, 0.85);
@@ -1030,21 +990,20 @@ a.text-mod-color:hover {
     padding: 20px;
 }
 
-@keyframes blinker {
-    50% {
-        opacity: 0;
-    }
+/* Center an element */
+.absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -43%);
 }
 
-/* The max width is dependant on the container (more info below) */
-/*.popover{*/
-/*    max-width: 300px; !* Max Width of the popover (depending on the container!) *!*/
-/*}*/
-
+/* Hide an element */
 .hidden {
     display: none !important;
 }
 
+/* Leaderboard Logo */
 .leaderbord-logo {
     width: 100%;
     background-image: url(/assets/img/logos/logoleaderboard.png);
@@ -1053,19 +1012,7 @@ a.text-mod-color:hover {
     background-position: center;
 }
 
-.score-list-leaderboard {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.score-list-leaderboard li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: block;
-}
-
+/* Button */
 .btn-theme {
     position: absolute;
     display: block;
@@ -1077,37 +1024,14 @@ a.text-mod-color:hover {
     color: white;
 }
 
-.modal-backdrop-custom {
-    display: none !important;
-}
-
+/* Modal Title (Caribbean) */
 .modal-title {
     font-family: caribbean;
 }
 
-
 .float-right {
     float: right;
 }
-
-/***********Range input start************
-.range-group{position: relative; z-index: 0; padding-top: 4px;}
-input[type=range]{outline: none;height: 20px;width: 100%;margin-top: 6px;background: transparent;}
-input[type=range], input[type=range]::-webkit-slider-runnable-track, input[type=range]::-webkit-slider-thumb {-webkit-appearance: none;}
-input[type=range]::-webkit-slider-thumb {background-color: #0275d8;width: 5px;height: 12px;margin-top: -4px; border-radius: 2px}
-input[type=range]::-moz-range-thumb {background-color: #0275d8;width: 5px;height: 12px; border-radius: 2px}
-input[type=range]::-ms-thumb {background-color: #0275d8;width: 5px;height: 12px; border-radius: 2px}
-input[type=range]::-webkit-slider-runnable-track {height: 4px;background:linear-gradient(to right, #0275d8 calc(var(--value)*1%), #777 0); border-radius: 2px}
-input[type=range]::-moz-range-track {height: 4px;background:linear-gradient(to right, #0275d8 calc(var(--value)*1%), #777 0); border-radius: 2px}
-input[type=range]::-ms-track {background-color: #777;height: 5px;}
-input[type=range]::-ms-fill-lower {background-color: #0275d8;}
-input[type=range]::-ms-fill-upper {background-color: #777;}
-output,
-input[type=range]::before,
-input[type=range]::after{content: attr(min);display: inline-block; width: 30px; text-align: center; font-size: 0.6em;position: absolute; top: 0; left: 0; line-height:1; background: #ececec; color: #777; opacity: 1; padding: 1px; z-index: -1; border-radius: 2px}
-input[type=range]::after{content: attr(max); left: auto; right:0}
-output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
-/***********Range input end************/
 
 .trading .btn {
     margin: -6px 0 0;
@@ -1130,28 +1054,8 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     min-width: 600px;
 }
 
-.trading table,
-.trading th,
-.trading td {
-    text-align: left;
-}
 
-.trading th,
-.trading td {
-    border-top: 1px solid #eceeef;
-}
-
-.trading td {
-    line-height: 1.2
-}
-
-/*******************Krew list**********************/
-#krew-list {
-    height: 120px;
-    overflow: auto;
-    padding: 0 5px;
-}
-
+/* Kick player from Krew button */
 .btn-kick-player {
     cursor: pointer;
     padding: 0 0.2em;
@@ -1160,6 +1064,7 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     margin-top: 2px;
 }
 
+/* Transfer ship button */
 .btn-transfer-ship {
     cursor: pointer;
     padding: 0 0.2em;
@@ -1168,60 +1073,9 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     margin-top: 2px;
 }
 
-/**
-* Progress bar
-* Example:
-* <div data-progress="" data-info-left="Level 1" data-info-right="Level 2">
-*      <div style="width: 40%" role="progressbar">100/106 40%</div>
-* </div>
-*/
-[data-progress] {
-    border: 3px solid #fff;
-    color: #28a745;
-    height: 30px;
-    width: 100%;
-    position: relative;
-    border-radius: 5px;
-    z-index: 1;
-    margin: 0 0 5px;
-    padding: 1px;
-}
+/* -- START Experience bar -- */
 
-[data-progress]::after,
-[data-progress]::before,
-[data-progress]>div {
-    transition: all 0.3s ease-in-out;
-    content: ' ';
-    position: absolute;
-    height: 100%;
-    z-index: 2;
-    text-align: center;
-    width: 100%;
-}
-
-[data-progress]::before {
-    content: attr(data-info-up);
-    top: -28px;
-}
-
-[data-progress]::after {
-    content: attr(data-info);
-    top: 0;
-    width: 100%;
-    left: 0;
-}
-
-[data-progress]>div {
-    background: #fff;
-    position: relative;
-    z-index: 1;
-    white-space: nowrap;
-    padding: 0px;
-    left: 0;
-    border: 0;
-}
-
-/** Experience bar **/
+/* Experience bar container */
 #experience-ui {
     width: 40%;
     bottom: 5px;
@@ -1236,6 +1090,56 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     max-width: 400px;
     text-align: center;
 }
+#experience-attribute-container {
+    display: inline-block;
+    vertical-align: middle;
+    width: 200px;
+    z-index: 1;
+    position: relative;
+}
+
+/* Progress (Experience) Bar */
+[data-progress] {
+    border: 3px solid #fff;
+    color: #28a745;
+    height: 30px;
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    z-index: 1;
+    margin: 0 0 5px;
+    padding: 1px;
+}
+[data-progress]::after,
+[data-progress]::before,
+[data-progress]>div {
+    transition: all 0.3s ease-in-out;
+    content: ' ';
+    position: absolute;
+    height: 100%;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+}
+[data-progress]::before {
+    content: attr(data-info-up);
+    top: -28px;
+}
+[data-progress]::after {
+    content: attr(data-info);
+    top: 0;
+    width: 100%;
+    left: 0;
+}
+[data-progress]>div {
+    background: #fff;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    padding: 0px;
+    left: 0;
+    border: 0;
+}
 
 [class*=experience-attribute] {
     position: relative;
@@ -1246,7 +1150,12 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     margin: 0;
     text-align: center;
 }
+[class*=experience-attribute]>small {
+    display: block;
+    font-size: 12px;
+}
 
+/* Level up button */
 .level-up-button {
     display: block;
     position: absolute;
@@ -1257,12 +1166,9 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     font-size: 40px;
     cursor: pointer;
 }
+/* -- END Experience bar */
 
-[class*=experience-attribute]>small {
-    display: block;
-    font-size: 12px;
-}
-
+/* Docking modal */
 #docking-modal.initial {
     background: #ffffffa6;
     color: #28a745;
@@ -1271,28 +1177,22 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     border-radius: 7px;
 }
 
+/* Docking modal button */
 #docking-modal-button {
     margin-right: 10px;
 }
 
-#experience-attribute-container {
-    display: inline-block;
-    vertical-align: middle;
-    width: 200px;
-    z-index: 1;
-    position: relative;
-}
-
+/* Buy Ship table */
 .ship-table th,
 .ship-table td {
     padding: .5rem 6px .5rem 6px;
     text-align: center;
 }
-
 .ship-table tr {
     line-height: 34px;
 }
 
+/* Form Error */
 .form-error {
     border-left: 6px solid rgb(255, 81, 81);
     background-color: rgb(255, 206, 206);
@@ -1301,6 +1201,7 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     box-sizing: border-box;
 }
 
+/* Minimap */
 #minimap-container {
     position: absolute;
     right: 0;
@@ -1314,50 +1215,22 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     opacity: 0.8;
     transition: all .4s;
 }
-
 #minimap-container:hover {
     opacity: 1;
 }
-
 #minimap {
     width: 200px;
     height: 200px;
 }
 
-#preroll {
-    /* position: absolute !important; */
-    background: transparent !important;
-    /* width: auto !important;
-  height: auto !important; */
-    /* overflow: visible !important; */
-}
-
-#preroll>div {
-    background: transparent !important;
-}
-
-#chat-div {
-    display: block;
-    width: 32%;
-    max-width: 400px;
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    margin: 5px;
-    font-size: 12px;
-}
-
-#chat-div a:not(.active) {
-    color: white;
-}
-
+/* Ping and FPS */
 #stats-wrapper {
     display: inline-block;
     position: inherit;
+    top: 1%;
     left: 101%;
     text-align: center;
 }
-
 #fps-wrapper,
 #ping-wrapper {
     background-color: rgba(0, 0, 0, 0.35);
@@ -1367,12 +1240,70 @@ output{background: #0275d8; color: #fff; left: 50%; transform: translate(-50%)}
     margin-bottom: 2.5px;
 }
 
-.t-hidden {
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
+/* Toggle Switch */
+.toggle {
+    isolation: isolate;
+    position: relative;
+    height: 24px;
+    width: 48px;
+    border-radius: 15px;
+    background: #d6d6d6;
     overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
 }
+.toggle-inner {
+    z-index: 2;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 1.375rem;
+    width: 46px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.toggle-state {
+    display: none;
+}
+.toggle-state:checked~.active-bg {
+    transform: translate3d(-50%, 0, 0);
+}
+.toggle-state:checked~.toggle-inner .indicator {
+    transform: translate3d(25%, 0, 0);
+}
+.lock-text-info {
+    color: #5bc0de !important
+}
+.lock-text-error {
+    color: #d9534f !important
+}
+
+/* Label */
+.label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Active background */
+.active-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200%;
+    background: #d9534f;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 0.05s linear 0.17s;
+}
+
+/* Indicator */
+.indicator {
+    height: 100%;
+    width: 200%;
+    background: white;
+    border-radius: 13px;
+    transform: translate3d(-75%, 0, 0);
+    transition: transform 0.35s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+}
+
+
+
