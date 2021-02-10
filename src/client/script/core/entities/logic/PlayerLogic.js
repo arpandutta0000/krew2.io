@@ -175,8 +175,8 @@ let PlayerLogic = {
                         lookingDownOffset = 0.2 - Math.max(controls.cameraX, 0.2);
                         cameraPosition = new THREE.Vector3(
                             camera.position.x,
-                            (fov * 2) + Math.min((fov * 8), Math.max(0, controls.cameraX * 10)),
-                            (fov * 8) + (lookingDownOffset * (fov * 8)));
+                            (fov >= 1 && fov <= 10 ? fov * 2 : 2) + Math.min((fov >= 1 && fov <= 10 ? fov * 8 : 8), Math.max(0, controls.cameraX * 10)),
+                            (fov >= 1 && fov <= 10 ? fov * 8 : 8) + (lookingDownOffset * (fov >= 1 && fov <= 10 ? fov * 8 : 8)));
                     }
 
                     if (camera.zoom === 4) {

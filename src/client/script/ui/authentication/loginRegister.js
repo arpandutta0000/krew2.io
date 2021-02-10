@@ -496,7 +496,7 @@ let getGameSettings = () => {
         }
     });
 
-    fov = document.getElementById(`fov-control`).value / 10;
+    fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
     updateMusic();
     updateQuality();
 };
