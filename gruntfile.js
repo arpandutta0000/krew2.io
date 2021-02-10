@@ -134,7 +134,8 @@ module.exports = grunt => {
 
         // Minify the source with webpack.
         webpack: {
-            prod: webpackConfig
+            prod: webpackConfig.prod,
+            dev: webpackConfig.dev
         },
 
         // Minify CSS
@@ -224,7 +225,8 @@ module.exports = grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
-        `cssmin:styles`
+        `cssmin:styles`,
+        `webpack:dev`
     ]);
 
     // Run in dev.
