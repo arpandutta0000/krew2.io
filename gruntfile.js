@@ -143,7 +143,7 @@ module.exports = grunt => {
                 files: [{
                     expand: true,
                     cwd: `src/client/styles`,
-                    src: [`*.css`],
+                    src: [`gamestyles.css`],
                     dest: process.env.NODE_ENV == `prod` ? `dist/styles` : `src/client/styles`,
                     ext: `.min.css`
                 }]
