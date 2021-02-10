@@ -12,14 +12,6 @@ let setBankData = (data) => {
         $(`#nabankContainer`).hide();
         $(`#my-deposits`).text(data.my);
 
-        let goldTotalScore;
-        if (data.total) {
-            if (data.total >= 1000 && data.total.toString().length <= 6) goldTotalScore = `${Math.floor(data.total / 1000)} K`;
-            else if (data.total.toString().length >= 7) goldTotalScore = `${Math.floor(data.total / 1000) / 1000} M`;
-            else goldTotalScore = data.total;
-        } else goldTotalScore = `0`;
-
-        $(`#total-deposits`).text(goldTotalScore);
         $(`#make-deposit`).attr({
             max: myPlayer.gold
         });
