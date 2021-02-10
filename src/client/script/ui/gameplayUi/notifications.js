@@ -72,7 +72,7 @@ let notifications = {
             animationClose: `fade-out`,
             type: `danger`,
             imageVisible: true,
-            imageCustom: `../assets/tools/cannon32x32.png`
+            imageCustom: `../assets/img/tools/cannon32x32.png`
         });
     },
 
