@@ -24,8 +24,6 @@ let adBlockCheck = () => {
  * Initiate ads
  */
 let initAds = () => {
-    localStorage.setItem(`lastAdTime`, Date.now() - 10000000);
-
     var aiptag = aiptag || {};
     aiptag.cmd = aiptag.cmd || [];
     aiptag.cmd.display = aiptag.cmd.display || [];
