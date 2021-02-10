@@ -84,7 +84,7 @@
 
                                 GameAnalytics(`addDesignEvent`, `Game:Session:JoinedBoat`);
 
-                                $(`#krew-div`).show();
+                                $(`#krew-hud`).show();
                                 $(`#abandon-ship-button`).show();
                             }
                         });

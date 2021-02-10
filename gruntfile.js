@@ -60,7 +60,7 @@ module.exports = grunt => {
                     `src/client/script/ui/gameplayUi/notifications.js`,
                     `src/client/script/ui/menus/bank.js`,
                     `src/client/script/ui/menus/clan.js`,
-                    `src/client/script/ui/menus/krew.js`,
+                    `src/client/script/ui/menus/krewList.js`,
                     `src/client/script/ui/stores/cargo.js`,
                     `src/client/script/ui/stores/items.js`,
                     `src/client/script/ui/stores/ships.js`,
