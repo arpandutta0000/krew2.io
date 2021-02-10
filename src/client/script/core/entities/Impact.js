@@ -11,7 +11,6 @@ class Impact extends Entity {
      * @param {number} type Impact type
      * @param {number} x Impact x position
      * @param {number} z Impact z position
-     * @constructor
      */
     constructor (type, x, z) {
         // Inherit parent class methods

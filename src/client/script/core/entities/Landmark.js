@@ -12,7 +12,6 @@ class Landmark extends Entity {
      * @param {number} x Landmark x position
      * @param {number} z Landmark x position
      * @param {object} _config Landmark config (data) object
-     * @constructor
      */
     constructor (type, x, z, _config) {
         // Inherit parent class methods

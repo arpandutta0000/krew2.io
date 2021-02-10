@@ -9,7 +9,6 @@ class Player extends Entity {
      * Player constructor
      *
      * @param {object} data Player data
-     * @constructor
      */
     constructor (data) {
         // Inherit parent class methods
@@ -70,7 +69,7 @@ class Player extends Entity {
         this.jumpVel = 0.0;
 
         // Item variables
-        this.itemId;
+        this.itemId = undefined;
         this.attackSpeedBonus = 0;
         this.movementSpeedBonus = 0;
 

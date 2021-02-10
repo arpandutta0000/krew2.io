@@ -6,8 +6,6 @@
 class Entity {
     /**
      * Entity constructor
-     *
-     * @constructor
      */
     constructor () {
         // Set netType

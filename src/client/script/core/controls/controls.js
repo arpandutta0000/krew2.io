@@ -5,7 +5,6 @@
 class GameControls {
     /**
      * Game Controls Constructor
-     * @constructor
      */
     constructor () {
         // Create controls variables

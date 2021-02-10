@@ -7,8 +7,6 @@
 class Projectile extends Entity {
     /**
      * Projectile Constructor
-     *
-     * @constructor
      */
     constructor () {
         // Inherit parent class methods

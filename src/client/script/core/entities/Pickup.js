@@ -12,7 +12,6 @@ class Pickup extends Entity {
      * @param {number} x Pickup x position
      * @param {number} z Pickup y position
      * @param {number} type Pickup type
-     * @constructor
      */
     constructor (size, x, z, type) {
         // Inherit parent class methods

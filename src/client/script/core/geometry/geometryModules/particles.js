@@ -21,7 +21,6 @@ class Particle {
      * Particle constructor
      *
      * @param {object} params Particle parameters
-     * @constructor
      */
     constructor (params) {
         this.vx = params.vx;

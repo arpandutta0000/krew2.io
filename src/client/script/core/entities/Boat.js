@@ -10,7 +10,6 @@ class Boat extends Entity {
      *
      * @param {any} captainId Captain ID
      * @param {string} krewName The krew's (boat's) name
-     * @constructor
      */
     constructor (captainId, krewName) {
         // Inherit parent class methods
