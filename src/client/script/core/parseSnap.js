@@ -65,7 +65,10 @@ let parseSnap = (id, data) => {
         }
 
         // If the entity is defined
-        if (entities[id] !== undefined) entities[id].createBody();
+        if (entities[id] !== undefined) {
+            entities[id].id = id;
+            entities[id].createBody();
+        }
     }
 
     // Once the entity is defined, parse the snap data
