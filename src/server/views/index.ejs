@@ -110,317 +110,307 @@
         <a href="#" id="login-link" onclick="logoutUser(event)" style="position:absolute; top: 30px; right: 10px; color: #fff; display:none;"></a>
         <img src="/assets/img/logos/logo.png" class="rounded mx-auto d-block" style="width: 300px; margin: 10px 0px 20px 0px;">
         <a href="https://www.addictinggames.com/" target="_blank">
-            <img src="/assets/img/logos/addictinggames_logo.png" style="position:absolute; width: 9%; height:auto; left:1%; top:1%">
+            <img src="/assets/img/logos/addictinggames_logo.png" style="position: absolute; width: 9%; height:auto; left:1%; top:1%">
         </a>
         <a href="https://www.devclied.com/" target="_blank">
-            <img src="/assets/img/logos/devclied.png" alt="Devclied logo" style="position: fixed; width: 4%; height: auto; left:1%; bottom:1%">
+            <img src="/assets/img/logos/devclied.png" alt="Devclied logo" style="position: absolute; width: 5%; height: auto; right:1%; top:1%">
         </a>
 
         <!-- START Pre-Gameplay Modals -->
-        <div id="modal-dialog" class="container" role="document">
-            <div class="row justify-content-center">
-                <div style="width:100%; top:310px">
+        <div id="modal-dialog" class="container row justify-content-center" style="width: 100%;" role="document">
 
-                    <!-- Wall of Fame Modal (Left) -->
-                    <div class="wall-of-fame-div">
-                        <div class="white-bg">
-                            <h4 class="changelog-title">Wall of Fame</h4>
-                            <small>The top players in all of Krew.</small>
-                            <div id="wall-of-fame-table-div">
-                                <table id="wall-of-fame-table">
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>Player name</th>
-                                        <th>Clan</th>
-                                        <th>Highscore</th>
-                                    </tr>
-                                </table>
-                                <button class="btn btn-success btn-sm" id="show-more" style="padding: .55rem 1rem;">
-                                    <i class="icofont icofont-medal"></i>
-                                    Show more
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- START Center Modal -->
-                    <div class="main-menu-div">
-                        <div class="white-bg">
-                            <small>Try <a href="https://relmz.io/" target="_window">relmz.io</a></small>
-                            <br>
-                            <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock.</span>
-
-                            <!-- If the user is using an invite link -->
-                            <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">Ahoy! It seems like you're using an invite link ;D</div>
-
-                            <!-- Select server -->
-                            <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
-                                <select id="server-list" class="custom-select form-control"></select>
-                            </div>
-
-                            <!-- Select spawn -->
-                            <div id="select-spawn" class="form-group" style="margin:10 auto;">
-                                <select id="spawn-selection" class="custom-select form-control">
-                                    <option value="sea">Spawn in the sea</option>
-                                    <option value="krew">Join a random krew</option>
-                                    <option value="spain">Spawn on Spain</option>
-                                    <option value="cuba">Spawn on Cuba</option>
-                                    <option value="malaysia">Spawn on Malaysia</option>
-                                    <option value="brazil">Spawn on Brazil</option>
-                                    <option value="island">Spawn on a random island</option>
-                                </select>
-                            </div>
-
-                            <!-- Play button, login/register/account settings button, and watch tutorial button -->
-                            <div class="form-group">
-                                <button id="play-button" class="btn btn-success btn-block" disabled>Loading...</button>
-                                <button id="login-button" class="btn btn-warning btn-block" disabled>Log In / Sign Up</button>
-                                <button id="customization-button" class="btn btn-warning btn-block" title="You must log in to access player customization" disabled hidden>Player Customization</button>
-                                <button id="tutorial-button" class="btn btn-primary btn-block popup-youtube" href="https://www.youtube.com/watch?v=pXSzSZ9faxA?autoplay=1&rel=0">Watch tutorial</button>
-                            </div>
-
-                            <!-- jQuery code for tutorial popover -->
-                            <script>
-                                $(document).ready(function () {
-                                    $(".popup-youtube").magnificPopup({
-                                        focus: "",
-                                        disableOn: 700,
-                                        type: "iframe",
-                                        mainClass: "mfp-own",
-                                        removalDelay: 160,
-                                        preloader: false,
-                                        fixedContentPos: false,
-                                    });
-                                });
-                            </script>
-
-                            <!-- Socials icons and links -->
-                            <a target="_blank" href="https://discord.krew.io" style="text-decoration: none;">
-                                <img class="rounded" src="/assets/img/socials/discord.png">
-                            </a>
-                            <a target="_blank" href="https://www.facebook.com/Krew.io/" style="text-decoration: none;">
-                                <img class="rounded" src="/assets/img/socials/facebook.png">
-                            </a>
-                            <a target="_blank" href="https://twitter.com/io_krew" style="text-decoration: none;">
-                                <img class="rounded" src="/assets/img/socials/twitter.png">
-                            </a>
-                            <a target="_blank" href="https://www.instagram.com/krew.io/" style="text-decoration: none;">
-                                <img class="rounded" src="/assets/img/socials/instagram.png">
-                            </a>
-                            <a target="_blank" href="https://www.reddit.com/r/krewio" style="text-decoration: none;">
-                                <img class="rounded" src="/assets/img/socials/reddit.png">
-                            </a>
-                            <a target="_blank" href="https://www.youtube.com/channel/UCVbcgVc-z2WsjcW-ih8RiRQ" style="text-decoration: none;">
-                                <img class="rounded" src="/assets/img/socials/youtube.png">
-                            </a>
-                            <br><br>
-
-                            <!-- Divider between ads and top buttons -->
-                            <hr style="border-top: 4px solid #bbb; border-radius: 5px;">
-
-                            <!-- Ads on center modal -->
-                            <div id="krew-io_300x250">
-                                <script type="text/javascript">
-                                    aiptag.cmd.display.push(function () {
-                                        aipDisplayTag.display("krew-io_300x250");
-                                    });
-                                </script>
-                            </div>
-                            <div id='krew-io_300x250_2'>
-                                <script type='text/javascript'>
-                                    aiptag.cmd.display.push(function () {
-                                        aipDisplayTag.display('krew-io_300x250_2');
-                                    });
-                                </script>
-                            </div>
-
-                            <!-- Disclaimers -->
-                            <br><br>
-                            <small>
-                                <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
-                            </small>
-                            <br />
-                            <small>
-                                Proxy / VPN detection by <a href="https://getipintel.net">GetIPIntel.net</a>
-                            </small>
-                        </div>
-                    </div>
-                    <!-- END Center Modal -->
-
-                    <!-- START Changelog Modal (Right) -->
-                    <div class="changelog-box">
-                        <div class="white-bg">
-                            <h4 class="changelog-title">Changelog</h4>
-                            <small>View the full changelog <a href="/changelog.txt" target="_blank">here</a>.</small>
-
-                            <!-- START Changelog Articles -->
-                            <div class="changelog-div">
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Client Rewrite Update (1.5.0) - February 10th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <p>This update is a rewrite of Krew's client side code. Not all changes/improvements are shown below.</p>
-                                            <li><b>New:</b> Added back the palm tree at Jamaica and added an FOV slider in game settings</li>
-                                            <li><b>Bugfix:</b> Fixed fishing hook alignment and numerous console errors</li>
-                                            <li><b>Improvement:</b> Improved console logging, UI improvements, removed spyglass vignette, spyglass can now see ship labels at all distances, spyglass can now look up, added all ships to buying ship quests, decreased asset sizes for faster load times, and multiple other performance improvements</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Minor Patch (1.4.2b) - January 27th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed whitespace detection on username creation</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Patch (1.4.2) - January 27th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed email verification system</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Minor Patch (1.4.1c) - January 13th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed ads</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Minor Patch (1.4.1b) - January 12th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed players not receiving a raft when spawning on islands</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Patch (1.4.1) - January 11th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed incorrect player rotation on the minimap on islands and fixed projectiles, particles, and nametags showing water through boats</li>
-                                            <li><b>Improvement:</b> Improved water movement, buffed spyglass, tweaked player nametag position, improved lighting, increased player triangle size on the minimap, updated tutorial video link, updated socials, modified scrollbars, and minor performance improvements</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Minor Patch (1.4.0b) - January 9th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Patched register VPN detection</li>
-                                            <li><b>Improvement:</b> Tweaked front page</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Graphics Overhaul Phase 1 (1.4.0) - January 9th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Completely remade water and modified sun lighting</li>
-                                            <li><b>Improvement:</b> Increased client performance</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Patch (1.3.1) - January 7th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Added Steel Reinforced Planks and Advanced Toolkit items, and added the Krewmate skin</li>
-                                            <li><b>Bugfix:</b> Fixed players sometimes spawning in islands when selected to spawn on the sea, and fixed clan markers (Attention to the map!)</li>
-                                            <li><b>Improvement:</b> Added preview for the Seafox skin in player customization, switched moderator display name from "[Mod]" to "[Staff]", updated wiki link, and changed silk price in Philippines to 200 instead of 125</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Map Update (1.3.0) - January 6th, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Expanded and remade map with 5 new islands, added Seafox skin, and added 3 new types of goods; gems, sugar, and bananas</li>
-                                            <li><b>Bugfix:</b> Fixed music and quality account settings not being set correctly</li>
-                                            <li><b>Improvement:</b> Ping stat now shows if your connection was lost</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Customization Update (1.2.0) - January 3rd, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Added player customization, ping and FPS stats, and titanium barrel</li>
-                                            <li><b>Bugfix:</b> Fixed boundaries on QBJ, QBJ2, Raider, and Fortune Trader, and fixed more clan bugs</li>
-                                            <li><b>Improvement:</b> Improved graphics and increased player limit to 250 players/server</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Minor Patch (1.1.0b) - January 1st, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed random disconnects and admin commands</li>
-                                            <li><b>Improvement:</b> Buffed Black Oyster speed, regeneration, cargo, and health</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">New Years Update (1.1.0) - January 1st, 2021</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Added Nitro Peg and 4 new ships; Junkie, Raider, Black Oyster, and Fortune Trader</li>
-                                            <li><b>Bugfix:</b> Fixed abandoning ship on islands</li>
-                                            <li><b>Improvement:</b> Made clan data responsive to cold storage rather than hot memory and added more commands for Krew staff</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Minor Patch (1.0.2b) - December 30th, 2020</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>Bugfix:</b> Fixed another cargo exploit, video ads, issues with player and clan data, and false positives on whitespace detection for creating usernames</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Patch (1.0.2) - December 29th, 2020</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Added ability for users to set a default Krew name and default game settings in the manage account panel, and added clan tags to chat</li>
-                                            <li><b>Bugfix:</b> Fixed invite links (again), bugs with clans, join Krew messages, captains unable to boot players from their Krew on islands, abandon ship, joining a random Krew, and tempbans</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Patch (1.0.1) - December 26th, 2020</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Added reCAPTCHA on register and chat auto-scroll</li>
-                                            <li><b>Bugfix:</b> Fixed cargo exploit, invite links, and false positives on multi-tab detection</li>
-                                            <li><b>Improvement:</b> Added 24 hour cooldown on changing username/email</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                                <article class="changelog-article">
-                                    <h5 class="patch-title">Christmas Update (1.0.0) - December 25th, 2020</h5>
-                                    <div class="patch-content">
-                                        <ul class="patch-content-list">
-                                            <li><b>New:</b> Brand new login, added christmas tree, snowman, and santa hat.</li>
-                                            <li><b>Bugfix:</b> Fixed bank, fixed clans, fixed graphical glitches</li>
-                                            <li><b>Improvement:</b> Buffed firerate, buffed Sinker's Gloves, improved UI, changed staff appearance</li>
-                                        </ul>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- END Changelog Articles -->
-
-                        </div>
-                    </div>
-                    <!-- END Changelog Modal (Right) -->
-
+            <!-- Wall of Fame Modal (Left) -->
+            <div class="wall-of-fame-div white-transparent-bg">
+                <h4 class="changelog-title">Wall of Fame</h4>
+                <small>The top players in all of Krew.</small>
+                <div id="wall-of-fame-table-div">
+                    <table id="wall-of-fame-table">
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player name</th>
+                            <th>Clan</th>
+                            <th>Highscore</th>
+                        </tr>
+                    </table>
+                    <button class="btn btn-success btn-sm" id="show-more" style="padding: .55rem 1rem;">
+                        <i class="icofont icofont-medal"></i>
+                        Show more
+                    </button>
                 </div>
             </div>
+
+
+            <!-- START Center Modal -->
+            <div class="main-menu-div">
+                <div class="white-transparent-bg">
+                    <small>Try <a href="https://relmz.io/" target="_window">relmz.io</a></small>
+                    <br>
+                    <span id="disable-adblock-message" class="text-danger" style="display: none; font-size: .8rem">Please support Krew.io by disabling adblock.</span>
+
+                    <!-- If the user is using an invite link -->
+                    <div class="alert alert-success" role="alert" id="invite-is-used" style="display: none;">Ahoy! It seems like you're using an invite link ;D</div>
+
+                    <!-- Select server -->
+                    <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
+                        <select id="server-list" class="custom-select form-control"></select>
+                    </div>
+
+                    <!-- Select spawn -->
+                    <div id="select-spawn" class="form-group" style="margin:10 auto;">
+                        <select id="spawn-selection" class="custom-select form-control">
+                            <option value="sea">Spawn in the sea</option>
+                            <option value="krew">Join a random krew</option>
+                            <option value="spain">Spawn on Spain</option>
+                            <option value="cuba">Spawn on Cuba</option>
+                            <option value="malaysia">Spawn on Malaysia</option>
+                            <option value="brazil">Spawn on Brazil</option>
+                            <option value="island">Spawn on a random island</option>
+                        </select>
+                    </div>
+
+                    <!-- Play button, login/register/account settings button, and watch tutorial button -->
+                    <div class="form-group">
+                        <button id="play-button" class="btn btn-success btn-block" disabled>Loading...</button>
+                        <button id="login-button" class="btn btn-warning btn-block" disabled>Log In / Sign Up</button>
+                        <button id="customization-button" class="btn btn-warning btn-block" title="You must log in to access player customization" disabled hidden>Player Customization</button>
+                        <button id="tutorial-button" class="btn btn-primary btn-block popup-youtube" href="https://www.youtube.com/watch?v=pXSzSZ9faxA?autoplay=1&rel=0">Watch tutorial</button>
+                    </div>
+
+                    <!-- jQuery code for tutorial popover -->
+                    <script>
+                        $(document).ready(function () {
+                            $(".popup-youtube").magnificPopup({
+                                focus: "",
+                                disableOn: 700,
+                                type: "iframe",
+                                mainClass: "mfp-own",
+                                removalDelay: 160,
+                                preloader: false,
+                                fixedContentPos: false,
+                            });
+                        });
+                    </script>
+
+                    <!-- Socials icons and links -->
+                    <a target="_blank" href="https://discord.krew.io" style="text-decoration: none;">
+                        <img class="rounded" src="/assets/img/socials/discord.png">
+                    </a>
+                    <a target="_blank" href="https://www.facebook.com/Krew.io/" style="text-decoration: none;">
+                        <img class="rounded" src="/assets/img/socials/facebook.png">
+                    </a>
+                    <a target="_blank" href="https://twitter.com/io_krew" style="text-decoration: none;">
+                        <img class="rounded" src="/assets/img/socials/twitter.png">
+                    </a>
+                    <a target="_blank" href="https://www.instagram.com/krew.io/" style="text-decoration: none;">
+                        <img class="rounded" src="/assets/img/socials/instagram.png">
+                    </a>
+                    <a target="_blank" href="https://www.reddit.com/r/krewio" style="text-decoration: none;">
+                        <img class="rounded" src="/assets/img/socials/reddit.png">
+                    </a>
+                    <a target="_blank" href="https://www.youtube.com/channel/UCVbcgVc-z2WsjcW-ih8RiRQ" style="text-decoration: none;">
+                        <img class="rounded" src="/assets/img/socials/youtube.png">
+                    </a>
+                    <br><br>
+
+                    <!-- Divider between ads and top buttons -->
+                    <hr style="border-top: 4px solid #bbb; border-radius: 5px;">
+
+                    <!-- Ads on center modal -->
+                    <div id="krew-io_300x250">
+                        <script type="text/javascript">
+                            aiptag.cmd.display.push(function () {
+                                aipDisplayTag.display("krew-io_300x250");
+                            });
+                        </script>
+                    </div>
+                    <div id='krew-io_300x250_2'>
+                        <script type='text/javascript'>
+                            aiptag.cmd.display.push(function () {
+                                aipDisplayTag.display('krew-io_300x250_2');
+                            });
+                        </script>
+                    </div>
+
+                    <!-- Disclaimers -->
+                    <br><br>
+                    <small>
+                        <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
+                    </small>
+                    <br />
+                    <small>
+                        Proxy / VPN detection by <a href="https://getipintel.net">GetIPIntel.net</a>
+                    </small>
+                </div>
+            </div>
+            <!-- END Center Modal -->
+
+            <!-- START Changelog Modal (Right) -->
+            <div class="changelog-box white-transparent-bg">
+                <h4 class="changelog-title">Changelog</h4>
+                <small>View the full changelog <a href="/changelog.txt" target="_blank">here</a>.</small>
+
+                <!-- START Changelog Articles -->
+                <div class="changelog-div">
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Client Rewrite Update (1.5.0) - February 10th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <p>This update is a rewrite of Krew's client side code. Not all changes/improvements are shown below.</p>
+                                <li><b>New:</b> Added back the palm tree at Jamaica and added an FOV slider in game settings</li>
+                                <li><b>Bugfix:</b> Fixed fishing hook alignment and numerous console errors</li>
+                                <li><b>Improvement:</b> Improved console logging, UI improvements, removed spyglass vignette, spyglass can now see ship labels at all distances, spyglass can now look up, added all ships to buying ship quests, decreased asset sizes for faster load times, and multiple other performance improvements</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Minor Patch (1.4.2b) - January 27th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed whitespace detection on username creation</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.4.2) - January 27th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed email verification system</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Minor Patch (1.4.1c) - January 13th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed ads</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Minor Patch (1.4.1b) - January 12th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed players not receiving a raft when spawning on islands</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.4.1) - January 11th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed incorrect player rotation on the minimap on islands and fixed projectiles, particles, and nametags showing water through boats</li>
+                                <li><b>Improvement:</b> Improved water movement, buffed spyglass, tweaked player nametag position, improved lighting, increased player triangle size on the minimap, updated tutorial video link, updated socials, modified scrollbars, and minor performance improvements</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Minor Patch (1.4.0b) - January 9th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Patched register VPN detection</li>
+                                <li><b>Improvement:</b> Tweaked front page</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Graphics Overhaul Phase 1 (1.4.0) - January 9th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Completely remade water and modified sun lighting</li>
+                                <li><b>Improvement:</b> Increased client performance</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.3.1) - January 7th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Added Steel Reinforced Planks and Advanced Toolkit items, and added the Krewmate skin</li>
+                                <li><b>Bugfix:</b> Fixed players sometimes spawning in islands when selected to spawn on the sea, and fixed clan markers (Attention to the map!)</li>
+                                <li><b>Improvement:</b> Added preview for the Seafox skin in player customization, switched moderator display name from "[Mod]" to "[Staff]", updated wiki link, and changed silk price in Philippines to 200 instead of 125</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Map Update (1.3.0) - January 6th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Expanded and remade map with 5 new islands, added Seafox skin, and added 3 new types of goods; gems, sugar, and bananas</li>
+                                <li><b>Bugfix:</b> Fixed music and quality account settings not being set correctly</li>
+                                <li><b>Improvement:</b> Ping stat now shows if your connection was lost</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Customization Update (1.2.0) - January 3rd, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Added player customization, ping and FPS stats, and titanium barrel</li>
+                                <li><b>Bugfix:</b> Fixed boundaries on QBJ, QBJ2, Raider, and Fortune Trader, and fixed more clan bugs</li>
+                                <li><b>Improvement:</b> Improved graphics and increased player limit to 250 players/server</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Minor Patch (1.1.0b) - January 1st, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed random disconnects and admin commands</li>
+                                <li><b>Improvement:</b> Buffed Black Oyster speed, regeneration, cargo, and health</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">New Years Update (1.1.0) - January 1st, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Added Nitro Peg and 4 new ships; Junkie, Raider, Black Oyster, and Fortune Trader</li>
+                                <li><b>Bugfix:</b> Fixed abandoning ship on islands</li>
+                                <li><b>Improvement:</b> Made clan data responsive to cold storage rather than hot memory and added more commands for Krew staff</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Minor Patch (1.0.2b) - December 30th, 2020</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Bugfix:</b> Fixed another cargo exploit, video ads, issues with player and clan data, and false positives on whitespace detection for creating usernames</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.0.2) - December 29th, 2020</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Added ability for users to set a default Krew name and default game settings in the manage account panel, and added clan tags to chat</li>
+                                <li><b>Bugfix:</b> Fixed invite links (again), bugs with clans, join Krew messages, captains unable to boot players from their Krew on islands, abandon ship, joining a random Krew, and tempbans</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.0.1) - December 26th, 2020</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Added reCAPTCHA on register and chat auto-scroll</li>
+                                <li><b>Bugfix:</b> Fixed cargo exploit, invite links, and false positives on multi-tab detection</li>
+                                <li><b>Improvement:</b> Added 24 hour cooldown on changing username/email</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Christmas Update (1.0.0) - December 25th, 2020</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Brand new login, added christmas tree, snowman, and santa hat.</li>
+                                <li><b>Bugfix:</b> Fixed bank, fixed clans, fixed graphical glitches</li>
+                                <li><b>Improvement:</b> Buffed firerate, buffed Sinker's Gloves, improved UI, changed staff appearance</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+                <!-- END Changelog Articles -->
+            </div>
+            <!-- END Changelog Modal (Right) -->
         </div>
         <!-- END Pre-Gameplay Modals -->
 
@@ -430,253 +420,241 @@
     <!-- Login Modal -->
     <div class="modal fade" id="login-box" role="dialog" disabled>
         <br><br><br>
-        <form class="modal-dialog modal-md" id="login-form" action="/login" method="post">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <br>
-                    <div class="text-sm-center">
-                        <img src="/assets/img/favicons/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
-                        <br>
-                        <h1>Login</h1>
-                        <div display="inline">
-                            <a>No Account?</a>
-                            <a href="javascript:void" title="Register" id="open-register">Register</a>
-                        </div>
-                    </div>
-                    <div id="login-error" class="hidden">
-                        <br>
-                        <div class="form-error" id="login-err-msg">Invailid Data</div>
-                    </div>
-                    <br>
-                    <label style="font-size: 24px;">Username</label>
-                    <input type="text" id="login-username" name="login-username" class="form-control" autocomplete="username" placeholder="Username" autofocus required>
-                    <br>
-                    <label style="font-size: 24px;">Password</label>
-                    <input type="password" id="login-password" name="login-password" class="form-control" autocomplete="current-password" placeholder="Password" required>
-                    <br>
-                    <div display="inline">
-                        <a>Forgot your password?</a>
-                        <a href="javascript:void" title="Reset Password" id="open-reset-password">Reset Password</a>
-                    </div>
-                    <br>
-                    <input type="submit" id="submit-login" class="btn btn-success btn-md" value="Login"></input>
-                    <br><br><br>
+        <form class="modal-dialog modal-md modal-content modal-body" id="login-form" action="/login" method="post">
+            <br>
+            <div class="text-sm-center">
+                <img src="/assets/img/favicons/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
+                <br>
+                <h1>Login</h1>
+                <div display="inline">
+                    <a>No Account?</a>
+                    <a href="javascript:void" title="Register" id="open-register">Register</a>
                 </div>
             </div>
+            <div id="login-error" class="hidden">
+                <br>
+                <div class="form-error" id="login-err-msg">Invailid Data</div>
+            </div>
+            <br>
+            <label style="font-size: 24px;">Username</label>
+            <input type="text" id="login-username" name="login-username" class="form-control" autocomplete="username" placeholder="Username" autofocus required>
+            <br>
+            <label style="font-size: 24px;">Password</label>
+            <input type="password" id="login-password" name="login-password" class="form-control" autocomplete="current-password" placeholder="Password" required>
+            <br>
+            <div display="inline">
+                <a>Forgot your password?</a>
+                <a href="javascript:void" title="Reset Password" id="open-reset-password">Reset Password</a>
+            </div>
+            <br>
+            <input type="submit" id="submit-login" class="btn btn-success btn-md" value="Login"></input>
+            <br><br><br>
         </form>
     </div>
 
     <!-- Register Modal -->
     <div class="modal fade" id="register-box" role="dialog" disabled>
         <br><br><br>
-        <form class="modal-dialog modal-md" id="register-form" action="/register" method="post">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <br>
-                    <div class="text-sm-center">
-                        <img src="/assets/img/favicons/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
-                        <br>
-                        <h1>Register</h1>
-                        <div display="inline">
-                            <a>Have an Account?</a>
-                            <a href="javascript:void" title="Login" id="open-login">Login</a>
-                        </div>
-                    </div>
-                    <div id="register-error" class="hidden">
-                        <br>
-                        <div class="form-error" id="register-err-msg">Invailid Data</div>
-                    </div>
-                    <br>
-                    <label style="font-size: 24px;">Username</label>
-                    <input type="text" id="register-username" name="register-username" class="form-control" autocomplete="username" placeholder="Username" autofocus required>
-                    <br>
-                    <label style="font-size: 24px;">Email</label>
-                    <input type="email" id="register-email" name="register-email" class="form-control" placeholder="Email" required>
-                    <br>
-                    <label style="font-size: 24px;">Password</label>
-                    <input type="password" id="register-password" name="register-password" class="form-control" autocomplete="new-password" placeholder="Password" required>
-                    <br>
-                    <label style="font-size: 24px;">Confirm Password</label>
-                    <input type="password" id="register-password-confirm" name="register-password-confirm" class="form-control" placeholder="Re-Type Password" required>
-                    <br>
-                    <div class="g-recaptcha" data-sitekey="6Le5xRQaAAAAAO-PwlfnJd09AAs_seMsomekmj8k"></div>
-                    <br>
-                    <div display="inline">
-                        <a>By registering you are agreeing to our</a>
-                        <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
-                        <br><br>
-                        <a>After clicking the register button, you must verify your email to log in.</a>
-                        <br>
-                        <a>If you do not verify your email in under an hour, your account will be deleted.</a>
-                    </div>
-                    <br>
-                    <input type="submit" id="submit-register" class="btn btn-success btn-md" value="Register"></input>
-                    <br><br><br>
+        <form class="modal-dialog modal-md modal-content modal-body" id="register-form" action="/register" method="post">
+            <br>
+            <div class="text-sm-center">
+                <img src="/assets/img/favicons/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
+                <br>
+                <h1>Register</h1>
+                <div display="inline">
+                    <a>Have an Account?</a>
+                    <a href="javascript:void" title="Login" id="open-login">Login</a>
                 </div>
             </div>
+            <div id="register-error" class="hidden">
+                <br>
+                <div class="form-error" id="register-err-msg">Invailid Data</div>
+            </div>
+            <br>
+            <label style="font-size: 24px;">Username</label>
+            <input type="text" id="register-username" name="register-username" class="form-control" autocomplete="username" placeholder="Username" autofocus required>
+            <br>
+            <label style="font-size: 24px;">Email</label>
+            <input type="email" id="register-email" name="register-email" class="form-control" placeholder="Email" required>
+            <br>
+            <label style="font-size: 24px;">Password</label>
+            <input type="password" id="register-password" name="register-password" class="form-control" autocomplete="new-password" placeholder="Password" required>
+            <br>
+            <label style="font-size: 24px;">Confirm Password</label>
+            <input type="password" id="register-password-confirm" name="register-password-confirm" class="form-control" placeholder="Re-Type Password" required>
+            <br>
+            <div class="g-recaptcha" data-sitekey="6Le5xRQaAAAAAO-PwlfnJd09AAs_seMsomekmj8k"></div>
+            <br>
+            <div display="inline">
+                <a>By registering you are agreeing to our</a>
+                <a href="./tos.txt" target="_window">TOS & Privacy Policy</a>
+                <br><br>
+                <a>After clicking the register button, you must verify your email to log in.</a>
+                <br>
+                <a>If you do not verify your email in under an hour, your account will be deleted.</a>
+            </div>
+            <br>
+            <input type="submit" id="submit-register" class="btn btn-success btn-md" value="Register"></input>
+            <br><br><br>
         </form>
     </div>
 
     <!-- START Manage Account Modal -->
     <div class="modal fade" id="manage-account-box" role="dialog" disabled>
-        <br><br><br>
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-body">
+        <div class="modal-dialog modal-md modal-content modal-body">
+            <br><br><br>
+            <br>
+            <div class="text-sm-center">
+                <img src="/assets/img/favicons/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
+                <br>
+                <h1>Manage Account</h1>
+            </div>
+            <br>
+
+            <!-- Change Username -->
+            <form class="form-inline form-group h5" id="change-username-form" action="/change_username" method="post">
+                <label style="font-size: 24px;">Username</label>
+
+                <div id="change-username-button-container" display="inline">
+                    <a>Click to change your username</a>
+                    <div id="username-edit-button" class="btn btn-secondary btn-sm float-sm-right">
+                        <i class="icofont icofont-edit"></i>
+                    </div>
+                </div>
+
+                <div id="change-username" class="hidden" display="inline">
+                    <input type="text" id="change-username-input" name="change-username-input" class="form-control" placeholder="New Username" required>
+                    <input type="submit" id="submit-change-username" class="btn btn-success btn-md" value="Change Username"></input>
                     <br>
-                    <div class="text-sm-center">
-                        <img src="/assets/img/favicons/favicon-96x96.png" style="width: 96px; margin: 10px 0px 20px 0px;">
+                    <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;">You will be logged out after you change your username.</a>
+
+                    <div id="change-username-error" class="hidden">
                         <br>
-                        <h1>Manage Account</h1>
+                        <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-username-err-msg">Invailid Data</div>
+                    </div>
+                </div>
+            </form>
+            <br>
+
+            <!-- Change Email -->
+            <form class="form-inline form-group h5" id="change-email-form" action="/change_email" method="post">
+                <label style="font-size: 24px;">Email</label>
+
+                <div id="change-email-button-container" display="inline">
+                    <a>Click to change your email</a>
+                    <div id="email-edit-button" class="btn btn-secondary btn-sm float-sm-right">
+                        <i class="icofont icofont-edit"></i>
+                    </div>
+                </div>
+
+                <div id="change-email" class="hidden" display="inline">
+                    <input type="email" id="change-email-input" name="change-email-input" class="form-control" placeholder="New Email" required>
+                    <input type="submit" id="submit-change-email" class="btn btn-success btn-md" value="Change Email"></input>
+                    <br>
+                    <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;">You will be logged out after you change your email, and you will have to confirm your email before logging back in.</a>
+
+                    <div id="change-email-error" class="hidden">
+                        <br>
+                        <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-email-err-msg">Invailid Data</div>
+                    </div>
+                </div>
+            </form>
+            <br>
+
+            <!-- Change Account Game Settings -->
+            <form class="form-group h5" id="change-account-game-settings-form" action="/change_account_game_settings" method="post">
+                <label style="font-size: 24px;">Game Settings</label>
+
+                <div id="change-account-game-settings-button-container" display="inline">
+                    <a>Click to edit your game settings</a>
+                    <div id="change-account-game-settings-button" class="btn btn-secondary btn-sm float-sm-right">
+                        <i class="icofont icofont-edit"></i>
+                    </div>
+                </div>
+
+                <div id="change-account-game-settings" class="hidden">
+                    <div id="account-fps-camera">
+                        <label id="account-fp-mode-label" class="label">
+                            <div id="account-fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera</div>
+                            <div class="toggle">
+                                <input id="account-fp-mode-button" name="account-fp-mode-button" class="toggle-state" type="checkbox" value="check"></input>
+                                <div class="toggle-inner">
+                                    <div class="indicator"></div>
+                                </div>
+                                <div class="active-bg"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="account-fov-control-div" class="lock-text-info">
+                        FOV <input id="account-fov-control" name="account-fov-control" type="range" min="10" max="50" value="10"></input>
                     </div>
                     <br>
-
-                    <!-- Change Username -->
-                    <form class="form-inline form-group h5" id="change-username-form" action="/change_username" method="post">
-                        <label style="font-size: 24px;">Username</label>
-
-                        <div id="change-username-button-container" display="inline">
-                            <a>Click to change your username</a>
-                            <div id="username-edit-button" class="btn btn-secondary btn-sm float-sm-right">
-                                <i class="icofont icofont-edit"></i>
-                            </div>
-                        </div>
-
-                        <div id="change-username" class="hidden" display="inline">
-                            <input type="text" id="change-username-input" name="change-username-input" class="form-control" placeholder="New Username" required>
-                            <input type="submit" id="submit-change-username" class="btn btn-success btn-md" value="Change Username"></input>
-                            <br>
-                            <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;">You will be logged out after you change your username.</a>
-
-                            <div id="change-username-error" class="hidden">
-                                <br>
-                                <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-username-err-msg">Invailid Data</div>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
-
-                    <!-- Change Email -->
-                    <form class="form-inline form-group h5" id="change-email-form" action="/change_email" method="post">
-                        <label style="font-size: 24px;">Email</label>
-
-                        <div id="change-email-button-container" display="inline">
-                            <a>Click to change your email</a>
-                            <div id="email-edit-button" class="btn btn-secondary btn-sm float-sm-right">
-                                <i class="icofont icofont-edit"></i>
-                            </div>
-                        </div>
-
-                        <div id="change-email" class="hidden" display="inline">
-                            <input type="email" id="change-email-input" name="change-email-input" class="form-control" placeholder="New Email" required>
-                            <input type="submit" id="submit-change-email" class="btn btn-success btn-md" value="Change Email"></input>
-                            <br>
-                            <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;">You will be logged out after you change your email, and you will have to confirm your email before logging back in.</a>
-
-                            <div id="change-email-error" class="hidden">
-                                <br>
-                                <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-email-err-msg">Invailid Data</div>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
-
-                    <!-- Change Account Game Settings -->
-                    <form class="form-group h5" id="change-account-game-settings-form" action="/change_account_game_settings" method="post">
-                        <label style="font-size: 24px;">Game Settings</label>
-
-                        <div id="change-account-game-settings-button-container" display="inline">
-                            <a>Click to edit your game settings</a>
-                            <div id="change-account-game-settings-button" class="btn btn-secondary btn-sm float-sm-right">
-                                <i class="icofont icofont-edit"></i>
-                            </div>
-                        </div>
-
-                        <div id="change-account-game-settings" class="hidden">
-                            <div id="account-fps-camera">
-                                <label id="account-fp-mode-label" class="label">
-                                    <div id="account-fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera</div>
-                                    <div class="toggle">
-                                        <input id="account-fp-mode-button" name="account-fp-mode-button" class="toggle-state" type="checkbox" value="check"></input>
-                                        <div class="toggle-inner">
-                                            <div class="indicator"></div>
-                                        </div>
-                                        <div class="active-bg"></div>
-                                    </div>
-                                </label>
-                            </div>
-                            <div id="account-fov-control-div" class="lock-text-info">
-                                FOV <input id="account-fov-control" name="account-fov-control" type="range" min="10" max="50" value="10"></input>
-                            </div>
-                            <br>
-                            <div id="account-music-control-div" class="lock-text-info">
-                                Music <input id="account-music-control" name="account-music-control" type="range" min="0" max="100" value="50"></input>
-                            </div>
-                            <div id="account-sfx-control-div" class="lock-text-info">
-                                Sfx <input id="account-sfx-control" name="account-sfx-control" type="range" min="0" max="100" value="50"></input>
-                            </div>
-                            <br>
-                            <div id="account-quality-div" class="form-group">
-                                <select id="account-quality-list" name="account-quality-list" class="custom-select form-control form-control-sm"></select>
-                            </div>
-                            <br>
-                            <input type="submit" id="submit-change-account-game-settings" class="btn btn-success btn-md" value="Save changes"></input>
-
-                            <div id="change-account-game-settings-error" class="hidden">
-                                <br>
-                                <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-account-game-settings-err-msg">Invailid Data</div>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
-
-                    <!-- Change Default Krew Name -->
-                    <form class="form-inline form-group h5" id="change-default-krew-name-form" action="/change_default_krew_name" method="post">
-                        <label style="font-size: 24px;">Default Krew Name</label>
-
-                        <div id="change-default-krew-name-button-container" display="inline">
-                            <a>Click to change your default krew name</a>
-                            <div id="change-default-krew-name-button" class="btn btn-secondary btn-sm float-sm-right">
-                                <i class="icofont icofont-edit"></i>
-                            </div>
-                        </div>
-
-                        <div id="change-default-krew-name" class="hidden" display="inline">
-                            <input type="text" id="change-default-krew-name-input" name="change-default-krew-name-input" class="form-control" placeholder="New default Krew name" required>
-                            <input type="submit" id="submit-change-default-krew-name" class="btn btn-success btn-md" value="Change default Krew name"></input>
-                            <br>
-
-                            <div id="change-default-krew-name-error" class="hidden">
-                                <br>
-                                <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-default-krew-name-err-msg">Invailid Data</div>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
-
-                    <!-- Open Player Customization button -->
-                    <div class="form-inline form-group h5">
-                        <label style="font-size: 24px;">Player customization</label>
-                        <div id="customization-button-2-container" display="inline">
-                            <a>Click to customize your character</a>
-                            <div id="customization-button-2" class="btn btn-secondary btn-sm float-sm-right">
-                                <i class="icofont icofont-edit"></i>
-                            </div>
-                        </div>
+                    <div id="account-music-control-div" class="lock-text-info">
+                        Music <input id="account-music-control" name="account-music-control" type="range" min="0" max="100" value="50"></input>
                     </div>
-
-
-                    <!-- Logout, reset password, and delete account buttons -->
-                    <br><br>
-                    <form action="/logout">
-                        <input type="submit" class="btn btn-logout btn-block" value="Logout" />
-                    </form>
+                    <div id="account-sfx-control-div" class="lock-text-info">
+                        Sfx <input id="account-sfx-control" name="account-sfx-control" type="range" min="0" max="100" value="50"></input>
+                    </div>
                     <br>
-                    <button id='reset-password-button' type="button" class="btn btn-warning btn-block">Reset Password</button>
-                    <button id="delete-account-button" type="button" class="btn btn-delete-account btn-block">Delete Account</button>
+                    <div id="account-quality-div" class="form-group">
+                        <select id="account-quality-list" name="account-quality-list" class="custom-select form-control form-control-sm"></select>
+                    </div>
                     <br>
+                    <input type="submit" id="submit-change-account-game-settings" class="btn btn-success btn-md" value="Save changes"></input>
+
+                    <div id="change-account-game-settings-error" class="hidden">
+                        <br>
+                        <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-account-game-settings-err-msg">Invailid Data</div>
+                    </div>
+                </div>
+            </form>
+            <br>
+
+            <!-- Change Default Krew Name -->
+            <form class="form-inline form-group h5" id="change-default-krew-name-form" action="/change_default_krew_name" method="post">
+                <label style="font-size: 24px;">Default Krew Name</label>
+
+                <div id="change-default-krew-name-button-container" display="inline">
+                    <a>Click to change your default krew name</a>
+                    <div id="change-default-krew-name-button" class="btn btn-secondary btn-sm float-sm-right">
+                        <i class="icofont icofont-edit"></i>
+                    </div>
+                </div>
+
+                <div id="change-default-krew-name" class="hidden" display="inline">
+                    <input type="text" id="change-default-krew-name-input" name="change-default-krew-name-input" class="form-control" placeholder="New default Krew name" required>
+                    <input type="submit" id="submit-change-default-krew-name" class="btn btn-success btn-md" value="Change default Krew name"></input>
+                    <br>
+
+                    <div id="change-default-krew-name-error" class="hidden">
+                        <br>
+                        <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="change-default-krew-name-err-msg">Invailid Data</div>
+                    </div>
+                </div>
+            </form>
+            <br>
+
+            <!-- Open Player Customization button -->
+            <div class="form-inline form-group h5">
+                <label style="font-size: 24px;">Player customization</label>
+                <div id="customization-button-2-container" display="inline">
+                    <a>Click to customize your character</a>
+                    <div id="customization-button-2" class="btn btn-secondary btn-sm float-sm-right">
+                        <i class="icofont icofont-edit"></i>
+                    </div>
                 </div>
             </div>
+
+
+            <!-- Logout, reset password, and delete account buttons -->
+            <br><br>
+            <form action="/logout">
+                <input type="submit" class="btn btn-logout btn-block" value="Logout" />
+            </form>
+            <br>
+            <button id='reset-password-button' type="button" class="btn btn-warning btn-block">Reset Password</button>
+            <button id="delete-account-button" type="button" class="btn btn-delete-account btn-block">Delete Account</button>
+            <br>
         </div>
     </div>
     <!-- END Manage Account Modal -->
@@ -684,100 +662,88 @@
     <!-- Player Customization Modal -->
     <div class="modal fade" id="customization-box" role="dialog" disabled>
         <br><br><br>
-        <form class="modal-dialog modal-md" id="customization-form" action="/customization" method="post">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <br>
-                    <div class="text-sm-center">
-                        <h1>Player Customization</h1>
-                        <br>
-                        <a>Player customization is still under development, so more options will be coming soon!</a>
-                    </div>
-                    <br>
-                    <div align="center" style="vertical-align: middle;">
-                        <div id="model-left" class="btn btn-secondary btn-sm" style="margin-right: 5vw;">
-                            <i class="icofont icofont-arrow-left"></i>
-                        </div>
-                        <img id="model-image" src="/assets/img/dogs/model0.png" style="margin: auto; width: 50%">
-                        <div id="model-right" class="btn btn-secondary btn-sm" style="margin-left: 5vw;">
-                            <i class=" icofont icofont-arrow-right"></i>
-                        </div>
-                    </div>
-
-                    <br><br>
-                    <input type="submit" id="submit-customization" class="btn btn-success btn-md" value="Save"></input>
-
-                    <div id="customization-error" class="hidden">
-                        <br>
-                        <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="customization-err-msg">Invailid Data</div>
-                    </div>
-                    <br><br><br>
+        <form class="modal-dialog modal-md modal-content modal-body" id="customization-form" action="/customization" method="post">
+            <br>
+            <div class="text-sm-center">
+                <h1>Player Customization</h1>
+                <br>
+                <a>Player customization is still under development, so more options will be coming soon!</a>
+            </div>
+            <br>
+            <div align="center" style="vertical-align: middle;">
+                <div id="model-left" class="btn btn-secondary btn-sm" style="margin-right: 5vw;">
+                    <i class="icofont icofont-arrow-left"></i>
+                </div>
+                <img id="model-image" src="/assets/img/dogs/model0.png" style="margin: auto; width: 50%">
+                <div id="model-right" class="btn btn-secondary btn-sm" style="margin-left: 5vw;">
+                    <i class=" icofont icofont-arrow-right"></i>
                 </div>
             </div>
+
+            <br><br>
+            <input type="submit" id="submit-customization" class="btn btn-success btn-md" value="Save"></input>
+
+            <div id="customization-error" class="hidden">
+                <br>
+                <div class="form-error" style="font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" id="customization-err-msg">Invailid Data</div>
+            </div>
+            <br><br><br>
         </form>
     </div>
 
     <!-- Reset Password Modal -->
     <div class="modal fade" id="reset-password-box" role="dialog" disabled>
         <br><br><br>
-        <form class="modal-dialog modal-md" id="reset-password-form" action="/reset_password" method="post">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <br>
-                    <div class="text-sm-center">
-                        <h3>Reset Password</h3>
-                    </div>
-                    <div id="reset-password-error" class="hidden">
-                        <br>
-                        <div class="form-error" id="reset-password-err-msg">Invailid Data</div>
-                    </div>
-                    <br>
-
-                    <label style="font-size: 24px;">Email</label>
-                    <input type="email" id="reset-password-email" name="reset-password-email" class="form-control" placeholder="Email" autofocus required>
-                    <br>
-                    <label style="font-size: 24px;">New Password</label>
-                    <input type="password" id="reset-password-password" name="reset-password-password" class="form-control" placeholder="Password" required>
-                    <br>
-                    <label style="font-size: 24px;">Confirm New Password</label>
-                    <input type="password" id="reset-password-password-confirm" name="reset-password-password-confirm" class="form-control" placeholder="Re-Type Password" required>
-                    <br>
-                    <input type="submit" id="submit-reset-password" class="btn btn-delete-account btn-block" value="Send password reset email"></input>
-                    <br>
-                    <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" display="center">An email will be sent to verify that you wish to reset your password.</a>
-                    <br><br><br>
-                </div>
+        <form class="modal-dialog modal-md modal-content modal-body" id="reset-password-form" action="/reset_password" method="post">
+            <br>
+            <div class="text-sm-center">
+                <h3>Reset Password</h3>
             </div>
+            <div id="reset-password-error" class="hidden">
+                <br>
+                <div class="form-error" id="reset-password-err-msg">Invailid Data</div>
+            </div>
+            <br>
+
+            <label style="font-size: 24px;">Email</label>
+            <input type="email" id="reset-password-email" name="reset-password-email" class="form-control" placeholder="Email" autofocus required>
+            <br>
+            <label style="font-size: 24px;">New Password</label>
+            <input type="password" id="reset-password-password" name="reset-password-password" class="form-control" placeholder="Password" required>
+            <br>
+            <label style="font-size: 24px;">Confirm New Password</label>
+            <input type="password" id="reset-password-password-confirm" name="reset-password-password-confirm" class="form-control" placeholder="Re-Type Password" required>
+            <br>
+            <input type="submit" id="submit-reset-password" class="btn btn-delete-account btn-block" value="Send password reset email"></input>
+            <br>
+            <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" display="center">An email will be sent to verify that you wish to reset your password.</a>
+            <br><br><br>
         </form>
     </div>
 
     <!-- Delete Account Modal -->
     <div class="modal fade" id="delete-account-box" role="dialog" disabled>
         <br><br><br>
-        <form class="modal-dialog modal-md" id="delete-account-form" action="/delete_account" method="post">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <br>
-                    <div class="text-sm-center">
-                        <h3>Confirm your credentials</h3>
-                    </div>
-                    <div id="delete-account-error" class="hidden">
-                        <br>
-                        <div class="form-error" id="delete-account-err-msg">Invailid Data</div>
-                    </div>
-                    <br>
-                    <label style="font-size: 24px;">Username</label>
-                    <input type="text" id="delete-account-username" name="delete-account-username" class="form-control" autocomplete="username" placeholder="Username" autofocus required>
-                    <br>
-                    <label style="font-size: 24px;">Password</label>
-                    <input type="password" id="delete-account-password" name="delete-account-password" class="form-control" autocomplete="current-password" placeholder="Password" required>
-                    <br>
-                    <input type="submit" id="submit-delete-account" class="btn btn-delete-account btn-block" value="Confirm and Delete Account"></input>
-                    <br>
-                    <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" display="center">By clicking this button you are confirming you wish to delete your account, which is an irreversible action.</a>
-                    <br><br><br>
-                </div>
+        <form class="modal-dialog modal-md modal-content modal-body" id="delete-account-form" action="/delete_account" method="post">
+            <br>
+            <div class="text-sm-center">
+                <h3>Confirm your credentials</h3>
             </div>
+            <div id="delete-account-error" class="hidden">
+                <br>
+                <div class="form-error" id="delete-account-err-msg">Invailid Data</div>
+            </div>
+            <br>
+            <label style="font-size: 24px;">Username</label>
+            <input type="text" id="delete-account-username" name="delete-account-username" class="form-control" autocomplete="username" placeholder="Username" autofocus required>
+            <br>
+            <label style="font-size: 24px;">Password</label>
+            <input type="password" id="delete-account-password" name="delete-account-password" class="form-control" autocomplete="current-password" placeholder="Password" required>
+            <br>
+            <input type="submit" id="submit-delete-account" class="btn btn-delete-account btn-block" value="Confirm and Delete Account"></input>
+            <br>
+            <a style="all: initial; font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, Helvetica Neue , Arial, sans-serif; font-size: 1rem;" display="center">By clicking this button you are confirming you wish to delete your account, which is an irreversible action.</a>
+            <br><br><br>
         </form>
     </div>
 
@@ -796,576 +762,530 @@
     </div>
 
     <!-- Game Over Modal -->
-    <div class="modal fade text-sm-center" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-sm-center">
-                    <h1>Game Over</h1>
-                    <h6> Total score:
-                        <span id="total-score"></span>
-                    </h6>
-                    <h6> Total supplies collected:
-                        <span id="total-gold-collected"></span>
-                    </h6>
-                    <h6> Total damage dealt:
-                        <span id="total-damage"></span>
-                    </h6>
-                    <h6> Total shots fired:
-                        <span id="total-shots-fired"></span>
-                    </h6>
-                    <h6> Total shots hit:
-                        <span id="total-shots-hit"></span> (
-                        <span id="accuracy"></span>% accuracy)</h6>
-                    <h6> Total ships sank:
-                        <span id="total-ships-sank"></span>
-                    </h6>
-                    <div style='margin: 20px auto'>
-                        <button id='play-again-button' type="button" class="btn btn-primary" data-dismiss="modal">Respawn with
-                            <span id="supplies-cut"></span> supplies</button>
-                    </div>
-
-                </div>
-                <div class="modal-footer text-sm-center">
-                    <script>
-                        window.fbAsyncInit = function () {
-                            FB.init({
-                                appId: '1167973769983757',
-                                xfbml: true,
-                                version: 'v2.10'
-                            });
-                            FB.AppEvents.logPageView();
-                        };
-
-                        (function (d, s, id) {
-                            let js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) {
-                                return;
-                            }
-                            js = d.createElement(s);
-                            js.id = id;
-                            js.src = "//connect.facebook.net/en_US/sdk.js";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));
-                    </script>
-                </div>
+    <div class="modal fade text-sm-center modal-dialog modal-md modal-content modal-body" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class=" role=" document">
+            <h1>Game Over</h1>
+            <h6> Total score:
+                <span id="total-score"></span>
+            </h6>
+            <h6> Total supplies collected:
+                <span id="total-gold-collected"></span>
+            </h6>
+            <h6> Total damage dealt:
+                <span id="total-damage"></span>
+            </h6>
+            <h6> Total shots fired:
+                <span id="total-shots-fired"></span>
+            </h6>
+            <h6> Total shots hit:
+                <span id="total-shots-hit"></span> (
+                <span id="accuracy"></span>% accuracy)</h6>
+            <h6> Total ships sank:
+                <span id="total-ships-sank"></span>
+            </h6>
+            <div style='margin: 20px auto'>
+                <button id='play-again-button' type="button" class="btn btn-primary" data-dismiss="modal">Respawn with
+                    <span id="supplies-cut"></span> supplies</button>
             </div>
         </div>
     </div>
 
     <!-- Shopping Menu Modal -->
     <div id="shopping-modal">
-        <div id="island-div">
-            <div style="border: 2px solid; border-radius: .3em; background-color:rgba(255,255,255); width: 800px">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        Welcome to Shop at
-                        <span class="port-name"></span>!
-                        <div class="btn btn-secondary float-right btn-sm toggle-shop-modal-button">
-                            <i class="icofont icofont-ui-close"></i>
-                        </div>
-                    </h4>
+        <div class="modal-header">
+            <h4 class="modal-title">
+                Welcome to Shop at
+                <span class="port-name"></span>!
+                <div class="btn btn-secondary float-right btn-sm toggle-shop-modal-button">
+                    <i class="icofont icofont-ui-close"></i>
                 </div>
-                <div class="modal-body">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link btn-shopping-modal" id="buy-items" href="#">Buy Items</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-shopping-modal active" id="buy-ships" href="#">Buy Ships</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-shopping-modal" id="buy-goods" href="#">Buy Goods</a>
-                        </li>
-                    </ul>
-                    <div id="abandon-existing-krew" class="text-sm-center" style="padding: 5px;color:#4978FF;display:none;">Note that if you purchase a ship, you will abandon your existing krew</div>
-                    <div id="shopping-item-list" style="margin-top: 15px"></div>
-                </div>
-            </div>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link btn-shopping-modal" id="buy-items" href="#">Buy Items</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-shopping-modal active" id="buy-ships" href="#">Buy Ships</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-shopping-modal" id="buy-goods" href="#">Buy Goods</a>
+                </li>
+            </ul>
+            <div id="abandon-existing-krew" class="text-sm-center" style="padding: 5px;color:#4978FF;display:none;">Note that if you purchase a ship, you will abandon your existing krew</div>
+            <div id="shopping-item-list" style="margin-top: 15px"></div>
         </div>
     </div>
 
     <!-- Krew List modal -->
-    <div id="krew-list-modal">
-        <div>
-            <div style="background-color: rgba(255,255,255); border: 2px solid; border-radius: 5px;">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        Krews docked at
-                        <span class="port-name"></span>
-                        <div class="btn btn-secondary btn-sm float-right toggle-krew-list-modal-button">
-                            <i class="icofont icofont-ui-close"></i>
-                        </div>
-                        </h6>
+    <div id="krew-list-modal" style="background-color: rgba(255,255,255);">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                Krews docked at
+                <span class="port-name"></span>
+                <div class="btn btn-secondary btn-sm float-right toggle-krew-list-modal-button">
+                    <i class="icofont icofont-ui-close"></i>
                 </div>
-                <div id="krews-list" class="container" style="margin-top: 15px"></div>
-                <div id="departing-krews-list" class="container" style="margin-top: 15px;display: none;"></div>
-            </div>
+                </h6>
         </div>
+        <div id="krews-list" class="container" style="margin-top: 15px"></div>
+        <div id="departing-krews-list" class="container" style="margin-top: 15px;display: none;"></div>
     </div>
 
     <!-- Krew, Clan, and Game settings modal -->
     <div id="ship-status-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    Krew settings
-                    <div class="btn btn-secondary btn-sm float-right toggle-ship-status-button">
-                        <i class="icofont icofont-ui-close"></i>
-                    </div>
-                    </h6>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="ship-status" href="#">Ship Status</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="clan-management" href="#">Clan Management</a>
-                        </li>
-                    </ul>
+        <div class="modal-header">
+            <h4 class="modal-title">
+                Krew settings
+                <div class="btn btn-secondary btn-sm float-right toggle-ship-status-button">
+                    <i class="icofont icofont-ui-close"></i>
                 </div>
-                <div id="ship-status-container" class="container" style="margin-top: 15px; min-height: 294px">
-                    <form class="form-inline h5" id="krew-name-form">
-                        <div class="form-group">
-                            <span class="my-krew-name" id="crew-name"></span>
-                            <input type="text" id="crew-name-edit-input" class="form-control hidden" name="crewname" />
-                        </div>
-                        <div id="crew-name-edit-button" class="btn btn-secondary btn-sm float-sm-right hidden">
-                            <i class="icofont icofont-edit"></i>
-                        </div>
-                    </form>
-
-                    <form class="form-inline h5">
-                        <div class="form-group">
-                            <span id="ship-name"></span>
-                        </div>
-                    </form>
-
-                    <div class="text-center" style="margin-bottom: 8px;">
-                        <span class="text-danger">
-                            <i class="icofont icofont-heart"></i>
-                            <span class="ship-hp"></span> /
-                            <span class="ship-max-hp"></span>
-                        </span>
-                        <span style="color: #65d94f!important;">
-                            <i class="icofont icofont-speed-meter"></i>
-                            <span class="ship-speed"></span>
-                        </span>
-                        <span class="text-info">
-                            <i class="icofont icofont-people"></i>
-                            <span class="ship-krew-count"></span> /
-                            <span class="ship-max-capacity"></span>
-                        </span>
-                        <span class="text-warning">
-                            <i class="icofont icofont-cube"></i>
-                            <span class="ship-cargo"></span>
-                        </span>
+                </h6>
+        </div>
+        <div class="modal-body">
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="ship-status" href="#">Ship Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="clan-management" href="#">Clan Management</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="ship-status-container" class="container" style="margin-top: 15px; min-height: 294px">
+                <form class="form-inline h5" id="krew-name-form">
+                    <div class="form-group">
+                        <span class="my-krew-name" id="crew-name"></span>
+                        <input type="text" id="crew-name-edit-input" class="form-control hidden" name="crewname" />
                     </div>
-
-                    <div id="krew-list" class="text-xs-left" style="margin-top: 10px">
-
+                    <div id="crew-name-edit-button" class="btn btn-secondary btn-sm float-sm-right hidden">
+                        <i class="icofont icofont-edit"></i>
                     </div>
+                </form>
 
-                    <label id="lock-krew-label" class="label">
-                        <div id="lock-krew-text" class="lock-text-info" style="padding-right:10px">Lock krew...</div>
+                <form class="form-inline h5">
+                    <div class="form-group">
+                        <span id="ship-name"></span>
+                    </div>
+                </form>
+
+                <div class="text-center" style="margin-bottom: 8px;">
+                    <span class="text-danger">
+                        <i class="icofont icofont-heart"></i>
+                        <span class="ship-hp"></span> /
+                        <span class="ship-max-hp"></span>
+                    </span>
+                    <span style="color: #65d94f!important;">
+                        <i class="icofont icofont-speed-meter"></i>
+                        <span class="ship-speed"></span>
+                    </span>
+                    <span class="text-info">
+                        <i class="icofont icofont-people"></i>
+                        <span class="ship-krew-count"></span> /
+                        <span class="ship-max-capacity"></span>
+                    </span>
+                    <span class="text-warning">
+                        <i class="icofont icofont-cube"></i>
+                        <span class="ship-cargo"></span>
+                    </span>
+                </div>
+
+                <div id="krew-list" class="text-xs-left" style="margin-top: 10px">
+
+                </div>
+
+                <label id="lock-krew-label" class="label">
+                    <div id="lock-krew-text" class="lock-text-info" style="padding-right:10px">Lock krew...</div>
+                    <div class="toggle">
+                        <input class="toggle-state" type="checkbox" name="check" value="check" id="lock-krew-button" />
+                        <div class="toggle-inner">
+                            <div class="indicator"></div>
+                        </div>
+                        <div class="active-bg"></div>
+                    </div>
+                </label>
+                <br>
+                <div id="fps-camera">
+                    <label id="fp-mode-label" class="label">
+                        <div id="fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera (Disabled)</div>
                         <div class="toggle">
-                            <input class="toggle-state" type="checkbox" name="check" value="check" id="lock-krew-button" />
+                            <input class="toggle-state" type="checkbox" name="check" value="check" id="fp-mode-button" />
                             <div class="toggle-inner">
                                 <div class="indicator"></div>
                             </div>
                             <div class="active-bg"></div>
                         </div>
                     </label>
-                    <br>
-                    <div id="fps-camera">
-                        <label id="fp-mode-label" class="label">
-                            <div id="fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera (Disabled)</div>
-                            <div class="toggle">
-                                <input class="toggle-state" type="checkbox" name="check" value="check" id="fp-mode-button" />
-                                <div class="toggle-inner">
-                                    <div class="indicator"></div>
-                                </div>
-                                <div class="active-bg"></div>
-                            </div>
-                        </label>
-                    </div>
-                    <div id="fov-control-div" class="lock-text-info">
-                        FOV <input id="fov-control" type="range" min="10" max="50" value="10">
-                    </div>
-                    <br>
-                    <div id="music-control-div" class="lock-text-info">
-                        Music <input id="music-control" type="range" min="0" max="100" value="50">
-                    </div>
-                    <div id="sfx-control-div" class="lock-text-info">
-                        Sfx <input id="sfx-control" type="range" min="0" max="100" value="50">
-                    </div>
-                    <br>
-                    <div id="quality-div" class="form-group">
-                        <select id="quality-list" class="custom-select form-control form-control-sm"></select>
-                    </div>
-                    <a id="account-game-settings-save-notice" class="hidden">Note: Changes made to game settings here are not saved to your account.</a>
                 </div>
+                <div id="fov-control-div" class="lock-text-info">
+                    FOV <input id="fov-control" type="range" min="10" max="50" value="10">
+                </div>
+                <br>
+                <div id="music-control-div" class="lock-text-info">
+                    Music <input id="music-control" type="range" min="0" max="100" value="50">
+                </div>
+                <div id="sfx-control-div" class="lock-text-info">
+                    Sfx <input id="sfx-control" type="range" min="0" max="100" value="50">
+                </div>
+                <br>
+                <div id="quality-div" class="form-group">
+                    <select id="quality-list" class="custom-select form-control form-control-sm"></select>
+                </div>
+                <a id="account-game-settings-save-notice" class="hidden">Note: Changes made to game settings here are not saved to your account.</a>
+            </div>
 
-                <div id="clan-management-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
-                    <form class="form-inline h5">
-                        <div class="form-group">
-                            <span id="clan-name">MY CLAN</span>
-                        </div>
-                    </form>
-                    <div id="no-clan">
-                        <div class="form-group">
-                            <input type="text" maxlength="4" class="form-control" id="clan-request" placeholder="Clan name">
-                        </div>
-                        <button id="join-clan-button" class="btn btn-success btn-sm">Join clan</button>
-                        <button id="create-clan-button" class="btn btn-success btn-sm">Create clan</button>
-                        <div id="errorInput" style="font-size: 12px; color: red; display:none; margin-top: 15px">
-                            Please enter a valid input (alphanumeric only)
-                        </div>
-                        <div id="errorLength" style="font-size: 12px; color: red; display:none; margin-top: 15px">
-                            Clan must contain of 1-4 characters
-                        </div>
-                        <div id="error404" style="font-size: 12px; color: red; display:none; margin-top: 15px">
-                            The clan name you entered does not exist
-                        </div>
-                        <div id="errorExists" style="font-size: 12px; color: red; display:none; margin-top: 15px">
-                            This clan name (or a very similar one) already exists
-                        </div>
-                        <div id="errorUndefined" style="font-size: 12px; color: red; display:none; margin-top: 15px">
-                            Something went wrong...
-                        </div>
-                        <div id="errorUnauthorized" style="font-size: 12px; color: red; display:none; margin-top: 15px">
-                            You can't create a clan yet. Your user account is too new or not used frequently enough. How about joining a clan first?
-                        </div>
+            <div id="clan-management-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
+                <form class="form-inline h5">
+                    <div class="form-group">
+                        <span id="clan-name">MY CLAN</span>
                     </div>
-                    <div id="yes-clan" style="display: none">
-                        <button id="leave-clan-button" class="btn btn-danger btn-sm">Leave clan</button>
-                        <button id="request-clan-button" class="btn btn-warning btn-sm disabled" style="display: none">View requests (0) <i class="icofont icofont-aim"></i></button>
-                        <button id="view-clan-button" class="btn btn-success btn-sm" style="display: none">View clan members</button>
-                        <div id="clan-table-div">
-                            <table id="clan-table" class="clan-table">
-                            </table>
-                            <table id="clan-request-table" class="clan-table" style="display: none">
-                            </table>
-                        </div>
+                </form>
+                <div id="no-clan">
+                    <div class="form-group">
+                        <input type="text" maxlength="4" class="form-control" id="clan-request" placeholder="Clan name">
                     </div>
-                    <div id="request-clan" style="display: none">
-                        <div id="player-request-table-div">
-                            <table id="player-request-table" class="clan-table">
-                            </table>
-                        </div>
+                    <button id="join-clan-button" class="btn btn-success btn-sm">Join clan</button>
+                    <button id="create-clan-button" class="btn btn-success btn-sm">Create clan</button>
+                    <div id="errorInput" style="font-size: 12px; color: red; display:none; margin-top: 15px">
+                        Please enter a valid input (alphanumeric only)
+                    </div>
+                    <div id="errorLength" style="font-size: 12px; color: red; display:none; margin-top: 15px">
+                        Clan must contain of 1-4 characters
+                    </div>
+                    <div id="error404" style="font-size: 12px; color: red; display:none; margin-top: 15px">
+                        The clan name you entered does not exist
+                    </div>
+                    <div id="errorExists" style="font-size: 12px; color: red; display:none; margin-top: 15px">
+                        This clan name (or a very similar one) already exists
+                    </div>
+                    <div id="errorUndefined" style="font-size: 12px; color: red; display:none; margin-top: 15px">
+                        Something went wrong...
+                    </div>
+                    <div id="errorUnauthorized" style="font-size: 12px; color: red; display:none; margin-top: 15px">
+                        You can't create a clan yet. Your user account is too new or not used frequently enough. How about joining a clan first?
                     </div>
                 </div>
-                <div id="notLoggedIn-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
-                    <form class="form-inline h6">
-                        <div class="form-group">
-                            <span id="clan-name">Please login to be able to use the clan features</span>
-                        </div>
-                    </form>
+                <div id="yes-clan" style="display: none">
+                    <button id="leave-clan-button" class="btn btn-danger btn-sm">Leave clan</button>
+                    <button id="request-clan-button" class="btn btn-warning btn-sm disabled" style="display: none">View requests (0) <i class="icofont icofont-aim"></i></button>
+                    <button id="view-clan-button" class="btn btn-success btn-sm" style="display: none">View clan members</button>
+                    <div id="clan-table-div">
+                        <table id="clan-table" class="clan-table">
+                        </table>
+                        <table id="clan-request-table" class="clan-table" style="display: none">
+                        </table>
+                    </div>
                 </div>
+                <div id="request-clan" style="display: none">
+                    <div id="player-request-table-div">
+                        <table id="player-request-table" class="clan-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="notLoggedIn-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
+                <form class="form-inline h6">
+                    <div class="form-group">
+                        <span id="clan-name">Please login to be able to use the clan features</span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <!-- Help Modal -->
     <div id="help-modal">
-        <div class="modal-content" style="border: 2px solid;">
-            <div class="modal-header">
-                <div id="close-help-button" class="btn btn-secondary btn-sm float-right">
-                    <i class="icofont icofont-ui-close"></i></div>
-                <h5 class="modal-title">Help</h5>
-            </div>
-            <div class="container" style="height: 405px;">
-                <div style="font-size: 15px">
-                    <table class="table" style="table-layout:fixed">
+        <div class="modal-header">
+            <div id="close-help-button" class="btn btn-secondary btn-sm float-right">
+                <i class="icofont icofont-ui-close"></i></div>
+            <h5 class="modal-title">Help</h5>
+        </div>
+        <div class="container" style="height: 405px;">
+            <div style="font-size: 15px">
+                <table class="table" style="table-layout:fixed">
+                    <tr>
+                        <th style="width:12%">
+                            <div>Hotkey</div>
+                        </th>
+                        <th style="width:22%">
+                            <div>Function</div>
+                        </th>
+                        <th style="width:66%">
+                            <div>Hints</div>
+                        </th>
+                    </tr>
+                    <tbody>
                         <tr>
-                            <th style="width:12%">
-                                <div>Hotkey</div>
-                            </th>
-                            <th style="width:22%">
-                                <div>Function</div>
-                            </th>
-                            <th style="width:66%">
-                                <div>Hints</div>
-                            </th>
+                            <td>M</td>
+                            <td>Hide / show the map</td>
+                            <td>The small arrow on the map is your current position</td>
                         </tr>
-                        <tbody>
-                            <tr>
-                                <td>M</td>
-                                <td>Hide / show the map</td>
-                                <td>The small arrow on the map is your current position</td>
-                            </tr>
-                            <tr>
-                                <td>Q</td>
-                                <td>Show / hide the quests menu</td>
-                                <td>Finish as many quests as you can to receive rewards and medals</td>
-                            </tr>
-                            <tr>
-                                <td>H</td>
-                                <td>Show / hide the help menu</td>
-                                <td>Check the help menu for information about hotkeys</td>
-                            </tr>
-                            <tr>
-                                <td>Shift</td>
-                                <td>Show the player leaderboard</td>
-                                <td>See which player has which scores (kills, deaths, damage & gold)</td>
-                            </tr>
-                            <tr>
-                                <td>, (comma)</td>
-                                <td>Hide / show chat window</td>
-                                <td>Use the chat to communicate with other players. To contact only players which are on the same boat, use "local chat"</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <tr>
+                            <td>Q</td>
+                            <td>Show / hide the quests menu</td>
+                            <td>Finish as many quests as you can to receive rewards and medals</td>
+                        </tr>
+                        <tr>
+                            <td>H</td>
+                            <td>Show / hide the help menu</td>
+                            <td>Check the help menu for information about hotkeys</td>
+                        </tr>
+                        <tr>
+                            <td>Shift</td>
+                            <td>Show the player leaderboard</td>
+                            <td>See which player has which scores (kills, deaths, damage & gold)</td>
+                        </tr>
+                        <tr>
+                            <td>, (comma)</td>
+                            <td>Hide / show chat window</td>
+                            <td>Use the chat to communicate with other players. To contact only players which are on the same boat, use "local chat"</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <!-- Quests Modal -->
     <div id="quests-modal">
-        <div class="modal-content" style="border: 2px solid;">
-            <div class="modal-header">
-                <div id="close-quests-button" class="btn btn-secondary btn-sm float-right">
-                    <i class="icofont icofont-ui-close"></i></div>
-                <h5 class="modal-title">Quests</h5>
-            </div>
-            <div class="container" style="height: 420px;">
-                <div id="scrollable-table">
-                    <table class="table" style="table-layout:fixed">
-                        <tr>
-                            <th style="width:50%">
-                                <div>Quests (Trading)</div>
-                            </th>
-                            <th style="width:34%">
-                                <div>Reward</div>
-                            </th>
-                            <th style="width:16%">
-                                <div>Progress</div>
-                            </th>
+        <div class="modal-header">
+            <div id="close-quests-button" class="btn btn-secondary btn-sm float-right">
+                <i class="icofont icofont-ui-close"></i></div>
+            <h5 class="modal-title">Quests</h5>
+        </div>
+        <div class="container" style="height: 420px;">
+            <div id="scrollable-table">
+                <table class="table" style="table-layout:fixed">
+                    <tr>
+                        <th style="width:50%">
+                            <div>Quests (Trading)</div>
+                        </th>
+                        <th style="width:34%">
+                            <div>Reward</div>
+                        </th>
+                        <th style="width:16%">
+                            <div>Progress</div>
+                        </th>
+                    </tr>
+                    <tbody>
+                        <tr id="trade-quest-1">
+                            <td>Trade with goods worth 1000 gold</td>
+                            <td>1,000 gold & 100 XP</td>
+                            <td class="quest-progress"><span class="trade-progress">0</span>/1000</td>
                         </tr>
-                        <tbody>
-                            <tr id="trade-quest-1">
-                                <td>Trade with goods worth 1000 gold</td>
-                                <td>1,000 gold & 100 XP</td>
-                                <td class="quest-progress"><span class="trade-progress">0</span>/1000</td>
-                            </tr>
-                            <tr id="trade-quest-2" style="display: none">
-                                <td>Trade with goods worth 6000 gold</td>
-                                <td>2,000 gold & 200 XP</td>
-                                <td class="quest-progress"><span class="trade-progress">0</span>/6000</td>
-                            </tr>
-                            <tr id="trade-quest-3" style="display: none">
-                                <td>Trade with goods worth 15,000 gold</td>
-                                <td>5,000 gold & 500 XP</td>
-                                <td class="quest-progress"><span class="trade-progress">0</span>/15000</td>
-                            </tr>
-                            <tr id="trade-quest-4" style="display: none">
-                                <td>Trade with goods worth 30,000 gold</td>
-                                <td>10,000 gold & 1,000 XP</td>
-                                <td class="quest-progress"><span class="trade-progress">0</span>/30000</td>
-                            </tr>
-                            <tr id="crew-trade-quest-1" style="display: none">
-                                <td>Krew quest: Trade with goods worth 12,000 gold (overall krew members)</td>
-                                <td><img id="img_medal_bronze" src="/assets/img/medals/medal_bronze.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span class="crew-trade-progress">0</span>/12000</td>
-                            </tr>
-                            <tr id="crew-trade-quest-2" style="display: none">
-                                <td>Krew quest: Trade with goods worth 50,000 gold (overall krew members)</td>
-                                <td><img id="img_medal_silver" src="/assets/img/medals/medal_silver.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span class="crew-trade-progress">0</span>/50000</td>
-                            </tr>
-                            <tr id="crew-trade-quest-3" style="display: none">
-                                <td>Krew quest: Trade with goods worth 150,000 gold (overall krew members)</td>
-                                <td><img id="img_medal_gold" src="/assets/img/medals/medal_gold.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span class="crew-trade-progress">0</span>/150000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table" style="table-layout:fixed">
-                        <tr>
-                            <th style="width:50%">
-                                <div>Quests (Piracy)</div>
-                            </th>
-                            <th style="width:34%">
-                                <div>Reward</div>
-                            </th>
-                            <th style="width:16%">
-                                <div>Progress</div>
-                            </th>
+                        <tr id="trade-quest-2" style="display: none">
+                            <td>Trade with goods worth 6000 gold</td>
+                            <td>2,000 gold & 200 XP</td>
+                            <td class="quest-progress"><span class="trade-progress">0</span>/6000</td>
                         </tr>
-                        <tbody>
-                            <tr id="pirate-quest-1">
-                                <td>Sink 1 other ship/raft</td>
-                                <td>1,000 gold & 100 XP</td>
-                                <td class="quest-progress"><span class="pirate-progress">0</span>/1</td>
-                            </tr>
-                            <tr id="pirate-quest-2" style="display: none">
-                                <td>Sink 5 other ships/rafts</td>
-                                <td>5,000 gold & 500 XP</td>
-                                <td class="quest-progress"><span class="pirate-progress">0</span>/5</td>
-                            </tr>
-                            <tr id="pirate-quest-3" style="display: none">
-                                <td>Sink 10 other ships/rafts</td>
-                                <td>10,000 gold & 1,000 XP</td>
-                                <td class="quest-progress"><span class="pirate-progress">0</span>/10</td>
-                            </tr>
-                            <tr id="pirate-quest-4" style="display: none">
-                                <td>Sink 20 other ships/rafts</td>
-                                <td>20,000 gold & 1,000 XP</td>
-                                <td class="quest-progress"><span class="pirate-progress">0</span>/20</td>
-                            </tr>
-                            <tr id="crew-pirate-quest-1" style="display: none">
-                                <td>Krew quest: Sink 10 other ships/rafts (overall krew members)</td>
-                                <td><img id="img_medal_bronze" src="/assets/img/medals/medal_bronze.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span class="crew-pirate-progress">0</span>/10</td>
-                            </tr>
-                            <tr id="crew-pirate-quest-2" style="display: none">
-                                <td>Krew quest: Sink 20 other ships/rafts (overall krew members)</td>
-                                <td><img id="img_medal_silver" src="/assets/img/medals/medal_silver.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span class="crew-pirate-progress">0</span>/20</td>
-                            </tr>
-                            <tr id="crew-pirate-quest-3" style="display: none">
-                                <td>Krew quest: Sink 50 other ships/rafts (overall krew members)</td>
-                                <td><img id="img_medal_gold" src="/assets/img/medals/medal_gold.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span class="crew-pirate-progress">0</span>/50</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table" style="table-layout:fixed">
-                        <tr>
-                            <th style="width:50%">
-                                <div>Quests (Other)</div>
-                            </th>
-                            <th style="width:34%">
-                                <div>Reward</div>
-                            </th>
-                            <th style="width:16%">
-                                <div>Progress</div>
-                            </th>
+                        <tr id="trade-quest-3" style="display: none">
+                            <td>Trade with goods worth 15,000 gold</td>
+                            <td>5,000 gold & 500 XP</td>
+                            <td class="quest-progress"><span class="trade-progress">0</span>/15000</td>
                         </tr>
-                        <tbody>
-                            <tr id="other-quest-1">
-                                <td>Jump 50 times (press and release space)</td>
-                                <td>Lots of fun!</td>
-                                <td class="quest-progress"><span id="other-progress-1">0</span>/50</td>
-                            </tr>
-                            <tr id="other-quest-2" style="display: none">
-                                <td>Buy a Boat or Trader</td>
-                                <td>5,000 gold & 500 XP & <img id="img_medal_bronze" src="/assets/img/medals/medal_bronze.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span id="other-progress-2">0</span>/1</td>
-                            </tr>
-                            <tr id="other-quest-3" style="display: none">
-                                <td>Buy a Destroyer, Baby Fancy, Royal Fortune, Calm Spirit, Junkie, or Raider</td>
-                                <td>10,000 gold & 1000 XP & <img id="img_medal_silver" src="/assets/img/medals/medal_silver.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span id="other-progress-2">0</span>/1</td>
-                            </tr>
-                            <tr id="other-quest-4" style="display: none">
-                                <td>Buy a Queen Barb's Justice, Black Oyster, or Fortune Trader</td>
-                                <td>50,000 gold & 5,000 XP & <img id="img_medal_gold" src="/assets/img/medals/medal_gold.png" style="height: 17px"></td>
-                                <td class="quest-progress"><span id="other-progress-2">0</span>/1</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table" style="table-layout:fixed">
-                        <tr>
-                            <th style="width:50%">
-                                <div>Quests (Completed)</div>
-                            </th>
-                            <th style="width:34%">
-                                <div>Reward</div>
-                            </th>
-                            <th style="width:16%">
-                                <div>Status</div>
-                            </th>
+                        <tr id="trade-quest-4" style="display: none">
+                            <td>Trade with goods worth 30,000 gold</td>
+                            <td>10,000 gold & 1,000 XP</td>
+                            <td class="quest-progress"><span class="trade-progress">0</span>/30000</td>
                         </tr>
-                        <tbody id="completed-quest-table">
-                        </tbody>
-                    </table>
-                </div>
+                        <tr id="crew-trade-quest-1" style="display: none">
+                            <td>Krew quest: Trade with goods worth 12,000 gold (overall krew members)</td>
+                            <td><img id="img_medal_bronze" src="/assets/img/medals/medal_bronze.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span class="crew-trade-progress">0</span>/12000</td>
+                        </tr>
+                        <tr id="crew-trade-quest-2" style="display: none">
+                            <td>Krew quest: Trade with goods worth 50,000 gold (overall krew members)</td>
+                            <td><img id="img_medal_silver" src="/assets/img/medals/medal_silver.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span class="crew-trade-progress">0</span>/50000</td>
+                        </tr>
+                        <tr id="crew-trade-quest-3" style="display: none">
+                            <td>Krew quest: Trade with goods worth 150,000 gold (overall krew members)</td>
+                            <td><img id="img_medal_gold" src="/assets/img/medals/medal_gold.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span class="crew-trade-progress">0</span>/150000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table" style="table-layout:fixed">
+                    <tr>
+                        <th style="width:50%">
+                            <div>Quests (Piracy)</div>
+                        </th>
+                        <th style="width:34%">
+                            <div>Reward</div>
+                        </th>
+                        <th style="width:16%">
+                            <div>Progress</div>
+                        </th>
+                    </tr>
+                    <tbody>
+                        <tr id="pirate-quest-1">
+                            <td>Sink 1 other ship/raft</td>
+                            <td>1,000 gold & 100 XP</td>
+                            <td class="quest-progress"><span class="pirate-progress">0</span>/1</td>
+                        </tr>
+                        <tr id="pirate-quest-2" style="display: none">
+                            <td>Sink 5 other ships/rafts</td>
+                            <td>5,000 gold & 500 XP</td>
+                            <td class="quest-progress"><span class="pirate-progress">0</span>/5</td>
+                        </tr>
+                        <tr id="pirate-quest-3" style="display: none">
+                            <td>Sink 10 other ships/rafts</td>
+                            <td>10,000 gold & 1,000 XP</td>
+                            <td class="quest-progress"><span class="pirate-progress">0</span>/10</td>
+                        </tr>
+                        <tr id="pirate-quest-4" style="display: none">
+                            <td>Sink 20 other ships/rafts</td>
+                            <td>20,000 gold & 1,000 XP</td>
+                            <td class="quest-progress"><span class="pirate-progress">0</span>/20</td>
+                        </tr>
+                        <tr id="crew-pirate-quest-1" style="display: none">
+                            <td>Krew quest: Sink 10 other ships/rafts (overall krew members)</td>
+                            <td><img id="img_medal_bronze" src="/assets/img/medals/medal_bronze.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span class="crew-pirate-progress">0</span>/10</td>
+                        </tr>
+                        <tr id="crew-pirate-quest-2" style="display: none">
+                            <td>Krew quest: Sink 20 other ships/rafts (overall krew members)</td>
+                            <td><img id="img_medal_silver" src="/assets/img/medals/medal_silver.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span class="crew-pirate-progress">0</span>/20</td>
+                        </tr>
+                        <tr id="crew-pirate-quest-3" style="display: none">
+                            <td>Krew quest: Sink 50 other ships/rafts (overall krew members)</td>
+                            <td><img id="img_medal_gold" src="/assets/img/medals/medal_gold.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span class="crew-pirate-progress">0</span>/50</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table" style="table-layout:fixed">
+                    <tr>
+                        <th style="width:50%">
+                            <div>Quests (Other)</div>
+                        </th>
+                        <th style="width:34%">
+                            <div>Reward</div>
+                        </th>
+                        <th style="width:16%">
+                            <div>Progress</div>
+                        </th>
+                    </tr>
+                    <tbody>
+                        <tr id="other-quest-1">
+                            <td>Jump 50 times (press and release space)</td>
+                            <td>Lots of fun!</td>
+                            <td class="quest-progress"><span id="other-progress-1">0</span>/50</td>
+                        </tr>
+                        <tr id="other-quest-2" style="display: none">
+                            <td>Buy a Boat or Trader</td>
+                            <td>5,000 gold & 500 XP & <img id="img_medal_bronze" src="/assets/img/medals/medal_bronze.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span id="other-progress-2">0</span>/1</td>
+                        </tr>
+                        <tr id="other-quest-3" style="display: none">
+                            <td>Buy a Destroyer, Baby Fancy, Royal Fortune, Calm Spirit, Junkie, or Raider</td>
+                            <td>10,000 gold & 1000 XP & <img id="img_medal_silver" src="/assets/img/medals/medal_silver.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span id="other-progress-2">0</span>/1</td>
+                        </tr>
+                        <tr id="other-quest-4" style="display: none">
+                            <td>Buy a Queen Barb's Justice, Black Oyster, or Fortune Trader</td>
+                            <td>50,000 gold & 5,000 XP & <img id="img_medal_gold" src="/assets/img/medals/medal_gold.png" style="height: 17px"></td>
+                            <td class="quest-progress"><span id="other-progress-2">0</span>/1</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table" style="table-layout:fixed">
+                    <tr>
+                        <th style="width:50%">
+                            <div>Quests (Completed)</div>
+                        </th>
+                        <th style="width:34%">
+                            <div>Reward</div>
+                        </th>
+                        <th style="width:16%">
+                            <div>Status</div>
+                        </th>
+                    </tr>
+                    <tbody id="completed-quest-table">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <!-- Bank Modal -->
     <div id="bank-modal">
-        <div class="modal-content" style="border: 2px solid;">
-            <div class="modal-header">
-                <div id="close-bank-button" class="btn btn-secondary btn-sm float-right">
-                    <i class="icofont icofont-ui-close"></i></div>
-                <h4 class="modal-title">Welcome to Bank at Labrador!</h4>
-            </div>
-            <div class="container" id="bankContainer" style="height: 405px; display: none;">
-                <div style="font-size: 15px">
-                    <table class="table" style="table-layout:fixed">
-                        <tbody>
-                            <tr>
-                                <td style="width:33%">Make deposit:</td>
-                                <td style="width:25%"></td>
-                                <td style="text-align:left; width:42%">Your deposit in the bank: <span class="text-warning" id="my-deposits"></span></td>
-                            </tr>
-                            <tr>
-                                <td style="width:33%">
-                                    <div class="form-group">
-                                        <input type="number" maxlength="9" min="0" class="form-control" id="make-deposit" placeholder="amount of gold">
-                                    </div>
-                                    <div id="successMakeDepoMess" style="font-size: 12px; color: green; display:none">
-                                        Deposit successful
-                                    </div>
-                                    <div id="errorMakeDepoMess" style="font-size: 12px; color: red; display:none">
-                                        You don't have enough gold for this deposit
-                                    </div>
-                                    <div id="errorFullDepoMess" style="font-size: 12px; color: red; display:none">
-                                        You can't place more than 150,000 gold in the bank
-                                    </div>
-                                </td>
-                                <td style="padding: 18px; width:25%"><button id="btn-make-deposit" class="btn btn-primary btn-sm" role="button">Deposit</button></td>
-                                <td style="text-align:left; width:42%">Total gold in the bank: <span class="text-warning" id="total-deposits"></span></td>
-                            </tr>
-                            <tr>
-                                <td style="width:33%">Withdraw deposit:</td>
-                                <td style="width:25%"></td>
-                                <td style="width:42%">
-                                <td>
-                            </tr>
-                            <tr>
-                                <td style="width:33%">
-                                    <div class="form-group">
-                                        <input type="number" maxlength="9" min="0" class="form-control" id="take-deposit" placeholder="amount of gold">
-                                    </div>
-                                    <div id="successTakeDepoMess" style="font-size: 12px; color: green; display:none">
-                                        Withdrawal successful
-                                    </div>
-                                    <div id="errorTakeDepoMess" style="font-size: 12px; color: red; display:none">
-                                        You can't withdraw more gold than you have in the bank
-                                    </div>
-                                </td>
-                                <td style="padding: 18px; width:25%"><button id="btn-take-deposit" class="btn btn-primary btn-sm" role="button">Withdraw</button></td>
-                                <td style="width:42%"></td>
-                            </tr>
-                            <tr>
-                                <td>How to use the bank:</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p style="margin:-15px 12px 0px 12px">
-                        The bank accepts up to 50,000 gold for permanent save, you can use it the next time you login.
-                    </p>
-                    <p style="margin:0px 12px 0px 12px">
-                        You can store additional 100,000 gold in the bank but it will be lost as soon as you leave the game. Every withdrawal has a fee of 10%.
-                    </p>
-                </div>
-            </div>
-            <div class="container" id="nabankContainer" style="height: 405px;">
-                <div class="col-xs-12" style="padding-top:15px">
-                    <h5 class="text-warning">To use the bank, please login to your account</h5>
-                </div>
+        <div class="modal-header">
+            <div id="close-bank-button" class="btn btn-secondary btn-sm float-right">
+                <i class="icofont icofont-ui-close"></i></div>
+            <h4 class="modal-title">Welcome to Bank at Labrador!</h4>
+        </div>
+        <div class="container" id="bankContainer" style="height: 405px; display: none; font-size: 15px;">
+            <table class="table" style="table-layout:fixed">
+                <tbody>
+                    <tr>
+                        <td style="width:33%">Make deposit:</td>
+                        <td style="width:25%"></td>
+                        <td style="text-align:left; width:42%">Your deposit in the bank: <span class="text-warning" id="my-deposits"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%">
+                            <div class="form-group">
+                                <input type="number" maxlength="9" min="0" class="form-control" id="make-deposit" placeholder="amount of gold">
+                            </div>
+                            <div id="successMakeDepoMess" style="font-size: 12px; color: green; display:none">
+                                Deposit successful
+                            </div>
+                            <div id="errorMakeDepoMess" style="font-size: 12px; color: red; display:none">
+                                You don't have enough gold for this deposit
+                            </div>
+                            <div id="errorFullDepoMess" style="font-size: 12px; color: red; display:none">
+                                You can't place more than 150,000 gold in the bank
+                            </div>
+                        </td>
+                        <td style="padding: 18px; width:25%"><button id="btn-make-deposit" class="btn btn-primary btn-sm" role="button">Deposit</button></td>
+                        <td style="text-align:left; width:42%">Total gold in the bank: <span class="text-warning" id="total-deposits"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%">Withdraw deposit:</td>
+                        <td style="width:25%"></td>
+                        <td style="width:42%">
+                        <td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%">
+                            <div class="form-group">
+                                <input type="number" maxlength="9" min="0" class="form-control" id="take-deposit" placeholder="amount of gold">
+                            </div>
+                            <div id="successTakeDepoMess" style="font-size: 12px; color: green; display:none">
+                                Withdrawal successful
+                            </div>
+                            <div id="errorTakeDepoMess" style="font-size: 12px; color: red; display:none">
+                                You can't withdraw more gold than you have in the bank
+                            </div>
+                        </td>
+                        <td style="padding: 18px; width:25%"><button id="btn-take-deposit" class="btn btn-primary btn-sm" role="button">Withdraw</button></td>
+                        <td style="width:42%"></td>
+                    </tr>
+                    <tr>
+                        <td>How to use the bank:</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin:-15px 12px 0px 12px">
+                The bank accepts up to 50,000 gold for permanent save, you can use it the next time you login.
+            </p>
+            <p style="margin:0px 12px 0px 12px">
+                You can store additional 100,000 gold in the bank but it will be lost as soon as you leave the game. Every withdrawal has a fee of 10%.
+            </p>
+        </div>
+        <div class="container" id="nabankContainer" style="height: 405px;">
+            <div class="col-xs-12" style="padding-top:15px">
+                <h5 class="text-warning">To use the bank, please login to your account</h5>
             </div>
         </div>
     </div>
 
 
-    <!-- START Game UI -->
+    <!-- START Game UI (Splash) -->
     <div id="game-ui" class="container-fluid">
 
         <!-- Krew Leaderboard (Upper Right) -->
@@ -1553,24 +1473,6 @@
             </table>
         </div>
 
-        <!-- Trade Menu -->
-        <div class="white-bg" id="trade-menu" role="dialog">
-            <h3>Trading with</h3>
-            <div class="modal-dialog modal-md" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h6 class="modal-title">
-                            Krews docked at
-                            <div class="btn btn-secondary btn-sm float-right toggle-krew-list-modal-button">
-                                <i class="icofont icofont-ui-close"></i>
-                            </div>
-                        </h6>
-                        <div id="trading-items" style="margin-top: 15px"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Krew info HUD (Upper Left)-->
         <div id="krew-hud">
             <div id="krew-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px">
@@ -1622,7 +1524,6 @@
                     <input type="text" maxlength="30" class="form-control" id="invite-link">
                 </div>
             </div>
-
             <div id="stats-wrapper">
                 <div id="fps-wrapper"><span>0 FPS</span></div>
                 <div id="ping-wrapper"><span>0 MS</span></div>

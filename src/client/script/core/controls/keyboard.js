@@ -112,8 +112,7 @@ document.onkeydown = function (evt) {
                 GameAnalytics(`addDesignEvent`, `Game:Session:PurchasedBoat`);
                 $(`#raft-shop-div`).hide();
                 $(`#krew-div`).show();
-                let shop = document.getElementById(`suggestion-ui`).innerHTML;
-                let shopPopover = $(`#toggle-shop-modal-button`).attr(`data-content`, shop).data(`bs.popover`);
+                let shopPopover = $(`#toggle-shop-modal-button`).attr(`data-content`, ``).data(`bs.popover`);
                 if (shopPopover !== undefined) {
                     shopPopover.setContent();
                     $(`#toggle-shop-modal-button`).popover(`hide`);
