@@ -1,4 +1,4 @@
-# AdinPlay.com ads.txt - 23-12-20  
+# AdinPlay.com ads.txt - 10-02-21  
 ##################################
 
 #Google
@@ -242,3 +242,70 @@ rubiconproject.com, 23042, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 23044, RESELLER, 0bfd66d529a55807
 
 
+#V 01.02.2021 PH 
+
+
+advertising.com, 2694, RESELLER                                                # Verizon AOL video
+google.com, pub-5781531207509232, RESELLER, f08c47fec0942fa0                   # AdX
+aniview.com, 5f2063121d82c82557194737, RESELLER, 78b21b97965ec3f8            # Aniview
+advertising.com, 23089, RESELLER                                             # Aniview
+appnexus.com, 9382, RESELLER, f5ab79cb980f11d1                               # Aniview
+openx.com, 540862677, RESELLER, 6a698e2ec38604c6                             # Aniview
+conversantmedia.com, 100195, RESELLER, 03113cd04947736d                        # Aniview
+improvedigital.com, 1581, RESELLER                                           # Aniview
+appnexus.com, 7445, RESELLER, f5ab79cb980f11d1                                                   # Adbility
+google.com, pub-7452201096415972, RESELLER, f08c47fec0942fa0                   # Adbility
+smartclip.net, 8153, RESELLER                                                  # Adbility
+spotxchange.com, 245212, RESELLER, 7842df1d2fe2db34                            # Adbility
+spotx.tv, 245212, RESELLER, 7842df1d2fe2db34                                   # Adbility
+appnexus.com, 806, RESELLER, f5ab79cb980f11d1                                  # Xandr video
+freewheel.tv, 211121, RESELLER                                                 # Freewheel
+freewheel.tv, 211129, RESELLER                                                 # Freewheel
+improvedigital.com, 1012, RESELLER                                          # Improve prebid
+indexexchange.com, 183921, RESELLER, 50b1c356f2c5c8fc                          # Index video
+ironsrc.com, 5fa94677b2db6a00015b22a9, RESELLER                                # IronSource
+ironsrc.com, 5a169d7d9515390002000001, RESELLER                                # IronSource
+openx.com, 537140488, RESELLER, 6a698e2ec38604c6                               # IronSource 
+pubmatic.com, 159087, RESELLER, 5d62403b186f2ace                               # IronSource
+advertising.com, 8693, RESELLER                                                # IronSource
+lkqd.net, 304, RESELLER, 59c49fa9598a0117                                      # LKQD video
+lkqd.com, 304, RESELLER, 59c49fa9598a0117                                    # LKQD video
+onetag.com, 59c7d7f65f9d658, RESELLER                                          # OneTag
+openx.com, 540134228, RESELLER, 6a698e2ec38604c6                               # OpenX video
+openx.com, 540634629, RESELLER, 6a698e2ec38604c6                               # OpenX video
+pubmatic.com,159234,RESELLER,5d62403b186f2ace                                  # Pubmatic Video
+richaudience.com, 1XvIoD5o0S, RESELLER                                         # Rich Audience
+rubiconproject.com, 13762, RESELLER, 0bfd66d529a55807                          # Rubicon video
+smartadserver.com, 3490, RESELLER                                              # Smartadserver video
+spotx.tv, 141412, RESELLER, 7842df1d2fe2db34                                   # Spotx video
+spotxchange.com, 141412, RESELLER, 7842df1d2fe2db34                            # Spotx video
+teads.tv, 16676, RESELLER, 15a9c44f6d26cbe1                                    # Teads video
+tremorhub.com, hpwve, RESELLER, 1a4e959a1b50034a                             # Telaria video
+telaria.com, hpwve, RESELLER, 1a4e959a1b50034a                               # Telaria video
+video.unrulymedia.com, UNRX-PUB-29dad46b-9bec-43c7-b950-c59d09cc8c71, RESELLER # Unruly RONE
+video.unrulymedia.com, 985572675, RESELLER                                     # Unruly RONE
+rhythmone.com, 2864567592, RESELLER, a670c89d4a324e47                          # Unruly RONE
+vidoomy.com, 51019, RESELLER                                                   # Vidoomy
+aol.com, 22762, RESELLER                                                       # Vidoomy
+freewheel.tv, 872257, RESELLER                                                 # Vidoomy
+freewheel.tv, 894193, RESELLER                                                 # Vidoomy
+lkqd.com, 430, RESELLER, 59c49fa9598a0117                                      # Vidoomy
+lkqd.net, 430, RESELLER, 59c49fa9598a0117                                      # Vidoomy
+openx.com, 540804929, RESELLER, 6a698e2ec38604c6                               # Vidoomy
+spotx.tv, 218443, RESELLER, 7842df1d2fe2db34                                   # Vidoomy
+spotxchange.com, 218443, RESELLER, 7842df1d2fe2db34                            # Vidoomy
+emxdgt.com, 1495, RESELLER, 1e1d41537f7cad7f                                   # Vidoomy
+appnexus.com, 1356, RESELLER, f5ab79cb980f11d1                                 # Vidoomy
+
+#AMX
+
+amxrtb.com, 105199469, RESELLER
+appnexus.com, 12290, RESELLER, f5ab79cb980f11d1
+appnexus.com, 11786, RESELLER, f5ab79cb980f11d1
+indexexchange.com, 191503, RESELLER, 50b1c356f2c5c8fc
+lijit.com, 260380, RESELLER, fafdf38b16bf6b2b
+sovrn.com, 260380, RESELLER, fafdf38b16bf6b2b
+pubmatic.com, 158355, RESELLER, 5d62403b186f2ace
+appnexus.com, 9393, RESELLER, f5ab79cb980f11d1  #Video #Display
+appnexus.com, 11924, RESELLER, f5ab79cb980f11d1
+appnexus.com, 1356, RESELLER, f5ab79cb980f11d1
