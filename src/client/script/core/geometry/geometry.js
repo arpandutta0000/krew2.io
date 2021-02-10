@@ -64,7 +64,7 @@ let materials = {
     }),
 
     smoke_friendly: new THREE.MeshBasicMaterial({
-        color: 0xcde6ff,
+        color: 0xe7ffe6,
         flatShading: true,
         opacity: 0.7,
         transparent: true
