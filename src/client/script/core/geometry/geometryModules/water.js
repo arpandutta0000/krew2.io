@@ -81,7 +81,7 @@ let waterSetup = () => {
                         value: new THREE.Matrix4()
                     },
                     sunColor: {
-                        value: new THREE.Color(0x7F7F7F)
+                        value: new THREE.Color(0x7f7f7f)
                     },
                     sunDirection: {
                         value: new THREE.Vector3(0, 0.70707, 0.70707)

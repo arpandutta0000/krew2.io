@@ -16,7 +16,7 @@ let geometry = {
 /* Create reusable materials */
 let materials = {
     boat: new THREE.MeshLambertMaterial({
-        color: 0x8A503E,
+        color: 0x8a503e,
         side: THREE.DoubleSide
     }),
 
@@ -31,19 +31,19 @@ let materials = {
     }),
 
     splinter: new THREE.MeshLambertMaterial({
-        color: 0xCDAC8F,
+        color: 0xcdac8f,
         flatShading: true
     }),
 
     boundary: new THREE.MeshLambertMaterial({
-        color: 0xB4EBFF,
+        color: 0xb4ebff,
         flatShading: true,
         opacity: 0.8,
         transparent: true
     }),
 
     impact_water: new THREE.MeshBasicMaterial({
-        color: 0xE9F1FF,
+        color: 0xe9f1ff,
         flatShading: true,
         opacity: 0.9,
         transparent: true
@@ -57,21 +57,21 @@ let materials = {
     }),
 
     smoke_enemy: new THREE.MeshBasicMaterial({
-        color: 0xFFCACA,
+        color: 0xffcaca,
         flatShading: true,
         opacity: 0.7,
         transparent: true
     }),
 
     smoke_friendly: new THREE.MeshBasicMaterial({
-        color: 0xCDE6FF,
+        color: 0xcde6ff,
         flatShading: true,
         opacity: 0.7,
         transparent: true
     }),
 
     smoke_player: new THREE.MeshBasicMaterial({
-        color: 0xE01E1E,
+        color: 0xe01e1e,
         flatShading: true,
         opacity: 0.5,
         transparent: true

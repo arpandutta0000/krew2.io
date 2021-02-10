@@ -236,7 +236,7 @@ class Player extends Entity {
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
-                        color: (this.notifiscationHeap[z].type) === 1 ? 0xFFD700 : 0x62ff00,
+                        color: (this.notifiscationHeap[z].type) === 1 ? 0xffd700 : 0x62ff00,
                         fog: false,
                         opacity: 0.0
                     }
