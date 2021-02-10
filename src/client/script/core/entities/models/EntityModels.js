@@ -1,4 +1,4 @@
-EntityModels = {
+let EntityModels = {
     /**
      * Method to create an entity body
      *

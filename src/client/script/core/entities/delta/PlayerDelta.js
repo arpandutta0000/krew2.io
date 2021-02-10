@@ -1,4 +1,4 @@
-PlayerDelta = {
+let PlayerDelta = {
     /**
      * Get a player's delta type
      *
