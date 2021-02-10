@@ -1,3 +1,5 @@
+/** ---- START General CSS ---- **/
+
 /* Create Caribbean font */
 @font-face {
     font-family: Caribbean;
@@ -43,41 +45,11 @@ canvas {
     height: 100%
 }
 
-/* Loading Wheel Div */
-#loading-wheel {
-    position: absolute;
-    z-index: 1060;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.2);
-    display: none;
-}
+/** ---- END General CSS ---- **/
 
-/* Loading Wheel Image*/
-#wheel {
-    animation: 3s linear 0s normal none infinite running wheel;
-    -webkit-animation: 3s linear 0s normal none infinite running wheel;
-    width: 12.5%;
-}
-@keyframes wheel {
-    0% {
-        transform: rotate(0deg);
-    }
 
-    100% {
-        transform: rotate(360deg);
-    }
-}
-@-webkit-keyframes wheel {
-    0% {
-        transform: rotate(0deg);
-    }
 
-    100% {
-        transform: rotate(360deg);
-    }
-}
+/** ---- START Pre-Gameplay CSS ---- **/
 
 /* Youtube Popup */
 .popup-youtube {
@@ -90,340 +62,19 @@ canvas {
     padding: 1.0rem 1rem;
 }
 
-/* Game UI (Container for all game elements) */
-#game-ui {
-    font-weight: bold;
-    color: #FFF;
-    display: none;
-}
-
-/* Krew HUD (Upper Left) */
-#krew-hud {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    margin: 5px;
-    font-size: 13px;
-    z-index: 1051;
-    width: 25.5%;
-    max-width: 300px;
-    display: inline-block;
-    width: 100%;
-}
-#krew-hud>.form-inline>.form-group {
-    margin-right: 0.625rem;
-}
-
-/* Toggle shop button */
-#toggle-shop-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle Krew list button */
-#toggle-krew-list-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle bank button */
-#toggle-bank-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* -- START Glowing -- */
-.glowing {
-    border-radius: 5px;
-    -webkit-animation: glowing 1500ms infinite;
-    -moz-animation: glowing 1500ms infinite;
-    -o-animation: glowing 1500ms infinite;
-    animation: glowing 1500ms infinite;
-}
-
-.glow-gold-plus {
-    color: #fff;
-    -webkit-animation: glow-gold-plus 1s ease-in-out 3 alternate;
-    -moz-animation: glow-gold-plus 1s ease-in-out 3 alternate;
-    animation: glow-gold-plus 1s ease-in-out 3 alternate;
-}
-
-.glow-gold-minus {
-    color: #fff;
-    -webkit-animation: glow-gold-minus 1s ease-in-out 3 alternate;
-    -moz-animation: glow-gold-minus 1s ease-in-out 3 alternate;
-    animation: glow-gold-minus 1s ease-in-out 3 alternate;
-}
-
-@-webkit-keyframes glowing {
-    0% {
-        background-color: #B20000;
-        -webkit-box-shadow: 0 0 3px #B20000;
-    }
-
-    50% {
-        background-color: #FF0000;
-        -webkit-box-shadow: 0 0 40px #FF0000;
-    }
-
-    100% {
-        background-color: #B20000;
-        -webkit-box-shadow: 0 0 3px #B20000;
-    }
-}
-
-@-moz-keyframes glowing {
-    0% {
-        background-color: #B20000;
-        -moz-box-shadow: 0 0 3px #B20000;
-    }
-
-    50% {
-        background-color: #FF0000;
-        -moz-box-shadow: 0 0 40px #FF0000;
-    }
-
-    100% {
-        background-color: #B20000;
-        -moz-box-shadow: 0 0 3px #B20000;
-    }
-}
-
-@-o-keyframes glowing {
-    0% {
-        background-color: #B20000;
-        box-shadow: 0 0 3px #B20000;
-    }
-
-    50% {
-        background-color: #FF0000;
-        box-shadow: 0 0 40px #FF0000;
-    }
-
-    100% {
-        background-color: #B20000;
-        box-shadow: 0 0 3px #B20000;
-    }
-}
-
-@keyframes glowing {
-    0% {
-        background-color: #B20000;
-        box-shadow: 0 0 3px #B20000;
-    }
-
-    50% {
-        background-color: #FF0000;
-        box-shadow: 0 0 40px #FF0000;
-    }
-
-    100% {
-        background-color: #B20000;
-        box-shadow: 0 0 3px #B20000;
-    }
-}
-
-@keyframes glow-gold-plus {
-    from {
-        text-shadow: 0 0 5px #fff,
-            0 0 10px #f0ad4e,
-            0 0 20px #f0ad4e,
-            0 0 30px #f0ad4e,
-            0 0 70px #f0ad4e,
-            0 0 30px #f0ad4e,
-            0 0 20px #f0ad4e,
-            0 0 10px #f0ad4e,
-            0 0 5px #f0ad4e;
-    }
-
-    to {
-        text-shadow:
-            0 0 0px #f0ad4e;
-
-    }
-}
-
-@keyframes glow-gold-minus {
-    from {
-        text-shadow: 0 0 5px #fff,
-            0 0 10px #f0ad4e,
-            0 0 20px #d9534f,
-            0 0 30px #d9534f,
-            0 0 70px #d9534f,
-            0 0 30px #d9534f,
-            0 0 20px #d9534f,
-            0 0 10px #d9534f,
-            0 0 5px #d9534f;
-    }
-
-    to {
-        text-shadow:
-            0 0 0px #d9534f;
-
-    }
-}
-/* -- END Glowing -- */
-
-/* -- START Tooltips Styling -- */
-[data-tooltip] {
-    position: relative;
-}
-
-/* Positioning and visibility settings of the tooltip */
-[data-tooltip]:before,
-[data-tooltip]:after {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-    left: 50%;
-    bottom: calc(100% + 5px);
-    pointer-events: none;
-    transition: 0.2s;
-    will-change: transform;
-    z-index: 10;
-}
-
-/* The actual tooltip with a dynamic width */
-[data-tooltip]:before {
-    content: attr(data-tooltip);
-    padding: 10px 18px;
-    min-width: 50px;
-    max-width: 300px;
-    width: max-content;
-    width: -moz-max-content;
-    border-radius: 6px;
-    font-size: 14px;
-    background-color: rgba(59, 72, 80, 0.9);
-    box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
-    color: #fff;
-    text-align: center;
-    white-space: pre-wrap;
-    transform: translate(-50%, -5px) scale(0.5);
-}
-
-/* Tooltip arrow */
-[data-tooltip]:after {
-    content: '';
-    border-style: solid;
-    border-width: 5px 5px 0px 5px;
-    border-color: rgba(55, 64, 70, 0.9) transparent transparent transparent;
-    transition-duration: 0s;
-    transform-origin: top;
-    transform: translateX(-50%) scaleY(0);
-}
-
-/* Tooltip becomes visible at hover */
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Scales from 0.5 to 1 -> grow effect */
-[data-tooltip]:hover:before {
-    transition-delay: 0.1s;
-    transform: translate(-50%, -5px) scale(1);
-}
-
-/* Slide down effect only on mouseenter (NOT on mouseleave) */
-[data-tooltip]:hover:after {
-    transition-delay: 0.1s;
-    /* Starting after the grow effect */
-    transition-duration: 0.2s;
-    transform: translateX(-50%) scaleY(1);
-}
-
-/* Tooltip + arrow */
-[data-tooltip-location="left"]:before,
-[data-tooltip-location="left"]:after {
-    left: auto;
-    right: calc(100% + 5px);
-    bottom: 50%;
-}
-[data-tooltip-location="left"]:before {
-    transform: translate(-5px, 50%) scale(0.5);
-}
-[data-tooltip-location="left"]:hover:before {
-    transform: translate(-5px, 50%) scale(1);
-}
-[data-tooltip-location="left"]:after {
-    border-width: 5px 0px 5px 5px;
-    border-color: transparent transparent transparent rgba(55, 64, 70, 0.9);
-    transform-origin: left;
-    transform: translateY(50%) scaleX(0);
-}
-[data-tooltip-location="left"]:hover:after {
-    transform: translateY(50%) scaleX(1);
-}
-
-/* Right */
-[data-tooltip-location="right"]:before,
-[data-tooltip-location="right"]:after {
-    left: calc(100% + 5px);
-    bottom: 50%;
-}
-
-[data-tooltip-location="right"]:before {
-    transform: translate(5px, 50%) scale(0.5);
-}
-
-[data-tooltip-location="right"]:hover:before {
-    transform: translate(5px, 50%) scale(1);
-}
-
-[data-tooltip-location="right"]:after {
-    border-width: 5px 5px 5px 0px;
-    border-color: transparent rgba(55, 64, 70, 0.9) transparent transparent;
-    transform-origin: right;
-    transform: translateY(50%) scaleX(0);
-}
-
-[data-tooltip-location="right"]:hover:after {
-    transform: translateY(50%) scaleX(1);
-}
-
-/* Bottom */
-[data-tooltip-location="bottom"]:before,
-[data-tooltip-location="bottom"]:after {
-    top: calc(100% + 5px);
-    bottom: auto;
-}
-
-[data-tooltip-location="bottom"]:before {
-    transform: translate(-50%, 5px) scale(0.5);
-}
-
-[data-tooltip-location="bottom"]:hover:before {
-    transform: translate(-50%, 5px) scale(1);
-}
-
-[data-tooltip-location="bottom"]:after {
-    border-width: 0px 5px 5px 5px;
-    border-color: transparent transparent rgba(55, 64, 70, 0.9) transparent;
-    transform-origin: bottom;
-}
-/* -- END Tooltips Styling -- */
-
 /* Media settings for pre-gameplay modals */
 @media (max-width: 900px) {
     #modal-dialog {
         width: 100%;
     }
 }
+
 @media (min-width: 900px) {
     #modal-dialog {
         width: 80%;
     }
 }
+
 @media (max-width: 750px) {
     .changelog-box {
         display: none;
@@ -438,6 +89,7 @@ canvas {
         float: none;
     }
 }
+
 @media (min-width: 750px) {
     .main-menu-div {
         width: 33%;
@@ -569,10 +221,173 @@ td {
     border-collapse: collapse;
     opacity: .8;
 }
+
 /* -- END Wall of fame -- */
 
+/** ---- END Pre-Gameplay CSS ---- **/
 
-/* -- START Clan Management -- */
+
+
+/** ---- START Gameplay CSS ---- **/
+
+/* Loading Wheel Div */
+#loading-wheel {
+    position: absolute;
+    z-index: 1060;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+/* Loading Wheel Image*/
+#wheel {
+    animation: 3s linear 0s normal none infinite running wheel;
+    -webkit-animation: 3s linear 0s normal none infinite running wheel;
+    width: 12.5%;
+}
+
+@keyframes wheel {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes wheel {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Preroll Ad */
+.ad-player {
+    position: absolute;
+    top: 25%;
+    right: 20%;
+    transform: translate(50%, -43%);
+}
+
+/* Game UI (Container for all game elements) */
+#game-ui {
+    font-weight: bold;
+    color: #FFF;
+    display: none;
+}
+
+/* Gold */
+#earn-gold {
+    bottom: 340px;
+    right: 15px;
+    position: absolute;
+    margin-top: 225px;
+}
+
+#gold-div,
+#delta-gold {
+    top: 8px;
+    left: 62.5%;
+    font-size: 20px;
+    position: absolute;
+    text-align: center;
+}
+
+/* -- START Krew HUD -- */
+
+/* Krew HUD Container (Upper Left) */
+#krew-hud {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin: 5px;
+    font-size: 13px;
+    z-index: 1051;
+    width: 25.5%;
+    max-width: 300px;
+    display: inline-block;
+    width: 100%;
+}
+
+#krew-hud>.form-inline>.form-group {
+    margin-right: 0.625rem;
+}
+
+/* Invite Div */
+#invite-div {
+    padding-top: 15px;
+    display: none;
+}
+
+/* Exit island button */
+#exit-island-button {
+    margin-right: 4%
+}
+
+/* -- END Krew HUD -- */
+
+
+/* Ping and FPS */
+#stats-wrapper {
+    display: inline-block;
+    position: inherit;
+    top: 1%;
+    left: 101%;
+    text-align: center;
+}
+
+#fps-wrapper,
+#ping-wrapper {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    padding: 5px;
+    min-width: 60px;
+    margin-bottom: 2.5px;
+}
+
+/* Ship Status Menu*/
+#ship-status-modal {
+    display: none;
+    width: 500px;
+    margin-right: 20px;
+    top: 10%;
+    left: 35%;
+    display: none;
+    position: absolute;
+    z-index: 1060;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    border-radius: .3em;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Kick player from Krew button */
+.btn-kick-player {
+    cursor: pointer;
+    padding: 0 0.2em;
+    line-height: 1;
+    margin-left: 0.3em;
+    margin-top: 2px;
+}
+
+/* Transfer ship button */
+.btn-transfer-ship {
+    cursor: pointer;
+    padding: 0 0.2em;
+    line-height: 1;
+    margin-left: 0.3em;
+    margin-top: 2px;
+}
+
+/* Clan Management */
 #clan-table-div {
     overflow-y: auto;
     overflow-x: hidden;
@@ -608,10 +423,68 @@ td {
     margin: 3px;
     padding: 7px;
 }
-/* -- END Clan Management -- */
+
+/* Top Menu UI*/
+#top-menu-ui {
+    top: -5px;
+    left: 50%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 5px;
+    border-radius: 5px;
+    transform: translate(-50%);
+    max-width: 350px;
+    text-align: center;
+    z-index: 1072;
+    height: auto;
+}
+
+#top-menu-ui div {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+
+/* -- START Top UI Buttons */
+
+/* Toggle shop button */
+#toggle-shop-modal-button {
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem .2rem;
+    font-size: 1.375rem;
+}
+
+/* Toggle Krew list button */
+#toggle-krew-list-modal-button {
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem .2rem;
+    font-size: 1.375rem;
+}
+
+/* Toggle bank button */
+#toggle-bank-modal-button {
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem .2rem;
+    font-size: 1.375rem;
+}
 
 /* Toggle Map button */
 #toggle-map-button {
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 1.0;
+    padding: .2rem .2rem;
+    font-size: 1.375rem;
+}
+
+/* Toggle Quests button */
+#toggle-quest-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
     line-height: 1.0;
@@ -628,44 +501,116 @@ td {
     font-size: 1.375rem;
 }
 
-/* Exit island button */
-#exit-island-button {
-    margin-right: 4%
-}
+/* -- END Top UI Buttons */
 
-/* Toggle Quests button */
-#toggle-quest-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
 
-/* Invite Div */
-#invite-div {
-    padding-top: 15px;
+/* -- START Top UI Menus */
+
+/* Shopping Modal */
+#shopping-modal {
+    top: 10%;
+    left: 26%;
+    margin-right: 20px;
     display: none;
+    position: absolute;
+    z-index: 1060;
+    width: 800px;
+    border-radius: .3em;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
-/* Top Menu UI*/
-#top-menu-ui {
-    top: -5px;
-    left: 50%;
+.trading .btn {
+    margin: -6px 0 0;
+    font-size: 0.7em;
+    padding: 0.2em 0.7em;
+    width: 100%
+}
+
+.trading label {
+    font-size: 0.6em;
+    position: relative;
+    margin: 0 0 0;
+    display: block;
+    line-height: 1;
+    color: #777
+}
+
+/* Krew List modal */
+#krew-list-modal {
+    display: none;
+    width: 500px;
+    margin-right: 20px;
+    top: 10%;
+    left: 35%;
     position: absolute;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 5px;
-    border-radius: 5px;
-    transform: translate(-50%);
-    max-width: 350px;
-    text-align: center;
-    z-index: 1072;
-    height: auto;
+    z-index: 1060;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    border-radius: .3em;
+    background-color: rgba(255, 255, 255, 0.9);
 }
-#top-menu-ui div {
-    margin-left: 3px;
-    margin-right: 3px;
+
+/* Krew list container */
+#krew-list {
+    height: 120px;
+    overflow: auto;
+    padding: 0 5px;
 }
+
+/* Bank Modal */
+#bank-modal {
+    width: 700px;
+    margin-right: 20px;
+    display: none;
+    top: 10%;
+    left: 29%;
+    position: absolute;
+    z-index: 1060;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    border-radius: .3em;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Quests Modal */
+#quests-modal {
+    position: absolute;
+    width: 700px;
+    margin-right: 20px;
+    display: none;
+    top: 10%;
+    left: 29%;
+    z-index: 1060;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    border-radius: .3em;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Help Modal */
+#help-modal {
+    width: 700px;
+    margin-right: 20px;
+    top: 10%;
+    left: 29%;
+    position: absolute;
+    z-index: 1060;
+    display: none;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    border-radius: .3em;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* -- END Top UI Menus */
+
 
 /* -- START Leaderboard -- */
 #leaderboard {
@@ -755,20 +700,9 @@ td {
     padding: 0;
     display: block;
 }
+
 /* -- END Leaderboard -- */
 
-#center-div {
-    font-size: 32px;
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    margin: 25px;
-    z-index: 1070;
-}
-
-#quality-div {
-    border-radius: 5px;
-}
 
 /* -- START Inventory / Experience UI -- */
 #inventory-container {
@@ -795,22 +729,147 @@ td {
     display: inline-block;
 }
 
+/* -- START Experience bar -- */
+
+/* Experience bar container */
+#experience-ui {
+    width: 40%;
+    bottom: 5px;
+    left: 50%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px;
+    border-radius: 6px;
+    padding-bottom: 0;
+    transform: translate(-50%);
+    min-width: 300px;
+    max-width: 400px;
+    text-align: center;
+}
+
+#experience-attribute-container {
+    display: inline-block;
+    vertical-align: middle;
+    width: 200px;
+    z-index: 1;
+    position: relative;
+}
+
+/* Progress (Experience) Bar */
+[data-progress] {
+    border: 3px solid #fff;
+    color: #28a745;
+    height: 30px;
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    z-index: 1;
+    margin: 0 0 5px;
+    padding: 1px;
+}
+
+[data-progress]::after,
+[data-progress]::before,
+[data-progress]>div {
+    transition: all 0.3s ease-in-out;
+    content: ' ';
+    position: absolute;
+    height: 100%;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+}
+
+[data-progress]::before {
+    content: attr(data-info-up);
+    top: -28px;
+}
+
+[data-progress]::after {
+    content: attr(data-info);
+    top: 0;
+    width: 100%;
+    left: 0;
+}
+
+[data-progress]>div {
+    background: #fff;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    padding: 0px;
+    left: 0;
+    border: 0;
+}
+
+[class*=experience-attribute] {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    font-size: 18px;
+    border-radius: 5px;
+    margin: 0;
+    text-align: center;
+}
+
+[class*=experience-attribute]>small {
+    display: block;
+    font-size: 12px;
+}
+
+/* Level up button */
+.level-up-button {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: -42px;
+    color: #d9534f;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* -- END Experience bar */
+
 /* -- END Inventory / Experience UI -- */
 
-/* Gold */
-#earn-gold {
-    bottom: 340px;
-    right: 15px;
+
+/* Minimap */
+#minimap-container {
     position: absolute;
-    margin-top: 225px;
+    right: 0;
+    bottom: -30px;
+    background-image: url('assets/img/misc/map.png');
+    border-radius: 5px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 60px;
+    opacity: 0.8;
+    transition: all .4s;
 }
-#gold-div,
-#delta-gold {
-    top: 8px;
-    left: 62.5%;
-    font-size: 20px;
-    position: absolute;
-    text-align: center;
+
+#minimap-container:hover {
+    opacity: 1;
+}
+
+#minimap {
+    width: 200px;
+    height: 200px;
+}
+
+/* Docking modal */
+#docking-modal.initial {
+    background: #ffffffa6;
+    color: #28a745;
+    font-size: 18px;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+/* Docking modal button */
+#docking-modal-button {
+    margin-right: 10px;
 }
 
 /* -- START Chat -- */
@@ -843,15 +902,28 @@ td {
 .text-mod-color {
     color: #bb15eb !important;
 }
+
 a.text-mod-color:focus,
 a.text-mod-color:hover {
     color: #761e8f !important;
 }
+
 .text-clan-color {
     color: #ff9800 !important;
 }
+
 /* -- END Chat -- */
 
+/** ---- END Gameplay CSS ---- **/
+
+
+
+
+
+/** ------ Misc CSS ------ **/
+
+
+/* Table Helpers */
 #scrollable-table {
     font-size: 15px;
     height: 420px;
@@ -862,125 +934,12 @@ a.text-mod-color:hover {
     border-top: none;
 }
 
-/* Ship Status Menu*/
-#ship-status-modal {
-    display: none;
-    width: 500px;
-    margin-right: 20px;
-    top: 10%;
-    left: 35%;
-    display: none;
-    position: absolute;
-    z-index: 1060;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    border-radius: .3em;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Shopping Modal */
-#shopping-modal {
-    top: 10%;
-    left: 26%;
-    margin-right: 20px;
-    display: none;
-    position: absolute;
-    z-index: 1060;
-    width: 800px;
-    border-radius: .3em;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Krew List modal */
-#krew-list-modal {
-    display: none;
-    width: 500px;
-    margin-right: 20px;
-    top: 10%;
-    left: 35%;
-    position: absolute;
-    z-index: 1060;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    border-radius: .3em;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Krew list container */
-#krew-list {
-    height: 120px;
-    overflow: auto;
-    padding: 0 5px;
-}
-
-/* Bank Modal */
-#bank-modal {
-    width: 700px;
-    margin-right: 20px;
-    display: none;
-    top: 10%;
-    left: 29%;
-    position: absolute;
-    z-index: 1060;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    border-radius: .3em;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Quests Modal */
-#quests-modal {
-    position: absolute;
-    width: 700px;
-    margin-right: 20px;
-    display: none;
-    top: 10%;
-    left: 29%;
-    z-index: 1060;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    border-radius: .3em;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Help Modal */
-#help-modal {
-    width: 700px;
-    margin-right: 20px;
-    top: 10%;
-    left: 29%;
-    position: absolute;
-    z-index: 1060;
-    display: none;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    border-radius: .3em;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Preroll Ad */
-.ad-player {
-    position: absolute;
-    top: 25%;
-    right: 20%;
-    transform: translate(50%, -43%);
-}
-
 /* Container */
 .container {
     position: relative;
     margin-left: auto;
     margin-right: auto;
 }
-
 
 /* Transparent White modal Background */
 .white-transparent-bg {
@@ -1029,165 +988,13 @@ a.text-mod-color:hover {
     font-family: caribbean;
 }
 
-.float-right {
-    float: right;
-}
-
-.trading .btn {
-    margin: -6px 0 0;
-    font-size: 0.7em;
-    padding: 0.2em 0.7em;
-    width: 100%
-}
-
-.trading label {
-    font-size: 0.6em;
-    position: relative;
-    margin: 0 0 0;
-    display: block;
-    line-height: 1;
-    color: #777
-}
-
-.stock {
-    width: 100%;
-    min-width: 600px;
-}
-
-
-/* Kick player from Krew button */
-.btn-kick-player {
-    cursor: pointer;
-    padding: 0 0.2em;
-    line-height: 1;
-    margin-left: 0.3em;
-    margin-top: 2px;
-}
-
-/* Transfer ship button */
-.btn-transfer-ship {
-    cursor: pointer;
-    padding: 0 0.2em;
-    line-height: 1;
-    margin-left: 0.3em;
-    margin-top: 2px;
-}
-
-/* -- START Experience bar -- */
-
-/* Experience bar container */
-#experience-ui {
-    width: 40%;
-    bottom: 5px;
-    left: 50%;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 3px;
-    border-radius: 6px;
-    padding-bottom: 0;
-    transform: translate(-50%);
-    min-width: 300px;
-    max-width: 400px;
-    text-align: center;
-}
-#experience-attribute-container {
-    display: inline-block;
-    vertical-align: middle;
-    width: 200px;
-    z-index: 1;
-    position: relative;
-}
-
-/* Progress (Experience) Bar */
-[data-progress] {
-    border: 3px solid #fff;
-    color: #28a745;
-    height: 30px;
-    width: 100%;
-    position: relative;
-    border-radius: 5px;
-    z-index: 1;
-    margin: 0 0 5px;
-    padding: 1px;
-}
-[data-progress]::after,
-[data-progress]::before,
-[data-progress]>div {
-    transition: all 0.3s ease-in-out;
-    content: ' ';
-    position: absolute;
-    height: 100%;
-    z-index: 2;
-    text-align: center;
-    width: 100%;
-}
-[data-progress]::before {
-    content: attr(data-info-up);
-    top: -28px;
-}
-[data-progress]::after {
-    content: attr(data-info);
-    top: 0;
-    width: 100%;
-    left: 0;
-}
-[data-progress]>div {
-    background: #fff;
-    position: relative;
-    z-index: 1;
-    white-space: nowrap;
-    padding: 0px;
-    left: 0;
-    border: 0;
-}
-
-[class*=experience-attribute] {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    font-size: 18px;
-    border-radius: 5px;
-    margin: 0;
-    text-align: center;
-}
-[class*=experience-attribute]>small {
-    display: block;
-    font-size: 12px;
-}
-
-/* Level up button */
-.level-up-button {
-    display: block;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: -42px;
-    color: #d9534f;
-    font-size: 40px;
-    cursor: pointer;
-}
-/* -- END Experience bar */
-
-/* Docking modal */
-#docking-modal.initial {
-    background: #ffffffa6;
-    color: #28a745;
-    font-size: 18px;
-    padding: 20px;
-    border-radius: 7px;
-}
-
-/* Docking modal button */
-#docking-modal-button {
-    margin-right: 10px;
-}
-
 /* Buy Ship table */
 .ship-table th,
 .ship-table td {
     padding: .5rem 6px .5rem 6px;
     text-align: center;
 }
+
 .ship-table tr {
     line-height: 34px;
 }
@@ -1201,45 +1008,6 @@ a.text-mod-color:hover {
     box-sizing: border-box;
 }
 
-/* Minimap */
-#minimap-container {
-    position: absolute;
-    right: 0;
-    bottom: -30px;
-    background-image: url('assets/img/misc/map.png');
-    border-radius: 5px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 60px;
-    opacity: 0.8;
-    transition: all .4s;
-}
-#minimap-container:hover {
-    opacity: 1;
-}
-#minimap {
-    width: 200px;
-    height: 200px;
-}
-
-/* Ping and FPS */
-#stats-wrapper {
-    display: inline-block;
-    position: inherit;
-    top: 1%;
-    left: 101%;
-    text-align: center;
-}
-#fps-wrapper,
-#ping-wrapper {
-    background-color: rgba(0, 0, 0, 0.35);
-    border-radius: 5px;
-    padding: 5px;
-    min-width: 60px;
-    margin-bottom: 2.5px;
-}
-
 /* Toggle Switch */
 .toggle {
     isolation: isolate;
@@ -1250,6 +1018,7 @@ a.text-mod-color:hover {
     background: #d6d6d6;
     overflow: hidden;
 }
+
 .toggle-inner {
     z-index: 2;
     position: absolute;
@@ -1260,18 +1029,23 @@ a.text-mod-color:hover {
     border-radius: 15px;
     overflow: hidden;
 }
+
 .toggle-state {
     display: none;
 }
+
 .toggle-state:checked~.active-bg {
     transform: translate3d(-50%, 0, 0);
 }
+
 .toggle-state:checked~.toggle-inner .indicator {
     transform: translate3d(25%, 0, 0);
 }
+
 .lock-text-info {
     color: #5bc0de !important
 }
+
 .lock-text-error {
     color: #d9534f !important
 }
@@ -1305,5 +1079,306 @@ a.text-mod-color:hover {
     transition: transform 0.35s cubic-bezier(0.85, 0.05, 0.18, 1.35);
 }
 
+/* -- START Other -- */
+#center-div {
+    font-size: 32px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    margin: 25px;
+    z-index: 1070;
+}
+
+#quality-div {
+    border-radius: 5px;
+}
+
+.float-right {
+    float: right;
+}
+
+.stock {
+    width: 100%;
+    min-width: 600px;
+}
+
+/* -- END Other -- */
 
 
+/* -- START Glowing -- */
+.glowing {
+    border-radius: 5px;
+    -webkit-animation: glowing 1500ms infinite;
+    -moz-animation: glowing 1500ms infinite;
+    -o-animation: glowing 1500ms infinite;
+    animation: glowing 1500ms infinite;
+}
+
+.glow-gold-plus {
+    color: #fff;
+    -webkit-animation: glow-gold-plus 1s ease-in-out 3 alternate;
+    -moz-animation: glow-gold-plus 1s ease-in-out 3 alternate;
+    animation: glow-gold-plus 1s ease-in-out 3 alternate;
+}
+
+.glow-gold-minus {
+    color: #fff;
+    -webkit-animation: glow-gold-minus 1s ease-in-out 3 alternate;
+    -moz-animation: glow-gold-minus 1s ease-in-out 3 alternate;
+    animation: glow-gold-minus 1s ease-in-out 3 alternate;
+}
+
+@-webkit-keyframes glowing {
+    0% {
+        background-color: #B20000;
+        -webkit-box-shadow: 0 0 3px #B20000;
+    }
+
+    50% {
+        background-color: #FF0000;
+        -webkit-box-shadow: 0 0 40px #FF0000;
+    }
+
+    100% {
+        background-color: #B20000;
+        -webkit-box-shadow: 0 0 3px #B20000;
+    }
+}
+
+@-moz-keyframes glowing {
+    0% {
+        background-color: #B20000;
+        -moz-box-shadow: 0 0 3px #B20000;
+    }
+
+    50% {
+        background-color: #FF0000;
+        -moz-box-shadow: 0 0 40px #FF0000;
+    }
+
+    100% {
+        background-color: #B20000;
+        -moz-box-shadow: 0 0 3px #B20000;
+    }
+}
+
+@-o-keyframes glowing {
+    0% {
+        background-color: #B20000;
+        box-shadow: 0 0 3px #B20000;
+    }
+
+    50% {
+        background-color: #FF0000;
+        box-shadow: 0 0 40px #FF0000;
+    }
+
+    100% {
+        background-color: #B20000;
+        box-shadow: 0 0 3px #B20000;
+    }
+}
+
+@keyframes glowing {
+    0% {
+        background-color: #B20000;
+        box-shadow: 0 0 3px #B20000;
+    }
+
+    50% {
+        background-color: #FF0000;
+        box-shadow: 0 0 40px #FF0000;
+    }
+
+    100% {
+        background-color: #B20000;
+        box-shadow: 0 0 3px #B20000;
+    }
+}
+
+@keyframes glow-gold-plus {
+    from {
+        text-shadow: 0 0 5px #fff,
+            0 0 10px #f0ad4e,
+            0 0 20px #f0ad4e,
+            0 0 30px #f0ad4e,
+            0 0 70px #f0ad4e,
+            0 0 30px #f0ad4e,
+            0 0 20px #f0ad4e,
+            0 0 10px #f0ad4e,
+            0 0 5px #f0ad4e;
+    }
+
+    to {
+        text-shadow:
+            0 0 0px #f0ad4e;
+
+    }
+}
+
+@keyframes glow-gold-minus {
+    from {
+        text-shadow: 0 0 5px #fff,
+            0 0 10px #f0ad4e,
+            0 0 20px #d9534f,
+            0 0 30px #d9534f,
+            0 0 70px #d9534f,
+            0 0 30px #d9534f,
+            0 0 20px #d9534f,
+            0 0 10px #d9534f,
+            0 0 5px #d9534f;
+    }
+
+    to {
+        text-shadow:
+            0 0 0px #d9534f;
+
+    }
+}
+
+/* -- END Glowing -- */
+
+/* -- START Tooltips Styling -- */
+[data-tooltip] {
+    position: relative;
+}
+
+/* Positioning and visibility settings of the tooltip */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    left: 50%;
+    bottom: calc(100% + 5px);
+    pointer-events: none;
+    transition: 0.2s;
+    will-change: transform;
+    z-index: 10;
+}
+
+/* The actual tooltip with a dynamic width */
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    padding: 10px 18px;
+    min-width: 50px;
+    max-width: 300px;
+    width: max-content;
+    width: -moz-max-content;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: rgba(59, 72, 80, 0.9);
+    box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+    white-space: pre-wrap;
+    transform: translate(-50%, -5px) scale(0.5);
+}
+
+/* Tooltip arrow */
+[data-tooltip]:after {
+    content: '';
+    border-style: solid;
+    border-width: 5px 5px 0px 5px;
+    border-color: rgba(55, 64, 70, 0.9) transparent transparent transparent;
+    transition-duration: 0s;
+    transform-origin: top;
+    transform: translateX(-50%) scaleY(0);
+}
+
+/* Tooltip becomes visible at hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Scales from 0.5 to 1 -> grow effect */
+[data-tooltip]:hover:before {
+    transition-delay: 0.1s;
+    transform: translate(-50%, -5px) scale(1);
+}
+
+/* Slide down effect only on mouseenter (NOT on mouseleave) */
+[data-tooltip]:hover:after {
+    transition-delay: 0.1s;
+    /* Starting after the grow effect */
+    transition-duration: 0.2s;
+    transform: translateX(-50%) scaleY(1);
+}
+
+/* Tooltip + arrow */
+[data-tooltip-location="left"]:before,
+[data-tooltip-location="left"]:after {
+    left: auto;
+    right: calc(100% + 5px);
+    bottom: 50%;
+}
+
+[data-tooltip-location="left"]:before {
+    transform: translate(-5px, 50%) scale(0.5);
+}
+
+[data-tooltip-location="left"]:hover:before {
+    transform: translate(-5px, 50%) scale(1);
+}
+
+[data-tooltip-location="left"]:after {
+    border-width: 5px 0px 5px 5px;
+    border-color: transparent transparent transparent rgba(55, 64, 70, 0.9);
+    transform-origin: left;
+    transform: translateY(50%) scaleX(0);
+}
+
+[data-tooltip-location="left"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+/* Right */
+[data-tooltip-location="right"]:before,
+[data-tooltip-location="right"]:after {
+    left: calc(100% + 5px);
+    bottom: 50%;
+}
+
+[data-tooltip-location="right"]:before {
+    transform: translate(5px, 50%) scale(0.5);
+}
+
+[data-tooltip-location="right"]:hover:before {
+    transform: translate(5px, 50%) scale(1);
+}
+
+[data-tooltip-location="right"]:after {
+    border-width: 5px 5px 5px 0px;
+    border-color: transparent rgba(55, 64, 70, 0.9) transparent transparent;
+    transform-origin: right;
+    transform: translateY(50%) scaleX(0);
+}
+
+[data-tooltip-location="right"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+/* Bottom */
+[data-tooltip-location="bottom"]:before,
+[data-tooltip-location="bottom"]:after {
+    top: calc(100% + 5px);
+    bottom: auto;
+}
+
+[data-tooltip-location="bottom"]:before {
+    transform: translate(-50%, 5px) scale(0.5);
+}
+
+[data-tooltip-location="bottom"]:hover:before {
+    transform: translate(-50%, 5px) scale(1);
+}
+
+[data-tooltip-location="bottom"]:after {
+    border-width: 0px 5px 5px 5px;
+    border-color: transparent transparent rgba(55, 64, 70, 0.9) transparent;
+    transform-origin: bottom;
+}
+
+/* -- END Tooltips Styling -- */
