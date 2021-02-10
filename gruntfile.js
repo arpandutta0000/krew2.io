@@ -122,7 +122,7 @@ module.exports = grunt => {
                     `src/client/script/main.js`,
                     `src/client/script/core/connection.js`
                 ],
-                dest: `src/client/script/${process.env.NODE_ENV == `prod` ? `dist.js` : `dist.min.js`}`
+                dest: `src/client/script/dist.js`
             }
         },
 
@@ -226,7 +226,8 @@ module.exports = grunt => {
         `concat:server`,
         `concat:client`,
         `cssmin:styles`,
-        `webpack:dev`
+        `webpack:dev`,
+        `clean:preMinified`
     ]);
 
     // Run in dev.

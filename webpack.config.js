@@ -29,7 +29,7 @@ module.exports = {
 
     dev: {
         mode: appMode === `prod` ? `production` : `development`,
-        entry: [`./src/client/script/dist.min.js`],
+        entry: [`./src/client/script/dist.js`],
         output: {
             path: path.resolve(__dirname, `src/client/script`),
             filename: `dist.min.js`
