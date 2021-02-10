@@ -200,5 +200,10 @@ let ui = {
         } else { // If i am not the captain hide the edit button
             $(`#crew-name-edit-button`).addClass(`hidden`);
         }
-    }
+    },
+
+    /**
+     * Returns true if a text field is focused
+     */
+    textFieldFocused: () => $(`#chat-message`).is(`:focus`) || $(`#crew-name-edit-input`).is(`:focus`) || $(`#clan-request`).is(`:focus`) || $(`#make-deposit`).is(`:focus`) || $(`#take-deposit`).is(`:focus`)
 };
