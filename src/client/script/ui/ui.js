@@ -85,7 +85,7 @@ let ui = {
         let glowGoldTimeout = 0;
 
         // update player gold in shopping window
-        deltaGold = gold - ui.lastGold;
+        let deltaGold = gold - ui.lastGold;
         ui.lastGold = gold;
         if (deltaGold > 0) {
             myPlayer.notifiscationHeap[Math.random().toString(36).substring(6, 10)] = {

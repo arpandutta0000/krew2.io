@@ -208,7 +208,7 @@ let updateLeaderboard = (scores) => {
         playerListItem += `</span>`;
         playerListItem += `</div>`;
 
-        $playerDiv = $(playerListItem);
+        let $playerDiv = $(playerListItem);
 
         // indicate captain
         if (myPlayer.parent.captainId === player.id) {
