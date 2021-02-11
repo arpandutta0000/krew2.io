@@ -933,6 +933,57 @@ td {
 
 /** ------ Misc CSS ------ **/
 
+/* Play button */
+.play-btn {
+    color: #fff;
+    background-color: #00ad34;
+    border-color: #00ad34;
+}
+
+.play-btn:hover {
+    color: #fff;
+    background-color: #008a3e;
+    border-color: #008a3e;
+}
+
+/* Account Settings button */
+.acc-settings-btn {
+    color: #fff;
+    background-color: #ffb600;
+    border-color: #ffb600;
+}
+
+.acc-settings-btn:hover {
+    color: #fff;
+    background-color: #e5a000;
+    border-color: #e5a000;
+}
+
+/* Player Customization Button */
+.player-custom-btn {
+    color: #fff;
+    background-color: #ff9d14;
+    border-color: #ff9d14;
+}
+
+.player-custom-btn:hover {
+    color: #fff;
+    background-color: #e58a14;
+    border-color: #e58a14;
+}
+
+/* Watch Tutorial button */
+.tutorial-btn {
+    color: #fff;
+    background-color: #ff7039;
+    border-color: #ff7039;
+}
+
+.tutorial-btn:hover {
+    color: #fff;
+    background-color: #e56531;
+    border-color: #e56531;
+}
 
 /* Table Helpers */
 #scrollable-table {
