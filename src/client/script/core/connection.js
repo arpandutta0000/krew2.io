@@ -290,7 +290,7 @@ let initSocketBinds = () => {
             }
 
             let playerColor;
-            if (isAdmin) `admin-color`
+            if (isAdmin) playerColor = `admin-color`;
             else if (isMod || isDev) playerColor = `mod-color`;
             else if (isPlayer) playerColor = `myself-color`;
             else if (isClanMember) playerColor = `clan-color`;
