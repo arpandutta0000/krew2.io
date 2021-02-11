@@ -309,7 +309,7 @@ let initSocketBinds = () => {
                                 : `white`}`
             });
 
-            messageTypes = [`staff-chat`, `clan-chat`, `local-chat`, `global-chat`];
+            let messageTypes = [`staff-chat`, `clan-chat`, `local-chat`, `global-chat`];
             for (let i = 0; i < messageTypes.length; i++) {
                 let messageType = messageTypes[i];
 
