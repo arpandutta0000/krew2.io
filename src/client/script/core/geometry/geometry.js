@@ -88,9 +88,9 @@ let labelcolors = {
     admin: new THREE.Color(0x1f9aff),
     mod: new THREE.Color(0x7e00e6),
     myself: new THREE.Color(0x2cf22f),
-    clan: new THREE.Color(0xffe815),
-    captain: new THREE.Color(0xff894e),
-    krewmate: new THREE.Color(0xff4b2b),
+    clan: new THREE.Color(0xffc711),
+    captain: new THREE.Color(0xff5100),
+    krewmate: new THREE.Color(0xff7640),
     player: new THREE.Color(0xffffff),
 
     boat: new THREE.Color(0xc5a37c),
