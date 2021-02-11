@@ -267,12 +267,7 @@ let PlayerLogic = {
         ) {
             updateKrewList();
 
-            if (!ui.hideSuggestionBox) {
-                if (!$(`#shopping-modal`).is(`:visible`) && myPlayer.gold > 500) {
-                    if ($(`#earn-gold`).is(`:visible`))
-                        $(`#earn-gold`).hide();
-                }
-            }
+            if (!ui.hideSuggestionBox && myPlayer && myPlayer.gold > 500 && !$(`#shopping-modal`).is(`:visible`) && $(`#earn-gold`).is(`:visible`)) $(`#earn-gold`).hide();
 
             let island = entities[_this.parent.anchorIslandId || _this.parent.id];
             let islandPosition = new THREE.Vector3(0, 0, 0);
