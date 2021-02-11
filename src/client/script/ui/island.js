@@ -163,6 +163,12 @@ let exitIsland = (data) => {
 let updateStore = () => {
     $(`#shopping-item-list`).html(``);
 
+    if ($(`#buy-items`).hasClass(`active`)) {
+        if ($(`#abandon-existing-krew`).is(`:visible`)) $(`#abandon-existing-krew`).hide();
+        getItems((div) => $(`#shopping-item-list`).html(div));
+        return;
+    }
+
     if ($(`#buy-ships`).hasClass(`active`)) {
         if (myPlayer !== undefined && myPlayer.parent !== undefined &&
             myPlayer.parent.captainId !== myPlayer.id && myPlayer.parent.netType === 1) {
@@ -172,15 +178,10 @@ let updateStore = () => {
         return;
     }
 
-    if ($(`#buy-items`).hasClass(`active`)) {
-        if ($(`#abandon-existing-krew`).is(`:visible`)) $(`#abandon-existing-krew`).hide();
-        getItems((div) => $(`#shopping-item-list`).html(div));
-        return;
-    }
-
     if ($(`#buy-goods`).hasClass(`active`)) {
         if ($(`#abandon-existing-krew`).is(`:visible`)) $(`#abandon-existing-krew`).hide();
         GoodsComponent.getList();
+        return;
     }
 };
 
