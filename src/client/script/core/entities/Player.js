@@ -195,7 +195,6 @@ class Player extends Entity {
                 this.label.material.color = playerColor;
             }
 
-
             this.label.material.map.text = `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
             this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined &&
                 (this.parent.netType === 5 || this.parent.inRange);
