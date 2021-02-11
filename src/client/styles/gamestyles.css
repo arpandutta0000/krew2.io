@@ -940,6 +940,13 @@ td {
     border-color: #00ad34;
 }
 
+.play-btn:disabled,
+.play-btn[disabled] {
+    color: #fff;
+    background-color: #00ad34;
+    border-color: #00ad34;
+}
+
 .play-btn:hover {
     color: #fff;
     background-color: #008a3e;
@@ -948,6 +955,13 @@ td {
 
 /* Account Settings button */
 .acc-settings-btn {
+    color: #fff;
+    background-color: #ffb600;
+    border-color: #ffb600;
+}
+
+.acc-settings-btn:disabled,
+.acc-settings-btn[disabled] {
     color: #fff;
     background-color: #ffb600;
     border-color: #ffb600;
@@ -966,6 +980,13 @@ td {
     border-color: #ff9d14;
 }
 
+.player-custom-btn:disabled,
+.player-custom-btn[disabled] {
+    color: #fff;
+    background-color: #ff9d14;
+    border-color: #ff9d14;
+}
+
 .player-custom-btn:hover {
     color: #fff;
     background-color: #e58a14;
@@ -974,6 +995,13 @@ td {
 
 /* Watch Tutorial button */
 .tutorial-btn {
+    color: #fff;
+    background-color: #ff7039;
+    border-color: #ff7039;
+}
+
+.tutorial-btn:disabled,
+.tutorial-btn[disabled] {
     color: #fff;
     background-color: #ff7039;
     border-color: #ff7039;
