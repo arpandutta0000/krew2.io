@@ -169,8 +169,8 @@ class Player extends Entity {
             else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
             else if (this.isPlayer) playerColor = labelcolors.myself;
             else if (myPlayer !== undefined && myPlayer.clan !== undefined && myPlayer.clan !== `` && myPlayer.clan === entities[this.id].clan) playerColor = labelcolors.clan;
-            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id) && myPlayer.parent.captainId === this.id) playerColor = labelcolors.captain;
-            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id)) playerColor = labelcolors.krewmate;
+            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType === 1 && myPlayer.parent.hasChild(this.id) && myPlayer.parent.captainId === this.id) playerColor = labelcolors.captain;
+            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType === 1 && myPlayer.parent.hasChild(this.id)) playerColor = labelcolors.krewmate;
             else playerColor = labelcolors.player;
 
             // Create label if geometry needed
