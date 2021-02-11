@@ -47,9 +47,9 @@ let getItems = (callback) => {
                     id: item.id,
                     class: `btn btn-primary btn-sm`,
                     role: `button`,
-                    disabled: !!((myPlayer && myPlayer.itemId === item.id || item.purchasable !== true)),
-                    html: (myPlayer && myPlayer.itemId === item.id) ? `Equipped` : `Buy`
-                }).on(`click`, function () {
+                    disabled: (myPlayer && myPlayer.itemId === item.id) || item.purchasable !== true,
+                    html: myPlayer && myPlayer.itemId === item.id ? `Equipped` : `Buy`
+                }).on(`click`, () => {
                     let id = $(this).attr(`id`);
                     socket.emit(`purchase`, {
                         type: 1,
