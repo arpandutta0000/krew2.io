@@ -163,6 +163,16 @@ class Player extends Entity {
         if (this.geometry !== undefined) {
             if (this.label === undefined) {
                 // Set the name
+
+                let playerColor;
+                if (config.Admins.includes(this.name)) playerColor = labelcolors.admin;
+                else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
+                else if (this.isPlayer) playerColor = labelcolors.myself;
+                else if (myPlayer !== undefined && this.clan === myPlayer.clan) playerColor = labelcolors.clan;
+                else if (myPlayer !== undefined && this.parent === myPlayer.parent && this.isCaptain) playerColor = labelcolors.captain;
+                else if (myPlayer !== undefined && this.parent === myPlayer.parent) playerColor = labelcolors.krewmate;
+                else playerColor = labelcolors.player;
+
                 this.label = new THREE.TextSprite({
                     textSize: 0.7,
                     redrawInterval: config.Labels.redrawInterval,
@@ -171,13 +181,7 @@ class Player extends Entity {
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
-                        color: config.Admins.includes(this.name) || config.Mods.includes(this.name) || config.Devs.includes(this.name)
-                            ? labelcolors.staff
-                            : this.isPlayer
-                                ? labelcolors.myself
-                                : this.isCaptain
-                                    ? labelcolors.captain
-                                    : labelcolors.player,
+                        color: playerColor,
                         fog: false
                     }
                 });
@@ -200,7 +204,7 @@ class Player extends Entity {
      */
     setPlayerBody (idx) {
         idx = idx || 0;
-        let bodyModel = idx < 0 ? staffDogModels[(-1 * idx) - 1]: dogModels[idx];
+        let bodyModel = idx < 0 ? staffDogModels[(-1 * idx) - 1] : dogModels[idx];
         this.playerBody = bodyModel.body.clone();
         this.playerBody.scale.set(bodyModel.scale.x, bodyModel.scale.y, bodyModel.scale.z);
         this.playerBody.position.set(bodyModel.offset.x, bodyModel.offset.y, bodyModel.offset.z);

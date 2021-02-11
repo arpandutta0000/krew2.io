@@ -85,10 +85,14 @@ let materials = {
 
 /* Set colors for text labels for player & boat names */
 let labelcolors = {
-    staff: new THREE.Color(0xd133ff),
+    admin: new THREE.Color(0x1f9aff),
+    mod: new THREE.Color(0x8747ff),
     myself: new THREE.Color(0x2cf22f),
+    clan: new THREE.Color(0xffe815),
+    captain: new THREE.Color(0xff894e),
+    krewmate: new THREE.Color(0xff4b2b),
     player: new THREE.Color(0xffffff),
-    captain: new THREE.Color(0xff7a38),
+
     boat: new THREE.Color(0xc5a37c),
     landmark: new THREE.Color(0x5e9628),
     crosshair: new THREE.Color(0xffffff)

@@ -899,17 +899,36 @@ td {
     color: white;
 }
 
-.text-mod-color {
-    color: #bb15eb !important;
+.text-admin-color {
+    color: #1f9aff !important;
+}
+a.text-admin-color:focus,
+a.text-admin-color:hover {
+    color: #005fdb !important;
 }
 
+.text-mod-color {
+    color: #8747ff !important;
+}
 a.text-mod-color:focus,
 a.text-mod-color:hover {
     color: #761e8f !important;
 }
 
+.text-myself-color {
+    color: #2cf22f !important;
+}
+
 .text-clan-color {
-    color: #ff9800 !important;
+    color: #ffe815 !important;
+}
+
+.text-captain-color {
+    color: #ff894e !important;
+}
+
+.text-krewmate-color {
+    color: #ff4b2b !important;
 }
 
 /* -- END Chat -- */

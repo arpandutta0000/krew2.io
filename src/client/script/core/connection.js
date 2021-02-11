@@ -288,6 +288,17 @@ let initSocketBinds = () => {
             } else {
                 classRec = `clan-chat`;
             }
+
+            let playerColor;
+            if (isAdmin) `admin-color`
+            else if (isMod || isDev) playerColor = `mod-color`;
+            else if (isPlayer) playerColor = `myself-color`;
+            else if (isClanMember) playerColor = `clan-color`;
+            else if (isKrewmate && entities[msgData.playerId].isCaptain) playerColor = `captain-color`;
+            else if (isKrewmate) playerColor = `krewmate-color`;
+            else playerColor = `white`;
+
+
             let $msgDiv = $(`<div/>`, {
                 text: `${(msgData.playerClan ? `[${msgData.playerClan}] ` : ``) +
                     (isAdmin ? `[Admin] ` : isMod ? `[Staff] ` : isDev ? `[Dev] ` : ``) +
@@ -295,18 +306,7 @@ let initSocketBinds = () => {
                 }: ${
                     msgData.message}`,
                 class: `${classRec
-                } text-${
-                    isAdmin || isMod || isDev
-                        ? `mod-color`
-                        : isClanMember
-                            ? `clan-color`
-                            : isPlayer || isKrewmate
-                                ? isPlayer
-                                    ? `success`
-                                    : entities[msgData.playerId].isCaptain
-                                        ? `danger`
-                                        : `info`
-                                : `white`}`
+                } text-${playerColor}`
             });
 
             let messageTypes = [`staff-chat`, `clan-chat`, `local-chat`, `global-chat`];
