@@ -313,7 +313,7 @@ let initSocketBinds = () => {
             for (let i = 0; i < messageTypes.length; i++) {
                 let messageType = messageTypes[i];
 
-                messageCount = $(`.${messageType}`).length;
+                let messageCount = $(`.${messageType}`).length;
                 if (messageCount > 15) {
                     $(`.${messageType}`)
                         .first()
