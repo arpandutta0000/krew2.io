@@ -15,8 +15,7 @@ let Config = {
         }
     },
     drainers: {},
-    landmarks: [
-        {
+    landmarks: [{
             type: 0,
             x: 500,
             y: 300,
@@ -25,13 +24,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 200,
-                coffee: 84,
-                spice: 50,
+                rum: 140,
+                coffee: 55,
+                spice: 65,
                 silk: 100,
-                gems: 200,
-                sugar: 175,
-                bananas: 70
+                gems: 300,
+                sugar: 160,
+                bananas: 65
             }
         },
         {
@@ -43,13 +42,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 225,
-                coffee: 75,
-                spice: 75,
-                silk: 200,
+                rum: 150,
+                coffee: 60,
+                spice: 90,
+                silk: 110,
                 gems: 150,
-                sugar: 145,
-                bananas: 65
+                sugar: 175,
+                bananas: 75
             }
         },
         {
@@ -61,13 +60,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 175,
+                rum: 160,
                 coffee: 65,
-                spice: 120,
-                silk: 360,
-                gems: 170,
-                sugar: 120,
-                bananas: 60
+                spice: 50,
+                silk: 125,
+                gems: 160,
+                sugar: 200,
+                bananas: 80
             }
         },
         {
@@ -79,11 +78,11 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 145,
-                coffee: 50,
-                spice: 150,
-                silk: 175,
-                gems: 250,
+                rum: 175,
+                coffee: 70,
+                spice: 80,
+                silk: 130,
+                gems: 175,
                 sugar: 100,
                 bananas: 90
             }
@@ -97,13 +96,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 120,
-                coffee: 30,
-                spice: 120,
-                silk: 330,
-                gems: 500,
-                sugar: 200,
-                bananas: 85
+                rum: 180,
+                coffee: 80,
+                spice: 90,
+                silk: 145,
+                gems: 200,
+                sugar: 120,
+                bananas: 30
             }
         },
         {
@@ -116,12 +115,12 @@ let Config = {
             onlySellOwnShips: false,
             goodsPrice: {
                 rum: 90,
-                coffee: 35,
+                coffee: 30,
                 spice: 100,
-                silk: 250,
-                gems: 400,
-                sugar: 150,
-                bananas: 45
+                silk: 150,
+                gems: 215,
+                sugar: 115,
+                bananas: 40
             }
         },
         {
@@ -133,13 +132,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 90,
-                coffee: 45,
+                rum: 100,
+                coffee: 35,
                 spice: 50,
-                silk: 300,
-                gems: 600,
-                sugar: 300,
-                bananas: 80
+                silk: 160,
+                gems: 250,
+                sugar: 130,
+                bananas: 45
             }
         },
         {
@@ -151,13 +150,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 75,
-                coffee: 55,
-                spice: 75,
+                rum: 115,
+                coffee: 40,
+                spice: 55,
                 silk: 175,
-                gems: 300,
-                sugar: 250,
-                bananas: 45
+                gems: 175,
+                sugar: 140,
+                bananas: 75
             }
         },
         {
@@ -169,13 +168,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 100,
-                coffee: 70,
-                spice: 80,
-                silk: 130,
-                gems: 220,
-                sugar: 200,
-                bananas: 45
+                rum: 125,
+                coffee: 45,
+                spice: 60,
+                silk: 200,
+                gems: 275,
+                sugar: 150,
+                bananas: 35
             }
         },
         {
@@ -187,13 +186,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: true,
             goodsPrice: {
-                rum: 100,
-                coffee: 60,
-                spice: 90,
-                silk: 160,
+                rum: 135,
+                coffee: 55,
+                spice: 75,
+                silk: 150,
                 gems: 240,
-                sugar: 175,
-                bananas: 30
+                sugar: 150,
+                bananas: 60
             }
         }
     ]
