@@ -265,39 +265,29 @@ let initSocketBinds = () => {
                 msgData.recipient === `staff`) &&
             entities[msgData.playerId] !== undefined
         ) {
-            let isKrewmate =
-                myPlayer.parent.netType === 1 &&
-                myPlayer.parent.hasChild(msgData.playerId);
-            let isPlayer = msgData.playerId === myPlayerId;
-            let isClanMember =
-                myPlayer.clan !== `` &&
-                myPlayer.clan !== undefined &&
-                myPlayer.clan === entities[msgData.playerId].clan &&
-                !isPlayer;
             let classRec = `global-chat`;
+            let chatHistory = $(`#chat-history`);
+            if (msgData.recipient === `global`) classRec = `global-chat`;
+            else if (msgData.recipient === `local`) classRec = `local-chat`;
+            else if (msgData.recipient === `staff`) classRec = `staff-chat`;
+            else classRec = `clan-chat`;
+
             let isAdmin = config.Admins.includes(msgData.playerName);
             let isMod = config.Mods.includes(msgData.playerName);
             let isDev = config.Devs.includes(msgData.playerName);
-            let chatHistory = $(`#chat-history`);
-            if (msgData.recipient === `global`) {
-                classRec = `global-chat`;
-            } else if (msgData.recipient === `local`) {
-                classRec = `local-chat`;
-            } else if (msgData.recipient === `staff`) {
-                classRec = `staff-chat`;
-            } else {
-                classRec = `clan-chat`;
-            }
+            let isPlayer = msgData.playerId === myPlayerId;
+            let isClanMember = myPlayer.clan !== `` && myPlayer.clan !== undefined && myPlayer.clan === entities[msgData.playerId].clan && !isPlayer;
+            let isCaptain = myPlayer.parent.netType === 1 && myPlayer.parent.hasChild(msgData.playerId) && myPlayer.parent.captainId === msgData.playerId;
+            let isKrewmate = myPlayer.parent.netType === 1 && myPlayer.parent.hasChild(msgData.playerId);
 
             let playerColor;
             if (isAdmin) playerColor = `admin-color`;
             else if (isMod || isDev) playerColor = `mod-color`;
             else if (isPlayer) playerColor = `myself-color`;
             else if (isClanMember) playerColor = `clan-color`;
-            else if (isKrewmate && entities[msgData.playerId].isCaptain) playerColor = `captain-color`;
+            else if (isCaptain) playerColor = `captain-color`;
             else if (isKrewmate) playerColor = `krewmate-color`;
             else playerColor = `white`;
-
 
             let $msgDiv = $(`<div/>`, {
                 text: `${(msgData.playerClan ? `[${msgData.playerClan}] ` : ``) +
