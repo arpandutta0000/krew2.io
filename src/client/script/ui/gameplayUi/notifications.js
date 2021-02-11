@@ -83,6 +83,7 @@ let notifications = {
      * @param {number} typeId The type of damage to be shown (1 = Ship damage, 2 = Shooter damage, undefined = Ship damage)
      */
     showDamageMessage: function (text, typeId) {
+        let color;
         switch (typeId) {
             case undefined:
             case 1: {
