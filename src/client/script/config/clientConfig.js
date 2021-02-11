@@ -1,8 +1,8 @@
 const config = {
     // Client side staff
-    Admins: [`devclied`, `LeoLeoLeo`, `DamienVesper`, `BR88C`, `itsdabomb`, `harderman`],
-    Mods: [`Fiftyyyyy`, `Speedy_Sloth`, `Sjmun`, `TheChoco`, `Kekmw`],
-    Devs: [`Yaz_`],
+    Admins: [`devclied`, `BR88C`, `DamienVesper`, `LeoLeoLeo`, `Speedy_Sloth`, `Sjmun`],
+    Mods: [`Fiftyyyyy`, `TheChoco`, `Kekmw`],
+    Devs: [],
 
     // Set URL
     url: `https://krew.io`,
