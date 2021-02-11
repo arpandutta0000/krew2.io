@@ -6,7 +6,7 @@ class GameControls {
     /**
      * Game Controls Constructor
      */
-    constructor () {
+    constructor() {
         // Create controls variables
         this.locked = false;
         this.lmb = false;
@@ -65,16 +65,19 @@ class GameControls {
             switch (event.button) {
                 case 0: {
                     // Left click
-                    this.lmb = true;
+                    if (controls.locked) this.lmb = true;
+                    if (myPlayer && event.target === renderer.domElement) this.lockMouseLook();
+
                     break;
                 }
                 case 2: {
                     // Right click
-                    this.rmb = false;
+                    if (controls.locked) this.rmb = true;
+                    if (myPlayer && event.target === renderer.domElement) this.lockMouseLook();
+
                     break;
                 }
             }
-            if (myPlayer && (this.lmb || this.rmb) && event.target === renderer.domElement) this.lockMouseLook();
         };
 
         /* On mouse click release */
