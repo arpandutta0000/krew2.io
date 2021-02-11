@@ -53,7 +53,8 @@ canvas {
 
 /* Youtube Popup */
 .popup-youtube {
-    z-index: 1e10;
+    z-index: 10000 !important;
+    position: relative;
 }
 
 /* Play button */
