@@ -156,23 +156,24 @@ class Player extends Entity {
      * @param {string} name New player name
      */
     setName (name) {
-        let clan = ``;
-        if (this.clan !== undefined && this.clan !== ``) {
-            clan = `[${this.clan}] `;
-        }
         if (this.geometry !== undefined) {
+            // Get clan
+            let clan = ``;
+            if (this.clan !== undefined && this.clan !== ``) {
+                 clan = `[${this.clan}] `;
+            }
 
             // Get color
             let playerColor;
             if (config.Admins.includes(this.name)) playerColor = labelcolors.admin;
             else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
             else if (this.isPlayer) playerColor = labelcolors.myself;
-            else if (myPlayer !== undefined && myPlayer.clan !== `` && myPlayer.clan !== undefined && this.clan !== `` && this.clan !== undefined && myPlayer.clan === this.clan) playerColor = labelcolors.clan;
-            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id) && this.isCaptain) playerColor = labelcolors.captain;
+            else if (myPlayer !== undefined && myPlayer.clan !== undefined && myPlayer.clan !== `` && myPlayer.clan === entities[this.id].clan) playerColor = labelcolors.clan;
+            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id) && myPlayer.parent.captainId === this.id) playerColor = labelcolors.captain;
             else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id)) playerColor = labelcolors.krewmate;
             else playerColor = labelcolors.player;
 
-            // Create label if needed
+            // Create label if geometry needed
             if (this.label === undefined) {
                 this.label = new THREE.TextSprite({
                     textSize: 0.7,
@@ -196,9 +197,9 @@ class Player extends Entity {
             }
 
             this.label.material.map.text = `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
-            this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined &&
-                (this.parent.netType === 5 || this.parent.inRange);
+            this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined && (this.parent.netType === 5 || this.parent.inRange);
         }
+
         this.name = name;
     }
 
