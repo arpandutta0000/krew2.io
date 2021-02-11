@@ -1616,7 +1616,7 @@ io.on(`connection`, async socket => {
                         let questLists = [
                             [`04`, `05`, `06`, `07`, `08`, `09`], // Boat and Trader
                             [`010`, `011`, `012`, `013`, `014`, `015`, `016`, `017`, `018`, `019`, `020`], // Destroyer, Baby Fancy, Royal Fortune, Calm Spirit, Junkie, and Raider
-                            [`021`, `022`, `023`, `024`] // Queen Barb's Justice, Black Oyster, and Fortune Trader
+                            [`021`, `022`, `023`, `024`, `025`] // Queen Barb's Justice, Cruiser, Black Oyster, and Fortune Trader
                         ];
 
                         if (questLists[0].includes(response) && playerEntity.other_quest_level === 0) {

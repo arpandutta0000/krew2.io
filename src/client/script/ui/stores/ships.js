@@ -79,7 +79,7 @@ let getShips = (callback) => {
                     }, (callback) => {
                         let quest_2_list = [`04`, `05`, `06`, `07`, `08`, `09`]; // Boat and Trader
                         let quest_3_list = [`010`, `011`, `012`, `013`, `014`, `015`, `016`, `017`, `018`, `019`, `020`]; // Destroyer, Baby Fancy, Royal Fortune, Calm Spirit, Junkie, and Raider
-                        let quest_4_list = [`021`, `022`, `023`, `024`]; // Queen Barb's Justice, Black Oyster, and Fortune Trader
+                        let quest_4_list = [`021`, `022`, `023`, `024`, `025`]; // Queen Barb's Justice, Cruiser, Black Oyster, and Fortune Trader
                         // other-quest-2
                         if (quest_2_list.includes(callback)) {
                             $(`#shopping-modal`).hide();
