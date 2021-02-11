@@ -272,13 +272,14 @@ let initSocketBinds = () => {
             else if (msgData.recipient === `staff`) classRec = `staff-chat`;
             else classRec = `clan-chat`;
 
+            let hasBoats = myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType === 1 && entities[msgData.playerId].parent !== undefined && entities[msgData.playerId].parent.netType === 1;
             let isAdmin = config.Admins.includes(msgData.playerName);
             let isMod = config.Mods.includes(msgData.playerName);
             let isDev = config.Devs.includes(msgData.playerName);
             let isPlayer = msgData.playerId === myPlayerId;
             let isClanMember = myPlayer.clan !== `` && myPlayer.clan !== undefined && myPlayer.clan === entities[msgData.playerId].clan && !isPlayer;
-            let isCaptain = myPlayer.parent.netType === 1 && myPlayer.parent.hasChild(msgData.playerId) && myPlayer.parent.captainId === msgData.playerId;
-            let isKrewmate = myPlayer.parent.netType === 1 && myPlayer.parent.hasChild(msgData.playerId);
+            let isCaptain = hasBoats && myPlayer.parent.id === entities[msgData.playerId].parent.id && entities[myPlayer.parent.id].captainId === msgData.playerId;
+            let isKrewmate = hasBoats && myPlayer.parent.id === entities[msgData.playerId].parent.id;
 
             let playerColor;
             if (isAdmin) playerColor = `admin-color`;
