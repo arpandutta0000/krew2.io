@@ -1,3 +1,12 @@
+v1.5.1 - [2-11-2021]
+- Fixed game inputs on typing in text fields
+- Fixed tools being used when clicking in menus
+- Fixed bank balance values
+- Fixed the cannon icon on death messages not being shown
+- Fixed menus extending beyond the bottom of the screen
+- More UI improvements
+- More performance improvements
+
 v1.5.0 - [2-10-2021]
 - Rewrote client side
 - Added back the palm tree at Jamaica
