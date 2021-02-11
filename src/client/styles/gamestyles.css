@@ -902,17 +902,9 @@ td {
 .text-admin-color {
     color: #1f9aff !important;
 }
-a.text-admin-color:focus,
-a.text-admin-color:hover {
-    color: #005fdb !important;
-}
 
 .text-mod-color {
-    color: #8747ff !important;
-}
-a.text-mod-color:focus,
-a.text-mod-color:hover {
-    color: #761e8f !important;
+    color: #7e00e6 !important;
 }
 
 .text-myself-color {

@@ -165,12 +165,13 @@ class Player extends Entity {
                 // Set the name
 
                 let playerColor;
+                console.log(myPlayer.parent.hasChild(this.id))
                 if (config.Admins.includes(this.name)) playerColor = labelcolors.admin;
                 else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
                 else if (this.isPlayer) playerColor = labelcolors.myself;
-                else if (myPlayer !== undefined && this.clan === myPlayer.clan) playerColor = labelcolors.clan;
-                else if (myPlayer !== undefined && this.parent === myPlayer.parent && this.isCaptain) playerColor = labelcolors.captain;
-                else if (myPlayer !== undefined && this.parent === myPlayer.parent) playerColor = labelcolors.krewmate;
+                else if (myPlayer !== undefined && myPlayer.clan !== `` && myPlayer.clan !== undefined && this.clan !== `` && this.clan !== undefined && myPlayer.clan === this.clan) playerColor = labelcolors.clan;
+                else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id) && this.isCaptain) playerColor = labelcolors.captain;
+                else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id)) playerColor = labelcolors.krewmate;
                 else playerColor = labelcolors.player;
 
                 this.label = new THREE.TextSprite({
