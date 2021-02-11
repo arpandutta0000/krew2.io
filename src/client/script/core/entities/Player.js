@@ -161,19 +161,19 @@ class Player extends Entity {
             clan = `[${this.clan}] `;
         }
         if (this.geometry !== undefined) {
+
+            // Get color
+            let playerColor;
+            if (config.Admins.includes(this.name)) playerColor = labelcolors.admin;
+            else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
+            else if (this.isPlayer) playerColor = labelcolors.myself;
+            else if (myPlayer !== undefined && myPlayer.clan !== `` && myPlayer.clan !== undefined && this.clan !== `` && this.clan !== undefined && myPlayer.clan === this.clan) playerColor = labelcolors.clan;
+            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id) && this.isCaptain) playerColor = labelcolors.captain;
+            else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id)) playerColor = labelcolors.krewmate;
+            else playerColor = labelcolors.player;
+
+            // Create label if needed
             if (this.label === undefined) {
-                // Set the name
-
-                let playerColor;
-                console.log(myPlayer.parent.hasChild(this.id))
-                if (config.Admins.includes(this.name)) playerColor = labelcolors.admin;
-                else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
-                else if (this.isPlayer) playerColor = labelcolors.myself;
-                else if (myPlayer !== undefined && myPlayer.clan !== `` && myPlayer.clan !== undefined && this.clan !== `` && this.clan !== undefined && myPlayer.clan === this.clan) playerColor = labelcolors.clan;
-                else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id) && this.isCaptain) playerColor = labelcolors.captain;
-                else if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.hasChild(this.id)) playerColor = labelcolors.krewmate;
-                else playerColor = labelcolors.player;
-
                 this.label = new THREE.TextSprite({
                     textSize: 0.7,
                     redrawInterval: config.Labels.redrawInterval,
@@ -190,7 +190,12 @@ class Player extends Entity {
                 this.label.name = `label`;
                 this.label.position.set(0, 2.2, 1.5);
                 this.geometry.add(this.label);
+            } else {
+                // Set color if already defined
+                this.label.material.color = playerColor;
             }
+
+
             this.label.material.map.text = `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
             this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined &&
                 (this.parent.netType === 5 || this.parent.inRange);
