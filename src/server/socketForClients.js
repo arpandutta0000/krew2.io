@@ -425,7 +425,7 @@ io.on(`connection`, async socket => {
                         if (!msg) return;
 
                         log(`blue`, `${isAdmin ? `ADMIN` : `MOD`} SAY: ${msg} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        return io.emit(`showAdminMessage`, msg);
+                        return io.emit(`showAdminMessage`, xssFilters.inHTMLData(msg));
                     } else if (command === `recompense` && (isAdmin || isDev)) {
                         let amt = args[0];
 
