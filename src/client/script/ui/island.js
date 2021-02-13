@@ -181,7 +181,6 @@ let updateStore = () => {
     if ($(`#buy-goods`).hasClass(`active`)) {
         if ($(`#abandon-existing-krew`).is(`:visible`)) $(`#abandon-existing-krew`).hide();
         GoodsComponent.getList();
-        return;
     }
 };
 

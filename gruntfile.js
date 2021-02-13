@@ -141,13 +141,15 @@ module.exports = grunt => {
         // Minify CSS
         cssmin: {
             styles: {
-                files: [{
-                    expand: true,
-                    cwd: `src/client/styles`,
-                    src: [`gamestyles.css`],
-                    dest: process.env.NODE_ENV == `prod` ? `dist/styles` : `src/client/styles`,
-                    ext: `.min.css`
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: `src/client/styles`,
+                        src: [`gamestyles.css`],
+                        dest: process.env.NODE_ENV === `prod` ? `dist/styles` : `src/client/styles`,
+                        ext: `.min.css`
+                    }
+                ]
             }
         },
 
@@ -187,7 +189,8 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [{
+                files: [
+                    {
                         expand: true,
                         nonull: true,
                         flatten: true,
@@ -241,5 +244,5 @@ module.exports = grunt => {
     grunt.loadNpmTasks(`grunt-nodemon`);
     grunt.loadNpmTasks(`grunt-concurrent`);
     grunt.loadNpmTasks(`grunt-webpack`);
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks(`grunt-contrib-cssmin`);
 };

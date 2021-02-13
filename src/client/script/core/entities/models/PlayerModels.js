@@ -70,7 +70,6 @@ let PlayerModels = {
             rotation: new THREE.Vector3(0.4, Math.PI, 0)
         });
 
-
         /* Push staff models */
         materials.br88c = new THREE.MeshPhongMaterial({
             color: 0xffffff,

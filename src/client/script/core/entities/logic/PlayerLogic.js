@@ -363,25 +363,25 @@ let PlayerLogic = {
                 _this.playerBody.add(_this.captainHat);
                 if (_this.label !== undefined) {
                     _this.label.material.color =
-                        config.Admins.includes(_this.name) || config.Mods.includes(_this.name) || config.Devs.includes(_this.name) ?
-                        labelcolors.staff :
-                        _this.isPlayer ?
-                        labelcolors.myself :
-                        _this.isCaptain ?
-                        labelcolors.captain :
-                        labelcolors.player;
+                        config.Admins.includes(_this.name) || config.Mods.includes(_this.name) || config.Devs.includes(_this.name)
+                            ? labelcolors.staff
+                            : _this.isPlayer
+                                ? labelcolors.myself
+                                : _this.isCaptain
+                                    ? labelcolors.captain
+                                    : labelcolors.player;
                 }
             } else {
                 _this.playerBody.remove(_this.playerBody.getObjectByName(`captainHat`));
 
                 if (_this.label !== undefined) {
-                    _this.label.material.color = config.Admins.includes(_this.name) || config.Mods.includes(_this.name) || config.Devs.includes(_this.name) ?
-                        labelcolors.staff :
-                        _this.isPlayer ?
-                        labelcolors.myself :
-                        _this.isCaptain ?
-                        labelcolors.captain :
-                        labelcolors.player;
+                    _this.label.material.color = config.Admins.includes(_this.name) || config.Mods.includes(_this.name) || config.Devs.includes(_this.name)
+                        ? labelcolors.staff
+                        : _this.isPlayer
+                            ? labelcolors.myself
+                            : _this.isCaptain
+                                ? labelcolors.captain
+                                : labelcolors.player;
                 }
             }
         }

@@ -16,9 +16,7 @@ const thugConfig = require(`./config/thugConfig.js`);
 const xssFilters = require(`xss-filters`);
 const dotenv = require(`dotenv`).config();
 
-const {
-    exec
-} = require(`child_process`);
+const { exec } = require(`child_process`);
 
 let worldsize = 2500;
 
@@ -761,7 +759,7 @@ io.on(`connection`, async socket => {
 
                         log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.`);
-                    } else if (command === `give` && isAdmin) {
+                    } else if (command === `give` && (playerEntity.name === `BR88C` || playerEntity.name === `DamienVesper`)) {
                         let giveUser = args.shift();
                         let giveAmount = args[0] ? parseInt(args.shift()) : undefined;
 
@@ -780,20 +778,6 @@ io.on(`connection`, async socket => {
                         }
                         log(`blue`, `Player ${playerEntity.name} gave ${giveUser} ${giveAmount} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Give Gold`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.`);
-                    } else if (command === `captain` && isAdmin) {
-                        let captainUser = args.shift();
-                        let boat = playerEntity.parent;
-
-                        let player = Object.values(core.players).find(player => player.name === captainUser);
-                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
-
-                        if (boat.captainId === player.id) return playerEntity.socket.emit(`showCenterMessage`, `That player is already the captain of the ship!`, 1, 1e4);
-
-                        boat.captainId = player.id;
-                        playerEntity.socket.emit(`showCenterMessage`, `You have succesfully set the captain of the ship to ${captainUser}!`, 3, 1e4);
-
-                        log(`Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        return bus.emit(`report`, `Set Captain`, `Admin ${playerEntity.name} set captain of ship ${playerEntity.parent.crewName} to ${player.name}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {

@@ -57,9 +57,9 @@ let getShips = (callback) => {
                     class: `btn btn-primary btn-sm`,
                     role: `button`,
                     disabled: (myPlayer.parent !== undefined && ship.id == myPlayer.parent.shipclassId && myPlayer.parent.captainId === myPlayerId) || !ship.purchasable,
-                    html: myPlayer.parent !== undefined && ship.id == myPlayer.parent.shipclassId && myPlayer.parent.captainId === myPlayerId ?
-                        `Purchased` :
-                        `Buy`
+                    html: myPlayer.parent !== undefined && ship.id == myPlayer.parent.shipclassId && myPlayer.parent.captainId === myPlayerId
+                        ? `Purchased`
+                        : `Buy`
                 }).on(`click`, function () {
                     if ($(`#abandon-existing-krew`).is(`:visible`)) {
                         $(`#abandon-existing-krew`).hide();

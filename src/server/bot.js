@@ -1,10 +1,9 @@
+require(`dotenv`).config();
+
 const config = require(`./config/config.js`);
 const Discord = require(`discord.js-light`);
-const dotenv = require(`dotenv`).config();
 const log = require(`./utils/log.js`);
-const {
-    exec
-} = require(`child_process`);
+const { exec } = require(`child_process`);
 const os = require(`os`);
 
 const bus = require(`./utils/messageBus.js`);

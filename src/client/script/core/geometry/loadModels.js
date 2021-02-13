@@ -18,7 +18,7 @@ let loadModels = () => {
     loader.loadModel(`./assets/models/dogs/krewmate.obj`);
     loader.loadTexture(`./assets/models/dogs/krewmate.tga`);
     // Staff dogs
-    loader.loadModel(`./assets/models/dogs/br88c.obj`)
+    loader.loadModel(`./assets/models/dogs/br88c.obj`);
     loader.loadTexture(`./assets/models/dogs/br88c.tga`);
 
     // Load hats

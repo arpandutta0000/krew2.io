@@ -160,7 +160,7 @@ class Player extends Entity {
             // Get clan
             let clan = ``;
             if (this.clan !== undefined && this.clan !== ``) {
-                 clan = `[${this.clan}] `;
+                clan = `[${this.clan}] `;
             }
 
             // Check if myPlayer has a boat
