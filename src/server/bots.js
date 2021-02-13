@@ -6,9 +6,10 @@ const log = require(`./utils/log.js`);
 let createBots = () => {
     for (let i = 0; i < config.maxBots; i++) {
         const socket = io.connect(`${config.mode === `dev` ? `http://localhost` : `https://${config.domain}`}:${config.gamePorts[0]}`, {
-            // extraHeaders: {
-            //     Origin: `https://krew.io`
-            // },
+            extraHeaders: {
+                Origin: `https://krew.io`,
+                'User-Agent': `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
+            },
             secure: true,
             rejectUnauthorized: true,
             withCredentials: true
