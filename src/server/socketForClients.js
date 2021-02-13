@@ -57,7 +57,8 @@ if (!global.io) {
             methods: [`GET`, `POST`],
             credentials: true
         },
-        maxHttpBufferSize: 1e9
+        maxHttpBufferSize: 1e9,
+        pingTimeout: 1e4
     });
     server.listen(process.env.port);
 }
