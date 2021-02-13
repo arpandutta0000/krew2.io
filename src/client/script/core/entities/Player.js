@@ -204,11 +204,11 @@ class Player extends Entity {
                 this.label.position.set(0, 2.2, 1.5);
                 this.geometry.add(this.label);
             } else {
-                // Set color if already defined
+                // Set color and text if already defined
                 this.label.material.color = playerColor;
+                this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Staff] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`;
             }
 
-            this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isMod ? `[Staff] ` : isDev ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
             this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined && (this.parent.netType === 5 || this.parent.inRange);
         }
 

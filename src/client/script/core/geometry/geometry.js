@@ -87,8 +87,8 @@ let materials = {
 let labelcolors = {
     admin: new THREE.Color(0x1f9aff),
     mod: new THREE.Color(0x7e00e6),
-    helper: new THREE.Color(0x7e00e6),
-    designer: new THREE.Color(0x7e00e6),
+    helper: new THREE.Color(0x45ebff),
+    designer: new THREE.Color(0x206694),
     myself: new THREE.Color(0x2cf22f),
     clan: new THREE.Color(0xffc711),
     captain: new THREE.Color(0xff5100),
