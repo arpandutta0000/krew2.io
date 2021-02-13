@@ -1,3 +1,15 @@
+v1.6.0 - [2-13-2021]
+- New Boat and Destroyer models
+- Added Helper and Designer in game roles
+- Krew mates now have a unique chat color
+- Clan mates and Krew mates now have unique player label colors
+- Fixed players who abandon a Krew showing with the captain color in chat
+- Fixed issues with item shop showing incorrect equipped items
+- Modified cargo prices
+- Modified chat colors
+- Modified main page button colors
+- Improved socket connections to avoid disconnects
+
 v1.5.1 - [2-11-2021]
 - Fixed game inputs on typing in text fields
 - Fixed tools being used when clicking in menus
