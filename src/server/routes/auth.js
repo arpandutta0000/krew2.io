@@ -400,13 +400,13 @@ router.post(`/customization`, (req, res, next) => {
         errors: `You must be logged in to customize your character`
     });
 
-    let model = req.body.model;
+    let model = parseInt(req.body.model);
 
-    if (!model || typeof model !== `string`) return res.json({
+    if (!model || isNaN(model)) return res.json({
         errors: `Please specify a model ID`
     });
 
-    if (!(model !== `0` || model !== `1` || model !== `2` || model !== `3` || model !== `3`)) return res.json({
+    if (model < 0 || model > 5) return res.json({
         errors: `Invalid model ID`
     });
 

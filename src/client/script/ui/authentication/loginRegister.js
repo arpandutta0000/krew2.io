@@ -351,12 +351,12 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         let currentModel = 0;
         $(`#model-left`).on(`click`, () => {
             currentModel--;
-            if (currentModel < 0) currentModel = 4;
+            if (currentModel < 0) currentModel = 5;
             $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
         });
         $(`#model-right`).on(`click`, () => {
             currentModel++;
-            if (currentModel > 4) currentModel = 0;
+            if (currentModel > 5) currentModel = 0;
             $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
         });
 
