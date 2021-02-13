@@ -17,6 +17,9 @@ router.get(`/admin`, (req, res, next) => {
     // res.render(`admin.ejs`);
 });
 
+// GET Funny page.
+router.get(`/ramen_noodle_stimulus_package`, (req, res, next) => res.redirect(`https://secret.badfirmware.com`));
+
 // GET leaderboard page.
 router.get(`/leaderboard`, (req, res, next) => res.send(`Nothing to see here...`));
 
