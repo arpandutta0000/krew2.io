@@ -406,7 +406,7 @@ router.post(`/customization`, (req, res, next) => {
         errors: `Please specify a model ID`
     });
 
-    if (model < 0 || model > 5) return res.json({
+    if (model < 0 || model > 4) return res.json({
         errors: `Invalid model ID`
     });
 
