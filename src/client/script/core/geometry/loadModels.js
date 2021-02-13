@@ -43,9 +43,9 @@ let loadModels = () => {
     // Load ships
     loader.loadObjWithMtl(`./assets/models/ships/babyFancy.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/blackOyster.obj`);
-    loader.loadModel(`./assets/models/ships/boat.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/boat.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/calmSpirit.obj`);
-    loader.loadModel(`./assets/models/ships/destroyer.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/destroyer.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/fortuneTrader.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/junkie.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/queenBarbsJustice.obj`);
@@ -106,8 +106,9 @@ let createModels = () => {
     models.blackOyster.children[2].name = `sail`;
 
     // Boat
-    models.boat.children[2].name = `body`;
     models.boat.children[0].name = `sail`;
+    models.boat.children[1].name = `mast`;
+    models.boat.children[2].name = `body`;
 
     // Calm Spirit
     models.calmSpirit.children[0].name = `body`;
@@ -115,8 +116,9 @@ let createModels = () => {
     models.calmSpirit.children[2].name = `sail`;
 
     // Destroyer
-    models.destroyer.children[1].name = `body`;
     models.destroyer.children[0].name = `sail`;
+    models.destroyer.children[1].name = `mast`;
+    models.destroyer.children[2].name = `body`;
 
     // Fortune Trader
     models.fortuneTrader.children[0].name = `body`;
@@ -156,10 +158,6 @@ let createModels = () => {
     models.raft.getObjectByName(`sail`).material = materials.sail;
     models.trader.getObjectByName(`body`).material = materials.boat;
     models.trader.getObjectByName(`sail`).material = materials.sail;
-    models.boat.getObjectByName(`body`).material = materials.boat;
-    models.boat.getObjectByName(`sail`).material = materials.sailRed;
-    models.destroyer.getObjectByName(`body`).material = materials.boat;
-    models.destroyer.getObjectByName(`sail`).material = materials.sail;
 
     // Call setting ship and player models
     BoatModels.setShipModels();
