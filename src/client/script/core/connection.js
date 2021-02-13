@@ -274,8 +274,10 @@ let initSocketBinds = () => {
 
             let hasBoats = myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType === 1 && entities[msgData.playerId].parent !== undefined && entities[msgData.playerId].parent.netType === 1;
             let isAdmin = config.Admins.includes(msgData.playerName);
-            let isMod = config.Mods.includes(msgData.playerName);
             let isDev = config.Devs.includes(msgData.playerName);
+            let isMod = config.Mods.includes(msgData.playerName);
+            let isHelper = config.Helpers.includes(msgData.playerName);
+            let isDesigner = config.Designers.includes(msgData.playerName);
             let isPlayer = msgData.playerId === myPlayerId;
             let isClanMember = myPlayer.clan !== `` && myPlayer.clan !== undefined && myPlayer.clan === entities[msgData.playerId].clan && !isPlayer;
             let isCaptain = hasBoats && myPlayer.parent.id === entities[msgData.playerId].parent.id && entities[myPlayer.parent.id].captainId === msgData.playerId;
@@ -283,7 +285,9 @@ let initSocketBinds = () => {
 
             let playerColor;
             if (isAdmin) playerColor = `admin-color`;
-            else if (isMod || isDev) playerColor = `mod-color`;
+            else if (isDev || isMod) playerColor = `mod-color`;
+            else if (isHelper) playerColor = `helper-color`;
+            else if (isDesigner) playerColor = `designer-color`;
             else if (isPlayer) playerColor = `myself-color`;
             else if (isClanMember) playerColor = `clan-color`;
             else if (isCaptain) playerColor = `captain-color`;
@@ -292,7 +296,7 @@ let initSocketBinds = () => {
 
             let $msgDiv = $(`<div/>`, {
                 text: `${(msgData.playerClan ? `[${msgData.playerClan}] ` : ``) +
-                    (isAdmin ? `[Admin] ` : isMod ? `[Staff] ` : isDev ? `[Dev] ` : ``) +
+                    (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Staff] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) +
                     msgData.playerName
                 }: ${
                     msgData.message}`,

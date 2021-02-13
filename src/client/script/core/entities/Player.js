@@ -166,10 +166,19 @@ class Player extends Entity {
             // Check if myPlayer has a boat
             let hasBoat = myPlayer.parent !== undefined && myPlayer.parent.netType === 1;
 
+            // Check if player is staff
+            let isAdmin = config.Admins.includes(this.name);
+            let isDev = config.Devs.includes(this.name);
+            let isMod = config.Mods.includes(this.name);
+            let isHelper = config.Helpers.includes(this.name);
+            let isDesigner = config.Designers.includes(this.name);
+
             // Get color
             let playerColor;
-            if (config.Admins.includes(this.name)) playerColor = labelcolors.admin;
-            else if (config.Mods.includes(this.name) || config.Devs.includes(this.name)) playerColor = labelcolors.mod;
+            if (isAdmin) playerColor = labelcolors.admin;
+            else if (isDev || isMod) playerColor = labelcolors.mod;
+            else if (isHelper) playerColor = labelcolors.helper;
+            else if (isDesigner) playerColor = labelcolors.designer;
             else if (this.isPlayer) playerColor = labelcolors.myself;
             else if (myPlayer !== undefined && myPlayer.clan !== undefined && myPlayer.clan !== `` && myPlayer.clan === entities[this.id].clan) playerColor = labelcolors.clan;
             else if (myPlayer !== undefined && hasBoat && myPlayer.parent.id === entities[this.id].parent.id && entities[myPlayer.parent.id].captainId === this.id) playerColor = labelcolors.captain;
@@ -182,7 +191,7 @@ class Player extends Entity {
                     textSize: 0.7,
                     redrawInterval: config.Labels.redrawInterval,
                     texture: {
-                        text: `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`,
+                        text: `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Staff] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`,
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
@@ -199,7 +208,7 @@ class Player extends Entity {
                 this.label.material.color = playerColor;
             }
 
-            this.label.material.map.text = `${clan + (config.Admins.includes(this.name) ? `[Admin] ` : config.Mods.includes(this.name) ? `[Staff] ` : config.Devs.includes(this.name) ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
+            this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isMod ? `[Staff] ` : isDev ? `[Dev] ` : ``) + name} (lvl ${this.level})`;
             this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined && (this.parent.netType === 5 || this.parent.inRange);
         }
 
