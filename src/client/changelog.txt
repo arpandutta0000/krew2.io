@@ -1,6 +1,5 @@
 v1.6.0 - [2-13-2021]
 - New Boat and Destroyer models
-- Added skeleton skin
 - Added Helper and Designer in game roles
 - Krew mates now have a unique chat color
 - Clan mates and Krew mates now have unique player label colors
