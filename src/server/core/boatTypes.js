@@ -119,6 +119,7 @@ let boatTypes = {
         regeneration: 1,
         body: `boat`,
         sail: `boat`,
+        mast: `boat`,
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -144,6 +145,7 @@ let boatTypes = {
         regeneration: 1,
         body: `boat`,
         sail: `boat`,
+        mast: `boat`,
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -169,6 +171,7 @@ let boatTypes = {
         regeneration: 1,
         body: `boat`,
         sail: `boat`,
+        mast: `boat`,
         scale: [5, 5, 5],
         offset: [0, -4.5, 1],
         rotation: [0, 0, 0]
@@ -271,6 +274,7 @@ let boatTypes = {
         regeneration: 1,
         body: `destroyer`,
         sail: `destroyer`,
+        mast: `destroyer`,
         scale: [6, 6, 6],
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
@@ -296,6 +300,7 @@ let boatTypes = {
         regeneration: 1,
         body: `destroyer`,
         sail: `destroyer`,
+        mast: `destroyer`,
         scale: [6, 6, 6],
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
@@ -321,6 +326,7 @@ let boatTypes = {
         regeneration: 1,
         body: `destroyer`,
         sail: `destroyer`,
+        mast: `destroyer`,
         scale: [6, 6, 6],
         offset: [0, -8, 0],
         rotation: [0, 0, 0]
