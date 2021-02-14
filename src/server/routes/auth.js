@@ -400,13 +400,14 @@ router.post(`/customization`, (req, res, next) => {
         errors: `You must be logged in to customize your character`
     });
 
-    let model = parseInt(req.body.model);
+    let playerModel = parseInt(req.body.playerModel);
+    let hatModel = parseInt(req.body.hatModel);
 
-    if (!model || isNaN(model)) return res.json({
+    if (!playerModel || isNaN(playerModel) || !hatModel || isNaN(hatModel)) return res.json({
         errors: `Please specify a model ID`
     });
 
-    if (model < 0 || model > 4) return res.json({
+    if (playerModel < 0 || playerModel > 4 || hatModel < 0 || hatModel > 1) return res.json({
         errors: `Invalid model ID`
     });
 
@@ -417,10 +418,11 @@ router.post(`/customization`, (req, res, next) => {
             errors: `Your account is Invalid`
         });
 
-        user.playerModel = parseInt(model);
+        user.playerModel = playerModel;
+        user.hatModel = hatModel;
 
         user.save(() => {
-            log(`yellow`, `User "${user.username}" set their player model to "${model}".`);
+            log(`yellow`, `User "${user.username}" set their player model to "${playerModel}" and hat model to "${hatModel}".`);
             return res.json({
                 success: `Succesfully updated player customization`
             });

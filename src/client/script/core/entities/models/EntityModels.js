@@ -48,7 +48,7 @@ let EntityModels = {
         }
 
         if (_this.netType === 0) {
-            _this.setPlayerBody(_this.playerModel);
+            _this.setPlayerBody(_this.playerModel, _this.hatModel);
         }
 
         _this.clientlogic(0);

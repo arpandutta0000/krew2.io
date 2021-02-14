@@ -15,6 +15,7 @@ let textures = {};
 
 let dogModels = [];
 let fpsTimes = [];
+let hatModels = [];
 let particles = [];
 let staffDogModels = [];
 

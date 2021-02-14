@@ -8,6 +8,7 @@ let createPlayer = function (data) {
 
     let player = new Player(data);
     if (data.playerModel) player.playerModel = data.playerModel;
+    if (data.hatModel) player.hatModel = data.hatModel;
 
     // real player
     if (TEST_ENV) {

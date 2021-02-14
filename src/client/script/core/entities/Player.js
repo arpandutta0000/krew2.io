@@ -218,11 +218,12 @@ class Player extends Entity {
     /**
      * Set the player body (model)
      *
-     * @param {number} idx Index of dogModels array
+     * @param {number} dog Index of dogModels array
+     * @param {number} hat Index of the hatModels array
      */
-    setPlayerBody (idx) {
-        idx = idx || 0;
-        let bodyModel = idx < 0 ? staffDogModels[(-1 * idx) - 1] : dogModels[idx];
+    setPlayerBody (dog, hat) {
+        dog = dog || 0;
+        let bodyModel = dog < 0 ? staffDogModels[(-1 * dog) - 1] : dogModels[dog];
         this.playerBody = bodyModel.body.clone();
         this.playerBody.scale.set(bodyModel.scale.x, bodyModel.scale.y, bodyModel.scale.z);
         this.playerBody.position.set(bodyModel.offset.x, bodyModel.offset.y, bodyModel.offset.z);
@@ -237,7 +238,8 @@ class Player extends Entity {
         this.weapon.name = `body`;
         this.geometry.add(this.weapon);
 
-        this.captainHat = models.hat_pirate.clone();
+        hat = hat || 0;
+        this.captainHat = hatModels[hat].clone();
         this.captainHat.scale.set(0.4, 0.4, 0.4);
         this.captainHat.position.set(0, 25, 0);
         this.captainHat.name = `captainHat`;

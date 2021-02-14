@@ -2065,6 +2065,7 @@ io.on(`connection`, async socket => {
                     data.password = undefined;
                 }
                 if (user && user.playerModel) data.playerModel = user.playerModel;
+                if (user && user.hatModel) data.hatModel = user.hatModel;
                 initSocketForPlayer(data);
             });
         } else {

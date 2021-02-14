@@ -17,6 +17,7 @@ let parseSnap = (id, data) => {
             case 0: {
                 entities[id] = new Player(data);
                 entities[id].playerModel = data.playerModel ? data.playerModel : 0;
+                entities[id].hatModel = data.hatModel ? data.hatModel : 0;
 
                 // If the snap is the user's player
                 if (id === myPlayerId) {

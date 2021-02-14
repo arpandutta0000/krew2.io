@@ -84,5 +84,13 @@ let PlayerModels = {
             offset: new THREE.Vector3(0, -0.4, 0.8),
             rotation: new THREE.Vector3(0.4, Math.PI, 0)
         });
+    },
+
+    /**
+     * Method to set up hat models
+     */
+    setHatModels: () => {
+        hatModels.push(models.pirateHat);
+        hatModels.push(models.sailorHat);
     }
 };

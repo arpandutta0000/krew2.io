@@ -22,7 +22,8 @@ let loadModels = () => {
     loader.loadTexture(`./assets/models/dogs/br88c.tga`);
 
     // Load hats
-    loader.loadObjWithMtl(`./assets/models/hats/hat_pirate.obj`);
+    loader.loadObjWithMtl(`./assets/models/hats/pirateHat.obj`);
+    loader.loadObjWithMtl(`./assets/models/hats/sailorHat.obj`);
 
     // Load islands
     loader.loadModel(`./assets/models/islands/island.obj`);
@@ -159,9 +160,10 @@ let createModels = () => {
     models.trader.getObjectByName(`body`).material = materials.boat;
     models.trader.getObjectByName(`sail`).material = materials.sail;
 
-    // Call setting ship and player models
+    // Call setting ship, player, and hat models
     BoatModels.setShipModels();
     PlayerModels.setPlayerModels();
+    PlayerModels.setHatModels();
 };
 
 /**

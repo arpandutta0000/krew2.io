@@ -89,6 +89,10 @@ let userSchema = Mongoose.Schema({
     playerModel: {
         type: Number,
         required: false
+    },
+    hatModel: {
+        type: Number,
+        required: false
     }
 });
 

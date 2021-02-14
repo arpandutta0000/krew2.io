@@ -348,16 +348,28 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         });
 
         // Change model previews in player customization menu
-        let currentModel = 0;
-        $(`#model-left`).on(`click`, () => {
-            currentModel--;
-            if (currentModel < 0) currentModel = 4;
-            $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
+        let currentHatModel = 0;
+        $(`#hat-model-left`).on(`click`, () => {
+            currentHatModel--;
+            if (currentHatModel < 0) currentHatModel = 1;
+            $(`#hat-model-image`).attr(`src`, `/assets/img/hats/hat${currentHatModel}.png`);
         });
-        $(`#model-right`).on(`click`, () => {
-            currentModel++;
-            if (currentModel > 4) currentModel = 0;
-            $(`#model-image`).attr(`src`, `/assets/img/dogs/model${currentModel}.png`);
+        $(`#hat-model-right`).on(`click`, () => {
+            currentHatModel++;
+            if (currentHatModel > 1) currentHatModel = 0;
+            $(`#hat-model-image`).attr(`src`, `/assets/img/hats/hat${currentHatModel}.png`);
+        });
+
+        let currentPlayerModel = 0;
+        $(`#player-model-left`).on(`click`, () => {
+            currentPlayerModel--;
+            if (currentPlayerModel < 0) currentPlayerModel = 4;
+            $(`#player-model-image`).attr(`src`, `/assets/img/dogs/player${currentPlayerModel}.png`);
+        });
+        $(`#player-model-right`).on(`click`, () => {
+            currentPlayerModel++;
+            if (currentPlayerModel > 4) currentPlayerModel = 0;
+            $(`#player-model-image`).attr(`src`, `/assets/img/dogs/player${currentPlayerModel}.png`);
         });
 
         // If a user submits the player customization form
@@ -372,7 +384,8 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
                 type: `post`,
                 url: `/customization`,
                 data: {
-                    model: currentModel.toString()
+                    playerModel: currentPlayerModel.toString(),
+                    hatModel: currentHatModel.toString()
                 }
             }).then((res) => {
                 // If there is an error, return an error
