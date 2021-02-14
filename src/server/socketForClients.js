@@ -1087,7 +1087,7 @@ io.on(`connection`, async socket => {
             });
 
             // If player has a clan.
-            if (user.clan) {
+            if (user && user.clan) {
                 // Get the clan from MongoDB.
                 let clan = await Clan.findOne({
                     name: user.clan
