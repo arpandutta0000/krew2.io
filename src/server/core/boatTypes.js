@@ -120,8 +120,8 @@ let boatTypes = {
         body: `boat`,
         sail: `boat`,
         mast: `boat`,
-        scale: [5, 5, 5],
-        offset: [0, -4.5, 1],
+        scale: [0.1, 0.1, 0.1],
+        offset: [0, 15, 1],
         rotation: [0, 0, 0]
     },
     5: {
