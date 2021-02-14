@@ -296,7 +296,7 @@ let initSocketBinds = () => {
 
             let $msgDiv = $(`<div/>`, {
                 text: `${(msgData.playerClan ? `[${msgData.playerClan}] ` : ``) +
-                    (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Staff] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) +
+                    (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) +
                     msgData.playerName
                 }: ${
                     msgData.message}`,

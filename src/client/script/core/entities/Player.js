@@ -191,7 +191,7 @@ class Player extends Entity {
                     textSize: 0.7,
                     redrawInterval: config.Labels.redrawInterval,
                     texture: {
-                        text: `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Staff] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`,
+                        text: `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`,
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
@@ -206,7 +206,7 @@ class Player extends Entity {
             } else {
                 // Set color and text if already defined
                 this.label.material.color = playerColor;
-                this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Staff] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`;
+                this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`;
             }
 
             this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined && (this.parent.netType === 5 || this.parent.inRange);
