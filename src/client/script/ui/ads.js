@@ -57,5 +57,5 @@ let initAipPreroll = () => {
  */
 let showAdinplayCentered = () => {
     if (typeof (adplayerCentered) !== `undefined`) adplayerCentered.startPreRoll();
-    else console.log(`Adplayer is not defined, skipped showing ads`);
+    else console.log(`Adplayer is not defined, skipped showing preroll ad`);
 };

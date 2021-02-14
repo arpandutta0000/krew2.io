@@ -175,16 +175,16 @@
                     <!-- jQuery code for tutorial popover -->
                     <script>
                         $(document).ready(() => {
-                            SameSite = 
-                            $(`#tutorial-button`).magnificPopup({
-                                focus: ``,
-                                disableOn: 700,
-                                type: `iframe`,
-                                mainClass: `popup-youtube`,
-                                removalDelay: 160,
-                                preloader: false,
-                                fixedContentPos: true,
-                            });
+                            SameSite =
+                                $(`#tutorial-button`).magnificPopup({
+                                    focus: ``,
+                                    disableOn: 700,
+                                    type: `iframe`,
+                                    mainClass: `popup-youtube`,
+                                    removalDelay: 160,
+                                    preloader: false,
+                                    fixedContentPos: true,
+                                });
                         });
                     </script>
 
@@ -215,16 +215,20 @@
                     <!-- Ads on center modal -->
                     <div id="krew-io_300x250">
                         <script type="text/javascript">
-                            aiptag.cmd.display.push(function () {
-                                aipDisplayTag.display("krew-io_300x250");
-                            });
+                            if (aiptag) {
+                                aiptag.cmd.display.push(() => {
+                                    aipDisplayTag.display(`krew-io_300x250`);
+                                });
+                            } else console.log(`Aiptag is undefined, skipped showing "krew-io_300x250"`);
                         </script>
                     </div>
                     <div id='krew-io_300x250_2'>
                         <script type='text/javascript'>
-                            aiptag.cmd.display.push(function () {
-                                aipDisplayTag.display('krew-io_300x250_2');
-                            });
+                            if (aiptag) {
+                                aiptag.cmd.display.push(() => {
+                                    aipDisplayTag.display(`krew-io_300x250_2`);
+                                });
+                            } else console.log(`Aiptag is undefined, skipped showing "krew-io_300x250_2"`);
                         </script>
                     </div>
 
