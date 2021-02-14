@@ -516,7 +516,7 @@ let PlayerLogic = {
                     }
 
                     if (min.object && min.object.name === `body`) {
-                        y -= boatTypes[entities[_this.parent.id].shipclassId].baseheight;
+                        y -= entities[_this.parent.id].getHeightAboveWater();
                         let right = _this.position.x < 0;
                         let halfWidth = boatTypes[entities[_this.parent.id].shipclassId].width / 2;
 
@@ -539,7 +539,7 @@ let PlayerLogic = {
                         entities[_this.parent.id] !== undefined &&
                         entities[_this.parent.id].netType === 1
                     ) {
-                        y -= boatTypes[entities[_this.parent.id].shipclassId].baseheight;
+                        y -= entities[_this.parent.id].getHeightAboveWater();
                     }
 
                     _this.position.y = y;
