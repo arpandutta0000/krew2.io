@@ -1,5 +1,5 @@
-v1.6.0 - [2-13-2021]
-- New Boat and Destroyer models
+v1.6.0 - [2-14-2021]
+- New Boat model
 - Added hats to player customization
 - Added skeleton skin
 - Added Helper and Designer in game roles
