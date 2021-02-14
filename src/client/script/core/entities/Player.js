@@ -181,8 +181,8 @@ class Player extends Entity {
             else if (isDesigner) playerColor = labelcolors.designer;
             else if (this.isPlayer) playerColor = labelcolors.myself;
             else if (myPlayer !== undefined && myPlayer.clan !== undefined && myPlayer.clan !== `` && myPlayer.clan === entities[this.id].clan) playerColor = labelcolors.clan;
-            else if (myPlayer !== undefined && hasBoat && myPlayer.parent.id === entities[this.id].parent.id && entities[myPlayer.parent.id].captainId === this.id) playerColor = labelcolors.captain;
-            else if (myPlayer !== undefined && hasBoat && myPlayer.parent.id === entities[this.id].parent.id) playerColor = labelcolors.krewmate;
+            else if (myPlayer !== undefined && hasBoat && entities[this.id].parent !== undefined && myPlayer.parent.id === entities[this.id].parent.id && entities[myPlayer.parent.id] !== undefined && entities[myPlayer.parent.id].captainId === this.id) playerColor = labelcolors.captain;
+            else if (myPlayer !== undefined && hasBoat && entities[this.id].parent !== undefined && myPlayer.parent.id === entities[this.id].parent.id) playerColor = labelcolors.krewmate;
             else playerColor = labelcolors.player;
 
             // Create label if geometry needed
