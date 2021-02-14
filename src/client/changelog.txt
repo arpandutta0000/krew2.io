@@ -6,6 +6,7 @@ v1.6.0 - [2-13-2021]
 - Krew mates now have a unique chat color
 - Clan mates and Krew mates now have unique player label colors
 - Fixed players who abandon a Krew showing with the captain color in chat
+- Fixed players sinking into ships when on low HP
 - Fixed issues with item shop showing incorrect equipped items
 - Modified cargo prices
 - Modified chat colors
