@@ -96,6 +96,7 @@ let createModels = () => {
     geometry.arcticwolf = models.arcticwolf.children[0].geometry;
     geometry.seafox = models.seafox.children[0].geometry;
     geometry.krewmate = models.krewmate.children[0].geometry;
+    geometry.skeleton = models.skeleton.children[0].geometry;
     geometry.br88c = models.br88c.children[0].geometry;
 
     // Baby Fancy
