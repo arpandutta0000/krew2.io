@@ -241,7 +241,7 @@ class Player extends Entity {
         hat = hat || 0;
         this.captainHat = hatModels[hat].clone();
         this.captainHat.scale.set(0.4, 0.4, 0.4);
-        this.captainHat.position.set(0, 25, 0);
+        this.captainHat.position.set(0, hat === 1 ? 27 : 25, hat === 1 ? 4 : 0);
         this.captainHat.name = `captainHat`;
     }
 
