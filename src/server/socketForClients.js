@@ -17,7 +17,7 @@ const xssFilters = require(`xss-filters`);
 const dotenv = require(`dotenv`).config();
 
 const { exec } = require(`child_process`);
-const createPlayerRestore
+const createPlayerRestore = require(`./utils/createPlayerRestore.js`);
 
 let worldsize = 2500;
 
