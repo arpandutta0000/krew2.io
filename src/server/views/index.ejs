@@ -793,30 +793,13 @@
     </div>
 
     <!-- Game Over Modal -->
-    <div class="modal fade text-sm-center modal-dialog modal-md modal-content modal-body" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class=" role=" document">
+    <div class="modal fade text-sm-center" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-content modal-body role=" document">
             <h1>Game Over</h1>
-            <h6> Total score:
-                <span id="total-score"></span>
-            </h6>
-            <h6> Total supplies collected:
-                <span id="total-gold-collected"></span>
-            </h6>
-            <h6> Total damage dealt:
-                <span id="total-damage"></span>
-            </h6>
-            <h6> Total shots fired:
-                <span id="total-shots-fired"></span>
-            </h6>
-            <h6> Total shots hit:
-                <span id="total-shots-hit"></span> (
-                <span id="accuracy"></span>% accuracy)</h6>
-            <h6> Total ships sank:
-                <span id="total-ships-sank"></span>
-            </h6>
+            <br><br>
             <div style='margin: 20px auto'>
                 <button id='play-again-button' type="button" class="btn btn-primary" data-dismiss="modal">Respawn with
-                    <span id="supplies-cut"></span> supplies</button>
+                    <span id="gold-cut"></span> gold</button>
             </div>
         </div>
     </div>

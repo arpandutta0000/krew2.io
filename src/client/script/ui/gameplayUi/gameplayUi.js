@@ -1,12 +1,9 @@
 /**
  * Disconnect/game end listener
  *
- * @param {number} gold Amount of gold
- * @param {number} fired Number of times the user fired
- * @param {number} hit Number of times the user hit another boat
- * @param {number} sank Number of ships user sank
+ * @param {number} gold Amount of gold to respawn with
  */
-let endTheGame = (gold, fired, hit, sank) => {
+let endTheGame = (gold) => {
     // miniplaySend2API(`gameover`, 1);
     // miniplaySend2API(`ships`, sank);
 
@@ -15,7 +12,7 @@ let endTheGame = (gold, fired, hit, sank) => {
     $(`.local-chat`).remove();
     $(`#game-over-modal`).modal(`show`);
 
-    setHighlights(gold, fired, hit, sank);
+    setHighlights(gold);
     myPlayer.state = 1;
 };
 
@@ -587,20 +584,12 @@ let initGameUi = () => {
 };
 
 /**
- * Set player session highlights for respawn window
+ * Set's values for the respawn modal
  *
- * @param {number} gold Amount of gold
- * @param {number} fired Number of times the user fired
- * @param {number} hit Number of times the user hit another boat
- * @param {number} sank Number of ships user sank
+ * @param {number} gold Amount of gold to respawn with
  */
-let setHighlights = (gold, fired, hit, sank) => {
-    $(`#total-gold-collected`).html(gold.toFixed(0));
-    $(`#total-shots-fired`).html(fired);
-    $(`#total-shots-hit`).html(hit);
-    $(`#accuracy`).html(Math.round((hit / fired) * 100));
-    $(`#total-ships-sank`).html(sank);
-    $(`#supplies-cut`).html((0.3 * gold).toFixed(0));
+let setHighlights = (gold) => {
+    $(`#gold-cut`).html((0.3 * gold).toFixed(0));
     if ($(`#docking-modal`).is(`:visible`)) {
         $(`#docking-modal`).hide();
     }
