@@ -111,7 +111,6 @@ let cleanScene = () => {
                         if (sceneCanBalls[o] === node) {
                             scene.remove(node);
                             delete sceneCanBalls[o];
-                            console.log(`yeeted cannon ball`)
                         }
                     };
                 }
@@ -121,7 +120,6 @@ let cleanScene = () => {
                             scene.remove(node);
                             sceneLines[l].geometry.dispose();
                             delete sceneLines[l];
-                            console.log(`yeeted line`)
                         }
                     };
                 }
