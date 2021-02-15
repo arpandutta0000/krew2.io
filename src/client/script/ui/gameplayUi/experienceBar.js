@@ -71,7 +71,7 @@ let ExperiencePointsComponent = {
     },
 
     setListeners: () => {
-        $(`input[type=range]`).each(() => {
+        $(`input[type=range]`).each(function () {
             inputRange($(this));
         });
 
@@ -196,7 +196,7 @@ let experienceBarUpdate = () => {
     ExperiencePointsComponent.clearStore().setStore((Store) => {
         if (Store.originalPoints > 0) {
             $(`.level-up-button`).show(0);
-            $(`.level-up-button`).one(`click`, () => {
+            $(`.level-up-button`).one(`click`, function () {
                 Store.allocatedPoints[$(this).attr(`data-attribute`)] = 1;
                 ExperiencePointsComponent.allocatePoints(() => {
                     experienceBarUpdate();
