@@ -17,6 +17,7 @@ const xssFilters = require(`xss-filters`);
 const dotenv = require(`dotenv`).config();
 
 const { exec } = require(`child_process`);
+const createPlayerRestore
 
 let worldsize = 2500;
 
@@ -595,35 +596,7 @@ io.on(`connection`, async socket => {
                                             if (oldPlayerData) oldPlayerData.delete();
                                             if (oldAccountData) oldAccountData.delete();
 
-                                            let playerSaveData = new PlayerRestore({
-                                                username: player.name,
-                                                IP: player.socket.handshake.address,
-                                                timestamp: new Date(),
-
-                                                gold: player.gold,
-                                                experience: player.experience,
-                                                points: player.points,
-
-                                                score: player.score,
-                                                shipsSank: player.shipsSank,
-                                                deaths: player.deaths ? player.deaths : 0,
-                                                overall_kills: player.overall_kills ? player.overall_kills : 0,
-
-                                                isCaptain: player.isCaptain,
-                                                shipId: player.parent ? player.parent.captainId === player.id ? player.parent.shipclassId : undefined : undefined,
-
-                                                itemId: player.itemId ? player.itemId : undefined,
-                                                bonus: {
-                                                    fireRate: player.attackSpeedBonus,
-                                                    distance: player.attackDistanceBonus,
-                                                    damage: player.attackDamageBonus,
-                                                    speed: player.movementSpeedBonus
-                                                },
-
-                                                overallCargo: player.overall_cargo,
-                                                otherQuestLevel: parseInt(player.other_quest_level ? player.other_quest_level : 0)
-                                            });
-
+                                            const playerSaveData = createPlayerRestore(player);
                                             if (user) {
                                                 if (player.serverNumber === 1 && player.gold > player.highscore) {
                                                     log(`magenta`, `Updated highscore for player: ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
@@ -933,23 +906,6 @@ io.on(`connection`, async socket => {
                 }
             }
         });
-
-        socket.on(`deletePickup`, pickupId => core.removeEntity(core.entities[pickupId]));
-
-        // For testing performance.
-        socket.on(`amountPickup`, type => {
-            let typeEntity = type;
-            let count = 0;
-            for (let i in entities)
-                if (entities[i].type === typeEntity) count++;
-            socket.emit(count);
-        });
-        socket.on(`removeAllCrates`, () => {
-            for (let i in entities)
-                if (entities[i].type === 0) core.removeEntity(core.entities[i]);
-        });
-        socket.on(`minAmountCratesInSea`, amount => cratesInSea.min = amount);
-        socket.on(`maxAmountCratesInSea`, amount => cratesInSea.max = amount);
 
         socket.on(`departure`, async departureCounter => {
             // Check if player who sends exitIsland command is docked at island.
