@@ -18,14 +18,14 @@
     ],
     "ignorePatterns": ["**/assets/js/*.js", "**/server/", "dist.min.js", "core_concatenated.js"],
     "rules": {
-        "func-call-spacing": 0,
+        "func-call-spacing": 1,
         "no-unexpected-multiline": 0,
         "eqeqeq": 1,
         "no-eval": 2,
         "array-bracket-newline": 1,
         "brace-style": 1,
         "comma-spacing": 1,
-        // "no-var": 1,
+        "no-var": 0,
         "indent": ["warn", 4, {
             "SwitchCase": 1
         }],
