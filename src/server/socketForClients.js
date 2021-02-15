@@ -759,11 +759,14 @@ io.on(`connection`, async socket => {
                         const player = Object.values(core.players).find(player => player.name === saveUser);
                         if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
 
+
                         for (let i in core.players) {
                             let curPlayer = core.players[i];
 
                             if (player.name === curPlayer.name) {
-                                curPlayer.gold += giveAmount;
+                                const playerSave = createPlayerRestore(player);
+                                playerSave.save();
+
                                 curPlayer.socket.emit(`showCenterMessage`, `Please reconnect to the game...`, 1, 1e4);
                                 curPlayer.socket.disconnect();
                             } else if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} saved data for ${saveUser}.`, 4, 1e4);
