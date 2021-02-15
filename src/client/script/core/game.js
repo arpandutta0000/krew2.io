@@ -104,29 +104,27 @@ let createGame = () => {
  */
 let cleanScene = () => {
     if (scene != undefined && scene !== [] && scene !== {} && scene !== ``) {
-        traverseObj(scene, (node) => {
-            if (node != undefined && node !== [] && node !== {} && node !== ``) {
-                if (node instanceof THREE.Mesh) {
-                    for (let o in sceneCanBalls) {
-                        if (sceneCanBalls[o] === node) {
-                            scene.remove(node);
-                            delete sceneCanBalls[o];
-                            console.log(`yeeted cannon ball`)
-                        }
-                    };
-                }
-                if (node instanceof THREE.Line) {
-                    for (let l in sceneLines) {
-                        if (sceneLines[l] === node) {
-                            scene.remove(node);
-                            sceneLines[l].geometry.dispose();
-                            delete sceneLines[l];
-                            console.log(`yeeted line`)
-                        }
-                    };
+        for (let node in scene) {
+            if (scene[node] instanceof THREE.Mesh) {
+                for (let o in sceneCanBalls) {
+                    let cannonBall = sceneCanBalls[o];
+                    if (cannonBall === scene[node]) {
+                        scene.remove(scene[node]);
+                        delete sceneCanBalls[o];
+                    }
                 }
             }
-        });
+            if (scene[node] instanceof THREE.Line) {
+                for (let l in sceneLines) {
+                    let line = sceneLines[l];
+                    if (line === scene[node]) {
+                        scene.remove(scene[node]);
+                        sceneLines[l].geometry.dispose();
+                        delete sceneLines[l];
+                    }
+                }
+            }
+        }
     }
 };
 

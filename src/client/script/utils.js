@@ -13,21 +13,6 @@ let pad = (val) => {
 };
 
 /**
- * Traverse through child objects of an object
- * 
- * @param {object} obj Object to be traversed
- * @callback callback
- */
-let traverseObj = (obj, callback) => {
-    callback(obj);
-    let children = obj.children;
-
-    for (let child in children) {
-        traverseObj(children[child], callback);
-    }
-};
-
-/**
  * Print a header into console
  */
 let printConsoleHeader = () => {
@@ -87,7 +72,7 @@ let colorFade = (start, end, i) => {
 /* Create cleanup timer */
 let cleanup = setInterval(() => {
     cleanScene();
-}, 9e4);
+}, 90000);
 
 let Ease = {
     // Accelerating from zero velocity
@@ -196,10 +181,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum
