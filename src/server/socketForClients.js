@@ -1033,7 +1033,7 @@ io.on(`connection`, async socket => {
 
         socket.on(`clan`, async (action, callback) => {
             // Only logged in players can perform clan actions.
-            let user = await User.findOne({ username: playerEntity.name });
+            const user = await User.findOne({ username: playerEntity.name });
             if (!user) {
                 log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 return callback(false);
