@@ -1,3 +1,11 @@
+v1.6.1 - [2-15-2021]
+- Added Commodore skin
+- Fixed highscores (WOF Scores) not saving
+- Fixed random fishing lines appearing
+- Fixed the game over screen
+- Ships now drop 2/3 of their gold infinitley, instead of being capped at 300k
+- Improved chat colors
+
 v1.6.0 - [2-14-2021]
 - New Boat model
 - Added hats to player customization
