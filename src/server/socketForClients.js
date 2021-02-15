@@ -296,6 +296,7 @@ io.on(`connection`, async socket => {
 
                 // Restore item & item stats.
                 if (playerSave.itemId) {
+                    playerEntity.socket.emit(`showCenterMessage`, `You have been equipped with your previous item!`, 3);
                     playerEntity.itemId = playerSave.itemId;
 
                     playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
@@ -623,9 +624,11 @@ io.on(`connection`, async socket => {
                                             });
 
                                             if (user) {
-                                                if (player.serverNumber === 1 && player.gold > user.highscore) {
-                                                    log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${user.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
-                                                    user.highscore = player.gold;
+                                                if (player.serverNumber === 1 && player.gold > player.highscore) {
+                                                    log(`magenta`, `Updated highscore for player: ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
+                                                    player.highscore = parseInt(player.gold);
+
+                                                    user.highscore = player.highscore;
                                                     user.save();
                                                 }
                                             }
@@ -862,11 +865,11 @@ io.on(`connection`, async socket => {
             if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
             if (playerEntity.isLoggedIn && playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
-                log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                log(`magenta`, `Updated highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
                 const user = await User.findOne({ username: playerEntity.name });
-                user.highscore = parseInt(playerEntity.highscore);
+                user.highscore = playerEntity.highscore;
                 user.save();
             }
 
@@ -976,15 +979,15 @@ io.on(`connection`, async socket => {
                                 if (!DEV_ENV && player !== undefined && player.netType === 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
                                 if (player.isLoggedIn === true && player.serverNumber === 1 && player.gold > player.highscore) {
-                                    log(`magenta`, `Update highscore for player ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                                    log(`magenta`, `Updated highscore for player ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                                     player.highscore = parseInt(player.gold);
 
                                     // Update player highscore in MongoDB.
                                     const user = await User.findOne({ username: playerEntity.name });
-                                    user.highscore = parseInt(player.highscore);
+                                    user.highscore = player.highscore;
                                 }
                             }
-                        }
+                        }you 
                     }
                 }
             }
