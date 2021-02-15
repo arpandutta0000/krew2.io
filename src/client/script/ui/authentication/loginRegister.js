@@ -363,12 +363,12 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         let currentPlayerModel = 0;
         $(`#player-model-left`).on(`click`, () => {
             currentPlayerModel--;
-            if (currentPlayerModel < 0) currentPlayerModel = 5;
+            if (currentPlayerModel < 0) currentPlayerModel = 6;
             $(`#player-model-image`).attr(`src`, `/assets/img/dogs/player${currentPlayerModel}.png`);
         });
         $(`#player-model-right`).on(`click`, () => {
             currentPlayerModel++;
-            if (currentPlayerModel > 5) currentPlayerModel = 0;
+            if (currentPlayerModel > 6) currentPlayerModel = 0;
             $(`#player-model-image`).attr(`src`, `/assets/img/dogs/player${currentPlayerModel}.png`);
         });
 

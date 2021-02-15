@@ -407,7 +407,7 @@ router.post(`/customization`, (req, res, next) => {
         errors: `Please specify a model ID`
     });
 
-    if (playerModel < 0 || playerModel > 5 || hatModel < 0 || hatModel > 1) return res.json({
+    if (playerModel < 0 || playerModel > 6 || hatModel < 0 || hatModel > 1) return res.json({
         errors: `Invalid model ID`
     });
 

@@ -19,6 +19,8 @@ let loadModels = () => {
     loader.loadTexture(`./assets/models/dogs/krewmate.tga`);
     loader.loadModel(`./assets/models/dogs/skeleton.obj`);
     loader.loadTexture(`./assets/models/dogs/skeleton.tga`);
+    loader.loadModel(`./assets/models/dogs/commodore.obj`);
+    loader.loadTexture(`./assets/models/dogs/commodore.tga`);
     // Staff dogs
     loader.loadModel(`./assets/models/dogs/br88c.obj`);
     loader.loadTexture(`./assets/models/dogs/br88c.tga`);
@@ -98,6 +100,7 @@ let createModels = () => {
     geometry.krewmate = models.krewmate.children[0].geometry;
     geometry.skeleton = models.skeleton.children[0].geometry;
     geometry.br88c = models.br88c.children[0].geometry;
+    geometry.commodore = models.commodore.children[0].geometry;
 
     // Baby Fancy
     models.babyFancy.children[0].name = `sail`;
