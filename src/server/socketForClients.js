@@ -624,7 +624,7 @@ io.on(`connection`, async socket => {
 
                                             if (user) {
                                                 if (player.serverNumber === 1 && player.gold > user.highscore) {
-                                                    log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
+                                                    log(`magenta`, `Update highscore for player: ${player.name} | Old highscore: ${user.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
                                                     user.highscore = player.gold;
                                                     user.save();
                                                 }
