@@ -280,10 +280,7 @@ Boat.prototype.logic = function (dt) {
             let value = 300;
             if (boatTypes[this.shipclassId] && this.captain) {
                 let baseValue = boatTypes[this.shipclassId].price + this.captain.gold;
-                let multiplier = baseValue < 5e5 ? 5.5 : baseValue < 7.5e5 ? 5 : 4.5;
-                // base value can't be larger than 1 million gold
-                baseValue = baseValue > 1e6 ? 1e6 : baseValue;
-                value = baseValue / Math.log(baseValue) * multiplier;
+                value = Math.round(baseValue * (2 / 3));
             }
 
             this.hasDoneDeathDrops = true;
@@ -440,7 +437,7 @@ Boat.prototype.onDestroy = function () {
         // on the server, tell all the players on the boat that the show is over
         if (this.children[a].netType === 0) {
             if (this.children[a].socket !== undefined) {
-                this.children[a].socket.emit(`end`, this.children[a].gold, this.children[a].shotsFired, this.children[a].shotsHit, this.children[a].shipsSank);
+                this.children[a].socket.emit(`end`, this.children[a].gold);
                 // this.children[a].socket.disconnect();
             }
         }
