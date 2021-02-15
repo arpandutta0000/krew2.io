@@ -1,9 +1,9 @@
 const Webpack = require(`webpack`);
 const ClosurePlugin = require(`closure-webpack-plugin`);
 const path = require(`path`);
-const dotenv = require(`dotenv`).config();
+require(`dotenv`).config();
 
-let appMode = process.env.NODE_ENV;
+const appMode = process.env.NODE_ENV;
 
 module.exports = {
     prod: {

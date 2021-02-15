@@ -1,5 +1,5 @@
 const webpackConfig = require(`./webpack.config.js`);
-const dotenv = require(`dotenv`).config();
+require(`dotenv`).config();
 
 module.exports = grunt => {
     grunt.initConfig({

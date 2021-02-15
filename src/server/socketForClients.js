@@ -33,7 +33,7 @@ const createBots = require(`./bots.js`);
 if (config.mode === `dev` && process.env.TESTING_ENV) createBots();
 
 // Log when server starts.
-let serverStartTimestamp = Date.now();
+const serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
 // Additional bad words that need to be filtered.
