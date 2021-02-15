@@ -734,7 +734,7 @@ io.on(`connection`, async socket => {
 
                         log(`blue`, `Player ${playerEntity.name} changed the time to ${currentTime} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Time Set`, `Admin ${playerEntity.name} set the time to ${currentTime}.`);
-                    } else if (command === `give` && (playerEntity.name === `BR88C` || playerEntity.name === `DamienVesper`)) {
+                    } else if (command === `give` && isAdmin) {
                         let giveUser = args.shift();
                         let giveAmount = args[0] ? parseInt(args.shift()) : undefined;
 
@@ -753,6 +753,23 @@ io.on(`connection`, async socket => {
                         }
                         log(`blue`, `Player ${playerEntity.name} gave ${giveUser} ${giveAmount} gold | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         return bus.emit(`report`, `Give Gold`, `Admin ${playerEntity.name} gave ${giveUser} ${giveAmount} gold.`);
+                    } else if (command == `save` && isAdmin) {
+                        const saveUser = args.shift();
+
+                        const player = Object.values(core.players).find(player => player.name === saveUser);
+                        if (!player) return playerEntity.socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+
+                        for (let i in core.players) {
+                            let curPlayer = core.players[i];
+
+                            if (player.name === curPlayer.name) {
+                                curPlayer.gold += giveAmount;
+                                curPlayer.socket.emit(`showCenterMessage`, `Please reconnect to the game...`, 1, 1e4);
+                                curPlayer.socket.disconnect();
+                            } else if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isDev)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} saved data for ${saveUser}.`, 4, 1e4);
+                        }
+                        log(`blue`, `Player ${playerEntity.name} saved data for ${saveUser} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        return bus.emit(`report`, `Save Player Data`, `Admin ${playerEntity.name} saved data for ${saveUser}.`);
                     }
                 }
             } else if (!playerEntity.isMuted && !isSpamming(playerEntity, msgData.message)) {
