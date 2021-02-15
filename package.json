@@ -39,7 +39,7 @@
     "path": "^0.12.7",
     "sendpulse-api": "^1.1.5",
     "socket.io": "^3.1.1",
-    "webpack": "^5.11.1",
+    "webpack": "^4.46.0",
     "xss-filters": "^1.2.7"
   },
   "scripts": {
