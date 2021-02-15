@@ -373,7 +373,8 @@ io.on(`connection`, async socket => {
             }
 
             // Staff commands.
-            if ((msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`)) && playerEntity.isLoggedIn) {
+            const user = await User.findOne({ username: playerEntity.name });
+            if ((msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`)) && user) {
                 // If the player is not a staff member, disregard the command usage.
                 if (!Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Devs.includes(playerEntity.name) &&
                     !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) return;
@@ -864,11 +865,13 @@ io.on(`connection`, async socket => {
             log(`magenta`, `Player ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
-            if (playerEntity.isLoggedIn && playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
+            if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
                 log(`magenta`, `Updated highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
                 const user = await User.findOne({ username: playerEntity.name });
+                if (!user) return;
+
                 user.highscore = playerEntity.highscore;
                 user.save();
             }
@@ -978,16 +981,18 @@ io.on(`connection`, async socket => {
                                 let player = boat.children[i];
                                 if (!DEV_ENV && player !== undefined && player.netType === 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
 
-                                if (player.isLoggedIn === true && player.serverNumber === 1 && player.gold > player.highscore) {
+                                if (player.serverNumber === 1 && player.gold > player.highscore) {
                                     log(`magenta`, `Updated highscore for player ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                                     player.highscore = parseInt(player.gold);
 
                                     // Update player highscore in MongoDB.
                                     const user = await User.findOne({ username: playerEntity.name });
+                                    if (!user) return;
                                     user.highscore = player.highscore;
+                                    user.save();
                                 }
                             }
-                        }you 
+                        }
                     }
                 }
             }
@@ -1074,7 +1079,8 @@ io.on(`connection`, async socket => {
 
         socket.on(`clan`, async (action, callback) => {
             // Only logged in players can perform clan actions.
-            if (!playerEntity.isLoggedIn) {
+            const user = await User.findOne({ username: playerEntity.name });
+            if (!user) {
                 log(`cyan`, `Exploit: Player ${playerEntity.name} tried clan action without login | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 return callback(false);
             }
@@ -1943,7 +1949,8 @@ io.on(`connection`, async socket => {
         // Bank data.
         socket.on(`bank`, async data => {
             // If the player is logged in, allow them to use bank, else show warning that they need to log in.
-            if (playerEntity.isLoggedIn) {
+            const user = await User.findOne({ username: playerEntity.name });
+            if (user) {
                 if (playerEntity.parent.name === `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name === `Labrador`)) {
                     // Function to callback the bank data to the player.
                     let setBankData = async () => {
