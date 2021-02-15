@@ -272,48 +272,46 @@ io.on(`connection`, async socket => {
         }
 
         // Only start the restore process if the server start was less than 5 minutes ago.
-        if (Date.now() - serverStartTimestamp < 3e5) {
-            let playerSave = await PlayerRestore.findOne({
-                IP: socket.handshake.address
-            });
-            if (playerSave && new Date() - playerSave.timestamp < 3e5) {
-                // If username is seadog, set the name to proper seadog.
-                playerEntity.name = playerSave.username;
+        let playerSave = await PlayerRestore.findOne({
+            IP: socket.handshake.address
+        });
+        if (playerSave && new Date() - playerSave.timestamp < 3e5) {
+            // If username is seadog, set the name to proper seadog.
+            playerEntity.name = playerSave.username;
 
-                // Restore gold and xp.
-                playerEntity.gold = playerSave.gold;
-                playerEntity.experience = playerSave.experience;
-                playerEntity.points = playerSave.points;
+            // Restore gold and xp.
+            playerEntity.gold = playerSave.gold;
+            playerEntity.experience = playerSave.experience;
+            playerEntity.points = playerSave.points;
 
-                // Restore leaderboard stats.
-                playerEntity.score = playerSave.score;
-                playerEntity.shipsSank = playerSave.shipsSank;
+            // Restore leaderboard stats.
+            playerEntity.score = playerSave.score;
+            playerEntity.shipsSank = playerSave.shipsSank;
 
-                // Refund ship if captain.
-                if (playerSave.isCaptain) {
-                    playerEntity.gold += core.boatTypes[playerSave.shipId].price;
-                    playerEntity.socket.emit(`showCenterMessage`, `You have been recompensed for your ship!`, 3);
-                }
-
-                // Restore item & item stats.
-                if (playerSave.itemId) {
-                    playerEntity.socket.emit(`showCenterMessage`, `You have been equipped with your previous item!`, 3);
-                    playerEntity.itemId = playerSave.itemId;
-
-                    playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
-                    playerEntity.attackDistanceBonus = playerSave.bonus.distance;
-                    playerEntity.attackDamageBonus = playerSave.bonus.damage;
-                    playerEntity.movementSpeedBonus = playerSave.bonus.speed;
-                }
-
-                // Restore achievements.
-                playerEntity.overall_cargo = playerSave.overallCargo;
-                playerEntity.other_quest_level = playerSave.otherQuestLevel;
-
-                // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
-                log(`blue`, `Restored data for ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                playerSave.delete();
+            // Refund ship if captain.
+            if (playerSave.isCaptain) {
+                playerEntity.gold += core.boatTypes[playerSave.shipId].price;
+                playerEntity.socket.emit(`showCenterMessage`, `You have been recompensed for your ship!`, 3);
             }
+
+            // Restore item & item stats.
+            if (playerSave.itemId) {
+                playerEntity.socket.emit(`showCenterMessage`, `You have been equipped with your previous item!`, 3);
+                playerEntity.itemId = playerSave.itemId;
+
+                playerEntity.attackSpeedBonus = playerSave.bonus.fireRate;
+                playerEntity.attackDistanceBonus = playerSave.bonus.distance;
+                playerEntity.attackDamageBonus = playerSave.bonus.damage;
+                playerEntity.movementSpeedBonus = playerSave.bonus.speed;
+            }
+
+            // Restore achievements.
+            playerEntity.overall_cargo = playerSave.overallCargo;
+            playerEntity.other_quest_level = playerSave.otherQuestLevel;
+
+            // Delete the save information afterwards so that the player cannot exploit with multiple tabs.
+            log(`blue`, `Restored data for ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            playerSave.delete();
         }
 
         // Allocate player to the game.
