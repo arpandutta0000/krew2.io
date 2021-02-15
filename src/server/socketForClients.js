@@ -865,11 +865,9 @@ io.on(`connection`, async socket => {
                 log(`magenta`, `Update highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
 
-                await User.updateOne({
-                    username: playerEntity.name
-                }, {
-                    highscore: playerEntity.highscore
-                });
+                const user = await User.findOne({ username: playerEntity.name });
+                user.highscore = parseInt(playerEntity.highscore);
+                user.save();
             }
 
             if (playerEntity.parent && playerEntity.parent.netType === 1 && (playerEntity.parent.shipState !== 4 || playerEntity.parent.shipState !== 3) && playerEntity.isCaptain && Object.keys(playerEntity.parent.children).length === 1 && playerEntity.parent.hp < playerEntity.parent.maxHp) {
@@ -982,11 +980,8 @@ io.on(`connection`, async socket => {
                                     player.highscore = parseInt(player.gold);
 
                                     // Update player highscore in MongoDB.
-                                    await User.updateOne({
-                                        username: player.name
-                                    }, {
-                                        highscore: parseInt(player.highscore)
-                                    });
+                                    const user = await User.findOne({ username: playerEntity.name });
+                                    user.highscore = parseInt(player.highscore);
                                 }
                             }
                         }
@@ -1969,11 +1964,9 @@ io.on(`connection`, async socket => {
                             // Handle the deposit.
                             playerEntity.bank.deposit += integerDeposit;
 
-                            await User.updateOne({
-                                username: playerEntity.name
-                            }, {
-                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit)
-                            });
+                            const user = await User.findOne({ username: playerEntity.name });
+                            user.bankDeposit = playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit);
+                            user.save();
 
                             setBankData();
                             log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
@@ -1984,11 +1977,8 @@ io.on(`connection`, async socket => {
                             playerEntity.gold += integerDeposit * 0.9;
                             playerEntity.bank.deposit -= integerDeposit;
 
-                            await User.updateOne({
-                                username: playerEntity.name
-                            }, {
-                                bankDeposit: playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit)
-                            });
+                            const user = await User.findOne({ username: playerEntity.name });
+                            user.bankDeposit = playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit);
                             setBankData();
                         }
                     } else setBankData();
