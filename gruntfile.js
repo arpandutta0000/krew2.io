@@ -153,39 +153,6 @@ module.exports = grunt => {
             }
         },
 
-        // Watch for file changes.
-        watch: {
-            scripts: {
-                files: [`**/*.js`, `!**/node_modules/**`, `**/*.css`, `**/*.html`],
-                tasks: [`build-dev`],
-                options: {
-                    spawn: false
-                }
-            }
-        },
-
-        // Concurrently run watch and nodemon.
-        concurrent: {
-            dev: [
-                `nodemon:dev`,
-                `watch:scripts`
-            ],
-            options: {
-                logConcurrentOutput: true
-            }
-        },
-
-        // Use nodemon to restart the app.
-        nodemon: {
-            dev: {
-                script: `src/server/app.js`,
-                options: {
-                    args: [`dev`],
-                    nodeArgs: [`--inspect`]
-                }
-            }
-        },
-
         // Copy files over to the static folder.
         copy: {
             dist: {
@@ -233,16 +200,10 @@ module.exports = grunt => {
         `clean:preMinified`
     ]);
 
-    // Run in dev.
-    grunt.registerTask(`dev`, [`concurrent:dev`]);
-
     // Load required npm tasks.
     grunt.loadNpmTasks(`grunt-contrib-concat`);
     grunt.loadNpmTasks(`grunt-contrib-copy`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
-    grunt.loadNpmTasks(`grunt-contrib-watch`);
-    grunt.loadNpmTasks(`grunt-nodemon`);
-    grunt.loadNpmTasks(`grunt-concurrent`);
     grunt.loadNpmTasks(`grunt-webpack`);
     grunt.loadNpmTasks(`grunt-contrib-cssmin`);
 };
