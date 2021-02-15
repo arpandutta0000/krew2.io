@@ -103,7 +103,6 @@ let BoatLogic = {
             // on client, disconnect the camera from the player
             if (myPlayer && myPlayer.parent === _this) {
                 playAudioFile(false, `sink-crash`);
-                THREE.SceneUtils.detach(camera, camera.parent, scene);
                 $(`#shopping-modal`).hide();
                 $(`#show-shopping-modal-button`).hide();
             }
