@@ -374,7 +374,7 @@ io.on(`connection`, async socket => {
 
             // Staff commands.
             const user = await User.findOne({ username: playerEntity.name });
-            if ((msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`)) && user) {
+            if (user &&(msgData.message.startsWith(`//`) || msgData.message.startsWith(`!!`))) {
                 // If the player is not a staff member, disregard the command usage.
                 if (!Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Devs.includes(playerEntity.name) &&
                     !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isDev) return;
