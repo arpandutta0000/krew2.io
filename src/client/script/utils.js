@@ -14,7 +14,7 @@ let pad = (val) => {
 
 /**
  * Traverse through child objects of an object
- * 
+ *
  * @param {object} obj Object to be traversed
  * @callback callback
  */
@@ -196,10 +196,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum
