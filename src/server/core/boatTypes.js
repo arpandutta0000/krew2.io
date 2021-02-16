@@ -2,7 +2,7 @@ let boatTypes = {
     0: {
         id: 0,
         name: `Wood Plank`,
-        hp: 75,
+        hp: 50,
         turnspeed: 1.2,
         price: 500,
         maxKrewCapacity: 1,
@@ -14,7 +14,7 @@ let boatTypes = {
         arcBack: 0,
         inertia: 0.1,
         radius: 5,
-        speed: 6.5,
+        speed: 7,
         labelHeight: 10,
         regeneration: 1,
         body: `raft`,
