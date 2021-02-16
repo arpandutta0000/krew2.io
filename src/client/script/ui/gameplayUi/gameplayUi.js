@@ -581,6 +581,9 @@ let initGameUi = () => {
 
     /* On FOV slider update */
     $(`#fov-control`).on(`change`, () => fov = document.getElementById(`fov-control`).value / 10);
+
+    /* Change sail visibilty on update */
+    $(`#view-sails-button`).on(`change.bootstrapSwitch`, () => viewSails = $(`#view-sails-button`).is(`:checked`))
 };
 
 /**

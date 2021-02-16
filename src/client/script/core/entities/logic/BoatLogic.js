@@ -57,11 +57,11 @@ let BoatLogic = {
         _this.rottimer += dt;
 
         if (myPlayer && myPlayer.parent && _this.sail) {
-            _this.sail.material.visible = _this.id !== myPlayer.parent.id;
+            _this.sail.material.visible = _this.id !== myPlayer.parent.id || viewSails;
         }
 
         if (myPlayer && myPlayer.parent && _this.mast) {
-            _this.mast.material.visible = _this.id !== myPlayer.parent.id;
+            _this.mast.material.visible = _this.id !== myPlayer.parent.id || viewSails;
         }
 
         if (_this.body &&

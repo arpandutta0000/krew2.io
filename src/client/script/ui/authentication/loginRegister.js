@@ -483,6 +483,14 @@ let getGameSettings = () => {
             $(`#account-sfx-control`).val(res.sfxVolume != undefined ? res.sfxVolume : 50);
             $(`#sfx-control`).val(res.sfxVolume != undefined ? res.sfxVolume : 50);
 
+            if (res.viewSails) {
+                $(`#account-view-sails-button`).prop(`checked`, true);
+                $(`#view-sails-button`).prop(`checked`, true);
+            } else {
+                $(`#account-view-sails-button`).prop(`checked`, false);
+                $(`#view-sails-button`).prop(`checked`, false);
+            }
+
             $(`#account-quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
             $(`#quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
 
@@ -502,10 +510,14 @@ let getGameSettings = () => {
 
             $(`#account-quality-list`).val(2);
             $(`#quality-list`).val(2);
+
+            $(`#account-view-sails-button`).prop(`checked`, false);
+            $(`#view-sails-button`).prop(`checked`, false);
         }
     });
 
     fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
+    viewSails = $(`#view-sails-button`).is(`:checked`);
     updateMusic();
     updateQuality();
 };
