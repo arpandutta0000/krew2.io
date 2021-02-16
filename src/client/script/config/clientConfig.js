@@ -1,9 +1,8 @@
 const config = {
     // Client side staff
     Admins: [`devclied`, `BR88C`, `DamienVesper`, `LeoLeoLeo`, `Speedy_Sloth`, `Sjmun`],
-    Devs: [],
     Mods: [`Fiftyyyyy`, `TheChoco`, `Kekmw`],
-    Helpers: [`Tommy_Finle`, `ObamaKindaCare`],
+    Helpers: [`Tommy_Finle`, `ObamaKindaCare`, `Sky920`],
     Designers: [`bread`, `ward0g71`],
 
     // Set URL

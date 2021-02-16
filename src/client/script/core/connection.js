@@ -274,7 +274,6 @@ let initSocketBinds = () => {
 
             let hasBoats = myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType === 1 && entities[msgData.playerId].parent !== undefined && entities[msgData.playerId].parent.netType === 1;
             let isAdmin = config.Admins.includes(msgData.playerName);
-            let isDev = config.Devs.includes(msgData.playerName);
             let isMod = config.Mods.includes(msgData.playerName);
             let isHelper = config.Helpers.includes(msgData.playerName);
             let isDesigner = config.Designers.includes(msgData.playerName);
@@ -285,7 +284,7 @@ let initSocketBinds = () => {
 
             let playerColor;
             if (isAdmin) playerColor = `admin-color`;
-            else if (isDev || isMod) playerColor = `mod-color`;
+            else if (isMod) playerColor = `mod-color`;
             else if (isHelper) playerColor = `helper-color`;
             else if (isDesigner) playerColor = `designer-color`;
             else if (isPlayer) playerColor = `myself-color`;
@@ -296,7 +295,7 @@ let initSocketBinds = () => {
 
             let $msgDiv = $(`<div/>`, {
                 text: `${(msgData.playerClan ? `[${msgData.playerClan}] ` : ``) +
-                    (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) +
+                    (isAdmin ? `[Admin] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) +
                     msgData.playerName
                 }: ${
                     msgData.message}`,

@@ -37,5 +37,26 @@ module.exports = {
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         }
     ],
-    Devs: []
+    Helpers: [{
+            name: `Tommy_Finle`,
+            hash: ``
+        },
+        {
+            name: `ObamaKindaCare`,
+            hash: ``
+        },
+        {
+            name: `Sky920`,
+            hash: ``
+        }
+    ],
+    Designers: [{
+            name: `bread`,
+            hash: ``
+        },
+        {
+            name: `ward0g71`,
+            hash: ``
+        }
+    ]
 };

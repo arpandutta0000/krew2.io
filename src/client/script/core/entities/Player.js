@@ -10,7 +10,7 @@ class Player extends Entity {
      *
      * @param {object} data Player data
      */
-    constructor (data) {
+    constructor(data) {
         // Inherit parent class methods
         super();
 
@@ -155,7 +155,7 @@ class Player extends Entity {
      *
      * @param {string} name New player name
      */
-    setName (name) {
+    setName(name) {
         if (this.geometry !== undefined) {
             // Get clan
             let clan = ``;
@@ -168,7 +168,6 @@ class Player extends Entity {
 
             // Check if player is staff
             let isAdmin = config.Admins.includes(this.name);
-            let isDev = config.Devs.includes(this.name);
             let isMod = config.Mods.includes(this.name);
             let isHelper = config.Helpers.includes(this.name);
             let isDesigner = config.Designers.includes(this.name);
@@ -176,7 +175,7 @@ class Player extends Entity {
             // Get color
             let playerColor;
             if (isAdmin) playerColor = labelcolors.admin;
-            else if (isDev || isMod) playerColor = labelcolors.mod;
+            else if (isMod) playerColor = labelcolors.mod;
             else if (isHelper) playerColor = labelcolors.helper;
             else if (isDesigner) playerColor = labelcolors.designer;
             else if (this.isPlayer) playerColor = labelcolors.myself;
@@ -191,7 +190,7 @@ class Player extends Entity {
                     textSize: 0.7,
                     redrawInterval: config.Labels.redrawInterval,
                     texture: {
-                        text: `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`,
+                        text: `${clan + (isAdmin ? `[Admin] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`,
                         fontFamily: config.Labels.fontFamily
                     },
                     material: {
@@ -206,7 +205,7 @@ class Player extends Entity {
             } else {
                 // Set color and text if already defined
                 this.label.material.color = playerColor;
-                this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isDev ? `[Dev] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`;
+                this.label.material.map.text = `${clan + (isAdmin ? `[Admin] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) + name} (lvl ${this.level})`;
             }
 
             this.label.visible = myPlayer && myPlayer.parent && this.inRange && this.parent !== undefined && (this.parent.netType === 5 || this.parent.inRange);
@@ -221,7 +220,7 @@ class Player extends Entity {
      * @param {number} dog Index of dogModels array
      * @param {number} hat Index of the hatModels array
      */
-    setPlayerBody (dog, hat) {
+    setPlayerBody(dog, hat) {
         dog = dog || 0;
         let bodyModel = dog < 0 ? staffDogModels[(-1 * dog) - 1] : dogModels[dog];
         this.playerBody = bodyModel.body.clone();
@@ -248,7 +247,7 @@ class Player extends Entity {
     /**
      * Notifiscation Method
      */
-    notifiscation () {
+    notifiscation() {
         for (let z in this.notifiscationHeap) {
             if (this.notifiscationHeap[z].isNew) {
                 this.notifiscationHeap[z].sprite = new THREE.TextSprite({
@@ -284,7 +283,7 @@ class Player extends Entity {
      *
      * @param {number} damage Amount of damage a player did
      */
-    updateExperience (damage) {
+    updateExperience(damage) {
         let experience = this.experience;
         let level = 0;
         let i;
@@ -319,7 +318,7 @@ class Player extends Entity {
     /**
      * Change a player's weapon (tool)
      */
-    changeWeapon () {
+    changeWeapon() {
         if (this.weapon && this.activeWeapon === 0) {
             this.geometry.remove(this.weapon);
             this.weapon = models.cannon.clone();
@@ -357,7 +356,7 @@ class Player extends Entity {
     /**
      * Make a player jump
      */
-    tryJump () {
+    tryJump() {
         if (this.jumpVel > 0.0 || this.jump > 0) return;
         this.jumpVel = 16;
     }
@@ -365,7 +364,7 @@ class Player extends Entity {
     /**
      * Get a player's delta type
      */
-    getTypeDelta () {
+    getTypeDelta() {
         return PlayerDelta.getTypeDelta(this);
     }
 
@@ -374,7 +373,7 @@ class Player extends Entity {
      *
      * @param {number} dt DT
      */
-    logic (dt) {
+    logic(dt) {
         PlayerLogic.logic(dt, this);
     }
 
@@ -383,21 +382,21 @@ class Player extends Entity {
      *
      * @param {number} dt DT
      */
-    clientlogic (dt) {
+    clientlogic(dt) {
         PlayerLogic.clientlogic(dt, this);
     }
 
     /**
      * Player names logic method
      */
-    namesLogic () {
+    namesLogic() {
         PlayerLogic.namesLogic(this);
     }
 
     /**
      * Player docked logic
      */
-    dockedLogic () {
+    dockedLogic() {
         PlayerLogic.dockedLogic(this);
     }
 
@@ -406,14 +405,14 @@ class Player extends Entity {
      *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap (snap) {
+    parseTypeSnap(snap) {
         PlayerSnap.parseTypeSnap(snap, this);
     }
 
     /**
      * Destroy a player
      */
-    onDestroy () {
+    onDestroy() {
         Entity.prototype.onDestroy.call(this);
 
         if (this === myPlayer) {

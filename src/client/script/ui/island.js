@@ -193,7 +193,7 @@ let setActiveBtn = (id) => {
     if (myPlayer.clan !== `` && myPlayer.clan !== undefined) {
         $(`#li-clan-chat`).show();
     }
-    if (config.Admins.includes(myPlayer.name) || config.Devs.includes(myPlayer.name) || config.Mods.includes(myPlayer.name)) $(`#li-staff-chat`).show();
+    if (config.Admins.includes(myPlayer.name) || config.Mods.includes(myPlayer.name) || config.Helpers.includes(myPlayer.name) || config.Designers.includes(myPlayer.name)) $(`#li-staff-chat`).show();
     if (entities[id].netType === 5) {
         $(`#toggle-krew-list-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
         $(`#toggle-shop-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-shop-modal-button`);
