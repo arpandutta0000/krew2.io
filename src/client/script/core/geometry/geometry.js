@@ -90,7 +90,7 @@ let labelcolors = {
     helper: new THREE.Color(0x63ecfd),
     designer: new THREE.Color(0x6075ff),
     myself: new THREE.Color(0x2cf22f),
-    clan: new THREE.Color(0xffc711),
+    clan: new THREE.Color(0xffb411),
     captain: new THREE.Color(0xff5100),
     krewmate: new THREE.Color(0xff7640),
     player: new THREE.Color(0xffffff),
