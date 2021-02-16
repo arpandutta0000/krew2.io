@@ -28,8 +28,7 @@ module.exports = {
     },
 
     dev: {
-        mode: appMode === `prod` ? `production` : `development`,
-        // mode: `production`, // Uncomment to test production build
+        mode: `production`,
         entry: [`./src/client/script/dist.js`],
         output: {
             path: path.resolve(__dirname, `src/client/script`),
