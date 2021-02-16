@@ -314,7 +314,7 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
         errors: `You must be logged in to change your account's game settings`
     });
 
-    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-fov-control`] || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || !req.body[`account-quality-list`]) return res.json({
+    if ((req.body[`account-fp-mode-button`] !== `check` && req.body[`account-fp-mode-button`] !== undefined) || !req.body[`account-fov-control`] || !req.body[`account-music-control`] || !req.body[`account-sfx-control`] || (req.body[`account-view-sails-button`] !== `check` && req.body[`account-view-sails-button`] !== undefined) || !req.body[`account-quality-list`]) return res.json({
         errors: `Please fill out all fields`
     });
 
@@ -338,11 +338,11 @@ router.post(`/change_account_game_settings`, (req, res, next) => {
             errors: `Your account is Invalid`
         });
 
-        if (req.body[`account-fp-mode-button`] === `check`) {
-            user.fpMode = true;
-        } else {
-            user.fpMode = false;
-        }
+        if (req.body[`account-fp-mode-button`] === `check`) user.fpMode = true;
+        else user.fpMode = false;
+
+        if (req.body[`account-view-sails-button`] === `check`) user.viewSails = true;
+        else user.viewSails = false;
 
         user.fov = fov;
         user.musicVolume = music;
@@ -609,6 +609,7 @@ router.get(`/account_game_settings`, (req, res, next) => {
                 fov: user.fov != undefined ? user.fov : 10,
                 musicVolume: user.musicVolume != undefined ? user.musicVolume : 50,
                 sfxVolume: user.sfxVolume != undefined ? user.sfxVolume : 50,
+                viewSails: user.viewSails != undefined ? user.viewSails : false,
                 qualityMode: user.qualityMode != undefined ? user.qualityMode : 2
             });
         });

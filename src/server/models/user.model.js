@@ -78,6 +78,10 @@ let userSchema = Mongoose.Schema({
         type: Number,
         required: false
     },
+    viewSails: {
+        type: Boolean,
+        required: false
+    },
     qualityMode: {
         type: Number,
         required: false
