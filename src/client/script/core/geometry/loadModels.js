@@ -123,9 +123,9 @@ let createModels = () => {
     models.calmSpirit.children[2].name = `sail`;
 
     // Destroyer
-    models.destroyer.children[0].name = `body`;
-    models.destroyer.children[1].name = `mast`;
-    models.destroyer.children[2].name = `sail`;
+    models.destroyer.children[0].name = `mast`;
+    models.destroyer.children[1].name = `sail`;
+    models.destroyer.children[2].name = `body`;
 
     // Fortune Trader
     models.fortuneTrader.children[0].name = `body`;
