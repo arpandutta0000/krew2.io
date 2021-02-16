@@ -112,7 +112,7 @@ let cleanScene = () => {
                             scene.remove(node);
                             delete sceneCanBalls[o];
                         }
-                    };
+                    }
                 }
                 if (node instanceof THREE.Line) {
                     for (let l in sceneLines) {
@@ -121,7 +121,7 @@ let cleanScene = () => {
                             sceneLines[l].geometry.dispose();
                             delete sceneLines[l];
                         }
-                    };
+                    }
                 }
             }
         });
