@@ -27,9 +27,9 @@ class Boat extends Entity {
         if (entities[captainId] !== undefined) {
             captainsName = entities[captainId].name;
             if (entities[captainId].parent !== undefined) {
-                spawnIslandId = entities[captainId].parent.netType === 5
-                    ? entities[captainId].parent.id
-                    : entities[captainId].parent.anchorIslandId;
+                spawnIslandId = entities[captainId].parent.netType === 5 ?
+                    entities[captainId].parent.id :
+                    entities[captainId].parent.anchorIslandId;
             }
         }
         captainsName = typeof captainsName === `string` ? captainsName : ``;
@@ -102,7 +102,10 @@ class Boat extends Entity {
         if (this.clan !== undefined && this.clan !== ``) {
             clan = `[${this.clan}] `;
         }
+
         if (this.geometry !== undefined) {
+
+            // Create the label if it doesn't exist
             if (this.label === undefined) {
                 this.label = new THREE.TextSprite({
                     textSize: 4,
@@ -128,13 +131,17 @@ class Boat extends Entity {
                     }
                 }
                 this.geometry.add(this.label);
+
+            } else {
+                this.label.material.map.text = clan + crewName;
             }
-            this.label.material.map.text = clan + crewName;
+
             this.label.visible = myPlayer &&
                 myPlayer.parent &&
                 this.id !== myPlayer.parent.id &&
                 this[config.Labels.boats.useMethod];
         }
+
         this.crewName = crewName;
     }
 
@@ -182,6 +189,9 @@ class Boat extends Entity {
         this.shipState = 2;
 
         this.changeBoatModel(this.shipclassId);
+
+        if (this.label !== undefined) this.label.position.set(0, boatTypes[this.shipclassId].labelHeight, 0);
+
         if (myPlayer !== undefined) {
             if (this === myPlayer.parent) {
                 notifications.showCenterMessage(`Ship upgraded to ${boatTypes[this.shipclassId].name}`, 3);
