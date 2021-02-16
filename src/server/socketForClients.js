@@ -360,7 +360,7 @@ io.on(`connection`, async socket => {
             }
 
             // Check for spam.
-            if (msgData.message.length > 65 && !Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Helpers.includes(playerEntity.name) && !Designers.includes(playerEntity.name  && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isHelper)) {
+            if (msgData.message.length > 65 && !Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Helpers.includes(playerEntity.name) && !Designers.includes(playerEntity.name && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isHelper)) {
                 log(`cyan`, `Exploit detected (spam). Player: ${playerEntity.name} Adding IP ${playerEntity.socket.handshake.address} to banned IPs | Server ${playerEntity.serverNumber}.`);
                 log(`cyan`, `Spam message: ${msgData.message}`);
 
@@ -377,7 +377,7 @@ io.on(`connection`, async socket => {
             const user = await User.findOne({
                 username: playerEntity.name
             });
-            if (user && msgData.message.startsWith(`;;`)) {
+            if ((user || playerEntity.isAdmin) && msgData.message.startsWith(`;;`)) {
                 // If the player is not a staff member, disregard the command usage.
                 if (!Admins.includes(playerEntity.name) && !Mods.includes(playerEntity.name) && !Helpers.includes(playerEntity.name) && !playerEntity.isAdmin && !playerEntity.isMod && !playerEntity.isHelper) return;
 
