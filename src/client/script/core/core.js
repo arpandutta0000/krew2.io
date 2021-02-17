@@ -44,7 +44,6 @@ let keys_walkBwd = false;
 let keys_rotRight = false;
 let keys_rotLeft = false;
 let keys_jump = false;
-let keys_boot = false;
 
 let textureLoader = new THREE.TextureLoader();
 let fileLoader = new THREE.FileLoader();
