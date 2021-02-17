@@ -91,9 +91,9 @@ let doDaylightCycle = (time) => {
         b: 255
     };
     let nightSceneColor = {
-        r: 6,
-        g: 0,
-        b: 31
+        r: 21,
+        g: 35,
+        b: 69
     };
 
     window.currentTime = time;
