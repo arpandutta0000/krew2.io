@@ -270,12 +270,25 @@ let initGameUi = () => {
     });
 
     /* FP mode switch */
+    $(`#account-fp-mode-button`).on(`click`, () => {
+        if ($(`#account-fp-mode-button`).is(`:checked`)) $(`#account-fp-mode-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`FP Camera (Enabled)`);
+        else $(`#account-fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
+    });
     $(`#fp-mode-button`).on(`click`, () => {
-        if ($(`#fp-mode-button`).is(`:checked`)) {
-            $(`#fp-mode-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`FP Camera (Enabled)`);
-        } else {
-            $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
-        }
+        if ($(`#fp-mode-button`).is(`:checked`)) $(`#fp-mode-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`FP Camera (Enabled)`);
+        else $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
+    });
+
+    /* View Sails switch */
+    $(`#account-fp-mode-button`).on(`click`, () => {
+        if ($(`#account-fp-mode-button`).is(`:checked`)) $(`#account-fp-mode-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`View Sails (Enabled)`);
+        else $(`#account-fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`View Sails (Disabled)`);
+    });
+    $(`#view-sails-button`).on(`click`, () => {
+        if ($(`#view-sails-button`).is(`:checked`)) $(`#view-sails-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`View Sails (Enabled)`);
+        else $(`#view-sails-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`View Sails (Disabled)`);
+
+        viewSails = $(`#view-sails-button`).is(`:checked`);
     });
 
     /* View list of docked Krews */
@@ -581,9 +594,6 @@ let initGameUi = () => {
 
     /* On FOV slider update */
     $(`#fov-control`).on(`change`, () => fov = document.getElementById(`fov-control`).value / 10);
-
-    /* Change sail visibilty on update */
-    $(`#view-sails-button`).on(`change.bootstrapSwitch`, () => viewSails = $(`#view-sails-button`).is(`:checked`))
 };
 
 /**
