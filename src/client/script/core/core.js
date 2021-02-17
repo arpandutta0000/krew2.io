@@ -4,6 +4,7 @@ let camera, ceiling, chatHistory, controls, coldAmbientlight, defaultHeight, def
 let boats = {};
 let entities = {};
 let environment = {};
+let geometry = {};
 let markers = {};
 let models = {};
 let pickups = {};

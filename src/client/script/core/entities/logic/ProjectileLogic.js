@@ -101,7 +101,7 @@ let ProjectileLogic = {
             if (shootingPlayer.activeWeapon === 0) {
                 _this.geometry = new THREE.Sprite(materials.cannonball);
             } else if (shootingPlayer.activeWeapon === 1) {
-                _this.baseGeometry = geometry.hook;
+                _this.baseGeometry = baseGeometry.plane;
                 _this.baseMaterial = materials.hook;
 
                 let lineGeometry = baseGeometry.line.clone();

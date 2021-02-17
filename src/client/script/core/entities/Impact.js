@@ -40,7 +40,7 @@ class Impact extends Entity {
         switch (type) {
             // Water
             case 0: {
-                this.baseGeometry = geometry.impact_water;
+                this.baseGeometry = baseGeometry.sphere;
                 this.baseMaterial = materials.impact_water;
                 for (let i = 0; i < 3; ++i) {
                     createParticle({

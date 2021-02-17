@@ -6,13 +6,6 @@ let baseGeometry = {
     plane: new THREE.PlaneGeometry(2, 2)
 };
 
-/* Create geometry using base geometry */
-let geometry = {
-    boat: baseGeometry.box,
-    hook: baseGeometry.plane,
-    impact_water: baseGeometry.sphere
-};
-
 /* Create reusable materials */
 let materials = {
     boat: new THREE.MeshLambertMaterial({
