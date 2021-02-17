@@ -1746,7 +1746,7 @@ io.on(`connection`, async socket => {
         });
 
         // Get goods in shop.
-        socket.on(`getGoodsStore`, callback => {
+        socket.on(`getGoodsStore`, async callback => {
             if (playerEntity && playerEntity.parent && playerEntity.parent.anchorIslandId) {
                 if (!core.entities[playerEntity.parent.anchorIslandId]) return callback && callback.call && callback(`Oops, it seems like you do not have an anchored boat.`);
 
@@ -1773,7 +1773,7 @@ io.on(`connection`, async socket => {
         });
 
         // When player buys goods.
-        socket.on(`buy-goods`, (transaction, callback) => {
+        socket.on(`buy-goods`, async (transaction, callback) => {
             // Add a timestamp to stop hackers from spamming buy / sell emits.
             if (playerEntity.goodsTimestamp && Date.now() - playerEntity.goodsTimestamp < 800) {
                 playerEntity.sellCounter++;
