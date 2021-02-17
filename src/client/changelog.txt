@@ -10,6 +10,10 @@ v1.7.0 - [2-16-2021]
 - Fixed the game over screen
 - Boats, Traders, and Destroyers now scale their size based on their revision
 - Sunken ships now drop 2/3 of their gold infinitely instead of being capped at 300k
+- Days now last for 20 minutes and nights last for 10 minutes
+- Made night slightly brighter
+- Modified ship stats
+- Modified item stats
 - Improved chat colors
 
 v1.6.0 - [2-14-2021]
