@@ -1,5 +1,8 @@
 /* When document is ready */
 $(document).ready(() => {
+    // Clear console
+    console.clear();
+
     // Print console header
     printConsoleHeader();
 
