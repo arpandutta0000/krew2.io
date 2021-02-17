@@ -88,12 +88,19 @@ Designers = config.designers;
 
 const gameCookies = {};
 
+let cycleHelper = 0
 setInterval(() => {
-    if (currentTime === `day`) currentTime = `night`;
-    else currentTime = `day`;
+    if (currentTime === `day` && cycleHelper === 0) cycleHelper++;
+    else {
+        if (currentTime === `day`) currentTime = `night`;
+        else {
+            currentTime = `day`;
+            cycleHelper = 0;
+        }
 
-    io.emit(`cycle`, currentTime);
-}, 12e5);
+        io.emit(`cycle`, currentTime);
+    }
+}, 6e5);
 
 // Delete all mutes on server start.
 Mute.deleteMany(() => log(`cyan`, `Deleted all mutes.`));
