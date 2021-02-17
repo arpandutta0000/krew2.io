@@ -19,6 +19,8 @@ let setUpKeyboard = () => {
 
         } else if (evt.keyCode === 32 && !ui.textFieldFocused()) { // Space
             keys_jump = false;
+            myPlayer.jump_count++;
+            if (myPlayer.jump_count === 50) notifications.showCenterMessage(`Jumping Hero! New quest available`, 3);
 
         } else if ((evt.keyCode === 38 || evt.keyCode === 87) && !ui.textFieldFocused()) { // Up arrow or W
             keys_walkFwd = false;
@@ -43,8 +45,6 @@ let setUpKeyboard = () => {
 
         if (evt.keyCode === 32 && !ui.textFieldFocused()) { // Space to jump
             keys_jump = true;
-            myPlayer.jump_count++;
-            if (myPlayer.jump_count === 50) notifications.showCenterMessage(`Jumping Hero! New quest available`, 3);
 
         } else if ((evt.keyCode === 38 || evt.keyCode === 87) && !ui.textFieldFocused()) { // Up arrow or W to move forward
             keys_walkFwd = true;
