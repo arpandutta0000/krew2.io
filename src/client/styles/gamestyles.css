@@ -557,7 +557,7 @@ td {
 
 /* Krew list container */
 #krew-list {
-    height: 120px;
+    height: 200px;
     overflow: auto;
     padding: 0 5px;
 }
