@@ -26,8 +26,6 @@ $(document).ready(() => {
 
     // Close socket connection on unload
     $(window).on(`unload`, () => {
-        if (socket) {
-            socket.close();
-        }
+        if (socket) socket.close();
     });
 });
