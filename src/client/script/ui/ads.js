@@ -21,7 +21,7 @@ let adBlockCheck = () => {
 };
 
 /**
- * Initiate ads
+ * Initiate all ads
  */
 let initAds = () => {
     var aiptag = aiptag || {};
@@ -38,6 +38,9 @@ let initAds = () => {
     initAipPreroll();
 };
 
+/**
+ * Initiate static ads
+ */
 let initStaticAds = () => {
     if (typeof aiptag !== `undefined`) {
         aiptag.cmd.display.push(() => {
