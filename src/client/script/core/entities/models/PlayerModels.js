@@ -118,5 +118,6 @@ let PlayerModels = {
     setHatModels: () => {
         hatModels.push(models.pirateHat);
         hatModels.push(models.sailorHat);
+        hatModels.push(models.shipMasterHat);
     }
 };

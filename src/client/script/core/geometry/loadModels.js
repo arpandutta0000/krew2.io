@@ -30,6 +30,7 @@ let loadModels = () => {
     // Load hats
     loader.loadObjWithMtl(`./assets/models/hats/pirateHat.obj`);
     loader.loadObjWithMtl(`./assets/models/hats/sailorHat.obj`);
+    loader.loadObjWithMtl(`./assets/models/hats/shipMasterHat.obj`);
 
     // Load islands
     loader.loadModel(`./assets/models/islands/island.obj`);

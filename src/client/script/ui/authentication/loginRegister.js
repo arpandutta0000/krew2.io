@@ -351,12 +351,12 @@ let initLoginRegister = () => $.get(`${window.location.href.replace(/\?.*/, ``).
         let currentHatModel = 0;
         $(`#hat-model-left`).on(`click`, () => {
             currentHatModel--;
-            if (currentHatModel < 0) currentHatModel = 1;
+            if (currentHatModel < 0) currentHatModel = 2;
             $(`#hat-model-image`).attr(`src`, `/assets/img/hats/hat${currentHatModel}.png`);
         });
         $(`#hat-model-right`).on(`click`, () => {
             currentHatModel++;
-            if (currentHatModel > 1) currentHatModel = 0;
+            if (currentHatModel > 2) currentHatModel = 0;
             $(`#hat-model-image`).attr(`src`, `/assets/img/hats/hat${currentHatModel}.png`);
         });
 
