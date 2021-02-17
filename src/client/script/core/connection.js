@@ -78,9 +78,9 @@ let initSocketBinds = () => {
         socket.on(`startGame`, () => {
             splash.loadingWheel(`hide`);
             notifications.showCenterMessage(
-                `Use WASD to move. Click to shoot/fish. Use 1 & 2 to switch weapons.`,
+                `Use WASD to move. Press space to jump. Left click to shoot/fish. Use 1, 2, and 3 to switch tools. For more help click the help icon above. Good luck Sailor!`,
                 4,
-                15000
+                2e4
             );
             getPing();
         });
