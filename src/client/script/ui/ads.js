@@ -33,8 +33,22 @@ let initAds = () => {
     });
     aiptag.gdprShowConsentTool = true; // Show GDPR consent tool
     aiptag.gdprShowConsentToolButton = true;
+
+    initStaticAds();
     initAipPreroll();
 };
+
+let initStaticAds = () => {
+    if (typeof aiptag !== `undefined`) {
+        aiptag.cmd.display.push(() => {
+            aipDisplayTag.display(`krew-io_300x250`);
+        });
+
+        aiptag.cmd.display.push(() => {
+            aipDisplayTag.display(`krew-io_300x250_2`);
+        });
+    } else console.log(`Aiptag is not defined, skipped showing static ads`);
+}
 
 /**
  * Initiate the preroll ad
