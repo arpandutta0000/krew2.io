@@ -2,6 +2,8 @@
  * Load all models
  */
 let loadModels = () => {
+    let startedLoading = performance.now();
+
     // Load decorations
     if (config.christmasTree[0]) loader.loadObjWithMtl(`./assets/models/decorations/christmasTree.obj`);
     if (config.snowman[0]) loader.loadObjWithMtl(`./assets/models/decorations/snowman.obj`);
@@ -74,11 +76,11 @@ let loadModels = () => {
         createMaterials();
         createGame();
         threejsStarted = true;
+        console.log(`\nLoaded all models in ${Math.round((performance.now() - startedLoading) * 1e3) / 1e3}ms\n\n`);
 
         $(`#play-button`).text(`Play as guest`).attr(`disabled`, false);
-        if (!(headers.getCookie(`username`) && headers.getCookie(`token`))) {
-            initLoginRegister();
-        } else {
+        if (!(headers.getCookie(`username`) && headers.getCookie(`token`))) initLoginRegister();
+        else {
             headers.username = headers.getCookie(`username`);
             addLogout();
         }
