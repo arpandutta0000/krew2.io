@@ -7,6 +7,7 @@ v1.7.0 - [2-16-2021]
 - Fixed random fishing lines in the sea not being removed
 - Fixed scores not saving to the Wall of Fame
 - Fixed account game settings not being set properly
+- Fixed the tab key selecting elements instead of traversing different chats
 - Fixed the game over screen
 - Boats, Traders, and Destroyers now scale their size based on their revision
 - Sunken ships now drop 2/3 of their gold infinitely instead of being capped at 300k
