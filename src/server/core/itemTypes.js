@@ -119,26 +119,26 @@ let itemTypes = [
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
-            attackSpeed: `30`, // Slightly buffed.
-            attackDamage: `10` // Very much buffed.
+            attackSpeed: `30`,
+            attackDamage: `10`
         }
     },
     {
         id: 12,
         name: `Drifter`,
-        Description: `+2 cannon damage<br/>+0.5 ship speed`,
-        price: 25e3,
+        Description: `+25 cannon damage<br/>+1.5 ship speed`,
+        price: 3e5,
         rarity: 0.45,
         availableAt: [`Guinea`, `Labrador`],
         attributes: {
-            attackDamage: `2`,
-            movementSpeed: `50`
+            attackDamage: `25`,
+            movementSpeed: `150`
         }
     },
     {
         id: 13,
         name: `Reinforced Planks`,
-        Description: `Additional 25% HP`,
+        Description: `25% damage reduction`,
         price: 35e3,
         rarity: 0.45,
         availableAt: [`Brazil`],
@@ -168,18 +168,18 @@ let itemTypes = [
     {
         id: 16,
         name: `Advanced Toolkit`,
-        Description: `+2 Regen`,
-        price: 1e5,
+        Description: `+5 Regen`,
+        price: 15e4,
         rarity: 0.2,
         availableAt: [`Malaysia`],
         attributes: {
-            regen: `2`
+            regen: `5`
         }
     },
     {
         id: 17,
         name: `Steel Reinforced Planks`,
-        Description: `Additional 40% HP`,
+        Description: `50% damage reduction`,
         price: 2e5,
         rarity: 0.3,
         availableAt: [`Taiwan`],
