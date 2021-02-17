@@ -168,12 +168,12 @@ let itemTypes = [
     {
         id: 16,
         name: `Advanced Toolkit`,
-        Description: `+5 Regen`,
-        price: 15e4,
+        Description: `+8 Regen`,
+        price: 2e5,
         rarity: 0.2,
         availableAt: [`Malaysia`],
         attributes: {
-            regen: `5`
+            regen: `8`
         }
     },
     {
