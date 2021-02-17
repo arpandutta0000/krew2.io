@@ -1,6 +1,8 @@
 v1.7.0 - [2-16-2021]
 - New Trader and Destroyer models
 - Added ability to set sail visibility in game settings
+- Added Commodore skin
+- Added Ship Master hat
 - Fixed boat labels being at incorrect heights
 - Fixed random fishing lines in the sea not being removed
 - Fixed scores not saving to the Wall of Fame
