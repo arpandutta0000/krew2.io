@@ -497,6 +497,16 @@ let getGameSettings = () => {
             $(`#quality-list`).val(res.qualityMode != undefined ? res.qualityMode : 2);
 
             if (!res.errors) $(`#account-game-settings-save-notice`).removeClass(`hidden`);
+
+            if ($(`#fp-mode-button`).is(`:checked`)) $(`#fp-mode-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`FP Camera (Enabled)`);
+            else $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
+
+            if ($(`#view-sails-button`).is(`:checked`)) $(`#view-sails-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`View Sails (Enabled)`);
+            else $(`#view-sails-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`View Sails (Disabled)`);
+
+            fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
+            updateMusic();
+            updateQuality();
         },
         error: (res) => {
             $(`#account-fp-mode-button`).prop(`checked`, false);
@@ -516,10 +526,16 @@ let getGameSettings = () => {
             $(`#account-view-sails-button`).prop(`checked`, false);
             $(`#view-sails-button`).prop(`checked`, false);
             viewSails = false;
+
+            if ($(`#fp-mode-button`).is(`:checked`)) $(`#fp-mode-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`FP Camera (Enabled)`);
+            else $(`#fp-mode-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`FP Camera (Disabled)`);
+
+            if ($(`#view-sails-button`).is(`:checked`)) $(`#view-sails-text`).removeClass(`lock-text-info`).addClass(`lock-text-error`).text(`View Sails (Enabled)`);
+            else $(`#view-sails-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`View Sails (Disabled)`);
+
+            fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
+            updateMusic();
+            updateQuality();
         }
     });
-
-    fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
-    updateMusic();
-    updateQuality();
 };
