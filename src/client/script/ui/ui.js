@@ -62,7 +62,6 @@ let ui = {
             if (threejsStarted) {
                 initGameUi();
                 ecoUiInit();
-                setUpKeybinds();
                 showAdinplayCentered();
                 splash.loadingWheel(`show`);
                 playAudioFile(false, `wheelspin`);
