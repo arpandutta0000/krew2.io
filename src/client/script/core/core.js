@@ -30,7 +30,7 @@ let secondsAlive = 0;
 
 let adBlockEnabled = false;
 let threejsStarted = false;
-let viewSails = false
+let viewSails = false;
 
 let staffChatOn = false;
 let clanChatOn = false;

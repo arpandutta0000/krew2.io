@@ -51,7 +51,7 @@ let initStaticAds = () => {
             aipDisplayTag.display(`krew-io_300x250_2`);
         });
     } else console.log(`Aiptag is not defined, skipped showing static ads`);
-}
+};
 
 /**
  * Initiate the preroll ad

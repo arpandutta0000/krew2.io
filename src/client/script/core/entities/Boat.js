@@ -27,9 +27,9 @@ class Boat extends Entity {
         if (entities[captainId] !== undefined) {
             captainsName = entities[captainId].name;
             if (entities[captainId].parent !== undefined) {
-                spawnIslandId = entities[captainId].parent.netType === 5 ?
-                    entities[captainId].parent.id :
-                    entities[captainId].parent.anchorIslandId;
+                spawnIslandId = entities[captainId].parent.netType === 5
+                    ? entities[captainId].parent.id
+                    : entities[captainId].parent.anchorIslandId;
             }
         }
         captainsName = typeof captainsName === `string` ? captainsName : ``;
@@ -104,7 +104,6 @@ class Boat extends Entity {
         }
 
         if (this.geometry !== undefined) {
-
             // Create the label if it doesn't exist
             if (this.label === undefined) {
                 this.label = new THREE.TextSprite({
@@ -131,7 +130,6 @@ class Boat extends Entity {
                     }
                 }
                 this.geometry.add(this.label);
-
             } else {
                 this.label.material.map.text = clan + crewName;
             }

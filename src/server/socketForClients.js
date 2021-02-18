@@ -761,20 +761,20 @@ io.on(`connection`, async socket => {
                             let mutedPlayer = core.players[i];
                             if (mutedPlayer.name === player.name) {
                                 mutedPlayer.isMuted = false;
-                                playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
-                                mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
+                                Mute.deleteOne({ username: playerEntity.name }).then(() => {
+                                    playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
+                                    mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
 
-                                for (let i in core.players) {
-                                    let curPlayer = core.players[i];
-                                    if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unmuted ${player.name}.`, 4, 1e4);
-                                }
+                                    for (let i in core.players) {
+                                        let curPlayer = core.players[i];
+                                        if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} unmuted ${player.name}.`, 4, 1e4);
+                                    }
 
-                                log(`blue`, `Admin / Mod /Helper ${playerEntity.name} unmuted ${player.name} | IP: ${player.socket.handshake.address}.`);
-                                return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}.`);
+                                    log(`blue`, `Admin / Mod /Helper ${playerEntity.name} unmuted ${player.name} | IP: ${player.socket.handshake.address}.`);
+                                    return bus.emit(`report`, `Unban Player`, `Admin / Mod ${playerEntity.name} unmuted ${player.name}.`);
+                                });
                             }
                         }
-
-
                     } else if (command === `warn` && (isAdmin || isMod || isHelper)) {
                         let reportUser = args.shift();
                         let reportReason = args.join(` `);
