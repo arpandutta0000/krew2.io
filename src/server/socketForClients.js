@@ -2210,7 +2210,7 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            Mute.deleteOne({ username: playerEntity.name }).then(() => {
+            Mute.deleteOne({ IP: playerEntity.socket.handshake.address }).then(() => {
                 log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerEntity.isMuted = false;
             });
