@@ -761,7 +761,7 @@ io.on(`connection`, async socket => {
                             let mutedPlayer = core.players[i];
                             if (mutedPlayer.name === player.name) {
                                 mutedPlayer.isMuted = false;
-                                Mute.deleteOne({ username: unmuteUser }).then(() => {
+                                Mute.deleteOne({ IP: mutedPlayer.socket.handshake.address }).then(() => {
                                     playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
                                     mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
 
@@ -954,12 +954,7 @@ io.on(`connection`, async socket => {
                 log(`magenta`, `Update krew name: ${name} | Player name: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
                 // Make sure that the player is the captain of the krew.
-                if (core.boats[playerEntity.parent.id] !== undefined && playerEntity && playerEntity.parent && playerEntity.parent.captainId === playerEntity.id) {
-                    if (krewioData) krewioService.save(krewioData.user, {
-                        krewname: name
-                    }).then(data => krewioData = data);
-                    core.boats[playerEntity.parent.id].crewName = name;
-                }
+                if (core.boats[playerEntity.parent.id] && playerEntity && playerEntity.parent && playerEntity.parent.captainId === playerEntity.id) core.boats[playerEntity.parent.id].crewName = name;
             }
         });
 
