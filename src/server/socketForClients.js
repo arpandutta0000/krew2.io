@@ -816,7 +816,7 @@ io.on(`connection`, async socket => {
                 let isIPMuted = await Mute.findOne({
                     IP: playerEntity.socket.handshake.address
                 });
-                if (isIPMuted) return playerEntity.socket.emit(`showCenterMessage`, `You have been muted!`, 1);
+                if (isIPMuted) return playerEntity.socket.emit(`showCenterMessage`, `You can't speak because you are muted!`, 1);
 
                 let msg = msgData.message.toString();
 
