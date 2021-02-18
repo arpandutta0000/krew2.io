@@ -39,7 +39,7 @@ let Config = {
             y: 500,
             name: `Philippines`,
             dockRadius: 80,
-            spawnPlayers: true,
+            spawnPlayers: false,
             onlySellOwnShips: false,
             goodsPrice: {
                 rum: 110,
@@ -57,7 +57,7 @@ let Config = {
             y: 700,
             name: `Guinea`,
             dockRadius: 80,
-            spawnPlayers: true,
+            spawnPlayers: false,
             onlySellOwnShips: false,
             goodsPrice: {
                 rum: 145,
@@ -111,7 +111,7 @@ let Config = {
             y: 2000,
             name: `Barbados`,
             dockRadius: 80,
-            spawnPlayers: true,
+            spawnPlayers: false,
             onlySellOwnShips: false,
             goodsPrice: {
                 rum: 175,
@@ -129,7 +129,7 @@ let Config = {
             y: 2200,
             name: `Taiwan`,
             dockRadius: 80,
-            spawnPlayers: true,
+            spawnPlayers: false,
             onlySellOwnShips: false,
             goodsPrice: {
                 rum: 210,
@@ -165,7 +165,7 @@ let Config = {
             y: 1100,
             name: `Labrador`,
             dockRadius: 80,
-            spawnPlayers: true,
+            spawnPlayers: false,
             onlySellOwnShips: false,
             goodsPrice: {
                 rum: 90,
@@ -183,7 +183,7 @@ let Config = {
             y: 1250,
             name: `Jamaica`,
             dockRadius: 100,
-            spawnPlayers: true,
+            spawnPlayers: false,
             onlySellOwnShips: true,
             goodsPrice: {
                 rum: 100,
