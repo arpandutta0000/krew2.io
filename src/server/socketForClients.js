@@ -822,13 +822,15 @@ io.on(`connection`, async socket => {
 
                 msg = filter.clean(xssFilters.inHTMLData(msg));
 
+                let isStaff = Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Helpers.includes(playerEntity.name) || Designers.includes(playerEntity.name) || playerEntity.isAdmin || playerEntity.isMod || playerEntity.isHelper;
+
                 if (msgData.recipient === `global`) {
                     io.emit(`chat message`, {
                         playerId: playerEntity.id,
                         playerName: playerEntity.name,
                         playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                         recipient: `global`,
-                        message: charLimit(msg, 150)
+                        message: isStaff ? charLimit(msg, 1e3) : charLimit(msg, 150)
                     });
                     if (config.mode === `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, playerEntity.serverNumber, charLimit(msg, 150));
                 } else if (msgData.recipient === `local` && entities[playerEntity.parent.id]) {
@@ -839,7 +841,7 @@ io.on(`connection`, async socket => {
                             playerName: playerEntity.name,
                             playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                             recipient: `local`,
-                            message: charLimit(msg, 150)
+                            message: isStaff ? charLimit(msg, 1e3) : charLimit(msg, 150)
                         });
                     }
                 } else if (msgData.recipient === `clan` && playerEntity.clan) {
@@ -852,19 +854,19 @@ io.on(`connection`, async socket => {
                                 playerName: playerEntity.name,
                                 playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                                 recipient: `clan`,
-                                message: charLimit(msg, 150)
+                                message: isStaff ? charLimit(msg, 1e3) : charLimit(msg, 150)
                             });
                         }
                     }
-                } else if (msgData.recipient === `staff` && (Admins.includes(playerEntity.name) || Mods.includes(playerEntity.name) || Helpers.includes(playerEntity.name) || Designers.includes(playerEntity.name) || playerEntity.isAdmin || playerEntity.isMod || playerEntity.isHelper)) {
+                } else if (msgData.recipient === `staff` && isStaff) {
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (Admins.includes(player.name) || Mods.includes(player.name) || Helpers.includes(player.name) || Designers.includes(player.name) || playerEntity.isAdmin || playerEntity.isMod || playerEntity.isHelper) player.socket.emit(`chat message`, {
+                        if (isStaff) player.socket.emit(`chat message`, {
                             playerId: playerEntity.id,
                             playerName: playerEntity.name,
                             playerClan: playerEntity.clan ? playerEntity.clan : undefined,
                             recipient: `staff`,
-                            message: charLimit(msg, 150)
+                            message: isStaff ? charLimit(msg, 1e3) : charLimit(msg, 150)
                         });
                     }
                 } else if (msgData.message.length > 1) {

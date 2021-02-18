@@ -15,8 +15,11 @@ let sendMessage = () => {
 let initChatListeners = () => {
     // On a keyup in chat
     $(`#chat-message`).on(`keyup`, () => {
-        if ($(`#chat-message`).val().trim().length > 150) {
-            $(`#chat-message`).val($(`#chat-message`).val().slice(0, 150));
+        let isStaff = config.Admins.includes(myPlayer.name) || config.Mods.includes(myPlayer.name) || config.Helpers.includes(myPlayer.name) || config.Designers.includes(myPlayer.name);
+        if (isStaff) $(`#chat-message`).prop(`maxlength`, 1e3)
+
+        if ($(`#chat-message`).val().trim().length > (isStaff ? 1e3 : 150)) {
+            $(`#chat-message`).val($(`#chat-message`).val().slice(0, (isStaff ? 1e3 : 150)));
         }
     });
 
