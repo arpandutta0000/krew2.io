@@ -761,7 +761,7 @@ io.on(`connection`, async socket => {
                             let mutedPlayer = core.players[i];
                             if (mutedPlayer.name === player.name) {
                                 mutedPlayer.isMuted = false;
-                                Mute.deleteOne({ username: playerEntity.name }).then(() => {
+                                Mute.deleteOne({ username: unmuteUser }).then(() => {
                                     playerEntity.socket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
                                     mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
 
@@ -2215,9 +2215,7 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            Mute.deleteOne({
-                username: playerEntity.name
-            }).then(() => {
+            Mute.deleteOne({ username: playerEntity.name }).then(() => {
                 log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerEntity.isMuted = false;
             });
