@@ -29,7 +29,6 @@
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-webpack": "^4.0.2",
     "https": "^1.0.0",
-    "mongodb": "^3.6.3",
     "mongoose": "^5.11.17",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
