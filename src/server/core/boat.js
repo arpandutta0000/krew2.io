@@ -280,7 +280,7 @@ Boat.prototype.logic = function (dt) {
             let value = 300;
             if (boatTypes[this.shipclassId] && this.captain) {
                 let baseValue = boatTypes[this.shipclassId].price + this.captain.gold;
-                value = Math.round(baseValue * (2 / 3));
+                value = Math.round(baseValue * (1 / 2));
             }
 
             this.hasDoneDeathDrops = true;
