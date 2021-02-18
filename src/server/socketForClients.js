@@ -58,7 +58,8 @@ if (!global.io) {
             credentials: true
         },
         maxHttpBufferSize: 1e9,
-        pingTimeout: 2e4
+        pingTimeout: 2e4,
+        pingInterval: 5e3
     });
     server.listen(process.env.port);
 }
