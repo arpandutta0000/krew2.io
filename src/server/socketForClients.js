@@ -992,19 +992,6 @@ io.on(`connection`, async socket => {
                             for (let i in boat.children) {
                                 let player = boat.children[i];
                                 if (!DEV_ENV && player !== undefined && player.netType === 0) player.socket.emit(`showAdinPlayCentered`); // Better way of implementing ads? Players can bypass this.
-
-                                if (player.serverNumber === 1 && player.gold > player.highscore) {
-                                    log(`magenta`, `Updated highscore for player ${player.name} | Old highscore: ${player.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
-                                    player.highscore = parseInt(player.gold);
-
-                                    // Update player highscore in MongoDB.
-                                    const user = await User.findOne({
-                                        username: playerEntity.name
-                                    });
-                                    if (!user) return;
-                                    user.highscore = player.highscore;
-                                    user.save();
-                                }
                             }
                         }
                     }
@@ -1903,6 +1890,16 @@ io.on(`connection`, async socket => {
                         core.entities[child.id].cargoUsed = cargoUsed;
                         if (child.id !== playerEntity.id) child.socket.emit(`cargoUpdated`);
                     }
+                }
+                if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
+                    log(`magenta`, `Updated highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                    playerEntity.highscore = parseInt(playerEntity.gold);
+
+                    // Update player highscore in MongoDB.
+                    const user = await User.findOne({ username: playerEntity.name });
+                    if (!user) return;
+                    user.highscore = player.highscore;
+                    user.save();
                 }
                 return log(`cyan`, `After Operation ${transaction.action} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             }
