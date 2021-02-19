@@ -35,8 +35,8 @@ const config = {
     helpers: [],
     designers: [],
     maxBots: 100,
-    maxAmountCratesInSea: 1100,
-    minAmountCratesInSea: 480
+    maxAmountCratesInSea: 0,
+    minAmountCratesInSea: 0
 };
 
 config.staticDir = path.resolve(__dirname, config.mode === `prod` ? `../../../dist/` : `../../client/`);
