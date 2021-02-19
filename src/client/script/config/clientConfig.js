@@ -9,7 +9,7 @@ const config = {
     url: `https://tournament.krew.io`,
 
     // Set config.worldsize
-    worldsize: 2500,
+    worldsize: 1000,
 
     // Set islands for decorations
     palmTree: [`Jamaica`],

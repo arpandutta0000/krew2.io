@@ -1,5 +1,5 @@
 let Config = {
-    worldsize: 2500, // 1000 is default.
+    worldsize: 1000, // 1000 is default.
     startingItems: {
         gold: 0,
 
