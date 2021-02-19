@@ -1,5 +1,4 @@
 v1.7.0b - [2-18-2021]
-- Z key added to departure hotkeys
 - Fixed edge cases with WOF scores not saving
 - Fixed players being unable to be unmuted
 - Ships now only drop 1/2 of their gold instead of 2/3
