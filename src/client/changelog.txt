@@ -1,4 +1,12 @@
-v1.7.0 - [2-16-2021]
+v1.7.0b - [2-18-2021]
+- Z key added to departure hotkeys
+- Fixed edge cases with WOF scores not saving
+- Fixed players being unable to be unmuted
+- Ships now only drop 1/2 of their gold instead of 2/3
+- Increased Drifter price to 400k
+- Increased allowed timeout length to help prevent disconnects
+
+v1.7.0 - [2-17-2021]
 - New Trader and Destroyer models
 - Added ability to set sail visibility in game settings
 - Added Commodore skin
