@@ -541,7 +541,7 @@ io.on(`connection`, async socket => {
                         return bus.emit(`report`, `Save Player Data`, `Admin ${playerEntity.name} saved data for ${saveUser}.`);
 
 
-                    } else if ((command === `reload` || command === `update`) && !serverRestart && isAdmin) {
+                    } else if (false && (command === `reload` || command === `update`) && !serverRestart && isAdmin) {
                         serverRestart = true;
                         playerEntity.socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
 
@@ -1816,10 +1816,10 @@ io.on(`connection`, async socket => {
                 } else if (transaction.action === `sell`) {
                     // Add gold and remove goods.
                     // This is a stub of validation to stop active exploits, consider to expand this to only player-owned goods.
-                    if (transaction.cargoUsed < transaction.quantity) {
-                        log(`cyan`, `Exploit detected (sell more than you have). Kicking player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}`);
-                        return playerEntity.socket.disconnect();
-                    }
+                    // if (transaction.cargoUsed < transaction.quantity) {
+                    //     log(`cyan`, `Exploit detected (sell more than you have). Kicking player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}`);
+                    //     return playerEntity.socket.disconnect();
+                    // }
 
                     let gold = transaction.quantity * transaction.goodsPrice[transaction.good];
                     transaction.gold += gold;
@@ -1919,95 +1919,95 @@ io.on(`connection`, async socket => {
             callback && callback.call && callback(`Oops, it seems that you don't have a boat.`);
         });
 
-        // Allocate points to player.
-        socket.on(`allocatePoints`, (points, callback) => {
-            // Check amount of already allocated points.
-            let countPoints = 0;
-            for (let i in playerEntity.points) countPoints += playerEntity.points[i];
+        // // Allocate points to player.
+        // socket.on(`allocatePoints`, (points, callback) => {
+        //     // Check amount of already allocated points.
+        //     let countPoints = 0;
+        //     for (let i in playerEntity.points) countPoints += playerEntity.points[i];
 
-            // Validate the player's stats.
-            if (countPoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-            if (playerEntity.availablePoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        //     // Validate the player's stats.
+        //     if (countPoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        //     if (playerEntity.availablePoints > 50) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
-            // Check if player has available points and if he has already allocated 51 points.
-            if (playerEntity && playerEntity.parent && playerEntity.availablePoints > 0 && playerEntity.availablePoints <= 50 && countPoints < 51) {
-                log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        //     // Check if player has available points and if he has already allocated 51 points.
+        //     if (playerEntity && playerEntity.parent && playerEntity.availablePoints > 0 && playerEntity.availablePoints <= 50 && countPoints < 51) {
+        //         log(`magenta`, `Points allocated: `, points, ` | Overall allocated points: ${countPoints + 1} | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
-                let countAllocatedPoints = 0;
-                for (let i in points) {
-                    let point = points[i];
-                    countAllocatedPoints += point;
+        //         let countAllocatedPoints = 0;
+        //         for (let i in points) {
+        //             let point = points[i];
+        //             countAllocatedPoints += point;
 
-                    if (point < 0 || !Number.isInteger(point) || !(i === `fireRate` || i === `distance` || i === `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                    else if (point !== undefined && typeof point === `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
-                        playerEntity.points[i] += point;
-                        playerEntity.availablePoints -= point;
-                    }
-                }
+        //             if (point < 0 || !Number.isInteger(point) || !(i === `fireRate` || i === `distance` || i === `damage`) || countAllocatedPoints > 1) log(`cyan`, `Exploit detected: stats hacking | Player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        //             else if (point !== undefined && typeof point === `number` && playerEntity.availablePoints > 0 && point <= playerEntity.availablePoints) {
+        //                 playerEntity.points[i] += point;
+        //                 playerEntity.availablePoints -= point;
+        //             }
+        //         }
 
-                playerEntity.updateExperience();
-                callback && callback.call && callback(undefined);
-            }
-            callback && callback.call && callback(`Oops, it seems that you don't have a boat.`);
-        });
+        //         playerEntity.updateExperience();
+        //         callback && callback.call && callback(undefined);
+        //     }
+        //     callback && callback.call && callback(`Oops, it seems that you don't have a boat.`);
+        // });
 
         // Bank data.
-        socket.on(`bank`, async data => {
-            // If the player is logged in, allow them to use bank, else show warning that they need to log in.
-            const user = await User.findOne({
-                username: playerEntity.name
-            });
-            if (user) {
-                if (playerEntity.parent.name === `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name === `Labrador`)) {
-                    // Function to callback the bank data to the player.
-                    let setBankData = async () => {
-                        let bankData = {
-                            my: playerEntity.bank.deposit,
-                            total: 0
-                        };
+        // socket.on(`bank`, async data => {
+        //     // If the player is logged in, allow them to use bank, else show warning that they need to log in.
+        //     const user = await User.findOne({
+        //         username: playerEntity.name
+        //     });
+        //     if (user) {
+        //         if (playerEntity.parent.name === `Labrador` || (playerEntity.parent.anchorIslandId && core.Landmarks[playerEntity.parent.anchorIslandId].name === `Labrador`)) {
+        //             // Function to callback the bank data to the player.
+        //             let setBankData = async () => {
+        //                 let bankData = {
+        //                     my: playerEntity.bank.deposit,
+        //                     total: 0
+        //                 };
 
-                        // Get the sum of all bank accounts from MongoDB.
-                        let users = await User.find({});
-                        for (const document of users) bankData.total += parseInt(document.bankDeposit);
+        //                 // Get the sum of all bank accounts from MongoDB.
+        //                 let users = await User.find({});
+        //                 for (const document of users) bankData.total += parseInt(document.bankDeposit);
 
-                        socket.emit(`setBankData`, bankData);
-                    };
+        //                 socket.emit(`setBankData`, bankData);
+        //             };
 
-                    if (data) {
-                        if (data.deposit && parseInt(playerEntity.gold) >= parseInt(data.deposit) && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit === `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
-                            let integerDeposit = parseInt(data.deposit);
-                            playerEntity.gold -= integerDeposit;
+        //             if (data) {
+        //                 if (data.deposit && parseInt(playerEntity.gold) >= parseInt(data.deposit) && data.deposit >= 1 && data.deposit <= 15e4 && typeof data.deposit === `number` && data.deposit + playerEntity.bank.deposit <= 15e4) {
+        //                     let integerDeposit = parseInt(data.deposit);
+        //                     playerEntity.gold -= integerDeposit;
 
-                            // Handle the deposit.
-                            playerEntity.bank.deposit += integerDeposit;
+        //                     // Handle the deposit.
+        //                     playerEntity.bank.deposit += integerDeposit;
 
-                            const user = await User.findOne({
-                                username: playerEntity.name
-                            });
-                            user.bankDeposit = playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit);
-                            user.save();
+        //                     const user = await User.findOne({
+        //                         username: playerEntity.name
+        //                     });
+        //                     user.bankDeposit = playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit);
+        //                     user.save();
 
-                            setBankData();
-                            log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
-                        } else if (data.takedeposit && parseInt(playerEntity.bank.deposit) >= parseInt(data.takedeposit) && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit === `number`) {
-                            let integerDeposit = parseInt(data.takedeposit);
+        //                     setBankData();
+        //                     log(`magenta`, `Bank deposit | Player: ${playerEntity.name} | Deposit: ${integerDeposit} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+        //                 } else if (data.takedeposit && parseInt(playerEntity.bank.deposit) >= parseInt(data.takedeposit) && data.takedeposit >= 1 && data.takedeposit <= 15e4 && typeof data.takedeposit === `number`) {
+        //                     let integerDeposit = parseInt(data.takedeposit);
 
-                            // Take 10% fee for bank transaction.
-                            playerEntity.gold += integerDeposit * 0.9;
-                            playerEntity.bank.deposit -= integerDeposit;
+        //                     // Take 10% fee for bank transaction.
+        //                     playerEntity.gold += integerDeposit * 0.9;
+        //                     playerEntity.bank.deposit -= integerDeposit;
 
-                            const user = await User.findOne({
-                                username: playerEntity.name
-                            });
-                            user.bankDeposit = playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit);
-                            setBankData();
-                        }
-                    } else setBankData();
-                }
-            } else socket.emit(`setBankData`, {
-                warn: 1
-            });
-        });
+        //                     const user = await User.findOne({
+        //                         username: playerEntity.name
+        //                     });
+        //                     user.bankDeposit = playerEntity.bank.deposit > 5e4 ? 5e4 : parseInt(playerEntity.bank.deposit);
+        //                     setBankData();
+        //                 }
+        //             } else setBankData();
+        //         }
+        //     } else socket.emit(`setBankData`, {
+        //         warn: 1
+        //     });
+        // });
 
         // Clan map marker.
         socket.on(`addMarker`, data => {
