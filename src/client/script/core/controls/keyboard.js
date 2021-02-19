@@ -69,7 +69,7 @@ let setUpKeyboard = () => {
                     notifications.showCenterMessage(
                         `Use the scroll wheel to zoom in and out with the spyglass`,
                         4,
-                        1e4
+                        6e3
                     );
                     spyglassTooltipShown = true;
                 }
