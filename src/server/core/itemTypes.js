@@ -127,7 +127,7 @@ let itemTypes = [
         id: 12,
         name: `Drifter`,
         Description: `+25 cannon damage<br/>+1.5 ship speed`,
-        price: 3e5,
+        price: 4e5,
         rarity: 0.45,
         availableAt: [`Guinea`, `Labrador`],
         attributes: {
