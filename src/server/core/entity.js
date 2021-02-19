@@ -73,6 +73,7 @@ Entity.prototype.getSnap = function (force) {
         snap.name = this.name;
         snap.id = this.id;
         snap.playerModel = this.playerModel ? this.playerModel : 0;
+        snap.hatModel = this.hatModel ? this.hatModel : 0;
     }
     return snap;
 };

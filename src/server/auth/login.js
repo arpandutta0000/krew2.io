@@ -31,7 +31,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
         let boat = core.boats[boatId];
 
         // If player is using invite link.
-        if (boat) {
+        if (boat && !boat.isLocked) {
             boat.updateProps();
 
             // Assign the player to the boat if there is enough space on the krew.
@@ -48,24 +48,26 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
             else if (spawnPoint === `island` || islandNames.includes(spawnPoint)) {
                 let spawnIsland = islandNames.includes(spawnPoint) ? core.Landmarks[Object.keys(core.Landmarks)[islandNames.indexOf(spawnPoint)]] : core.Landmarks[Object.keys(core.Landmarks)[Math.floor(Math.random() * Object.keys(core.Landmarks).length)]];
 
-                spawnIsland.addChildren(playerEntity);
+                if (spawnIsland.spawnPlayers) {
+                    spawnIsland.addChildren(playerEntity);
 
-                // Create a new boat for the player.
-                setTimeout(() => {
-                    let boat = core.createBoat(playerEntity.id, krewName, false);
+                    // Create a new boat for the player.
+                    setTimeout(() => {
+                        let boat = core.createBoat(playerEntity.id, krewName, false);
 
-                    boat.addChildren(playerEntity);
+                        boat.addChildren(playerEntity);
 
-                    boat.departureTime = 5;
+                        boat.departureTime = 5;
 
-                    boat.recruiting = true;
-                    boat.isLocked = false;
+                        boat.recruiting = true;
+                        boat.isLocked = false;
 
-                    boat.shipState = 3;
+                        boat.shipState = 3;
 
-                    boat.setShipClass(1);
-                    boat.updateProps();
-                }, 200);
+                        boat.setShipClass(1);
+                        boat.updateProps();
+                    }, 200);
+                } else spawnNewPlayerOnSea(boat, playerEntity);
             } else if (spawnPoint === `krew`) {
                 // Get all krews with a free spot on board.
                 let availableKrews = Object.values(core.boats).filter(boat => boat.krewCount < boat.maxKrewCapacity && !boat.isLocked);
@@ -108,6 +110,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                 }
             }
         }
+        else spawnNewPlayerOnSea(boat, playerEntity);
 
         setTimeout(() => {
             playerEntity.disableSnapAndDelta = false;

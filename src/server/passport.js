@@ -52,9 +52,7 @@ passport.use(`register`, new LocalStrategy({
         if (user) {
             if (!user.verified && ((new Date()) - user.creationDate) > (60 * 60 * 1e3)) {
                 user.delete();
-            } else {
-                return done(`User already exists`, false);
-            }
+            } else return done(`User already exists`, false);
         }
 
         let registerUser = new User({
@@ -64,15 +62,18 @@ passport.use(`register`, new LocalStrategy({
             highscore: 0
         });
 
-        bcrypt.genSalt(15, (err, salt) => bcrypt.hash(registerUser.password, salt, (err, hash) => {
+        bcrypt.genSalt(15, (err, salt) => {
             if (err) return done(err);
-
-            registerUser.password = hash;
-            registerUser.save(err => {
+            bcrypt.hash(registerUser.password, salt, (err, hash) => {
                 if (err) return done(err);
-                return done(null, registerUser, `success`);
+
+                registerUser.password = hash;
+                registerUser.save(err => {
+                    if (err) return done(err);
+                    return done(null, registerUser, `success`);
+                });
             });
-        }));
+        });
     });
 }));
 

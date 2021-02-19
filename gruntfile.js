@@ -1,5 +1,5 @@
 const webpackConfig = require(`./webpack.config.js`);
-const dotenv = require(`dotenv`).config();
+require(`dotenv`).config();
 
 module.exports = grunt => {
     grunt.initConfig({
@@ -37,46 +37,92 @@ module.exports = grunt => {
             // Add together client core.
             client: {
                 src: [
-                    `src/client/script/core/core_client/config.js`,
-                    `src/client/script/rangeInput.js`,
-
-                    `src/client/script/environment.js`,
-                    `src/client/script/water.js`,
-                    `src/client/script/window.js`,
-                    `src/client/script/geometry.js`,
-                    `src/client/script/loader.js`,
-                    `src/client/script/keyboard.js`,
-                    `src/client/script/controls.js`,
+                    `src/client/script/config/clientConfig.js`,
+                    `src/client/script/config/boatTypes.js`,
+                    `src/client/script/config/goodsTypes.js`,
 
                     `src/client/script/core/core.js`,
-                    `src/client/script/core/utils.js`,
-                    `src/client/script/core/entity.js`,
-                    `src/client/script/core/goodsTypes.js`,
-                    `src/client/script/core/core_client/parseSnap.js`,
-                    `src/client/script/core/boatTypes.js`,
-                    `src/client/script/core/boat.js`,
-                    `src/client/script/core/item.js`,
-                    `src/client/script/core/player.js`,
-                    `src/client/script/core/impact.js`,
-                    `src/client/script/core/pickup.js`,
-                    `src/client/script/core/landmark.js`,
-                    `src/client/script/core/projectile.js`,
+                    `src/client/script/core/geometry/geometry.js`,
 
-                    `src/client/script/core/core_client/entity.js`,
-                    `src/client/script/core/core_client/boat.js`,
-                    `src/client/script/core/core_client/player.js`,
+                    `src/client/script/core/parseSnap.js`,
 
-                    `src/client/script/uiSuggestion.js`,
-                    `src/client/script/uiKrewList.js`,
-                    `src/client/script/uiGoods.js`,
-                    `src/client/script/uiExperience.js`,
+                    `src/client/script/core/window.js`,
+                    `src/client/script/utils.js`,
 
-                    `src/client/script/ui.js`,
+                    `src/client/script/ui/authentication/headers.js`,
+                    `src/client/script/ui/authentication/loginRegister.js`,
+                    `src/client/script/ui/gameplayUi/chat.js`,
+                    `src/client/script/ui/gameplayUi/experienceBar.js`,
+                    `src/client/script/ui/gameplayUi/gameplayUi.js`,
+                    `src/client/script/ui/gameplayUi/krewStatus.js`,
+                    `src/client/script/ui/gameplayUi/leaderboard.js`,
+                    `src/client/script/ui/gameplayUi/minimap.js`,
+                    `src/client/script/ui/gameplayUi/notifications.js`,
+                    `src/client/script/ui/menus/bank.js`,
+                    `src/client/script/ui/menus/clan.js`,
+                    `src/client/script/ui/menus/krewList.js`,
+                    `src/client/script/ui/stores/cargo.js`,
+                    `src/client/script/ui/stores/items.js`,
+                    `src/client/script/ui/stores/ships.js`,
+                    `src/client/script/ui/ads.js`,
+                    `src/client/script/ui/economy.js`,
+                    `src/client/script/ui/fps.js`,
+                    `src/client/script/ui/island.js`,
+                    `src/client/script/ui/splash.js`,
+                    `src/client/script/ui/ui.js`,
+
+                    `src/client/script/core/controls/keyboard.js`,
+                    `src/client/script/core/controls/controls.js`,
+
+                    `src/client/script/core/entities/models/EntityModels.js`,
+                    `src/client/script/core/entities/models/BoatModels.js`,
+                    `src/client/script/core/entities/models/PlayerModels.js`,
+
+                    `src/client/script/core/entities/delta/EntityDelta.js`,
+                    `src/client/script/core/entities/delta/BoatDelta.js`,
+                    `src/client/script/core/entities/delta/ImpactDelta.js`,
+                    `src/client/script/core/entities/delta/PickupDelta.js`,
+                    `src/client/script/core/entities/delta/PlayerDelta.js`,
+                    `src/client/script/core/entities/delta/ProjectileDelta.js`,
+
+                    `src/client/script/core/entities/logic/EntityLogic.js`,
+                    `src/client/script/core/entities/logic/BoatLogic.js`,
+                    `src/client/script/core/entities/logic/ImpactLogic.js`,
+                    `src/client/script/core/entities/logic/LandmarkLogic.js`,
+                    `src/client/script/core/entities/logic/PickupLogic.js`,
+                    `src/client/script/core/entities/logic/PlayerLogic.js`,
+                    `src/client/script/core/entities/logic/ProjectileLogic.js`,
+
+                    `src/client/script/core/entities/snap/EntitySnap.js`,
+                    `src/client/script/core/entities/snap/BoatSnap.js`,
+                    `src/client/script/core/entities/snap/ImpactSnap.js`,
+                    `src/client/script/core/entities/snap/LandmarkSnap.js`,
+                    `src/client/script/core/entities/snap/PickupSnap.js`,
+                    `src/client/script/core/entities/snap/PlayerSnap.js`,
+                    `src/client/script/core/entities/snap/ProjectileSnap.js`,
+
+                    `src/client/script/core/entities/Entity.js`,
+                    `src/client/script/core/entities/Boat.js`,
+                    `src/client/script/core/entities/Impact.js`,
+                    `src/client/script/core/entities/Landmark.js`,
+                    `src/client/script/core/entities/Pickup.js`,
+                    `src/client/script/core/entities/Player.js`,
+                    `src/client/script/core/entities/Projectile.js`,
+
+                    `src/client/script/core/geometry/geometryModules/loader.js`,
+                    `src/client/script/core/geometry/geometryModules/particles.js`,
+                    `src/client/script/core/geometry/geometryModules/water.js`,
+
+                    `src/client/script/core/geometry/environment.js`,
+                    `src/client/script/core/geometry/loadModels.js`,
+
+                    `src/client/script/core/audio.js`,
+                    `src/client/script/core/game.js`,
+
                     `src/client/script/main.js`,
-                    `src/client/script/particles.js`,
-                    `src/client/script/connection.js`
+                    `src/client/script/core/connection.js`
                 ],
-                dest: `src/client/script/${process.env.NODE_ENV == `prod` ? `dist.js` : `dist.min.js`}`
+                dest: `src/client/script/dist.js`
             }
         },
 
@@ -86,41 +132,24 @@ module.exports = grunt => {
             preMinified: [`src/client/script/dist.js`]
         },
 
-        // TODO: Minify the source with webpack.
+        // Minify the source with webpack.
         webpack: {
-            prod: webpackConfig
+            prod: webpackConfig.prod,
+            dev: webpackConfig.dev
         },
 
-        // Watch for file changes.
-        watch: {
-            scripts: {
-                files: [`**/*.js`, `!**/node_modules/**`, `**/*.css`, `**/*.html`],
-                tasks: [`build-dev`],
-                options: {
-                    spawn: false
-                }
-            }
-        },
-
-        // Concurrently run watch and nodemon.
-        concurrent: {
-            dev: [
-                `nodemon:dev`,
-                `watch:scripts`
-            ],
-            options: {
-                logConcurrentOutput: true
-            }
-        },
-
-        // Use nodemon to restart the app.
-        nodemon: {
-            dev: {
-                script: `src/server/app.js`,
-                options: {
-                    args: [`dev`],
-                    nodeArgs: [`--inspect`]
-                }
+        // Minify CSS
+        cssmin: {
+            styles: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: `src/client/styles`,
+                        src: [`gamestyles.css`],
+                        dest: process.env.NODE_ENV === `prod` ? `dist/styles` : `src/client/styles`,
+                        ext: `.min.css`
+                    }
+                ]
             }
         },
 
@@ -139,89 +168,10 @@ module.exports = grunt => {
                     {
                         expand: true,
                         nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/css/*`],
-                        dest: `dist/assets/css/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/fonts/*`],
-                        dest: `dist/assets/fonts/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/img/*`],
-                        dest: `dist/assets/img/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/js/*`],
-                        dest: `dist/assets/js/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/libs/*`],
-                        dest: `dist/assets/js/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/models/*`],
-                        dest: `dist/assets/models/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/models/dogs/*`],
-                        dest: `dist/assets/models/dogs/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/models/cannon/*`],
-                        dest: `dist/assets/models/cannon/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/audio/*`],
-                        dest: `dist/assets/audio/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/models/ships/*`],
-                        dest: `dist/assets/models/ships/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/assets/models/sea_animals/*`],
-                        dest: `dist/assets/models/sea_animals/`,
+                        flatten: false,
+                        cwd: `src/client/assets/`,
+                        src: [`**`],
+                        dest: `dist/assets/`,
                         filter: `isFile`
                     }
                 ]
@@ -234,6 +184,7 @@ module.exports = grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
+        `cssmin:styles`,
         `webpack:prod`,
         `clean:preMinified`,
         `copy:dist`
@@ -243,18 +194,16 @@ module.exports = grunt => {
     grunt.registerTask(`build-dev`, [
         `clean:dist`,
         `concat:server`,
-        `concat:client`
+        `concat:client`,
+        `cssmin:styles`,
+        `webpack:dev`,
+        `clean:preMinified`
     ]);
-
-    // Run in dev.
-    grunt.registerTask(`dev`, [`concurrent:dev`]);
 
     // Load required npm tasks.
     grunt.loadNpmTasks(`grunt-contrib-concat`);
     grunt.loadNpmTasks(`grunt-contrib-copy`);
     grunt.loadNpmTasks(`grunt-contrib-clean`);
-    grunt.loadNpmTasks(`grunt-contrib-watch`);
-    grunt.loadNpmTasks(`grunt-nodemon`);
-    grunt.loadNpmTasks(`grunt-concurrent`);
     grunt.loadNpmTasks(`grunt-webpack`);
+    grunt.loadNpmTasks(`grunt-contrib-cssmin`);
 };

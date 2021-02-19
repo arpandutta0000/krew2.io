@@ -66,12 +66,20 @@ let userSchema = Mongoose.Schema({
         type: Boolean,
         required: false
     },
+    fov: {
+        type: Number,
+        required: false
+    },
     musicVolume: {
         type: Number,
         required: false
     },
     sfxVolume: {
         type: Number,
+        required: false
+    },
+    viewSails: {
+        type: Boolean,
         required: false
     },
     qualityMode: {
@@ -83,6 +91,10 @@ let userSchema = Mongoose.Schema({
         required: false
     },
     playerModel: {
+        type: Number,
+        required: false
+    },
+    hatModel: {
         type: Number,
         required: false
     }

@@ -15,8 +15,7 @@ let Config = {
         }
     },
     drainers: {},
-    landmarks: [
-        {
+    landmarks: [{
             type: 0,
             x: 500,
             y: 500,
@@ -25,13 +24,13 @@ let Config = {
             spawnPlayers: true,
             onlySellOwnShips: false,
             goodsPrice: {
-                rum: 100,
-                coffee: 60,
-                spice: 90,
-                silk: 160,
-                gems: 240,
-                sugar: 175,
-                bananas: 30
+                rum: 1e4,
+                coffee: 1e4,
+                spice: 1e4,
+                silk: 1e4,
+                gems: 1e4,
+                sugar: 1e4,
+                bananas: 1e4
             }
         }
     ]

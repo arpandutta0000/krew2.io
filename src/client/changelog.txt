@@ -1,3 +1,75 @@
+v1.7.0b - [2-18-2021]
+- Fixed edge cases with WOF scores not saving
+- Fixed players being unable to be unmuted
+- Ships now only drop 1/2 of their gold instead of 2/3
+- Increased Drifter price to 400k
+- Increased allowed timeout length to help prevent disconnects
+
+v1.7.0 - [2-17-2021]
+- New Trader and Destroyer models
+- Added ability to set sail visibility in game settings
+- Added Commodore skin
+- Added Ship Master hat
+- Fixed boat labels being at incorrect heights
+- Fixed random fishing lines in the sea not being removed
+- Fixed scores not saving to the Wall of Fame
+- Fixed account game settings not being set properly
+- Fixed the tab key selecting elements instead of traversing different chats
+- Fixed the game over screen
+- Boats, Traders, and Destroyers now scale their size based on their revision
+- Sunken ships now drop 2/3 of their gold infinitely instead of being capped at 300k
+- Days now last for 20 minutes and nights last for 10 minutes
+- Made night slightly brighter
+- Modified ship stats
+- Modified item stats
+- Improved chat colors
+
+v1.6.0 - [2-14-2021]
+- New Boat model
+- Added hats to player customization
+- Added skeleton skin
+- Added Helper and Designer in game roles
+- Krew mates now have a unique chat color
+- Clan mates and Krew mates now have unique player label colors
+- Fixed players who abandon a Krew showing with the captain color in chat
+- Fixed players sinking into ships when on low HP
+- Fixed issues with item shop showing incorrect equipped items
+- Modified cargo prices
+- Modified chat colors
+- Modified main page button colors
+- Improved socket connections to avoid disconnects
+
+v1.5.1 - [2-11-2021]
+- Fixed game inputs on typing in text fields
+- Fixed tools being used when clicking in menus
+- Fixed bank balance values
+- Fixed the cannon icon on death messages not being shown
+- Fixed menus extending beyond the bottom of the screen
+- Modified cargo prices
+- More UI improvements
+- More performance improvements
+
+v1.5.0 - [2-10-2021]
+- Rewrote client side
+- Added back the palm tree at Jamaica
+- Added FOV slider in game settings
+- Fixed fishing hook alignment
+- Fixed numerous console errors
+- Improved console logging
+- UI improvements
+- Removed spyglass vignette
+- Spyglass can now see ship labels at all distances
+- Spyglass can now look up
+- Added all ships to buying ship quests
+- Decreased asset sizes for faster load times
+- Multiple performance improvements
+
+v1.4.2b - [1-27-2021]
+- Fixed whitespace detection on username creation
+
+v1.4.2 - [1-27-2021]
+- Fixed email verification system
+
 v1.4.1c - [1-13-2021]
 - Fixed ads
 

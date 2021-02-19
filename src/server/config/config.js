@@ -32,17 +32,19 @@ const config = {
     additionalBadWords: [`idiot`, `2chOld`, `Yuquan`],
     admins: [],
     mods: [],
-    devs: [],
+    helpers: [],
+    designers: [],
+    maxBots: 100,
     maxAmountCratesInSea: 0,
-    minAmountCratesInSea: 0,
-    whitespaceRegex: /" *"|\t|\n|\v|\f|\r|\040|\u0008|\u0009|\u000A|\u000B|\u000C|\u000D|\u0020|\u0022|\u0027|\u005C|\u00A0|\u2028|\u2029|\uFEFF/g
+    minAmountCratesInSea: 0
 };
 
 config.staticDir = path.resolve(__dirname, config.mode === `prod` ? `../../../dist/` : `../../client/`);
 
 for (const admin of thugConfig.Admins) config.admins.push(admin.name);
 for (const mod of thugConfig.Mods) config.mods.push(mod.name);
-for (const dev of thugConfig.Devs) config.devs.push(dev.name);
+for (const helper of thugConfig.Helpers) config.helpers.push(helper.name);
+for (const designer of thugConfig.Designers) config.designers.push(designer.name);
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,

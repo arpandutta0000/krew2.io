@@ -10,6 +10,7 @@ lerna-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Runtime data
+temp
 pids
 *.pid
 *.seed
@@ -108,6 +109,9 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# Code counting directory
+.VSCodeCounter
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged
@@ -122,3 +126,4 @@ logs/
 .jsbeautifyrc
 .vscode
 src/client/script/dist*
+src/client/styles/*.min.css
