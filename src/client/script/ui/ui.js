@@ -204,5 +204,5 @@ let ui = {
     /**
      * Returns true if a text field is focused
      */
-    textFieldFocused: () => $(`#chat-message`).is(`:focus`) || $(`#crew-name-edit-input`).is(`:focus`) || $(`#clan-request`).is(`:focus`) || $(`#make-deposit`).is(`:focus`) || $(`#take-deposit`).is(`:focus`)
+    textFieldFocused: () => $(`input[type=text], input[type=number], input[type=password], input[type=email]`).is(`:focus`)
 };
