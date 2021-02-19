@@ -6,7 +6,7 @@ const config = {
     Designers: [],
 
     // Set URL
-    url: `https://krew.io`,
+    url: `https://tournament.krew.io`,
 
     // Set config.worldsize
     worldsize: 2500,
