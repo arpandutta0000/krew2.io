@@ -179,7 +179,7 @@ let PlayerLogic = {
                             (fov >= 1 && fov <= 10 ? fov * 8 : 8) + (lookingDownOffset * (fov >= 1 && fov <= 10 ? fov * 8 : 8)));
                     }
 
-                    if (camera.zoom === 4) {
+                    if (camera.zoom !== 1) {
                         camera.zoom = 1;
                         camera.updateProjectionMatrix();
                         scene.fog.density = 0.007;
@@ -194,7 +194,7 @@ let PlayerLogic = {
                         -0.01
                     );
                     scene.fog.density = 0.0055;
-                    camera.zoom = 4;
+                    if (camera.zoom === 1) camera.zoom = 1.5;
                     camera.updateProjectionMatrix();
                     _this.crosshair.visible = false;
                 }

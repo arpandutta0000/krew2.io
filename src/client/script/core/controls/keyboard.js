@@ -2,6 +2,8 @@
  * Sets up the keyboard
  */
 let setUpKeyboard = () => {
+    let spyglassTooltipShown = false;
+
     document.onkeyup = function (evt) {
         evt = evt || window.event;
 
@@ -62,6 +64,15 @@ let setUpKeyboard = () => {
             if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 2) {
                 socket.emit(`changeWeapon`, 2);
                 myPlayer.isFishing = false;
+
+                if (!spyglassTooltipShown) {
+                    notifications.showCenterMessage(
+                        `Use the scroll wheel to zoom in and out with the spyglass`,
+                        4,
+                        6e3
+                    );
+                    spyglassTooltipShown = true;
+                }
             }
         } else if (evt.keyCode === 16 && !ui.textFieldFocused()) { // Shift to shop leaderboard
             $(`#player-leaderboard`).show();

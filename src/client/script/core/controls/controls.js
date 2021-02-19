@@ -6,7 +6,7 @@ class GameControls {
     /**
      * Game Controls Constructor
      */
-    constructor () {
+    constructor() {
         // Create controls variables
         this.locked = false;
         this.lmb = false;
@@ -97,16 +97,26 @@ class GameControls {
             return false;
         };
 
-        /* On mouse wheel movement */
-        this.mouseWheelEvent = (event) => {
+        /* On mouse wheel down (Middle Click) */
+        this.mouseWheelDown = (event) => {
             if (event.target === renderer.domElement || event.target === document.body) event.preventDefault();
+        };
+
+        /* On Mouse Wheel event */
+        this.mouseWheelEvent = (event) => {
+            if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon === 2 && camera != undefined && (event.target === renderer.domElement || event.target === document.body)) {
+                camera.zoom -= event.deltaY / 200;
+                if (camera.zoom > 11) camera.zoom = 11;
+                if (camera.zoom < 1.5) camera.zoom = 1.5;
+            }
         };
 
         /* Add listeners to document */
         document.addEventListener(`mousedown`, this.onMouseDown);
         document.addEventListener(`mouseup`, this.onMouseUp);
-        document.addEventListener(`mouseweheel`, this.mouseWheelEvent);
-        document.addEventListener(`DOMouseScroll`, this.mouseWheelEvent);
+        document.addEventListener(`mouseweheel`, this.mouseWheelDown);
+        document.addEventListener(`DOMouseScroll`, this.mouseWheelDown);
+        document.addEventListener(`wheel`, this.mouseWheelEvent);
 
         /* Set motion when mouse is locked */
         this.lockMouseLook = () => {
