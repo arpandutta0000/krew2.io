@@ -1,9 +1,9 @@
 const config = {
     // Client side staff
-    Admins: [`devclied`, `BR88C`, `DamienVesper`, `LeoLeoLeo`, `Speedy_Sloth`, `Sjmun`],
-    Mods: [`Fiftyyyyy`, `TheChoco`, `Kekmw`],
-    Helpers: [`Tommy_Finle`, `ObamaKindaCare`, `Sky920`],
-    Designers: [`bread`, `ward0g71`],
+    Admins: [`BR88C`, `DamienVesper`],
+    Mods: [`TheChoco`, `Kekmw`],
+    Helpers: [`Tommy_Finle`, `ObamaKindaCare`],
+    Designers: [],
 
     // Set URL
     url: `https://krew.io`,
