@@ -22,7 +22,7 @@ let Config = {
             name: `Zanzibar`,
             dockRadius: 100,
             spawnPlayers: true,
-            onlySellOwnShips: false,
+            onlySellOwnShips: true,
             goodsPrice: {
                 rum: 1e4,
                 coffee: 1e4,
