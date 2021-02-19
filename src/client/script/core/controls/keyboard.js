@@ -88,11 +88,13 @@ let setUpKeyboard = () => {
                 $(`#quests-modal`).hide();
             }
         } else if (evt.keyCode === 90 && !ui.textFieldFocused()) { // Z to dock
-            if (myPlayer && myPlayer.parent && (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) && $(`#docking-modal-button`).hasClass(`enabled`)) {
+            if (myPlayer &&
+                myPlayer.parent &&
+                (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
+                $(`#docking-modal-button`).hasClass(`enabled`)
+            ) {
                 playAudioFile(false, `dock`);
                 setUpIslandUI();
-            } else if (myPlayer.parent.shipState === 3) {
-                departure();
             }
         } else if (evt.keyCode === 9) { // Tab to switch chat menus
             evt.preventDefault();
