@@ -1,7 +1,7 @@
 const config = {
     // Client side staff
     Admins: [`BR88C`, `DamienVesper`],
-    Mods: [`TheChoco`, `Kekmw`],
+    Mods: [`TheChoco`, `Kekmw`, `Fiftyyyyy`],
     Helpers: [`Tommy_Finle`, `ObamaKindaCare`],
     Designers: [],
 
