@@ -332,6 +332,16 @@ io.on(`connection`, async socket => {
 
         // Ping event
         socket.on(`ping`, () => {
+            if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
+                log(`magenta`, `Updated highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
+                playerEntity.highscore = parseInt(playerEntity.gold);
+
+                // Update player highscore in MongoDB.
+                const user = await User.findOne({ username: playerEntity.name });
+                if (!user) return;
+                user.highscore = player.highscore;
+                user.save();
+            }
             socket.emit(`pong`);
         });
 
@@ -1888,16 +1898,7 @@ io.on(`connection`, async socket => {
                         if (child.id !== playerEntity.id) child.socket.emit(`cargoUpdated`);
                     }
                 }
-                if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
-                    log(`magenta`, `Updated highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
-                    playerEntity.highscore = parseInt(playerEntity.gold);
 
-                    // Update player highscore in MongoDB.
-                    const user = await User.findOne({ username: playerEntity.name });
-                    if (!user) return;
-                    user.highscore = player.highscore;
-                    user.save();
-                }
                 return log(`cyan`, `After Operation ${transaction.action} | Player: ${playerEntity.name} | Gold: ${playerEntity.gold} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             }
             callback && callback.call && callback(new Error(`Oops, it seems that you don't have a boat.`));
