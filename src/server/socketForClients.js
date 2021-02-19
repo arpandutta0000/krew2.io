@@ -1904,20 +1904,20 @@ io.on(`connection`, async socket => {
         });
 
         // Return experience points to player.
-        socket.on(`getExperiencePoints`, callback => {
-            if (playerEntity && playerEntity.parent) {
-                playerEntity.updateExperience();
+        // socket.on(`getExperiencePoints`, callback => {
+        //     if (playerEntity && playerEntity.parent) {
+        //         playerEntity.updateExperience();
 
-                let obj = {
-                    experience: playerEntity.experience,
-                    points: playerEntity.points,
-                    availablePoints: playerEntity.availablePoints
-                };
+        //         let obj = {
+        //             experience: playerEntity.experience,
+        //             points: playerEntity.points,
+        //             availablePoints: playerEntity.availablePoints
+        //         };
 
-                callback && callback.call && callback(undefined, obj);
-            }
-            callback && callback.call && callback(`Oops, it seems that you don't have a boat.`);
-        });
+        //         callback && callback.call && callback(undefined, obj);
+        //     }
+        //     callback && callback.call && callback(`Oops, it seems that you don't have a boat.`);
+        // });
 
         // // Allocate points to player.
         // socket.on(`allocatePoints`, (points, callback) => {
