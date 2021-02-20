@@ -332,7 +332,7 @@ io.on(`connection`, async socket => {
                 // Update player highscore in MongoDB.
                 const user = await User.findOne({ username: playerEntity.name });
                 if (!user) return;
-                user.highscore = player.highscore;
+                user.highscore = playerEntity.highscore;
                 user.save();
             }
         }
