@@ -250,25 +250,6 @@ Projectile.prototype.logic = function (dt) {
                                 victimGold += boat.children[p].gold;
                             }
                             log(`magenta`, `${whoKilledWho} | Kill count boat: ${this.shooter.parent.overall_kills} | Shooter gold: ${this.shooter.gold} | Victim gold: ${victimGold}`);
-
-                            // update kill count and player highscore in mongo db
-                            if (this.shooter.isLoggedIn === true && this.shooter.serverNumber === 1) {
-                                if (this.shooter.gold > this.shooter.highscore) {
-                                    this.shooter.highscore = this.shooter.gold;
-                                } else {
-                                    myobj = {
-                                        $inc: {
-                                            overall_kills: 1
-                                        }
-                                    };
-                                }
-                                User.updateOne({
-                                    name: this.shooter.name
-                                }, {
-                                    highscore: this.shooter.gold
-                                });
-                                log(`magenta`, `Update highscore for player: ${this.shooter.name} | Old highscore: ${this.shooter.highscore} | New highscore: ${this.shooter.gold} | IP: ${this.shooter.socket.handshake.address}`);
-                            }
                         }
                     }
                 }
