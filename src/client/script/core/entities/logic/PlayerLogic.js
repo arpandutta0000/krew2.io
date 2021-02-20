@@ -194,7 +194,7 @@ let PlayerLogic = {
                         -0.01
                     );
                     scene.fog.density = 0.0055;
-                    if (camera.zoom === 1) camera.zoom = 1.5;
+                    camera.zoom = controls.zoom + 1.5;
                     camera.updateProjectionMatrix();
                     _this.crosshair.visible = false;
                 }

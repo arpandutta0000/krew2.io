@@ -17,6 +17,7 @@ class GameControls {
         this.isMouseLookLocked = false;
         this.lastX = 0;
         this.lastY = 0;
+        this.zoom = 0;
 
         // Set pointer lock
         if (!havePointerLock) {
@@ -104,10 +105,10 @@ class GameControls {
 
         /* On Mouse Wheel event */
         this.mouseWheelEvent = (event) => {
-            if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon === 2 && camera != undefined && (event.target === renderer.domElement || event.target === document.body)) {
-                camera.zoom -= event.deltaY / 200;
-                if (camera.zoom > 11) camera.zoom = 11;
-                if (camera.zoom < 1.5) camera.zoom = 1.5;
+            if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon === 2 && (event.target === renderer.domElement || event.target === document.body)) {
+                this.zoom -= event.deltaY / 200;
+                if (this.zoom > 10) this.zoom = 10;
+                if (this.zoom < 0) this.zoom = 0;
             }
         };
 
