@@ -147,9 +147,7 @@ let exitIsland = (data) => {
 
     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
     $(`#exit-island-button`).hide();
-    $(`#shopping-modal`).hide();
-    $(`#krew-list-modal`).hide();
-    $(`#bank-modal`).hide();
+    ui.closeAllPages();
     updateStore();
 
     $(`#docking-modal-button`).removeClass(`btn btn-primary enabled btn-lg`).addClass(`btn btn-primary disabled btn-lg`);

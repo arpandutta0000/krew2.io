@@ -4,6 +4,7 @@ let ui = {
     serverList: {},
     lastGold: 0,
     markerMapCount: performance.now(),
+    allPagesId: [`#ship-status-modal`, `#shopping-modal`, `#krew-list-modal`, `#bank-modal`, `#quests-modal`, `#help-modal`],
 
     /**
      * Captain configuration, sets the active property if player is the captain
@@ -133,16 +134,20 @@ let ui = {
     },
 
     /**
+     * Closes all modals
+     */
+    closeAllPages: () => {
+        for (let page of ui.allPagesId) $(page).hide();
+    },
+
+    /**
      * Closes all modals except a specified modal
      *
      * @param {string} paramId The modal to leave open
      */
     closeAllPagesExcept: (pageId) => {
-        let allPagesId = [`#help-modal`, `#bank-modal`, `#krew-list-modal`, `#shopping-modal`, `#quests-modal`, `#ship-status-modal`];
-        for (let page of allPagesId) {
-            if (pageId !== page) {
-                $(page).hide();
-            }
+        for (let page of ui.allPagesId) {
+            if (pageId !== page) $(page).hide();
         }
     },
 
