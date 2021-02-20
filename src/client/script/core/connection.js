@@ -24,7 +24,7 @@ let connect = function (pid) {
     }
 
     // Log connection info
-    console.log(`\n\nSuccessfully connected!\nGood luck sailor! o7\n\nConnection information:\nPort: ${server.port}\nPlayers: ${server.playerCount}\nMax Players: ${server.maxPlayerCount}\n\n\n`);
+    console.log(`\n\nSuccessfully connected!\nGood luck sailor! ⛵\n\nConnection information:\nPort: ${server.port}\nPlayers: ${server.playerCount}\nMax Players: ${server.maxPlayerCount}\n\n\n`);
 
     // Set URL
     let url = window.location.hostname === `localhost` ? `http://localhost` : config.url;

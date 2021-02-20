@@ -30,9 +30,7 @@ let traverseObj = (obj, callback) => {
 /**
  * Print a header into console
  */
-let printConsoleHeader = () => {
-    console.log(`\n\n\n\n ___   _  ______    _______  _     _        ___   _______ \n|   | | ||    _ |  |       || | _ | |      |   | |       |\n|   |_| ||   | ||  |    ___|| || || |      |   | |   _   |\n|      _||   |_||_ |   |___ |       |      |   | |  | |  |\n|     |_ |    __  ||    ___||       | ___  |   | |  |_|  |\n|    _  ||   |  | ||   |___ |   _   ||   | |   | |       |\n|___| |_||___|  |_||_______||__| |__||___| |___| |_______|\n\nKrew Client v2\n\n\n\n\n`);
-};
+let printConsoleHeader = () => console.log(`\n\n\n\n\██╗  ██╗██████╗ ███████╗██╗    ██╗   ██╗ ██████╗\n██║ ██╔╝██╔══██╗██╔════╝██║    ██║   ██║██╔═══██╗\n█████╔╝ ██████╔╝█████╗  ██║ █╗ ██║   ██║██║   ██║\n██╔═██╗ ██╔══██╗██╔══╝  ██║███╗██║   ██║██║   ██║\n██║  ██╗██║  ██║███████╗╚███╔███╔╝██╗██║╚██████╔╝\n╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ ╚═╝╚═╝ ╚═════╝\n\nKrew Client v2\n\n\n\n\n`);
 
 /**
  * Checks if a string is alphanumeric
@@ -196,10 +194,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-                .multiplyMatrices(
-                    camera.projectionMatrix,
-                    camera.matrixWorldInverse
-                )
+            .multiplyMatrices(
+                camera.projectionMatrix,
+                camera.matrixWorldInverse
+            )
         );
 
         // Return if the object is in the frustum
