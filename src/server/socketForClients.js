@@ -324,14 +324,7 @@ io.on(`connection`, async socket => {
             playerSave.delete();
         }
 
-        // Allocate player to the game.
-        login.allocatePlayerToBoat(playerEntity, data.boatId, data.spawn);
-
-        // Get snapshot.
-        socket.on(`u`, data => playerEntity.parseSnap(data));
-
-        // Ping event
-        socket.on(`ping`, () => {
+        let savePlayerHighscore = async () => {
             if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
                 log(`magenta`, `Updated highscore for player ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
                 playerEntity.highscore = parseInt(playerEntity.gold);
@@ -342,7 +335,18 @@ io.on(`connection`, async socket => {
                 user.highscore = player.highscore;
                 user.save();
             }
+        }
+
+        // Allocate player to the game.
+        login.allocatePlayerToBoat(playerEntity, data.boatId, data.spawn);
+
+        // Get snapshot.
+        socket.on(`u`, data => playerEntity.parseSnap(data));
+
+        // Ping event
+        socket.on(`ping`, () => {
             socket.emit(`pong`);
+            savePlayerHighscore();
         });
 
         let checkPlayerStatus = () => {
