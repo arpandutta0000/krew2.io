@@ -1,9 +1,10 @@
-v1.7.1 - [2-20-2021]
+v1.7.1 - [2-21-2021]
 - Added adjustable zoom with the spyglass (Scrolling)
-- Fixed WOF not saving players that didn't trade
+- Rewrote saving to WOF to resolve issues
 - Fixed the help menu appearing by typing "H" in certain text fields
-- Modified item stats
-- Modified cargo prices
+- Buffed Demolisher
+- Nerfed Drifter
+- Modified cargo prices 
 
 v1.7.0b - [2-18-2021]
 - Fixed edge cases with WOF scores not saving
