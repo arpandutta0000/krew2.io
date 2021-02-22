@@ -163,7 +163,6 @@ let PlayerLogic = {
                 let lookingDownOffset;
                 let cameraPosition = new THREE.Vector3();
                 if (_this.activeWeapon !== 2) {
-                    // to overcome discrepancy between cannon's angle of aim, and the actual angle of projectile
                     if ($(`#fp-mode-button`).is(`:checked`)) {
                         lookingDownOffset = 2 - Math.max(controls.cameraX, 2);
                         cameraPosition = new THREE.Vector3(
@@ -171,12 +170,14 @@ let PlayerLogic = {
                             1.5 + Math.min(8, Math.max(0, controls.cameraX * 0.5)),
                             1.21 + (lookingDownOffset * 0.21)
                         );
+                        if (_this.captainHat != undefined) _this.captainHat.visible = false;
                     } else {
                         lookingDownOffset = 0.2 - Math.max(controls.cameraX, 0.2);
                         cameraPosition = new THREE.Vector3(
                             camera.position.x,
                             (fov >= 1 && fov <= 10 ? fov * 2 : 2) + Math.min((fov >= 1 && fov <= 10 ? fov * 8 : 8), Math.max(0, controls.cameraX * 10)),
                             (fov >= 1 && fov <= 10 ? fov * 8 : 8) + (lookingDownOffset * (fov >= 1 && fov <= 10 ? fov * 8 : 8)));
+                        if (_this.captainHat != undefined) _this.captainHat.visible = true;
                     }
 
                     if (camera.zoom !== 1) {
