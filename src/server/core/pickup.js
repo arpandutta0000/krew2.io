@@ -152,6 +152,8 @@ Pickup.prototype.logic = function (dt) {
         for (b in boats) {
             let boat = boats[b];
 
+            if (boat == undefined) continue;
+
             // dont check against boats that have died
             if (boat.hp < 1) {
                 continue;

@@ -147,7 +147,7 @@ Projectile.prototype.logic = function (dt) {
                     let boat = boats[b];
 
                     // dont check against boats that have died or are docked
-                    if (boat.hp < 1 || boat.shipState === 3 || boat.shipState === -1 || boat.shipState === 4) {
+                    if (boat == undefined || boat.hp < 1 || boat.shipState === 3 || boat.shipState === -1 || boat.shipState === 4) {
                         continue;
                     }
 
