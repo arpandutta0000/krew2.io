@@ -1,4 +1,4 @@
-v1.7.1b
+v1.7.1b - [2-22-2021]
 - Fixed captain hat obstructing first person view
 - Fixed item descriptions showing incorrect stats
 
