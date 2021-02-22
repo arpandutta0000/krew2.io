@@ -4,7 +4,7 @@ v1.7.1 - [2-21-2021]
 - Fixed the help menu appearing by typing "H" in certain text fields
 - Buffed Demolisher
 - Nerfed Drifter
-- Modified cargo prices 
+- Modified cargo prices
 
 v1.7.0b - [2-18-2021]
 - Fixed edge cases with WOF scores not saving
