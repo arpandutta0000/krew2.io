@@ -1,3 +1,7 @@
+v1.7.1b
+- Fixed captain hat obstructing first person view
+- Fixed item descriptions showing incorrect stats
+
 v1.7.1 - [2-21-2021]
 - Added adjustable zoom with the spyglass (Scrolling)
 - Rewrote saving to WOF to resolve issues
