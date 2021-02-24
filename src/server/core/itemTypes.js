@@ -51,12 +51,12 @@ let itemTypes = [
     {
         id: 5,
         name: `Blue Gunpowder`,
-        Description: `+25 cannon damage`,
-        price: 2e5,
+        Description: `+8 cannon damage`,
+        price: 5e4,
         rarity: 0.25,
         availableAt: [`Jamaica`],
         attributes: {
-            attackDamage: `25`
+            attackDamage: `8`
         }
     },
     {
@@ -185,17 +185,6 @@ let itemTypes = [
         availableAt: [`Taiwan`],
         attributes: {
             armor: `50`
-        }
-    },
-    {
-        id: 18,
-        name: `Titanium Barrel`,
-        Description: `+45 cannon distance`,
-        price: 25e4,
-        rarity: 0.5,
-        availableAt: [`Taiwan`],
-        attributes: {
-            attackDistance: `45`
         }
     }
 ];
