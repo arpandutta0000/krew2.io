@@ -1,3 +1,12 @@
+v1.7.2 - [2-24-2021]
+- Added "U" hotkey for toggling the game UI
+- An orange border now shows around the selected tool in the experience panel
+- Fixed keybinds being initiated before joining the game
+- Fixed issues with the Calm Spirit model
+- Improved the Trader and Black Oyster models
+- Moved game settings to it's own tab in the ship status modal
+- Made more of the UI responsive to the viewport size
+
 v1.7.1b - [2-22-2021]
 - Fixed captain hat obstructing first person view
 - Fixed item descriptions showing incorrect stats
