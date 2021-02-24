@@ -706,10 +706,26 @@ td {
 
 
 /* -- START Inventory / Experience UI -- */
+
+#experience-ui {
+    width: 45%;
+    bottom: 5px;
+    left: 50%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px;
+    border-radius: 6px;
+    padding-bottom: 0;
+    transform: translate(-50%);
+    min-width: 300px;
+    max-width: 400px;
+    text-align: center;
+}
+
 #inventory-container {
     display: inline-block;
     vertical-align: middle;
-    width: 177px;
+    width: 187px;
 }
 
 #cannon-item-div {
@@ -733,20 +749,6 @@ td {
 /* -- START Experience bar -- */
 
 /* Experience bar container */
-#experience-ui {
-    width: 40%;
-    bottom: 5px;
-    left: 50%;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 3px;
-    border-radius: 6px;
-    padding-bottom: 0;
-    transform: translate(-50%);
-    min-width: 300px;
-    max-width: 400px;
-    text-align: center;
-}
 
 #experience-attribute-container {
     display: inline-block;

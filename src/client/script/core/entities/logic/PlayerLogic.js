@@ -328,6 +328,21 @@ let PlayerLogic = {
             }
         }
 
+        // Add border around selected item
+        if (_this.activeWeapon === 0) {
+            $(`#cannon-item-div`).css(`border`, `5px solid #f0ad4e`);
+            $(`#rod-item-div`).css(`border`, `none`);
+            $(`#spyglass-item-div`).css(`border`, `none`);
+        } else if (_this.activeWeapon === 1) {
+            $(`#cannon-item-div`).css(`border`, `none`);
+            $(`#rod-item-div`).css(`border`, `5px solid #f0ad4e`);
+            $(`#spyglass-item-div`).css(`border`, `none`);
+        } else if (_this.activeWeapon === 2) {
+            $(`#cannon-item-div`).css(`border`, `none`);
+            $(`#rod-item-div`).css(`border`, `none`);
+            $(`#spyglass-item-div`).css(`border`, `5px solid #f0ad4e`);
+        }
+
         // check if we turned into the captain (or lost captainship)
         if (_this.isCaptain !== _this.oldCaptainState) {
             if (_this.parent && _this.isPlayer && !_this.isCaptain) {
