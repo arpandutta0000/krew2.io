@@ -74,7 +74,7 @@ let setUpKeyboard = () => {
                     spyglassTooltipShown = true;
                 }
             }
-        } else if (evt.keyCode === 16 && !ui.textFieldFocused()) { // Shift to shop leaderboard
+        } else if (evt.keyCode === 16 && !ui.textFieldFocused()) { // Shift to show leaderboard
             $(`#player-leaderboard`).show();
         } else if (evt.keyCode === 67 && !ui.textFieldFocused() && myPlayer && myPlayer.parent) { // C to cancel docking
             if ((myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) && $(`#cancel-exit-button`).find(`span`).text() === `Cancel (c)`) {
