@@ -356,7 +356,7 @@ td {
 /* Ship Status Menu*/
 #ship-status-modal {
     display: none;
-    width: 500px;
+    width: 30%;
     margin-right: 20px;
     top: 10%;
     left: 35%;
@@ -509,17 +509,17 @@ td {
 
 /* Shopping Modal */
 #shopping-modal {
-    top: 10%;
-    left: 26%;
-    margin-right: 20px;
     display: none;
+    width: 40%;
+    margin-right: 20px;
+    top: 10%;
+    left: 30%;
     position: absolute;
     z-index: 1060;
-    width: 800px;
-    border-radius: .3em;
     overflow-y: auto;
     -ms-overflow-style: none;
     max-height: 70%;
+    border-radius: .3em;
     background-color: rgba(255, 255, 255, 0.9);
 }
 
@@ -542,7 +542,7 @@ td {
 /* Krew List modal */
 #krew-list-modal {
     display: none;
-    width: 500px;
+    width: 30%;
     margin-right: 20px;
     top: 10%;
     left: 35%;
@@ -557,18 +557,19 @@ td {
 
 /* Krew list container */
 #krew-list {
-    height: 200px;
+    height: 25%;
+    min-height: 200px;
     overflow: auto;
     padding: 0 5px;
 }
 
 /* Bank Modal */
 #bank-modal {
-    width: 700px;
+    width: 40%;
     margin-right: 20px;
     display: none;
     top: 10%;
-    left: 29%;
+    left: 30%;
     position: absolute;
     z-index: 1060;
     overflow-y: auto;
@@ -581,11 +582,11 @@ td {
 /* Quests Modal */
 #quests-modal {
     position: absolute;
-    width: 700px;
+    width: 40%;
     margin-right: 20px;
     display: none;
     top: 10%;
-    left: 29%;
+    left: 30%;
     z-index: 1060;
     overflow-y: auto;
     -ms-overflow-style: none;
@@ -643,10 +644,10 @@ td {
 
 #player-leaderboard {
     white-space: nowrap;
-    width: 550px;
+    width: 50%;
     font-size: 14px;
     position: absolute;
-    left: 33%;
+    left: 25%;
     top: 20%;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 5px;
@@ -725,7 +726,7 @@ td {
 #inventory-container {
     display: inline-block;
     vertical-align: middle;
-    width: 187px;
+    width: 190px;
 }
 
 #cannon-item-div {
