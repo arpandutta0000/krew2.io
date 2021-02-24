@@ -98,6 +98,17 @@ let setUpKeyboard = () => {
             } else {
                 $(`#quests-modal`).hide();
             }
+        } else if (evt.keyCode === 85 && !ui.textFieldFocused()) { // U to hide game UI
+            if($(`#game-ui`).is(`:hidden`)) $(`#game-ui`).show();
+            else {
+                $(`#game-ui`).hide();
+                notifications.showCenterMessage(
+                    `Press "U" again to show the game UI`,
+                    4,
+                    4e3
+                );
+            }
+
         } else if (evt.keyCode === 90 && !ui.textFieldFocused()) { // Z to dock
             if (myPlayer &&
                 myPlayer.parent &&
