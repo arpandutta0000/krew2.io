@@ -23,9 +23,6 @@ let connect = function (pid) {
         };
     }
 
-    // Log connection info
-    console.log(`\n\nSuccessfully connected!\nGood luck sailor! ⛵\n\nConnection information:\nPort: ${server.port}\nPlayers: ${server.playerCount}\nMax Players: ${server.maxPlayerCount}\n\n\n`);
-
     // Set URL
     let url = window.location.hostname === `localhost` ? `http://localhost` : config.url;
 
@@ -51,6 +48,9 @@ let connect = function (pid) {
     // Show game ui
     $(`#game-ui`).show();
     $(`#splash-modal`).modal(`hide`);
+
+    // Log connection info
+    console.log(`\n\nSuccessfully connected!\nGood luck sailor! ⛵\n\nConnection information:\nPort: ${server.port}\nPlayers: ${server.playerCount}\nMax Players: ${server.maxPlayerCount}\n\n\n`);
 };
 
 /**
