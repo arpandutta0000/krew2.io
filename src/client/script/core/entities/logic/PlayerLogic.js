@@ -328,6 +328,55 @@ let PlayerLogic = {
             }
         }
 
+        // check if we turned into the captain (or lost captainship)
+        if (_this.isCaptain !== _this.oldCaptainState) {
+            if (_this.parent && _this.isPlayer && !_this.isCaptain) {
+                notifications.showCenterMessage(`You are not the captain anymore!`, 4, 4000);
+                if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
+                    $(`#toggle-shop-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+                    $(`#toggle-krew-list-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+                    $(`#exit-island-button`).hide();
+                    $(`#toggle-invite-link-button`).show();
+                    $(`#quests-button`).show();
+                } else {
+                    $(`#toggle-shop-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+                    $(`#toggle-krew-list-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+                }
+
+                if (_this.parent.shipState === 1) {
+                    $(`#docking-modal`).hide();
+                }
+
+                $(`#abandon-ship-button`).show();
+            }
+            if (_this.parent && _this.isPlayer && _this.isCaptain) {
+                notifications.showCenterMessage(`You are the captain now!`, 4, 4000);
+
+                if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
+                    $(`#toggle-shop-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+                    $(`#toggle-krew-list-modal-button`).removeClass(`disabled`).addClass(`enabled`);
+                    $(`#exit-island-button`).show();
+                    $(`#toggle-invite-link-button`).show();
+                    $(`#quests-button`).show();
+                } else {
+                    $(`#toggle-shop-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+                    $(`#toggle-krew-list-modal-button`).removeClass(`enabled`).addClass(`disabled`);
+                }
+
+                if (_this.parent.shipState === 1) {
+                    $(`#docking-modal`).show();
+                }
+
+                $(`#abandon-ship-button`).hide();
+            }
+
+            if (_this.isCaptain) {
+                _this.playerBody.add(_this.captainHat);
+            } else {
+                _this.playerBody.remove(_this.playerBody.getObjectByName(`captainHat`));
+            }
+        }
+
         // Add border around selected item
         if (_this.activeWeapon === 0) {
             $(`#cannon-item-div`).css(`border`, `5px solid #f0ad4e`);
@@ -341,45 +390,6 @@ let PlayerLogic = {
             $(`#cannon-item-div`).css(`border`, `none`);
             $(`#rod-item-div`).css(`border`, `none`);
             $(`#spyglass-item-div`).css(`border`, `5px solid #f0ad4e`);
-        }
-
-        // check if we turned into the captain (or lost captainship)
-        if (_this.isCaptain !== _this.oldCaptainState) {
-            if (_this.parent && _this.isPlayer && !_this.isCaptain) {
-                notifications.showCenterMessage(`You are not the captain anymore!`, 4, 4000);
-                if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
-                    $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
-                    $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
-                    $(`#exit-island-button`).hide();
-                    $(`#toggle-invite-link-button`).show();
-                    $(`#quests-button`).show();
-                } else if (_this.parent.shipState === 1) {
-                    $(`#docking-modal`).hide();
-                }
-
-                $(`#abandon-ship-button`).show();
-            }
-            if (_this.parent && _this.isPlayer && _this.isCaptain) {
-                notifications.showCenterMessage(`You are the captain now!`, 4, 4000);
-
-                if (_this.parent.shipState === 3 || _this.parent.shipState === 4 || _this.parent.shipState === -1) {
-                    $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
-                    $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
-                    $(`#exit-island-button`).show();
-                    $(`#toggle-invite-link-button`).show();
-                    $(`#quests-button`).show();
-                } else if (_this.parent.shipState === 1) {
-                    $(`#docking-modal`).show();
-                }
-
-                $(`#abandon-ship-button`).hide();
-            }
-
-            if (_this.isCaptain) {
-                _this.playerBody.add(_this.captainHat);
-            } else {
-                _this.playerBody.remove(_this.playerBody.getObjectByName(`captainHat`));
-            }
         }
     },
 
