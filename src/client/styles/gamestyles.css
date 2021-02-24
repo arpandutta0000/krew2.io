@@ -596,10 +596,10 @@ td {
 
 /* Help Modal */
 #help-modal {
-    width: 700px;
+    width: 60%;
     margin-right: 20px;
     top: 10%;
-    left: 29%;
+    left: 20%;
     position: absolute;
     z-index: 1060;
     display: none;
