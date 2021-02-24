@@ -34,10 +34,6 @@ let createGame = () => {
     // Add renderer to the document
     document.body.appendChild(renderer.domElement);
 
-    // Init controls
-    controls = new GameControls();
-    setUpKeyboard();
-
     // Create the Scene
     scene = new THREE.Scene();
 

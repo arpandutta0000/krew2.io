@@ -44,6 +44,11 @@ let connect = function (pid) {
     // Call socket binds init
     initSocketBinds();
 
+    // Init controls
+    controls = new GameControls();
+    setUpKeyboard();
+
+    // Show game ui
     $(`#game-ui`).show();
     $(`#splash-modal`).modal(`hide`);
 };
