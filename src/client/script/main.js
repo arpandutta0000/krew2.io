@@ -18,6 +18,9 @@ $(document).ready(() => {
     // Create the wall of fame
     splash.createWallOfFame();
 
+    // Check if player is on Krew.io and not a game portal
+    if (!window.location.hostname.endsWith(`krew.io`)) $(`#play-on-krewio-message`).show();
+
     // Check if user is using adblock
     adBlockCheck();
 
