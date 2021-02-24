@@ -356,10 +356,10 @@ td {
 /* Ship Status Menu*/
 #ship-status-modal {
     display: none;
-    width: 30%;
+    width: 40%;
     margin-right: 20px;
     top: 10%;
-    left: 35%;
+    left: 30%;
     display: none;
     position: absolute;
     z-index: 1060;

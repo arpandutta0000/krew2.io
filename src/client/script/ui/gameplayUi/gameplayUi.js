@@ -354,7 +354,16 @@ let initGameUi = () => {
             $(`#ship-status-modal`).hide();
         } else {
             ui.closeAllPagesExcept(`#ship-status-button`);
-            showShipStatus();
+            $(`#ship-status`).addClass(`active`);
+            $(`#clan-management`).removeClass(`active`);
+            $(`#game-settings`).removeClass(`active`);
+
+            if (!$(`#ship-status-container`).is(`:visible`)) {
+                $(`#ship-status-container`).show();
+                $(`#clan-management-container`).hide();
+                $(`#notLoggedIn-container`).hide();
+                $(`#game-settings-container`).hide();
+            }
             $(`#ship-status-modal`).show();
             if (myPlayer.isCaptain !== true) {
                 $(`#lock-krew-label`).hide();
@@ -370,24 +379,55 @@ let initGameUi = () => {
             }
         }
     });
+
+    /* Ship status panel */
     $(`#ship-status`).on(`click`, () => {
-        showShipStatus();
+        $(`#ship-status`).addClass(`active`);
+        $(`#clan-management`).removeClass(`active`);
+        $(`#game-settings`).removeClass(`active`);
+
+        if (!$(`#ship-status-container`).is(`:visible`)) {
+            $(`#ship-status-container`).show();
+            $(`#clan-management-container`).hide();
+            $(`#notLoggedIn-container`).hide();
+            $(`#game-settings-container`).hide();
+        }
     });
 
     /* Clan managment panel */
     $(`#clan-management`).on(`click`, () => {
-        $(`#clan-management`).addClass(`active`);
         $(`#ship-status`).removeClass(`active`);
+        $(`#clan-management`).addClass(`active`);
+        $(`#game-settings`).removeClass(`active`);
         if (myPlayer.isLoggedIn === true) {
             clanUi.setClanData();
+
             if (!$(`#clan-management-container`).is(`:visible`)) {
-                $(`#clan-management-container`).show();
                 $(`#ship-status-container`).hide();
+                $(`#clan-management-container`).show();
+                $(`#notLoggedIn-container`).hide();
+                $(`#game-settings-container`).hide();
                 clanUi.setClanData(`force`);
             }
         } else {
             $(`#ship-status-container`).hide();
+            $(`#clan-management-container`).hide();
             $(`#notLoggedIn-container`).show();
+            $(`#game-settings-container`).hide();
+        }
+    });
+
+    /* Game settings panel*/
+    $(`#game-settings`).on(`click`, () => {
+        $(`#ship-status`).removeClass(`active`);
+        $(`#clan-management`).removeClass(`active`);
+        $(`#game-settings`).addClass(`active`);
+
+        if (!$(`#game-settings-container`).is(`:visible`)) {
+            $(`#ship-status-container`).hide();
+            $(`#clan-management-container`).hide();
+            $(`#notLoggedIn-container`).hide();
+            $(`#game-settings-container`).show();
         }
     });
 

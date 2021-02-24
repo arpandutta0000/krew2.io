@@ -27,16 +27,3 @@ let updateShipStats = (data) => {
         $(`.ship-speed`).html(`/`);
     }
 };
-
-/**
- * Show ship status
- */
-let showShipStatus = () => {
-    $(`#clan-management`).removeClass(`active`);
-    $(`#ship-status`).addClass(`active`);
-    $(`#notLoggedIn-container`).hide();
-    if (!$(`#ship-status-container`).is(`:visible`)) {
-        $(`#ship-status-container`).show();
-        $(`#clan-management-container`).hide();
-    }
-};

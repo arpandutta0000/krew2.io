@@ -906,8 +906,12 @@
                     <li class="nav-item">
                         <a class="nav-link" id="clan-management" href="#">Clan Management</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="game-settings" href="#">Game Settings</a>
+                    </li>
                 </ul>
             </div>
+
             <div id="ship-status-container" class="container" style="margin-top: 15px; min-height: 294px">
                 <form class="form-inline h5" id="krew-name-form">
                     <div class="form-group">
@@ -959,48 +963,6 @@
                     </div>
                 </label>
                 <br>
-
-                <hr style="border-top: 4px solid #bbb; border-radius: 3px;">
-
-                <div id="fps-camera">
-                    <label id="fp-mode-label" class="label">
-                        <div id="fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera (Disabled)</div>
-                        <div class="toggle">
-                            <input class="toggle-state" type="checkbox" name="check" value="check" id="fp-mode-button" />
-                            <div class="toggle-inner">
-                                <div class="indicator"></div>
-                            </div>
-                            <div class="active-bg"></div>
-                        </div>
-                    </label>
-                </div>
-                <div id="fov-control-div" class="lock-text-info">
-                    FOV <input id="fov-control" type="range" min="10" max="50" value="10">
-                </div>
-                <br>
-                <div id="music-control-div" class="lock-text-info">
-                    Music <input id="music-control" type="range" min="0" max="100" value="50">
-                </div>
-                <div id="sfx-control-div" class="lock-text-info">
-                    Sfx <input id="sfx-control" type="range" min="0" max="100" value="50">
-                </div>
-                <br>
-                <div id="view-sails">
-                    <label id="view-sails-label" class="label">
-                        <div id="view-sails-text" class="lock-text-info" style="padding-right:10px">View Sails (Disabled)</div>
-                        <div class="toggle">
-                            <input id="view-sails-button" name="view-sails-button" class="toggle-state" type="checkbox" value="check"></input>
-                            <div class="toggle-inner">
-                                <div class="indicator"></div>
-                            </div>
-                            <div class="active-bg"></div>
-                        </div>
-                    </label>
-                </div>
-                <div id="quality-div" class="form-group">
-                    <select id="quality-list" class="custom-select form-control form-control-sm"></select>
-                </div>
-                <a id="account-game-settings-save-notice" class="hidden">Note: Changes made to game settings here are not saved to your account.</a>
             </div>
 
             <div id="clan-management-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
@@ -1058,6 +1020,48 @@
                         <span id="clan-name">Please login to be able to use the clan features</span>
                     </div>
                 </form>
+            </div>
+
+            <div id="game-settings-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
+                <div id="fps-camera">
+                    <label id="fp-mode-label" class="label">
+                        <div id="fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera (Disabled)</div>
+                        <div class="toggle">
+                            <input class="toggle-state" type="checkbox" name="check" value="check" id="fp-mode-button" />
+                            <div class="toggle-inner">
+                                <div class="indicator"></div>
+                            </div>
+                            <div class="active-bg"></div>
+                        </div>
+                    </label>
+                </div>
+                <div id="fov-control-div" class="lock-text-info">
+                    FOV <input id="fov-control" type="range" min="10" max="50" value="10">
+                </div>
+                <br>
+                <div id="music-control-div" class="lock-text-info">
+                    Music <input id="music-control" type="range" min="0" max="100" value="50">
+                </div>
+                <div id="sfx-control-div" class="lock-text-info">
+                    Sfx <input id="sfx-control" type="range" min="0" max="100" value="50">
+                </div>
+                <br>
+                <div id="view-sails">
+                    <label id="view-sails-label" class="label">
+                        <div id="view-sails-text" class="lock-text-info" style="padding-right:10px">View Sails (Disabled)</div>
+                        <div class="toggle">
+                            <input id="view-sails-button" name="view-sails-button" class="toggle-state" type="checkbox" value="check"></input>
+                            <div class="toggle-inner">
+                                <div class="indicator"></div>
+                            </div>
+                            <div class="active-bg"></div>
+                        </div>
+                    </label>
+                </div>
+                <div id="quality-div" class="form-group">
+                    <select id="quality-list" class="custom-select form-control form-control-sm"></select>
+                </div>
+                <a id="account-game-settings-save-notice" class="hidden">Note: Changes made to game settings here are not saved to your account.</a>
             </div>
         </div>
     </div>
