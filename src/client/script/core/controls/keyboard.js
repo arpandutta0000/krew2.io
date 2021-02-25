@@ -54,16 +54,28 @@ let setUpKeyboard = () => {
             if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 0) {
                 socket.emit(`changeWeapon`, 0);
                 myPlayer.isFishing = false;
+
+                $(`#cannon-item-div`).css(`border`, `5px solid #f0ad4e`);
+                $(`#rod-item-div`).css(`border`, `none`);
+                $(`#spyglass-item-div`).css(`border`, `none`);
             }
         } else if ((evt.keyCode === 50 || evt.keyCode === 98) && !ui.textFieldFocused()) { // 2 to select fishing rod
             if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 1) {
                 socket.emit(`changeWeapon`, 1);
                 myPlayer.isFishing = false;
+
+                $(`#cannon-item-div`).css(`border`, `none`);
+                $(`#rod-item-div`).css(`border`, `5px solid #f0ad4e`);
+                $(`#spyglass-item-div`).css(`border`, `none`);
             }
         } else if ((evt.keyCode === 51 || evt.keyCode === 99) && !ui.textFieldFocused()) { // 3 to select spyglass
             if (myPlayer && myPlayer.geometry && myPlayer.activeWeapon !== 2) {
                 socket.emit(`changeWeapon`, 2);
                 myPlayer.isFishing = false;
+
+                $(`#cannon-item-div`).css(`border`, `none`);
+                $(`#rod-item-div`).css(`border`, `none`);
+                $(`#spyglass-item-div`).css(`border`, `5px solid #f0ad4e`);
 
                 if (!spyglassTooltipShown) {
                     notifications.showCenterMessage(
@@ -99,7 +111,7 @@ let setUpKeyboard = () => {
                 $(`#quests-modal`).hide();
             }
         } else if (evt.keyCode === 85 && !ui.textFieldFocused()) { // U to hide game UI
-            if($(`#game-ui`).is(`:hidden`)) $(`#game-ui`).show();
+            if ($(`#game-ui`).is(`:hidden`)) $(`#game-ui`).show();
             else {
                 $(`#game-ui`).hide();
                 notifications.showCenterMessage(

@@ -376,21 +376,6 @@ let PlayerLogic = {
                 _this.playerBody.remove(_this.playerBody.getObjectByName(`captainHat`));
             }
         }
-
-        // Add border around selected item
-        if (_this.activeWeapon === 0) {
-            $(`#cannon-item-div`).css(`border`, `5px solid #f0ad4e`);
-            $(`#rod-item-div`).css(`border`, `none`);
-            $(`#spyglass-item-div`).css(`border`, `none`);
-        } else if (_this.activeWeapon === 1) {
-            $(`#cannon-item-div`).css(`border`, `none`);
-            $(`#rod-item-div`).css(`border`, `5px solid #f0ad4e`);
-            $(`#spyglass-item-div`).css(`border`, `none`);
-        } else if (_this.activeWeapon === 2) {
-            $(`#cannon-item-div`).css(`border`, `none`);
-            $(`#rod-item-div`).css(`border`, `none`);
-            $(`#spyglass-item-div`).css(`border`, `5px solid #f0ad4e`);
-        }
     },
 
     /**
