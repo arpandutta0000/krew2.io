@@ -7,7 +7,7 @@ const appMode = process.env.NODE_ENV;
 
 module.exports = {
     prod: {
-        mode: appMode === `prod` ? `production` : `development`,
+        mode: `production`,
         entry: [`./src/client/script/dist.js`],
         output: {
             path: path.resolve(__dirname, `dist/script`),
@@ -17,12 +17,13 @@ module.exports = {
         optimization: {
             minimizer: [
                 new ClosurePlugin({
-                    mode: `STANDARD`
+                    mode: `AGGRESSIVE_BUNDLE`
                 }, {
                     renaming: true
                 })
             ],
-            removeAvailableModules: true
+            removeAvailableModules: true,
+            concatenateModules: false
         },
         target: `node`
     },
@@ -38,12 +39,13 @@ module.exports = {
         optimization: {
             minimizer: [
                 new ClosurePlugin({
-                    mode: `STANDARD`
+                    mode: `AGGRESSIVE_BUNDLE`
                 }, {
                     renaming: true
                 })
             ],
-            removeAvailableModules: true
+            removeAvailableModules: true,
+            concatenateModules: false
         },
         target: `node`
     }
