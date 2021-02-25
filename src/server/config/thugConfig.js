@@ -8,6 +8,10 @@ module.exports = {
             hash: `97ddaf7ed95d3753fb34a2c85a13cd1b`
         },
         {
+            name: `BombiBomba`,
+            hash: ``
+        },
+        {
             name: `DamienVesper`,
             hash: `c9c0066ba38a78db4c7d3f6c2cec51752`
         },
