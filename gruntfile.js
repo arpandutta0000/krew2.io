@@ -141,13 +141,17 @@ module.exports = grunt => {
         // Minify CSS
         cssmin: {
             styles: {
-                files: [
-                    {
+                files: [{
                         expand: true,
                         cwd: `src/client/styles`,
                         src: [`gamestyles.css`],
                         dest: process.env.NODE_ENV === `prod` ? `dist/styles` : `src/client/styles`,
                         ext: `.min.css`
+                    },
+                    {
+                        expand: false,
+                        src: [`src/client/libs/css/*.css`],
+                        dest: process.env.NODE_ENV === `prod` ? `dist/libs/libs.min.css` : `src/client/libs/libs.min.css`,
                     }
                 ]
             }
@@ -156,8 +160,7 @@ module.exports = grunt => {
         // Copy files over to the static folder.
         copy: {
             dist: {
-                files: [
-                    {
+                files: [{
                         expand: true,
                         nonull: true,
                         flatten: true,
