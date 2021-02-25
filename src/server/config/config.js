@@ -39,7 +39,7 @@ const config = {
     minAmountCratesInSea: 480
 };
 
-config.staticDir = path.resolve(__dirname, config.mode === `prod` ? `../../../dist/` : `../../client/`);
+config.staticDir = path.resolve(__dirname, `../../../dist/`);
 
 for (const admin of thugConfig.Admins) config.admins.push(admin.name);
 for (const mod of thugConfig.Mods) config.mods.push(mod.name);

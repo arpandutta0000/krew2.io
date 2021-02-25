@@ -122,40 +122,33 @@ module.exports = grunt => {
                     `src/client/script/main.js`,
                     `src/client/script/core/connection.js`
                 ],
-                dest: `src/client/build/dist.js`
+                dest: `dist/build/dist.js`
             }
         },
 
         // Minify the source with webpack.
         webpack: {
-            prod: webpackConfig.prod,
-            dev: webpackConfig.dev
+            client: webpackConfig.client,
         },
 
         // Minify CSS
         cssmin: {
             styles: {
-                files: [
-                    // Gamestyle
-                    {
-                        expand: false,
-                        src: [`src/client/styles/*.css`],
-                        dest: process.env.NODE_ENV === `prod` ? `dist/build/gamestyles.min.css` : `src/client/build/gamestyles.min.css`,
-                    },
-                    // Libs CSS
-                    {
-                        expand: false,
-                        src: [`src/client/assets/libs/css/*.css`],
-                        dest: process.env.NODE_ENV === `prod` ? `dist/build/libs.min.css` : `src/client/build/libs.min.css`,
-                    }
-                ]
+                files: [{
+                    expand: false,
+                    src: [`src/client/styles/*.css`, `src/client/libs/css/*.css`],
+                    dest: `dist/build/styles.min.css`,
+                }, ]
             }
         },
 
         // Copy files over to the static folder.
         copy: {
+            // Copy files to dist
             dist: {
-                files: [{
+                files: [
+                    // All files in the root of /src/client
+                    {
                         expand: true,
                         nonull: true,
                         flatten: true,
@@ -163,6 +156,7 @@ module.exports = grunt => {
                         dest: `dist/`,
                         filter: `isFile`
                     },
+                    // Assets
                     {
                         expand: true,
                         nonull: true,
@@ -173,35 +167,38 @@ module.exports = grunt => {
                         filter: `isFile`
                     }
                 ]
+            },
+
+            // Copy libs to build
+            libs: {
+                files: [{
+                    expand: true,
+                    nonull: true,
+                    flatten: true,
+                    src: [`src/client/libs/js/*`],
+                    dest: `dist/build/libs/`,
+                    filter: `isFile`
+                }, ]
             }
         },
 
         // Clean up static folder and unminified client source.
         clean: {
             dist: [`dist/*`],
-            preMinified: [`src/client/build/dist.js`]
+            preMinified: [`dist/build/dist.js`]
         }
     });
 
-    // Build production.
+    // Build dist
     grunt.registerTask(`build-dist`, [
         `clean:dist`,
         `concat:server`,
         `concat:client`,
         `cssmin:styles`,
-        `webpack:prod`,
+        `webpack:client`,
         `clean:preMinified`,
+        `copy:libs`,
         `copy:dist`
-    ]);
-
-    // Build dev.
-    grunt.registerTask(`build-dev`, [
-        `clean:dist`,
-        `concat:server`,
-        `concat:client`,
-        `cssmin:styles`,
-        `webpack:dev`,
-        `clean:preMinified`
     ]);
 
     // Load required npm tasks.
