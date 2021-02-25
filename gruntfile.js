@@ -138,7 +138,7 @@ module.exports = grunt => {
                 files: [
                     // Gamestyle
                     {
-                        expand: true,
+                        expand: false,
                         src: [`src/client/styles/*.css`],
                         dest: process.env.NODE_ENV === `prod` ? `dist/build/gamestyles.min.css` : `src/client/build/gamestyles.min.css`,
                     },
