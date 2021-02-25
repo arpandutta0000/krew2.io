@@ -6,6 +6,7 @@ v1.7.2 - [2-24-2021]
 - Improved the Trader and Black Oyster models
 - Moved game settings to it's own tab in the ship status modal
 - Made more of the UI responsive to the viewport size
+- Updated the help menu
 
 v1.7.1b - [2-22-2021]
 - Fixed captain hat obstructing first person view
