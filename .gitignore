@@ -127,3 +127,5 @@ logs/
 .vscode
 src/client/script/dist*
 src/client/styles/*.min.css
+src/client/libs/*.css
+src/client/libs/*.js
