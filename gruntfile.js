@@ -126,12 +126,6 @@ module.exports = grunt => {
             }
         },
 
-        // Clean up static folder and unminified client source.
-        clean: {
-            dist: [`dist/*`],
-            preMinified: [`src/client/script/dist.js`]
-        },
-
         // Minify the source with webpack.
         webpack: {
             prod: webpackConfig.prod,
@@ -141,13 +135,16 @@ module.exports = grunt => {
         // Minify CSS
         cssmin: {
             styles: {
-                files: [{
+                files: [
+                    // Gamestyle
+                    {
                         expand: true,
                         cwd: `src/client/styles`,
                         src: [`gamestyles.css`],
                         dest: process.env.NODE_ENV === `prod` ? `dist/styles` : `src/client/styles`,
                         ext: `.min.css`
                     },
+                    // Libs CSS
                     {
                         expand: false,
                         src: [`src/client/libs/css/*.css`],
@@ -179,6 +176,12 @@ module.exports = grunt => {
                     }
                 ]
             }
+        },
+
+        // Clean up static folder and unminified client source.
+        clean: {
+            dist: [`dist/*`],
+            preMinified: [`src/client/script/dist.js`]
         }
     });
 
