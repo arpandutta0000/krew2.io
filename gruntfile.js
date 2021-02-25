@@ -122,7 +122,7 @@ module.exports = grunt => {
                     `src/client/script/main.js`,
                     `src/client/script/core/connection.js`
                 ],
-                dest: `src/client/script/dist.js`
+                dest: `src/client/build/dist.js`
             }
         },
 
@@ -139,16 +139,14 @@ module.exports = grunt => {
                     // Gamestyle
                     {
                         expand: true,
-                        cwd: `src/client/styles`,
-                        src: [`gamestyles.css`],
-                        dest: process.env.NODE_ENV === `prod` ? `dist/styles` : `src/client/styles`,
-                        ext: `.min.css`
+                        src: [`src/client/styles/*.css`],
+                        dest: process.env.NODE_ENV === `prod` ? `dist/build/gamestyles.min.css` : `src/client/build/gamestyles.min.css`,
                     },
                     // Libs CSS
                     {
                         expand: false,
                         src: [`src/client/libs/css/*.css`],
-                        dest: process.env.NODE_ENV === `prod` ? `dist/libs/libs.min.css` : `src/client/libs/libs.min.css`,
+                        dest: process.env.NODE_ENV === `prod` ? `dist/build/libs.min.css` : `src/client/build/libs.min.css`,
                     }
                 ]
             }
@@ -168,6 +166,14 @@ module.exports = grunt => {
                     {
                         expand: true,
                         nonull: true,
+                        flatten: true,
+                        src: [`src/client/libs/js/*.js`],
+                        dest: `dist/libs/js`,
+                        filter: `isFile`
+                    },
+                    {
+                        expand: true,
+                        nonull: true,
                         flatten: false,
                         cwd: `src/client/assets/`,
                         src: [`**`],
@@ -181,7 +187,7 @@ module.exports = grunt => {
         // Clean up static folder and unminified client source.
         clean: {
             dist: [`dist/*`],
-            preMinified: [`src/client/script/dist.js`]
+            preMinified: [`src/client/build/dist.js`]
         }
     });
 
