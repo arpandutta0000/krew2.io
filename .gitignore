@@ -125,7 +125,4 @@ src/server/core/core_concatenated.js
 logs/
 .jsbeautifyrc
 .vscode
-src/client/script/dist*
-src/client/styles/*.min.css
-src/client/libs/*.css
-src/client/libs/*.js
+src/client/build/*
