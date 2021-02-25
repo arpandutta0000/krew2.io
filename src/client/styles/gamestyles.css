@@ -29,7 +29,7 @@
 body {
     margin: 0;
     overflow: hidden;
-    background-color: #000;
+    background-color: #000 !important;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
