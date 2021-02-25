@@ -145,7 +145,7 @@ module.exports = grunt => {
                     // Libs CSS
                     {
                         expand: false,
-                        src: [`src/client/libs/css/*.css`],
+                        src: [`src/client/assets/libs/css/*.css`],
                         dest: process.env.NODE_ENV === `prod` ? `dist/build/libs.min.css` : `src/client/build/libs.min.css`,
                     }
                 ]
@@ -161,14 +161,6 @@ module.exports = grunt => {
                         flatten: true,
                         src: [`src/client/*`, `!src/client/*.html`],
                         dest: `dist/`,
-                        filter: `isFile`
-                    },
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/libs/js/*.js`],
-                        dest: `dist/libs/js`,
                         filter: `isFile`
                     },
                     {
