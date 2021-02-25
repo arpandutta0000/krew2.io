@@ -14,18 +14,15 @@
     <meta property="og:title" content="Krew.io">
     <meta property="og:description" content="An online 3D browser game where you shoot ships and other players to earn money and rule the seven seas!">
 
+
     <!-- Get icons -->
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
 
-    <!-- Get local styles -->
-    <link rel="stylesheet" href="/libs/libs.min.css">
-    <link rel="stylesheet" href="/styles/gamestyles.min.css">
-
-    <!-- Get external styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css">
+    <!-- Get styles -->
+    <link rel="stylesheet" href="/build/gamestyles.min.css">
+    <link rel="stylesheet" href="/build/libs.min.css">
 
     <!-- Get scripts from Cloudflare CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
@@ -45,7 +42,16 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <!-- Get local scripts -->
-    <script src="/libs/libs.min.js"></script>
+    <script src="/libs/js/bootstrap.min.js"></script>
+    <script src="/libs/js/canvas.map.js"></script>
+    <script src="/libs/js/growl-notification.min.js"></script>
+    <script src="/libs/js/MTLLoader.js"></script>
+    <script src="/libs/js/OBJLoader.js"></script>
+    <script src="/libs/js/TGALoader.js"></script>
+    <script src="/libs/js/THREE.TextTexture.js"></script>
+    <script src="/libs/js/THREE.TextSprite.js"></script>
+    <script src="/libs/js/ua.js"></script>
+
 
     <!-- Get audio files -->
     <audio id="cannon" src="/assets/audio/Cannon.mp3"></audio>
@@ -71,6 +77,8 @@
     <audio id="switch-rod-cannon" src="/assets/audio/Switch Rod Cannon.mp3"></audio>
     <audio id="turning" src="/assets/audio/Turning.mp3"></audio>
     <audio id="wheelspin" src="/assets/audio/Wheel Spin.mp3"></audio>
+
+
 
     <!-- AdinPlay Ads Initialization -->
     <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js"></script>
@@ -1735,7 +1743,7 @@
 
     <!-- END Miscellaneous HTML -->
 
-    <script src="script/dist.min.js"></script>
+    <script src="/build/dist.min.js"></script>
 
 </body>
 
