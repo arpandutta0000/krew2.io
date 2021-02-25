@@ -8,9 +8,9 @@ const appMode = process.env.NODE_ENV;
 module.exports = {
     prod: {
         mode: `production`,
-        entry: [`./src/client/script/dist.js`],
+        entry: [`./src/client/build/dist.js`],
         output: {
-            path: path.resolve(__dirname, `dist/script`),
+            path: path.resolve(__dirname, `dist/build`),
             filename: `dist.min.js`
         },
         plugins: [new Webpack.IgnorePlugin(/node_modules/)],
@@ -30,9 +30,9 @@ module.exports = {
 
     dev: {
         mode: `production`,
-        entry: [`./src/client/script/dist.js`],
+        entry: [`./src/client/build/dist.js`],
         output: {
-            path: path.resolve(__dirname, `src/client/script`),
+            path: path.resolve(__dirname, `src/client/build`),
             filename: `dist.min.js`
         },
         plugins: [new Webpack.IgnorePlugin(/node_modules/)],
@@ -49,5 +49,4 @@ module.exports = {
         },
         target: `node`
     }
-
 };
