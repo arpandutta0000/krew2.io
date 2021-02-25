@@ -62,7 +62,7 @@ let PlayerLogic = {
 
                 // oval boat shape collision
                 if (_this.parent.arcFront > 0 && _this.position.z > 0) {
-                    var bound = _this.parent.size.x / 2 - _this.position.z * _this.parent.arcFront;
+                    let bound = _this.parent.size.x / 2 - _this.position.z * _this.parent.arcFront;
                     if (_this.position.x > 0) {
                         if (_this.position.x > bound) {
                             _this.position.x = bound;
@@ -74,7 +74,7 @@ let PlayerLogic = {
                     }
                 }
                 if (_this.parent.arcBack > 0 && _this.position.z < 0) {
-                    var bound = _this.parent.size.x / 2 + _this.position.z * _this.parent.arcBack;
+                    let bound = _this.parent.size.x / 2 + _this.position.z * _this.parent.arcBack;
                     if (_this.position.x > 0) {
                         if (_this.position.x > bound) {
                             _this.position.x = bound;
@@ -274,11 +274,11 @@ let PlayerLogic = {
             let islandPosition = new THREE.Vector3(0, 0, 0);
 
             if (_this.parent.netType === 5) {
-                var playerPosition = _this.geometry.position.clone();
+                let playerPosition = _this.geometry.position.clone();
 
                 islandPosition.y = playerPosition.y;
 
-                var distanceFromIsland = playerPosition.distanceTo(islandPosition);
+                let distanceFromIsland = playerPosition.distanceTo(islandPosition);
 
                 if (island.dockRadius - 2 < distanceFromIsland) { // note: players can exploit _this!
                     playerPosition.lerp(islandPosition, 1 - ((island.dockRadius - 2) / distanceFromIsland));
@@ -286,16 +286,14 @@ let PlayerLogic = {
                     _this.position.x = playerPosition.x;
                     _this.position.z = playerPosition.z;
                 }
-            }
-
-            if (_this.parent.netType === 1) {
+            } else if (_this.parent.netType === 1) {
                 let boat = entities[_this.parent.id];
-                var playerPosition = _this.geometry.getWorldPosition(new THREE.Vector3()).clone();
+                let playerPosition = _this.geometry.getWorldPosition(new THREE.Vector3()).clone();
 
                 playerPosition = island.geometry.worldToLocal(playerPosition);
                 islandPosition.y = playerPosition.y;
 
-                var distanceFromIsland = playerPosition.distanceTo(islandPosition);
+                let distanceFromIsland = playerPosition.distanceTo(islandPosition);
 
                 if (island.dockRadius - 2 < distanceFromIsland) {
                     playerPosition.lerp(islandPosition, 1 - ((island.dockRadius - 2.5) / distanceFromIsland));

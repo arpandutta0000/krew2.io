@@ -63,20 +63,23 @@ let updateLeaderboard = (scores) => {
     let playerScoreLength = playersListSortedByGold.length;
     let playercount = `${players.length} players`;
     let $playerScoreData = $(`<div id="player-leaderbord-data"/>`);
+    let clan;
 
     if (myPlayer) {
         for (; playerScoreIndex < 15 && playerScoreIndex < playerScoreLength; playerScoreIndex++) {
             let killScore = playersListSortedByGold[playerScoreIndex].sS;
             let deathScore = playersListSortedByGold[playerScoreIndex].d;
             let playerLevel = playersListSortedByGold[playerScoreIndex].l;
-            var clan = (playersListSortedByGold[playerScoreIndex].c !== undefined && playersListSortedByGold[playerScoreIndex].c !== ``) ? `[${playersListSortedByGold[playerScoreIndex].c}]` : ``;
+            clan = (playersListSortedByGold[playerScoreIndex].c !== undefined && playersListSortedByGold[playerScoreIndex].c !== ``) ? `[${playersListSortedByGold[playerScoreIndex].c}]` : ``;
+            let damageScore;
             if (playersListSortedByGold[playerScoreIndex].s >= 1050 && playersListSortedByGold[playerScoreIndex].s.length <= 6) {
-                var damageScore = `${Math.floor((playersListSortedByGold[playerScoreIndex].s - 50) / 1000)} K`;
+                damageScore = `${Math.floor((playersListSortedByGold[playerScoreIndex].s - 50) / 1000)} K`;
             } else {
                 damageScore = playersListSortedByGold[playerScoreIndex].s - 50;
             }
+            let goldScore;
             if (playersListSortedByGold[playerScoreIndex].g >= 1000 && playersListSortedByGold[playerScoreIndex].g.toString().length <= 6) {
-                var goldScore = `${Math.floor(playersListSortedByGold[playerScoreIndex].g / 1000)} K`;
+                goldScore = `${Math.floor(playersListSortedByGold[playerScoreIndex].g / 1000)} K`;
             } else if (playersListSortedByGold[playerScoreIndex].g.toString().length >= 7) {
                 goldScore = `${Math.floor(playersListSortedByGold[playerScoreIndex].g / 1000) / 1000} M`;
             } else {
@@ -122,16 +125,18 @@ let updateLeaderboard = (scores) => {
     let $leaderboard_data = $(`<div id="leaderboard-data-div"/>`);
     let scoreIndex = 0;
     let scoreLength = boatsListSortedByGold.length;
+    let boatcount;
 
     if (myPlayer.parent) {
         for (; scoreIndex < 10 && scoreIndex < scoreLength; scoreIndex++) {
-            var boatcount = `${scores.boats.length} boats`;
+            boatcount = `${scores.boats.length} boats`;
             let killcount = boatsListSortedByGold[scoreIndex].ok;
             let tradecount = boatsListSortedByGold[scoreIndex].oc;
-            var clan = (boatsListSortedByGold[scoreIndex].c !== undefined && boatsListSortedByGold[scoreIndex].c !== ``) ? `[${boatsListSortedByGold[scoreIndex].c}]` : ``;
+            clan = (boatsListSortedByGold[scoreIndex].c !== undefined && boatsListSortedByGold[scoreIndex].c !== ``) ? `[${boatsListSortedByGold[scoreIndex].c}]` : ``;
             let other_lvl = boatsListSortedByGold[scoreIndex].oql;
+            let display_gold;
             if (boatsListSortedByGold[scoreIndex].g >= 1000 && boatsListSortedByGold[scoreIndex].g.toString().length <= 6) {
-                var display_gold = `${Math.floor(boatsListSortedByGold[scoreIndex].g / 1000)} K`;
+                display_gold = `${Math.floor(boatsListSortedByGold[scoreIndex].g / 1000)} K`;
             } else if (boatsListSortedByGold[scoreIndex].g.toString().length >= 7) {
                 display_gold = `${Math.floor(boatsListSortedByGold[scoreIndex].g / 1000) / 1000} M`;
             } else {

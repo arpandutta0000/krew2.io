@@ -61,7 +61,7 @@ let createGame = () => {
 
     // Main loop function to render the game
     let lastFrameTime = performance.now();
-    var loop = () => {
+    let loop = () => {
         //  Calculate time between frames
         let thisFrame = performance.now();
 

@@ -36,7 +36,6 @@ let ProjectileLogic = {
                 }
             } else {
                 let fromPlayertoRod = playerPos.distanceTo(_this.shooterStartPos);
-                // var fromPlayertoRod = distance(playerPos,_this.shooterStartPos)
                 if (fromPlayertoRod >= 40) {
                     _this.reel = true;
                     entities[_this.shooterid].isFishing = false;
@@ -85,6 +84,8 @@ let ProjectileLogic = {
         // check if we didn't set a model yet
         let shootingPlayer = entities[_this.shooterid];
 
+        let boundariesBox = new THREE.Box3();
+
         if (shootingPlayer === undefined ||
             (shootingPlayer && shootingPlayer.parent && shootingPlayer.parent.hp <= 0)) {
             scene.remove(_this.geometry);
@@ -116,7 +117,6 @@ let ProjectileLogic = {
                 // _this.line.name = shootingPlayer.id + "fishing_line";
                 _this.line.frustumCulled = false;
                 if (entities[_this.shooterid].weapon) {
-                    var boundariesBox = new THREE.Box3();
                     boundariesBox.setFromObject(entities[_this.shooterid].weapon);
                     _this.startPoint.set(boundariesBox.max.x - 0.5, boundariesBox.max.y, boundariesBox.max.z - 0.5);
                 }
@@ -139,7 +139,6 @@ let ProjectileLogic = {
         if (_this.line) {
             // Make fishing line follow rod position
             if (shootingPlayer && shootingPlayer.weapon) {
-                var boundariesBox = new THREE.Box3();
                 boundariesBox.setFromObject(entities[_this.shooterid].weapon);
                 _this.startPoint.set(boundariesBox.max.x - 0.5, boundariesBox.max.y, boundariesBox.max.z - 0.5);
             }

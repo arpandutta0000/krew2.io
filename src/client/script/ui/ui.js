@@ -102,8 +102,9 @@ let ui = {
                 }, 3500);
             }
             // shorten gold number by using K for thousand and M for million
+            let gold_short;
             if (gold > 99999 && gold < 999999) {
-                var gold_short = `${Math.floor(gold / 1000)} K`;
+                gold_short = `${Math.floor(gold / 1000)} K`;
             } else if (gold > 999999) {
                 gold_short = `${Math.floor(gold / 1000) / 1000} M`;
             } else {
@@ -121,8 +122,9 @@ let ui = {
                 }, 3500);
             }
             // shorten gold number by using K for thousand and M for million
+            let gold_short;
             if (gold > 99999 && gold < 999999) {
-                var gold_short = `${Math.floor(gold / 1000)} K`;
+                gold_short = `${Math.floor(gold / 1000)} K`;
             } else if (gold > 999999) {
                 gold_short = `${Math.floor(gold / 1000) / 1000} M`;
             } else {
@@ -155,8 +157,10 @@ let ui = {
      * Create quality selection menu
      */
     setQualitySettings: () => {
+        let $quality;
+
         $(`#quality-list`).html(``);
-        var $quality = $(`<option/>`, {
+        $quality = $(`<option/>`, {
             html: `High Quality (slow)`,
             value: 3
         });
@@ -175,7 +179,7 @@ let ui = {
         $(`#quality-list`).append($quality);
 
         $(`#account-quality-list`).html(``);
-        var $quality = $(`<option/>`, {
+        $quality = $(`<option/>`, {
             html: `High Quality (slow)`,
             value: 3
         });

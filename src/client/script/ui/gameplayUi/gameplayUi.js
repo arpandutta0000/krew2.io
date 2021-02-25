@@ -602,7 +602,7 @@ let initGameUi = () => {
     $(`#krew-list`).on(`click`, (e) => {
         let dataEvent = e.target.getAttribute(`data-event`);
         if (dataEvent === `kick`) {
-            var dataId = e.target.getAttribute(`data-id`);
+            let dataId = e.target.getAttribute(`data-id`);
             if (typeof dataId === `string` && dataId.length > 0) {
                 socket.emit(`bootMember`, dataId);
                 $(e.target).closest(`.player-list-item`).remove();
@@ -611,7 +611,7 @@ let initGameUi = () => {
                 }
             }
         } else if (dataEvent === `transfer`) {
-            var dataId = e.target.getAttribute(`data-id`);
+            let dataId = e.target.getAttribute(`data-id`);
             if (typeof dataId === `string` && dataId.length > 0) {
                 socket.emit(`transferShip`, dataId);
                 if ($(`#buy-goods`).hasClass(`active`)) {

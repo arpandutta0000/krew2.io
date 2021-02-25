@@ -42,8 +42,9 @@ let clanUi = {
                     let tableHeader = `<tr><th>Player name</th><th>Clan Role</th>${(myPlayer.clanLeader === true || myPlayer.clanOwner === true) ? `<th>Action</th>` : ``}</tr>`;
                     clanTable.html(tableHeader);
                     for (let cl in callback.clanLeader) {
+                        let clanLeaderContent;
                         if (callback.clanLeader[cl] === callback.clanOwner) {
-                            var clanLeaderContent = `<tr><td>${callback.clanLeader[cl]}</td><td>Owner</td></tr>`;
+                            clanLeaderContent = `<tr><td>${callback.clanLeader[cl]}</td><td>Owner</td></tr>`;
                         } else {
                             clanLeaderContent = `<tr><td>${callback.clanLeader[cl]}</td><td>Leader</td>${myPlayer.clanOwner === true ? `<td><div data-tooltip="Kick from clan" data-tooltip-location="top" style="display: inline-block"><i data-event="kick-clan" data-id="${callback.clanLeader[cl]}" class="icofont icofont-delete btn btn-danger clan-button"></i></div></td>` : ``}</tr>`;
                         }

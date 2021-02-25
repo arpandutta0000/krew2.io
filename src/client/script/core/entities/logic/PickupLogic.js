@@ -140,11 +140,10 @@ let PickupLogic = {
                         ($_this.type === 2 || $_this.type === 3)
                     ) {
                         let Raycaster = new THREE.Raycaster();
-                        var origin;
-                        var direction;
+                        let origin;
+                        let direction;
                         let height = 100;
-                        var object;
-                        var collision;
+                        let collision;
                         let objects = [];
                         let min = {
                             object: undefined,
