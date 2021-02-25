@@ -21,11 +21,11 @@ $(document).ready(() => {
     // Check if player is on Krew.io and not a game portal
     if (!window.location.hostname.endsWith(`krew.io`)) $(`#play-on-krewio-message`).show();
 
-    // Check if user is using adblock
-    adBlockCheck();
-
     // Init ads
-    initAds();
+    if (window.location.hostname !== `localhost`) {
+        adBlockCheck();
+        initAds();
+    }
 
     // Close socket connection on unload
     $(window).on(`unload`, () => {
