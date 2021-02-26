@@ -36,9 +36,7 @@ passport.use(`login`, new LocalStrategy({
                 return done(null, user);
             } else return done(`Incorrect username / password`, false);
         });
-    }).catch(err => {
-        return done(err, false);
-    });
+    }).catch(err => done(err, false));
 }));
 
 // Registration.

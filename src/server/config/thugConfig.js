@@ -1,5 +1,6 @@
 module.exports = {
-    Admins: [{
+    Admins: [
+        {
             name: `devclied`,
             hash: `85278e7a17c0f9d3af915746df605017`
         },
@@ -26,9 +27,10 @@ module.exports = {
         {
             name: `Speedy_Sloth`,
             hash: `d44f081ab871f64193688aa973480807`
-        },
+        }
     ],
-    Mods: [{
+    Mods: [
+        {
             name: `Fiftyyyyy`,
             hash: `6375f9fa6da480249bb2ad20a7ff04cb`
         },
@@ -41,7 +43,8 @@ module.exports = {
             hash: `ccd4fce3517aae9a4b0ba119c092fe2b`
         }
     ],
-    Helpers: [{
+    Helpers: [
+        {
             name: `Tommy_Finle`,
             hash: ``
         },
@@ -54,7 +57,8 @@ module.exports = {
             hash: ``
         }
     ],
-    Designers: [{
+    Designers: [
+        {
             name: `bread`,
             hash: ``
         },

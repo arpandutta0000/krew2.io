@@ -32,33 +32,21 @@ function Y (d, _) {
     return Array(m, f, r, i);
 }
 
-function md5_cmn (d, _, m, f, r, i) {
-    return safe_add(bit_rol(safe_add(safe_add(_, d), safe_add(f, i)), r), m);
-}
+const md5_cmn = (d, _, m, f, r, i) => safe_add(bit_rol(safe_add(safe_add(_, d), safe_add(f, i)), r), m);
 
-function md5_ff (d, _, m, f, r, i, n) {
-    return md5_cmn(_ & m | ~_ & f, d, _, r, i, n);
-}
+const md5_ff = (d, _, m, f, r, i, n) => md5_cmn(_ & m | ~_ & f, d, _, r, i, n);
 
-function md5_gg (d, _, m, f, r, i, n) {
-    return md5_cmn(_ & f | m & ~f, d, _, r, i, n);
-}
+const md5_gg = (d, _, m, f, r, i, n) => md5_cmn(_ & f | m & ~f, d, _, r, i, n);
 
-function md5_hh (d, _, m, f, r, i, n) {
-    return md5_cmn(_ ^ m ^ f, d, _, r, i, n);
-}
+const md5_hh = (d, _, m, f, r, i, n) => md5_cmn(_ ^ m ^ f, d, _, r, i, n);
 
-function md5_ii (d, _, m, f, r, i, n) {
-    return md5_cmn(m ^ (_ | ~f), d, _, r, i, n);
-}
+const md5_ii = (d, _, m, f, r, i, n) => md5_cmn(m ^ (_ | ~f), d, _, r, i, n);
 
 function safe_add (d, _) {
     let m = (65535 & d) + (65535 & _);
     return (d >> 16) + (_ >> 16) + (m >> 16) << 16 | 65535 & m;
 }
 
-function bit_rol (d, _) {
-    return d << _ | d >>> 32 - _;
-}
+const bit_rol = (d, _) => d << _ | d >>> 32 - _;
 
 module.exports = MD5;

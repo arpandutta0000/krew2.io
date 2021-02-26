@@ -120,7 +120,6 @@ let setUpKeyboard = () => {
                     4e3
                 );
             }
-
         } else if (evt.keyCode === 90 && !ui.textFieldFocused()) { // Z to dock
             if (myPlayer &&
                 myPlayer.parent &&

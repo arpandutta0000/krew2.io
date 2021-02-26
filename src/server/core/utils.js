@@ -1,6 +1,4 @@
-let lerp = function (start, end, amount) {
-    return (1 - amount) * start + amount * end;
-};
+let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
 
 let charLimit = function (text, chars, suffix) {
     chars = chars || 140;
@@ -13,9 +11,7 @@ let charLimit = function (text, chars, suffix) {
     return text;
 };
 
-let entityDistance = function (a, b) {
-    return Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
-};
+let entityDistance = (a, b) => Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 
 function distance (p1, p2) {
     let dx = p2.x - p1.x;
@@ -46,33 +42,19 @@ function anglediff (firstAngle, secondAngle) {
     return difference;
 }
 
-function angleToVector (angle) {
-    return new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
-}
+const angleToVector = (angle) => new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
 
-function rotationToPosition (origin, target) {
-    return worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
-}
+const rotationToPosition = (origin, target) => worldAngle(new THREE.Vector2(target.x - origin.x, target.z - origin.z));
 
-function rotationToObject (origin, target) {
-    return worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z));
-}
+const rotationToObject = (origin, target) => worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z));
 
-function distanceToPosition (origin, target) {
-    return origin.position.distanceTo(target);
-}
+const distanceToPosition = (origin, target) => origin.position.distanceTo(target);
 
-function distanceToPositionSquared (origin, target) {
-    return origin.position.distanceToSquared(target);
-}
+const distanceToPositionSquared = (origin, target) => origin.position.distanceToSquared(target);
 
-function distanceToObject (origin, target) {
-    return origin.position.distanceTo(target.position);
-}
+const distanceToObject = (origin, target) => origin.position.distanceTo(target.position);
 
-function distanceToObjectSquared (origin, target) {
-    return origin.position.distanceToSquared(target.position);
-}
+const distanceToObjectSquared = (origin, target) => origin.position.distanceToSquared(target.position);
 
 /**
  * This method checks if a 3d object is in the players vision range

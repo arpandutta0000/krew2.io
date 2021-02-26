@@ -16,7 +16,6 @@
     "plugins": [
         "prefer-arrow"
     ],
-    "ignorePatterns": ["**/assets/js/*.js", "**/server/", "dist.min.js", "core_concatenated.js"],
     "rules": {
         "func-call-spacing": 1,
         "no-unexpected-multiline": 1,

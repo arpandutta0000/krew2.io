@@ -1,1 +1,4 @@
 *.min.js
+**/libs/*
+**/assets/js/*
+core_concatenated.js

@@ -57,9 +57,7 @@ function Pickup (size, x, z, type, specialBonus) {
      */
 }
 
-Pickup.prototype.randomTime = function (min, max) {
-    return (Math.floor(Math.random() * (max - min)) + min) * 1000;
-};
+Pickup.prototype.randomTime = (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000;
 
 Pickup.prototype.randomMovementLogic = function () {
     this.randomMovementLogicTime = this.randomMovementLogicTime || Date.now();

@@ -109,8 +109,7 @@ let allocatePlayerToBoat = (playerEntity, boatId, spawnPoint) => {
                     }, 200);
                 }
             }
-        }
-        else spawnNewPlayerOnSea(boat, playerEntity);
+        } else spawnNewPlayerOnSea(boat, playerEntity);
 
         setTimeout(() => {
             playerEntity.disableSnapAndDelta = false;

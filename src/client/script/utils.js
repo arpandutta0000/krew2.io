@@ -194,10 +194,10 @@ let inPlayersVision = (function () {
 
         frustum.setFromMatrix(
             new THREE.Matrix4()
-            .multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+                .multiplyMatrices(
+                    camera.projectionMatrix,
+                    camera.matrixWorldInverse
+                )
         );
 
         // Return if the object is in the frustum

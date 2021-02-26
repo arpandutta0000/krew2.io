@@ -417,7 +417,7 @@ let initGameUi = () => {
         }
     });
 
-    /* Game settings panel*/
+    /* Game settings panel */
     $(`#game-settings`).on(`click`, () => {
         $(`#ship-status`).removeClass(`active`);
         $(`#clan-management`).removeClass(`active`);

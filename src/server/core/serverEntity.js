@@ -113,6 +113,4 @@ let removeEntity = function (entity) {
     }
 };
 
-let randomid = function () {
-    return Math.random().toString(36).substring(6, 10);
-};
+let randomid = () => Math.random().toString(36).substring(6, 10);

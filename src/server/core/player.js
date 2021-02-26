@@ -148,21 +148,13 @@ function Player (data) {
     };
     let _this = this;
     this.pointsFormula = {
-        getFireRate: function () {
-            return (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 1.4;
-        },
+        getFireRate: () => (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 1.4,
 
-        getDistance: function () {
-            return (_this.points.distance >= 50 ? 50 : _this.points.distance) / 2;
-        },
+        getDistance: () => (_this.points.distance >= 50 ? 50 : _this.points.distance) / 2,
 
-        getDamage: function () {
-            return (_this.points.damage >= 50 ? 50 : _this.points.damage) / 2;
-        },
+        getDamage: () => (_this.points.damage >= 50 ? 50 : _this.points.damage) / 2,
 
-        getExperience: function (damage) {
-            return parseInt(damage * 2.4);
-        }
+        getExperience: (damage) => parseInt(damage * 2.4)
     };
 
     this.usedPoints = 0;
@@ -577,6 +569,4 @@ Player.prototype.addScore = function (score) {
     this.score += score;
 };
 
-let parseBool = function (b) {
-    return b === true || b === `true`;
-};
+let parseBool = (b) => b === true || b === `true`;

@@ -113,10 +113,12 @@ router.post(`/register`, (req, res, next) => {
                             name: `Krew.io`,
                             email: `verify@krew2.io`
                         },
-                        to: [{
-                            name: user.username,
-                            email: user.email
-                        }]
+                        to: [
+                            {
+                                name: user.username,
+                                email: user.email
+                            }
+                        ]
                     };
 
                     await sendpulse.smtpSendMail(answerGetter, email);
@@ -290,10 +292,12 @@ router.post(`/change_email`, (req, res, next) => {
                     name: `Krew.io`,
                     email: `verify@krew2.io`
                 },
-                to: [{
-                    name: user.username,
-                    email: user.email
-                }]
+                to: [
+                    {
+                        name: user.username,
+                        email: user.email
+                    }
+                ]
             };
 
             await sendpulse.smtpSendMail(answerGetter, email);
@@ -506,10 +510,12 @@ router.post(`/reset_password`, (req, res, next) => {
                         name: `Krew.io`,
                         email: `verify@krew2.io`
                     },
-                    to: [{
-                        name: user.username,
-                        email: user.email
-                    }]
+                    to: [
+                        {
+                            name: user.username,
+                            email: user.email
+                        }
+                    ]
                 };
 
                 await sendpulse.smtpSendMail(answerGetter, email);
