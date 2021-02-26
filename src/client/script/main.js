@@ -5,6 +5,7 @@ $(document).ready(() => {
         console.clear();
         adBlockCheck();
         initAds();
+        if (!window.location.hostname.endsWith(`krew.io`) || window.frameElement != null || self != top) $(`#play-on-krewio-message`).show();
     }
 
     // Print console header
@@ -21,9 +22,6 @@ $(document).ready(() => {
 
     // Create the wall of fame
     splash.createWallOfFame();
-
-    // Check if player is on Krew.io and not a game portal
-    if (!window.location.hostname.endsWith(`krew.io`)) $(`#play-on-krewio-message`).show();
 
     // Close socket connection on unload
     $(window).on(`unload`, () => {
