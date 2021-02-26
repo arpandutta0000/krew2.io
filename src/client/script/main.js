@@ -1,7 +1,11 @@
 /* When document is ready */
 $(document).ready(() => {
-    // Clear console
-    console.clear();
+    // If not on localhost, clear console and init ads
+    if (window.location.hostname !== `localhost`) {
+        console.clear();
+        adBlockCheck();
+        initAds();
+    }
 
     // Print console header
     printConsoleHeader();
@@ -20,12 +24,6 @@ $(document).ready(() => {
 
     // Check if player is on Krew.io and not a game portal
     if (!window.location.hostname.endsWith(`krew.io`)) $(`#play-on-krewio-message`).show();
-
-    // Init ads
-    if (window.location.hostname !== `localhost`) {
-        adBlockCheck();
-        initAds();
-    }
 
     // Close socket connection on unload
     $(window).on(`unload`, () => {
