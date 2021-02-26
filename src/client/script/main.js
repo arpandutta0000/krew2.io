@@ -2,9 +2,14 @@
 $(document).ready(() => {
     // If not on localhost, clear console and init ads
     if (window.location.hostname !== `localhost`) {
+        // Clear console
         console.clear();
+        
+        // Initiate ads
         adBlockCheck();
         initAds();
+
+        // Check if Krew is on a different site / in an iframe
         if (
             !window.location.hostname.endsWith(`krew.io`) ||
             window.location != window.parent.location ||
