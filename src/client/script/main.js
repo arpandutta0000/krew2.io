@@ -4,7 +4,7 @@ $(document).ready(() => {
     if (window.location.hostname !== `localhost`) {
         // Clear console
         console.clear();
-        
+
         // Initiate ads
         adBlockCheck();
         initAds();
@@ -12,7 +12,7 @@ $(document).ready(() => {
         // Check if Krew is on a different site / in an iframe
         if (
             !window.location.hostname.endsWith(`krew.io`) ||
-            window.location != window.parent.location ||
+            (window.parent != undefined && window.location != window.parent.location) ||
             window.frameElement != null ||
             self != top
         ) $(`#play-on-krewio-message`).show();
