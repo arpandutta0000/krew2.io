@@ -5,7 +5,12 @@ $(document).ready(() => {
         console.clear();
         adBlockCheck();
         initAds();
-        if (!window.location.hostname.endsWith(`krew.io`) || window.frameElement != null || self != top) $(`#play-on-krewio-message`).show();
+        if (
+            !window.location.hostname.endsWith(`krew.io`) ||
+            window.location != window.parent.location ||
+            window.frameElement != null ||
+            self != top
+        ) $(`#play-on-krewio-message`).show();
     }
 
     // Print console header
