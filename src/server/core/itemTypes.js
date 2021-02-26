@@ -114,13 +114,13 @@ let itemTypes = [
     {
         id: 11,
         name: `Demolisher`,
-        Description: `+15 cannon damage<br/>+40 cannon fire rate<br/>Requirements:<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
+        Description: `+10 cannon damage<br/>+40 cannon fire rate<br/>Requirements:<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
         price: 4e5,
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
             attackSpeed: `40`,
-            attackDamage: `15`
+            attackDamage: `10`
         }
     },
     {
