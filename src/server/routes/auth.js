@@ -15,6 +15,12 @@ const User = require(`../models/user.model.js`);
 const passport = require(`passport`);
 
 router.post(`/register`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return res.json({
+            success: `Logged in`
+        });
+    }
+
     if (!req.body[`g-recaptcha-response`] || req.body[`g-recaptcha-response`].length === 0) return res.json({
         errors: `Please verify the CAPTCHA`
     });
@@ -113,12 +119,10 @@ router.post(`/register`, (req, res, next) => {
                             name: `Krew.io`,
                             email: `verify@krew2.io`
                         },
-                        to: [
-                            {
-                                name: user.username,
-                                email: user.email
-                            }
-                        ]
+                        to: [{
+                            name: user.username,
+                            email: user.email
+                        }]
                     };
 
                     await sendpulse.smtpSendMail(answerGetter, email);
@@ -292,12 +296,10 @@ router.post(`/change_email`, (req, res, next) => {
                     name: `Krew.io`,
                     email: `verify@krew2.io`
                 },
-                to: [
-                    {
-                        name: user.username,
-                        email: user.email
-                    }
-                ]
+                to: [{
+                    name: user.username,
+                    email: user.email
+                }]
             };
 
             await sendpulse.smtpSendMail(answerGetter, email);
@@ -510,12 +512,10 @@ router.post(`/reset_password`, (req, res, next) => {
                         name: `Krew.io`,
                         email: `verify@krew2.io`
                     },
-                    to: [
-                        {
-                            name: user.username,
-                            email: user.email
-                        }
-                    ]
+                    to: [{
+                        name: user.username,
+                        email: user.email
+                    }]
                 };
 
                 await sendpulse.smtpSendMail(answerGetter, email);
