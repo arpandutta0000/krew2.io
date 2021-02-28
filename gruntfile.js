@@ -128,7 +128,11 @@ module.exports = grunt => {
             staffui: {
                 src: [
                     `src/client/script/config/clientConfig.js`,
-                    `src/client/script/staffUI/staffUI.js`
+
+                    `src/client/script/staffUI/connection.js`,
+                    `src/client/script/staffUI/ui.js`,
+
+                    `src/client/script/staffUI/main.js`
                 ],
                 dest: `dist/build/staffUI.js`
             }
@@ -142,13 +146,11 @@ module.exports = grunt => {
         // Minify CSS
         cssmin: {
             styles: {
-                files: [
-                    {
-                        expand: false,
-                        src: [`src/client/styles/*.css`, `src/client/libs/css/*.css`],
-                        dest: `dist/build/styles.min.css`
-                    }
-                ]
+                files: [{
+                    expand: false,
+                    src: [`src/client/styles/*.css`, `src/client/libs/css/*.css`],
+                    dest: `dist/build/styles.min.css`
+                }]
             }
         },
 
@@ -181,16 +183,14 @@ module.exports = grunt => {
 
             // Copy libs to build
             libs: {
-                files: [
-                    {
-                        expand: true,
-                        nonull: true,
-                        flatten: true,
-                        src: [`src/client/libs/js/*`],
-                        dest: `dist/build/libs/`,
-                        filter: `isFile`
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    nonull: true,
+                    flatten: true,
+                    src: [`src/client/libs/js/*`],
+                    dest: `dist/build/libs/`,
+                    filter: `isFile`
+                }]
             }
         },
 
