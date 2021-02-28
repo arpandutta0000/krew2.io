@@ -44,6 +44,9 @@ let initStaffUISocket = (socket) => {
     socket.on(`disconnect`, () => {
         log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`);
     })
+
+    // Send first snapshot
+    socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 }
 
 module.exports = {
