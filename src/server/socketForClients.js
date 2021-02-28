@@ -843,7 +843,7 @@ io.on(`connection`, async socket => {
                 } else if (msgData.recipient === `staff` && isStaff) {
                     for (let i in core.players) {
                         let player = core.players[i];
-                        if (isStaff) player.socket.emit(`chat message`, {
+                        if (Admins.includes(player.name) || Mods.includes(player.name) || Helpers.includes(player.name) || Designers.includes(player.name) || player.isAdmin || player.isMod || player.isHelper) player.socket.emit(`chat message`, {
                             playerId: playerEntity.id,
                             playerName: playerEntity.name,
                             playerClan: playerEntity.clan ? playerEntity.clan : undefined,
