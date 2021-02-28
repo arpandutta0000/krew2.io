@@ -62,8 +62,8 @@ let updateServerList = () => {
  * @param {number} pid Server pid
  */
 let initConnection = (pid) => {
-    // Return if a player is already in game
-    if (socket !== undefined) return;
+    // Disconnect socket if already connected
+    if (socket !== undefined) socket.disconnect();
 
     // Connect to each IP to request a load
     if (getUrlVars().pid && ui.serverList[getUrlVars().pid]) pid = getUrlVars().pid;

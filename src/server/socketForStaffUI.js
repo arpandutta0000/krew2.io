@@ -21,10 +21,7 @@ let authStaffUISocket = (socket) => {
             username: socket.handshake.auth.username
         }).then((user) => {
             if (!user || user.password !== socket.handshake.auth.password) return socket.disconnect();
-            else {
-                log(`green`, `Staff ${user.username} successfully connected to Staff UI. Initiating Staff UI socket binds...`);
-                return initStaffUISocket(socket);
-            }
+            else return initStaffUISocket(socket);
         });
     } else return socket.disconnect();
 };
@@ -35,7 +32,18 @@ let authStaffUISocket = (socket) => {
  * @param {object} socket Socket object
  */
 let initStaffUISocket = (socket) => {
-    console.log(socket.handshake.auth)
+    let staff = {
+        username: socket.handshake.auth.username,
+        role: config.admins.includes(socket.handshake.auth.username) ? `admin` : (config.mods.includes(socket.handshake.auth.username) ? `mod` : `helper`),
+        serverNumber: config.gamePorts.indexOf(parseInt(socket.handshake.headers.host.substr(-4))) + 1
+    };
+
+    log(`green`, `Staff "${staff.username}" connected to Staff UI bound to server ${staff.serverNumber}`)
+
+
+    socket.on(`disconnect`, () => {
+        log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`);
+    })
 }
 
 module.exports = {
