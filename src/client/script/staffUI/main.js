@@ -2,6 +2,7 @@
  * Variables
  */
 let socket;
+let entities = {};
 let headers = {};
 
 /**
