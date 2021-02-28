@@ -2,6 +2,7 @@
  * Variables
  */
 let socket;
+let headers = {};
 
 /**
  * Parse URL info
@@ -12,12 +13,17 @@ let getUrlVars = () => {
     return vars;
 };
 
+let authenticate = () => $.get(`${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/authenticated`).then((response) => {
+    headers.username = !response.isLoggedIn ? undefined : response.username;
+    headers.password = !response.isLoggedIn ? undefined : response.password;
+});
+
 /**
  * Update server list
  */
 let updateServerList = () => {
     $.ajax({
-        url: `${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``)}/get_servers`,
+        url: `${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/get_servers`,
         data: {
             gameId: `59a714c837cc44805415df18`
         },
@@ -87,7 +93,12 @@ let initConnection = (pid) => {
     socket = io.connect(url, {
         secure: true,
         rejectUnauthorized: false,
-        withCredentials: true
+        withCredentials: true,
+        auth: {
+            type: `staffUI`,
+            username: headers.username,
+            password: headers.password
+        }
     });
 };
 
@@ -97,3 +108,13 @@ let initConnection = (pid) => {
 let ui = {
 
 };
+
+$(document).ready(async () => {
+    await authenticate();
+    await updateServerList();
+
+    $(`#connect-button`).on(`click`, () => {
+        /* Connect to a server */
+        initConnection($(`#server-list`).val());
+    })
+});
