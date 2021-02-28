@@ -109,7 +109,7 @@ Mute.deleteMany(() => log(`cyan`, `Deleted all mutes.`));
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
-    if (socket.handshake.auth != undefined && socket.handshake.auth.type === `staffUI`) return socketForStaffUI(socket);
+    if (socket.handshake.auth != undefined && socket.handshake.auth.type === `staffUI`) return socketForStaffUI.authStaffUISocket(socket);
 
     let krewioData;
     // let christmasGold = 0;
