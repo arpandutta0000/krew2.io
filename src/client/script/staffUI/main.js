@@ -12,6 +12,7 @@ $(document).ready(async () => {
     authenticate();
 
     // Update the server list every 30 seconds
+    ui.updateServerList();
     setInterval(ui.updateServerList, 3e4);
 
     $(`#connect-button`).on(`click`, () => {
