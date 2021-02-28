@@ -14,6 +14,7 @@ const md5 = require(`./utils/md5.js`);
 const mongoose = require(`mongoose`);
 const xssFilters = require(`xss-filters`);
 const dotenv = require(`dotenv`).config();
+const socketForStaffUI = require(`./socketForStaffUI.js`);
 
 const {
     exec
@@ -108,6 +109,8 @@ Mute.deleteMany(() => log(`cyan`, `Deleted all mutes.`));
 
 // Socket connection handling on server.
 io.on(`connection`, async socket => {
+    if (socket.handshake.auth != undefined && socket.handshake.auth.type === `staffUI`) return socketForStaffUI(socket);
+
     let krewioData;
     // let christmasGold = 0;
 
