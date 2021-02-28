@@ -111,6 +111,7 @@ module.exports = grunt => {
 
                     `src/client/script/core/geometry/geometryModules/loader.js`,
                     `src/client/script/core/geometry/geometryModules/particles.js`,
+                    `src/client/script/core/geometry/geometryModules/sky.js`,
                     `src/client/script/core/geometry/geometryModules/water.js`,
 
                     `src/client/script/core/geometry/environment.js`,

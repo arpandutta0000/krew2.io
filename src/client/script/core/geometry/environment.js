@@ -14,29 +14,13 @@ let setUpEnvironment = () => {
     coldAmbientlight = new THREE.AmbientLight(0xd4e4ff, 0.3);
     scene.add(coldAmbientlight);
 
-    // Add ceiling
-    ceiling = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(config.worldsize * 1.5, config.worldsize * 1.5),
-        materials.sky
-    );
-    ceiling.rotation.x = -Math.PI * 0.5;
-    ceiling.position.set(config.worldsize * 0.5, 90, config.worldsize * 0.5);
-    scene.add(ceiling);
-
-    // Add environment sphere
-    envSphere = new THREE.Mesh(
-        new THREE.SphereGeometry(config.worldsize * 2),
-        materials.sky
-    );
-    envSphere.position.set(config.worldsize * 0.5, 0, config.worldsize * 0.5);
-    scene.add(envSphere);
-
     // Add directional light
     light = new THREE.DirectionalLight(0xffdfab, 1.0);
     light.position.set(0, 10, 20);
     scene.add(light);
 
-    // Create water and world boundries
+    // Create sky, water, and world boundries
+    initSky();
     initWater();
     initWorldBoundries();
 };
