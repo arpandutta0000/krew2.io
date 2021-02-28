@@ -13,7 +13,7 @@ router.get(`/staff`, (req, res, next) => {
     if (req.isAuthenticated() && (config.admins.includes(req.user.username) || config.mods.includes(req.user.username) || config.helpers.includes(req.user.username))) {
         User.findOne({
             username: req.user.username
-        }).then(user => {
+        }).then((user) => {
             if (!user) return res.redirect(`../assets/video/youTried.mp4`);
             else if (user.password !== req.user.password) return res.redirect(`../assets/video/youTried.mp4`);
             else res.render(`staffUI.ejs`);
