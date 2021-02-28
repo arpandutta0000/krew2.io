@@ -124,6 +124,13 @@ module.exports = grunt => {
                     `src/client/script/core/connection.js`
                 ],
                 dest: `dist/build/dist.js`
+            },
+            staffui: {
+                src: [
+                    `src/client/script/config/clientConfig.js`,
+                    `src/client/script/staffUI.js`
+                ],
+                dest: `dist/build/staffUI.js`
             }
         },
 
@@ -199,6 +206,7 @@ module.exports = grunt => {
         `clean:dist`,
         `concat:server`,
         `concat:client`,
+        `concat:staffui`,
         `cssmin:styles`,
         `webpack:client`,
         `clean:preMinified`,
