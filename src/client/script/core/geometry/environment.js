@@ -3,10 +3,10 @@
  */
 let setUpEnvironment = () => {
     // Set scene background
-    scene.background = new THREE.Color(0xa8ebff);
+    scene.background = new THREE.Color(0x7de8ff);
 
     // Add Fog
-    scene.fog = new THREE.FogExp2(0xa8ebff, 0.007);
+    scene.fog = new THREE.FogExp2(0x7de8ff, 0.007);
 
     // Add warm and cold ambient lights
     warmAmbientlight = new THREE.AmbientLight(0xffd2ad, 0.7);
@@ -86,8 +86,8 @@ let doDaylightCycle = (time) => {
     };
 
     let daySceneColor = {
-        r: 168,
-        g: 235,
+        r: 125,
+        g: 232,
         b: 255
     };
     let nightSceneColor = {
