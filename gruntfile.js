@@ -128,7 +128,7 @@ module.exports = grunt => {
             staffui: {
                 src: [
                     `src/client/script/config/clientConfig.js`,
-                    `src/client/script/staffUI.js`
+                    `src/client/script/staffUI/staffUI.js`
                 ],
                 dest: `dist/build/staffUI.js`
             }
