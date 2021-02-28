@@ -14,11 +14,11 @@ router.get(`/staff`, (req, res, next) => {
         User.findOne({
             username: req.user.username
         }).then(user => {
-            if (!user) return res.redirect(`/`);
-            else if (user.password !== req.user.password) return res.redirect(`/`);
+            if (!user) return res.sendStatus(403);
+            else if (user.password !== req.user.password) return res.sendStatus(403);
             else res.render(`staffUI.ejs`);
         });
-    } else return res.redirect(`/`)
+    } else return res.sendStatus(403);
 });
 
 // GET Funny page.
