@@ -46,12 +46,14 @@ let initStaffUISocket = (socket) => {
     log(`green`, `Staff "${staff.username}" connected to Staff UI bound to server ${staff.serverNumber}`);
     socket.emit(`showCenterMessage`, `Connected to server ${staff.serverNumber}`, 3, 5e3);
 
-    socket.on(`disconnect`, () => {
-        log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`);
-    });
+
+
+    // On socket disconnect
+    socket.on(`disconnect`, () => log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`));
 
 
 
+    // Warn action
     socket.on(`warn`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
@@ -91,6 +93,7 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Unmute action
     socket.on(`unmute`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
@@ -125,6 +128,7 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Mute action
     socket.on(`mute`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
@@ -151,6 +155,7 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Kick action
     socket.on(`kick`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
@@ -177,6 +182,7 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Ban action
     socket.on(`ban`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
@@ -216,6 +222,13 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Chat Messages
+    bus.on(`msg`, (id, name, server, message) => socket.emit(`msg`, `[Server ${server}] ${name} » ${message}`));
+
+    // Logging Messages
+    bus.on(`report`, (title, description) => socket.emit(`log`, description));
+
+
     // Send first snapshot
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 };
@@ -240,7 +253,9 @@ let mutePlayer = (playerEntity, comment) => {
     mute.save(() => {
         playerEntity.isMuted = true;
         playerEntity.muteTimeout = setTimeout(() => {
-            Mute.deleteOne({ IP: playerEntity.socket.handshake.address }).then(() => {
+            Mute.deleteOne({
+                IP: playerEntity.socket.handshake.address
+            }).then(() => {
                 log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                 playerEntity.isMuted = false;
             });
