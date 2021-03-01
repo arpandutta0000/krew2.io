@@ -1,4 +1,4 @@
-let parseSnap = (snap) => {
+let parseSnap = (id, data) => {
     // Check if entity doesn't exist
     if (entities[id] === undefined) {
         // Switch for entity type
@@ -25,7 +25,5 @@ let parseSnap = (snap) => {
     }
 
     // Once the entity is defined, parse the snap data
-    if (entities[id] !== undefined) {
-        entities[id].parseSnap(data, id);
-    }
-}
+    if (entities[id] !== undefined) entities[id].parseSnap(data, id);
+};

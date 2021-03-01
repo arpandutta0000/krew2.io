@@ -55,10 +55,15 @@ let initSocketBinds = (socket) => {
     // On snaps
     socket.on(`s`, (data) => {
         data = JSON.parse(LZString.decompress(data));
-        for (let e in data) {
-            console.log(data[e])
-        }
-    })
+        for (let e in data) parseSnap(e, data[e])
+    });
+
+    // On score updates
+    socket.on(`scores`, (data) => {
+        data = JSON.parse(LZString.decompress(data));
+        for (let e in data.players) parseScores(data.players[e]);
+        for (let e in data.boats) parseScores(data.boats[e]);
+    });
 }
 
 /**

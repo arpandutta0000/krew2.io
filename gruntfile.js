@@ -128,8 +128,15 @@ module.exports = grunt => {
             staffui: {
                 src: [
                     `src/client/script/config/clientConfig.js`,
+                    `src/client/script/config/boatTypes.js`,
+
+                    `src/client/script/staffUI/classes/Entity.js`,
+                    `src/client/script/staffUI/classes/Boat.js`,
+                    `src/client/script/staffUI/classes/Player.js`,
 
                     `src/client/script/staffUI/connection.js`,
+                    `src/client/script/staffUI/parseScores.js`,
+                    `src/client/script/staffUI/parseSnap.js`,
                     `src/client/script/staffUI/ui.js`,
 
                     `src/client/script/staffUI/main.js`
