@@ -30,6 +30,26 @@ let ui = {
         for (let player of players) ui.addPlayerEntry(player);
     },
 
+    playerDataStaffActions: (id) => {
+        return `
+        <div id="warn-${id}" class="btn btn-secondary btn-sm action-warn">
+            <i class="icofont icofont-warning"></i>
+        </div>
+        <div id="unmute-${id}" class="btn btn-secondary btn-sm action-unmute">
+            <i class="icofont icofont-mic"></i>
+        </div>
+        <div id="mute-${id}" class="btn btn-secondary btn-sm action-mute">
+            <i class="icofont icofont-mic-mute"></i>
+        </div>
+        <div id="kick-${id}" class="btn btn-secondary btn-sm action-kick">
+            <i class="icofont icofont-boot"></i>
+        </div>
+        <div id="ban-${id}" class="btn btn-secondary btn-sm action-ban">
+            <i class="icofont icofont-hammer-alt"></i>
+        </div>
+        `
+    },
+
     addPlayerEntry: (player) => {
         if (player === undefined || player.parent === undefined || entities[player.parent.captainId] === undefined) return;
 
@@ -50,7 +70,7 @@ let ui = {
         <td>${player.parent.krewCount} / ${player.parent.maxKrewCapacity}</td>
         <td>${shipState}</td>
         <td>${player.parent.position.x} / ${player.parent.position.y} / ${player.parent.position.z}</td>
-        <td>Temp</td>
+        <td>${ui.playerDataStaffActions(player.id)}</td>
         </tr>`;
 
         $(`#data-table`).append(tableContent);
