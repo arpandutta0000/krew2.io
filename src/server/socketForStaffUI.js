@@ -228,6 +228,12 @@ let initStaffUISocket = (socket) => {
     // Logging Messages
     bus.on(`report`, (title, description) => socket.emit(`log`, description));
 
+    // Player Join
+    bus.on(`join`, (message) => socket.emit(`join`, message));
+
+    // Player Leave
+    bus.on(`leave`, (message) => socket.emit(`leave`, message));
+
 
     // Send first snapshot
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));

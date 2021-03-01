@@ -271,8 +271,11 @@ io.on(`connection`, async socket => {
         playerEntity.serverNumber = config.gamePorts.indexOf(parseInt(playerEntity.socket.handshake.headers.host.substr(-4))) + 1;
         playerEntity.sellCounter = 0;
 
-        if (playerEntity.socket.request.headers[`user-agent`] && playerEntity.socket.handshake.address) log(`magenta`, `Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers[`user-agent`]} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
-
+        if (playerEntity.socket.request.headers[`user-agent`] && playerEntity.socket.handshake.address) {
+            log(`magenta`, `Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers[`user-agent`]} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
+            bus.emit(`join`, `Player ${playerEntity.name} joined server ${playerEntity.serverNumber}`);
+        }
+        
         // Log hackers if detected.
         if (data.hacker) {
             log(`cyan`, `Exploit detected (modified client script / wrong emit). Player name: ${playerEntity.name} | IP: ${socket.handshake.address}.`);
@@ -877,6 +880,7 @@ io.on(`connection`, async socket => {
         // Fired when player disconnects from the game.
         socket.on(`disconnect`, async data => {
             log(`magenta`, `Player ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+            bus.emit(`leave`, `Player ${playerEntity.name} disconnected from server ${playerEntity.serverNumber}`);
             if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
             if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
