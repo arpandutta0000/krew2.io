@@ -76,7 +76,7 @@ let initStaffUISocket = (socket) => {
             return player.socket.disconnect();
         } else {
             reportIPs.push(player.socket.handshake.address);
-            player.socket.emit(`showCenterMessage`, `You have been warned. ${reportReason ? `Reason: ${reportReason} ` : ``}Last warning!`, 1);
+            player.socket.emit(`showCenterMessage`, `You have been warned. ${reportReason ? `Reason: ${reportReason}` : ``}`, 1);
             socket.emit(`showCenterMessage`, `You warned ${player.name}`, 3, 1e4);
 
             for (let i in core.players) {
@@ -170,7 +170,7 @@ let initStaffUISocket = (socket) => {
             if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} kicked ${player.name}.`, 4, 1e4);
         }
 
-        log(`blue`, `${isAdmin ? `ADMIN` : isMode ? `MOD` : `HELPER`} KICK: | Player name: ${staff.username} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${staff.serverNumber}.`);
+        log(`blue`, `Admin / Mod / Helper ${staff.username} kicked ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
         bus.emit(`report`, `Kick Player`, `Admin / Mod / Helper ${staff.username} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n` : ``}\nServer ${player.serverNumber}.`);
         return player.socket.disconnect();
     });
@@ -223,4 +223,27 @@ let initStaffUISocket = (socket) => {
 module.exports = {
     authStaffUISocket,
     initStaffUISocket
+};
+
+let mutePlayer = (playerEntity, comment) => {
+    if (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isHelper) return log(`yellow`, `Cannot mute staff member | Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+
+    let mute = new Mute({
+        username: playerEntity.name,
+        timestamp: new Date(),
+        IP: playerEntity.socket.handshake.address,
+        comment
+    });
+
+    log(`cyan`, `Muting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+
+    mute.save(() => {
+        playerEntity.isMuted = true;
+        playerEntity.muteTimeout = setTimeout(() => {
+            Mute.deleteOne({ IP: playerEntity.socket.handshake.address }).then(() => {
+                log(`yellow`, `Unmuting player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                playerEntity.isMuted = false;
+            });
+        }, 3e5);
+    });
 };
