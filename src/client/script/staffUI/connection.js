@@ -67,6 +67,11 @@ let initSocketBinds = (socket) => {
         for (let e in data.players) parseScores(data.players[e]);
         for (let e in data.boats) parseScores(data.boats[e]);
     });
+
+    // On center messages
+    socket.on(`showCenterMessage`, (message, type, time) => {
+        if (notifications.showCenterMessage) notifications.showCenterMessage(message, type || 3, time);
+    });
 }
 
 /**

@@ -181,3 +181,45 @@ let ui = {
         });
     }
 };
+
+let notifications = {
+    /**
+     * Shows a center message
+     *
+     * @param {string} text The text to be shown
+     * @param {number} typeId The type of notification (1 = Danger, 3 = Success, 4 = Info, undefined = Info)
+     * @param {number} time The time for the message to stay on screen in milliseconds. Defaults to 4 seconds if undefined
+     */
+    showCenterMessage: function (text, typeId, time) {
+        let type = ``;
+        switch (typeId) {
+            case undefined: {
+                type = `info`;
+                break;
+            }
+            case 1: {
+                type = `danger`;
+                break;
+            }
+            case 3: {
+                type = `success`;
+                break;
+            }
+            case 4: {
+                type = `info`;
+                break;
+            }
+        }
+
+        GrowlNotification.notify({
+            description: text,
+            closeTimeout: time === undefined ? 4000 : time,
+            position: `top-center`,
+            animationOpen: `slide-in`,
+            animationClose: `fade-out`,
+            type: type,
+            imageVisible: true,
+            imageCustom: `../assets/img/notifications/${type}-new.png`
+        });
+    }
+};
