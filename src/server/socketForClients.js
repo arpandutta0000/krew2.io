@@ -712,7 +712,7 @@ io.on(`connection`, async socket => {
                             if (curPlayer.name !== playerEntity.name && (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper)) curPlayer.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked ${player.name}.`, 4, 1e4);
                         }
 
-                        log(`blue`, `${isAdmin ? `ADMIN` : isMode ? `MOD` : `HELPER`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
+                        log(`blue`, `${isAdmin ? `ADMIN` : isMod ? `MOD` : `HELPER`} KICK: | Player name: ${playerEntity.name} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         bus.emit(`report`, `Kick Player`, `Admin / Mod / Helper ${playerEntity.name} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n` : ``}\nServer ${player.serverNumber}.`);
                         return player.socket.disconnect();
                     } else if (command === `mute` && (isAdmin || isMod || isHelper)) {
@@ -783,7 +783,7 @@ io.on(`connection`, async socket => {
                             return player.socket.disconnect();
                         } else {
                             reportIPs.push(player.socket.handshake.address);
-                            player.socket.emit(`showCenterMessage`, `You have been warned. ${reportReason ? `Reason: ${reportReason} ` : ``}Last warning!`, 1);
+                            player.socket.emit(`showCenterMessage`, `You have been warned. ${reportReason ? `Reason: ${reportReason}` : ``}`, 1);
                             playerEntity.socket.emit(`showCenterMessage`, `You warned ${player.name}`, 3, 1e4);
 
                             for (let i in core.players) {
