@@ -59,11 +59,27 @@
                             <th>HP</th>
                             <th>Krewmates</th>
                             <th>Ship State</th>
-                            <th>Krew Position (XYZ)</th>
+                            <th>Ship Position (XYZ)</th>
                             <th>Staff Controls</th>
                         </tr>
                     </table>
                 </div>
+            </div>
+
+
+            <div id="data-div" class="blue-bg">
+                <h4 class="table-title">Chat Messages</h4>
+
+                <hr style="border-top: 1px solid white;">
+                <div id="chat-messages-div"></div>
+            </div>
+
+
+            <div id="data-div" class="blue-bg">
+                <h4 class="table-title">Logs</h4>
+
+                <hr style="border-top: 1px solid white;">
+                <div id="log-div"></div>
             </div>
 
 
@@ -220,6 +236,16 @@
         .table-title {
             font-weight: bold;
             color: #ffffff;
+        }
+
+        #chat-messages-div,
+        #log-div {
+            text-align: left;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            max-height: 900px;
+            margin-top: 10px;
+            border-radius: 10px 10px 10px 10px;
         }
 
         .action-warn {
