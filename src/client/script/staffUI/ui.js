@@ -145,10 +145,10 @@ let ui = {
         <div id="mute-${id}" class="btn btn-secondary btn-sm action-mute">
             <i class="icofont icofont-mic-mute"></i>
         </div>
-        <div id="kick-${id}" class="btn btn-secondary btn-sm action-kick">
+        <div id="kick-${id}" class="btn btn-secondary btn-sm action-kick${!config.Admins.includes(headers.username) && !config.Mods.includes(headers.username) ? ` disabled` : ``}">
             <i class="icofont icofont-boot"></i>
         </div>
-        <div id="ban-${id}" class="btn btn-secondary btn-sm action-ban">
+        <div id="ban-${id}" class="btn btn-secondary btn-sm action-ban${!config.Admins.includes(headers.username) && !config.Mods.includes(headers.username) ? ` disabled` : ``}">
             <i class="icofont icofont-hammer-alt"></i>
         </div>
         `
