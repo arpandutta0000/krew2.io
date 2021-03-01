@@ -186,6 +186,24 @@ let ui = {
     },
 
     /**
+     * Push a chat message
+     * 
+     * @param {string} msg Chat message
+     */
+    pushChatMessage: (msg) => {
+
+    },
+
+    /**
+     * Push a log
+     * 
+     * @param {string} log Log string
+     */
+    pushLog: (log) => {
+
+    },
+
+    /**
      * Method to update the server list
      */
     updateServerList: () => {

@@ -72,6 +72,18 @@ let initSocketBinds = (socket) => {
     socket.on(`showCenterMessage`, (message, type, time) => {
         if (notifications.showCenterMessage) notifications.showCenterMessage(message, type || 3, time);
     });
+
+    // On chat message
+    socket.on(`msg`, (msg) => ui.pushChatMessage(msg));
+
+    // On log
+    socket.on(`log`, (log) => ui.pushLog(log));
+
+    // On join
+    socket.on(`join`, (message) => ui.pushLog(message));
+
+    // On leave
+    socket.on(`leave`, (message) => ui.pushLog(message));
 }
 
 /**
