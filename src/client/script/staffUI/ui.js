@@ -2,6 +2,21 @@
  * UI Object
  */
 let ui = {
+    initListeners: () => {
+        $(`#splash-modal`).modal({
+            backdrop: `static`,
+            keyboard: false
+        });
+
+        /* Show splash modal */
+        $(`#splash-modal`).modal(`show`);
+
+        $(`#connect-button`).on(`click`, () => {
+            /* Connect to a server */
+            initConnection($(`#server-list`).val());
+        });
+    },
+
     updateServerList: () => {
         $.ajax({
             url: `${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/get_servers`,

@@ -1051,6 +1051,15 @@ td {
     padding: 20px;
 }
 
+/* Blue modal Background */
+.blue-bg {
+    color: rgb(255, 255, 255);
+    background-color: rgb(39, 45, 68);
+    background-image: linear-gradient(rgb(39, 48, 68), rgb(52, 39, 68));
+    border-radius: 10px;
+    padding: 20px;
+}
+
 /* Center an element */
 .absolute-center {
     position: absolute;
