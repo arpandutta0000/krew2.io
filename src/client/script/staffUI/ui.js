@@ -153,7 +153,7 @@ let ui = {
             $(this).on(`click`, () => {
                 $(`#give-player-heading`).text(`Give ${entities[playerId].name} gold`);
                 $(`#give-amount`).val(``);
-                $(`#submit-giv`).data(`playerId`, playerId);
+                $(`#submit-give`).data(`playerId`, playerId);
                 $(`#give-modal`).modal(`show`);
             })
         });
