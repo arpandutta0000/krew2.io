@@ -79,6 +79,7 @@ let ui = {
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
                 $(`#warn-player-heading`).text(`Warn ${entities[playerId].name}`);
+                $(`#warn-reason`).val(``);
                 $(`#submit-warn`).data(`playerId`, playerId);
                 $(`#warn-modal`).modal(`show`);
             })
@@ -99,6 +100,7 @@ let ui = {
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
                 $(`#mute-player-heading`).text(`Mute ${entities[playerId].name}`);
+                $(`#mute-reason`).val(``);
                 $(`#submit-mute`).data(`playerId`, playerId);
                 $(`#mute-modal`).modal(`show`);
             })
@@ -109,6 +111,7 @@ let ui = {
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
                 $(`#kick-player-heading`).text(`Kick ${entities[playerId].name}`);
+                $(`#kick-reason`).val(``);
                 $(`#submit-kick`).data(`playerId`, playerId);
                 $(`#kick-modal`).modal(`show`);
             })
@@ -119,6 +122,7 @@ let ui = {
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
                 $(`#ban-player-heading`).text(`Ban ${entities[playerId].name}`);
+                $(`#ban-reason`).val(``);
                 $(`#submit-ban`).data(`playerId`, playerId);
                 $(`#ban-modal`).modal(`show`);
             })
