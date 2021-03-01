@@ -15,6 +15,26 @@ let ui = {
             /* Connect to a server */
             initConnection($(`#server-list`).val());
         });
+
+        $(`#submit-warn`).on(`click`, () => {
+            console.log($(`#submit-warn`).data());
+        });
+
+        $(`#submit-unmute`).on(`click`, () => {
+            console.log($(`#submit-unmute`).data());
+        });
+
+        $(`#submit-mute`).on(`click`, () => {
+            console.log($(`#submit-mute`).data());
+        });
+
+        $(`#submit-kick`).on(`click`, () => {
+            console.log($(`#submit-kick`).data());
+        });
+
+        $(`#submit-ban`).on(`click`, () => {
+            console.log($(`#submit-ban`).data());
+        });
     },
 
     updateTables: () => {
@@ -33,7 +53,8 @@ let ui = {
             let playerId = $(this).attr(`id`).replace(`warn-`, ``);
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
-                $(`#warn-player-heading`).text(`Warn ${entities[playerId].name}`)
+                $(`#warn-player-heading`).text(`Warn ${entities[playerId].name}`);
+                $(`#submit-warn`).data(`playerId`, playerId);
                 $(`#warn-modal`).modal(`show`);
             })
         });
@@ -42,7 +63,8 @@ let ui = {
             let playerId = $(this).attr(`id`).replace(`unmute-`, ``);
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
-                $(`#unmute-player-heading`).text(`Unmute ${entities[playerId].name}`)
+                $(`#unmute-player-heading`).text(`Unmute ${entities[playerId].name}`);
+                $(`#submit-unmute`).data(`playerId`, playerId);
                 $(`#unmute-modal`).modal(`show`);
             })
         });
@@ -51,7 +73,8 @@ let ui = {
             let playerId = $(this).attr(`id`).replace(`mute-`, ``);
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
-                $(`#mute-player-heading`).text(`Mute ${entities[playerId].name}`)
+                $(`#mute-player-heading`).text(`Mute ${entities[playerId].name}`);
+                $(`#submit-mute`).data(`playerId`, playerId);
                 $(`#mute-modal`).modal(`show`);
             })
         });
@@ -60,7 +83,8 @@ let ui = {
             let playerId = $(this).attr(`id`).replace(`kick-`, ``);
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
-                $(`#kick-player-heading`).text(`Kick ${entities[playerId].name}`)
+                $(`#kick-player-heading`).text(`Kick ${entities[playerId].name}`);
+                $(`#submit-kick`).data(`playerId`, playerId);
                 $(`#kick-modal`).modal(`show`);
             })
         });
@@ -69,7 +93,8 @@ let ui = {
             let playerId = $(this).attr(`id`).replace(`ban-`, ``);
             if (entities[playerId] === undefined) return;
             $(this).on(`click`, () => {
-                $(`#ban-player-heading`).text(`Ban ${entities[playerId].name}`)
+                $(`#ban-player-heading`).text(`Ban ${entities[playerId].name}`);
+                $(`#submit-ban`).data(`playerId`, playerId);
                 $(`#ban-modal`).modal(`show`);
             })
         });
