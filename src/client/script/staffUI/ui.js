@@ -18,11 +18,16 @@ let ui = {
     },
 
     updateTables: () => {
-        //$(`#data-table`).find(`tr:gt(0)`).remove();
+        $(`#data-table`).find(`tr:gt(0)`).remove();
 
+        let players = [];
         for (let e in entities) {
-            if (entities[e].netType === 0) ui.addPlayerEntry(entities[e]);
+            if (entities[e].netType === 0) players.push(entities[e]);
         }
+
+        players.sort((a, b) => a.name.localeCompare(b.name))
+
+        for (let player of players) ui.addPlayerEntry(player);
     },
 
     addPlayerEntry: (player) => {
