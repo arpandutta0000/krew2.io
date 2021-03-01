@@ -33,6 +33,8 @@ let ui = {
     addPlayerEntry: (player) => {
         if (player === undefined || player.parent === undefined || entities[player.parent.captainId] === undefined) return;
 
+        let shipState = player.parent.shipState === -1 ? `Spawning` : player.parent.shipState === 0 ? `Sailing` : player.parent.shipState === 1 ? `Docking` : player.parent.shipState === 2 ? `Finished Docking` : player.parent.shipState === 3 ? `Anchored` : `Departing`;
+
         let tableContent = `
         <tr>
         <td>${player.name}</td>
@@ -42,10 +44,12 @@ let ui = {
         <td>${player.level}</td>
         <td>${player.parent.krewName}</td>
         <td>${player.parent.captainId === player.id ? `Yes` : `No (${entities[player.parent.captainId].name})`}</td>
+        <td>${player.parent.gold}</td>
         <td>${player.parent.boatName} ${player.parent.image !== undefined ? player.parent.image : ``}</td>
         <td>${player.parent.hp} / ${player.parent.maxHp}</td>
         <td>${player.parent.krewCount} / ${player.parent.maxKrewCapacity}</td>
-        <td>${player.parent.gold}</td>
+        <td>${shipState}</td>
+        <td>${player.parent.position.x} / ${player.parent.position.y} / ${player.parent.position.z}</td>
         <td>Temp</td>
         </tr>`;
 

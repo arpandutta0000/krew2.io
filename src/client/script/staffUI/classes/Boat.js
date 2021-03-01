@@ -17,6 +17,8 @@ class Boat extends Entity {
 
         this.krewCount = 0;
 
+        this.shipState = -1;
+
         this.setShipClass(1);
     }
 
@@ -35,5 +37,6 @@ class Boat extends Entity {
         if (snap.c !== undefined && snap.c !== this.shipclassId) this.setShipClass(snap.c);
         if (snap.k !== undefined && snap.k !== this.krewCount) this.krewCount = snap.k;
         if (snap.b !== undefined && snap.b !== this.captainId) this.captainId = snap.b;
+        if (snap.t !== undefined && snap.t !== this.shipState) this.shipState = parseInt(snap.t);
     }
 };
