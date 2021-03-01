@@ -233,11 +233,6 @@ let initStaffUISocket = (socket) => {
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
 };
 
-module.exports = {
-    authStaffUISocket,
-    initStaffUISocket
-};
-
 let mutePlayer = (playerEntity, comment) => {
     if (playerEntity.isAdmin || playerEntity.isMod || playerEntity.isHelper) return log(`yellow`, `Cannot mute staff member | Player ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
 
@@ -261,4 +256,9 @@ let mutePlayer = (playerEntity, comment) => {
             });
         }, 3e5);
     });
+};
+
+module.exports = {
+    authStaffUISocket,
+    initStaffUISocket
 };
