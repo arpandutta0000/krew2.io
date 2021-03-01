@@ -817,7 +817,7 @@ io.on(`connection`, async socket => {
                         recipient: `global`,
                         message: isStaff ? charLimit(msg, 1e3) : charLimit(msg, 150)
                     });
-                    if (config.mode === `prod`) bus.emit(`msg`, playerEntity.id, playerEntity.name, playerEntity.serverNumber, charLimit(msg, 150));
+                    bus.emit(`msg`, playerEntity.id, playerEntity.name, playerEntity.serverNumber, charLimit(msg, 150));
                 } else if (msgData.recipient === `local` && entities[playerEntity.parent.id]) {
                     for (let i in entities[playerEntity.parent.id].children) {
                         let player = entities[playerEntity.parent.id].children[i];
