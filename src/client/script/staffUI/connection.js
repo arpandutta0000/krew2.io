@@ -44,6 +44,7 @@ let initConnection = (pid) => {
     });
 
     initSocketBinds(socket);
+    ui.clearData();
 };
 
 /**

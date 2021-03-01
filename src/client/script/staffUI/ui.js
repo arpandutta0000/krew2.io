@@ -214,6 +214,15 @@ let ui = {
     },
 
     /**
+     * Clears data
+     */
+    clearData: () => {
+        $(`#data-table`).find(`tr:gt(0)`).remove();
+        $(`#chat-messages-text-div`).text(``);
+        $(`#log-text-div`).text(``);
+    },
+
+    /**
      * Method to update the server list
      */
     updateServerList: () => {
