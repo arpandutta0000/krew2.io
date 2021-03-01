@@ -53,7 +53,7 @@ let initConnection = (pid) => {
  */
 let initSocketBinds = (socket) => {
     // Every second, update the tables
-    setInterval(ui.updateTables, 250);
+    setInterval(ui.updateTables, 500);
 
     // On snaps
     socket.on(`s`, (data) => {
