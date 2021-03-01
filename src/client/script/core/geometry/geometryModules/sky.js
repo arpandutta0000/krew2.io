@@ -18,4 +18,4 @@ let initSky = () => {
     );
     envSphere.position.set(config.worldsize * 0.5, 0, config.worldsize * 0.5);
     scene.add(envSphere);
-}
+};

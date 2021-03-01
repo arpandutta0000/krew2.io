@@ -12,7 +12,7 @@ let User = require(`./models/user.model.js`);
 
 /**
  * Authenticate a socket connection for staff UI
- * 
+ *
  * @param {object} socket Socket object
  */
 let authStaffUISocket = (socket) => {
@@ -28,7 +28,7 @@ let authStaffUISocket = (socket) => {
 
 /**
  * Initiate Staff UI socket binds
- * 
+ *
  * @param {object} socket Socket object
  */
 let initStaffUISocket = (socket) => {
@@ -38,16 +38,15 @@ let initStaffUISocket = (socket) => {
         serverNumber: config.gamePorts.indexOf(parseInt(socket.handshake.headers.host.substr(-4))) + 1
     };
 
-    log(`green`, `Staff "${staff.username}" connected to Staff UI bound to server ${staff.serverNumber}`)
-
+    log(`green`, `Staff "${staff.username}" connected to Staff UI bound to server ${staff.serverNumber}`);
 
     socket.on(`disconnect`, () => {
         log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`);
-    })
+    });
 
     // Send first snapshot
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
-}
+};
 
 module.exports = {
     authStaffUISocket,

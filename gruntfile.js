@@ -150,14 +150,16 @@ module.exports = grunt => {
             client: webpackConfig.client
         },
 
-        // Minify CSS
+        // Minify CSS.
         cssmin: {
             styles: {
-                files: [{
-                    expand: false,
-                    src: [`src/client/styles/*.css`, `src/client/libs/css/*.css`],
-                    dest: `dist/build/styles.min.css`
-                }]
+                files: [
+                    {
+                        expand: false,
+                        src: [`src/client/styles/*.css`, `src/client/libs/css/*.css`],
+                        dest: `dist/build/styles.min.css`
+                    }
+                ]
             }
         },
 
@@ -190,14 +192,16 @@ module.exports = grunt => {
 
             // Copy libs to build
             libs: {
-                files: [{
-                    expand: true,
-                    nonull: true,
-                    flatten: true,
-                    src: [`src/client/libs/js/*`],
-                    dest: `dist/build/libs/`,
-                    filter: `isFile`
-                }]
+                files: [
+                    {
+                        expand: true,
+                        nonull: true,
+                        flatten: true,
+                        src: [`src/client/libs/js/*`],
+                        dest: `dist/build/libs/`,
+                        filter: `isFile`
+                    }
+                ]
             }
         },
 

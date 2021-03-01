@@ -1,6 +1,6 @@
 /**
  * Initate a connection to socket
- * 
+ *
  * @param {number} pid Server pid
  */
 let initConnection = (pid) => {
@@ -48,7 +48,7 @@ let initConnection = (pid) => {
 
 /**
  * Initiate socket binds
- * 
+ *
  * @param {object} socket Socket object
  */
 let initSocketBinds = (socket) => {

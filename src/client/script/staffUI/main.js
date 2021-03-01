@@ -19,5 +19,5 @@ $(document).ready(async () => {
     $(`#connect-button`).on(`click`, () => {
         /* Connect to a server */
         initConnection($(`#server-list`).val());
-    })
+    });
 });
