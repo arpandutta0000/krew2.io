@@ -28,4 +28,4 @@ let parseSnap = (snap) => {
     if (entities[id] !== undefined) {
         entities[id].parseSnap(data, id);
     }
-}
+};
