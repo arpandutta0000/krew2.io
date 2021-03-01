@@ -207,7 +207,7 @@ let ui = {
      * @param {string} log Log string
      */
     pushLog: (log) => {
-        ui.logs.push(log);
+        ui.logs.push(log.replace(`\n\n`, ` | `).replace(/(\r\n|\n|\r)/gm, ` | `));
         if(ui.logs.length > 100) ui.logs.shift();
 
         $(`#log-text-div`).text(ui.logs.join(`\n`));
