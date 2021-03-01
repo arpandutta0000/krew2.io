@@ -52,6 +52,9 @@ let initConnection = (pid) => {
  * @param {object} socket Socket object
  */
 let initSocketBinds = (socket) => {
+    // Every second, update the tables
+    setInterval(ui.updateTables, 1e3);
+
     // On snaps
     socket.on(`s`, (data) => {
         data = JSON.parse(LZString.decompress(data));

@@ -5,7 +5,7 @@ class Boat extends Entity {
         this.netType = 1;
 
         let captainsName = entities[captainId] !== undefined ? entities[captainId].name : ``;
-        this.crewName = typeof krewName === `string` ? krewName : `${captainsName}'${captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`} krew`;
+        this.krewName = typeof krewName === `string` ? krewName : `${captainsName}'${captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`} krew`;
 
         if (captainId && entities[captainId]) {
             this.captainId = captainId;
