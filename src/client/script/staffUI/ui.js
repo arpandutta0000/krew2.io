@@ -2,6 +2,10 @@
  * UI Object
  */
 let ui = {
+    /* UI Variables */
+    chatMessages: [],
+    logs: [],
+
     /**
      * Initiate listeners for staff UI
      */
@@ -191,7 +195,10 @@ let ui = {
      * @param {string} msg Chat message
      */
     pushChatMessage: (msg) => {
+        ui.chatMessages.push(msg);
+        if(ui.chatMessages.length > 100) ui.chatMessages.shift();
 
+        $(`#chat-messages-text-div`).text(ui.chatMessages.join(`\n`));
     },
 
     /**
@@ -200,7 +207,10 @@ let ui = {
      * @param {string} log Log string
      */
     pushLog: (log) => {
+        ui.logs.push(log);
+        if(ui.logs.length > 100) ui.logs.shift();
 
+        $(`#log-text-div`).text(ui.logs.join(`\n`));
     },
 
     /**

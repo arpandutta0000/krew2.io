@@ -67,19 +67,19 @@
             </div>
 
 
-            <div id="data-div" class="blue-bg">
+            <div id="chat-messages-div" class="blue-bg">
                 <h4 class="table-title">Chat Messages</h4>
 
                 <hr style="border-top: 1px solid white;">
-                <div id="chat-messages-div"></div>
+                <div id="chat-messages-text-div"></div>
             </div>
 
 
-            <div id="data-div" class="blue-bg">
+            <div id="log-div" class="blue-bg">
                 <h4 class="table-title">Logs</h4>
 
                 <hr style="border-top: 1px solid white;">
-                <div id="log-div"></div>
+                <div id="log-text-div"></div>
             </div>
 
 
@@ -175,6 +175,13 @@
 
     <style>
         @media (min-width: 750px) {
+
+            #connection-div {
+                float: left;
+            }
+        }
+
+        @media (max-width: 750px) {
             #connection-div {
                 float: left;
             }
@@ -238,12 +245,30 @@
             color: #ffffff;
         }
 
-        #chat-messages-div,
+        #chat-messages-div {
+            width: 49.5%;
+            float: left;
+            margin: 5px auto;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
         #log-div {
+            width: 49.5%;
+            float: right;
+            margin: 5px auto;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        #chat-messages-text-div,
+        #log-text-div {
+            white-space: pre-wrap;
             text-align: left;
             overflow-y: auto;
             -ms-overflow-style: none;
-            max-height: 900px;
+            min-height: 500px;
+            max-height: 500px;
             margin-top: 10px;
             border-radius: 10px 10px 10px 10px;
         }
