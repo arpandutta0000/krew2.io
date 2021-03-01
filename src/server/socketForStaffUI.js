@@ -242,6 +242,33 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Give
+    socket.on(`give`, (data) => {
+        let giveUser = data.user;
+        let giveAmount = parseInt(data.amount);
+
+        let player = Object.values(core.players).find(player => player.name === giveUser);
+        if (!player) return socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+
+        if (!giveAmount || isNaN(giveAmount)) return socket.emit(`showCenterMessage`, `You did not specify a valid amount!`, 1, 1e4);
+
+        socket.emit(`showCenterMessage`, `Succesfully gave ${player.name} ${giveAmount} gold!`, 3, 1e4);
+
+        for (let i in core.players) {
+            let curPlayer = core.players[i];
+
+            if (player.name === curPlayer.name) {
+                curPlayer.gold += giveAmount;
+                curPlayer.socket.emit(`showCenterMessage`, `You have received ${giveAmount} gold!`, 4, 1e4);
+            } else if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} gave ${player.name} ${giveAmount} gold.`, 4, 1e4);
+        }
+
+        log(`blue`, `Player ${staff.username} gave ${giveUser} ${giveAmount} gold | IP: ${socket.handshake.address} | Server ${staff.serverNumber}.`);
+        return bus.emit(`report`, `Give Gold`, `Admin ${staff.username} gave ${giveUser} ${giveAmount} gold.`);
+    });
+
+
+
     // Chat Messages
     bus.on(`msg`, (id, name, server, message) => socket.emit(`msg`, `[Server ${server}] ${name} » ${message}`));
 
