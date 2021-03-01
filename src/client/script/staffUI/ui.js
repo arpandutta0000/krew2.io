@@ -72,7 +72,7 @@ let ui = {
         $(`#submit-give`).on(`click`, () => {
             socket.emit(`give`, {
                 user: entities[$(`#submit-give`).data().playerId].name,
-                amount: $(`#give-amount`).val() !== undefined ? $(`#give-amount`).val() : ``
+                amount: $(`#give-amount`).val() !== undefined ? $(`#give-amount`).val() : 0
             });
             $(`#give-modal`).modal(`hide`);
         });
