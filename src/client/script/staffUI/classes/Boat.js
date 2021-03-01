@@ -22,8 +22,11 @@ class Boat extends Entity {
 
     setShipClass(classId) {
         this.shipclassId = classId;
+
         this.maxHp = boatTypes[classId].hp;
         this.hp = this.maxHp;
+        this.image = boatTypes[classId].image;
+        this.boatName = boatTypes[classId].name;
         this.maxKrewCapacity = boatTypes[classId].maxKrewCapacity;
     }
 

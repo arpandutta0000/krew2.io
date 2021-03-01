@@ -34,27 +34,32 @@
 
 <body>
     <div class="modal show text-xs-center" id="splash-modal">
-        <div id="modal-dialog" class="container row justify-content-center" style="width: 100%;" role="document">
+        <div id="modal-dialog" class="container row justify-content-center" style="width: 100%; display: block;" role="document">
 
-            <div id="player-div" class="blue-bg">
-                <h4 class="table-title">Players</h4>
-                <small>Current online players</small>
+            <div id="data-div" class="blue-bg">
+                <h4 class="table-title">Player Data</h4>
+                <small>Currently online players with their corresponding data</small>
 
-                <div id="player-table-div">
-                    <table id="player-table">
+                <div id="data-table-div">
+                    <table id="data-table">
                         <tr>
                             <th>Player Name</th>
                             <th>Clan</th>
                             <th>Gold</th>
-                            <th>Level</th>
                             <th>Weapon</th>
+                            <th>Level</th>
                             <th>Krew Name</th>
                             <th>Captain</th>
+                            <th>Boat</th>
+                            <th>HP</th>
+                            <th>Krew Members</th>
+                            <th>Total Krew Gold</th>
                             <th>Staff Controls</th>
                         </tr>
                     </table>
                 </div>
             </div>
+
 
             <div id="connection-div">
                 <div class="blue-bg">
@@ -62,23 +67,6 @@
                         <select id="server-list" class="custom-select form-control"></select>
                     </div>
                     <button id="connect-button" class="btn play-btn btn-block">Connect</button>
-                </div>
-            </div>
-
-            <div id="boat-div" class="blue-bg">
-                <h4 class="table-title">Krews</h4>
-                <small>All Krews in game</small>
-
-                <div id="boat-table-div">
-                    <table id="boat-table">
-                        <tr>
-                            <th>Krew Name</th>
-                            <th>Clan</th>
-                            <th>Captain</th>
-                            <th>Gold</th>
-                            <th>Staff Controls</th>
-                        </tr>
-                    </table>
                 </div>
             </div>
 
@@ -90,95 +78,68 @@
     <script src="/build/staffUI.js"></script>
 
     <style>
-        @media (max-width: 750px) {
-            #connection-div {
-                width: 40%;
-                float: none;
-            }
-
-            #player-div,
-            #boat-div {
-                display: none;
-            }
-        }
-
         @media (min-width: 750px) {
             #connection-div {
-                width: 20%;
                 float: left;
             }
         }
 
         #connection-div {
-            width: 20%;
-            margin-left: auto;
-            margin-right: auto;
+            width: 95%;
+            left: 2.5%;
+            right: 2.5%;
+            bottom: 1%;
+            position: relative;
+            margin: 5px auto;
             padding-right: 15px;
             padding-left: 15px;
         }
 
-        #player-div {
-            width: 40%;
-            float: left;
-            left: 0%;
-            padding-right: 15px;
-            padding-left: 15px;
-        }
-
-        #boat-div {
-            width: 40%;
-            float: right;
-            right: 0%;
+        #data-div {
+            width: 95%;
+            left: 2.5%;
+            right: 2.5%;
+            margin: 5px auto;
             padding-right: 15px;
             padding-left: 15px;
         }
 
 
-        #player-table-div,
-        #boat-table-div {
+        #data-table-div {
             overflow-y: auto;
-            scrollbar-width: none;
             -ms-overflow-style: none;
-            max-height: 750px;
+            max-height: 900px;
             margin-top: 10px;
             border-radius: 10px 10px 10px 10px;
         }
 
-        #player-table,
-        #boat-table {
+        #data-table {
             margin-top: 5px;
             margin-bottom: 15px;
             width: 100%;
         }
 
-        #player-table th,
-        #boat-table th {
+        #data-table th {
             padding: 8px;
             border-top: 1px solid;
             border-bottom: 1px solid;
             text-align: center;
         }
 
-        #player-table td,
-        #boat-table td {
+        #data-table {
             padding: 5px;
             text-align: center;
         }
 
-        #player-table,
-        #boat-table,
+        #data-table,
         th,
         td {
-
             border-collapse: collapse;
-            opacity: .8;
         }
 
         .table-title {
             font-weight: bold;
             color: #ffffff;
-            opacity: .8;
-            margin-bottom: 0;
         }
     </style>
 </body>
