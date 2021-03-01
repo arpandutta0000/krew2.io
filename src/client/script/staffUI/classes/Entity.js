@@ -1,4 +1,12 @@
+/**
+ * Entity Class
+ *
+ * @class
+ */
 class Entity {
+    /**
+     * Entity constructor
+     */
     constructor() {
         this.netType = -1;
         this.gold = 0;
@@ -13,11 +21,21 @@ class Entity {
         };
     }
 
+    /**
+     * Add a child entity
+     *
+     * @param {object} entity The entity to be added as a child
+     */
     addChildren(entity) {
         this.children[entity.id] = entity;
         entity.parent = this;
     }
 
+    /**
+     * Method to parse an entity snap
+     *
+     * @param {object} snap Snap to be parsed
+     */
     parseSnap(snap, id) {
         if (snap.del !== undefined) delete entities[this.id];
         if (snap.p !== undefined && entities[snap.p] !== undefined && this.parent !== entities[snap.p]) entities[snap.p].addChildren(this);

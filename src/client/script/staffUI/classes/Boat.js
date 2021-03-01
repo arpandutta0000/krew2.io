@@ -1,4 +1,16 @@
+/**
+ * Boat class
+ *
+ * @class
+ * @extends Entity
+ */
 class Boat extends Entity {
+    /**
+     * Boat constructor
+     *
+     * @param {any} captainId Captain ID
+     * @param {string} krewName The krew's (boat's) name
+     */
     constructor(captainId, krewName) {
         super();
 
@@ -22,6 +34,11 @@ class Boat extends Entity {
         this.setShipClass(1);
     }
 
+    /**
+     * Set a boat's class
+     *
+     * @param {number} classId New ship class ID
+     */
     setShipClass(classId) {
         this.shipclassId = classId;
 
@@ -32,6 +49,11 @@ class Boat extends Entity {
         this.maxKrewCapacity = boatTypes[classId].maxKrewCapacity;
     }
 
+    /**
+     * Method to parse a boat type snap
+     *
+     * @param {object} snap Snap to be parsed
+     */
     parseTypeSnap(snap) {
         if (snap.h !== undefined && snap.h !== this.hp) this.hp = parseInt(snap.h);
         if (snap.c !== undefined && snap.c !== this.shipclassId) this.setShipClass(snap.c);

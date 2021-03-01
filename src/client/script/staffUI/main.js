@@ -8,7 +8,7 @@ let headers = {};
 /**
  * On document ready
  */
-$(document).ready(async () => {
+$(document).ready(() => {
     // Call authentication method
     authenticate();
 

@@ -2,6 +2,9 @@
  * UI Object
  */
 let ui = {
+    /**
+     * Initiate listeners for staff UI
+     */
     initListeners: () => {
         $(`#splash-modal`).modal({
             backdrop: `static`,
@@ -56,7 +59,10 @@ let ui = {
         });
     },
 
-    updateTables: () => {
+    /**
+     * Method to update player data table
+     */
+    updatePlayerData: () => {
         $(`#data-table`).find(`tr:gt(0)`).remove();
 
         let players = [];
@@ -119,6 +125,11 @@ let ui = {
         });
     },
 
+    /**
+     * Create buttons for staff actions
+     * 
+     * @param {string} id ID of the player
+     */
     playerDataStaffActions: (id) => {
         return `
         <div id="warn-${id}" class="btn btn-secondary btn-sm action-warn">
@@ -139,6 +150,11 @@ let ui = {
         `
     },
 
+    /**
+     * Add a player entry to the table
+     * 
+     * @param {object} player Player object
+     */
     addPlayerEntry: (player) => {
         if (player === undefined || player.parent === undefined || entities[player.parent.captainId] === undefined) return;
 
@@ -165,6 +181,9 @@ let ui = {
         $(`#data-table`).append(tableContent);
     },
 
+    /**
+     * Method to update the server list
+     */
     updateServerList: () => {
         $.ajax({
             url: `${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/get_servers`,
