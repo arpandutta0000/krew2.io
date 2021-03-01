@@ -33,4 +33,4 @@ class Boat extends Entity {
         if (snap.k !== undefined && snap.k !== this.krewCount) this.krewCount = snap.k;
         if (snap.b !== undefined && snap.b !== this.captainId) this.captainId = snap.b;
     }
-}
+};

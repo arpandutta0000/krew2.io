@@ -17,4 +17,4 @@ class Entity {
         if (snap.p !== undefined && entities[snap.p] !== undefined && this.parent !== entities[snap.p]) entities[snap.p].addChildren(this);
         if (snap.t !== undefined) this.parseTypeSnap(snap.t);
     }
-}
+};

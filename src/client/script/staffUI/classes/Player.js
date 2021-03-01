@@ -30,4 +30,4 @@ class Player extends Entity {
 
         if (snap.w !== undefined && snap.w !== this.activeWeapon) this.activeWeapon = parseInt(snap.w);
     }
-}
+};
