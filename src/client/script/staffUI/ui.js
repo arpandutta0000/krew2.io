@@ -68,6 +68,14 @@ let ui = {
             });
             $(`#ban-modal`).modal(`hide`);
         });
+
+        $(`#submit-give`).on(`click`, () => {
+            socket.emit(`give`, {
+                user: entities[$(`#submit-give`).data().playerId].name,
+                amount: $(`#give-amount`).val() !== undefined ? $(`#give-amount`).val() : ``
+            });
+            $(`#give-modal`).modal(`hide`);
+        });
     },
 
     /**
@@ -138,6 +146,17 @@ let ui = {
                 $(`#ban-modal`).modal(`show`);
             })
         });
+
+        $(`.action-give`).each(function () {
+            let playerId = $(this).attr(`id`).replace(`give-`, ``);
+            if (entities[playerId] === undefined) return;
+            $(this).on(`click`, () => {
+                $(`#give-player-heading`).text(`Give ${entities[playerId].name} gold`);
+                $(`#give-amount`).val(``);
+                $(`#submit-giv`).data(`playerId`, playerId);
+                $(`#give-modal`).modal(`show`);
+            })
+        });
     },
 
     /**
@@ -161,6 +180,9 @@ let ui = {
         </div>
         <div id="ban-${id}" class="btn btn-secondary btn-sm action-ban${!config.Admins.includes(headers.username) && !config.Mods.includes(headers.username) ? ` disabled` : ``}">
             <i class="icofont icofont-hammer-alt"></i>
+        </div>
+        <div id="give-${id}" class="btn btn-secondary btn-sm action-give${!config.Admins.includes(headers.username) ? ` disabled` : ``}">
+            <i class="icofont icofont-money"></i>
         </div>
         `
     },
