@@ -50,7 +50,11 @@ let initStaffUISocket = (socket) => {
         log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`);
     });
 
+
+
     socket.on(`warn`, async (data) => {
+        if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
         let reportUser = data.user;
         let reportReason = data.reason;
 
@@ -83,10 +87,98 @@ let initStaffUISocket = (socket) => {
             log(`blue`, `Reporter ${staff.username} warned ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
             return bus.emit(`report`, `Second Warn --> Kick`, `Reporter ${staff.username} warned ${reportUser}\n${reportReason ? `Reason: ${reportReason}\n` : ``}\nServer ${player.serverNumber}.`);
         }
-    })
+    });
+
+
+
+    socket.on(`unmute`, async (data) => {
+        if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
+        let unmuteUser = data.user;
+
+        let player = Object.values(core.players).find(player => player.name === unmuteUser);
+
+        if (!player) return socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+        else if (!player.isMuted) return socket.emit(`showCenterMessage`, `That player is not muted!`, 1, 1e4);
+
+        for (let i in core.players) {
+            let mutedPlayer = core.players[i];
+            if (mutedPlayer.name === player.name) {
+                mutedPlayer.isMuted = false;
+                Mute.deleteOne({
+                    IP: mutedPlayer.socket.handshake.address
+                }).then(() => {
+                    ocket.emit(`showCenterMessage`, `You unmuted ${unmuteUser}.`, 3, 1e4);
+                    mutedPlayer.socket.emit(`showCenterMessage`, `You have been unmuted.`, 4, 1e4);
+
+                    for (let i in core.players) {
+                        let curPlayer = core.players[i];
+                        if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} unmuted ${player.name}.`, 4, 1e4);
+                    }
+
+                    log(`blue`, `Admin / Mod /Helper ${staff.username} unmuted ${player.name} | IP: ${player.socket.handshake.address}.`);
+                    return bus.emit(`report`, `Unban Player`, `Admin / Mod ${staff.username} unmuted ${player.name}.`);
+                });
+            }
+        }
+    });
+
+
+
+    socket.on(`mute`, async (data) => {
+        if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
+        let playerToMute = data.user;
+        let muteReason = data.reason;
+
+        let player = Object.values(core.players).find(player => player.name === playerToMute);
+        if (!player) return socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+        else if (player.isAdmin || player.isMod || player.isHelper) return socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
+
+        mutePlayer(player, muteReason || `No reason specified`);
+
+        player.socket.emit(`showCenterMessage`, `You have been muted! ${muteReason ? `Reason: ${muteReason}` : ``}`, 1);
+        socket.emit(`showCenterMessage`, `You muted ${player.name}`, 3);
+
+        for (let i in core.players) {
+            let curPlayer = core.players[i];
+            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} muted ${player.name}.`, 4, 1e4);
+        }
+
+        log(`blue`, `Admin / Mod / Helper ${staff.username} muted ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+        return bus.emit(`report`, `Muted Player`, `Admin / Mod / Helper ${staff.username} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n` : ``}\nServer ${player.serverNumber}.`);
+    });
+
+
+
+    socket.on(`kick`, async (data) => {
+        if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
+        let kickUser = data.user;
+        let kickReason = data.reason;
+
+        let player = Object.values(core.players).find(player => player.name === kickUser);
+        if (!player) return socket.emit(`showCenterMessage`, `That player does not exist!`, 1, 1e4);
+        else if (player.isAdmin || player.isMod || player.isHelper) return socket.emit(`showCenterMessage`, `That player is a staff member!`, 1, 1e4);
+        if (!kickReason || kickReason === ``) kickReason === `No reason specified`;
+
+        player.socket.emit(`showCenterMessage`, `You have been kicked ${kickReason ? `. Reason: ${kickReason}` : `.`}`, 1, 1e4);
+        socket.emit(`showCenterMessage`, `You kicked ${player.name}`, 3, 1e4);
+
+        for (let i in core.players) {
+            let curPlayer = core.players[i];
+            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} kicked ${player.name}.`, 4, 1e4);
+        }
+
+        log(`blue`, `${isAdmin ? `ADMIN` : isMode ? `MOD` : `HELPER`} KICK: | Player name: ${staff.username} | ${kickReason} | IP: ${player.socket.handshake.address} | Server ${staff.serverNumber}.`);
+        bus.emit(`report`, `Kick Player`, `Admin / Mod / Helper ${staff.username} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n` : ``}\nServer ${player.serverNumber}.`);
+        return player.socket.disconnect();
+    });
+
+
 
     socket.on(`ban`, async (data) => {
-        if (staff.role !== `admin` && staff.role !== `mod`) return socket.emit(`showCenterMessage`, `You don't have permission to use this command!`, 1, 1e4);
+        if (staff.role !== `admin` && staff.role !== `mod`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
         let banUser = data.user;
         let banReason = data.reason;
@@ -121,6 +213,8 @@ let initStaffUISocket = (socket) => {
         log(`blue`, `Admin / Mod ${staff.username} permanently banned ${player.name} --> ${player.id} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
         return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${staff.username} permanently banned ${player.name} --> ${player.id}\n${banReason ? `Reason: ${banReason}\n` : ``}\nServer ${player.serverNumber}.`);
     });
+
+
 
     // Send first snapshot
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
