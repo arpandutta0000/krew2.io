@@ -99,7 +99,7 @@ let getUrlVars = () => {
 /**
  * Authenticate session
  */
-let authenticate = () => $.get(`${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/authenticated`).then((response) => {
+let authenticate = async () => await $.get(`${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/authenticated`).then((response) => {
     headers.username = !response.isLoggedIn ? undefined : response.username;
     headers.password = !response.isLoggedIn ? undefined : response.password;
 });

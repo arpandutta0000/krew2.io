@@ -8,12 +8,12 @@ let headers = {};
 /**
  * On document ready
  */
-$(document).ready(() => {
+$(document).ready(async () => {
     // Print console header
     console.log(`\n\n\n███████╗████████╗ █████╗ ███████╗███████╗    ██╗   ██╗██╗\n██╔════╝╚══██╔══╝██╔══██╗██╔════╝██╔════╝    ██║   ██║██║\n███████╗   ██║   ███████║█████╗  █████╗      ██║   ██║██║\n╚════██║   ██║   ██╔══██║██╔══╝  ██╔══╝      ██║   ██║██║\n███████║   ██║   ██║  ██║██║     ██║         ╚██████╔╝██║\n╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝          ╚═════╝ ╚═╝\n\nStaff UI v1.0\n\n\n\n`)
 
     // Call authentication method
-    authenticate();
+    await authenticate();
 
     // Init UI listeners
     ui.initListeners();
