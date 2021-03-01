@@ -86,12 +86,25 @@
             </div>
 
 
-            <div id="connection-div">
-                <div class="blue-bg">
-                    <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
-                        <select id="server-list" class="custom-select form-control"></select>
-                    </div>
-                    <button id="connect-button" class="btn play-btn btn-block">Connect</button>
+            <div id="connection-div" class="blue-bg">
+                <div id="select-server" class="form-group" style="margin-bottom: .5rem; margin-top: .7rem">
+                    <select id="server-list" class="custom-select form-control"></select>
+                </div>
+                <button id="connect-button" class="btn play-btn btn-block">Connect</button>
+            </div>
+
+
+            <div id="misc-div" class="blue-bg">
+                <h4 class="table-title">Misc Controls</h4>
+                <br>
+                <div id="recompense" class="btn btn-secondary btn-sm action-recompense">
+                    <i class="icofont icofont-money-bag"></i>
+                </div>
+                <div id="restart" class="btn btn-secondary btn-sm action-restart">
+                    <i class="icofont icofont-refresh"></i>
+                </div>
+                <div id="update" class="btn btn-secondary btn-sm action-update">
+                    <i class="icofont icofont-code-alt"></i>
                 </div>
             </div>
 
@@ -192,25 +205,21 @@
     <script src="/build/staffUI.js"></script>
 
     <style>
-        @media (min-width: 750px) {
-
-            #connection-div {
-                float: left;
-            }
-        }
-
-        @media (max-width: 750px) {
-            #connection-div {
-                float: left;
-            }
+        body {
+            background-color: rgb(0, 17, 31) !important;
         }
 
         #connection-div {
-            width: 95%;
-            left: 2.5%;
-            right: 2.5%;
-            bottom: 1%;
-            position: relative;
+            width: 79.5%;
+            float: left;
+            margin: 5px auto;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        #misc-div {
+            width: 19.5%;
+            float: right;
             margin: 5px auto;
             padding-right: 15px;
             padding-left: 15px;
@@ -383,6 +392,54 @@
         .action-clear-chat.disabled:hover {
             background-color: #ff7e7e;
             border-color: #ff7e7e;
+        }
+
+        .action-recompense {
+            background-color: #ffd000;
+            border-color: #ffd000;
+        }
+
+        .action-recompense:hover {
+            background-color: #ffd000af;
+            border-color: #ffd000af;
+        }
+
+        .action-recompense.disabled,
+        .action-recompense.disabled:hover {
+            background-color: #ffefa6;
+            border-color: #ffefa6;
+        }
+
+        .action-restart {
+            background-color: #ff8b3e;
+            border-color: #ff8b3e;
+        }
+
+        .action-restart:hover {
+            background-color: #ff8b3eaf;
+            border-color: #ff8b3eaf;
+        }
+
+        .action-restart.disabled,
+        .action-restart.disabled:hover {
+            background-color: #ffba8c;
+            border-color: #ffba8c;
+        }
+
+        .action-update {
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .action-update:hover {
+            background-color: #ff0000af;
+            border-color: #ff0000af;
+        }
+
+        .action-update.disabled,
+        .action-update.disabled:hover {
+            background-color: #ff7373;
+            border-color: #ff7373;
         }
     </style>
 </body>
