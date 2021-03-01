@@ -222,6 +222,26 @@ let initStaffUISocket = (socket) => {
 
 
 
+    // Clear chat
+    socket.on(`clear-chat`, () => {
+        if (staff.role !== `admin` && staff.role !== `mod`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
+        socket.emit(`showCenterMessage`, `You have cleared the chat.`, 3, 1e4);
+
+        io.emit(`showCenterMessage`, `An admin or mod has cleared the chat!`, 1, 1e4);
+        io.emit(`clear`);
+
+        for (let i in core.players) {
+            let curPlayer = core.players[i];
+            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} cleared the chat.`, 4, 1e4);
+        }
+
+        log(`blue`, `Admin / Mod ${staff.username} cleared global chat | IP: ${socket.handshake.address} | Server ${staff.serverNumber}.`);
+        return bus.emit(`report`, `Chat Clear`, `Admin / Mod ${staff.username} cleared the global chat.`);
+    });
+
+
+
     // Chat Messages
     bus.on(`msg`, (id, name, server, message) => socket.emit(`msg`, `[Server ${server}] ${name} » ${message}`));
 
