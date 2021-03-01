@@ -28,6 +28,51 @@ let ui = {
         players.sort((a, b) => a.name.localeCompare(b.name))
 
         for (let player of players) ui.addPlayerEntry(player);
+
+        $(`.action-warn`).each(function () {
+            let playerId = $(this).attr(`id`).replace(`warn-`, ``);
+            if (entities[playerId] === undefined) return;
+            $(this).on(`click`, () => {
+                $(`#warn-player-heading`).text(`Warn ${entities[playerId].name}`)
+                $(`#warn-modal`).modal(`show`);
+            })
+        });
+
+        $(`.action-unmute`).each(function () {
+            let playerId = $(this).attr(`id`).replace(`unmute-`, ``);
+            if (entities[playerId] === undefined) return;
+            $(this).on(`click`, () => {
+                $(`#unmute-player-heading`).text(`Unmute ${entities[playerId].name}`)
+                $(`#unmute-modal`).modal(`show`);
+            })
+        });
+
+        $(`.action-mute`).each(function () {
+            let playerId = $(this).attr(`id`).replace(`mute-`, ``);
+            if (entities[playerId] === undefined) return;
+            $(this).on(`click`, () => {
+                $(`#mute-player-heading`).text(`Mute ${entities[playerId].name}`)
+                $(`#mute-modal`).modal(`show`);
+            })
+        });
+
+        $(`.action-kick`).each(function () {
+            let playerId = $(this).attr(`id`).replace(`kick-`, ``);
+            if (entities[playerId] === undefined) return;
+            $(this).on(`click`, () => {
+                $(`#kick-player-heading`).text(`Kick ${entities[playerId].name}`)
+                $(`#kick-modal`).modal(`show`);
+            })
+        });
+
+        $(`.action-ban`).each(function () {
+            let playerId = $(this).attr(`id`).replace(`ban-`, ``);
+            if (entities[playerId] === undefined) return;
+            $(this).on(`click`, () => {
+                $(`#ban-player-heading`).text(`Ban ${entities[playerId].name}`)
+                $(`#ban-modal`).modal(`show`);
+            })
+        });
     },
 
     playerDataStaffActions: (id) => {

@@ -72,6 +72,78 @@
                 </div>
             </div>
 
+            <div class="modal fade text-sm-center" id="unmute-modal" role="dialog">
+                <div class="modal-dialog modal-md modal-content modal-body" role="document" style="top: 25%;">
+                    <br>
+                    <h1 id="unmute-player-heading">Unmute</h1>
+                    <br><br>
+
+                    <input type="submit" id="submit-unmute" class="btn btn-success btn-md" style="width: 80%; float: left; margin-left: 10%;" value="Confirm Unmute"></input>
+
+                    <br><br>
+                </div>
+            </div>
+
+            <div class="modal fade text-sm-center" id="mute-modal" role="dialog">
+                <div class="modal-dialog modal-md modal-content modal-body" role="document" style="top: 25%;">
+                    <br>
+                    <h1 id="mute-player-heading">Mute</h1>
+                    <br><br>
+
+                    <div id="mute-input-container" display="inline">
+                        <input type="text" id="mute-reason" class="form-control" style="float: left; width:80%;" placeholder="Mute reason" required>
+                        <input type="submit" id="submit-mute" class="btn btn-success btn-md" style="float: left; width:18%; margin-left: 2%;" value="Mute"></input>
+                    </div>
+
+                    <br><br>
+                </div>
+            </div>
+
+            <div class="modal fade text-sm-center" id="kick-modal" role="dialog">
+                <div class="modal-dialog modal-md modal-content modal-body" role="document" style="top: 25%;">
+                    <br>
+                    <h1 id="kick-player-heading">Kick</h1>
+                    <br><br>
+
+                    <div id="kick-input-container" display="inline">
+                        <input type="text" id="kick-reason" class="form-control" style="float: left; width:80%;" placeholder="Kick reason" required>
+                        <input type="submit" id="submit-kick" class="btn btn-success btn-md" style="float: left; width:18%; margin-left: 2%;" value="Kick"></input>
+                    </div>
+
+                    <br><br>
+                </div>
+            </div>
+
+            <div class="modal fade text-sm-center" id="ban-modal" role="dialog">
+                <div class="modal-dialog modal-md modal-content modal-body" role="document" style="top: 25%;">
+                    <br>
+                    <h1 id="ban-player-heading">Ban</h1>
+                    <br><br>
+
+                    <div id="ban-input-container" display="inline">
+                        <input type="text" id="ban-reason" class="form-control" style="float: left; width:80%;" placeholder="Ban reason" required>
+                        <input type="submit" id="submit-ban" class="btn btn-success btn-md" style="float: left; width:18%; margin-left: 2%;" value="Ban"></input>
+                    </div>
+
+                    <br><br>
+                </div>
+            </div>
+
+            <div class="modal fade text-sm-center" id="warn-modal" role="dialog">
+                <div class="modal-dialog modal-md modal-content modal-body" role="document" style="top: 25%;">
+                    <br>
+                    <h1 id="warn-player-heading">Warn</h1>
+                    <br><br>
+
+                    <div id="warn-input-container" display="inline">
+                        <input type="text" id="warn-reason" class="form-control" style="float: left; width:80%;" placeholder="Warn reason" required>
+                        <input type="submit" id="submit-warn" class="btn btn-success btn-md" style="float: left; width:18%; margin-left: 2%;" value="Warn"></input>
+                    </div>
+
+                    <br><br>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -144,27 +216,32 @@
             color: #ffffff;
         }
 
-        .action-warn, .action-warn:hover {
+        .action-warn,
+        .action-warn:hover {
             background-color: #fff176;
             border-color: #fff176;
         }
 
-        .action-unmute, .action-unmute:hover {
+        .action-unmute,
+        .action-unmute:hover {
             background-color: #82e993;
             border-color: #82e993;
         }
 
-        .action-mute, .action-mute:hover {
+        .action-mute,
+        .action-mute:hover {
             background-color: #ffa66b;
             border-color: #ffa66b;
         }
 
-        .action-kick, .action-kick:hover {
+        .action-kick,
+        .action-kick:hover {
             background-color: #ff8070;
             border-color: #ff8070;
         }
 
-        .action-ban, .action-ban:hover {
+        .action-ban,
+        .action-ban:hover {
             background-color: #ff3e3e;
             border-color: #ff3e3e;
         }
