@@ -772,7 +772,7 @@ io.on(`connection`, async socket => {
                             player.socket.emit(`showCenterMessage`, `You were warned...`, 1);
 
                             log(`blue`, `Reporter ${playerEntity.name} warned ${player.name} for the second time --> kick | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                            bus.emit(`report`, `Second Warn --> Kick`, `Reporter ${playerEntity.name} warned ${reportedPlayer} for the second time --> kick\n${reportReason ? `Reason: ${reportReason} | ` : ``}\nServer ${player.serverNumber}.`);
+                            bus.emit(`report`, `Second Warn --> Kick`, `Reporter ${playerEntity.name} warned ${reportUser} for the second time --> kick\n${reportReason ? `Reason: ${reportReason} | ` : ``}\nServer ${player.serverNumber}.`);
 
                             for (let i in core.players) {
                                 let curPlayer = core.players[i];
@@ -792,7 +792,7 @@ io.on(`connection`, async socket => {
                             }
 
                             log(`blue`, `Reporter ${playerEntity.name} warned ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
-                            return bus.emit(`report`, `Second Warn --> Kick`, `Reporter ${playerEntity.name} warned ${reportedPlayer}\n${reportReason ? `Reason: ${reportReason}\n` : ``}\nServer ${player.serverNumber}.`);
+                            return bus.emit(`report`, `Second Warn --> Kick`, `Reporter ${playerEntity.name} warned ${reportUser}\n${reportReason ? `Reason: ${reportReason}\n` : ``}\nServer ${player.serverNumber}.`);
                         }
                     }
                 }
