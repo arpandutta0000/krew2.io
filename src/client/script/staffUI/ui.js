@@ -23,6 +23,13 @@ let ui = {
             initConnection($(`#server-list`).val());
         });
 
+        /* Clear chat button */
+        if (!config.Admins.includes(headers.username) && !config.Mods.includes(headers.username)) $(`#clear-chat`).addClass(`disabled`);
+        $(`#clear-chat`).on(`click`, () => {
+            if (socket !== undefined) socket.emit(`clear-chat`)
+        });
+
+        /* Mod actions */
         $(`#submit-warn`).on(`click`, () => {
             socket.emit(`warn`, {
                 user: entities[$(`#submit-warn`).data().playerId].name,
@@ -196,7 +203,7 @@ let ui = {
      */
     pushChatMessage: (msg) => {
         ui.chatMessages.push(msg);
-        if(ui.chatMessages.length > 100) ui.chatMessages.shift();
+        if (ui.chatMessages.length > 100) ui.chatMessages.shift();
 
         $(`#chat-messages-text-div`).text(ui.chatMessages.join(`\n`));
     },
@@ -208,7 +215,7 @@ let ui = {
      */
     pushLog: (log) => {
         ui.logs.push(log.replace(`\n\n`, ` | `).replace(/(\r\n|\n|\r)/gm, ` | `));
-        if(ui.logs.length > 100) ui.logs.shift();
+        if (ui.logs.length > 100) ui.logs.shift();
 
         $(`#log-text-div`).text(ui.logs.join(`\n`));
     },

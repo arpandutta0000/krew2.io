@@ -68,6 +68,9 @@
 
 
             <div id="chat-messages-div" class="blue-bg">
+                <div id="clear-chat" class="btn btn-secondary btn-sm action-clear-chat float-right">
+                    <i class="icofont icofont-trash"></i>
+                </div>
                 <h4 class="table-title">Chat Messages</h4>
 
                 <hr style="border-top: 1px solid white;">
@@ -331,6 +334,22 @@
 
         .action-ban.disabled,
         .action-ban.disabled:hover {
+            background-color: #ff7e7e;
+            border-color: #ff7e7e;
+        }
+
+        .action-clear-chat {
+            background-color: #ff3e3e;
+            border-color: #ff3e3e;
+        }
+
+        .action-clear-chat:hover {
+            background-color: #ff3e3eaf;
+            border-color: #ff3e3eaf;
+        }
+
+        .action-clear-chat.disabled,
+        .action-clear-chat.disabled:hover {
             background-color: #ff7e7e;
             border-color: #ff7e7e;
         }
