@@ -17,23 +17,37 @@ let ui = {
         });
 
         $(`#submit-warn`).on(`click`, () => {
-            console.log($(`#submit-warn`).data());
+            socket.emit(`warn`, {
+                user: entities[$(`#submit-warn`).data().playerId].name,
+                reason: $(`#warn-reason`).val() !== undefined ? $(`#warn-reason`).val() : ``
+            });
         });
 
         $(`#submit-unmute`).on(`click`, () => {
-            console.log($(`#submit-unmute`).data());
+            socket.emit(`unmute`, {
+                user: entities[$(`#submit-unmute`).data().playerId].name
+            });
         });
 
         $(`#submit-mute`).on(`click`, () => {
-            console.log($(`#submit-mute`).data());
+            socket.emit(`mute`, {
+                user: entities[$(`#submit-mute`).data().playerId].name,
+                reason: $(`#mute-reason`).val() !== undefined ? $(`#mute-reason`).val() : ``
+            });
         });
 
         $(`#submit-kick`).on(`click`, () => {
-            console.log($(`#submit-kick`).data());
+            socket.emit(`kick`, {
+                user: entities[$(`#submit-kick`).data().playerId].name,
+                reason: $(`#kick-reason`).val() !== undefined ? $(`#kick-reason`).val() : ``
+            });
         });
 
         $(`#submit-ban`).on(`click`, () => {
-            console.log($(`#submit-ban`).data());
+            socket.emit(`ban`, {
+                user: entities[$(`#submit-ban`).data().playerId].name,
+                reason: $(`#ban-reason`).val() !== undefined ? $(`#ban-reason`).val() : ``
+            });
         });
     },
 
