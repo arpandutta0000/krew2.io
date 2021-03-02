@@ -5,6 +5,7 @@ v1.8.0 - [3-1-2021]
 - Buffed Blue Gunpowder
 - Increased Demolisher price
 - Removed item rarity
+- Items are now sorted alphabetically in the shop
 
 v1.7.3 - [2-27-2021]
 - Fixed toolbar not having any orange borders to indicate selected tool until switching tools
