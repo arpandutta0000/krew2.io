@@ -25,7 +25,7 @@ let boatTypes = {
     },
     1: {
         id: 1,
-        image: `<img src="./assets/img/ships/raft.png" style="height: 30px">`,
+        image: `<img src="/assets/img/ships/raft.png" style="height: 30px">`,
         name: `Raft 1`,
         hp: 100,
         turnspeed: 1.2,
@@ -50,7 +50,7 @@ let boatTypes = {
     },
     2: {
         id: 2,
-        image: `<img src="./assets/img/ships/raft.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/raft.png" style="height: 35px">`,
         name: `Raft 2`,
         hp: 150,
         turnspeed: 1,
@@ -75,7 +75,7 @@ let boatTypes = {
     },
     3: {
         id: 3,
-        image: `<img src="./assets/img/ships/raft.png" style="height: 40px">`,
+        image: `<img src="/assets/img/ships/raft.png" style="height: 40px">`,
         name: `Raft 3`,
         hp: 200,
         turnspeed: 0.9,
@@ -100,7 +100,7 @@ let boatTypes = {
     },
     4: {
         id: 4,
-        image: `<img src="./assets/img/ships/boat.png" style="height: 30px">`,
+        image: `<img src="/assets/img/ships/boat.png" style="height: 30px">`,
         name: `Boat 1`,
         hp: 450,
         turnspeed: 0.7,
@@ -126,7 +126,7 @@ let boatTypes = {
     },
     5: {
         id: 5,
-        image: `<img src="./assets/img/ships/boat.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/boat.png" style="height: 35px">`,
         name: `Boat 2`,
         hp: 600,
         turnspeed: 0.7,
@@ -152,7 +152,7 @@ let boatTypes = {
     },
     6: {
         id: 6,
-        image: `<img src="./assets/img/ships/boat.png" style="height: 40px">`,
+        image: `<img src="/assets/img/ships/boat.png" style="height: 40px">`,
         name: `Boat 3`,
         hp: 750,
         turnspeed: 0.7,
@@ -178,7 +178,7 @@ let boatTypes = {
     },
     7: {
         id: 7,
-        image: `<img src="./assets/img/ships/trader.png" style="height: 30px">`,
+        image: `<img src="/assets/img/ships/trader.png" style="height: 30px">`,
         name: `Trader 1`,
         hp: 600,
         turnspeed: 0.5,
@@ -204,7 +204,7 @@ let boatTypes = {
     },
     8: {
         id: 8,
-        image: `<img src="./assets/img/ships/trader.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/trader.png" style="height: 35px">`,
         name: `Trader 2`,
         hp: 800,
         turnspeed: 0.5,
@@ -231,7 +231,7 @@ let boatTypes = {
     },
     9: {
         id: 9,
-        image: `<img src="./assets/img/ships/trader.png" style="height: 40px">`,
+        image: `<img src="/assets/img/ships/trader.png" style="height: 40px">`,
         name: `Trader 3`,
         hp: 1000,
         turnspeed: 0.5,
@@ -258,7 +258,7 @@ let boatTypes = {
     },
     10: {
         id: 10,
-        image: `<img src="./assets/img/ships/destroyer.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/destroyer.png" style="height: 35px">`,
         name: `Destroyer 1`,
         hp: 1200,
         turnspeed: 0.7,
@@ -284,7 +284,7 @@ let boatTypes = {
     },
     11: {
         id: 11,
-        image: `<img src="./assets/img/ships/destroyer.png" style="height: 40px">`,
+        image: `<img src="/assets/img/ships/destroyer.png" style="height: 40px">`,
         name: `Destroyer 2`,
         hp: 2e3,
         turnspeed: 0.7,
@@ -310,7 +310,7 @@ let boatTypes = {
     },
     12: {
         id: 12,
-        image: `<img src="./assets/img/ships/destroyer.png" style="height: 45px">`,
+        image: `<img src="/assets/img/ships/destroyer.png" style="height: 45px">`,
         name: `Destroyer 3`,
         hp: 2500,
         turnspeed: 0.7,
@@ -336,7 +336,7 @@ let boatTypes = {
     },
     13: {
         id: 13,
-        image: `<img src="./assets/img/ships/babyFancy.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/babyFancy.png" style="height: 35px">`,
         name: `Baby Fancy`,
         hp: 300,
         turnspeed: 1,
@@ -363,7 +363,7 @@ let boatTypes = {
     },
     14: {
         id: 14,
-        image: `<img src="./assets/img/ships/babyFancy.png" style="height: 40px">`,
+        image: `<img src="/assets/img/ships/babyFancy.png" style="height: 40px">`,
         name: `Baby Fancy 2`,
         hp: 500,
         turnspeed: 1,
@@ -390,7 +390,7 @@ let boatTypes = {
     },
     15: {
         id: 15,
-        image: `<img src="./assets/img/ships/royalFortune.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/royalFortune.png" style="height: 35px">`,
         name: `Royal Fortune`,
         hp: 1e3,
         turnspeed: 0.5,
@@ -417,7 +417,7 @@ let boatTypes = {
     },
     16: {
         id: 16,
-        image: `<img src="./assets/img/ships/royalFortune.png" style="height: 40px">`,
+        image: `<img src="/assets/img/ships/royalFortune.png" style="height: 40px">`,
         name: `Royal Fortune 2`,
         hp: 1300,
         turnspeed: 0.6,
@@ -444,7 +444,7 @@ let boatTypes = {
     },
     17: {
         id: 17,
-        image: `<img src="./assets/img/ships/calmSpirit.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/calmSpirit.png" style="height: 35px">`,
         name: `Calm Spirit`,
         hp: 1800,
         turnspeed: 0.7,
@@ -471,7 +471,7 @@ let boatTypes = {
     },
     18: {
         id: 18,
-        image: `<img src="./assets/img/ships/calmSpirit.png" style="height: 45px">`,
+        image: `<img src="/assets/img/ships/calmSpirit.png" style="height: 45px">`,
         name: `Calm Spirit 2`,
         hp: 2200,
         turnspeed: 0.7,
@@ -498,7 +498,7 @@ let boatTypes = {
     },
     19: {
         id: 19,
-        image: `<img src="./assets/img/ships/junkie.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/junkie.png" style="height: 35px">`,
         name: `Junkie`,
         hp: 2500,
         turnspeed: 0.7,
@@ -525,7 +525,7 @@ let boatTypes = {
     },
     20: {
         id: 20,
-        image: `<img src="./assets/img/ships/raider.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/raider.png" style="height: 35px">`,
         name: `Raider`,
         hp: 1200,
         turnspeed: 0.9,
@@ -552,7 +552,7 @@ let boatTypes = {
     },
     21: {
         id: 21,
-        image: `<img src="./assets/img/ships/queenBarbsJustice.png" style="height: 45px">`,
+        image: `<img src="/assets/img/ships/queenBarbsJustice.png" style="height: 45px">`,
         name: `Queen Barb's Justice`,
         hp: 3e3,
         turnspeed: 0.7,
@@ -579,7 +579,7 @@ let boatTypes = {
     },
     22: {
         id: 22,
-        image: `<img src="./assets/img/ships/queenBarbsJustice.png" style="height: 50px">`,
+        image: `<img src="/assets/img/ships/queenBarbsJustice.png" style="height: 50px">`,
         name: `Queen Barb's Justice 2`,
         hp: 4e3,
         turnspeed: 0.7,
@@ -606,7 +606,7 @@ let boatTypes = {
     },
     23: {
         id: 23,
-        image: `<img src="./assets/img/ships/blackOyster.png" style="height: 35px">`,
+        image: `<img src="/assets/img/ships/blackOyster.png" style="height: 35px">`,
         name: `Black Oyster`,
         hp: 6e3,
         turnspeed: 0.8,
@@ -633,7 +633,7 @@ let boatTypes = {
     },
     24: {
         id: 24,
-        image: `<img src="./assets/img/ships/fortuneTrader.png" style="height: 50px">`,
+        image: `<img src="/assets/img/ships/fortuneTrader.png" style="height: 50px">`,
         name: `Fortune Trader`,
         hp: 7500,
         turnspeed: 0.6,
