@@ -20,7 +20,7 @@ let itemTypes = [
         name: `Sinker's Gloves`,
         Description: `+25 cannon fire rate`,
         price: 45e3,
-        rarity: 0.2,
+        rarity: 1,
         availableAt: [`Spain`, `Brazil`],
         attributes: {
             attackSpeed: `25`
@@ -31,7 +31,7 @@ let itemTypes = [
         name: `Steel Barrel`,
         Description: `+30 cannon distance`,
         price: 35e3,
-        rarity: 0.6,
+        rarity: 1,
         availableAt: [`Labrador`],
         attributes: {
             attackDistance: `30`
@@ -42,7 +42,7 @@ let itemTypes = [
         name: `Air Pegleg`,
         Description: `+1 ship speed`,
         price: 22e3,
-        rarity: 0.3,
+        rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
             movementSpeed: `100`
@@ -53,7 +53,7 @@ let itemTypes = [
         name: `Blue Gunpowder`,
         Description: `+25 cannon damage`,
         price: 2e5,
-        rarity: 0.25,
+        rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
             attackDamage: `25`
@@ -104,7 +104,7 @@ let itemTypes = [
         name: `Bruiser`,
         Description: `+2 cannon damage<br/>+10 cannon fire rate`,
         price: 2e4,
-        rarity: 0.35,
+        rarity: 1,
         availableAt: [`Spain, Brazil`],
         attributes: {
             attackSpeed: `10`,
@@ -115,7 +115,7 @@ let itemTypes = [
         id: 11,
         name: `Demolisher`,
         Description: `+10 cannon damage<br/>+40 cannon fire rate<br/>Requirements:<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
-        price: 4e5,
+        price: 45e4,
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
@@ -128,7 +128,7 @@ let itemTypes = [
         name: `Drifter`,
         Description: `+10 cannon damage<br/>+1.5 ship speed`,
         price: 2e5,
-        rarity: 0.45,
+        rarity: 1,
         availableAt: [`Guinea`, `Labrador`],
         attributes: {
             attackDamage: `10`,
@@ -140,7 +140,7 @@ let itemTypes = [
         name: `Reinforced Planks`,
         Description: `25% damage reduction`,
         price: 35e3,
-        rarity: 0.45,
+        rarity: 1,
         availableAt: [`Brazil`],
         attributes: {
             armor: `25`
@@ -151,7 +151,7 @@ let itemTypes = [
         name: `Fountain of Youth`,
         Description: `Reset your skill points and allow them to be reallocated.<br/>Can only be bought once.`,
         price: 15e4,
-        rarity: 0.33,
+        rarity: 1,
         availableAt: [`Jamaica`]
     },
     {
@@ -159,7 +159,7 @@ let itemTypes = [
         name: `Nitro Peg`,
         Description: `+2 ship speed`,
         price: 2e5,
-        rarity: 0.2,
+        rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
             movementSpeed: `200`
@@ -170,7 +170,7 @@ let itemTypes = [
         name: `Advanced Toolkit`,
         Description: `+8 Regen`,
         price: 2e5,
-        rarity: 0.2,
+        rarity: 1,
         availableAt: [`Malaysia`],
         attributes: {
             regen: `8`
@@ -181,7 +181,7 @@ let itemTypes = [
         name: `Steel Reinforced Planks`,
         Description: `50% damage reduction`,
         price: 2e5,
-        rarity: 0.3,
+        rarity: 1,
         availableAt: [`Taiwan`],
         attributes: {
             armor: `50`
@@ -190,12 +190,12 @@ let itemTypes = [
     {
         id: 18,
         name: `Titanium Barrel`,
-        Description: `+45 cannon distance`,
-        price: 25e4,
-        rarity: 0.5,
+        Description: `+35 cannon distance`,
+        price: 2e5,
+        rarity: 1,
         availableAt: [`Taiwan`],
         attributes: {
-            attackDistance: `45`
+            attackDistance: `35`
         }
     }
 ];
