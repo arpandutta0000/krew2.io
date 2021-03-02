@@ -63,7 +63,7 @@ let initSocketBinds = (socket) => {
     // On snaps
     socket.on(`s`, (data) => {
         data = JSON.parse(LZString.decompress(data));
-        for (let e in data) parseSnap(e, data[e])
+        for (let e in data) parseSnap(e, data[e]);
     });
 
     // On score updates
@@ -89,7 +89,7 @@ let initSocketBinds = (socket) => {
 
     // On leave
     socket.on(`leave`, (message) => ui.pushLog(message));
-}
+};
 
 /**
  * Parse URL info

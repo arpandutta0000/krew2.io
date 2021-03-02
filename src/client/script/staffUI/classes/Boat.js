@@ -11,7 +11,7 @@ class Boat extends Entity {
      * @param {any} captainId Captain ID
      * @param {string} krewName The krew's (boat's) name
      */
-    constructor(captainId, krewName) {
+    constructor (captainId, krewName) {
         super();
 
         this.netType = 1;
@@ -39,7 +39,7 @@ class Boat extends Entity {
      *
      * @param {number} classId New ship class ID
      */
-    setShipClass(classId) {
+    setShipClass (classId) {
         this.shipclassId = classId;
 
         this.maxHp = boatTypes[classId].hp;
@@ -54,11 +54,11 @@ class Boat extends Entity {
      *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap(snap) {
+    parseTypeSnap (snap) {
         if (snap.h !== undefined && snap.h !== this.hp) this.hp = parseInt(snap.h);
         if (snap.c !== undefined && snap.c !== this.shipclassId) this.setShipClass(snap.c);
         if (snap.k !== undefined && snap.k !== this.krewCount) this.krewCount = snap.k;
         if (snap.b !== undefined && snap.b !== this.captainId) this.captainId = snap.b;
         if (snap.t !== undefined && snap.t !== this.shipState) this.shipState = parseInt(snap.t);
     }
-};
+}

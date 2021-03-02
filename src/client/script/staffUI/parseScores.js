@@ -1,6 +1,6 @@
 /**
  * Method to parse scores data
- * 
+ *
  * @param {object} data Data object of an entity
  */
 let parseScores = (data) => {

@@ -31,7 +31,7 @@ let ui = {
         /* Clear chat button */
         if (config.Admins.includes(headers.username) || config.Mods.includes(headers.username)) $(`#clear-chat`).removeClass(`disabled`);
         $(`#clear-chat`).on(`click`, () => {
-            if (socket !== undefined) socket.emit(`clear-chat`)
+            if (socket !== undefined) socket.emit(`clear-chat`);
         });
 
         /* Recompense button */
@@ -124,7 +124,7 @@ let ui = {
             if (entities[e].netType === 0) players.push(entities[e]);
         }
 
-        players.sort((a, b) => a.name.localeCompare(b.name))
+        players.sort((a, b) => a.name.localeCompare(b.name));
 
         for (let player of players) ui.addPlayerEntry(player);
 
@@ -196,7 +196,7 @@ let ui = {
 
     /**
      * Create buttons for staff actions
-     * 
+     *
      * @param {string} id ID of the player
      */
     playerDataStaffActions: (id) => `
@@ -222,7 +222,7 @@ let ui = {
 
     /**
      * Add a player entry to the table
-     * 
+     *
      * @param {object} player Player object
      */
     addPlayerEntry: (player) => {
@@ -253,7 +253,7 @@ let ui = {
 
     /**
      * Push a chat message
-     * 
+     *
      * @param {string} msg Chat message
      */
     pushChatMessage: (msg) => {
@@ -265,7 +265,7 @@ let ui = {
 
     /**
      * Push a log
-     * 
+     *
      * @param {string} log Log string
      */
     pushLog: (log) => {

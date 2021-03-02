@@ -275,7 +275,7 @@ io.on(`connection`, async socket => {
             log(`magenta`, `Creation of new player: ${playerEntity.name} | IP: ${playerEntity.socket.handshake.address} | UA: ${playerEntity.socket.request.headers[`user-agent`]} | Origin: ${playerEntity.socket.request.headers.origin} | Server ${playerEntity.serverNumber}.`);
             bus.emit(`join`, `Player ${playerEntity.name} joined server ${playerEntity.serverNumber}`);
         }
-        
+
         // Log hackers if detected.
         if (data.hacker) {
             log(`cyan`, `Exploit detected (modified client script / wrong emit). Player name: ${playerEntity.name} | IP: ${socket.handshake.address}.`);
