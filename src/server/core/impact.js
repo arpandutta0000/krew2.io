@@ -15,37 +15,20 @@ class Impact extends Entity {
         // Timeout.
         this.timeout = 1;
     }
+
+    logic = dt => {
+        // Tick down the timer and delete the impact on its conclusion.
+        this.timeout -= 0.8 * dt;
+        if (this.timeout <= 0) this.destroy();
+    }
+
+    getTypeSnap = () => {
+        const snap = {
+            a: this.impactType
+        };
+
+        return snap;
+    }
 }
-
-Impact.prototype.logic = function (dt) {
-    // tick down the timer and delete on end
-    this.timeout -= dt * 0.8;
-    if (this.timeout <= 0) {
-        removeEntity(this);
-    }
-};
-
-Impact.prototype.getTypeSnap = function () {
-    let snap = {
-        a: this.impactType
-    };
-    return snap;
-};
-
-Impact.prototype.getTypeDelta = function () {
-    if (!this.spawnPacket) {
-        this.spawnPacket = true;
-        return this.getTypeSnap();
-    }
-
-    return undefined;
-};
-
-// function that parses a snapshot
-Impact.prototype.parseTypeSnap = function (snap) {
-    if (snap.a !== undefined) {
-        this.impactType = parseFloat(snap.a);
-    }
-};
 
 module.exports = Impact;
