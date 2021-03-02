@@ -58,7 +58,7 @@ class Entity {
         return snap;
     }
 
-    addChildren (entityId) {
+    addChildren = entityId => {
         const entity = entities.find(entity => entity.id === entityId);
 
         if (!this.children.includes(entity)) {
