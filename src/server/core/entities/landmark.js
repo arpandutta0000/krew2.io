@@ -33,7 +33,7 @@ class Landmark extends Entity {
         return snap;
     }
 
-    logic = dt => {
+    logic = () => {
         for (const childID of this.children) {
             const child = entities.find(entity => entity.id === childID);
 
