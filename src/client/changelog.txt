@@ -1,3 +1,11 @@
+v1.8.0 - [3-1-2021]
+- Added Staff UI
+- Fixed buttons in the Krew list modal
+- Nerfed Titanium Barrel
+- Buffed Blue Gunpowder
+- Increased Demolisher price
+- Removed item rarity
+
 v1.7.3 - [2-27-2021]
 - Fixed toolbar not having any orange borders to indicate selected tool until switching tools
 - Improved bank and shop sizes
