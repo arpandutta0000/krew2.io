@@ -7,7 +7,7 @@ class Entity {
     /**
      * Entity constructor
      */
-    constructor() {
+    constructor () {
         this.netType = -1;
         this.gold = 0;
 
@@ -26,7 +26,7 @@ class Entity {
      *
      * @param {object} entity The entity to be added as a child
      */
-    addChildren(entity) {
+    addChildren (entity) {
         this.children[entity.id] = entity;
         entity.parent = this;
     }
@@ -36,7 +36,7 @@ class Entity {
      *
      * @param {object} snap Snap to be parsed
      */
-    parseSnap(snap, id) {
+    parseSnap (snap, id) {
         if (snap.del !== undefined) delete entities[this.id];
         if (snap.p !== undefined && entities[snap.p] !== undefined && this.parent !== entities[snap.p]) entities[snap.p].addChildren(this);
         if (snap.t !== undefined) this.parseTypeSnap(snap.t);
@@ -47,4 +47,4 @@ class Entity {
             if (snap.z !== undefined) this.position.z = parseFloat(snap.z);
         }
     }
-};
+}

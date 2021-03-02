@@ -181,5 +181,5 @@ let itemTypes = [
         price: 15e4,
         rarity: 1,
         availableAt: [`Jamaica`]
-    },
+    }
 ];

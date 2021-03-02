@@ -10,7 +10,7 @@ class Player extends Entity {
      *
      * @param {object} data Player data
      */
-    constructor(data) {
+    constructor (data) {
         super();
 
         this.netType = 0;
@@ -31,8 +31,8 @@ class Player extends Entity {
      *
      * @param {object} snap Snap to be parsed
      */
-    parseTypeSnap(snap) {
+    parseTypeSnap (snap) {
         if (snap.e !== undefined && snap.e.l !== undefined && snap.e.l !== this.level) this.level = parseInt(snap.e.l);
         if (snap.w !== undefined && snap.w !== this.activeWeapon) this.activeWeapon = parseInt(snap.w);
     }
-};
+}

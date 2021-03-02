@@ -46,12 +46,8 @@ let initStaffUISocket = (socket) => {
     log(`green`, `Staff "${staff.username}" connected to Staff UI bound to server ${staff.serverNumber}`);
     socket.emit(`showCenterMessage`, `Connected to server ${staff.serverNumber}`, 3, 5e3);
 
-
-
     // On socket disconnect
     socket.on(`disconnect`, () => log(`red`, `Staff "${staff.username}" disconnected from Staff UI bound to server ${staff.serverNumber}`));
-
-
 
     // Warn action
     socket.on(`warn`, async (data) => {
@@ -91,8 +87,6 @@ let initStaffUISocket = (socket) => {
         }
     });
 
-
-
     // Unmute action
     socket.on(`unmute`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
@@ -126,8 +120,6 @@ let initStaffUISocket = (socket) => {
         }
     });
 
-
-
     // Mute action
     socket.on(`mute`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
@@ -153,8 +145,6 @@ let initStaffUISocket = (socket) => {
         return bus.emit(`report`, `Muted Player`, `Admin / Mod / Helper ${staff.username} muted ${player.name} --> ${player.id}\n${muteReason ? `Reason: ${muteReason}\n` : ``}\nServer ${player.serverNumber}.`);
     });
 
-
-
     // Kick action
     socket.on(`kick`, async (data) => {
         if (staff.role !== `admin` && staff.role !== `mod` && staff.role !== `helper`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
@@ -179,8 +169,6 @@ let initStaffUISocket = (socket) => {
         bus.emit(`report`, `Kick Player`, `Admin / Mod / Helper ${staff.username} kicked ${player.name} --> ${player.id}\n${kickReason ? `Reason: ${kickReason}\n` : ``}\nServer ${player.serverNumber}.`);
         return player.socket.disconnect();
     });
-
-
 
     // Ban action
     socket.on(`ban`, async (data) => {
@@ -220,8 +208,6 @@ let initStaffUISocket = (socket) => {
         return bus.emit(`report`, `Permanently Ban Player`, `Admin / Mod ${staff.username} permanently banned ${player.name} --> ${player.id}\n${banReason ? `Reason: ${banReason}\n` : ``}\nServer ${player.serverNumber}.`);
     });
 
-
-
     // Clear chat
     socket.on(`clear-chat`, () => {
         if (staff.role !== `admin` && staff.role !== `mod`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
@@ -239,8 +225,6 @@ let initStaffUISocket = (socket) => {
         log(`blue`, `Admin / Mod ${staff.username} cleared global chat | IP: ${socket.handshake.address} | Server ${staff.serverNumber}.`);
         return bus.emit(`report`, `Chat Clear`, `Admin / Mod ${staff.username} cleared the global chat.`);
     });
-
-
 
     // Give
     socket.on(`give`, (data) => {
@@ -269,8 +253,6 @@ let initStaffUISocket = (socket) => {
         return bus.emit(`report`, `Give Gold`, `Admin ${staff.username} gave ${giveUser} ${giveAmount} gold.`);
     });
 
-
-
     // Recompense
     socket.on(`recompense`, (data) => {
         if (staff.role !== `admin`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
@@ -290,8 +272,6 @@ let initStaffUISocket = (socket) => {
         bus.emit(`report`, `Recompense`, `Admin ${staff.username} recompensed all players ${amt} gold.`);
         return io.emit(`showAdminMessage`, `You have been recompensed for the server restart!`);
     });
-
-
 
     // Server Restart
     socket.on(`server-restart`, (data) => {
@@ -359,9 +339,7 @@ let initStaffUISocket = (socket) => {
                 serverRestart = false;
             }
         }, 6e4);
-    })
-
-
+    });
 
     // Chat Messages
     bus.on(`msg`, (id, name, server, message) => socket.emit(`msg`, `[Server ${server}] ${name} » ${message}`));
@@ -374,7 +352,6 @@ let initStaffUISocket = (socket) => {
 
     // Player Leave
     bus.on(`leave`, (message) => socket.emit(`leave`, message));
-
 
     // Send first snapshot
     socket.emit(`s`, lzString.compress(JSON.stringify(core.compressor.getSnapshot(true))));
