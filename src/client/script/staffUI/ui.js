@@ -29,7 +29,37 @@ let ui = {
             if (socket !== undefined) socket.emit(`clear-chat`)
         });
 
-        /* Mod actions */
+        /* Recompense button */
+        if (!config.Admins.includes(headers.username)) $(`#recompense`).addClass(`disabled`);
+        $(`#recompense`).on(`click`, () => $(`#recompense-modal`).modal(`show`));
+        $(`#submit-recompense`).on(`click`, () => {
+            socket.emit(`recompense`, {
+                amount: $(`#recompense-amount`).val() !== undefined ? $(`#recompense-amount`).val() : 0
+            });
+            $(`#recompense-modal`).modal(`hide`);
+        });
+
+        /* Restart button */
+        if (!config.Admins.includes(headers.username)) $(`#restart`).addClass(`disabled`);
+        $(`#restart`).on(`click`, () => $(`#restart-modal`).modal(`show`));
+        $(`#submit-restart`).on(`click`, () => {
+            socket.emit(`server-restart`, {
+                type: `restart`
+            });
+            $(`#restart-modal`).modal(`hide`);
+        });
+
+        /* Update button */
+        if (!config.Admins.includes(headers.username)) $(`#update`).addClass(`disabled`);
+        $(`#update`).on(`click`, () => $(`#update-modal`).modal(`show`));
+        $(`#submit-update`).on(`click`, () => {
+            socket.emit(`server-restart`, {
+                type: `update`
+            });
+            $(`#update-modal`).modal(`hide`);
+        });
+
+        /* Player data div staff actions */
         $(`#submit-warn`).on(`click`, () => {
             socket.emit(`warn`, {
                 user: entities[$(`#submit-warn`).data().playerId].name,
@@ -101,7 +131,7 @@ let ui = {
                 $(`#warn-reason`).val(``);
                 $(`#submit-warn`).data(`playerId`, playerId);
                 $(`#warn-modal`).modal(`show`);
-            })
+            });
         });
 
         $(`.action-unmute`).each(function () {
@@ -111,7 +141,7 @@ let ui = {
                 $(`#unmute-player-heading`).text(`Unmute ${entities[playerId].name}`);
                 $(`#submit-unmute`).data(`playerId`, playerId);
                 $(`#unmute-modal`).modal(`show`);
-            })
+            });
         });
 
         $(`.action-mute`).each(function () {
@@ -122,7 +152,7 @@ let ui = {
                 $(`#mute-reason`).val(``);
                 $(`#submit-mute`).data(`playerId`, playerId);
                 $(`#mute-modal`).modal(`show`);
-            })
+            });
         });
 
         $(`.action-kick`).each(function () {
@@ -133,7 +163,7 @@ let ui = {
                 $(`#kick-reason`).val(``);
                 $(`#submit-kick`).data(`playerId`, playerId);
                 $(`#kick-modal`).modal(`show`);
-            })
+            });
         });
 
         $(`.action-ban`).each(function () {
@@ -144,7 +174,7 @@ let ui = {
                 $(`#ban-reason`).val(``);
                 $(`#submit-ban`).data(`playerId`, playerId);
                 $(`#ban-modal`).modal(`show`);
-            })
+            });
         });
 
         $(`.action-give`).each(function () {
@@ -155,7 +185,7 @@ let ui = {
                 $(`#give-amount`).val(``);
                 $(`#submit-give`).data(`playerId`, playerId);
                 $(`#give-modal`).modal(`show`);
-            })
+            });
         });
     },
 
@@ -164,8 +194,7 @@ let ui = {
      * 
      * @param {string} id ID of the player
      */
-    playerDataStaffActions: (id) => {
-        return `
+    playerDataStaffActions: (id) => `
         <div id="warn-${id}" class="btn btn-secondary btn-sm action-warn">
             <i class="icofont icofont-warning"></i>
         </div>
@@ -184,8 +213,7 @@ let ui = {
         <div id="give-${id}" class="btn btn-secondary btn-sm action-give${!config.Admins.includes(headers.username) ? ` disabled` : ``}">
             <i class="icofont icofont-money"></i>
         </div>
-        `
-    },
+        `,
 
     /**
      * Add a player entry to the table
