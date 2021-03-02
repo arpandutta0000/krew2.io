@@ -3,7 +3,7 @@ const Entity = require(`./entity.js`);
 
 class Impact extends Entity {
     constructor (type, x, z) {
-        super();
+        super(x, 0, z);
 
         // Network type.
         this.netType = 3;

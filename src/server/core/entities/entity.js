@@ -4,9 +4,9 @@ const { entities } = require(`../core.js`);
 const utils = require(`../utils.js`);
 
 class Entity {
-    constructor () {
+    constructor (x, y, z) {
         // Entities have a position and velocity.
-        this.position = new THREE.Vector3(0, 0, 0);
+        this.position = new THREE.Vector3(x, y, z);
         this.velocity = new THREE.Vector3(0, 0, 0);
 
         // Entities have a size and rotation.
@@ -63,12 +63,21 @@ class Entity {
         return snap;
     }
 
-    addChildren = entityId => {
+    addChild = entityId => {
         const entity = entities.find(entity => entity.id === entityId);
 
-        if (!this.children.includes(entity)) {
-            this.children.push(entity);
+        if (entity && !this.children.includes(entity)) {
+            this.children.push(entity.id);
             entity.parent = this.id;
+        }
+    }
+
+    removeChild = entityId => {
+        const entity = entities.find(entity => entity.id === entityId);
+
+        if (entity && this.children.includes(entity)) {
+            this.children.splice(this.children.indexOf(entity.id), 1);
+            entity.parent = undefined;
         }
     }
 

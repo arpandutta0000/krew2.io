@@ -1,55 +1,46 @@
-// PLayers are entities, check core_entity.js for the base class
-Landmark.prototype = new Entity();
-Landmark.prototype.constructor = Landmark;
+const THREE = require(`../../../client/libs/js/three.min.js`);
+const Entity = require(`./entity.js`);
 
-function Landmark (type, x, z, config) {
-    this.createProperties();
+class Landmark extends Entity {
+    constructor (config) {
+        super(config.x, 0, config.z);
 
-    this.name = config.name || ``;
+        // Network type.
+        this.netType = 5;
 
-    this.goodsPrice = config.goodsPrice;
+        // Landmark type and size.
+        this.landmarkType = config.type;
+        this.size = new THREE.Vector3(this.dockRadius, 20, this.dockRadius);
 
-    // netcode type
-    this.netType = 5;
+        // Name and pricing.
+        this.name = config.name;
+        this.goodsPrice = config.goodsPrice;
 
-    // landmark type
-    this.landmarkType = type;
+        this.dockType = 1;
+        this.dockRadius = config.dockRadius;
 
-    // docking / anchoring ?
-    this.dockType = 1;
-    this.dockRadius = config.dockRadius;
-    this.spawnPlayers = config.spawnPlayers;
-    this.onlySellOwnShips = config.onlySellOwnShips;
-
-    // net data
-    this.sendDelta = false;
-    this.sendSnap = false;
-    this.sendCreationSnapOnDelta = true;
-
-    // // size of a Landmark
-    this.size = new THREE.Vector3(this.dockRadius, 20, this.dockRadius);
-
-    this.position.x = x;
-    this.position.z = z;
-
-    this.collisionRadius = 30;
-}
-
-Landmark.prototype.getTypeSnap = function () {
-    let snap = {
-        t: this.landmarkType,
-        name: this.name,
-        dockRadius: this.dockRadius
-    };
-    return snap;
-};
-
-// function that parses a snapshot
-Landmark.prototype.parseTypeSnap = function (snap) {
-    if (snap.t !== undefined) {
-        this.pickupSize = parseInt(snap.t);
+        this.spawnPlayers = config.spawnPlayers;
+        this.onlySellOwnShips = config.onlySellOwnShips;
     }
-};
+
+    getTypeSnap = () => {
+        const snap = {
+            t: this.landmarkType,
+            n: this.name,
+            d: this.dockRadius
+        };
+
+        return snap;
+    }
+
+    logic = dt => {
+        for (const childID of this.children) {
+            const child = entities.find(entity => entity.id === childID);
+
+            if (child.netType === 0 && child.parent !== this.id) this.removeChild(child.id);
+        }
+    }
+}
 
 Landmark.prototype.logic = function (dt) {
     for (c in this.children) {
