@@ -298,7 +298,7 @@ let initStaffUISocket = (socket) => {
     socket.on(`server-restart`, (data) => {
         if (staff.role !== `admin`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
 
-        if (serverRestart) return socket.emit(`showCenterMessage`, `Server restart is already in progress`, 3, 1e4);
+        if (serverRestart) return socket.emit(`showCenterMessage`, `Server restart is already in progress`, 1, 1e4);
 
         serverRestart = true;
         socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
