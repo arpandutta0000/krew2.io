@@ -484,7 +484,7 @@ Player.prototype.purchaseItem = function (itemId) {
     if (item && this.gold >= item.price) {
         this.gold -= item.price;
 
-        if (itemId !== `14`) {
+        if (itemId !== `16`) {
             this.equip(item);
             this.itemId = itemId;
         }
