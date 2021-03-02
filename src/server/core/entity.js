@@ -44,12 +44,15 @@ class Entity {
             t: this.getTypeSnap()
         };
 
+        // If the snap is being created for the first time.
         if (this.isNew) {
             snap.id = this.id;
             snap.name = this.name;
 
             snap.playerModel = this.playerModel || 0;
             snap.hatModel = this.hatModel || 0;
+
+            this.isNew = false;
         }
 
         return snap;
