@@ -373,19 +373,19 @@ td {
 /* Kick player from Krew button */
 .btn-kick-player {
     cursor: pointer;
-    padding: 0 0.2em;
-    line-height: 1;
-    margin-left: 0.3em;
-    margin-top: 2px;
+    padding: 0 0.2em !important;
+    line-height: 1 !important;
+    margin-left: 0.3em !important;
+    margin-top: 2px !important;
 }
 
 /* Transfer ship button */
 .btn-transfer-ship {
     cursor: pointer;
-    padding: 0 0.2em;
-    line-height: 1;
-    margin-left: 0.3em;
-    margin-top: 2px;
+    padding: 0 0.2em !important;
+    line-height: 1 !important;
+    margin-left: 0.3em !important;
+    margin-top: 2px !important;
 }
 
 /* Clan Management */
