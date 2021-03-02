@@ -5,7 +5,10 @@
  */
 let initConnection = (pid) => {
     // Disconnect socket if already connected
-    if (socket !== undefined) socket.disconnect();
+    if (socket !== undefined) {
+        entities = {};
+        socket.disconnect();
+    }
 
     // Connect to each IP to request a load
     if (getUrlVars().pid && ui.serverList[getUrlVars().pid]) pid = getUrlVars().pid;
