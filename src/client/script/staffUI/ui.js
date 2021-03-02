@@ -7,9 +7,9 @@ let ui = {
     logs: [],
 
     /**
-     * Initiate listeners for staff UI
+     * Initiate primary UI elements
      */
-    initListeners: () => {
+    initUI: () => {
         $(`#splash-modal`).modal({
             backdrop: `static`,
             keyboard: false
@@ -22,15 +22,20 @@ let ui = {
             /* Connect to a server */
             initConnection($(`#server-list`).val());
         });
+    },
 
+    /**
+     * Initiate listeners for staff UI
+     */
+    initListeners: () => {
         /* Clear chat button */
-        if (!config.Admins.includes(headers.username) && !config.Mods.includes(headers.username)) $(`#clear-chat`).addClass(`disabled`);
+        if (config.Admins.includes(headers.username) || config.Mods.includes(headers.username)) $(`#clear-chat`).removeClass(`disabled`);
         $(`#clear-chat`).on(`click`, () => {
             if (socket !== undefined) socket.emit(`clear-chat`)
         });
 
         /* Recompense button */
-        if (!config.Admins.includes(headers.username)) $(`#recompense`).addClass(`disabled`);
+        if (config.Admins.includes(headers.username)) $(`#recompense`).removeClass(`disabled`);
         $(`#recompense`).on(`click`, () => $(`#recompense-modal`).modal(`show`));
         $(`#submit-recompense`).on(`click`, () => {
             socket.emit(`recompense`, {
@@ -40,7 +45,7 @@ let ui = {
         });
 
         /* Restart button */
-        if (!config.Admins.includes(headers.username)) $(`#restart`).addClass(`disabled`);
+        if (config.Admins.includes(headers.username)) $(`#restart`).removeClass(`disabled`);
         $(`#restart`).on(`click`, () => $(`#restart-modal`).modal(`show`));
         $(`#submit-restart`).on(`click`, () => {
             socket.emit(`server-restart`, {
@@ -50,7 +55,7 @@ let ui = {
         });
 
         /* Update button */
-        if (!config.Admins.includes(headers.username)) $(`#update`).addClass(`disabled`);
+        if (config.Admins.includes(headers.username)) $(`#update`).removeClass(`disabled`);
         $(`#update`).on(`click`, () => $(`#update-modal`).modal(`show`));
         $(`#submit-update`).on(`click`, () => {
             socket.emit(`server-restart`, {

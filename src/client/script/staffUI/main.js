@@ -15,8 +15,8 @@ $(document).ready(async () => {
     // Call authentication method
     await authenticate();
 
-    // Init UI listeners
-    ui.initListeners();
+    // Init UI
+    ui.initUI();
 
     // Update the server list every 30 seconds
     ui.updateServerList();
