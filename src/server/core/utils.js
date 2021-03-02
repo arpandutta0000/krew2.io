@@ -1,3 +1,5 @@
+const { entities } = require(`./core.js`);
+
 let lerp = (start, end, amount) => (1 - amount) * start + amount * end;
 
 let charLimit = function (text, chars, suffix) {
@@ -110,6 +112,11 @@ let getFixedFrameRateMethod = (fps, callback) => {
     };
 
     return method;
+};
+
+const randomID = () => {
+    let id = ``;
+    while (entities.find(entity => entity.id === id)) id = Math.random().toString(36).substring(6, 10);
 };
 
 module.exports = {

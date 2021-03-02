@@ -1,4 +1,5 @@
 const { entities } = require(`./core.js`);
+const utils = require(`./utils.js`);
 
 class Entity {
     constructor () {
@@ -20,6 +21,7 @@ class Entity {
         this.netType = -1;
 
         // Give the entity an identifier and add it to the entity array.
+        this.id = utils.randomID();
         entities.push(this);
     }
 
