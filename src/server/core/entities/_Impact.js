@@ -1,5 +1,5 @@
 const THREE = require(`../../../client/libs/js/three.min.js`);
-const Entity = require(`./Entity.js`);
+const Entity = require(`./_Entity.js`);
 
 class Impact extends Entity {
     constructor (type, x, z) {

@@ -1,6 +1,6 @@
 const THREE = require(`../../../client/libs/js/three.min.js`);
 
-const Entity = require(`./Entity.js`);
+const Entity = require(`./_Entity.js`);
 const utils = require(`../utils.js`);
 
 class Landmark extends Entity {
