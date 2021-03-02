@@ -90,7 +90,6 @@ let EntitySnap = {
                     _this.experienceNeedsUpdate = true;
                     _this.updateExperience();
                 }
-                console.log(snap.t.e.p)
 
                 if (snap.t.e.p.fr !== undefined && snap.t.e.p.fr !== _this.points.fireRate) {
                     _this.points.fireRate = parseInt(snap.t.e.p.fr);
