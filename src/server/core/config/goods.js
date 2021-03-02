@@ -1,4 +1,4 @@
-let goodsTypes = {
+module.exports = {
     rum: {
         cargoSpace: 10
     },

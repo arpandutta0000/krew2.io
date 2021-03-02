@@ -1,5 +1,5 @@
-let boatTypes = {
-    0: {
+module.exports = [
+    {
         id: 0,
         name: `Wood Plank`,
         hp: 50,
@@ -23,7 +23,7 @@ let boatTypes = {
         offset: [0, -1, 0],
         rotation: [0, 0, 0]
     },
-    1: {
+    {
         id: 1,
         image: `<img src="./assets/img/ships/raft.png" style="height: 30px">`,
         name: `Raft 1`,
@@ -48,7 +48,7 @@ let boatTypes = {
         offset: [0, -1.0, 0],
         rotation: [0, 0, 0]
     },
-    2: {
+    {
         id: 2,
         image: `<img src="./assets/img/ships/raft.png" style="height: 35px">`,
         name: `Raft 2`,
@@ -73,7 +73,7 @@ let boatTypes = {
         offset: [0, -1.0, 0],
         rotation: [0, 0, 0]
     },
-    3: {
+    {
         id: 3,
         image: `<img src="./assets/img/ships/raft.png" style="height: 40px">`,
         name: `Raft 3`,
@@ -98,7 +98,7 @@ let boatTypes = {
         offset: [0, -1.0, 0],
         rotation: [0, 0, 0]
     },
-    4: {
+    {
         id: 4,
         image: `<img src="./assets/img/ships/boat.png" style="height: 30px">`,
         name: `Boat 1`,
@@ -124,7 +124,7 @@ let boatTypes = {
         offset: [0, 7.2, -2.5],
         rotation: [0, Math.PI / 2, 0]
     },
-    5: {
+    {
         id: 5,
         image: `<img src="./assets/img/ships/boat.png" style="height: 35px">`,
         name: `Boat 2`,
@@ -150,7 +150,7 @@ let boatTypes = {
         offset: [0, 10.5, -4.2],
         rotation: [0, Math.PI / 2, 0]
     },
-    6: {
+    {
         id: 6,
         image: `<img src="./assets/img/ships/boat.png" style="height: 40px">`,
         name: `Boat 3`,
@@ -176,7 +176,7 @@ let boatTypes = {
         offset: [0, 14, -4.2],
         rotation: [0, Math.PI / 2, 0]
     },
-    7: {
+    {
         id: 7,
         image: `<img src="./assets/img/ships/trader.png" style="height: 30px">`,
         name: `Trader 1`,
@@ -202,7 +202,7 @@ let boatTypes = {
         offset: [0, -3.5, 0],
         rotation: [0, 0, 0]
     },
-    8: {
+    {
         id: 8,
         image: `<img src="./assets/img/ships/trader.png" style="height: 35px">`,
         name: `Trader 2`,
@@ -229,7 +229,7 @@ let boatTypes = {
         rotation: [0, 0, 0],
         availableAt: [`Jamaica`]
     },
-    9: {
+    {
         id: 9,
         image: `<img src="./assets/img/ships/trader.png" style="height: 40px">`,
         name: `Trader 3`,
@@ -256,7 +256,7 @@ let boatTypes = {
         rotation: [0, 0, 0],
         availableAt: [`Jamaica`]
     },
-    10: {
+    {
         id: 10,
         image: `<img src="./assets/img/ships/destroyer.png" style="height: 35px">`,
         name: `Destroyer 1`,
@@ -282,7 +282,7 @@ let boatTypes = {
         offset: [0, -6, -3.3],
         rotation: [0, 0, 0]
     },
-    11: {
+    {
         id: 11,
         image: `<img src="./assets/img/ships/destroyer.png" style="height: 40px">`,
         name: `Destroyer 2`,
@@ -308,7 +308,7 @@ let boatTypes = {
         offset: [0, -6.1, -3],
         rotation: [0, 0, 0]
     },
-    12: {
+    {
         id: 12,
         image: `<img src="./assets/img/ships/destroyer.png" style="height: 45px">`,
         name: `Destroyer 3`,
@@ -334,7 +334,7 @@ let boatTypes = {
         offset: [0, -6.3, -3],
         rotation: [0, 0, 0]
     },
-    13: {
+    {
         id: 13,
         image: `<img src="./assets/img/ships/babyFancy.png" style="height: 35px">`,
         name: `Baby Fancy`,
@@ -361,7 +361,7 @@ let boatTypes = {
         rotation: [0, 0, 0],
         availableAt: [`Spain`, `Brazil`, `Cuba`]
     },
-    14: {
+    {
         id: 14,
         image: `<img src="./assets/img/ships/babyFancy.png" style="height: 40px">`,
         name: `Baby Fancy 2`,
@@ -388,7 +388,7 @@ let boatTypes = {
         rotation: [0, 0, 0],
         availableAt: [`Jamaica`]
     },
-    15: {
+    {
         id: 15,
         image: `<img src="./assets/img/ships/royalFortune.png" style="height: 35px">`,
         name: `Royal Fortune`,
@@ -415,7 +415,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Labrador`, `Spain`, `Barbados`, `Taiwan`]
     },
-    16: {
+    {
         id: 16,
         image: `<img src="./assets/img/ships/royalFortune.png" style="height: 40px">`,
         name: `Royal Fortune 2`,
@@ -442,7 +442,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Jamaica`, `Taiwan`]
     },
-    17: {
+    {
         id: 17,
         image: `<img src="./assets/img/ships/calmSpirit.png" style="height: 35px">`,
         name: `Calm Spirit`,
@@ -469,7 +469,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Spain`, `Guinea`, `Cuba`]
     },
-    18: {
+    {
         id: 18,
         image: `<img src="./assets/img/ships/calmSpirit.png" style="height: 45px">`,
         name: `Calm Spirit 2`,
@@ -496,7 +496,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Jamaica`]
     },
-    19: {
+    {
         id: 19,
         image: `<img src="./assets/img/ships/junkie.png" style="height: 35px">`,
         name: `Junkie`,
@@ -523,7 +523,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Spain`, `Jamaica`, `Taiwan`]
     },
-    20: {
+    {
         id: 20,
         image: `<img src="./assets/img/ships/raider.png" style="height: 35px">`,
         name: `Raider`,
@@ -550,7 +550,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Spain`]
     },
-    21: {
+    {
         id: 21,
         image: `<img src="./assets/img/ships/queenBarbsJustice.png" style="height: 45px">`,
         name: `Queen Barb's Justice`,
@@ -577,7 +577,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Spain`, `Malaysia`]
     },
-    22: {
+    {
         id: 22,
         image: `<img src="./assets/img/ships/queenBarbsJustice.png" style="height: 50px">`,
         name: `Queen Barb's Justice 2`,
@@ -604,7 +604,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Jamaica`]
     },
-    23: {
+    {
         id: 23,
         image: `<img src="./assets/img/ships/blackOyster.png" style="height: 35px">`,
         name: `Black Oyster`,
@@ -631,7 +631,7 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Jamaica`]
     },
-    24: {
+    {
         id: 24,
         image: `<img src="./assets/img/ships/fortuneTrader.png" style="height: 50px">`,
         name: `Fortune Trader`,
@@ -658,4 +658,4 @@ let boatTypes = {
         rotation: [0, Math.PI / 2, 0],
         availableAt: [`Guinea`]
     }
-};
+];

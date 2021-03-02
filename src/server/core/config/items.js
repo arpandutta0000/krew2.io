@@ -1,4 +1,4 @@
-let itemTypes = [
+module.exports = [
     {
         id: 0,
         name: `Attack speed upgrade`,
