@@ -19,6 +19,7 @@ class Entity {
         // Unitialized netType.
         this.netType = -1;
 
+        // Give the entity an identifier and add it to the entity array.
         entities.push(this);
     }
 

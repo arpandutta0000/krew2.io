@@ -13,13 +13,13 @@ let charLimit = function (text, chars, suffix) {
 
 let entityDistance = (a, b) => Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
 
-function distance (p1, p2) {
+let distance = (p1, p2) => {
     let dx = p2.x - p1.x;
     let dz = p2.z - p1.z;
     return Math.sqrt(dx * dx + dz * dz);
-}
+};
 
-function worldAngle (vector) {
+let worldAngle = vector => {
     let result = vector.angle() + Math.PI * 0.5;
     if (result > Math.PI * 2) {
         result -= Math.PI * 2;
@@ -27,9 +27,9 @@ function worldAngle (vector) {
 
     result = Math.PI * 2 - result;
     return result;
-}
+};
 
-function anglediff (firstAngle, secondAngle) {
+let anglediff = (firstAngle, secondAngle) => {
     let difference = secondAngle - firstAngle;
     while (difference < -Math.PI) {
         difference += Math.PI * 2.0;
@@ -40,7 +40,7 @@ function anglediff (firstAngle, secondAngle) {
     }
 
     return difference;
-}
+};
 
 const angleToVector = (angle) => new THREE.Vector2(-Math.sin(angle), -Math.cos(angle));
 
@@ -95,7 +95,7 @@ let inPlayersVision = (function () {
     return inPlayersVision;
 })();
 
-function getFixedFrameRateMethod (fps, callback) {
+let getFixedFrameRateMethod = (fps, callback) => {
     fps = fps || 5;
     let time = performance.now();
     let previousTime = performance.now();
@@ -110,4 +110,27 @@ function getFixedFrameRateMethod (fps, callback) {
     };
 
     return method;
-}
+};
+
+module.exports = {
+    lerp,
+    charLimit,
+
+    entityDistance,
+    distance,
+
+    anglediff,
+    angleToVector,
+
+    rotationToPosition,
+    rotationToObject,
+
+    distanceToPosition,
+    distanceToPositionSquared,
+
+    distanceToObject,
+    distanceToObjectSquared,
+
+    inPlayersVision,
+    getFixedFrameRateMethod
+};
