@@ -57,7 +57,11 @@ class Entity {
 
     addChildren (entityId) {
         const entity = entities.find(entity => entity.id === entityId);
-        if (!this.children.includes(entity)) this.children.push(entity);
+
+        if (!this.children.includes(entity)) {
+            this.children.push(entity);
+            entity.parent = this.id;
+        }
     }
 
     destroy = () => {
