@@ -5,8 +5,10 @@ class Impact extends Entity {
     constructor (type, x, z) {
         super();
 
-        // Network type and impact type.
+        // Network type.
         this.netType = 3;
+
+        // Impacts have their own specific type.
         this.impactType = type;
 
         // Size of an impact.
