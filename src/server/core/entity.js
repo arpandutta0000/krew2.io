@@ -1,137 +1,60 @@
-function Entity () {
+class Entity {
+    constructor () {
+        // Entities have a position and velocity.
+        this.position = new THREE.Vector3(0, 0, 0);
+        this.velocity = new THREE.Vector3(0, 0, 0);
 
+        // Entities have a size and rotation.
+        this.size = new THREE.Vector3(1, 1, 1);
+        this.rotation = 0;
+
+        // In terms of logic, everything is a box.
+        this.collisionRadius = 1;
+
+        // Entities can have children entities.
+        this.children = [];
+
+        // Unitialized netType.
+        this.netType = -1;
+    }
+
+    tick = dt => {
+        // Pass through logic.
+        this.logic(dt);
+
+        // Move the entity by current velocity.
+        this.position.x += this.velocity.x * dt;
+        this.position.z += this.velocity.z * dt;
+    }
+
+    getSnap = () => {
+        const snap = {
+            p: this.parent ? this.parent.id : undefined,
+            n: this.netType,
+
+            x: this.position.x,
+            y: this.position.y,
+            z: this.position.z,
+
+            r: this.rotation,
+            t: this.getTypeSnap()
+        };
+
+        if (this.isNew) {
+            snap.id = this.id;
+            snap.name = this.name;
+
+            snap.playerModel = this.playerModel || 0;
+            snap.hatModel = this.hatModel || 0;
+        }
+
+        return snap;
+    }
+
+    addChildren (entityId) {
+        this.children.splice(this.children.indexOf(entities.find(entity => entity.id)), 1);
+    }
 }
-
-Entity.prototype.createProperties = function () {
-    // Each and every thing in the game has a position and a velocity
-    this.position = new THREE.Vector3(0, 0, 0);
-    this.velocity = new THREE.Vector3(0, 0, 0);
-
-    // Everything has a size and rotation (y axis), and in terms of logic, everything is a box
-    this.size = new THREE.Vector3(1, 1, 1);
-    this.rotation = 0;
-    this.collisionRadius = 1;
-
-    // Things can have a parent entity, for example a boat, which is a relative anchor in the world. things that dont have a parent, float freely
-    this.parent = undefined;
-    this.children = {};
-
-    this.isNew = true; // if this is a new guy entering the server
-
-    // Things have a unique ID, which is used to identify things in the engine and via netcode
-    // this.id = "";
-
-    // things have a netcode type
-    this.netType = -1;
-
-    // last snap, stores info to be able to get delta snaps
-    this.sendSnap = true; // decide if we want to send the snapshots (full entity info) once a second
-    this.sendDelta = true; // decide if we want to send the delta information if there is a change (up to 10 times a second)
-
-    // if this is set to true, but sendSnap isnt, then it will simply send the first delta
-    // as a full snap (good for things that only sned their creation)
-    this.sendCreationSnapOnDelta = true;
-    // "true" to disable snap and delta completely
-    this.disableSnapAndDelta = false;
-    this.last = {};
-    this.lastType = {};
-
-    // some entities have muted netcode parts
-    this.muted = [];
-};
-
-Entity.prototype.tick = function (dt) {
-    // compute the base class logic. this is set by the children classes
-    this.logic(dt);
-
-    // move ourselves by the current speed
-    this.position.x += this.velocity.x * dt;
-    this.position.z += this.velocity.z * dt;
-};
-
-// function that generates a snapshot
-Entity.prototype.getSnap = function (force) {
-    if (!force && !this.sendSnap || this.disableSnapAndDelta) {
-        return undefined;
-    }
-
-    if (this.rotation === undefined) {
-        console.log(this); // Bots don't have a rotation so this fails
-    }
-
-    let snap = {
-        p: this.parent ? this.parent.id : undefined,
-        n: this.netType, // netcode id is for entity type (e.g. 0 player)
-        x: this.position.x.toFixed(2), // x and z position relative to parent
-        y: this.position.y.toFixed(2),
-        z: this.position.z.toFixed(2),
-        r: (this.rotation || 0).toFixed(2), // rotation
-        t: this.getTypeSnap() // type based snapshot data
-    };
-    // pass name variable if we're first time creating this entity
-    if (this.netType === 0 && this.isNew) {
-        snap.name = this.name;
-        snap.id = this.id;
-        snap.playerModel = this.playerModel ? this.playerModel : 0;
-        snap.hatModel = this.hatModel ? this.hatModel : 0;
-    }
-    return snap;
-};
-
-// function that generates a snapshot
-Entity.prototype.getDelta = function () {
-    if (!this.sendDelta && !this.sendCreationSnapOnDelta || this.disableSnapAndDelta) {
-        return undefined;
-    }
-
-    // send a full snapshot on the delta data, for creation?
-    if (this.sendCreationSnapOnDelta) {
-        let result = this.getSnap(true);
-        this.sendCreationSnapOnDelta = false;
-        return result;
-    }
-
-    let delta = {
-        p: this.deltaCompare(`p`, this.parent ? this.parent.id : undefined),
-        n: this.deltaCompare(`n`, this.netType),
-        x: this.deltaCompare(`x`, this.position.x.toFixed(2)),
-        y: this.deltaCompare(`y`, this.position.y.toFixed(2)),
-        z: this.deltaCompare(`z`, this.position.z.toFixed(2)),
-        r: this.deltaCompare(`r`, this.rotation.toFixed(2)),
-        t: this.getTypeDelta()
-    };
-
-    if (isEmpty(delta)) {
-        delta = undefined;
-    }
-
-    return delta;
-};
-
-// function that parses a snapshot
-Entity.prototype.parseSnap = function (snap, id) {
-    if (snap.t !== undefined) {
-        this.parseTypeSnap(snap.t);
-    }
-
-    if (!this.isPlayer) {
-        if (snap.x !== undefined && typeof (snap.x) === `number`) {
-            this.position.x = parseFloat(snap.x);
-        }
-
-        if (snap.y !== undefined && typeof (snap.y) === `number`) {
-            this.position.y = parseFloat(snap.y);
-        }
-
-        if (snap.z !== undefined && typeof (snap.z) === `number`) {
-            this.position.z = parseFloat(snap.z);
-        }
-
-        if (snap.r !== undefined && typeof (snap.r) === `number`) {
-            this.rotation = parseFloat(snap.r);
-        }
-    }
-};
 
 Entity.prototype.addChildren = function (entity) {
     // remove entity from its previous parent
