@@ -10,7 +10,7 @@ class Impact extends Entity {
         this.impactType = type;
 
         // Size of an impact.
-        this.size = new THREE.Vector3(x, 0, z);
+        this.size = new THREE.Vector3(1, 1, 1);
 
         // Timeout.
         this.timeout = 1;
