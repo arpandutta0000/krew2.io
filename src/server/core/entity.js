@@ -1,3 +1,5 @@
+const { entities } = require(`./core.js`);
+
 class Entity {
     constructor () {
         // Entities have a position and velocity.
@@ -16,6 +18,8 @@ class Entity {
 
         // Unitialized netType.
         this.netType = -1;
+
+        entities.push(this);
     }
 
     tick = dt => {
@@ -52,7 +56,12 @@ class Entity {
     }
 
     addChildren (entityId) {
-        this.children.splice(this.children.indexOf(entities.find(entity => entity.id)), 1);
+        const entity = entities.find(entity => entity.id === entityId);
+        if (!this.children.includes(entity)) this.children.push(entity);
+    }
+
+    destroy = () => {
+        entities.splice(entities.indexOf(this), 1);
     }
 }
 
