@@ -28,9 +28,9 @@ let getItems = (callback) => {
             // construct shopping list
             for (let i in items) {
                 let item = items[i];
-                if (item.id === 11 && (myPlayer.overall_kills < 10 || myPlayer.overall_cargo < 100000 || !myPlayer.shipsSank || !myPlayer.overall_cargo)) {
+                if (item.id === 15 && (myPlayer.overall_kills < 10 || myPlayer.overall_cargo < 100000 || !myPlayer.shipsSank || !myPlayer.overall_cargo)) {
                     item.purchasable = false;
-                } else if (item.id === 14 && myPlayer.statsReset === true) {
+                } else if (item.id === 16 && myPlayer.statsReset === true) {
                     item.purchasable = false;
                 }
 
@@ -56,7 +56,7 @@ let getItems = (callback) => {
                         id: id
                     }, (callback) => {
                         // update experience if player buys "Fountain of youth"
-                        if (callback === `14`) {
+                        if (callback === `16`) {
                             experienceBarUpdate();
                             // close shopping window
                             $(`#shopping-modal`).hide();

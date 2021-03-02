@@ -1622,12 +1622,12 @@ io.on(`connection`, async socket => {
                 callback(item.id);
 
                 // Check conditions for buying demolisher.
-                if (item.id === `11` && playerEntity.gold >= 1e5) {
+                if (item.id === `15` && playerEntity.gold >= 45e4) {
                     if (playerEntity.overall_cargo >= 1e3 && playerEntity.shipsSank >= 10) {
                         playerEntity.purchaseItem(item.id);
                         log(`magenta`, `Player ${playerEntity.name} is buying item`, item, ` (Demolisher) while having ${Math.floor(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                     }
-                } else if (item.id === `14` && playerEntity.gold >= 15e4) {
+                } else if (item.id === `16` && playerEntity.gold >= 15e4) {
                     // Player can buy this item only once.
                     if (!playerEntity.statsReset) {
                         // Reset stats.
