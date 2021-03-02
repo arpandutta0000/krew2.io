@@ -14,6 +14,7 @@ let Mute = require(`./models/mute.model.js`);
 
 // Variables
 let reportIPs = [];
+let serverRestart = false;
 
 /**
  * Authenticate a socket connection for staff UI
@@ -244,6 +245,8 @@ let initStaffUISocket = (socket) => {
 
     // Give
     socket.on(`give`, (data) => {
+        if (staff.role !== `admin`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
         let giveUser = data.user;
         let giveAmount = parseInt(data.amount);
 
@@ -266,6 +269,96 @@ let initStaffUISocket = (socket) => {
         log(`blue`, `Player ${staff.username} gave ${giveUser} ${giveAmount} gold | IP: ${socket.handshake.address} | Server ${staff.serverNumber}.`);
         return bus.emit(`report`, `Give Gold`, `Admin ${staff.username} gave ${giveUser} ${giveAmount} gold.`);
     });
+
+
+
+    // Recompense
+    socket.on(`recompense`, (data) => {
+        if (staff.role !== `admin`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
+        let amt = data.amount;
+
+        if (!amt || isNaN(parseInt(amt))) return;
+        for (let i in core.players) {
+            core.players[i].gold += parseInt(amt);
+        }
+        for (let i in core.players) {
+            let curPlayer = core.players[i];
+            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} gave ${amt} gold to all players.`, 4, 1e4);
+        }
+
+        log(`blue`, `ADMIN RECOMPENSED ${amt} GOLD | IP: ${socket.handshake.address} | Server ${staff.serverNumber}.`);
+        bus.emit(`report`, `Recompense`, `Admin ${staff.username} recompensed all players ${amt} gold.`);
+        return io.emit(`showAdminMessage`, `You have been recompensed for the server restart!`);
+    });
+
+
+
+    // Server Restart
+    socket.on(`server-restart`, (data) => {
+        if (staff.role !== `admin`) return socket.emit(`showCenterMessage`, `You don't have permission to use this action!`, 1, 1e4);
+
+        serverRestart = true;
+        socket.emit(`showCenterMessage`, `Started server restart process.`, 3, 1e4);
+        bus.emit(`report`, `Restart`, `Admin ${staff.username} started server ${data.type}`);
+
+        for (let i in core.players) {
+            let curPlayer = core.players[i];
+            if (curPlayer.isAdmin || curPlayer.isMod || curPlayer.isHelper) curPlayer.socket.emit(`showCenterMessage`, `${staff.username} started a server restart.`, 4, 1e4);
+        }
+
+        io.emit(`showCenterMessage`, `Server is restarting in 1 minute!`, 4, 1e4);
+        setTimeout(() => io.emit(`showCenterMessage`, `Server is restarting in 30 seconds!`, 4, 1e4), 3e4);
+        setTimeout(() => io.emit(`showCenterMessage`, `Server is restarting in 10 seconds!`, 4, 1e4), 5e4);
+
+        setTimeout(() => {
+            for (let i in core.players) {
+                let player = core.players[i];
+
+                // Delete existing outstanding data if any.
+                PlayerRestore.findOne({
+                    IP: player.socket.handshake.address
+                }).then(oldPlayerData => {
+                    PlayerRestore.findOne({
+                        username: player.name
+                    }).then(oldAccountData => {
+                        User.findOne({
+                            username: player.name
+                        }).then(user => {
+                            if (oldPlayerData) oldPlayerData.delete();
+                            if (oldAccountData) oldAccountData.delete();
+
+                            const playerSaveData = createPlayerRestore(player);
+                            if (user) {
+                                if (player.serverNumber === 1 && player.gold > player.highscore) {
+                                    log(`magenta`, `Updated highscore for player: ${player.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(player.gold)} | IP: ${player.socket.handshake.address}.`);
+                                    player.highscore = parseInt(player.gold);
+
+                                    user.highscore = player.highscore;
+                                    user.save();
+                                }
+                            }
+
+                            playerSaveData.save(() => {
+                                log(`blue`, `Stored data for player ${player.name} | IP: ${player.socket.handshake.address} | Server ${player.serverNumber}.`);
+                                player.socket.emit(`showCenterMessage`, `Server is restarting. Please refresh your page to rejoin the game.`, 4, 6e4);
+                                player.socket.disconnect();
+                                core.removeEntity(player);
+                            });
+                        });
+                    });
+                });
+            }
+            if (!DEV_ENV) {
+                exec(`sh /opt/krew2.io/src/server/scripts/${data.type}.sh`, (err, stdout, stderr) => {
+                    if (err) log(`red`, err);
+                });
+            } else {
+                log(`red`, `Warning, cannot automatically restart in development.`);
+                serverRestart = false;
+            }
+        }, 6e4);
+    })
 
 
 

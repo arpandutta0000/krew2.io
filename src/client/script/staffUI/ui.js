@@ -44,7 +44,7 @@ let ui = {
         $(`#restart`).on(`click`, () => $(`#restart-modal`).modal(`show`));
         $(`#submit-restart`).on(`click`, () => {
             socket.emit(`server-restart`, {
-                type: `restart`
+                type: `reload`
             });
             $(`#restart-modal`).modal(`hide`);
         });
