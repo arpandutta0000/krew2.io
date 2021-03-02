@@ -6,7 +6,7 @@ const config = {
     appname: `Krew.io`,
     port: process.env.NODE_ENV === `prod` ? 8200 : 8080,
     mode: process.env.NODE_ENV,
-    domain: `krew.io`,
+    domain: `beta.krew.io`,
     logging: true,
     serverCount: 3,
     maxPlayerCount: 250,
