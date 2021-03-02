@@ -1,4 +1,5 @@
 const THREE = require(`../../../client/libs/js/three.min.js`);
+const { entities } = require(`../core.js`);
 
 const Entity = require(`./_Entity.js`);
 const utils = require(`../utils.js`);
@@ -51,8 +52,6 @@ class Landmark extends Entity {
 
                 if (boat.shipState === 2) {
                     boat.shipState = 3;
-                    boat.recruiting = !boat.isLocked;
-
                     boat.lastMoved = new Date();
 
                     for (const childID of boat.children) {

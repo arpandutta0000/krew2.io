@@ -1,3 +1,9 @@
+const THREE = require(`../../../client/libs/js/three.min.js`);
+
+const Entity = require(`./_Entity.js`);
+const utils = require(`../utils.js`);
+
+// class Pickup extends Entity {}
 // PLayers are entities, check core_entity.js for the base class
 Pickup.prototype = new Entity();
 Pickup.prototype.constructor = Pickup;
