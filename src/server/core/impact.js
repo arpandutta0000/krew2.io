@@ -1,32 +1,20 @@
-// PLayers are entities, check core_entity.js for the base class
-Impact.prototype = new Entity();
-Impact.prototype.constructor = Impact;
+const THREE = require(`../../client/libs/js/three.min.js`);
+const Entity = require(`./entity.js`);
 
-function Impact (type, x, z) {
-    this.createProperties();
+class Impact extends Entity {
+    constructor (type, x, z) {
+        super();
 
-    // netcode type
-    this.netType = 3;
+        // Network type and impact type.
+        this.netType = 3;
+        this.impactType = type;
 
-    // very little net data
-    this.sendDelta = false;
-    this.sendSnap = false;
-    this.sendCreationSnapOnDelta = true;
+        // Size of an impact.
+        this.size = new THREE.Vector3(x, 0, z);
 
-    // impact type, there are different impact types (in water, in ship, etc)
-    this.impactType = type;
-
-    // // size of a Impact
-    this.size = new THREE.Vector3(1, 1, 1);
-
-    // impacts have a timeout
-    this.timeout = 1.0;
-
-    // set up references to geometry and material
-    this.position.y = 0;
-
-    this.position.x = x;
-    this.position.z = z;
+        // Timeout.
+        this.timeout = 1;
+    }
 }
 
 Impact.prototype.logic = function (dt) {
@@ -59,3 +47,5 @@ Impact.prototype.parseTypeSnap = function (snap) {
         this.impactType = parseFloat(snap.a);
     }
 };
+
+module.exports = Impact;

@@ -1,3 +1,5 @@
+const THREE = require(`../../client/libs/js/three.min.js`);
+
 const { entities } = require(`./core.js`);
 const utils = require(`./utils.js`);
 
