@@ -1,6 +1,6 @@
 {
   "name": "krew.io",
-  "version": "1.8.0",
+  "version": "1.8.0b",
   "description": "A 3D browser game",
   "main": "gruntfile.js",
   "dependencies": {
