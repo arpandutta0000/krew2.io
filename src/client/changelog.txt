@@ -1,3 +1,8 @@
+v1.8.0b - [3-2-2021]
+- Fixed Titanium barrel not having any effects
+- Fixed Bruiser not appearing in the shop
+- Fixed issues with boat previews in the shop and in Staff UI
+
 v1.8.0 - [3-1-2021]
 - Added Staff UI
 - Fixed buttons in the Krew list modal
