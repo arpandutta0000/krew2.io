@@ -13,19 +13,30 @@ let updateMusic = () => {
  * Play an audio file
  *
  * @param {boolean} loop If the audio file should be looped
+ * @param {boolean} stack If the audio file should be able to be stacked
+ * @param {number} volume Volume multiplier - 1 = Normal volume
  * @param {string} fileId The file ID for the audio file
  */
-let playAudioFile = (loop, fileId) => {
+let playAudioFile = (loop, stack, volume, fileId) => {
     const musicValue = document.getElementById(`music-control`);
     const sfxValue = document.getElementById(`sfx-control`);
 
-    document.getElementById(fileId).loop = loop;
-    if (fileId === `cannon`) document.getElementById(fileId).currentTime = 0;
-
-    document.getElementById(fileId).play();
-    document.getElementById(fileId).volume = loop
-        ? 0.1 * musicValue.value / musicValue.max
-        : 0.45 * sfxValue.value / sfxValue.max;
+    if (stack) {
+        let audio = document.getElementById(fileId);
+        audio.loop = loop;
+        audio.volume = loop ?
+            volume * 0.1 * musicValue.value / musicValue.max :
+            volume * 0.35 * sfxValue.value / sfxValue.max;
+        let copy = audio.cloneNode(true);
+        copy.play();
+    } else {
+        let audio = document.getElementById(fileId);
+        audio.loop = loop;
+        audio.volume = loop ?
+            volume * 0.1 * musicValue.value / musicValue.max :
+            volume * 0.45 * sfxValue.value / sfxValue.max;
+        audio.play();
+    }
 };
 
 /**
