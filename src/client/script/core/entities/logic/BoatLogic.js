@@ -102,7 +102,7 @@ let BoatLogic = {
         if (_this.hp < 1) {
             // on client, disconnect the camera from the player
             if (myPlayer && myPlayer.parent === _this) {
-                playAudioFile(false, `sink-crash`);
+                playAudioFile(false, false, 1, `sink-crash`);
                 $(`#shopping-modal`).hide();
                 $(`#show-shopping-modal-button`).hide();
             }

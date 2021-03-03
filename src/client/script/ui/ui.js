@@ -65,8 +65,8 @@ let ui = {
                 ecoUiInit();
                 showAdinplayCentered();
                 splash.loadingWheel(`show`);
-                playAudioFile(false, `wheelspin`);
-                playAudioFile(true, `ocean-ambience`);
+                playAudioFile(false, false, 1, `wheelspin`);
+                playAudioFile(true, false, 1, `ocean-ambience`);
             }
         }).text(`Loading...`).attr(`disabled`, true);
     },

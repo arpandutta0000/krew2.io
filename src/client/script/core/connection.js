@@ -198,7 +198,7 @@ let initSocketBinds = () => {
         socket.on(`showDamageMessage`, (message, type) => {
             if (ui && notifications.showDamageMessage) {
                 if (type === 2)
-                    playAudioFile(false, `cannon-hit`);
+                    playAudioFile(false, true, 1, `cannon-hit`);
 
                 notifications.showDamageMessage(message, type);
             }
@@ -216,7 +216,7 @@ let initSocketBinds = () => {
             if (entities[data.id] !== undefined && entities[data.id].netType === 0) {
                 entities[data.id].level = data.level;
                 if (data.id === myPlayerId) {
-                    playAudioFile(false, `level-up`);
+                    playAudioFile(false, true, 0.9, `level-up`);
                     myPlayer.updateExperience();
                     myPlayer.notifiscationHeap[
                         Math.random().toString(36).substring(6, 10)

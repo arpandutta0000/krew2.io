@@ -289,7 +289,7 @@ Player.prototype.logic = function (dt) {
 
     if (this.use === true && this.cooldown <= 0) {
         let attackSpeedBonus = parseFloat((this.attackSpeedBonus + this.pointsFormula.getFireRate()) / 100);
-        this.cooldown = this.activeWeapon === 1 ? 2 : (1.5 - attackSpeedBonus).toFixed(2);
+        this.cooldown = this.activeWeapon === 1 ? 0.7 : (1.5 - attackSpeedBonus).toFixed(2);
 
         // If we are not in an island or the active weapon is the fishingrod
         // Here we prevent the creation of an empty cannon projectile that does not ment to exist

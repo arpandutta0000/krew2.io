@@ -31,7 +31,7 @@ let makeDeposit = () => {
         socket.emit(`bank`, {
             deposit: deposit
         });
-        playAudioFile(false, `deposit`);
+        playAudioFile(false, false, 1, `deposit`);
         $(`#make-deposit`).val(``).focus();
         $(`#successMakeDepoMess`).show();
         $(`#errorMakeDepoMess`).hide();
