@@ -1,6 +1,6 @@
 const entities = [];
 
-let iterateEntities = function (dt) {
+const iterateEntities = dt => {
     // Tick each entity.
     for (const entity of entities) entity.tick(dt);
 };

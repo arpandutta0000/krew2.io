@@ -119,6 +119,8 @@ const randomID = () => {
     while (entities.find(entity => entity.id === id)) id = Math.random().toString(36).substring(6, 10);
 };
 
+const randomInt = (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000;
+
 module.exports = {
     lerp,
     charLimit,
@@ -139,5 +141,8 @@ module.exports = {
     distanceToObjectSquared,
 
     inPlayersVision,
-    getFixedFrameRateMethod
+    getFixedFrameRateMethod,
+
+    randomID,
+    randomInt
 };

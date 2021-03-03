@@ -50,7 +50,7 @@ class Landmark extends Entity {
                 boat.enterIsland(this.id);
                 boat.updateProps();
 
-                if (boat.shipState === 2) {
+                if (boat.dockTimer < 10) {
                     boat.shipState = 3;
                     boat.lastMoved = new Date();
 

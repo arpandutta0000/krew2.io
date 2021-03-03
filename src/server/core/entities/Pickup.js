@@ -3,67 +3,37 @@ const THREE = require(`../../../client/libs/js/three.min.js`);
 const Entity = require(`./_Entity.js`);
 const utils = require(`../utils.js`);
 
-// class Pickup extends Entity {}
-// PLayers are entities, check core_entity.js for the base class
-Pickup.prototype = new Entity();
-Pickup.prototype.constructor = Pickup;
+class Pickup extends Entity {
+    constructor (type, x, z, size) {
+        super(x, 0, z);
 
-function Pickup (size, x, z, type, specialBonus) {
-    this.createProperties();
+        // Network type.
+        this.netType = 4;
 
-    // netcode type
-    this.netType = 4;
-    this.bonusValues = [50, 75, 100, 10000, specialBonus]; // "specialBonus" for special bonus lul
+        // Pickup size and type.
+        this.pickupType = type;
+        this.pickupSize = size;
 
-    // Pickup type, there are different Pickup types. supplies = 0
-    this.pickupSize = size;
-    this.bonus = this.bonusValues[this.pickupSize] || 25;
+        // Bonus values.
+        this.bonusValues = [50, 75, 100, 1e5];
+        this.bonus = this.bonusValues[size] || 25;
 
-    this.captainsCutRatio = 0.3;
+        // Pickup scaling.
+        let scale = 1;
+        if (type === 0) scale = parseInt(size) + 1;
+        else if (type === 1) scale = size * 0.05;
+        else if (type === 2 || type === 3) scale = 0.02;
+        else if (type === 4) scale = 2;
 
-    // net data
-    this.sendDelta = type !== 1;
-    this.sendSnap = !(type === 0 || type === 2 || type === 3);
-    this.sendCreationSnapOnDelta = true;
-    this.spawnPacket = false;
+        // Scaled pickup size.
+        this.size = new THREE.Vector3(scale, scale, scale);
 
-    // // size of a Pickup
-    let scale = 1;
-    if (type === 0) {
-        scale = parseInt(size) + 1;
+        this.timeout = 1;
+        this.catchingFish = false;
+
+        this.picking = type === 1;
     }
-
-    if (type === 1) {
-        scale = 0.05 * size;
-    }
-
-    if (type === 3 || type === 2) {
-        scale = 0.02;
-    }
-
-    if (type === 4) {
-        scale = 2;
-    }
-
-    this.size = new THREE.Vector3(scale, scale, scale);
-    this.modelscale = new THREE.Vector3(scale, scale, scale);
-    this.position.x = x;
-    this.position.z = z;
-    this.pickerId = ``;
-    this.type = type;
-    this.picking = type === 1;
-    this.catchingFish = false;
-    this.timeout = 1;
-    /**
-     * Type 0 = crates
-     * Type 1 = sea animals
-     * Type 2 = static supplies like shells
-     * Type 3 = island animal
-     * Type 4 = chests
-     */
 }
-
-Pickup.prototype.randomTime = (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000;
 
 Pickup.prototype.randomMovementLogic = function () {
     this.randomMovementLogicTime = this.randomMovementLogicTime || Date.now();
