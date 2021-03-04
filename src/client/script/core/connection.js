@@ -98,8 +98,6 @@ let initSocketBinds = () => {
         // Battle music helper variables
         let lastHit = 0;
         let hitCount = 0;
-        let inBattle = false;
-
 
         let getPing = () => {
             if (!recievedPong && pings[0]) $(`#ping-wrapper > span`).text(`LOST CONNECTION`);
@@ -213,8 +211,8 @@ let initSocketBinds = () => {
                     if (hitCount > 1 && Date.now() - lastHit < 2e4) {
                         inBattle = true;
                         hitCount = 0;
-                        if(!document.getElementById(`ocean-music`).paused || document.getElementById(`ocean-music`).currentTime) fadeOutAudio(true, 4e3, `ocean-music`);
-                        if(!document.getElementById(`island-music`).paused || document.getElementById(`island-music`).currentTime) fadeOutAudio(true, 4e3, `island-music`);
+                        if(!document.getElementById(`ocean-music`).paused) fadeOutAudio(true, 4e3, `ocean-music`);
+                        if(!document.getElementById(`island-music`).paused) fadeOutAudio(true, 4e3, `island-music`);
                         fadeInAudio(true, 1.6, 4e3, `battle-music`);
                     } else hitCount++;
                 }

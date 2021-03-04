@@ -64,7 +64,7 @@ let fadeInAudio = (loop, endVolume, time, fileId) => {
         if (currentTime >= time) clearInterval(fadeIn);
     }, 50);
 
-    document.getElementById(fileId).volume = loop ? endVolume * 0.1 * musicValue.value / musicValue.max : endVolume * 0.35 * sfxValue.value / sfxValue.max
+    document.getElementById(fileId).volume = loop ? endVolume * 0.1 * musicValue.value / musicValue.max : endVolume * 0.35 * sfxValue.value / sfxValue.max;
 };
 
 /**

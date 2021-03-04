@@ -28,7 +28,7 @@ let enterIsland = (data) => {
         $(`#docking-modal`).hide();
     }
 
-    if (myPlayer) {
+    if (myPlayer && !inBattle) {
         fadeOutAudio(true, 4e3, `ocean-music`);
         fadeInAudio(true, 1, 4e3, `island-music`);
     }
@@ -140,7 +140,7 @@ let exitIsland = (data) => {
     }
 
     ui.hideSuggestionBox = true;
-    if (myPlayer) {
+    if (myPlayer && !inBattle) {
         fadeOutAudio(true, 4e3, `island-music`);
         fadeInAudio(true, 1, 4e3, `ocean-music`);
     }

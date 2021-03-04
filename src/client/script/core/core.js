@@ -29,6 +29,7 @@ let middle = config.worldsize / 2;
 let secondsAlive = 0;
 
 let adBlockEnabled = false;
+let inBattle = false;
 let threejsStarted = false;
 let viewSails = false;
 
