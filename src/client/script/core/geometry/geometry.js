@@ -8,6 +8,16 @@ let baseGeometry = {
 
 /* Create reusable materials */
 let materials = {
+    boat: new THREE.MeshLambertMaterial({
+        color: 0x8a503e,
+        side: THREE.DoubleSide
+    }),
+
+    sail: new THREE.MeshLambertMaterial({
+        color: 0xffffff,
+        side: THREE.DoubleSide
+    }),
+
     splinter: new THREE.MeshLambertMaterial({
         color: 0xcdac8f,
         flatShading: true
