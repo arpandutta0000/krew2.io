@@ -85,15 +85,51 @@ let audio = {
     /**
      * Change the music playing
      * 
-     * @param {string} newFileId New music file to play
-     * @param {number} volume Volume of new music
+     * @param {string} music New music to play (ocean, island, or battle)
      * @param {boolean} endBattle If music is being played after a battle is finished
      */
-    changeMusic: async (newFileId, volume, endBattle) => {
+    changeMusic: async (music, endBattle) => {
         if (endBattle) audio.inBattle = false;
 
         if (!audio.inBattle) {
-            if (newFileId === `battle-music`) audio.inBattle = true;
+            let volume, newFileId;
+
+            switch (music) {
+                case `battle`: {
+                    audio.inBattle = true;
+                    newFileId = `battle-music`;
+                    volume = 2.3;
+                    break;
+                }
+
+                case `ocean`: {
+                    if (Math.random() >= 0.5) {
+                        newFileId = `ocean-music`;
+                        volume = 1;
+                    } else {
+                        newFileId = `ocean-music-2`;
+                        volume = 3;
+                    }
+
+                    break;
+                }
+
+                case `island`: {
+                    if (Math.random() >= 0.5) {
+                        newFileId = `island-music`;
+                        volume = 1;
+                    } else {
+                        newFileId = `island-music-2`;
+                        volume = 5;
+                    }
+
+                    break;
+                }
+
+                default: {
+                    return;
+                }
+            };
 
             audio.fadingIn.push(newFileId);
             audio.fadingOut.push(audio.musicPlaying);
@@ -115,9 +151,9 @@ let audio = {
      * @param {string} fadingOutFile File that is queued to fade out
      * @returns Promise
      */
-    fadeQueued: (fadingInFile, fadeingOutFile) => new Promise((resolve) => {
+    fadeQueued: (fadingInFile, fadingOutFile) => new Promise((resolve) => {
         let waitForFadeInterval = setInterval(() => {
-            if (audio.fadingIn[0] === fadingInFile && audio.fadingOut[0] === fadeingOutFile) {
+            if (audio.fadingIn[0] === fadingInFile && audio.fadingOut[0] === fadingOutFile) {
                 resolve();
                 clearInterval(waitForFadeInterval);
             }

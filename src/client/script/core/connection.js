@@ -212,7 +212,7 @@ let initSocketBinds = () => {
                     if (hitCount > 1 && Date.now() - lastHit < 2e4) {
                         inBattle = true;
                         hitCount = 0;
-                        audio.changeMusic(`battle-music`, 1.7, false);
+                        audio.changeMusic(`battle`, false);
                     } else hitCount++;
                 }
             }
@@ -221,8 +221,8 @@ let initSocketBinds = () => {
         setInterval(() => {
             if (inBattle && Date.now() - lastHit > 2e4) {
                 inBattle = false;
-                if (myPlayer && myPlayer.parent && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) audio.changeMusic(`island-music`, 1, true);
-                else audio.changeMusic(`ocean-music`, 1, true);
+                if (myPlayer && myPlayer.parent && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) audio.changeMusic(`island`, true);
+                else audio.changeMusic(`ocean`, true);
             }
         }, 2e4)
 
