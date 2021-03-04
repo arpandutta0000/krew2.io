@@ -5,68 +5,76 @@ const { entities } = require(`../core.js`);
 const utils = require(`../utils.js`);
 
 class Boat extends Entity {
-    constructor (captainId, name, spawn) {
+    constructor (captainId, name, spawnOnSea) {
         const captain = entities.find(entity => entity.id === captainId);
-    }
-    let captainsName = ``;
-    let spawnIslandId;
+        const captainParent = entities.find(entity => entity.id === captain.parent);
 
-    if (entities[captainId] !== undefined) {
-        captainsName = entities[captainId].name;
-        if (entities[captainId].parent !== undefined) {
-            spawnIslandId = entities[captainId].parent.netType === 5
-                ? entities[captainId].parent.id
-                : entities[captainId].parent.anchorIslandId;
+        let spawnIslandId = captainParent.netType === 5 ? captainParent.id : captainParent.anchorIslandId;
+
+        let boatPos = {
+            x: 0,
+            z: 0
+        };
+
+        if (spawnOnSea) {
+            const roll = utils.randomInt(0, 4);
+
+            switch (roll) {
+                case 0:
+                    boatPos.x = utils.randomInt(0, 150);
+                    boatPos.z = utils.randomInt(0, config.worldsize);
+                    break;
+                case 1:
+                    boatPos.x = utils.randomInt(0, config.worldsize);
+                    boatPos.z = utils.randomInt(0, config.worldsize - 300);
+                    break;
+                case 2:
+                    boatPos.x = utils.randomInt(0, config.worldsize - 300);
+                    boatPos.z = utils.randomInt(0, config.worldsize);
+                    break;
+                default:
+                    boatPos.x = utils.randomInt(0, config.worldsize);
+                    boatPos.z = utils.randomInt(0, 150);
+                    break;
+            }
         }
+        else {
+            const landmark = entities.find(entity => entity.id === this.anchorIslandId);
+            let spawnIsland = landmark || entities.find(entity => entity.netType === 5);
+
+            boatPos.x = spawnIsland.position.x + utils.randomInt(-60, 60);
+            boatPos.z = spawnIsland.position.z + utils.randomInt(-60, 60);
+        }
+
+        // Call the parent constructor and set the network type.
+        super(boatPos.x, 0, boatPos.z);
+        this.netType = 1;
+
+        // Health regeneration intervals.
+        this.hpRegTimer = 0;
+        this.hpRegInterval = 1;
+
+        // Arcs for boundaries.
+        this.arcFront = 0.0;
+        this.arcBack = 0.0;
+
+        // If krew is locked (cannot recruit).
+        this.isLocked = false;
+
+        // Departure and last time of boat movement.
+        this.departureTime = 5;
+        this.lastMoved = new Date();
+
+        // Steering and ship state.
+        this.steering = 0;
+        this.shipState = -1;
+
+        // Docking.
+        this.sentDockingMsg = false;
+
+        // Start with a raft 1.
+        this.setShipType(1);
     }
-
-    this.createProperties();
-
-    // parse the ship values
-    this.supply = 0;
-
-    this.setShipClass(1); // start off with cheapest boat
-
-    this.hpRegTimer = 0;
-    this.hpRegInterval = 1;
-
-    this.arcFront = 0.0;
-    this.arcBack = 0.0;
-
-    // info that is not sent via delta
-    this.muted = [`x`, `z`, `y`];
-
-    // krew members
-    this.krewMembers = {};
-
-    this.krewCount = 0; // Keep track of boat's krew count to update krew list window
-
-    // this.totalWorth = 0; // Keep track of boat's total worth to update krew list window
-
-    this.recruiting = false; // If the ship has been docked for more than 5 minutes, then it's not recruiting
-    this.isLocked = false; // by default the krew is not locked
-    this.departureTime = 5;
-    this.lastMoved;
-
-    // netcode type
-    this.netType = 1;
-
-    // Boats can either steer left or right. 0 = no steering
-    this.steering = 0;
-
-    // boats states, 0 = sailing/ 1 = docking..,etc
-    this.shipState = {
-        starting: -1,
-        sailing: 0,
-        docking: 1,
-        finishedDocking: 2,
-        anchored: 3,
-        departing: 4
-    };
-
-    this.shipState = -1;
-    this.overall_kills = 0; // Number of ships the whole crew has sunk
-    this.overall_cargo = 0; // Amount of cargo (worth gold) traded by the whole crew
 
     this.sentDockingMsg = false;
 
