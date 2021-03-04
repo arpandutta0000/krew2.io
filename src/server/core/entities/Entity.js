@@ -81,6 +81,28 @@ class Entity {
         }
     }
 
+    localPos = coord => {
+        const pos = new THREE.Vector3();
+
+        pos.copy(coord);
+        pos.sub(this.position);
+
+        pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation * -1);
+        return pos;
+    }
+
+    worldPos = () => {
+        const pos = new THREE.Vector3();
+        pos.copy(this.position);
+
+        if (this.parent) {
+            pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), entities.find(entity => entity.id === this.parent).rotation);
+            pos.add(this.parent.worldPos());
+        }
+
+        return pos;
+    }
+
     destroy = () => {
         entities.splice(entities.indexOf(this), 1);
     }
