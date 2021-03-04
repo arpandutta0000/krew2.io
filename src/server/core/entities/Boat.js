@@ -80,56 +80,41 @@ class Boat extends Entity {
         this.name = name || `${captain.name}'${captain.name.charAt(captain.name.length - 1) === `s` ? `` : `s`} krew`;
 
         // Start with a raft 1.
-        this.setShipType(1);
+        this.setShipClass(1);
+    }
+
+    updateProps = () => {
+        // Remove any children that are no longer on the boat.
+        for (const childID of this.children) {
+            const child = entities.find(entity => entity.id === childID);
+            if (!child || child.parent !== this.id) this.removeChild(childID);
+        }
+
+        // Set the first krew member as captain if the old captain is no longer on the boat.
+        const captain = entities.find(entity => entity.id === captainId);
+        if (!captain) this.captain = this.children[0];
+
+        // Remove the boat if there are no people on it.
+        if (this.children.length === 0) this.destroy();
+    }
+
+    logic = dt => {
+        let boundaryCollision = true;
+
+        if (this.position.x > config.worldsize) this.position.x = worldsize;
+        else if (this.position.z > config.worldsize) this.position.z = worldsize;
+        else if (this.position.x < 0) this.position.x = 0;
+        else if (this.position.z < 0) this.position.z = 0;
+        else boundaryCollision = false;
+
+        const captain = entities.find(entity => entity.id === captainId);
+
+        if (!captain) boat.updateProps();
+        else this.speed = boatTypes[this.shipClass].speed + captain.bonus.movement;
     }
 }
 
-Boat.prototype.updateProps = function () {
-    let krewCount = 0;
-    for (let id in this.children) {
-        if (
-            entities[id] === undefined ||
-            entities[id].parent === undefined ||
-            entities[id].parent.id !== this.id
-        ) {
-            delete this.children[id];
-            continue;
-        }
-
-        let child = this.children[id];
-        if (child && child.netType === 0) {
-            krewCount += 1;
-        }
-    }
-
-    this.krewCount = krewCount;
-    if (this.krewCount === 0)
-        removeEntity(this);
-};
-
 Boat.prototype.logic = function (dt) {
-    // world boundaries
-    let boundaryCollision = false;
-    if (this.position.x > worldsize) {
-        this.position.x = worldsize;
-        boundaryCollision = true;
-    }
-
-    if (this.position.z > worldsize) {
-        this.position.z = worldsize;
-        boundaryCollision = true;
-    }
-
-    if (this.position.x < 0) {
-        this.position.x = 0;
-        boundaryCollision = true;
-    }
-
-    if (this.position.z < 0) {
-        this.position.z = 0;
-        boundaryCollision = true;
-    }
-
     let kaptain = entities[this.captainId];
 
     // the boat movement is simple. it always moves forward, and rotates if the captain is steering
