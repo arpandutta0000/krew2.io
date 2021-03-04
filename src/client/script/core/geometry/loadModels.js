@@ -166,9 +166,9 @@ let createModels = () => {
     models.trader.children[2].name = `sail`;
 
     // Set materials for boats without an mtl
+    models.raft.getObjectByName(`mast`).material = materials.boat;
     models.raft.getObjectByName(`body`).material = materials.boat;
     models.raft.getObjectByName(`sail`).material = materials.sail;
-    models.raft.getObjectByName(`mast`).material = materials.mast;
 
     // Call setting ship, player, and hat models
     BoatModels.setShipModels();
