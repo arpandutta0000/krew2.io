@@ -37,8 +37,7 @@ class Boat extends Entity {
                     boatPos.z = utils.randomInt(0, 150);
                     break;
             }
-        }
-        else {
+        } else {
             const landmark = entities.find(entity => entity.id === this.anchorIslandId);
             let spawnIsland = landmark || entities.find(entity => entity.netType === 5);
 
@@ -142,12 +141,12 @@ Boat.prototype.logic = function (dt) {
 
     // find out who the captain is
     // if captain is not defined, assign the first crew member as a captain
-    if (this.children[this.captainId] === undefined) {
-        for (let playerId in this.children) {
-            this.captainId = playerId;
-            break;
-        }
-    }
+    // if (this.children[this.captainId] === undefined) {
+    //     for (let playerId in this.children) {
+    //         this.captainId = playerId;
+    //         break;
+    //     }
+    // }
 
     this.captain = this.children[this.captainId];
 
