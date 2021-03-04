@@ -107,9 +107,9 @@ class Boat extends Entity {
         else boundaryCollision = false;
 
         const captain = entities.find(entity => entity.id === captainId);
+        if (!captain) return boat.updateProps();
 
-        if (!captain) boat.updateProps();
-        else this.speed = boatTypes[this.shipClass].speed + captain.bonus.movement;
+        this.speed = boatTypes[this.shipClass].speed + captain.bonus.movement;
     }
 }
 
