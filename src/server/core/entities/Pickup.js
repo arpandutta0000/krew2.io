@@ -1,8 +1,8 @@
 const THREE = require(`../../../client/libs/js/three.min.js`);
-
 const Entity = require(`./Entity.js`);
+
+const { entities } = require(`../core.js`);
 const utils = require(`../utils.js`);
-const { entities } = require("../core.js");
 
 class Pickup extends Entity {
     constructor (type, x, z, size) {
@@ -35,188 +35,76 @@ class Pickup extends Entity {
         this.picking = type === 1;
     }
 
+    getTypeSnap = () => {
+        const snap = {
+            s: this.pickupSize,
+            p: this.picking,
+            i: this.pickerId,
+            t: this.pickupType
+        };
+
+        return snap;
+    }
+
     logic = dt => {
         if (this.picking) {
             this.timeout -= 0.5 * dt;
+
             if (this.timeout <= 0 || this.timeout === 1) this.destroy();
-
             if (this.pickerId !== `` && !entities.find(entity => entity.id === this.pickerId)) this.destroy();
+        } else {
+            // Crabs move on the island.
+            if (this.pickupType === 3) this.randomMovementLogic();
 
-            if (!this.picking && (this.type === 0 || this.type === 4)) {
-                const boats = entities.filter(entity => entity.netType === 1 && entity.hp > 0 );
+            if (this.pickupType === 0 || this.pickupType === 4) {
+                const boats = entities.filter(entity => entity.netType === 1 && entity.hp > 0);
                 for (const boat of boats) {
-                    if (Math.abs(boat.size.x * 0.6 + 3))
-                }
-            }
-        }
-    }
+                    const locPos = boat.toLocal(this.position);
+                    if (Math.abs(locPos.x) > Math.abs(boat.size.x * 0.6 + 3) || Math.abs(locPos.z) > Math.abs(boat.size.z * 0.6 + 3)) continue;
 
-                // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
-                if (!isNaN(loc.x) && !(Math.abs(loc.x) > Math.abs(boat.size.x * 0.6 + 3) ||
-                        Math.abs(loc.z) > Math.abs(boat.size.z * 0.6 + 3))) {
-                    // if (
-                    //     boat.supply < boatTypes[boat.shipclassId].cargoSize ||
-                    //     boat.hp < boatTypes[boat.shipclassId].hp
-                    // ) {
-                    let bonus = this.bonusValues[this.pickupSize];
-    
-                    // boat.supply = Math.min(boatTypes[boat.shipclassId].cargoSize, boat.supply + bonus);
-                    let totalScore = 0;
-                    for (id in boat.children) {
-                        let player = boat.children[id];
-                        totalScore += player.score;
-                    }
-    
-                    // console.log("totalscore", totalScore)
-                    // distribute gold accordingly to each players' score
+                    const bonus = this.bonusValues[this.pickupSize];
                     let captainsCut = bonus;
-                    for (id in boat.children) {
-                        let player = boat.children[id];
-                        if (player !== boat.captain) {
-                            let playersCut = (player.score / totalScore) * (1 - this.captainsCutRatio) * bonus;
-                            player.gold += playersCut;
+
+                    let totalScore = 0;
+                    for (const childID of boat.children) {
+                        const child = entities.find(entity => entity.id === childID);
+                        totalScore += child.gold;
+                    }
+
+                    for (const childID of boat.children) {
+                        const child = entities.find(entity => entity.id === childID);
+                        if (child.id !== boat.captain) {
+                            const playersCut = (child.gold / totalScore) * (1 - this.captainsCutRatio) * bonus;
+
+                            child.gold += playersCut;
                             captainsCut -= playersCut;
                         }
                     }
-    
-                    let captain = boat.children[boat.captainId];
-    
-                    if (captain) {
-                        captain.gold += captainsCut;
-                    }
-    
-                    // this.supply = 0;
-    
-                    boat.hp = Math.min(boatTypes[boat.shipclassId].hp, boat.hp + (bonus * 0.2));
-    
-                    removeEntity(this);
-    
-                    // }
+
+                    const captain = entities.find(entity => entity.id === boat.captain);
+                    if (captain) captain.gold += captainsCut;
+
+                    boat.hp = Math.min(boatTypes[boat.type].hp, boat.hp + (bonus * 0.2));
+                    this.destroy();
                 }
-            }
-        }
-    
-        if (this.type === 2 || this.type === 3) {
-            for (let playerId in entities) {
-                if (entities[playerId].netType === 0) {
-                    let player = entities[playerId];
-                    let playerPosition = player.worldPos();
-                    let distanceFromPlayer = Math.sqrt(
-                        (this.position.x - playerPosition.x) *
-                        (this.position.x - playerPosition.x) +
-                        (this.position.z - playerPosition.z) *
-                        (this.position.z - playerPosition.z)
-                    );
-    
+            } else if (this.pickupType === 2 || this.pickupType === 3) {
+                const players = entities.filter(entity => entity.netType === 0);
+                for (const player of players) {
+                    const distanceFromPlayer = utils.distance(this.position.x, player.position.x, this.position.z, player.position.z);
+
                     if (distanceFromPlayer < 2) {
-                        if (distanceFromPlayer < 1.6)
-                            removeEntity(this);
+                        if (distanceFromPlayer < 1.6) this.destroy();
+
                         this.picking = true;
                         this.pickerId = player.id;
+
                         player.gold += this.bonusValues[this.pickupSize] / 3 * 2;
                         player.updateExperience(Math.round(this.bonusValues[this.pickupSize] / 20));
                     }
                 }
             }
         }
-    
-        // if (this.type === 3) {
-        //    this.randomMovementLogic();
-        // }
-    };
-    
-    randomMovementLogic = () => {
-        this.randomMovementLogicTime = this.randomMovementLogicTime || new Date();
-        this.randomMovementTime = this.randomMovementTime || utils.randomInt(5, 10);
-
-        if (new Date() - this.randomMovementLogicTime > this.randomMovementTime) {
-            const move = Math.round(Math.random());
-
-            if (move === 0) {
-                const landmark = core.entities.find(entity => entity.netType === 5 && entity.pickups && entity.pickups.includes(this.id));
-                if (landmark) {
-                    let pickupPos = {
-                        x: 0,
-                        y: 0
-                    };
-
-                    let distanceFromCenter = 0;
-                    while (distanceFromCenter > landmark.dockRadius - 30 || distanceFromCenter < landmark.dockRadius - 40) {
-                        pickupPos.x = utils.randomInt(-6, 6) + this.position.x;
-                        pickupPos.z = utils.randomInt(-6, 6) + this.position.z;
-
-                        distanceFromCenter = utils.distance(pickupPos.x, this.position.x, pickupPos.z, this.position.z);
-                    }
-                    this.position.x = pickupPos.x;
-                    this.position.z = pickupPos.z;
-                }
-            }
-
-            this.randomMovementLogicTime = new Date();
-            this.randomMovementTime = utils.randomInt(5, 10);
-        }
     }
 }
 
-Pickup.prototype.getTypeSnap = function () {
-    let snap = {
-        s: this.pickupSize,
-        p: this.picking,
-        i: this.pickerId,
-        t: this.type
-
-    };
-    return snap;
-};
-
-Pickup.prototype.getTypeDelta = function () {
-    if (this.type === 1) {
-        if (!this.spawnPacket) {
-            this.spawnPacket = true;
-            return this.getTypeSnap();
-        }
-
-        return undefined;
-    } else {
-        let delta = {
-            s: this.deltaTypeCompare(`s`, this.pickupSize),
-            p: this.deltaTypeCompare(`p`, this.picking),
-            i: this.deltaTypeCompare(`i`, this.pickerId),
-            t: this.deltaTypeCompare(`t`, this.type)
-        };
-        if (isEmpty(delta)) {
-            delta = undefined;
-        }
-
-        return delta;
-    }
-};
-
-// function that parses a snapshot
-Pickup.prototype.parseTypeSnap = function (snap) {
-    if (snap.s !== undefined && snap.s !== this.pickupSize) {
-        this.pickupSize = parseInt(snap.s);
-    }
-
-    if (snap.p !== undefined && snap.p !== this.picking) {
-        this.picking = parseBool(snap.p);
-    }
-
-    if (snap.i !== undefined && snap.i !== this.pickerId) {
-        this.pickerId = snap.i;
-    }
-
-    if (snap.t !== undefined && snap.t !== this.type) {
-        this.type = parseInt(snap.t);
-    }
-};
-
-// function that parses a snapshot
-Pickup.prototype.onDestroy = function () {
-    // makre sure to also call the entity ondestroy
-    Entity.prototype.onDestroy.call(this);
-
-    if (pickups[this.id]) {
-        delete pickups[this.id];
-    }
-};
+module.exports = Pickup;
