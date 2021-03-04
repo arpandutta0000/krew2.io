@@ -87,10 +87,10 @@ let audio = {
      * 
      * @param {string} newFileId New music file to play
      * @param {number} volume Volume of new music
-     * @param {boolean} force If the music should be force played (Circumvents inBattle boolean)
+     * @param {boolean} endBattle If music is being played after a battle is finished
      */
-    changeMusic: async (newFileId, volume, force) => {
-        if (force) audio.inBattle = false;
+    changeMusic: async (newFileId, volume, endBattle) => {
+        if (endBattle) audio.inBattle = false;
 
         if (!audio.inBattle) {
             if (newFileId === `battle-music`) audio.inBattle = true;
