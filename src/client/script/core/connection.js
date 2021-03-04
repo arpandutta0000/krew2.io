@@ -95,6 +95,12 @@ let initSocketBinds = () => {
         let recievedPong = false;
         let startTime;
 
+        // Battle music helper variables
+        let lastHit = 0;
+        let hitCount = 0;
+        let inBattle = false;
+
+
         let getPing = () => {
             if (!recievedPong && pings[0]) $(`#ping-wrapper > span`).text(`LOST CONNECTION`);
             startTime = Date.now();
@@ -198,11 +204,33 @@ let initSocketBinds = () => {
         socket.on(`showDamageMessage`, (message, type) => {
             if (ui && notifications.showDamageMessage) {
                 if (type === 2)
-                    playAudioFile(false, true, 1, `cannon-hit`);
+                    playAudioFile(false, true, 1, `cannon-hit`, false);
 
                 notifications.showDamageMessage(message, type);
+
+                lastHit = Date.now();
+                if (!inBattle) {
+                    if (hitCount > 1 && Date.now() - lastHit < 2e4) {
+                        inBattle = true;
+                        hitCount = 0;
+                        if(!document.getElementById(`ocean-music`).paused || document.getElementById(`ocean-music`).currentTime) fadeOutAudio(true, 4e3, `ocean-music`);
+                        if(!document.getElementById(`island-music`).paused || document.getElementById(`island-music`).currentTime) fadeOutAudio(true, 4e3, `island-music`);
+                        fadeInAudio(true, 1.6, 4e3, `battle-music`);
+                    } else hitCount++;
+                }
+                console.log(inBattle)
+
             }
         });
+
+        setInterval(() => {
+            if (inBattle && Date.now() - lastHit > 2e4) {
+                inBattle = false;
+                fadeOutAudio(true, 4e3, `battle-music`);
+                if(myPlayer && myPlayer.parent && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) fadeInAudio(true, 1, 4e3, `island-music`);
+                else fadeInAudio(true, 1, 4e3, `ocean-music`);
+            }
+        }, 2e4)
 
         // Admin says
         socket.on(`showAdminMessage`, (message) => {
@@ -216,7 +244,7 @@ let initSocketBinds = () => {
             if (entities[data.id] !== undefined && entities[data.id].netType === 0) {
                 entities[data.id].level = data.level;
                 if (data.id === myPlayerId) {
-                    playAudioFile(false, true, 0.9, `level-up`);
+                    playAudioFile(false, true, 0.9, `level-up`, false);
                     myPlayer.updateExperience();
                     myPlayer.notifiscationHeap[
                         Math.random().toString(36).substring(6, 10)
