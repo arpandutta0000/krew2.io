@@ -218,8 +218,6 @@ let initSocketBinds = () => {
                         fadeInAudio(true, 1.6, 4e3, `battle-music`);
                     } else hitCount++;
                 }
-                console.log(inBattle)
-
             }
         });
 
