@@ -1,8 +1,13 @@
-// PLayers are entities, check core_entity.js for the base class
-Boat.prototype = new Entity();
-Boat.prototype.constructor = Boat;
+const THREE = require(`../../../client/libs/js/three.min.js`);
+const Entity = require(`./Entity.js`);
 
-function Boat (captainId, krewName, spawnBool) {
+const { entities } = require(`../core.js`);
+const utils = require(`../utils.js`);
+
+class Boat extends Entity {
+    constructor (captainId, name, spawn) {
+        const captain = entities.find(entity => entity.id === captainId);
+    }
     let captainsName = ``;
     let spawnIslandId;
 

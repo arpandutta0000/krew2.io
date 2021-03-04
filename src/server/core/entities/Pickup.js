@@ -59,7 +59,7 @@ class Pickup extends Entity {
             if (this.pickupType === 0 || this.pickupType === 4) {
                 const boats = entities.filter(entity => entity.netType === 1 && entity.hp > 0);
                 for (const boat of boats) {
-                    const locPos = boat.toLocal(this.position);
+                    const locPos = boat.localPos(this.position);
                     if (Math.abs(locPos.x) > Math.abs(boat.size.x * 0.6 + 3) || Math.abs(locPos.z) > Math.abs(boat.size.z * 0.6 + 3)) continue;
 
                     const bonus = this.bonusValues[this.pickupSize];
