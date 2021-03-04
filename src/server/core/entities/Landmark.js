@@ -44,7 +44,7 @@ class Landmark extends Entity {
             if (child.netType === 0 && child.parent !== this.id) this.removeChild(child.id);
         }
 
-        const boats = entities.find(entity => entity.netType === 1 && entity.hp > 0 && entity.shipState !== 3);
+        const boats = entities.filter(entity => entity.netType === 1 && entity.hp > 0 && entity.shipState !== 3);
         for (const boat of boats) {
             if (this.isWithinDockingRadius(boat.position.x, boat.position.z)) {
                 boat.enterIsland(this.id);

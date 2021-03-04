@@ -33,76 +33,39 @@ class Pickup extends Entity {
 
         this.picking = type === 1;
     }
-}
 
-Pickup.prototype.randomMovementLogic = function () {
-    this.randomMovementLogicTime = this.randomMovementLogicTime || Date.now();
-    this.randomMovementTime = this.randomMovementTime || this.randomTime(5, 10);
-    if (Date.now() - this.randomMovementLogicTime > this.randomMovementTime) {
-        let move = Math.round(Math.random());
-        if (move) {
-            let landmark = false;
-            for (let landmarkId in core.Landmarks) {
-                if (
-                    core.Landmarks[landmarkId].pickups !== undefined &&
-                    core.Landmarks[landmarkId].pickups[this.id] !== undefined
-                ) {
-                    landmark = core.Landmarks[landmarkId];
-                    break;
+    randomMovementLogic = () => {
+        this.randomMovementLogicTime = this.randomMovementLogicTime || new Date();
+        this.randomMovementTime = this.randomMovementTime || utils.randomInt(5, 10);
+
+        if (new Date() - this.randomMovementLogicTime > this.randomMovementTime) {
+            const move = Math.round(Math.random());
+
+            if (move === 0) {
+                const landmark = core.entities.find(entity => entity.netType === 5 && entity.pickups && entity.pickups.includes(this.id));
+                if (landmark) {
+                    let pickupPos = {
+                        x: 0,
+                        y: 0
+                    };
+
+                    let distanceFromCenter = 0;
+                    while (distanceFromCenter > landmark.dockRadius - 30 || distanceFromCenter < landmark.dockRadius - 40) {
+                        pickupPos.x = utils.randomInt(-6, 6) + this.position.x;
+                        pickupPos.z = utils.randomInt(-6, 6) + this.position.z;
+
+                        distanceFromCenter = utils.distance(pickupPos.x, this.position.x, pickupPos.z, this.position.z);
+                    }
+                    this.position.x = pickupPos.x;
+                    this.position.z = pickupPos.z;
                 }
             }
 
-            if (landmark !== false) {
-                let pickupPosition = {
-                    x: 0,
-                    z: 0
-                };
-
-                let distanceFromCenter = 0;
-                let distanceFromPickup = 0;
-                while (
-                    distanceFromPickup < 2 ||
-                    distanceFromCenter > landmark.dockRadius - 30 ||
-                    distanceFromCenter < landmark.dockRadius - 40
-                ) {
-                    pickupPosition.x = Math.floor(
-                        Math.random() * (
-                            (this.position.x + 6) -
-                            (this.position.x - 6)
-                        )
-                    ) + (this.position.x - 6);
-
-                    pickupPosition.z = Math.floor(
-                        Math.random() * (
-                            (this.position.z + 6) -
-                            (this.position.z - 6)
-                        )
-                    ) + (this.position.z - 6);
-
-                    distanceFromPickup = Math.sqrt(
-                        (pickupPosition.x - this.position.x) *
-                        (pickupPosition.x - this.position.x) +
-                        (pickupPosition.z - this.position.z) *
-                        (pickupPosition.z - this.position.z)
-                    );
-
-                    distanceFromCenter = Math.sqrt(
-                        (pickupPosition.x - landmark.position.x) *
-                        (pickupPosition.x - landmark.position.x) +
-                        (pickupPosition.z - landmark.position.z) *
-                        (pickupPosition.z - landmark.position.z)
-                    );
-                }
-
-                this.position.x = pickupPosition.x;
-                this.position.z = pickupPosition.z;
-            }
+            this.randomMovementLogicTime = new Date();
+            this.randomMovementTime = utils.randomInt(5, 10);
         }
-
-        this.randomMovementLogicTime = Date.now();
-        this.randomMovementTime = this.randomTime(5, 10);
     }
-};
+}
 
 Pickup.prototype.logic = function (dt) {
     if (this.picking) {
