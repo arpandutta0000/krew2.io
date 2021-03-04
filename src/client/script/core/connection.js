@@ -209,7 +209,7 @@ let initSocketBinds = () => {
 
                 lastHit = Date.now();
                 if (!inBattle) {
-                    if (hitCount > 1 && Date.now() - lastHit < 2e4) {
+                    if (hitCount >= 1 && Date.now() - lastHit < 2e4) {
                         inBattle = true;
                         hitCount = 0;
                         audio.changeMusic(`battle`, false);
