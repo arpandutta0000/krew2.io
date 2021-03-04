@@ -50,11 +50,12 @@ let stopAudioFile = (fileId) => document.getElementById(fileId).pause();
  * @param {string} fileId The file ID for the audio file
  */
 let fadeInAudio = (loop, endVolume, time, fileId) => {
+    console.log(`fadein ${fileId}`)
+
     const musicValue = document.getElementById(`music-control`);
     const sfxValue = document.getElementById(`sfx-control`);
 
     playAudioFile(loop, false, 0, fileId);
-    console.log(`fadein ${fileId}`)
 
     let currentTime = 0;
     let fade = setInterval(() => {
@@ -75,6 +76,9 @@ let fadeInAudio = (loop, endVolume, time, fileId) => {
  */
 let fadeOutAudio = (loop, time, fileId) => {
     console.log(`fadeout ${fileId}`)
+
+    const musicValue = document.getElementById(`music-control`);
+    const sfxValue = document.getElementById(`sfx-control`);
 
     let startVolume = document.getElementById(fileId).volume;
     let currentTime = time;
