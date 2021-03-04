@@ -29,8 +29,8 @@ let enterIsland = (data) => {
     }
 
     if (myPlayer) {
-        stopAudioFile(`ocean-music`);
-        playAudioFile(true, false, 1, `island-music`);
+        fadeOutAudio(6e3, `ocean-music`);
+        fadeInAudio(true, 1, 6e3, `island-music`, true);
     }
 };
 
@@ -141,8 +141,8 @@ let exitIsland = (data) => {
 
     ui.hideSuggestionBox = true;
     if (myPlayer) {
-        stopAudioFile(`island-music`);
-        playAudioFile(true, false, 1, `ocean-music`);
+        fadeOutAudio(6e3, `island-music`);
+        fadeInAudio(true, 1, 6e3, `ocean-music`, true);
     }
 
     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
