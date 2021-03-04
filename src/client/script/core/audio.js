@@ -1,90 +1,125 @@
-/**
- * Update Music Volume
- */
-let updateMusic = () => {
-    let elements = document.querySelectorAll(`audio`);
-    const range = document.getElementById(`music-control`);
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].volume = 0.1 * range.value / range.max;
-    }
-};
+let audio = {
+    musicPlaying: undefined,
+    fadingIn: [],
+    fadingOut: [],
+    inBattle: false,
 
-/**
- * Play an audio file
- *
- * @param {boolean} loop If the audio file should be looped
- * @param {boolean} stack If the audio file should be able to be stacked
- * @param {number} volume Volume multiplier - 1 = Normal volume
- * @param {string} fileId The file ID for the audio file
- */
-let playAudioFile = (loop, stack, volume, fileId) => {
-    const musicValue = document.getElementById(`music-control`);
-    const sfxValue = document.getElementById(`sfx-control`);
+    /**
+     * Update Music Volume
+     */
+    updateMusicVolume: () => {
+        let elements = document.querySelectorAll(`audio`);
+        const range = document.getElementById(`music-control`);
+        for (let i = 0; i < elements.length; i++) elements[i].volume = 0.1 * range.value / range.max;
+    },
 
-    document.getElementById(fileId).loop = loop;
-    if (stack) {
-        let audio = document.getElementById(fileId);
+    /**
+     * Play an audio file
+     *
+     * @param {boolean} loop If the audio file should be looped
+     * @param {boolean} stack If the audio file should be able to be stacked
+     * @param {number} volume Volume multiplier - 1 = Normal volume
+     * @param {string} fileId The file ID for the audio file
+     */
+    playAudioFile: (loop, stack, volume, fileId) => {
+        const musicValue = document.getElementById(`music-control`);
+        const sfxValue = document.getElementById(`sfx-control`);
 
-        let copy = audio.cloneNode(true);
-        copy.volume = loop ? volume * 0.1 * musicValue.value / musicValue.max : volume * 0.35 * sfxValue.value / sfxValue.max;
-        copy.play();
-    } else {
-        document.getElementById(fileId).volume = loop ? volume * 0.1 * musicValue.value / musicValue.max : volume * 0.45 * sfxValue.value / sfxValue.max;
-        document.getElementById(fileId).play();
-    }
-};
+        document.getElementById(fileId).loop = loop;
+        if (stack) {
+            let audio = document.getElementById(fileId);
 
-/**
- * Stop an audio file
- *
- * @param {string} fileId The file ID for the audio file
- */
-let stopAudioFile = (fileId) => document.getElementById(fileId).pause();
-
-/**
- * Fade in an audio file
- * 
- * @param {boolean} loop If the audio file should be looped
- * @param {number} endVolume The final volume after fading in
- * @param {number} time The length of time to fade in for in milliseconds
- * @param {string} fileId The file ID for the audio file
- */
-let fadeInAudio = (loop, endVolume, time, fileId) => {
-    console.log(`fadein ${fileId}`)
-
-    const musicValue = document.getElementById(`music-control`);
-    const sfxValue = document.getElementById(`sfx-control`);
-
-    playAudioFile(loop, false, 0, fileId);
-
-    let currentTime = 0;
-    let fadeIn = setInterval(() => {
-        document.getElementById(fileId).volume = Math.min(endVolume, loop ? (endVolume * (currentTime / time)) * 0.1 * musicValue.value / musicValue.max : (endVolume * (currentTime / time)) * 0.35 * sfxValue.value / sfxValue.max);
-        currentTime += 50;
-        if (currentTime >= time) clearInterval(fadeIn);
-    }, 50);
-
-    document.getElementById(fileId).volume = loop ? endVolume * 0.1 * musicValue.value / musicValue.max : endVolume * 0.35 * sfxValue.value / sfxValue.max;
-};
-
-/**
- * Fade out an audio file
- * 
- * @param {boolean} loop If the audio file is being looped
- * @param {number} time The length of time to fade in for in milliseconds
- * @param {string} fileId The file ID for the audio file
- */
-let fadeOutAudio = (loop, time, fileId) => {
-    console.log(`fadeout ${fileId}`)
-
-    let startVolume = document.getElementById(fileId).volume;
-    let currentTime = time;
-    let fadeOut = setInterval(() => {
-        document.getElementById(fileId).volume = Math.max(0, startVolume * (currentTime / time));
-        currentTime -= 50;
-        if (currentTime <= 0) {
-            stopAudioFile(fileId);
-            clearInterval(fadeOut);
+            let copy = audio.cloneNode(true);
+            copy.volume = loop ? volume * 0.1 * musicValue.value / musicValue.max : volume * 0.35 * sfxValue.value / sfxValue.max;
+            copy.play();
+        } else {
+            document.getElementById(fileId).volume = loop ? volume * 0.1 * musicValue.value / musicValue.max : volume * 0.45 * sfxValue.value / sfxValue.max;
+            document.getElementById(fileId).play();
         }
-    }, 50);
+    },
+
+    /**
+     * Stop an audio file
+     *
+     * @param {string} fileId The file ID for the audio file
+     */
+    stopAudioFile: (fileId) => {
+        document.getElementById(fileId).volume = 0;
+        document.getElementById(fileId).pause();
+    },
+
+    /**
+     * Fade between 2 audio files
+     * 
+     * @param {string} oldFileId Old file ID to fade out
+     * @param {string} newFileId New file ID to fade in
+     * @param {number} newVolume Volume to set new audio file at
+     * @param {boolean} loopNew If the new audio should be looped
+     * @param {number} time Fade time
+     * @returns Promise
+     */
+    fadeAudio: (oldFileId, newFileId, newVolume, loopNew, time) => new Promise((resolve, reject) => {
+        const musicValue = document.getElementById(`music-control`);
+        const sfxValue = document.getElementById(`sfx-control`);
+
+        audio.playAudioFile(loopNew, false, 0, newFileId);
+
+        let currentTime = 0;
+        let oldFileStartVolume = document.getElementById(oldFileId).volume;
+        let fadeInterval = setInterval(() => {
+            currentTime += 50;
+
+            document.getElementById(newFileId).volume = Math.min(newVolume, loopNew ? (newVolume * (currentTime / time)) * 0.1 * musicValue.value / musicValue.max : (newVolume * (currentTime / time)) * 0.35 * sfxValue.value / sfxValue.max);
+            document.getElementById(oldFileId).volume = Math.max(0, oldFileStartVolume * ((time - currentTime) / time));
+
+            if (currentTime >= time) {
+                audio.stopAudioFile(oldFileId);
+                document.getElementById(newFileId).volume = loopNew ? newVolume * 0.1 * musicValue.value / musicValue.max : newVolume * 0.35 * sfxValue.value / sfxValue.max;
+
+                clearInterval(fadeInterval);
+                resolve();
+            }
+        }, 50);
+    }),
+
+    /**
+     * Change the music playing
+     * 
+     * @param {string} newFileId New music file to play
+     * @param {number} volume Volume of new music
+     * @param {boolean} force If the music should be force played (Circumvents inBattle boolean)
+     */
+    changeMusic: async (newFileId, volume, force) => {
+        if (force) audio.inBattle = false;
+
+        if (!audio.inBattle && newFileId !== audio.musicPlaying) {
+            if (newFileId === `battle-music`) audio.inBattle = true;
+
+            audio.fadingIn.push(newFileId);
+            audio.fadingOut.push(audio.musicPlaying);
+
+            await audio.fadeQueued(newFileId, audio.musicPlaying);
+
+            await audio.fadeAudio(audio.musicPlaying, newFileId, volume, true, 4e3);
+
+            audio.fadingIn.shift();
+            audio.fadingOut.shift();
+        }
+    },
+
+    /**
+     * Function to wait for fading files to be next in the queue
+     * 
+     * @param {string} fadingInFile File that is queued to fade in
+     * @param {string} fadingOutFile File that is queued to fade out
+     * @returns Promise
+     */
+    fadeQueued: (fadingInFile, fadeingOutFile) => new Promise((resolve, reject) => {
+        let waitForFadeInterval = setInterval(() => {
+            if (audio.fadingIn[0] === fadingInFile && audio.fadingOut[0] === fadeingOutFile) {
+                clearInterval(waitForFadeInterval);
+                resolve();
+            }
+        }, 100);
+    })
 };
