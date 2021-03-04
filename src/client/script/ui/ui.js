@@ -66,7 +66,7 @@ let ui = {
                 showAdinplayCentered();
                 splash.loadingWheel(`show`);
                 playAudioFile(false, false, 1, `wheelspin`);
-                playAudioFile(true, false, 1, `ocean-ambience`);
+                playAudioFile(true, false, 0.7, `ocean-ambience`);
             }
         }).text(`Loading...`).attr(`disabled`, true);
     },

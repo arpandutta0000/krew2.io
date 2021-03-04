@@ -54,18 +54,35 @@ let fadeInAudio = (loop, endVolume, time, fileId) => {
     const sfxValue = document.getElementById(`sfx-control`);
 
     playAudioFile(loop, false, 0, fileId);
+    console.log(`fadein ${fileId}`)
 
-    $(`#${fileId}`).animate({
-        volume: loop ? endVolume * 0.1 * musicValue.value / musicValue.max : endVolume * 0.35 * sfxValue.value / sfxValue.max
-    }, time);
+    let currentTime = 0;
+    let fade = setInterval(() => {
+        document.getElementById(fileId).volume = Math.min(endVolume, loop ? (endVolume * (currentTime / time)) * 0.1 * musicValue.value / musicValue.max : (endVolume * (currentTime / time)) * 0.35 * sfxValue.value / sfxValue.max);
+        currentTime += 50;
+        if (currentTime >= time) clearInterval(fade);
+    }, 50);
+
+    document.getElementById(fileId).volume = loop ? endVolume * 0.1 * musicValue.value / musicValue.max : endVolume * 0.35 * sfxValue.value / sfxValue.max
 };
 
 /**
  * Fade out an audio file
  * 
+ * @param {boolean} loop If the audio file is being looped
  * @param {number} time The length of time to fade in for in milliseconds
  * @param {string} fileId The file ID for the audio file
  */
-let fadeOutAudio = (time, fileId) => $(`#${fileId}`).animate({
-    volume: 0
-}, time);
+let fadeOutAudio = (loop, time, fileId) => {
+    console.log(`fadeout ${fileId}`)
+
+    let startVolume = document.getElementById(fileId).volume;
+    let currentTime = time;
+    let fade = setInterval(() => {
+        document.getElementById(fileId).volume = Math.max(0, loop ? (startVolume * (currentTime / time)) * 0.1 * musicValue.value / musicValue.max : (endVolume * (currentTime / time)) * 0.35 * sfxValue.value / sfxValue.max);
+        currentTime -= 50;
+        if (currentTime <= 0) clearInterval(fade);
+    }, 50);
+
+    stopAudioFile(fileId);
+};
