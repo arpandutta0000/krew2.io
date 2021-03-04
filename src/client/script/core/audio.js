@@ -58,10 +58,10 @@ let fadeInAudio = (loop, endVolume, time, fileId) => {
     playAudioFile(loop, false, 0, fileId);
 
     let currentTime = 0;
-    let fade = setInterval(() => {
+    let fadeIn = setInterval(() => {
         document.getElementById(fileId).volume = Math.min(endVolume, loop ? (endVolume * (currentTime / time)) * 0.1 * musicValue.value / musicValue.max : (endVolume * (currentTime / time)) * 0.35 * sfxValue.value / sfxValue.max);
         currentTime += 50;
-        if (currentTime >= time) clearInterval(fade);
+        if (currentTime >= time) clearInterval(fadeIn);
     }, 50);
 
     document.getElementById(fileId).volume = loop ? endVolume * 0.1 * musicValue.value / musicValue.max : endVolume * 0.35 * sfxValue.value / sfxValue.max
@@ -77,16 +77,14 @@ let fadeInAudio = (loop, endVolume, time, fileId) => {
 let fadeOutAudio = (loop, time, fileId) => {
     console.log(`fadeout ${fileId}`)
 
-    const musicValue = document.getElementById(`music-control`);
-    const sfxValue = document.getElementById(`sfx-control`);
-
     let startVolume = document.getElementById(fileId).volume;
     let currentTime = time;
-    let fade = setInterval(() => {
-        document.getElementById(fileId).volume = Math.max(0, loop ? (startVolume * (currentTime / time)) * 0.1 * musicValue.value / musicValue.max : (endVolume * (currentTime / time)) * 0.35 * sfxValue.value / sfxValue.max);
+    let fadeOut = setInterval(() => {
+        document.getElementById(fileId).volume = Math.max(0, startVolume * (currentTime / time));
         currentTime -= 50;
-        if (currentTime <= 0) clearInterval(fade);
+        if (currentTime <= 0) {
+            stopAudioFile(fileId);
+            clearInterval(fadeOut);
+        }
     }, 50);
-
-    stopAudioFile(fileId);
 };
