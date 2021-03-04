@@ -54,10 +54,6 @@ class Boat extends Entity {
         this.hpRegTimer = 0;
         this.hpRegInterval = 1;
 
-        // Arcs for boundaries.
-        this.arcFront = 0.0;
-        this.arcBack = 0.0;
-
         // If krew is locked (cannot recruit).
         this.isLocked = false;
 
@@ -69,98 +65,22 @@ class Boat extends Entity {
         this.steering = 0;
         this.shipState = -1;
 
-        // Docking.
+        // Security values.
         this.sentDockingMsg = false;
+        this.hasDoneDeathDrops = false;
+
+        this.anchorIslandId = spawnIslandId;
+
+        // A timer that counts down once hp is below 0.
+        this.sinkTimer = 0;
+
+        this.captain = captainId;
+
+        // Set krew name.
+        this.name = name || `${captain.name}'${captain.name.charAt(captain.name.length - 1) === `s` ? `` : `s`} krew`;
 
         // Start with a raft 1.
         this.setShipType(1);
-    }
-
-    this.sentDockingMsg = false;
-
-    // this.anchorIsland = undefined;
-    this.anchorIslandId = spawnIslandId;
-
-    // a timer that counts down once your hp is below zero - you are sinking
-    this.sinktimer = 0;
-
-    // boats have a captain, but we only reference it by ID (better for netcode)
-    // If there is no captain, the id is: ""
-    this.captainId = captainId || ``;
-
-    // Boats have a crew name, by default it's the captains name or the passed krew name,
-    // this is setted on the update function, so initially is set to undefined
-    captainsName = typeof captainsName === `string` ? captainsName : ``;
-    this.crewName = typeof krewName === `string`
-        ? krewName
-        : (
-            `${captainsName}'${
-                captainsName.charAt(captainsName.length - 1) === `s` ? `` : `s`
-            } krew`
-        );
-
-    // on death, we drop things. this is a security value so it only happens once
-    this.hasDoneDeathDrops = false;
-
-    this.steering = 1;
-
-    // let spawnIsland = spawnIslandId ? Landmarks[spawnIslandId] :
-    //     Landmarks[
-    //         Object.keys(Landmarks)[
-    //             Math.round(Math.random() * (Object.keys(Landmarks).length - 1))
-    //         ]
-    //     ];
-    //
-    // this.anchorIslandId = spawnIsland.id;
-
-    if (spawnBool === true) {
-        // used for respawn near the edge of the map
-        let roll = Math.floor(Math.random() * Math.floor(4));
-        if (roll === 0) {
-            this.position.x = Math.floor(Math.random() * 150);
-            this.position.z = Math.floor(Math.random() * worldsize);
-        } else if (roll === 1) {
-            this.position.x = Math.floor(Math.random() * worldsize);
-            this.position.z = Math.floor(Math.random() * (worldsize - (worldsize - 150)) + (worldsize - 150));
-        } else if (roll === 2) {
-            this.position.x = Math.floor(Math.random() * (worldsize - (worldsize - 150)) + (worldsize - 150));
-            this.position.z = Math.floor(Math.random() * worldsize);
-        } else if (roll === 3) {
-            this.position.x = Math.floor(Math.random() * worldsize);
-            this.position.z = Math.floor(Math.random() * 150);
-        }
-        // used for respawn anywhere on the map
-        // calculate the spawn position. If spawn position collides with an island, recalculate
-        // let spawnResult = false;
-        // while (spawnResult !== true) {
-        // this.position.x = worldsize * 0.8 * Math.random() + worldsize * 0.1;
-        // this.position.z = worldsize * 0.8 * Math.random() + worldsize * 0.1;
-        // for (let l in core.config.landmarks) {
-        // spawn must be at least 5 fields away from the island
-        // let xCoord1 = core.config.landmarks[l]['x'] - (core.config.landmarks[l]['dockRadius'] + 5);
-        // let xCoord2 = core.config.landmarks[l]['x'] + (core.config.landmarks[l]['dockRadius'] + 5);
-        // let yCoord1 = core.config.landmarks[l]['y'] - (core.config.landmarks[l]['dockRadius'] + 5);
-        // let yCoord2 = core.config.landmarks[l]['y'] + (core.config.landmarks[l]['dockRadius'] + 5);
-        // if (this.position.x > xCoord1 && this.position.x < xCoord2 && this.position.z > yCoord1 && this.position.z < yCoord2) {
-        // spawnResult = false;
-        // break;
-        // } else {
-        // spawnResult = true;
-        // }
-        // }
-        // }
-    } else if (spawnBool === false) {
-        // code for spawning on islands instead of on rafts (in the sea)
-        if (Landmarks[this.anchorIslandId] !== undefined) {
-            let spawnIsland = Landmarks[this.anchorIslandId];
-            this.position.x = spawnIsland.position.x + (Math.random() * 60) - 60;
-            this.position.z = spawnIsland.position.z + (Math.random() * 60) - 60;
-        } else {
-            spawnIsland = Landmarks[Object.keys(core.Landmarks)[0]];
-            this.position.x = spawnIsland.position.x + (Math.random() * 60) - 60;
-            this.position.z = spawnIsland.position.z + (Math.random() * 60) - 60;
-            this.anchorIslandId = spawnIsland.id;
-        }
     }
 }
 
@@ -341,41 +261,6 @@ Boat.prototype.logic = function (dt) {
             this.hp = Math.min(this.hp, this.maxHp);
         }
     }
-
-    // calculate the krew members' salary based on their score
-    // first, find total amount of all krew members' scores combined
-
-    // if (this.captain)
-    // {
-    //     let totalScore = 0;
-    //     for (id in this.children)
-    //     {
-    //         let krewMember = this.children[id];
-    //         totalScore += krewMember.score;
-    //     }
-
-    //     let totalSalary = 0;
-    //     let captainsCut = 0;
-    //     if (totalScore > 0)
-    //     {
-    //         // then, determine the salary
-    //         for (id in this.children)
-    //         {
-
-    //             let krewMember = this.children[id];
-    //             let salary = (krewMember.score / totalScore) * (this.supply * .7)
-    //             if (this.captainId === id)
-    //             {
-    //                 captainsCut = salary;
-    //             }
-
-    //             krewMember.salary = salary;
-    //             totalSalary += salary;
-    //         }
-    //     }
-
-    //     this.captain.salary = captainsCut + this.supply - totalSalary;
-    // }
 };
 
 Boat.prototype.setShipClass = function (classId) {
@@ -439,10 +324,6 @@ Boat.prototype.getTypeDelta = function () {
     return delta;
 };
 
-// // function that parses a snapshot
-// Boat.prototype.parseTypeSnap = function (snap) {
-// };
-
 // function that parses a snapshot
 Boat.prototype.onDestroy = function () {
     // all the children - destroy them too
@@ -480,17 +361,6 @@ Boat.prototype.enterIsland = function (islandId) {
     }
 
     this.anchorIslandId = islandId;
-
-    // pay everyone salary
-    // for (id in this.children)
-    // {
-    //     let krewMember = this.children[id]
-    //     krewMember.gold += krewMember.salary;
-    //     this.children[id].salary = 0;
-    //     this.children[id].score = 0;
-    // }
-
-    // this.supply = 0;
 };
 
 Boat.prototype.exitIsland = function () {
@@ -521,3 +391,5 @@ Boat.prototype.exitMotherShip = function (mothership) {
     this.position.x = mothership.position.x - outward.x * (mothership.collisionRadius + 5);
     this.position.z = mothership.position.z - outward.y * (mothership.collisionRadius + 5); // <- careful. y value!
 };
+
+module.exports = Boat;
