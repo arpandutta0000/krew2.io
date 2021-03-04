@@ -18,7 +18,8 @@ let boatTypes = {
         labelHeight: 10,
         regeneration: 1,
         body: `raft`,
-        sail: undefined,
+        sail: `raft`,
+        mast: `raft`,
         scale: [1.2, 1, 1.5],
         offset: [0, -1, 0],
         rotation: [0, 0, 0]
@@ -44,6 +45,7 @@ let boatTypes = {
         regeneration: 1,
         body: `raft`,
         sail: `raft`,
+        mast: `raft`,
         scale: [1.7, 1.7, 1.7],
         offset: [0, -1.0, 0],
         rotation: [0, 0, 0]
@@ -69,6 +71,7 @@ let boatTypes = {
         regeneration: 1,
         body: `raft`,
         sail: `raft`,
+        mast: `raft`,
         scale: [1.7, 1.7, 1.7],
         offset: [0, -1.0, 0],
         rotation: [0, 0, 0]
@@ -94,6 +97,7 @@ let boatTypes = {
         regeneration: 1,
         body: `raft`,
         sail: `raft`,
+        mast: `raft`,
         scale: [1.7, 1.7, 1.7],
         offset: [0, -1.0, 0],
         rotation: [0, 0, 0]

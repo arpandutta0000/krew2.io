@@ -13,6 +13,11 @@ let materials = {
         side: THREE.DoubleSide
     }),
 
+    mast: new THREE.MeshLambertMaterial({
+        color: 0x8a503e,
+        side: THREE.DoubleSide
+    }),
+
     sail: new THREE.MeshLambertMaterial({
         color: 0xffffff,
         side: THREE.DoubleSide
