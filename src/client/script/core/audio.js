@@ -104,6 +104,7 @@ let audio = {
 
             audio.fadingIn.shift();
             audio.fadingOut.shift();
+            audio.musicPlaying = newFileId;
         }
     },
 
