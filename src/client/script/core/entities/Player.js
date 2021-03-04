@@ -323,7 +323,7 @@ class Player extends Entity {
             this.geometry.remove(this.weapon);
             this.weapon = models.cannon.clone();
             if (this.isPlayer)
-                playAudioFile(false, true, 1, `switch-rod-cannon`);
+                audio.playAudioFile(false, true, 1, `switch-rod-cannon`);
 
             this.weapon.scale.set(0.05, 0.05, 0.05);
             this.weapon.position.set(0, 0.1, -0.4);
@@ -335,7 +335,7 @@ class Player extends Entity {
             let fishingModel = new THREE.Mesh(geometry.fishingrod, materials.fishingrod);
             fishingModel.receiveShadow = true;
             if (this.isPlayer)
-                playAudioFile(false, true, 1, `switch-rod-cannon`);
+                audio.playAudioFile(false, true, 1, `switch-rod-cannon`);
             this.weapon = fishingModel.clone();
             this.weapon.scale.set(0.03, 0.03, 0.03);
             this.weapon.position.set(0, 0.1, -0.2);
@@ -345,7 +345,7 @@ class Player extends Entity {
         } else if (this.weapon && this.activeWeapon === 2) {
             this.geometry.remove(this.weapon);
             if (this.isPlayer)
-                playAudioFile(false, true, 1, `switch-rod-cannon`);
+                audio.playAudioFile(false, true, 1, `switch-rod-cannon`);
             this.weapon = models.spyglass.clone();
             this.weapon.scale.set(0.7, 0.7, 0.7);
             this.weapon.position.set(0, 0.5, 0.3);

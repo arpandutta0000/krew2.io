@@ -57,7 +57,7 @@ let initGameUi = () => {
     $(`#docking-modal-button`).on(`click`, () => {
         if ($(`#docking-modal-button`).hasClass(`enabled`)) {
             if (myPlayer && myPlayer.parent) {
-                playAudioFile(false, false, 1, `dock`);
+                audio.playAudioFile(false, false, 1, `dock`);
                 socket.emit(`anchor`);
                 $(`.btn-shopping-modal`).eq(2).trigger(`click`);
                 if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {

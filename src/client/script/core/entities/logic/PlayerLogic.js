@@ -39,25 +39,25 @@ let PlayerLogic = {
                 if (_this.position.x > _this.parent.size.x / 2) {
                     _this.position.x = _this.parent.size.x / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, false, 1, `turning`);
+                    audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.z > _this.parent.size.z / 2) {
                     _this.position.z = _this.parent.size.z / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, false, 1, `turning`);
+                    audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.x < -_this.parent.size.x / 2) {
                     _this.position.x = -_this.parent.size.x / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, false, 1, `turning`);
+                    audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.z < -_this.parent.size.z / 2) {
                     _this.position.z = -_this.parent.size.z / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, false, 1, `turning`);
+                    audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 // oval boat shape collision
@@ -98,10 +98,10 @@ let PlayerLogic = {
             _this.cooldown = _this.activeWeapon === 1 ? 0.7 : (1.5 - attackSpeedBonus).toFixed(2);
 
             if (_this.activeWeapon === 0 && _this.isPlayer && _this.parent && _this.parent.shipState !== 3 && _this.parent.shipState !== 4)
-                playAudioFile(false, true, 1, `cannon`);
+            audio.playAudioFile(false, true, 1, `cannon`);
 
             else if (_this.isPlayer && _this.activeWeapon === 1)
-                playAudioFile(false, true, 1, `cast-rod`);
+            audio.playAudioFile(false, true, 1, `cast-rod`);
         }
         if (!_this.isPlayer) {
             _this.geometry.rotation.x = _this.pitch + _this.rotationOffset;
@@ -237,17 +237,17 @@ let PlayerLogic = {
         if (_this.isPlayer && _this.parent) {
             if (_this.parent.shipState === 0 || _this.parent.shipState === 1) {
                 if (_this.walkForward !== 0) {
-                    playAudioFile(false, false, 1, `step-wood01`);
+                    audio.playAudioFile(false, false, 1, `step-wood01`);
                 }
                 if (_this.walkSideward !== 0) {
-                    playAudioFile(false, false, 1, `step-wood02`);
+                    audio.playAudioFile(false, false, 1, `step-wood02`);
                 }
             } else {
                 if (_this.walkForward !== 0) {
-                    playAudioFile(false, false, 1, `step-sand01`);
+                    audio.playAudioFile(false, false, 1, `step-sand01`);
                 }
                 if (_this.walkSideward !== 0) {
-                    playAudioFile(false, false, 1, `step-sand02`);
+                    audio.playAudioFile(false, false, 1, `step-sand02`);
                 }
             }
         }

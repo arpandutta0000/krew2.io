@@ -126,7 +126,7 @@ let setUpKeyboard = () => {
                 (myPlayer.parent.shipState === 1 || myPlayer.parent.shipState === -1) &&
                 $(`#docking-modal-button`).hasClass(`enabled`)
             ) {
-                playAudioFile(false, false, 1, `dock`);
+                audio.playAudioFile(false, false, 1, `dock`);
                 setUpIslandUI();
             }
         } else if (evt.keyCode === 9) { // Tab to switch chat menus

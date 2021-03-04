@@ -39,9 +39,8 @@ let BoatLogic = {
         // if boat is not anchored or not in docking state, we will move
         if (_this.shipState === 0) {
             // if the steering button is pressed, the rotation changes slowly
-            (kaptain !== undefined)
-                ? _this.rotation += _this.steering * dt * 0.4 * (_this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100))
-                : _this.rotation += _this.steering * dt * 0.4 * _this.turnspeed;
+            (kaptain !== undefined) ?
+            _this.rotation += _this.steering * dt * 0.4 * (_this.turnspeed + parseFloat(0.05 * kaptain.movementSpeedBonus / 100)): _this.rotation += _this.steering * dt * 0.4 * _this.turnspeed;
 
             // we rotate the movement vector depending on the current rotation
             moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), _this.rotation);
@@ -102,7 +101,7 @@ let BoatLogic = {
         if (_this.hp < 1) {
             // on client, disconnect the camera from the player
             if (myPlayer && myPlayer.parent === _this) {
-                playAudioFile(false, false, 1, `sink-crash`);
+                audio.playAudioFile(false, false, 1, `sink-crash`);
                 $(`#shopping-modal`).hide();
                 $(`#show-shopping-modal-button`).hide();
             }

@@ -27,7 +27,7 @@ let PickupLogic = {
                     _this.geometry.translateOnAxis(_this.geometry.worldToLocal(pickerPos), 0.05);
                     _this.geometry.scale.set(_this.geometry.scale.x - 0.05, _this.geometry.scale.y - 0.05, _this.geometry.scale.z - 0.05);
                     if (myPlayer && _this.pickerId === myPlayer.id && _this.geometry.scale.x <= 0.05 && _this.geometry.scale.x > 0) {
-                        playAudioFile(false, false, 1, `get-crate`);
+                        audio.playAudioFile(false, false, 1, `get-crate`);
                     }
                 }
 
@@ -40,7 +40,7 @@ let PickupLogic = {
                     if (_this.geometry.position.y >= 20) {
                         _this.catchingFish = true;
                         if (myPlayer && _this.pickerId === myPlayer.id)
-                            playAudioFile(false, false, 1, `catch-fish`);
+                            audio.playAudioFile(false, false, 1, `catch-fish`);
                     }
 
                     _this.geometry.scale.set(_this.geometry.scale.x - 0.009, _this.geometry.scale.y - 0.009, _this.geometry.scale.z - 0.009);
@@ -54,7 +54,7 @@ let PickupLogic = {
                             (!entities[_this.pickerId].ownsCannon || !entities[_this.pickerId].ownsFishingRod ||
                                 (entities[_this.pickerId].parent !== undefined &&
                                     entities[_this.pickerId].parent.netType !== 1))
-                    )) {
+                        )) {
                         ui.hideSuggestionBox = false;
                     }
                 }
@@ -64,13 +64,13 @@ let PickupLogic = {
                     _this.geometry.scale.set(_this.geometry.scale.x - 0.05, _this.geometry.scale.y - 0.05, _this.geometry.scale.z - 0.05);
 
                     if (myPlayer && _this.pickerId === myPlayer.id)
-                        playAudioFile(false, false, 1, `catch-crab`);
+                        audio.playAudioFile(false, false, 1, `catch-crab`);
 
                     if ((entities[_this.pickerId] !== undefined && entities[_this.pickerId].gold > 500 &&
                             (!entities[_this.pickerId].ownsCannon || !entities[_this.pickerId].ownsFishingRod ||
                                 (entities[_this.pickerId].parent !== undefined &&
                                     entities[_this.pickerId].parent.netType !== 1))
-                    )) {
+                        )) {
                         ui.hideSuggestionBox = false;
                     }
                 }
