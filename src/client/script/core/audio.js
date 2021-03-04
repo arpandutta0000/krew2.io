@@ -100,7 +100,7 @@ let audio = {
 
             await audio.fadeQueued(newFileId, audio.musicPlaying);
 
-            await audio.fadeAudio(audio.musicPlaying, newFileId, volume, true, 4e3);
+            await audio.fadeAudio(audio.musicPlaying, newFileId, volume, true, audio.inBattle ? 2e3 : 4e3);
 
             audio.fadingIn.shift();
             audio.fadingOut.shift();
