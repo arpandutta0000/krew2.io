@@ -98,7 +98,7 @@ let audio = {
                 case `battle`: {
                     audio.inBattle = true;
                     newFileId = `battle-music`;
-                    volume = 2.3;
+                    volume = 3;
                     break;
                 }
 
@@ -120,7 +120,7 @@ let audio = {
                         volume = 1;
                     } else {
                         newFileId = `island-music-2`;
-                        volume = 5;
+                        volume = 4;
                     }
 
                     break;
