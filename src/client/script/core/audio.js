@@ -58,7 +58,7 @@ let audio = {
      * @param {number} time Fade time
      * @returns Promise
      */
-    fadeAudio: (oldFileId, newFileId, newVolume, loopNew, time) => new Promise((resolve, reject) => {
+    fadeAudio: (oldFileId, newFileId, newVolume, loopNew, time) => new Promise((resolve) => {
         const musicValue = document.getElementById(`music-control`);
         const sfxValue = document.getElementById(`sfx-control`);
 
@@ -76,8 +76,8 @@ let audio = {
                 audio.stopAudioFile(oldFileId);
                 document.getElementById(newFileId).volume = loopNew ? newVolume * 0.1 * musicValue.value / musicValue.max : newVolume * 0.35 * sfxValue.value / sfxValue.max;
 
-                clearInterval(fadeInterval);
                 resolve();
+                clearInterval(fadeInterval);
             }
         }, 50);
     }),
@@ -92,7 +92,7 @@ let audio = {
     changeMusic: async (newFileId, volume, force) => {
         if (force) audio.inBattle = false;
 
-        if (!audio.inBattle && newFileId !== audio.musicPlaying) {
+        if (!audio.inBattle) {
             if (newFileId === `battle-music`) audio.inBattle = true;
 
             audio.fadingIn.push(newFileId);
@@ -115,11 +115,11 @@ let audio = {
      * @param {string} fadingOutFile File that is queued to fade out
      * @returns Promise
      */
-    fadeQueued: (fadingInFile, fadeingOutFile) => new Promise((resolve, reject) => {
+    fadeQueued: (fadingInFile, fadeingOutFile) => new Promise((resolve) => {
         let waitForFadeInterval = setInterval(() => {
             if (audio.fadingIn[0] === fadingInFile && audio.fadingOut[0] === fadeingOutFile) {
-                clearInterval(waitForFadeInterval);
                 resolve();
+                clearInterval(waitForFadeInterval);
             }
         }, 100);
     })
