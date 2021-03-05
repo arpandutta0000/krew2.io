@@ -22,9 +22,7 @@ class Projectile extends Entity {
         this.shooterStartPos = new THREE.Vector3(shooter.position.x, shooter.position.y, shooter.position.z);
 
         this.type = -1;
-
         this.reel = false;
-        
         this.airtime = 0;
 
         if (!shooter || shooter.activeWeapon === 2 || (shooter.parent.netType === 5 && shooter.activeWeapon === 0) || shooter.parent.shipState === -1 || shooter.parent.shipState === 4 || shooter.parent.shipState === 3 && this.impact) this.destroy();
@@ -35,42 +33,19 @@ class Projectile extends Entity {
         moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
 
         this.velocity = moveVector;
-    }
-}
 
-    this.shooterid = shooter.id;
-    this.shooter = shooter;
-    let pos = shooter.worldPos();
-    this.position.x = pos.x;
-    this.position.z = pos.z;
-    if (shooter.parent.netType === 1) {
-        this.position.y = this.shooter.parent.getHeightAboveWater() + 0.5;
-    } else {
-        this.position.y = 2.4;
-    }
-    // this.position.y = shooter.parent.netType === 5 ? 2.4 : this.shooter.parent.getHeightAboveWater() + 0.5;
-    this.rotation = shooter.rotation + (shooter.parent ? shooter.parent.rotation : 0);
-    this.shooterStartPos = new THREE.Vector3(pos.x, pos.y, pos.z);
-    let moveVector = new THREE.Vector3(0, 0, -1);
-    moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
-    this.velocity = moveVector;
+        const distanceBonus = 1 + parseFloat(shooter.bonus.distance) + shooter.points.filter(point => point.type === 1).length;
 
-    if (this.shooter && this.shooter.activeWeapon === 1) {
-        let vertspeed = Math.cos(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
-        let upspeed = Math.sin(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
-        this.velocity.x *= vertspeed;
-        this.velocity.z *= vertspeed;
-        this.velocity.y = upspeed;
-        this.type = 1;
-    } else if (this.shooter && this.shooter.activeWeapon === 0) {
-        let attackDistanceBonus = (1 + (parseFloat(shooter.attackDistanceBonus) + shooter.pointsFormula.getDistance()) / 100);
-        vertspeed = Math.cos(shooter.pitch * attackDistanceBonus) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
-        upspeed = Math.sin(shooter.pitch * attackDistanceBonus) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
-        this.velocity.x *= vertspeed * attackDistanceBonus;
-        this.velocity.z *= vertspeed * attackDistanceBonus;
-        this.velocity.y = upspeed * attackDistanceBonus;
-        this.shooter.shotsFired += 1;
-        this.type = 0;
+        const horzSpeed = Math.cos(shooter.pitch * distanceBonus) * (40 + (Math.min (1e4, parseFloat(shooter.gold)) / 2e3));
+        const vertSpeed = Math.sin(shooter.pitch * distanceBonus) * (40 + (Math.min(1e4, parseFloat(shooter.gold)) / 2e3));
+
+        this.velocity.x *= horzSpeed;
+        this.velocity.z *= horzSpeed;
+
+        this.velocity.y = vertSpeed;
+        this.type = this.activeWeapon;
+
+        if (shooter.activeWeapon === 0) shooter.shotsFired++;
     }
 }
 
