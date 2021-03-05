@@ -13,12 +13,11 @@ let charLimit = function (text, chars, suffix) {
     return text;
 };
 
-let entityDistance = (a, b) => Math.sqrt((a.position.x - b.position.x) * (a.position.x - b.position.x) + (a.position.z - b.position.z) * (a.position.z - b.position.z));
+let distance = (x1, x2, y1, y2) => {
+    const deltaX = x2 - x1;
+    const deltaY = y2 - y1;
 
-let distance = (p1, p2) => {
-    let dx = p2.x - p1.x;
-    let dz = p2.z - p1.z;
-    return Math.sqrt(dx * dx + dz * dz);
+    return Math.sqrt(deltaX ^ 2 + deltaY ^ 2);
 };
 
 let worldAngle = vector => {

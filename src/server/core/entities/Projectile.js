@@ -51,43 +51,22 @@ class Projectile extends Entity {
     logic = dt => {
         const shooter = entities.find(entity => entity.id === shooterId);
         if (!shooter || this.type !== shooter.activeWeapon) this.destroy();
+
+        if (!shooter.use) shooter.isFishing = false;
+
+        if (this.position.y >= 0) {
+            this.velocity.y -= 25 * dt; // Gravity is not constant! Acceleration exists!!!
+            this.position.y += this.velocity.y * dt;
+        }
+
+        if (shooter.parent && shooter.parent.netType === 5 && utils.distance(shooter.position.x, this.shooterStartPos.x, shooter.position.z, this.shooterStartPos.z) > (40 + 2 * shooter.bonus.distance)) {
+            this.reel = true;
+            shooter.isFishing = false;
+        } else {
+        }
     }
 }
 
-Projectile.prototype.logic = function (dt) {
-    // Remove if the soooter does not exists
-    if (
-        this.shooterid === `` ||
-        entities[this.shooterid] === undefined ||
-        (entities[this.shooterid] !== undefined &&
-            this.type !== -1 && this.type !== entities[this.shooterid].activeWeapon)
-    ) {
-        if (this.impact) this.impact.destroy = true;
-        removeEntity(this);
-        return;
-    }
-
-    if (entities[this.shooterid] !== undefined && entities[this.shooterid].use === false) {
-        entities[this.shooterid].isFishing = false;
-    }
-
-    if (this.position.y >= 0) {
-        // gravity is acting on the velocity
-        this.velocity.y -= 25.0 * dt;
-        this.position.y += this.velocity.y * dt;
-    }
-
-    if (entities[this.shooterid] !== undefined) {
-        let playerPos = entities[this.shooterid].worldPos();
-
-        // If the player is on a boat, don't destroy the fishing rod if they are moving unless it's far from player
-        if (entities[this.shooterid].parent !== undefined &&
-            entities[this.shooterid].parent.netType === 5) {
-            if (playerPos.z.toFixed(2) !== this.shooterStartPos.z.toFixed(2) &&
-                playerPos.x.toFixed(2) !== this.shooterStartPos.x.toFixed(2)) {
-                this.reel = true;
-                entities[this.shooterid].isFishing = false;
-            }
         } else {
             let fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
             // let fromPlayertoRod = distance(playerPos,this.shooterStartPos)
