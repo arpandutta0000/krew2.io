@@ -1,57 +1,42 @@
-Projectile.prototype = new Entity();
-Projectile.prototype.constructor = Projectile;
+const THREE = require(`../../../client/libs/js/three.min.js`);
+const { entities } = require(`../core.js`);
 
-function Projectile (shooter) {
-    this.createProperties();
+const Entity = require(`./Entity.js`);
+const Boat = require(`./Boat.js`);
 
-    // netcode type
-    this.netType = 2;
+const utils = require(`../utils.js`);
 
-    // size of a Projectile
+class Projectile extends Entity {
+    constructor (shooterId) {
+        const shooter = entities.find(entity => entity.id === shooterId);
+        super(shooter.position.x, shooter.position.y, shooter.position.z);
 
-    this.size = new THREE.Vector3(0.3, 0.3, 0.3);
+        // Network type.
+        this.netType = 2;
 
-    // projectiles dont send a lot of delta data
-    this.sendDelta = false;
-    this.sendSnap = false;
-    this.sendCreationSnapOnDelta = true;
-    this.muted = [`x`, `z`];
-    this.shooterid = ``;
-    this.shooterStartPos = new THREE.Vector3(); // initial world position of shooter
-    this.reel = false;
-    this.impact = undefined;
+        // Size of a projectile.
+        this.size = new THREE.Vector3(0.3, 0.3, 0.3);
 
-    this.type = -1; // 0 = cannon ball, 1 = fishing hook
+        // Initial shooter data.
+        this.shooterID = shooter.id;
+        this.shooterStartPos = new THREE.Vector3(shooter.position.x, shooter.position.y, shooter.position.z);
 
-    // duration of projectile being airbourne
-    this.airtime = 0;
+        this.type = -1;
 
-    // this is a flag that is used to amke sure the info is sent insantly once the ball spawns
-    this.spawnPacket = false;
+        this.reel = false;
+        
+        this.airtime = 0;
 
-    this.setProjectileModel = true;
+        if (!shooter || shooter.activeWeapon === 2 || (shooter.parent.netType === 5 && shooter.activeWeapon === 0) || shooter.parent.shipState === -1 || shooter.parent.shipState === 4 || shooter.parent.shipState === 3 && this.impact) this.destroy();
 
-    // set up references to geometry and material
+        this.rotation = shooter.rotation + (shooter.parent ? shooter.parent.rotation : 0);
 
-    /* If player doesn't exist, has no active weapon, on island with cannon active, player's ship is destroyed,
-        player is on boat and just logged, player's ship is docked -> remove the projectile */
-    if (
-        !shooter || shooter.activeWeapon === -1 || shooter.activeWeapon === 2 ||
-        (shooter.parent.netType === 5 && shooter.activeWeapon === 0) ||
-        shooter.parent.hp < 1 ||
-        (
-            shooter.activeWeapon === 0 &&
-            (
-                shooter.parent.shipState === -1 ||
-                shooter.parent.shipState === 4 ||
-                shooter.parent.shipState === 3
-            )
-        )
-    ) {
-        if (this.impact) this.impact.destroy = true;
-        removeEntity(this);
-        return;
+        const moveVector = new THREE.Vector3(0, 0, -1);
+        moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
+
+        this.velocity = moveVector;
     }
+}
 
     this.shooterid = shooter.id;
     this.shooter = shooter;
@@ -362,3 +347,5 @@ Projectile.prototype.getTypeSnap = function () {
 
     return snap;
 };
+
+module.exports = Projectile;
