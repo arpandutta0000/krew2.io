@@ -50,7 +50,7 @@ let audio = {
 
     /**
      * Fade between 2 audio files
-     * 
+     *
      * @param {string} oldFileId Old file ID to fade out
      * @param {string} newFileId New file ID to fade in
      * @param {number} newVolume Volume to set new audio file at
@@ -84,7 +84,7 @@ let audio = {
 
     /**
      * Change the music playing
-     * 
+     *
      * @param {string} music New music to play (ocean, island, or battle)
      * @param {boolean} endBattle If music is being played after a battle is finished
      */
@@ -129,7 +129,7 @@ let audio = {
                 default: {
                     return;
                 }
-            };
+            }
 
             audio.fadingIn.push(newFileId);
             audio.fadingOut.push(audio.musicPlaying);
@@ -146,7 +146,7 @@ let audio = {
 
     /**
      * Function to wait for fading files to be next in the queue
-     * 
+     *
      * @param {string} fadingInFile File that is queued to fade in
      * @param {string} fadingOutFile File that is queued to fade out
      * @returns Promise

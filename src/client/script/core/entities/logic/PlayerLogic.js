@@ -39,25 +39,25 @@ let PlayerLogic = {
                 if (_this.position.x > _this.parent.size.x / 2) {
                     _this.position.x = _this.parent.size.x / 2;
                     if (_this.isPlayer)
-                    audio.playAudioFile(false, false, 1, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.z > _this.parent.size.z / 2) {
                     _this.position.z = _this.parent.size.z / 2;
                     if (_this.isPlayer)
-                    audio.playAudioFile(false, false, 1, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.x < -_this.parent.size.x / 2) {
                     _this.position.x = -_this.parent.size.x / 2;
                     if (_this.isPlayer)
-                    audio.playAudioFile(false, false, 1, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.z < -_this.parent.size.z / 2) {
                     _this.position.z = -_this.parent.size.z / 2;
                     if (_this.isPlayer)
-                    audio.playAudioFile(false, false, 1, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 // oval boat shape collision
@@ -98,10 +98,10 @@ let PlayerLogic = {
             _this.cooldown = _this.activeWeapon === 1 ? 0.7 : (1.5 - attackSpeedBonus).toFixed(2);
 
             if (_this.activeWeapon === 0 && _this.isPlayer && _this.parent && _this.parent.shipState !== 3 && _this.parent.shipState !== 4)
-            audio.playAudioFile(false, true, 1, `cannon`);
+                audio.playAudioFile(false, true, 1, `cannon`);
 
             else if (_this.isPlayer && _this.activeWeapon === 1)
-            audio.playAudioFile(false, true, 1, `cast-rod`);
+                audio.playAudioFile(false, true, 1, `cast-rod`);
         }
         if (!_this.isPlayer) {
             _this.geometry.rotation.x = _this.pitch + _this.rotationOffset;

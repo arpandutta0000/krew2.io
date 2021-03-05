@@ -224,7 +224,7 @@ let initSocketBinds = () => {
                 if (myPlayer && myPlayer.parent && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) audio.changeMusic(`island`, true);
                 else audio.changeMusic(`ocean`, true);
             }
-        }, 2e4)
+        }, 2e4);
 
         // Admin says
         socket.on(`showAdminMessage`, (message) => {

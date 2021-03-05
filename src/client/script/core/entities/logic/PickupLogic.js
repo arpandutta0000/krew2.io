@@ -54,7 +54,7 @@ let PickupLogic = {
                             (!entities[_this.pickerId].ownsCannon || !entities[_this.pickerId].ownsFishingRod ||
                                 (entities[_this.pickerId].parent !== undefined &&
                                     entities[_this.pickerId].parent.netType !== 1))
-                        )) {
+                    )) {
                         ui.hideSuggestionBox = false;
                     }
                 }
@@ -70,7 +70,7 @@ let PickupLogic = {
                             (!entities[_this.pickerId].ownsCannon || !entities[_this.pickerId].ownsFishingRod ||
                                 (entities[_this.pickerId].parent !== undefined &&
                                     entities[_this.pickerId].parent.netType !== 1))
-                        )) {
+                    )) {
                         ui.hideSuggestionBox = false;
                     }
                 }
