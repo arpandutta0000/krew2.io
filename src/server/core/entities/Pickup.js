@@ -5,7 +5,7 @@ const { entities } = require(`../core.js`);
 const utils = require(`../utils.js`);
 
 class Pickup extends Entity {
-    constructor (type, x, z, size) {
+    constructor (type, x, z, size, specialBonus) {
         super(x, 0, z);
 
         // Network type.
@@ -33,6 +33,8 @@ class Pickup extends Entity {
         this.catchingFish = false;
 
         this.picking = type === 1;
+
+        this.specialBonus = specialBonus || 0;
     }
 
     getTypeSnap = () => {
@@ -62,7 +64,7 @@ class Pickup extends Entity {
                     const locPos = boat.localPos(this.position);
                     if (Math.abs(locPos.x) > Math.abs(boat.size.x * 0.6 + 3) || Math.abs(locPos.z) > Math.abs(boat.size.z * 0.6 + 3)) continue;
 
-                    const bonus = this.bonusValues[this.pickupSize];
+                    const bonus = this.bonusValues[this.pickupSize] + this.specialBonus;
                     let captainsCut = bonus;
 
                     let totalScore = 0;
@@ -98,7 +100,7 @@ class Pickup extends Entity {
                         this.picking = true;
                         this.pickerId = player.id;
 
-                        player.gold += this.bonusValues[this.pickupSize] / 3 * 2;
+                        player.gold += (this.bonusValues[this.pickupSize] / 3 * 2) + this.specialBonus;
                         player.updateExperience(Math.round(this.bonusValues[this.pickupSize] / 20));
                     }
                 }
