@@ -103,9 +103,9 @@ let audio = {
                 }
 
                 case `ocean`: {
-                    if (Math.random() >= 0.5) {
+                    if (Math.random() < 0.5) {
                         newFileId = `ocean-music`;
-                        volume = 1;
+                        volume = 4;
                     } else {
                         newFileId = `ocean-music-2`;
                         volume = 3;
@@ -115,12 +115,12 @@ let audio = {
                 }
 
                 case `island`: {
-                    if (Math.random() >= 0.5) {
+                    if (Math.random() < 0.5) {
                         newFileId = `island-music`;
                         volume = 1;
                     } else {
                         newFileId = `island-music-2`;
-                        volume = 4;
+                        volume = 1;
                     }
 
                     break;
