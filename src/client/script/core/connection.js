@@ -146,14 +146,10 @@ let initSocketBinds = () => {
         });
 
         // Update bank data
-        socket.on(`setBankData`, (data) => {
-            setBankData(data);
-        });
+        socket.on(`setBankData`, (data) => setBankData(data));
 
         // Update list of krews/leaderboard
-        socket.on(`updateKrewsList`, () => {
-            updateKrewList();
-        });
+        socket.on(`updateKrewsList`, () => updateKrewList());
 
         // Goods update
         socket.on(`cargoUpdated`, () => {
@@ -184,12 +180,8 @@ let initSocketBinds = () => {
 
         // On a center message (Game info, server restarts, achievements, etc)
         socket.on(`showCenterMessage`, (message, type, time) => {
-            if (ui && notifications.showCenterMessage) {
-                notifications.showCenterMessage(message, type || 3, time);
-            }
-            if (message.startsWith(`Achievement trading`)) {
-                $(`#shopping-modal`).hide();
-            }
+            if (ui && notifications.showCenterMessage) notifications.showCenterMessage(message, type || 3, time);
+            if (message.startsWith(`Achievement trading`)) $(`#shopping-modal`).hide();
         });
 
         // Show death messages
@@ -226,9 +218,7 @@ let initSocketBinds = () => {
 
         // Admin says
         socket.on(`showAdminMessage`, (message) => {
-            if (ui && notifications.showAdminMessage) {
-                notifications.showAdminMessage(message);
-            }
+            if (ui && notifications.showAdminMessage) notifications.showAdminMessage(message);
         });
 
         // On a level up play sound and show level up text
@@ -378,9 +368,7 @@ let initSocketBinds = () => {
     });
 
     // On chat clears
-    socket.on(`clear`, () => {
-        $(`.global-chat`).remove();
-    });
+    socket.on(`clear`, () => $(`.global-chat`).remove());
 
     // On day/night cycles
     socket.on(`cycle`, (time) => {
