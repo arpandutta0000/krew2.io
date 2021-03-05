@@ -105,10 +105,10 @@ let audio = {
                 case `ocean`: {
                     if (Math.random() < 0.5) {
                         newFileId = `ocean-music`;
-                        volume = 4;
+                        volume = 3;
                     } else {
                         newFileId = `ocean-music-2`;
-                        volume = 3;
+                        volume = 4;
                     }
 
                     break;
