@@ -117,8 +117,7 @@ class Boat extends Entity {
         if (this.shipState === 0) {
             this.rotation += this.steering * dt * 0.4 * (this.turnspeed + (captain.movementSpeedBonus / 100));
             moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation);
-        }
-        else moveVector.set(0, 0, 0);
+        } else moveVector.set(0, 0, 0);
 
         // Set the velocity as the move vector.
         this.velocity = moveVector;
@@ -128,8 +127,7 @@ class Boat extends Entity {
             if (this.captain.toLocal(this.position.x) > this.size.x * 0.25) this.steering = 1;
             else if (this.captain.toLocal(this.position.x) < this.size.x * -0.25) this.steering = -1;
             else this.steering = 0;
-        }
-        else this.steering = 0;
+        } else this.steering = 0;
 
         // If in a boundary, turn faster.
         if (boundaryCollision) this.steering *= 5;
