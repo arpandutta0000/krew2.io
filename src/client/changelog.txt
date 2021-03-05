@@ -1,3 +1,10 @@
+v1.9.1 - [3-5-2021]
+- Fixed audio timing for shooting the cannon
+- Swapped new island music track with the old ocean music track
+- Decreased timeout for ending battle music
+- Increased cooldown on fishing rod
+- Kill messages are now hidden when the UI is hidden
+
 v1.9.0 - [3-4-2021]
 - Added battle music
 - Added another ocean music track
