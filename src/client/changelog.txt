@@ -1,3 +1,13 @@
+v1.9.0 - [3-4-2021]
+- Added battle music
+- Added another ocean music track
+- Added another island music track
+- Fixed island and ocean music not being properly switched
+- Fixed sound effects not always playing due to the file already being played
+- Music now fades between tracks
+- Raft and Plank masts are now separate from their bodies
+- Plank now has a sail
+
 v1.8.0b - [3-2-2021]
 - Fixed Titanium barrel not having any effects
 - Fixed Bruiser not appearing in the shop
