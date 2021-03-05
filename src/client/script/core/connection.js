@@ -194,9 +194,7 @@ let initSocketBinds = () => {
 
         // Show death messages
         socket.on(`showKillMessage`, (killChain) => {
-            if (ui && notifications.showKillMessage) {
-                notifications.showKillMessage(killChain);
-            }
+            if (ui && notifications.showKillMessage && !$(`#game-ui`).is(`:hidden`)) notifications.showKillMessage(killChain);
         });
 
         // Play damage sounds and show hit info
