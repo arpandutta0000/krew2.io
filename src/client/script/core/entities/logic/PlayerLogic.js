@@ -95,7 +95,7 @@ let PlayerLogic = {
 
         if (_this.use === true && _this.cooldown <= 0) {
             let attackSpeedBonus = parseFloat((_this.attackSpeedBonus + _this.pointsFormula.getFireRate()) / 100);
-            _this.cooldown = _this.activeWeapon === 1 ? 0.7 : (1.5 - attackSpeedBonus).toFixed(2);
+            _this.cooldown = _this.activeWeapon === 1 ? 1.1 : (1.5 - attackSpeedBonus).toFixed(2);
 
             if (_this.activeWeapon === 0 && _this.isPlayer && _this.parent && _this.parent.shipState !== 3 && _this.parent.shipState !== 4)
                 audio.playAudioFile(false, true, 1, `cannon`);
