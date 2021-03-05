@@ -36,7 +36,7 @@ class Projectile extends Entity {
 
         const distanceBonus = 1 + parseFloat(shooter.bonus.distance) + shooter.points.filter(point => point.type === 1).length;
 
-        const horzSpeed = Math.cos(shooter.pitch * distanceBonus) * (40 + (Math.min (1e4, parseFloat(shooter.gold)) / 2e3));
+        const horzSpeed = Math.cos(shooter.pitch * distanceBonus) * (40 + (Math.min(1e4, parseFloat(shooter.gold)) / 2e3));
         const vertSpeed = Math.sin(shooter.pitch * distanceBonus) * (40 + (Math.min(1e4, parseFloat(shooter.gold)) / 2e3));
 
         this.velocity.x *= horzSpeed;
@@ -59,25 +59,18 @@ class Projectile extends Entity {
             this.position.y += this.velocity.y * dt;
         }
 
-        if (shooter.parent && shooter.parent.netType === 5 && utils.distance(shooter.position.x, this.shooterStartPos.x, shooter.position.z, this.shooterStartPos.z) > (40 + 2 * shooter.bonus.distance)) {
+        const distancePlayerMoved = utils.distance(shooter.position.x, this.shooterStartPos.x, shooter.position.z, this.shooterStartPos.z);
+        if (shooter.parent && shooter.parent.netType === 5 && distancePlayerMoved > 0) {
             this.reel = true;
             shooter.isFishing = false;
-        } else {
+        } else if (distancePlayerMoved > (40 + 2 * shooter.bonus.distance)) {
+            this.reel = true;
+            shooter.isFishing = false;
         }
     }
 }
-
-        } else {
-            let fromPlayertoRod = playerPos.distanceTo(this.shooterStartPos);
-            // let fromPlayertoRod = distance(playerPos,this.shooterStartPos)
-            if (fromPlayertoRod >= 40) {
-                this.reel = true;
-                entities[this.shooterid].isFishing = false;
-            }
-        }
-    }
-
-    if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
+/*
+if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
         let hasHitBoat = false;
 
         // on the server, we will spawn an impact
@@ -306,5 +299,5 @@ Projectile.prototype.getTypeSnap = function () {
 
     return snap;
 };
-
+*/
 module.exports = Projectile;
