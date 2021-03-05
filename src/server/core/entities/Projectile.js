@@ -25,7 +25,7 @@ class Projectile extends Entity {
         this.reel = false;
         this.airtime = 0;
 
-        if (!shooter || shooter.activeWeapon === 2 || (shooter.parent.netType === 5 && shooter.activeWeapon === 0) || shooter.parent.shipState === -1 || shooter.parent.shipState === 4 || shooter.parent.shipState === 3 && this.impact) this.destroy();
+        if (!shooter || shooter.activeWeapon === 2 || (shooter.parent.netType === 5 && shooter.activeWeapon === 0) || shooter.parent.shipState === -1 || shooter.parent.shipState === 4 || shooter.parent.shipState === 3) this.destroy();
 
         this.rotation = shooter.rotation + (shooter.parent ? shooter.parent.rotation : 0);
 
@@ -46,6 +46,11 @@ class Projectile extends Entity {
         this.type = this.activeWeapon;
 
         if (shooter.activeWeapon === 0) shooter.shotsFired++;
+    }
+
+    logic = dt => {
+        const shooter = entities.find(entity => entity.id === shooterId);
+        if (!shooter || this.type !== shooter.activeWeapon) this.destroy();
     }
 }
 
