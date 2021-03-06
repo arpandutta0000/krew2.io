@@ -17,8 +17,13 @@ let splash = {
      */
     setSpawnPlace: () => {
         let spawn = $(`#spawn-selection`).val();
-        if (spawn === 0 || spawn === 1) playAudioFile(true, `ocean-music`);
-        else playAudioFile(true, `island-music`);
+        if (spawn === `sea` || spawn === `krew`) {
+            audio.musicPlaying = `ocean-music`;
+            audio.playAudioFile(true, false, 1, `ocean-music`);
+        } else {
+            audio.musicPlaying = `island-music`;
+            audio.playAudioFile(true, false, 1, `island-music`);
+        }
         return spawn;
     },
 

@@ -505,7 +505,7 @@ let getGameSettings = () => {
             else $(`#view-sails-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`View Sails (Disabled)`);
 
             fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
-            updateMusic();
+            audio.updateMusicVolume();
             updateQuality();
         },
         error: (res) => {
@@ -534,7 +534,7 @@ let getGameSettings = () => {
             else $(`#view-sails-text`).removeClass(`lock-text-error`).addClass(`lock-text-info`).text(`View Sails (Disabled)`);
 
             fov = document.getElementById(`fov-control`).value >= 10 && document.getElementById(`fov-control`).value <= 100 ? document.getElementById(`fov-control`).value / 10 : 1;
-            updateMusic();
+            audio.updateMusicVolume();
             updateQuality();
         }
     });

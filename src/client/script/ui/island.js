@@ -28,10 +28,7 @@ let enterIsland = (data) => {
         $(`#docking-modal`).hide();
     }
 
-    if (myPlayer) {
-        stopAudioFile(`ocean-music`);
-        playAudioFile(true, `island-music`);
-    }
+    if (myPlayer) audio.changeMusic(`island`, false);
 };
 
 /**
@@ -140,10 +137,7 @@ let exitIsland = (data) => {
     }
 
     ui.hideSuggestionBox = true;
-    if (myPlayer) {
-        stopAudioFile(`island-music`);
-        playAudioFile(true, `ocean-music`);
-    }
+    if (myPlayer) audio.changeMusic(`ocean`, false);
 
     $(`#toggle-bank-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
     $(`#exit-island-button`).hide();
@@ -220,7 +214,7 @@ let setActiveBtn = (id) => {
  */
 let departure = () => {
     if (myPlayer && entities[myPlayer.id] && entities[myPlayer.id].parent) {
-        playAudioFile(false, `sail`);
+        audio.playAudioFile(false, false, 1, `sail`);
         $(`#docking-modal`).hide();
         socket.emit(`departure`, 0);
     }

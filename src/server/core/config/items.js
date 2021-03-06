@@ -45,7 +45,7 @@ module.exports = [
         Description: `+2 cannon damage<br/>+10 cannon fire rate`,
         price: 2e4,
         rarity: 1,
-        availableAt: [`Spain, Brazil`],
+        availableAt: [`Spain`, `Brazil`],
         attributes: {
             attackSpeed: `10`,
             attackDamage: `2`

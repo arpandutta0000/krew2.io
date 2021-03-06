@@ -27,7 +27,7 @@ let ui = {
         ui.setQualitySettings();
 
         /* Update Music volume on music control change */
-        $(`#music-control`).on(`change`, () => updateMusic());
+        $(`#music-control`).on(`change`, () => audio.updateMusicVolume());
 
         /* Prevent splash UI from closing */
         $(`#splash-modal`).modal({
@@ -65,8 +65,8 @@ let ui = {
                 ecoUiInit();
                 showAdinplayCentered();
                 splash.loadingWheel(`show`);
-                playAudioFile(false, `wheelspin`);
-                playAudioFile(true, `ocean-ambience`);
+                audio.playAudioFile(false, false, 1, `wheelspin`);
+                audio.playAudioFile(true, false, 0.7, `ocean-ambience`);
             }
         }).text(`Loading...`).attr(`disabled`, true);
     },

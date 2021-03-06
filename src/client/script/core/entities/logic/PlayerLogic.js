@@ -39,25 +39,25 @@ let PlayerLogic = {
                 if (_this.position.x > _this.parent.size.x / 2) {
                     _this.position.x = _this.parent.size.x / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.z > _this.parent.size.z / 2) {
                     _this.position.z = _this.parent.size.z / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.x < -_this.parent.size.x / 2) {
                     _this.position.x = -_this.parent.size.x / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 if (_this.position.z < -_this.parent.size.z / 2) {
                     _this.position.z = -_this.parent.size.z / 2;
                     if (_this.isPlayer)
-                        playAudioFile(false, `turning`);
+                        audio.playAudioFile(false, false, 1, `turning`);
                 }
 
                 // oval boat shape collision
@@ -95,13 +95,13 @@ let PlayerLogic = {
 
         if (_this.use === true && _this.cooldown <= 0) {
             let attackSpeedBonus = parseFloat((_this.attackSpeedBonus + _this.pointsFormula.getFireRate()) / 100);
-            _this.cooldown = _this.activeWeapon === 1 ? 2 : (1.5 - attackSpeedBonus).toFixed(2);
+            _this.cooldown = _this.activeWeapon === 1 ? 1.1 : (1.5 - attackSpeedBonus).toFixed(2);
 
             if (_this.activeWeapon === 0 && _this.isPlayer && _this.parent && _this.parent.shipState !== 3 && _this.parent.shipState !== 4)
-                playAudioFile(false, `cannon`);
+                audio.playAudioFile(false, true, 1, `cannon`);
 
             else if (_this.isPlayer && _this.activeWeapon === 1)
-                playAudioFile(false, `cast-rod`);
+                audio.playAudioFile(false, true, 1, `cast-rod`);
         }
         if (!_this.isPlayer) {
             _this.geometry.rotation.x = _this.pitch + _this.rotationOffset;
@@ -184,6 +184,7 @@ let PlayerLogic = {
                         camera.zoom = 1;
                         camera.updateProjectionMatrix();
                         scene.fog.density = 0.007;
+                        camera.far = 300;
                     }
 
                     _this.crosshair.visible = true;
@@ -194,7 +195,8 @@ let PlayerLogic = {
                         2,
                         -0.01
                     );
-                    scene.fog.density = 0.0055;
+                    scene.fog.density = 0.005;
+                    camera.far = 450;
                     camera.zoom = controls.zoom + 1.5;
                     camera.updateProjectionMatrix();
                     _this.crosshair.visible = false;
@@ -237,17 +239,17 @@ let PlayerLogic = {
         if (_this.isPlayer && _this.parent) {
             if (_this.parent.shipState === 0 || _this.parent.shipState === 1) {
                 if (_this.walkForward !== 0) {
-                    playAudioFile(false, `step-wood01`);
+                    audio.playAudioFile(false, false, 1, `step-wood01`);
                 }
                 if (_this.walkSideward !== 0) {
-                    playAudioFile(false, `step-wood02`);
+                    audio.playAudioFile(false, false, 1, `step-wood02`);
                 }
             } else {
                 if (_this.walkForward !== 0) {
-                    playAudioFile(false, `step-sand01`);
+                    audio.playAudioFile(false, false, 1, `step-sand01`);
                 }
                 if (_this.walkSideward !== 0) {
-                    playAudioFile(false, `step-sand02`);
+                    audio.playAudioFile(false, false, 1, `step-sand02`);
                 }
             }
         }
