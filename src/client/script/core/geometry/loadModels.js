@@ -69,7 +69,7 @@ let loadModels = () => {
     loader.loadObjWithMtl(`./assets/models/tools/spyglass.obj`);
 
     // Load misc objects
-    loader.loadObjWithMtl(`./assets/models/decorations/lostTreasure.obj`);
+    loader.loadObjWithMtl(`./assets/models/misc/lostTreasure.obj`);
     loader.loadTexture(`./assets/models/misc/water.jpg`);
 
     // Once loader is done, create the objects in the world
