@@ -60,10 +60,12 @@ class Projectile extends Entity {
         }
 
         const distancePlayerMoved = utils.distance(shooter.position.x, this.shooterStartPos.x, shooter.position.z, this.shooterStartPos.z);
+        const distanceToPlayer = utils.distance(shooter.position.x, this.position.x, shooter.position.z, this.position.z);
+
         if (shooter.parent && shooter.parent.netType === 5 && distancePlayerMoved > 0) {
             this.reel = true;
             shooter.isFishing = false;
-        } else if (distancePlayerMoved > (40 + 2 * shooter.bonus.distance)) {
+        } else if (distanceToPlayer > (40 + 2 * shooter.bonus.distance)) {
             this.reel = true;
             shooter.isFishing = false;
         }
