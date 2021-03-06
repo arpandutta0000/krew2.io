@@ -3,14 +3,14 @@ const Entity = require(`./entities/Entity`);
 
 /**
  * Entities array. Includes all entity objects
- * 
+ *
  * @type {Entity[]}
  */
 const entities = [];
 
 /**
  * Iterate through every entity and run logic
- * 
+ *
  * @param {number} dt DT
  * @returns {void}
  */

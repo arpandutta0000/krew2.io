@@ -6,7 +6,7 @@ const {
 module.exports = {
     /**
      * Method to perform linear interpolation
-     * 
+     *
      * @param {number} start Starting value
      * @param {number} end Ending value
      * @param {number} amount lerp amount
@@ -16,7 +16,7 @@ module.exports = {
 
     /**
      * Returns a string cut at a character limit
-     * 
+     *
      * @param {string} text Input string
      * @param {?number} chars Amount of allowed characters (Defaults to 140)
      * @param {?string} suffix Suffix to be preserved
@@ -33,7 +33,7 @@ module.exports = {
 
     /**
      * Calculate the distance between 2 positions
-     * 
+     *
      * @param {{ x: number, z: number }} p1 Position 1
      * @param {{ x: number, z: number }} p2 Position 2
      * @returns {number} Distance between positions
@@ -46,7 +46,7 @@ module.exports = {
 
     /**
      * Calculate the world angle of a vector
-     * 
+     *
      * @param {object} vector Vector object
      * @returns {number} Angle
      */
@@ -59,7 +59,7 @@ module.exports = {
 
     /**
      * Calculates the difference between angles
-     * 
+     *
      * @param {number} firstAngle First angle
      * @param {number} secondAngle Second angle
      * @returns {number} Difference
@@ -75,7 +75,7 @@ module.exports = {
 
     /**
      * Convert an angle to a Vector 2
-     * 
+     *
      * @param {number} angle Angle
      * @returns {object} THREE.Vector2 resultant
      */
@@ -83,7 +83,7 @@ module.exports = {
 
     /**
      * Finds the rotation to an object
-     * 
+     *
      * @param {{position: { x: number, z: number }}} origin Origin
      * @param {{position: { x: number, z: number }}} target Target
      * @returns {number} Angle
@@ -92,7 +92,7 @@ module.exports = {
 
     /**
      * Generates a random entity ID
-     * 
+     *
      * @returns {string} Entity ID
      */
     randomID: () => {
@@ -103,7 +103,7 @@ module.exports = {
 
     /**
      * Generates a random integer between 2 bounds
-     * 
+     *
      * @param {number} min Minimum integer
      * @param {number} max Maximum integer
      * @returns {number} Random integer
@@ -135,10 +135,10 @@ module.exports = {
 
             frustum.setFromMatrix(
                 new THREE.Matrix4()
-                .multiplyMatrices(
-                    camera.projectionMatrix,
-                    camera.matrixWorldInverse
-                )
+                    .multiplyMatrices(
+                        camera.projectionMatrix,
+                        camera.matrixWorldInverse
+                    )
             );
 
             // Return if the object is in the frustum

@@ -32,7 +32,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "sendpulse-api": "^1.1.5",
-    "socket.io": "^3.1.1",
+    "socket.io": "^3.1.2",
     "webpack": "^4.46.0",
     "xss-filters": "^1.2.7"
   },

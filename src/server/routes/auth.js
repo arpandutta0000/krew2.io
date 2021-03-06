@@ -413,7 +413,7 @@ router.post(`/customization`, (req, res, next) => {
     let playerModel = parseInt(req.body.playerModel);
     let hatModel = parseInt(req.body.hatModel);
 
-    if (playerModel == undefined || isNaN(playerModel) || hatModel == undefined || isNaN(hatModel)) return res.json({
+    if (!playerModel || isNaN(playerModel) || !hatModel || isNaN(hatModel)) return res.json({
         errors: `Please specify a model ID`
     });
 
@@ -617,12 +617,12 @@ router.get(`/account_game_settings`, (req, res, next) => {
             });
 
             return res.json({
-                fpMode: user.fpMode != undefined ? user.fpMode : false,
-                fov: user.fov != undefined ? user.fov : 10,
-                musicVolume: user.musicVolume != undefined ? user.musicVolume : 50,
-                sfxVolume: user.sfxVolume != undefined ? user.sfxVolume : 50,
-                viewSails: user.viewSails != undefined ? user.viewSails : false,
-                qualityMode: user.qualityMode != undefined ? user.qualityMode : 2
+                fpMode: user.fpMode ? user.fpMode : false,
+                fov: user.fov ? user.fov : 10,
+                musicVolume: user.musicVolume ? user.musicVolume : 50,
+                sfxVolume: user.sfxVolume ? user.sfxVolume : 50,
+                viewSails: user.viewSails ? user.viewSails : false,
+                qualityMode: user.qualityMode ? user.qualityMode : 2
             });
         });
     }
