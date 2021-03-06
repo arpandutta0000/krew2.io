@@ -84,11 +84,31 @@ module.exports = {
     /**
      * Finds the rotation to an object
      * 
-     * @param {{ x: number, z: number }} origin Origin
-     * @param {{ x: number, z: number }} target Target
+     * @param {{position: { x: number, z: number }}} origin Origin
+     * @param {{position: { x: number, z: number }}} target Target
      * @returns {number} Angle
      */
     rotationToObject: (origin, target) => this.worldAngle(new THREE.Vector2(target.position.x - origin.position.x, target.position.z - origin.position.z)),
+
+    /**
+     * Generates a random entity ID
+     * 
+     * @returns {string} Entity ID
+     */
+    randomID: () => {
+        let id = ``;
+        while (entities.find(entity => entity.id === id)) id = Math.random().toString(36).substring(6, 10);
+        return id;
+    },
+
+    /**
+     * Generates a random integer between 2 bounds
+     * 
+     * @param {number} min Minimum integer
+     * @param {number} max Maximum integer
+     * @returns {number} Random integer
+     */
+    randomInt: (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000,
 
     /**
      * This method checks if a 3d object is in the players vision range
@@ -127,25 +147,5 @@ module.exports = {
 
         // Returns the final function
         return inPlayersVision;
-    })(),
-
-    /**
-     * Generates a random entity ID
-     * 
-     * @returns {string} Entity ID
-     */
-    randomID: () => {
-        let id = ``;
-        while (entities.find(entity => entity.id === id)) id = Math.random().toString(36).substring(6, 10);
-        return id;
-    },
-
-    /**
-     * Generates a random integer between 2 bounds
-     * 
-     * @param {number} min Minimum integer
-     * @param {number} max Maximum integer
-     * @returns {number} Random integer
-     */
-    randomInt: (min, max) => (Math.floor(Math.random() * (max - min)) + min) * 1000
+    })()
 };
