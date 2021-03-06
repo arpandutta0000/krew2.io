@@ -50,7 +50,7 @@ class Projectile extends Entity {
 
     logic = dt => {
         const shooter = entities.find(entity => entity.id === shooterId);
-        if (!shooter || this.type !== shooter.activeWeapon) this.destroy();
+        if (!shooter || this.type !== shooter.activeWeapon) return this.destroy();
 
         if (!shooter.use) shooter.isFishing = false;
 
@@ -69,28 +69,33 @@ class Projectile extends Entity {
             this.reel = true;
             shooter.isFishing = false;
         }
+
+        if (this.position.y < 10) {
+            // If the cannon ball is below surface level, spawn an impact and destroy the projectile.
+            if (shooter.activeWeapon === 0) {
+                shooter.shotsFired++;
+
+                const boats = entities.filter(entity => entity.netType === 3 && entity.hp > 1 && entity.shipState !== 3 && entity.shipState !== -1 && entity.shipState !== 4);
+                for (const boat of boats) {
+                    let hasHitBoat = false;
+                    const locPos = boat.localPos(this.position);
+
+                    const shooterBoat = entities.find(entity => entity.id === shooter.parent);
+
+                    const shooterCaptain = entities.find(entity => entity.id === shooterBoat.captain);
+                    const receiverCaptain = entities.find(entity => entity.id === boat.captain);
+
+                    if (shooterBoat !== boat && !(Math.abs(locPos.x) > Math.abs(boat.size.x * 0.5) || Math.abs(locPos.z) > Math.abs(boat.size.z) * 0.5) && this.position.y < boat.getHeight() + 3 && receiverCaptain.clan !== shooterCaptain.clan) {
+                        hasHitBoat = true;
+
+                        shooter.shotsHit++;
+                    }
+                }
+            }
+        }
     }
 }
 /*
-if (this.position.y < 10) { // if the cannon ball is below surface level, remove it
-        let hasHitBoat = false;
-
-        // on the server, we will spawn an impact
-        if (this.shooter && this.shooter.parent.captain) {
-            // if player's active weapon is cannon
-            if (this.shooter.activeWeapon === 0) {
-                // counter for hits done "per shot"
-                this.shooter.overall_hits = 0;
-                // check against all boats
-                for (b in boats) {
-                    let boat = boats[b];
-
-                    // dont check against boats that have died or are docked
-                    if (boat == undefined || boat.hp < 1 || boat.shipState === 3 || boat.shipState === -1 || boat.shipState === 4) {
-                        continue;
-                    }
-
-                    let loc = boat.toLocal(this.position);
 
                     // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
                     if (

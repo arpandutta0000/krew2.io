@@ -209,7 +209,7 @@ class Boat extends Entity {
         this.shipState = 2;
     }
 
-    getHeightAboveWater = () => boatTypes[this.shipClass].baseheight * (0.2 + (0.8 * (this.hp / this.maxHP))) - this.sinkTimer;
+    getHeight = () => boatTypes[this.shipClass].baseheight * (0.2 + (0.8 * (this.hp / this.maxHP))) - this.sinkTimer;
 
     enterIsland = id => {
         if (this.shipState === 0) this.shipState = 1;
