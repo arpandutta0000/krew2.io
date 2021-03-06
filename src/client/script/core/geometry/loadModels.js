@@ -57,7 +57,7 @@ let loadModels = () => {
     loader.loadObjWithMtl(`./assets/models/ships/fortuneTrader.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/junkie.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/queenBarbsJustice.obj`);
-    loader.loadModel(`./assets/models/ships/raft.obj`);
+    loader.loadObjWithMtl(`./assets/models/ships/raft.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/raider.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/royalFortune.obj`);
     loader.loadObjWithMtl(`./assets/models/ships/trader.obj`);
@@ -69,6 +69,7 @@ let loadModels = () => {
     loader.loadObjWithMtl(`./assets/models/tools/spyglass.obj`);
 
     // Load misc objects
+    loader.loadObjWithMtl(`./assets/models/misc/lostTreasure.obj`);
     loader.loadTexture(`./assets/models/misc/water.jpg`);
 
     // Once loader is done, create the objects in the world
@@ -147,6 +148,7 @@ let createModels = () => {
 
     // Raft
     models.raft.children[1].name = `body`;
+    models.raft.children[2].name = `mast`;
     models.raft.children[0].name = `sail`;
 
     // Raider
@@ -163,10 +165,6 @@ let createModels = () => {
     models.trader.children[0].name = `body`;
     models.trader.children[1].name = `mast`;
     models.trader.children[2].name = `sail`;
-
-    // Set materials for boats without an mtl
-    models.raft.getObjectByName(`body`).material = materials.boat;
-    models.raft.getObjectByName(`sail`).material = materials.sail;
 
     // Call setting ship, player, and hat models
     BoatModels.setShipModels();

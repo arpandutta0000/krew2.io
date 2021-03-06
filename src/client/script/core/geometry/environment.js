@@ -23,6 +23,7 @@ let setUpEnvironment = () => {
     initSky();
     initWater();
     initWorldBoundries();
+    addEasterEggs();
 };
 
 /**
@@ -48,6 +49,17 @@ let initWorldBoundries = () => {
     environment.boundaryDown.position.set(config.worldsize, 1.5, config.worldsize * 0.5);
     environment.boundaryDown.scale.set(3, 0.1, config.worldsize);
     scene.add(environment.boundaryDown);
+};
+
+/**
+ * Add Easters Eggs
+ */
+let addEasterEggs = () => {
+    let lostTreasure = models.lostTreasure;
+    lostTreasure.position.set(2620, 1, 2620);
+    lostTreasure.scale.set(3, 3, 3);
+    lostTreasure.rotation.y = Math.PI / 2;
+    scene.add(lostTreasure);
 };
 
 /**

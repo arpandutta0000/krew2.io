@@ -95,6 +95,11 @@ let initSocketBinds = () => {
         let recievedPong = false;
         let startTime;
 
+        // Battle music helper variables
+        let lastHit = 0;
+        let hitCount = 0;
+        let inBattle = false;
+
         let getPing = () => {
             if (!recievedPong && pings[0]) $(`#ping-wrapper > span`).text(`LOST CONNECTION`);
             startTime = Date.now();
@@ -141,14 +146,10 @@ let initSocketBinds = () => {
         });
 
         // Update bank data
-        socket.on(`setBankData`, (data) => {
-            setBankData(data);
-        });
+        socket.on(`setBankData`, (data) => setBankData(data));
 
         // Update list of krews/leaderboard
-        socket.on(`updateKrewsList`, () => {
-            updateKrewList();
-        });
+        socket.on(`updateKrewsList`, () => updateKrewList());
 
         // Goods update
         socket.on(`cargoUpdated`, () => {
@@ -179,36 +180,45 @@ let initSocketBinds = () => {
 
         // On a center message (Game info, server restarts, achievements, etc)
         socket.on(`showCenterMessage`, (message, type, time) => {
-            if (ui && notifications.showCenterMessage) {
-                notifications.showCenterMessage(message, type || 3, time);
-            }
-            if (message.startsWith(`Achievement trading`)) {
-                $(`#shopping-modal`).hide();
-            }
+            if (ui && notifications.showCenterMessage) notifications.showCenterMessage(message, type || 3, time);
+            if (message.startsWith(`Achievement trading`)) $(`#shopping-modal`).hide();
         });
 
         // Show death messages
         socket.on(`showKillMessage`, (killChain) => {
-            if (ui && notifications.showKillMessage) {
-                notifications.showKillMessage(killChain);
-            }
+            if (ui && notifications.showKillMessage && !$(`#game-ui`).is(`:hidden`)) notifications.showKillMessage(killChain);
         });
 
         // Play damage sounds and show hit info
         socket.on(`showDamageMessage`, (message, type) => {
             if (ui && notifications.showDamageMessage) {
                 if (type === 2)
-                    playAudioFile(false, `cannon-hit`);
+                    audio.playAudioFile(false, true, 1, `cannon-hit`);
 
                 notifications.showDamageMessage(message, type);
+
+                lastHit = Date.now();
+                if (!inBattle) {
+                    if (hitCount >= 1 && Date.now() - lastHit < 1e4) {
+                        inBattle = true;
+                        hitCount = 0;
+                        audio.changeMusic(`battle`, false);
+                    } else hitCount++;
+                }
             }
         });
 
+        setInterval(() => {
+            if (inBattle && Date.now() - lastHit > 1e4) {
+                inBattle = false;
+                if (myPlayer && myPlayer.parent && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) audio.changeMusic(`island`, true);
+                else audio.changeMusic(`ocean`, true);
+            }
+        }, 5e3);
+
         // Admin says
         socket.on(`showAdminMessage`, (message) => {
-            if (ui && notifications.showAdminMessage) {
-                notifications.showAdminMessage(message);
-            }
+            if (ui && notifications.showAdminMessage) notifications.showAdminMessage(message);
         });
 
         // On a level up play sound and show level up text
@@ -216,7 +226,7 @@ let initSocketBinds = () => {
             if (entities[data.id] !== undefined && entities[data.id].netType === 0) {
                 entities[data.id].level = data.level;
                 if (data.id === myPlayerId) {
-                    playAudioFile(false, `level-up`);
+                    audio.playAudioFile(false, true, 0.9, `level-up`);
                     myPlayer.updateExperience();
                     myPlayer.notifiscationHeap[
                         Math.random().toString(36).substring(6, 10)
@@ -358,9 +368,7 @@ let initSocketBinds = () => {
     });
 
     // On chat clears
-    socket.on(`clear`, () => {
-        $(`.global-chat`).remove();
-    });
+    socket.on(`clear`, () => $(`.global-chat`).remove());
 
     // On day/night cycles
     socket.on(`cycle`, (time) => {
