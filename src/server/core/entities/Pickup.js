@@ -55,9 +55,6 @@ class Pickup extends Entity {
             if (this.timeout <= 0 || this.timeout === 1) this.destroy();
             if (this.pickerId !== `` && !entities.find(entity => entity.id === this.pickerId)) this.destroy();
         } else {
-            // Crabs move on the island.
-            if (this.pickupType === 3) this.randomMovementLogic();
-
             if (this.pickupType === 0 || this.pickupType === 4) {
                 const boats = entities.filter(entity => entity.netType === 1 && entity.hp > 0);
                 for (const boat of boats) {

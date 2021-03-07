@@ -54,8 +54,8 @@ class Entity {
             snap.id = this.id;
             snap.name = this.name;
 
-            snap.playerModel = this.playerModel || 0;
-            snap.hatModel = this.hatModel || 0;
+            snap.pM = this.playerModel || 0;
+            snap.hM = this.hatModel || 0;
 
             this.isNew = false;
         }
