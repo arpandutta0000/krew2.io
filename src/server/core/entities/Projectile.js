@@ -5,6 +5,7 @@ const Entity = require(`./Entity.js`);
 const Boat = require(`./Boat.js`);
 
 const utils = require(`../utils.js`);
+const { io } = require(`../../socketForClients.js`);
 
 class Projectile extends Entity {
     constructor (shooterId) {
@@ -89,6 +90,59 @@ class Projectile extends Entity {
                         hasHitBoat = true;
 
                         shooter.shotsHit++;
+
+                        if (shooter.points.length > 50) {
+                            log(`cyan`, `Exploit detected: (stats hacking) | IP ${this.shooter.socket.handshake.address}`);
+                            shooter.socket.disconnect();
+
+                            const attackDamageBonus = shooter.bonus.damage + shooter.getPoints(2);
+                            const attackDistanceBonus = ((this.airtime ^ 2) / 2) * (((shooter.bonus.distance + shooter.getPoints(1)) / 8) + 1);
+
+                            const projectileDamage = attackDamageBonus + attackDistanceBonus + 8;
+
+                            if (entities.find(entity => entity.id === shooter.parent).name) shooter.socket.emit(`showDamageMessage`, `+ ${parseFloat(damage).toFixed(1)}`, 2);
+
+                            // Update the player experience based on the damage dealt.
+                            shooter.updateExperience(damage);
+
+                            boat.hp -= damage;
+
+                            for (const childID of boat.children) entities.find(entity => entity.id === childID).socket.emit(`showDamageMessage`, `- ${parseFloat(damage).toFixed(1)}`, 1);
+
+                            if (boat.hp < 1) {
+                                shooter.shipSank++;
+
+                                switch (shooter.shipsSank) {
+                                    case 1:
+                                        shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Teaser: +1,000 Gold +100 XP`, 3);
+                                        shooter.gold += 1e3;
+                                        shooter.experience += 100;
+                                        break;
+                                    case 2:
+                                        shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Sinker: +5,000 Gold +500 XP`, 3);
+                                        shooter.gold += 5e3;
+                                        shooter.experience += 500;
+                                        break;
+                                    case 10:
+                                        shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Killer: +10,000 Gold +1,000 XP`, 3);
+                                        shooter.gold += 2e4;
+                                        shooter.experience += 1e3;
+                                        break;
+                                    case 20:
+                                        shooter.socket.emit(`showCenterMessage`, `Achievement: Ship Slayer: +20,000 Gold + 2,000 XP`, 3);
+                                        shooter.gold += 2e4;
+                                        shooter.experience += 1e3;
+                                        break;
+                                }
+
+                                // Tell the crew members on the sunken boat that the show is over.
+                                for (const childID of boat.children) entities.find(entity => entity.id === childID).deaths++;
+
+                                // Notify the kill chain.
+                                const killChainMsg = `${shooter.name} sunk ${boat.name}`;
+                                io.emit(`showKillMessage`, killChainMsg);
+                            }
+                        }
                     }
                 }
             }
@@ -96,96 +150,6 @@ class Projectile extends Entity {
     }
 }
 /*
-
-                    // then do a AABB && only take damage if the person who shot this projectile is from another boat (cant shoot our own boat)
-                    if (
-                        this.shooter.parent !== boat &&
-                        !(Math.abs(loc.x) > Math.abs(boat.size.x * 0.5) || Math.abs(loc.z) > Math.abs(boat.size.z * 0.5)) &&
-                        this.position.y < boat.getHeightAboveWater() + 3 && boat.captain &&
-                        // check if captains are in the same clan
-                        (!this.shooter.parent.captain.clan || this.shooter.parent.captain.clan === `` || this.shooter.parent.captain.clan !== boat.captain.clan)
-                    ) {
-                        hasHitBoat = true;
-                        // count the amount of boats the player hit at the same time
-                        this.shooter.overall_hits += 1;
-                        // count the amount of shots hit
-                        this.shooter.shotsHit += 1;
-
-                        // sum up all allocated points
-                        let countAllocatedPoints = 0;
-                        for (let i in this.shooter.points) {
-                            countAllocatedPoints += this.shooter.points[i];
-                        }
-
-                        // check if player has too many allocated points --> kick
-                        if (countAllocatedPoints > 52) {
-                            log(`cyan`, `Exploit (stats hacking), allocated stats: ${countAllocatedPoints} | IP ${this.shooter.socket.handshake.address}`);
-                            this.shooter.socket.disconnect();
-                        }
-
-                        let attackDamageBonus = parseInt(this.shooter.attackDamageBonus + this.shooter.pointsFormula.getDamage());
-                        let attackSpeedBonus = parseFloat((this.shooter.attackSpeedBonus + this.shooter.pointsFormula.getFireRate()) / 100);
-                        let attackDistanceBonus = (this.airtime * this.airtime / 2) *
-                            (1 + ((this.shooter.attackDistanceBonus + this.shooter.pointsFormula.getDistance()) / 8));
-
-                        let damage = 8 + attackDamageBonus + attackDistanceBonus;
-                        if (entities[boat.captainId]) damage = damage + (damage * attackSpeedBonus) - (damage * entities[boat.captainId].armorBonus) / 100;
-
-                        if (this.shooter.parent.crewName !== undefined) {
-                            this.shooter.socket.emit(`showDamageMessage`, `+ ${parseFloat(damage).toFixed(1)} hit`, 2);
-                            this.shooter.addScore(damage);
-                        }
-
-                        // Update the player experience based on the damage dealt
-                        this.shooter.updateExperience(damage);
-
-                        boat.hp -= damage;
-
-                        for (let s in boat.children) {
-                            boat.children[s].socket.emit(`showDamageMessage`, `- ${parseFloat(damage).toFixed(1)} hit`, 1);
-                        }
-
-                        if (boat.hp < 1) {
-                            // if player destroyed a boat, increase the score
-                            this.shooter.shipsSank += 1;
-                            // levels for pirate quests
-                            if (this.shooter.shipsSank === 1) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship teaser: +1,000 gold +100 XP`, 3);
-                                this.shooter.gold += 1000;
-                                this.shooter.experience += 100;
-                            }
-                            if (this.shooter.shipsSank === 5) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship sinker: +5,000 gold +500 XP`, 3);
-                                this.shooter.gold += 5000;
-                                this.shooter.experience += 500;
-                            }
-                            if (this.shooter.shipsSank === 10) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship killer: +10,000 gold +1,000 XP`, 3);
-                                this.shooter.gold += 10000;
-                                this.shooter.experience += 1000;
-                            }
-                            if (this.shooter.shipsSank === 20) {
-                                this.shooter.socket.emit(`showCenterMessage`, `Achievement ship slayer: +20,000 gold +1,000 XP`, 3);
-                                this.shooter.gold += 20000;
-                                this.shooter.experience += 1000;
-                            }
-
-                            // calculate amount of killed ships (by all crew members)
-                            let crew_kill_count = 0;
-                            for (y in core.players) {
-                                let otherPlayer = core.players[y];
-                                if (otherPlayer.parent !== undefined && this.shooter.parent.id === otherPlayer.parent.id) {
-                                    crew_kill_count += otherPlayer.shipsSank;
-                                }
-                            }
-                            this.shooter.parent.overall_kills = crew_kill_count;
-
-                            // add death to entity of all players on boat which was sunk
-                            for (p in boat.children) {
-                                boat.children[p].deaths = (boat.children[p].deaths === undefined ? 0 : boat.children[p].deaths);
-                                boat.children[p].deaths += 1;
-                            }
-
                             // emit + log kill chain
                             let whoKilledWho = `${this.shooter.name} sunk ${boat.crewName}`;
                             io.emit(`showKillMessage`, whoKilledWho);

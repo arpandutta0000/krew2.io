@@ -1,32 +1,35 @@
-/* Import Modules */
-const axios = require(`axios`);
-const bus = require(`./utils/messageBus.js`);
+require(`dotenv`).config();
+
+// Configuration.
 const config = require(`./config/config.js`);
-const Filter = require(`bad-words`);
-const filter = new Filter();
+
+// Import modules.
+const axios = require(`axios`);
+const { exec } = require(`child_process`);
+
+const mongoose = require(`mongoose`);
+const socketIO = require(`socket.io`);
+
 const fs = require(`fs`);
+const xssFilters = require(`xss-filters`);
+
 const http = require(`http`);
 const https = require(`https`);
-const log = require(`./utils/log.js`);
-const login = require(`./auth/login.js`);
-lzString = require(`../client/libs/js/lz-string.min`);
-const md5 = require(`./utils/md5.js`);
-const mongoose = require(`mongoose`);
-const xssFilters = require(`xss-filters`);
-const dotenv = require(`dotenv`).config();
-const socketForStaffUI = require(`./socketForStaffUI.js`);
 
-const {
-    exec
-} = require(`child_process`);
+// Import utilites.
+const bus = require(`./utils/messageBus.js`);
+const log = require(`./utils/log.js`);
+const filter = require(`./utils/filter.js`);
 const createPlayerRestore = require(`./utils/createPlayerRestore.js`);
 
-let worldsize = 2500;
+// Import player setup.
+const login = require(`./auth/login.js`);
 
-global.maxAmountCratesInSea = config.maxAmountCratesInSea;
-global.minAmountCratesInSea = config.minAmountCratesInSea;
+// Import Staff UI socket.
+const socketForStaffUI = require(`./socketForStaffUI.js`);
 
-let reportIPs = [];
+const reportIPs = [];
+
 let serverRestart = false;
 let currentTime = (new Date().getUTCMinutes() > 35 && new Date().getUTCMinutes() < 55) ? `night` : `day`;
 
@@ -38,57 +41,50 @@ if (config.mode === `dev` && process.env.TESTING_ENV) createBots();
 const serverStartTimestamp = Date.now();
 log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 
-// Additional bad words that need to be filtered.
-filter.addWords(...config.additionalBadWords);
-
 // Configure socket.
-if (!global.io) {
-    let server = process.env.NODE_ENV === `prod`
-        ? https.createServer({
-            key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
-            cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
-            requestCert: false,
-            rejectUnauthorized: false
-        })
-        : http.createServer();
+const server = process.env.NODE_ENV === `prod`
+    ? https.createServer({
+        key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
+        cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
+        requestCert: false,
+        rejectUnauthorized: false
+    })
+    : http.createServer();
 
-    global.io = require(`socket.io`)(server, {
-        cors: {
-            origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
-            methods: [`GET`, `POST`],
-            credentials: true
-        },
-        maxHttpBufferSize: 1e9,
-        pingTimeout: 2e4,
-        pingInterval: 5e3
-    });
-    server.listen(process.env.port);
-}
+const io = socketIO(server, {
+    cors: {
+        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
+        methods: [`GET`, `POST`],
+        credentials: true
+    },
+    maxHttpBufferSize: 1e9,
+    pingTimeout: 2e4,
+    pingInterval: 5e3
+});
+server.listen(process.env.port);
 
-// Connect to db
+// Connect to the database.
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => log(`green`, `Socket.IO server has connected to database.`));
 
 // Mongoose Models
-let User = require(`./models/user.model.js`);
-let Clan = require(`./models/clan.model.js`);
-let Ban = require(`./models/ban.model.js`);
-let Mute = require(`./models/mute.model.js`);
-let Hacker = require(`./models/hacker.model.js`);
-let PlayerRestore = require(`./models/playerRestore.model.js`);
+const User = require(`./models/user.model.js`);
+const Clan = require(`./models/clan.model.js`);
+const Ban = require(`./models/ban.model.js`);
+const Mute = require(`./models/mute.model.js`);
+const Hacker = require(`./models/hacker.model.js`);
+const PlayerRestore = require(`./models/playerRestore.model.js`);
 
-// Log socket.io starting.
-log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
+// Log gameserver starting.
+log(`green`, `Gameserver has started on port ${process.env.port}.`);
 
-// Globally define serverside staff.
-Admins = config.admins;
-Mods = config.mods;
-Helpers = config.helpers;
-Designers = config.designers;
-
-const gameCookies = {};
+// Define staff.
+const Admins = config.admins;
+const Mods = config.mods;
+const Helpers = config.helpers;
+const Designers = config.designers;
 
 let cycleHelper = 0;
 setInterval(() => {
@@ -201,14 +197,6 @@ io.on(`connection`, async socket => {
         if (serverRestart) {
             socket.emit(`showCenterMessage`, `Server is restarting.`, 1, 6e4);
             return socket.disconnect();
-        }
-
-        if (!DEV_ENV) {
-            // Check if cookie has been blocked.
-            if (data.cookie !== undefined && data.cookie !== ``) {
-                if (Object.values(gameCookies).includes(data.cookie)) return log(`cyan`, `Trying to spam multiple players... ${socket.handshake.address}.`);
-                gameCookies[socketId] = data.cookie;
-            }
         }
 
         // No same account usage.
@@ -881,7 +869,6 @@ io.on(`connection`, async socket => {
         socket.on(`disconnect`, async data => {
             log(`magenta`, `Player ${playerEntity.name} disconnected from the game | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
             bus.emit(`leave`, `Player ${playerEntity.name} disconnected from server ${playerEntity.serverNumber}`);
-            if (!DEV_ENV) delete gameCookies[playerEntity.id];
 
             if (playerEntity.serverNumber === 1 && playerEntity.gold > playerEntity.highscore) {
                 log(`magenta`, `Updated highscore for player: ${playerEntity.name} | Old highscore: ${playerEntity.highscore} | New highscore: ${parseInt(playerEntity.gold)} | IP: ${playerEntity.socket.handshake.address}.`);
@@ -1042,15 +1029,15 @@ io.on(`connection`, async socket => {
                     let crewKillCount = 0;
                     let crewTradeCount = 0;
 
-                    for (let i in core.players) {
-                        let player = core.players[i];
-                        if (player.parent && motherShip.id === player.parent.id) {
+                    const players = entities.filter(entity => entity.netType === 0);
+                    for (const player of players) {
+                        if (player.parent && motherShip.id === player.parent) {
                             crewKillCount += player.shipsSank;
-                            crewTradeCount += player.overall_cargo;
+                            crewTradeCount += player.overallCargo;
                         }
                     }
-                    motherShip.overall_kills = crewKillCount;
-                    motherShip.overall_cargo = crewTradeCount;
+                    motherShip.overallKills = crewKillCount;
+                    motherShip.overallCargo = crewTradeCount;
                 }
             }
         });
@@ -1222,8 +1209,8 @@ io.on(`connection`, async socket => {
                         otherUser.clan = undefined;
 
                         otherUser.save(() => {
-                            for (let i in core.players) {
-                                let player = core.players[i];
+                            const players = entities.filter(entity => entity.netType === 0);
+                            for (const player of players) {
                                 if (player.name === action.id) {
                                     player.clan = undefined;
                                     player.clanRequest = undefined;
@@ -1241,8 +1228,8 @@ io.on(`connection`, async socket => {
                             // Only clan owner can promote to leaders.
                             clan.leaders.push(action.id);
                             clan.save(() => {
-                                for (let i in core.players) {
-                                    let player = core.players[i];
+                                const players = entities.filter(entity => entity.netType === 0);
+                                for (const player of players) {
                                     if (player.clan === clan.name) player.socket.emit(`showCenterMessage`, `${action.id} was promoted to a clan leader by ${playerEntity.name}.`, 4, 5e3);
                                     else if (player.name === action.id) {
                                         player.clanLeader = true;
@@ -1259,8 +1246,8 @@ io.on(`connection`, async socket => {
                         if (clan.leaders.includes(action.id)) clan.leaders.splice(clan.leaders.indexOf(action.id), 1);
                         otherUser.save(() => {
                             clan.save(() => {
-                                for (let i in core.players) {
-                                    let player = core.players[i];
+                                const players = entities.filter(entity => entity.netType === 0);
+                                for (const player of players) {
                                     if (player.clan === clan.name && player.name !== action.id) player.socket.emit(`showCenterMessage`, `${otherUser.username} has been kicked from your clan.`, 4, 5e3);
                                     else if (player.name === action.id) {
                                         player.socket.emit(`showCenterMessage`, `${playerEntity.name} kicked you from the clan`, 1, 5e3);
@@ -1324,10 +1311,8 @@ io.on(`connection`, async socket => {
                     user.save(() => {
                         log(`magenta`, `Player ${playerEntity.name} requested to join clan ${action.id} | IP: ${playerEntity.socket.handshake.address} | Server ${playerEntity.serverNumber}.`);
                         callback(true);
-                        for (let i in core.players) {
-                            let player = core.players[i];
-                            if (player.clan === action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan.`, 4, 5e3);
-                        }
+                        const players = entities.filter(entity => entity.netType === 0);
+                        for (const player of players) if (player.clan === action.id) player.socket.emit(`showCenterMessage`, `Player ${playerEntity.name} wants to join your clan.`, 4, 5e3);
                     });
                 } else if (action.action && action.action === `cancel-request`) {
                     user.clanRequest = undefined;
@@ -1411,11 +1396,11 @@ io.on(`connection`, async socket => {
                         let crewKillCount = 0;
                         let crewTradeCount = 0;
 
-                        for (let i in core.players) {
-                            let player = core.players[i];
-                            if (player.parent && motherShip.id === player.parent.id) {
+                        const players = entities.filter(entity => entity.netType === 0);
+                        for (const player of players) {
+                            if (player.parent && motherShip.id === player.parent) {
                                 crewKillCount += player.shipsSank;
-                                crewTradeCount += player.overall_cargo;
+                                crewTradeCount += player.overallCargo;
                             }
                         }
                         motherShip.overall_kills = crewKillCount;
@@ -1527,15 +1512,15 @@ io.on(`connection`, async socket => {
                         let crewKillCount = 0;
                         let crewTradeCount = 0;
 
-                        for (let i in core.players) {
-                            let player = core.players[i];
-                            if (player.parent && playerEntity.parent.id === player.parent.id) {
+                        const players = entities.filter(entity => entity.netType === 0);
+                        for (const player of players) {
+                            if (player.parent && playerEntity.parent === player.parent) {
                                 crewKillCount += player.shipsSank;
-                                crewTradeCount += player.overall_cargo;
+                                crewTradeCount += player.overallCargo;
                             }
                         }
-                        playerEntity.parent.overall_kills = crewKillCount;
-                        playerEntity.parent.overall_cargo = crewTradeCount;
+                        playerEntity.parent.overallKills = crewKillCount;
+                        playerEntity.parent.overallCargo = crewTradeCount;
                     }
                 }
             }
@@ -1611,10 +1596,8 @@ io.on(`connection`, async socket => {
 
                     // Calculate other quest level of captain.
                     let other_quest_level;
-                    for (let i in core.players) {
-                        let player = core.players[i];
-                        if (player.parent && playerEntity.parent.id === player.parent.id && player.isCaptain) other_quest_level = player.other_quest_level;
-                    }
+                    const players = entities.filter(entity => entity.netType === 0);
+                    for (const player of players) if (player.parent && playerEntity.parent === player.parent && player.isCaptain) other_quest_level = player.other_quest_level;
                     playerEntity.parent.other_quest_level = other_quest_level;
                 }
             } else if (item.type === 1) {
