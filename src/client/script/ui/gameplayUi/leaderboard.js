@@ -238,7 +238,6 @@ let updateLeaderboard = (scores) => {
 
             myPlayer.gold = parseInt(player.g);
             if (myPlayer.gold >= goldMultiplier) {
-                // miniplaySend2API(`gold`, goldMultiplier);
                 goldMultiplier *= 2;
             }
 

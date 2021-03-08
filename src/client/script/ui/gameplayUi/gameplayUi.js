@@ -4,9 +4,6 @@
  * @param {number} gold Amount of gold to respawn with
  */
 let endTheGame = (gold) => {
-    // miniplaySend2API(`gameover`, 1);
-    // miniplaySend2API(`ships`, sank);
-
     controls.unLockMouseLook();
 
     $(`.local-chat`).remove();
