@@ -147,6 +147,109 @@ let scrollChatInit = () => {
 };
 
 /**
+ * Display an incoming chat message
+ * 
+ * @param {object} msgData Message data
+ */
+let displayMessage = (msgData) => {
+    if (
+        myPlayer &&
+        myPlayer.parent &&
+        (myPlayer.parent.hasChild(msgData.playerId) ||
+            msgData.recipient === `global` ||
+            msgData.recipient === `local` ||
+            msgData.recipient === `clan` ||
+            msgData.recipient === `staff`) &&
+        entities[msgData.playerId] !== undefined
+    ) {
+        let classRec = `global-chat`;
+        let chatHistory = $(`#chat-history`);
+        if (msgData.recipient === `global`) classRec = `global-chat`;
+        else if (msgData.recipient === `local`) classRec = `local-chat`;
+        else if (msgData.recipient === `staff`) classRec = `staff-chat`;
+        else classRec = `clan-chat`;
+
+        let hasBoats = myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType === 1 && entities[msgData.playerId].parent !== undefined && entities[msgData.playerId].parent.netType === 1;
+        let isAdmin = config.Admins.includes(msgData.playerName);
+        let isMod = config.Mods.includes(msgData.playerName);
+        let isHelper = config.Helpers.includes(msgData.playerName);
+        let isDesigner = config.Designers.includes(msgData.playerName);
+        let isPlayer = msgData.playerId === myPlayerId;
+        let isClanMember = myPlayer.clan !== `` && myPlayer.clan !== undefined && myPlayer.clan === entities[msgData.playerId].clan && !isPlayer;
+        let isCaptain = hasBoats && myPlayer.parent.id === entities[msgData.playerId].parent.id && entities[myPlayer.parent.id].captainId === msgData.playerId;
+        let isKrewmate = hasBoats && myPlayer.parent.id === entities[msgData.playerId].parent.id;
+
+        let playerColor;
+        if (isAdmin) playerColor = `admin-color`;
+        else if (isMod) playerColor = `mod-color`;
+        else if (isHelper) playerColor = `helper-color`;
+        else if (isDesigner) playerColor = `designer-color`;
+        else if (isPlayer) playerColor = `myself-color`;
+        else if (isClanMember) playerColor = `clan-color`;
+        else if (isCaptain) playerColor = `captain-color`;
+        else if (isKrewmate) playerColor = `krewmate-color`;
+        else playerColor = `white`;
+
+        let $msgDiv = $(`<div/>`, {
+            text: `${(msgData.playerClan ? `[${msgData.playerClan}] ` : ``) +
+                (isAdmin ? `[Admin] ` : isMod ? `[Mod] ` : isHelper ? `[Helper] ` : isDesigner ? `[Designer] ` : ``) +
+                msgData.playerName
+            }: ${
+                msgData.message}`,
+            class: `${classRec
+            } text-${playerColor}`
+        });
+
+        let messageTypes = [`staff-chat`, `clan-chat`, `local-chat`, `global-chat`];
+        for (let i = 0; i < messageTypes.length; i++) {
+            let messageType = messageTypes[i];
+
+            let messageCount = $(`.${messageType}`).length;
+            if (messageCount > 15) {
+                $(`.${messageType}`)
+                    .first()
+                    .remove();
+            }
+        }
+
+        if (msgData.recipient === `global` && !globalChatOn) {
+            $(`#global-chat-alert`).show();
+            $msgDiv.hide();
+        }
+
+        if (msgData.recipient === `local` && !localChatOn) {
+            $(`#local-chat-alert`).show();
+            $msgDiv.hide();
+        }
+
+        if (msgData.recipient === `clan` && !clanChatOn) {
+            $(`#clan-chat-alert`).show();
+            $msgDiv.hide();
+        }
+        if (msgData.recipient === `staff` && !staffChatOn) {
+            $(`#staff-chat-alert`).show();
+            $msgDiv.hide();
+        }
+
+        let atTheBottom = false;
+        if (
+            $(chatHistory).scrollTop() + $(chatHistory).innerHeight() >=
+            $(chatHistory)[0].scrollHeight
+        ) {
+            atTheBottom = true;
+        }
+
+        chatHistory.append($msgDiv);
+
+        if (atTheBottom === true) {
+            chatHistory.scrollTop(function () {
+                return this.scrollHeight;
+            });
+        }
+    }
+};
+
+/**
  * Scroll the chat
  */
 let scrollChat = () => {

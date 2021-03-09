@@ -877,26 +877,44 @@ td {
 }
 
 /* -- START Chat -- */
+
+#chat-message {
+    background-color: transparent;
+    border-color: gray;
+    border-width: 2px;
+}
+
+#chat-message:focus,
+#chat-message:hover {
+    background-color: white;
+    border-color: gray;
+    border-width: 2px;
+}
+
 #chat-history {
     white-space: pre-line;
     word-wrap: break-word;
     width: 100%;
-    text-shadow: 1px 1px 1px black;
+    text-shadow: 2px 2px 2px black;
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    max-height: 110px;
+    max-height: 160px;
+    padding: 10px;
 }
 
 #chat-div {
     display: block;
-    width: 32%;
+    width: 20%;
     max-width: 400px;
     position: absolute;
     left: 0px;
     bottom: 0px;
     margin: 5px;
     font-size: 12px;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 1px;
 }
 
 #chat-div a:not(.active) {

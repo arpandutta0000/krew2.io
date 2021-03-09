@@ -1470,7 +1470,13 @@
         </div>
 
         <!-- Chat -->
-        <div id="chat-div" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px;">
+        <div id="chat-div">
+            <div id="chat-history"></div>
+
+            <div class="form-group">
+                <input type="text" maxlength="60" id="chat-message" class="form-control" placeholder="message">
+            </div>
+
             <i class="btn-theme icofont icofont-volume-bar hidden"></i>
             <ul class="nav nav-tabs">
                 <li style="float: right;">
@@ -1497,26 +1503,6 @@
                     </a>
                 </li>
             </ul>
-
-            <div id="chat-history">
-            </div>
-            <div class="form-group">
-                <input type="text" maxlength="60" class="form-control" id="chat-message" placeholder="message" data-emojiable="true">
-            </div>
-            <div style="float: left;">
-                <a href="https://wiki.krew.io/" class="btn btn-sm btn-warning" target="_window">
-                    <i class="icofont icofont-ui-note"></i>
-                    Wiki
-                </a>
-                <a href="https://discord.krew.io" class="btn btn-sm btn-success" target="_window" style="margin-left: 2.5px;">
-                    <i class="icofont icofont-ui-chat"></i>
-                    Discord
-                </a>
-                <a href="#" id="hide-chat" class="btn btn-sm btn-primary" style="margin-left: 2.5px;">
-                    <i class="icofont icofont-rounded-down"></i>
-                    Hide Chat
-                </a>
-            </div>
         </div>
 
         <!-- Show Chat button -->
