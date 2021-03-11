@@ -34,7 +34,6 @@ let initGameUi = () => {
 
             $(`#toggle-shop-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`);
             $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md enabled toggle-krew-list-modal-button`).addClass(`btn btn-md disabled toggle-krew-list-modal-button`);
-            $(`#toggle-bank-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
         }
     });
 
@@ -57,9 +56,6 @@ let initGameUi = () => {
                 audio.playAudioFile(false, false, 1, `dock`);
                 socket.emit(`anchor`);
                 $(`.btn-shopping-modal`).eq(2).trigger(`click`);
-                if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
-                    $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-                }
                 if (myPlayer.parent.netType === 1 && !$(`#exit-island-button`).is(`:visible`)) {
                     $(`#exit-island-button`).show();
                 }
@@ -94,7 +90,10 @@ let initGameUi = () => {
     });
 
     /* Depart button */
-    $(`#exit-island-button`).on(`click`, () => departure());
+    $(`#exit-island-button`).on(`click`, () => {
+        if ($(`#ship-status-modal`).is(`:visible`)) $(`#ship-status-modal`).hide();
+        departure();
+    });
 
     /* Help button */
     $(`#toggle-help-button`).on(`click`, () => {
@@ -217,9 +216,8 @@ let initGameUi = () => {
 
     /* Abandon ship button */
     $(`#abandon-ship-button`).on(`click`, () => {
-        if (myPlayer.parent.hp <= 0) {
-            return;
-        }
+        if ($(`#ship-status-modal`).is(`:visible`)) $(`#ship-status-modal`).hide();
+        if (myPlayer.parent.hp <= 0) return;
 
         if (myPlayer.goods && (myPlayer.parent.shipState === 3 || myPlayer.parent.shipState === 4)) {
             for (let k in myPlayer.goods) {
@@ -245,9 +243,6 @@ let initGameUi = () => {
                 // $('#island-menu-div').show();
                 $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
                 $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
-                if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
-                    $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-                }
                 updateStore();
             } else if (myPlayer.parent.shipState === 1) {
                 $(`#docking-modal`).show();
@@ -319,32 +314,6 @@ let initGameUi = () => {
         e.preventDefault();
     });
 
-    /* Open bank */
-    $(`.toggle-bank-modal-button`).on(`click`, () => {
-        if ($(`#toggle-bank-modal-button`).hasClass(`enabled`)) {
-            if ($(`#bank-modal`).is(`:visible`)) {
-                $(`#bank-modal`).hide();
-            } else {
-                ui.closeAllPagesExcept(`#bank-modal`);
-                $(`#bank-modal`).show();
-                $(`#successTakeDepoMess`).hide();
-                $(`#successMakeDepoMess`).hide();
-                $(`#errorMakeDepoMess`).hide();
-                $(`#errorTakeDepoMess`).hide();
-                getBankData();
-            }
-        }
-    });
-
-    /* Button to toggle map */
-    $(`#toggle-map-button`).on(`click`, () => {
-        if ($(`#minimap-container`).is(`:visible`)) {
-            $(`#minimap-container`).hide();
-        } else {
-            $(`#minimap-container`).show();
-        }
-    });
-
     /* Toggle ship status */
     $(`.toggle-ship-status-button`).on(`click`, () => {
         if ($(`#ship-status-modal`).is(`:visible`)) {
@@ -353,13 +322,11 @@ let initGameUi = () => {
             ui.closeAllPagesExcept(`#ship-status-button`);
             $(`#ship-status`).addClass(`active`);
             $(`#clan-management`).removeClass(`active`);
-            $(`#game-settings`).removeClass(`active`);
 
             if (!$(`#ship-status-container`).is(`:visible`)) {
                 $(`#ship-status-container`).show();
                 $(`#clan-management-container`).hide();
                 $(`#notLoggedIn-container`).hide();
-                $(`#game-settings-container`).hide();
             }
             $(`#ship-status-modal`).show();
             if (myPlayer.isCaptain !== true) {
@@ -381,13 +348,11 @@ let initGameUi = () => {
     $(`#ship-status`).on(`click`, () => {
         $(`#ship-status`).addClass(`active`);
         $(`#clan-management`).removeClass(`active`);
-        $(`#game-settings`).removeClass(`active`);
 
         if (!$(`#ship-status-container`).is(`:visible`)) {
             $(`#ship-status-container`).show();
             $(`#clan-management-container`).hide();
             $(`#notLoggedIn-container`).hide();
-            $(`#game-settings-container`).hide();
         }
     });
 
@@ -395,7 +360,6 @@ let initGameUi = () => {
     $(`#clan-management`).on(`click`, () => {
         $(`#ship-status`).removeClass(`active`);
         $(`#clan-management`).addClass(`active`);
-        $(`#game-settings`).removeClass(`active`);
         if (myPlayer.isLoggedIn === true) {
             clanUi.setClanData();
 
@@ -403,28 +367,12 @@ let initGameUi = () => {
                 $(`#ship-status-container`).hide();
                 $(`#clan-management-container`).show();
                 $(`#notLoggedIn-container`).hide();
-                $(`#game-settings-container`).hide();
                 clanUi.setClanData(`force`);
             }
         } else {
             $(`#ship-status-container`).hide();
             $(`#clan-management-container`).hide();
             $(`#notLoggedIn-container`).show();
-            $(`#game-settings-container`).hide();
-        }
-    });
-
-    /* Game settings panel */
-    $(`#game-settings`).on(`click`, () => {
-        $(`#ship-status`).removeClass(`active`);
-        $(`#clan-management`).removeClass(`active`);
-        $(`#game-settings`).addClass(`active`);
-
-        if (!$(`#game-settings-container`).is(`:visible`)) {
-            $(`#ship-status-container`).hide();
-            $(`#clan-management-container`).hide();
-            $(`#notLoggedIn-container`).hide();
-            $(`#game-settings-container`).show();
         }
     });
 
@@ -615,6 +563,17 @@ let initGameUi = () => {
                     GoodsComponent.getList();
                 }
             }
+        }
+    });
+
+    /* Open game settings button */
+    $(`.toggle-game-settings-button`).on(`click`, () => {
+        if ($(`#game-settings-modal`).is(`:visible`)) {
+            $(`#game-settings-modal`).hide();
+        } else {
+            $(`#toggle-game-settings-button`).popover(`hide`);
+            $(`#game-settings-modal`).show();
+            ui.closeAllPagesExcept(`#game-settings-modal`);
         }
     });
 
