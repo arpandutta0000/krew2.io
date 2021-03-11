@@ -878,17 +878,25 @@ td {
 
 /* -- START Chat -- */
 
-#chat-message {
+#chat-message,
+#chat-message::placeholder {
     background-color: transparent;
-    border-color: gray;
+    color: white;
+    border-color: white;
     border-width: 2px;
 }
 
 #chat-message:focus,
 #chat-message:hover {
-    background-color: #ffffff9c;
+    background-color: white;
+    color: black;
     border-color: gray;
     border-width: 2px;
+}
+
+#chat-message:focus::placeholder,
+#chat-message:hover::placeholder {
+    color: gray;
 }
 
 #chat-history {
