@@ -1471,38 +1471,35 @@
 
         <!-- Chat -->
         <div id="chat-div">
+          <ul class="nav nav-tabs">
+              <li class="nav-item" id="li-staff-chat" style="display:none;">
+                  <a class="nav-link" id="chat-staff" href="#">Staff
+                      <i id="staff-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
+                  </a>
+              </li>
+              <li class="nav-item" id="li-clan-chat" style="display:none;">
+                  <a class="nav-link" id="chat-clan" href="#">Clan
+                      <i id="clan-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="chat-local" href="#">Local
+                      <i id="local-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" id="chat-global" href="#">Global
+                      <i id="global-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
+                  </a>
+              </li>
+          </ul>
             <div id="chat-history"></div>
 
             <div class="form-group">
                 <input type="text" maxlength="60" id="chat-message" class="form-control" placeholder="message">
             </div>
-
+                <span><label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
             <i class="btn-theme icofont icofont-volume-bar hidden"></i>
-            <ul class="nav nav-tabs">
-                <li style="float: right;">
-                    <span><label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
-                </li>
-                <li class="nav-item" id="li-staff-chat" style="display:none;">
-                    <a class="nav-link" id="chat-staff" href="#">Staff
-                        <i id="staff-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
-                    </a>
-                </li>
-                <li class="nav-item" id="li-clan-chat" style="display:none;">
-                    <a class="nav-link" id="chat-clan" href="#">Clan
-                        <i id="clan-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="chat-local" href="#">Local
-                        <i id="local-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="chat-global" href="#">Global
-                        <i id="global-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
-                    </a>
-                </li>
-            </ul>
         </div>
 
         <!-- Show Chat button -->

@@ -886,12 +886,13 @@ td {
 
 #chat-message:focus,
 #chat-message:hover {
-    background-color: white;
+    background-color: #ffffff9c;
     border-color: gray;
     border-width: 2px;
 }
 
 #chat-history {
+    user-select: text;
     white-space: pre-line;
     word-wrap: break-word;
     width: 100%;
@@ -901,6 +902,10 @@ td {
     -ms-overflow-style: none;
     max-height: 160px;
     padding: 10px;
+}
+
+#chat-history:hover {
+    user-select: text;
 }
 
 #chat-div {
