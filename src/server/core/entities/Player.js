@@ -1,7 +1,46 @@
-// PLayers are entities, check core_entity.js for the base class
-Player.prototype = new Entity();
-Player.prototype.constructor = Player;
+const THREE = require(`../../../client/libs/js/three.min.js`);
+const { entities } = require(`../core.js`);
 
+const Entity = require(`./Entity.js`);
+const Pickup = require(`./Pickup.js`);
+
+const boatTypes = require(`../config/boats.js`);
+const utils = require(`../utils.js`);
+
+class Player extends Entity {
+    constructor (data) {
+        super(0, 0, 0);
+
+        this.isLoggedIn = true;
+        this.name = data?.name || ``;
+
+        if (this.name === ``) {
+            this.name = `seadog${Math.floor(Math.random() * 900) + 100}`;
+            this.isLoggedIn = false;
+        }
+
+        // Player netType.
+        this.netType = 0;
+
+        this.goods = data.startingItems.goods;
+        this.cargoUsed = 0;
+
+        this.size = new THREE.Vector3(1, 1, 1);
+
+        this.controls = {
+            walkForward: false,
+            walkBackward: false,
+            walkLeft: false,
+            walkRight: false,
+
+            shooting: false
+        };
+    }
+}
+
+module.exports = Player;
+
+/*
 function Player (data) {
     this.isLoggedIn = true;
     this.name = data !== undefined
@@ -570,3 +609,5 @@ Player.prototype.addScore = function (score) {
 };
 
 let parseBool = (b) => b === true || b === `true`;
+
+*/
