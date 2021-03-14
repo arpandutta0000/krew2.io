@@ -83,8 +83,18 @@
     <!-- AdinPlay Ads Initialization -->
     <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js"></script>
 
-</head>
 
+    <!-- Global site tag (gtag.js) (Google Analytics) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-78561996-18"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-78561996-18');
+    </script>
+
+</head>
 
 
 <body>
@@ -93,10 +103,36 @@
     <!-- START Splash Modal (Wall of fame, select server, select spawn, buttons, changelog) -->
     <div class="modal show text-xs-center" id="splash-modal">
 
+	<!-- Cross promotion system -->
+	<div id="cross-promo" class="white-transparent-bg">
+		<a id="alsoTryLink" href="" target="_blank" style="cursor: pointer;">
+			<img draggable="false" id="alsoTryImg" style="width: 100%;height: auto;border-radius:7px;margin-top:-7px;" src="https://webgames.io/img/loading-widget.png" alt="Also play our other games!">
+		</a>
+	</div>
+
+	<script src="https://webgames.io/js/widget.min.js"></script>
+	<script>
+		Widget.bind ({
+
+			reference : "krew.io",
+			crossPromotion : {
+
+				showBiscuit : {
+
+					border : true
+				},
+
+				container : "cross-promo",
+				link : "alsoTryLink",
+				img : "alsoTryImg"
+			}
+		});
+	</script>
+
         <!-- If a user is logged in, show in top right and add logout hyperlink -->
-        <span id="logged-in" style="position:absolute; top: 10px; right: 10px; color: #fff; display:none;">You are logged in as</span>
+        <span id="logged-in" style="position:absolute; top: 160px; left: 10px; color: #fff; display:none;">You are logged in as</span>
         <i class="btn-theme icofont icofont-volume-bar hidden"></i>
-        <a href="#" id="login-link" onclick="logoutUser(event)" style="position:absolute; top: 30px; right: 10px; color: #fff; display:none;"></a>
+        <a href="#" id="login-link" onclick="logoutUser(event)" style="position:absolute; top: 180px; left: 10px; color: #fff; display:none;"></a>
         <img src="/assets/img/logos/logo.png" class="rounded mx-auto d-block" style="width: 300px; margin: 10px 0px 20px 0px;">
 
         <!-- START Pre-Gameplay Modals -->
@@ -1752,15 +1788,7 @@
         }
     </script>
 
-    <!-- Global site tag (gtag.js) (Google Analytics) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag () {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'UA-105351798-36');
         if (window.location != window.parent.location && document.referrer.includes("crazygames")) $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
         if (!adEnabled) {
             $(".ad-div").each(() => $(this).hide());

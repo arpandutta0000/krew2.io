@@ -51,6 +51,15 @@ canvas {
 
 /** ---- START Pre-Gameplay CSS ---- **/
 
+/* Cross promotion system */
+#cross-promo {
+
+	top: 10px;
+	width: 200px;
+	position: absolute;
+	padding: 15px 10px 10px 10px;
+}
+
 /* Youtube Popup */
 .popup-youtube {
     z-index: 10000 !important;
