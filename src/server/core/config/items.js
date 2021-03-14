@@ -42,13 +42,13 @@ module.exports = [
     {
         id: 4,
         name: `Bruiser`,
-        Description: `+2 cannon damage<br/>+10 cannon fire rate`,
-        price: 2e4,
+        Description: `+5 cannon damage<br/>5 cannon fire rate`,
+        price: 3e4,
         rarity: 1,
         availableAt: [`Spain`, `Brazil`],
         attributes: {
-            attackSpeed: `10`,
-            attackDamage: `2`
+            attackSpeed: `5`,
+            attackDamage: `5`
         }
     },
     {
@@ -98,34 +98,34 @@ module.exports = [
     {
         id: 9,
         name: `Steel Reinforced Planks`,
-        Description: `50% damage reduction`,
+        Description: `40% damage reduction`,
         price: 2e5,
         rarity: 1,
         availableAt: [`Taiwan`],
         attributes: {
-            armor: `50`
+            armor: `40`
         }
     },
     {
         id: 10,
         name: `Advanced Toolkit`,
-        Description: `+8 Regen`,
+        Description: `+5 Regen`,
         price: 2e5,
         rarity: 1,
         availableAt: [`Malaysia`],
         attributes: {
-            regen: `8`
+            regen: `5`
         }
     },
     {
         id: 11,
         name: `Blue Gunpowder`,
-        Description: `+35 cannon damage`,
+        Description: `+25 cannon damage`,
         price: 2e5,
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
-            attackDamage: `35`
+            attackDamage: `25`
         }
     },
     {
@@ -165,12 +165,12 @@ module.exports = [
     {
         id: 15,
         name: `Demolisher`,
-        Description: `+10 cannon damage<br/>+40 cannon fire rate<br/>Requirements:<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
-        price: 45e4,
+        Description: `+10 cannon damage<br/>+35 cannon fire rate<br/>Requirements:<br/> - Sink 10 ships<br/> - Trade goods worth 100,000 gold`,
+        price: 35e4,
         rarity: 1,
         availableAt: [`Jamaica`],
         attributes: {
-            attackSpeed: `40`,
+            attackSpeed: `35`,
             attackDamage: `10`
         }
     },

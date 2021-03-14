@@ -1,4 +1,7 @@
 # krew2
+
+# Misc.
+
 This is the repository for a cleanup of Krew.io.
 
 **Running in development** (using grunt-nodemon as a watchscript)
@@ -135,3 +138,76 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  -1: Nothing
  0: Cannon
  1: Fishing Rod
+
+# WebServer installation
+
+## Install tools and repository
+
+```sh
+apt-get install nginx tmux htop vim git ufw fail2ban bmon
+
+sudo git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+
+mv krew2.io /opt/krew2.io
+
+curl -sL https://deb.nodesource.com/setup_15.x -o nodesource_setup.sh
+bash nodesource_setup.sh
+
+sudo apt-get install -y nodejs
+
+rm nodesource_setup.sh
+
+npm install pm2 -g
+```
+
+:warning: `node --version` expected version is `15.X.X` and `npm --version` expected version is `7.X.X`
+
+## Install nginx
+
+```
+unlink /etc/nginx/sites-enabled/default
+
+cp nginx.conf /etc/nginx/sites-available/krew.conf
+
+ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
+```
+
+You can test your configuration with `nginx -t`
+
+You might have some issue with the certs files
+
+```sh
+mkdir -p /etc/letsencrypt/live/krew.io
+mkdir -p /etc/letsencrypt/live/wiki.krew.io
+
+cp src/server/certs/* /etc/letsencrypt/live/krew.io/
+cp src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
+```
+
+Then just restart nginx
+
+```
+service nginx restart
+```
+
+## Build the project
+
+```sh
+cd /opt/krew2.io
+npm i
+npm run build
+```
+
+## Install the Database
+
+### Install MongoDB
+
+[Install MongoDB on Debian 10](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/)
+
+### Test it
+
+```sh
+systemctl start mongod
+systemctl enable mongod
+systemctl status mongod
+```
