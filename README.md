@@ -103,6 +103,65 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  ```
  - The game will automatically kick all players and pull the latest commit from GitHub. Once done, it will restart itself and allow players to join back.
 
+## WebServer installation
+
+### Prequisites
+ * Node.js v14
+ * NPM v7
+ * NGINX
+ * MongoDB
+
+
+```sh
+# Install utilities.
+apt-get install nginx git ufw fail2ban
+
+# Download nvm.
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+source ~/.profile
+
+# Install Node.JS via nvm.
+nvm install 14.16.0
+npm i -g npm
+
+# Install PM2 globally.
+npm i pm2 -g
+
+# Clone repository.
+cd /opt
+git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+cd krew2.io
+
+# Unlink the old NGINX configuration.
+sudo unlink /etc/nginx/sites-enabled/default
+
+# Copy the NGINX configuration from the repository to the working directory.
+cp nginx.conf /etc/nginx/sites-available/krew.conf
+ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
+
+# Copy SSL certificates from repository.
+mkdir -p /etc/letsencrypt/live/krew.io
+cp src/server/certs/* /etc/letsencrypt/live/krew.io/
+
+# Restart NGINX.
+systemctl restart nginx
+
+# Get MongoDB repository key.
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+# Update available packages and install MongoDB.
+apt-get update
+apt-get install -y mongodb-org
+
+# Start MongoDB
+systemctl enable --now mongod
+
+# Build and run the project.
+npm i
+npm run prod
+```
+
 ## Documentation
 
 #### netType (network types):
@@ -138,76 +197,4 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  -1: Nothing
  0: Cannon
  1: Fishing Rod
-
-# WebServer installation
-
-## Install tools and repository
-
-```sh
-apt-get install nginx tmux htop vim git ufw fail2ban bmon
-
-sudo git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
-
-mv krew2.io /opt/krew2.io
-
-curl -sL https://deb.nodesource.com/setup_15.x -o nodesource_setup.sh
-bash nodesource_setup.sh
-
-sudo apt-get install -y nodejs
-
-rm nodesource_setup.sh
-
-npm install pm2 -g
-```
-
-:warning: `node --version` expected version is `15.X.X` and `npm --version` expected version is `7.X.X`
-
-## Install nginx
-
-```
-unlink /etc/nginx/sites-enabled/default
-
-cp nginx.conf /etc/nginx/sites-available/krew.conf
-
-ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
-```
-
-You can test your configuration with `nginx -t`
-
-You might have some issue with the certs files
-
-```sh
-mkdir -p /etc/letsencrypt/live/krew.io
-mkdir -p /etc/letsencrypt/live/wiki.krew.io
-
-cp src/server/certs/* /etc/letsencrypt/live/krew.io/
-cp src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
-```
-
-Then just restart nginx
-
-```
-service nginx restart
-```
-
-## Build the project
-
-```sh
-cd /opt/krew2.io
-npm i
-npm run build
-```
-
-## Install the Database
-
-### Install MongoDB
-
-[Install MongoDB on Debian 10](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/)
-
-### Test it
-
-```sh
-systemctl start mongod
-systemctl enable mongod
-systemctl status mongod
-```
+ ```
