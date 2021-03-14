@@ -83,6 +83,7 @@ app.set(`view engine`, `ejs`);
 // Serve the static directory.
 app.use(express.static(config.staticDir));
 app.use(`/ads.txt`, express.static(`ads.txt`)); // Static ad loader.
+app.use(`/sw.js`, express.static(`sw.js`)); // Static webpush filescript.
 
 // Use routes.
 app.use(`/api`, apiRouter);
