@@ -17,29 +17,29 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
 
 ### Admin Commands
  ```
- !!login
+ ;;login
  ```
  - Set playerEntity.isAdmin to ``true`` (otherwise other admin commands won't work).
 
  ```
- !!say <message>
+ ;;say <message>
  ```
  - Send an admin message to all players online.
 
  ```
- !!whois <seadog123>
+ ;;whois <seadog123>
  ```
  - Get player ID of specified seadog (in this case seadog123).
 
  ```
- !!kick <Identifier> [reason]
+ ;;kick <Identifier> [reason]
  ```
  - Disconnect a player's socket connection (kick them) and display reason on his screen.
  - Identifier can be either a playerID or displayname.
  - Reason is optional.
 
  ```
- !!ban <Identifier> [reason]
+ ;;ban <Identifier> [reason]
  ```
  - Disconnect a player's socket connection (kick them) and display reason on his screen.
  - Additionally adds them to the permanent ban list, barrciading them from using their account.
@@ -47,46 +47,46 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  - Reason is optional.
 
  ```
- !!unban <Identifier>
+ ;;unban <Identifier>
  ```
  - Removes a user from the permanent ban list and sends a webhook to Discord.
  - Identifier can be either a playerID or displayname.
  - Reason is optional.
 
  ```
- !!nick <name>
+ ;;nick <name>
  ```
  - Set the name in the chat to a specified string (for easier admin communication).
 
  ```
- !!restart
+ ;;restart
  ```
  - Saves the current game progress of all players which are logged in. Then, disconnects all players from the server.
  - Detailed information about how to smoothly restart the server is located further down in this document.
 
  ### Mod Commands
  ```
- //login
+ ;;login
  ```
  - Set playerEntity.isMod to ``true`` (otherwise other mod commands won't work).
 
  ```
- //report <Identifier> [reason]
+ ;;report <Identifier> [reason]
  ```
  - Report a player (sends him a warning and a webhook message to Discord. When a player gets reported the second time, he is kicked from the server).
 
  ```
- //mute <Identifier> [reason]
+ ;;mute <Identifier> [reason]
  ```
  - Mute a player (for 5 minutes) and display a message to him telling him that he has been muted. Sends a webhook message to Discord with the reason.
 
  ```
- //tempban <Identifier> [reason]
+ ;;tempban <Identifier> [reason]
  ```
  - Temporarily ban a player.
 
  ```
- //ban <Identifier> [reason]
+ ;;ban <Identifier> [reason]
  ```
  - Permanently ban an account. This player will be unable to use this account
 
@@ -94,12 +94,12 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  - Login to the game with your user account.
  - Authenticate yourself as admin in the chat:
  ```
- !!login
+ ;;login
  ```
 
  - Save the current progress of all players and "kick" them from the game.
  ```
- !!update
+ ;;update
  ```
  - The game will automatically kick all players and pull the latest commit from GitHub. Once done, it will restart itself and allow players to join back.
 
@@ -111,13 +111,12 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  * NGINX
  * MongoDB
 
-
 ```sh
 # Install utilities.
 apt-get install nginx git ufw fail2ban
 
 # Download nvm.
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+curl https:;;raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
 source ~/.profile
 
 # Install Node.JS via nvm.
@@ -129,11 +128,11 @@ npm i pm2 -g
 
 # Clone repository.
 cd /opt
-git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+git clone --depth=1 https:;;krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
 cd krew2.io
 
 # Unlink the old NGINX configuration.
-sudo unlink /etc/nginx/sites-enabled/default
+unlink /etc/nginx/sites-enabled/default
 
 # Copy the NGINX configuration from the repository to the working directory.
 cp nginx.conf /etc/nginx/sites-available/krew.conf
@@ -147,8 +146,8 @@ cp src/server/certs/* /etc/letsencrypt/live/krew.io/
 systemctl restart nginx
 
 # Get MongoDB repository key.
-wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+wget -qO - https:;;www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb http:;;repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 # Update available packages and install MongoDB.
 apt-get update
