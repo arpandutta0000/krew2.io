@@ -1,4 +1,7 @@
 # krew2
+
+# Misc.
+
 This is the repository for a cleanup of Krew.io.
 
 **Running in development** (using grunt-nodemon as a watchscript)
@@ -135,3 +138,35 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  -1: Nothing
  0: Cannon
  1: Fishing Rod
+
+# WebServer installation
+
+# Install tools
+
+```sh
+apt-get install nginx tmux htop vim git ufw fail2ban
+
+curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+bash nodesource_setup.sh
+```
+
+## Install nginx
+
+```
+unlink /etc/nginx/sites-enabled/default
+
+cp nginx.conf /etc/nginx/sites-available/krew.conf
+
+ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
+```
+
+You can test your configuration with `nginx -t`
+
+You might have some issue with the certs files
+
+Then just restart nginx
+
+```
+service nginx restart
+```
+
