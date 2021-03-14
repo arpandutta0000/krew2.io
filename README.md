@@ -141,12 +141,14 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
 
 # WebServer installation
 
-# Install tools
+## Install tools and repository
 
 ```sh
-apt-get install nginx tmux htop vim git ufw fail2ban
+apt-get install nginx tmux htop vim git ufw fail2ban bmon
 
-curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+sudo git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+
+curl -sL https://deb.nodesource.com/setup_15.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 ```
 
@@ -163,6 +165,14 @@ ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
 You can test your configuration with `nginx -t`
 
 You might have some issue with the certs files
+
+```sh
+mkdir -p /etc/letsencrypt/live/krew.io
+mkdir -p /etc/letsencrypt/live/wiki.krew.io
+
+cp src/server/certs/* /etc/letsencrypt/live/krew.io/
+cp src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
+```
 
 Then just restart nginx
 
