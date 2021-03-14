@@ -156,6 +156,8 @@ bash nodesource_setup.sh
 sudo apt-get install -y nodejs
 
 rm nodesource_setup.sh
+
+npm install pm2 -g
 ```
 
 :warning: `node --version` expected version is `15.X.X` and `npm --version` expected version is `7.X.X`
@@ -186,4 +188,26 @@ Then just restart nginx
 
 ```
 service nginx restart
+```
+
+## Build the project
+
+```sh
+cd /opt/krew2.io
+npm i
+npm run build
+```
+
+## Install the Database
+
+### Install MongoDB
+
+[Install MongoDB on Debian 10](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/)
+
+### Test it
+
+```sh
+systemctl start mongod
+systemctl enable mongod
+systemctl status mongod
 ```
