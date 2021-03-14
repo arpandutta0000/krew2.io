@@ -4,7 +4,7 @@ let ui = {
     serverList: {},
     lastGold: 0,
     markerMapCount: performance.now(),
-    allPagesId: [`#ship-status-modal`, `#shopping-modal`, `#krew-list-modal`, `#bank-modal`, `#quests-modal`, `#help-modal`],
+    allPagesId: [`#ship-status-modal`, `#shopping-modal`, `#krew-list-modal`, `#game-settings-modal`, `#quests-modal`, `#help-modal`],
 
     /**
      * Captain configuration, sets the active property if player is the captain

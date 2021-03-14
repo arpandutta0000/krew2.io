@@ -303,57 +303,31 @@ td {
 
 /* -- START Krew HUD -- */
 
-/* Krew HUD Container (Upper Left) */
-#krew-hud {
+/* Ping and FPS */
+#stats-wrapper {
+    background-color: transparent;
+    border-radius: 0px;
+    padding: 0px;
     position: absolute;
     left: 0px;
     top: 0px;
     margin: 5px;
     font-size: 13px;
     z-index: 1051;
-    width: 25.5%;
-    max-width: 300px;
     display: inline-block;
-    width: 100%;
-}
-
-#krew-hud>.form-inline>.form-group {
-    margin-right: 0.625rem;
-}
-
-/* Invite Div */
-#invite-div {
-    padding-top: 15px;
-    display: none;
-}
-
-/* Exit island button */
-#exit-island-button {
-    margin-right: 4%
-}
-
-/* -- END Krew HUD -- */
-
-
-/* Ping and FPS */
-#stats-wrapper {
-    display: inline-block;
-    position: inherit;
-    top: 1%;
-    left: 101%;
     text-align: center;
 }
 
 #fps-wrapper,
 #ping-wrapper {
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     padding: 5px;
     min-width: 60px;
     margin-bottom: 2.5px;
 }
 
-/* Ship Status Menu*/
+/* Ship Status Menu */
 #ship-status-modal {
     display: none;
     width: 40%;
@@ -368,6 +342,35 @@ td {
     max-height: 70%;
     border-radius: .3em;
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Game Settings modal */
+#game-settings-modal {
+    display: none;
+    width: 40%;
+    margin-right: 20px;
+    top: 10%;
+    left: 30%;
+    display: none;
+    position: absolute;
+    z-index: 1060;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    max-height: 70%;
+    border-radius: .3em;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Invite Div */
+#invite-div {
+    padding-top: 15px;
+    display: none;
+    width: 60%;
+}
+
+/* Exit island button */
+#exit-island-button {
+    margin-right: 4%
 }
 
 /* Kick player from Krew button */
@@ -445,55 +448,12 @@ td {
     margin-right: 3px;
 }
 
-
-/* -- START Top UI Buttons */
-
-/* Toggle shop button */
-#toggle-shop-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle Krew list button */
-#toggle-krew-list-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle bank button */
-#toggle-bank-modal-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle Map button */
-#toggle-map-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle Quests button */
-#toggle-quest-button {
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.8);
-    line-height: 1.0;
-    padding: .2rem .2rem;
-    font-size: 1.375rem;
-}
-
-/* Toggle Help button*/
+/* Buttons */
+#toggle-shop-modal-button,
+#toggle-krew-list-modal-button,
+#toggle-ship-status-button,
+#toggle-game-settings-button,
+#toggle-quest-button,
 #toggle-help-button {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
@@ -501,9 +461,6 @@ td {
     padding: .2rem .2rem;
     font-size: 1.375rem;
 }
-
-/* -- END Top UI Buttons */
-
 
 /* -- START Top UI Menus */
 
@@ -563,22 +520,6 @@ td {
     padding: 0 5px;
 }
 
-/* Bank Modal */
-#bank-modal {
-    width: 60%;
-    margin-right: 20px;
-    display: none;
-    top: 10%;
-    left: 20%;
-    position: absolute;
-    z-index: 1060;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    max-height: 70%;
-    border-radius: .3em;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
 /* Quests Modal */
 #quests-modal {
     position: absolute;
@@ -624,7 +565,7 @@ td {
     right: 0px;
     top: 0px;
     margin: 5px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     padding: 5px 10px 10px 10px;
 }
@@ -713,7 +654,7 @@ td {
     bottom: 5px;
     left: 50%;
     position: absolute;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.25);
     padding: 3px;
     border-radius: 6px;
     padding-bottom: 0;
@@ -878,17 +819,25 @@ td {
 
 /* -- START Chat -- */
 
-#chat-message {
+#chat-message,
+#chat-message::placeholder {
     background-color: transparent;
-    border-color: gray;
+    color: white;
+    border-color: white;
     border-width: 2px;
 }
 
 #chat-message:focus,
 #chat-message:hover {
-    background-color: #ffffff9c;
+    background-color: white;
+    color: black;
     border-color: gray;
     border-width: 2px;
+}
+
+#chat-message:focus::placeholder,
+#chat-message:hover::placeholder {
+    color: gray;
 }
 
 #chat-history {
@@ -896,11 +845,11 @@ td {
     white-space: pre-line;
     word-wrap: break-word;
     width: 100%;
-    text-shadow: 2px 2px 2px black;
+    text-shadow: 1px 1px 1px black;
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    max-height: 160px;
+    max-height: 130px;
     padding: 10px;
 }
 
@@ -917,9 +866,9 @@ td {
     bottom: 0px;
     margin: 5px;
     font-size: 12px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.25);
     border-radius: 5px;
-    padding: 1px;
+    padding: 10px;
 }
 
 #chat-div a:not(.active) {
@@ -1388,7 +1337,7 @@ td {
     pointer-events: none;
     transition: 0.2s;
     will-change: transform;
-    z-index: 10;
+    z-index: 2000;
 }
 
 /* The actual tooltip with a dynamic width */
