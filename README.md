@@ -148,9 +148,17 @@ apt-get install nginx tmux htop vim git ufw fail2ban bmon
 
 sudo git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
 
+mv krew2.io /opt/krew2.io
+
 curl -sL https://deb.nodesource.com/setup_15.x -o nodesource_setup.sh
 bash nodesource_setup.sh
+
+sudo apt-get install -y nodejs
+
+rm nodesource_setup.sh
 ```
+
+:warning: `node --version` expected version is `15.X.X` and `npm --version` expected version is `7.X.X`
 
 ## Install nginx
 
@@ -179,4 +187,3 @@ Then just restart nginx
 ```
 service nginx restart
 ```
-
