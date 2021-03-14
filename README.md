@@ -1,6 +1,12 @@
 # Krew.io
 This is the production repository (working title) for Krew.io.
 
+### Prequisites
+ * Node.js v14
+ * NPM v7
+ * NGINX
+ * MongoDB
+
 **Running in development**
 ``npm run dev``
 
@@ -12,7 +18,78 @@ Running in dev mode serves to ``localhost:8080``.
 
 In production, Nginx proxies the local webfront port to 443 and redirects 80 to 443. 
 
-### Admin Commands
+## Webserver Setup
+
+
+### Install needed utilities.
+
+```sh
+cd ~
+apt-get install nginx git ufw fail2ban
+
+# Download nvm.
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+source ~/.profile
+
+# Install Node.JS via nvm.
+nvm install 14.16.0
+npm i -g npm
+
+# Install PM2 globally.
+npm i pm2 -g
+
+# Get MongoDB repository key.
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+# Update available packages and install MongoDB.
+apt-get update
+apt-get install -y mongodb-org
+
+# Start MongoDB
+systemctl enable --now mongod
+```
+
+### Clone repositories.
+
+```sh
+cd /opt
+
+git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+git clone --depth=1 https://github.com/Krew-io/krew-wiki.git
+```
+
+### Configure NGINX.
+
+```sh
+# Unlink the old NGINX configuration.
+unlink /etc/nginx/sites-enabled/default
+
+# Copy the NGINX configuration from the repository to the working directory.
+cp /opt/krew2.io/nginx.conf /etc/nginx/sites-available/krew.conf
+ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
+
+# Copy SSL certificates from repository.
+mkdir -p /etc/letsencrypt/live/krew.io
+mkdir -p /etc/letsencrypt/live/wiki.krew.io
+
+cp /opt/krew2.io/src/server/certs/* /etc/letsencrypt/live/krew.io/
+cp /opt/krew2.io/src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
+
+# Restart NGINX.
+systemctl restart nginx
+```
+
+# Build and run the project.
+```sh
+cd /opt/krew2.io
+
+npm i
+npm run prod
+```
+
+
+## Admin Commands
  ```
  ;;login
  ```
@@ -61,7 +138,7 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  - Saves the current game progress of all players which are logged in. Then, disconnects all players from the server.
  - Detailed information about how to smoothly restart the server is located further down in this document.
 
- ### Mod Commands
+ ## Mod Commands
  ```
  ;;login
  ```
@@ -100,86 +177,23 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
  ```
  - The game will automatically kick all players and pull the latest commit from GitHub. Once done, it will restart itself and allow players to join back.
 
-## WebServer installation
-
-### Prequisites
- * Node.js v14
- * NPM v7
- * NGINX
- * MongoDB
-
-```sh
-# Install utilities.
-apt-get install nginx git ufw fail2ban
-
-# Download nvm.
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
-source ~/.profile
-
-# Install Node.JS via nvm.
-nvm install 14.16.0
-npm i -g npm
-
-# Install PM2 globally.
-npm i pm2 -g
-
-# Clone repositories.
-cd /opt
-
-git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
-git clone --depth=1 https://github.com/Krew-io/krew-wiki.git
-
-cd krew2.io
-
-# Unlink the old NGINX configuration.
-unlink /etc/nginx/sites-enabled/default
-
-# Copy the NGINX configuration from the repository to the working directory.
-cp nginx.conf /etc/nginx/sites-available/krew.conf
-ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
-
-# Copy SSL certificates from repository.
-mkdir -p /etc/letsencrypt/live/krew.io
-mkdir -p /etc/letsencrypt/live/wiki.krew.io
-
-cp src/server/certs/* /etc/letsencrypt/live/krew.io/
-cp src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
-
-# Restart NGINX.
-systemctl restart nginx
-
-# Get MongoDB repository key.
-wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-
-# Update available packages and install MongoDB.
-apt-get update
-apt-get install -y mongodb-org
-
-# Start MongoDB
-systemctl enable --now mongod
-
-# Build and run the project.
-npm i
-npm run prod
-
-```
 
 ## Documentation
 
-#### netType (network types):
+### Network Types
+
  ```
  -1: Entity
  0: Player
- 1: Boat
+ 1: Boat    
  2: Projectile
  3: Impact
  4: Pickup ( Fish / crab / shell / cargo / chest)
  5: Island
- 6: Bot
  ```
 
-#### Ship states:
+### Ship States
+
  ```
  -1: Starting
  0: Sailing
@@ -189,15 +203,18 @@ npm run prod
  4: Departing
  ```
 
-#### Projectiles:
+### Projectiles
+
  ```
  0: Cannonball
  1: Fishing Hook
  ```
 
-#### Weapons:
+### Weapons
+
  ```
  -1: Nothing
  0: Cannon
  1: Fishing Rod
+ 2: Telescope
  ```
