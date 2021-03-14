@@ -1,10 +1,7 @@
-# krew2
+# Krew.io
+This is the production repository (working title) for Krew.io.
 
-# Misc.
-
-This is the repository for a cleanup of Krew.io.
-
-**Running in development** (using grunt-nodemon as a watchscript)
+**Running in development**
 ``npm run dev``
 
 **Running in production** (using pm2 to keep process alive)
@@ -116,7 +113,7 @@ In production, Nginx proxies the local webfront port to 443 and redirects 80 to 
 apt-get install nginx git ufw fail2ban
 
 # Download nvm.
-curl https:;;raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
 source ~/.profile
 
 # Install Node.JS via nvm.
@@ -126,9 +123,12 @@ npm i -g npm
 # Install PM2 globally.
 npm i pm2 -g
 
-# Clone repository.
+# Clone repositories.
 cd /opt
-git clone --depth=1 https:;;krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+
+git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.io.git
+git clone --depth=1 https://github.com/Krew-io/krew-wiki.git
+
 cd krew2.io
 
 # Unlink the old NGINX configuration.
@@ -140,14 +140,17 @@ ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
 
 # Copy SSL certificates from repository.
 mkdir -p /etc/letsencrypt/live/krew.io
+mkdir -p /etc/letsencrypt/live/wiki.krew.io
+
 cp src/server/certs/* /etc/letsencrypt/live/krew.io/
+cp src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
 
 # Restart NGINX.
 systemctl restart nginx
 
 # Get MongoDB repository key.
-wget -qO - https:;;www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-echo "deb http:;;repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 # Update available packages and install MongoDB.
 apt-get update
@@ -159,6 +162,7 @@ systemctl enable --now mongod
 # Build and run the project.
 npm i
 npm run prod
+
 ```
 
 ## Documentation
