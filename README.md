@@ -59,6 +59,32 @@ git clone --depth=1 https://krewiogit:J5nETmjUkf59z9A@github.com/Krew-io/krew2.i
 git clone --depth=1 https://github.com/Krew-io/krew-wiki.git
 ```
 
+### Get SSL Certificate
+
+If the SSL certificate is not present, get one via LetsEncrypt.
+
+```sh
+# Install certbot
+apt-get install certbot
+
+# Make sure NGINX is not running during this process. This is not necessary if it is not installed yet.
+systemctl stop nginx
+
+certbot --certonly -d krew.io
+certbot --certonly -d wiki.krew.io
+```
+
+Otherwise, if you have a wildcard certificate, copy it from the repository into working directories.
+```sh
+# Create folders for the certificates to go into.
+mkdir -p /etc/letsencrypt/live/krew.io
+mkdir -p /etc/letsencrypt/live/wiki.krew.io
+
+# Copy the certificates from the repository.
+cp /opt/krew2.io/src/server/certs/* /etc/letsencrypt/live/krew.io/
+cp /opt/krew2.io/src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
+```
+
 ### Configure NGINX.
 
 ```sh
@@ -69,18 +95,11 @@ unlink /etc/nginx/sites-enabled/default
 cp /opt/krew2.io/nginx.conf /etc/nginx/sites-available/krew.conf
 ln -s /etc/nginx/sites-available/krew.conf /etc/nginx/sites-enabled/krew.conf
 
-# Copy SSL certificates from repository.
-mkdir -p /etc/letsencrypt/live/krew.io
-mkdir -p /etc/letsencrypt/live/wiki.krew.io
-
-cp /opt/krew2.io/src/server/certs/* /etc/letsencrypt/live/krew.io/
-cp /opt/krew2.io/src/server/certs/* /etc/letsencrypt/live/wiki.krew.io/
-
 # Restart NGINX.
 systemctl restart nginx
 ```
 
-# Build and run the project.
+### Build and run the project.
 ```sh
 cd /opt/krew2.io
 
