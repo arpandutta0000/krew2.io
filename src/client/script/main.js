@@ -6,8 +6,8 @@ $(document).ready(() => {
         console.clear();
 
         // Initiate ads
-        // adBlockCheck();
-        // initAds();
+        adBlockCheck();
+        initAds();
 
         // Check if Krew is on a different site / in an iframe
         if (
