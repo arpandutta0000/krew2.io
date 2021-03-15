@@ -6,7 +6,7 @@ const config = {
     Designers: [`bread`, `ward0g71`],
 
     // Set URL
-    url: `http://45.63.5.201`,
+    url: `https://krew.io`,
 
     // Set config.worldsize
     worldsize: 2500,
