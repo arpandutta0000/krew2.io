@@ -102,8 +102,6 @@ let getShips = (callback) => {
                         }
                     });
 
-                    $(`krew-hud`).show();
-
                     if (myPlayer !== undefined && myPlayer.parent !== undefined && myPlayer.parent.netType !== 1) {
                         GameAnalytics(`addDesignEvent`, `Game:Session:PurchasedBoat`);
                         $(`#raft-shop-div`).hide();

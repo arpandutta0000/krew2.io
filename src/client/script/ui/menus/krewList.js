@@ -81,7 +81,8 @@
                                     $(`#departure-modal`).hide();
                                 }
 
-				$(`#krew-hud`).show();
+                                GameAnalytics(`addDesignEvent`, `Game:Session:JoinedBoat`);
+
                                 $(`#abandon-ship-button`).show();
                             }
                         });

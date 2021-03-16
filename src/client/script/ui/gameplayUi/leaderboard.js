@@ -142,9 +142,9 @@ let updateLeaderboard = (scores) => {
             } else {
                 display_gold = boatsListSortedByGold[scoreIndex].g;
             }
-            let entry = $(`<div${boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-success grid-left"` : ` class="grid-left"`}>${clan}</div>` +
+            let entry = $(`<div${boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-myself-color grid-left"` : ` class="grid-left"`}>${clan}</div>` +
                 `<div style="max-width: 100%;"${
-                    boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-success grid-middle"` : ` class="grid-middle"`}>` +
+                    boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-myself-color grid-middle"` : ` class="grid-middle"`}>` +
                 `<span class='krewName' style='margin-left:2px;font-size: 13px'></span>` +
                 `</div>` +
                 `<div class="grid-middle">` +
@@ -152,7 +152,7 @@ let updateLeaderboard = (scores) => {
                 `<img src="/assets/img/medals/medal_${killcount >= 50 ? `gold` : killcount >= 20 ? `silver` : `bronze`}.png"${killcount >= 10 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
                 `<img src="/assets/img/medals/medal_${other_lvl === 3 ? `gold` : other_lvl === 2 ? `silver` : `bronze`}.png"${other_lvl > 0 ? ` style="height: 17px"` : `style="height: 17px; display:none"`}>` +
                 `</div>` +
-                `<div${boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-success grid-right"` : ` class="grid-right"`}>${display_gold}</div>`);
+                `<div${boatsListSortedByGold[scoreIndex].id === myPlayer.parent.id ? ` class="text-myself-color grid-right"` : ` class="grid-right"`}>${display_gold}</div>`);
             entry.find(`.krewName`).text(boatsListSortedByGold[scoreIndex].cN);
             $leaderboard_data.append(entry);
         }
