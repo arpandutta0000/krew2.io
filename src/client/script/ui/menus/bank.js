@@ -4,15 +4,9 @@
  * @param {object} data Bank data
  */
 let setBankData = (data) => {
-    $(`#bank-warning`).text(``);
-    if (myPlayer === undefined || myPlayer.parent === undefined || myPlayer.parent.anchorIslandId === undefined || entities[myPlayer.parent.anchorIslandId].name !== `Labrador`) {
+    if (data.warn) {
         $(`#bankContainer`).hide();
         $(`#nabankContainer`).show();
-        $(`#bank-warning`).text(`Bank is only available at Labrador`);
-    } else if (data.warn) {
-        $(`#bankContainer`).hide();
-        $(`#nabankContainer`).show();
-        $(`#bank-warning`).text(`You must be logged in to use the bank`);
     } else {
         $(`#bankContainer`).show();
         $(`#nabankContainer`).hide();
@@ -86,4 +80,6 @@ let takeDeposit = () => {
 /**
  * Create socket emit to get bank data
  */
-let getBankData = () => socket.emit(`bank`);
+let getBankData = () => {
+    socket.emit(`bank`);
+};

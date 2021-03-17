@@ -49,7 +49,7 @@
 
 
     <!-- Get styles -->
-    <link rel="stylesheet" href="/build/styles.min.css">
+    <link rel="stylesheet" href="/build/styles.min.css?v=2">
 
     <!-- Get scripts from Cloudflare CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
@@ -83,18 +83,17 @@
     <!-- AdinPlay Ads Initialization -->
     <script src="https://api.adinplay.com/libs/aiptag/pub/BLS/krew.io/tag.min.js"></script>
 
-
     <!-- Global site tag (gtag.js) (Google Analytics) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-78561996-18"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'UA-78561996-18');
     </script>
 
 </head>
+
 
 
 <body>
@@ -113,15 +112,11 @@
 	<script src="https://webgames.io/js/widget.min.js"></script>
 	<script>
 		Widget.bind ({
-
 			reference : "krew.io",
 			crossPromotion : {
-
 				showBiscuit : {
-
 					border : true
 				},
-
 				container : "cross-promo",
 				link : "alsoTryLink",
 				img : "alsoTryImg"
@@ -250,7 +245,7 @@
                     </small>
                     <br />
                     <small>
-                        More IO games: <a href="https://webgames.io" target="_blank">WebGames.io</a>
+                        More IO Games: <a href="https://webgames.io" target="_blank">WebGames.io</a>
                     </small>
                 </div>
             </div>
@@ -263,14 +258,6 @@
 
                 <!-- START Changelog Articles -->
                 <div class="changelog-div">
-                    <article class="changelog-article">
-                        <h5 class="patch-title">UI Revamp (1.10.0) - March 13th, 2021</h5>
-                        <div class="patch-content">
-                            <ul class="patch-content-list">
-                                <li><b>New:</b> Revamped UI and added a new Raft model</li>
-                            </ul>
-                        </div>
-                    </article>
                     <article class="changelog-article">
                         <h5 class="patch-title">Patch (1.9.1) - March 5th, 2021</h5>
                         <div class="patch-content">
@@ -930,7 +917,6 @@
             <br><br>
         </div>
     </div>
-
     <!-- Shopping Menu Modal -->
     <div id="shopping-modal">
         <div class="modal-header">
@@ -953,81 +939,13 @@
                 <li class="nav-item">
                     <a class="nav-link btn-shopping-modal" id="buy-goods" href="#">Buy Goods</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link btn-shopping-modal" id="open-bank-menu" href="#">Bank</a>
-                </li>
             </ul>
             <div id="abandon-existing-krew" class="text-sm-center" style="padding: 5px;color:#4978FF;display:none;">Note that if you purchase a ship, you will abandon your existing krew</div>
             <div id="shopping-item-list" style="margin-top: 15px"></div>
-
-            <div class="container" id="bankContainer" style="height: 405px; display: none; font-size: 15px;" hidden>
-                <table class="table" style="table-layout:fixed">
-                    <tbody>
-                        <tr>
-                            <td style="width:33%">Make deposit:</td>
-                            <td style="width:25%"></td>
-                            <td style="text-align:left; width:42%">Your Balance: <span class="text-warning" id="my-deposits"></span></td>
-                        </tr>
-                        <tr>
-                            <td style="width:33%">
-                                <div class="form-group">
-                                    <input type="number" maxlength="9" min="0" class="form-control" id="make-deposit" placeholder="amount of gold">
-                                </div>
-                                <div id="successMakeDepoMess" style="font-size: 12px; color: green; display:none">
-                                    Deposit successful
-                                </div>
-                                <div id="errorMakeDepoMess" style="font-size: 12px; color: red; display:none">
-                                    You don't have enough gold for this deposit
-                                </div>
-                                <div id="errorFullDepoMess" style="font-size: 12px; color: red; display:none">
-                                    You can't place more than 150,000 gold in the bank
-                                </div>
-                            </td>
-                            <td style="padding: 18px; width:25%"><button id="btn-make-deposit" class="btn btn-primary btn-sm" role="button">Deposit</button></td>
-                        </tr>
-                        <tr>
-                            <td style="width:33%">Withdraw deposit:</td>
-                            <td style="width:25%"></td>
-                            <td style="width:42%">
-                            <td>
-                        </tr>
-                        <tr>
-                            <td style="width:33%">
-                                <div class="form-group">
-                                    <input type="number" maxlength="9" min="0" class="form-control" id="take-deposit" placeholder="amount of gold">
-                                </div>
-                                <div id="successTakeDepoMess" style="font-size: 12px; color: green; display:none">
-                                    Withdrawal successful
-                                </div>
-                                <div id="errorTakeDepoMess" style="font-size: 12px; color: red; display:none">
-                                    You can't withdraw more gold than you have in the bank
-                                </div>
-                            </td>
-                            <td style="padding: 18px; width:25%"><button id="btn-take-deposit" class="btn btn-primary btn-sm" role="button">Withdraw</button></td>
-                            <td style="width:42%"></td>
-                        </tr>
-                        <tr>
-                            <td>How to use the bank:</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="margin:-15px 12px 0px 12px">
-                    The bank accepts up to 50,000 gold for permanent save, you can use it the next time you login.
-                </p>
-                <p style="margin:0px 12px 0px 12px">
-                    You can store additional 100,000 gold in the bank but it will be lost as soon as you leave the game. Every withdrawal has a fee of 10%.
-                </p>
-            </div>
-            <div class="container" id="nabankContainer" style="height: 405px;">
-                <div class="col-xs-12" style="padding-top:15px">
-                    <h5 id="bank-warning" class="text-warning">To use the bank, please login to your account</h5>
-                </div>
-            </div>
         </div>
     </div>
-
     <!-- Krew List modal -->
-    <div id="krew-list-modal" class="white-transparent-bg">
+    <div id="krew-list-modal" style="background-color: rgba(255,255,255);">
         <div class="modal-header">
             <h4 class="modal-title">
                 Krews docked at
@@ -1040,8 +958,7 @@
         <div id="krews-list" class="container" style="margin-top: 15px"></div>
         <div id="departing-krews-list" class="container" style="margin-top: 15px;display: none;"></div>
     </div>
-
-    <!-- Krew and Clan modal -->
+    <!-- Krew, Clan, and Game settings modal -->
     <div id="ship-status-modal">
         <div class="modal-header">
             <h4 class="modal-title">
@@ -1060,9 +977,11 @@
                     <li class="nav-item">
                         <a class="nav-link" id="clan-management" href="#">Clan Management</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="game-settings" href="#">Game Settings</a>
+                    </li>
                 </ul>
             </div>
-
             <div id="ship-status-container" class="container" style="margin-top: 15px; min-height: 294px">
                 <form class="form-inline h5" id="krew-name-form">
                     <div class="form-group">
@@ -1073,32 +992,11 @@
                         <i class="icofont icofont-edit"></i>
                     </div>
                 </form>
-
-                <br>
-                <span data-tooltip="Set sail" data-tooltip-location="bottom" class="btn btn-success btn-sm" id="exit-island-button" style="display: none; z-index: 2; margin-right: 2.5px;">
-                    <i class="icofont icofont-ship-wheel"></i>
-                    Depart
-                </span>
-                <span data-tooltip="Leave the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none;">
-                    <i class="icofont icofont-anchor"></i>
-                    Abandon Ship
-                </span>
-                <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index: 1; margin-right: 2.5px;">
-                    <i class="icofont icofont-link"></i>
-                    Invite
-                </span>
-
-                <div id="invite-div">
-                    <input type="text" maxlength="30" class="form-control" id="invite-link">
-                </div>
-                <br><br>
-
                 <form class="form-inline h5">
                     <div class="form-group">
                         <span id="ship-name"></span>
                     </div>
                 </form>
-
                 <div class="text-center" style="margin-bottom: 8px;">
                     <span class="text-danger">
                         <i class="icofont icofont-heart"></i>
@@ -1119,9 +1017,7 @@
                         <span class="ship-cargo"></span>
                     </span>
                 </div>
-
                 <div id="krew-list" class="text-xs-left" style="margin-top: 10px"></div>
-
                 <label id="lock-krew-label" class="label">
                     <div id="lock-krew-text" class="lock-text-info" style="padding-right:10px">Lock krew...</div>
                     <div class="toggle">
@@ -1134,7 +1030,6 @@
                 </label>
                 <br>
             </div>
-
             <div id="clan-management-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
                 <form class="form-inline h5">
                     <div class="form-group">
@@ -1191,62 +1086,49 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <!-- Game settings Modal -->
-    <div id="game-settings-modal">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Game settings
-                <div class="btn btn-secondary btn-sm float-right toggle-ship-status-button">
-                    <i class="icofont icofont-ui-close"></i>
+            <div id="game-settings-container" class="container" style="margin-top: 15px; display: none; min-height: 294px">
+                <div id="fps-camera">
+                    <label id="fp-mode-label" class="label">
+                        <div id="fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera (Disabled)</div>
+                        <div class="toggle">
+                            <input class="toggle-state" type="checkbox" name="check" value="check" id="fp-mode-button" />
+                            <div class="toggle-inner">
+                                <div class="indicator"></div>
+                            </div>
+                            <div class="active-bg"></div>
+                        </div>
+                    </label>
                 </div>
-                </h6>
-        </div>
-        <div class="modal-body">
-            <div id="fps-camera">
-                <label id="fp-mode-label" class="label">
-                    <div id="fp-mode-text" class="lock-text-info" style="padding-right:10px">FP Camera (Disabled)</div>
-                    <div class="toggle">
-                        <input class="toggle-state" type="checkbox" name="check" value="check" id="fp-mode-button" />
-                        <div class="toggle-inner">
-                            <div class="indicator"></div>
+                <div id="fov-control-div" class="lock-text-info">
+                    FOV <input id="fov-control" type="range" min="10" max="50" value="10">
+                </div>
+                <br>
+                <div id="music-control-div" class="lock-text-info">
+                    Music <input id="music-control" type="range" min="0" max="100" value="50">
+                </div>
+                <div id="sfx-control-div" class="lock-text-info">
+                    Sfx <input id="sfx-control" type="range" min="0" max="100" value="50">
+                </div>
+                <br>
+                <div id="view-sails">
+                    <label id="view-sails-label" class="label">
+                        <div id="view-sails-text" class="lock-text-info" style="padding-right:10px">View Sails (Disabled)</div>
+                        <div class="toggle">
+                            <input id="view-sails-button" name="view-sails-button" class="toggle-state" type="checkbox" value="check"></input>
+                            <div class="toggle-inner">
+                                <div class="indicator"></div>
+                            </div>
+                            <div class="active-bg"></div>
                         </div>
-                        <div class="active-bg"></div>
-                    </div>
-                </label>
+                    </label>
+                </div>
+                <div id="quality-div" class="form-group">
+                    <select id="quality-list" class="custom-select form-control form-control-sm"></select>
+                </div>
+                <a id="account-game-settings-save-notice" class="hidden">Note: Changes made to game settings here are not saved to your account.</a>
             </div>
-            <div id="fov-control-div" class="lock-text-info">
-                FOV <input id="fov-control" type="range" min="10" max="50" value="10">
-            </div>
-            <br>
-            <div id="music-control-div" class="lock-text-info">
-                Music <input id="music-control" type="range" min="0" max="100" value="50">
-            </div>
-            <div id="sfx-control-div" class="lock-text-info">
-                Sfx <input id="sfx-control" type="range" min="0" max="100" value="50">
-            </div>
-            <br>
-            <div id="view-sails">
-                <label id="view-sails-label" class="label">
-                    <div id="view-sails-text" class="lock-text-info" style="padding-right:10px">View Sails (Disabled)</div>
-                    <div class="toggle">
-                        <input id="view-sails-button" name="view-sails-button" class="toggle-state" type="checkbox" value="check"></input>
-                        <div class="toggle-inner">
-                            <div class="indicator"></div>
-                        </div>
-                        <div class="active-bg"></div>
-                    </div>
-                </label>
-            </div>
-            <div id="quality-div" class="form-group">
-                <select id="quality-list" class="custom-select form-control form-control-sm"></select>
-            </div>
-            <a id="account-game-settings-save-notice" class="hidden">Note: Changes made to game settings here are not saved to your account.</a>
         </div>
     </div>
-
     <!-- Help Modal -->
     <div id="help-modal">
         <div class="modal-header">
@@ -1290,11 +1172,6 @@
                             <td>5 = Fire rate, 6 = Distance, 7 = Damage</td>
                         </tr>
                         <tr>
-                            <td>C</td>
-                            <td>Cancel docking or depart</td>
-                            <td>Cancels the docking process or starts a departure from an island</td>
-                        </tr>
-                        <tr>
                             <td>H</td>
                             <td>Show / hide the help menu</td>
                             <td>Check the help menu for information about hotkeys</td>
@@ -1313,11 +1190,6 @@
                             <td>U</td>
                             <td>Show / hide the game UI</td>
                             <td>Great for taking screenshots</td>
-                        </tr>
-                        <tr>
-                            <td>Z</td>
-                            <td>Dock</td>
-                            <td>Docks you at an island if the countdown is complete</td>
                         </tr>
                         <tr>
                             <td>Shift</td>
@@ -1344,7 +1216,6 @@
             </div>
         </div>
     </div>
-
     <!-- Quests Modal -->
     <div id="quests-modal">
         <div class="modal-header">
@@ -1507,10 +1378,79 @@
             </div>
         </div>
     </div>
-
+    <!-- Bank Modal -->
+    <div id="bank-modal">
+        <div class="modal-header">
+            <div id="close-bank-button" class="btn btn-secondary btn-sm float-right">
+                <i class="icofont icofont-ui-close"></i></div>
+            <h4 class="modal-title">Welcome to Bank at Labrador!</h4>
+        </div>
+        <div class="container" id="bankContainer" style="height: 405px; display: none; font-size: 15px;">
+            <table class="table" style="table-layout:fixed">
+                <tbody>
+                    <tr>
+                        <td style="width:33%">Make deposit:</td>
+                        <td style="width:25%"></td>
+                        <td style="text-align:left; width:42%">Your Balance: <span class="text-warning" id="my-deposits"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%">
+                            <div class="form-group">
+                                <input type="number" maxlength="9" min="0" class="form-control" id="make-deposit" placeholder="amount of gold">
+                            </div>
+                            <div id="successMakeDepoMess" style="font-size: 12px; color: green; display:none">
+                                Deposit successful
+                            </div>
+                            <div id="errorMakeDepoMess" style="font-size: 12px; color: red; display:none">
+                                You don't have enough gold for this deposit
+                            </div>
+                            <div id="errorFullDepoMess" style="font-size: 12px; color: red; display:none">
+                                You can't place more than 150,000 gold in the bank
+                            </div>
+                        </td>
+                        <td style="padding: 18px; width:25%"><button id="btn-make-deposit" class="btn btn-primary btn-sm" role="button">Deposit</button></td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%">Withdraw deposit:</td>
+                        <td style="width:25%"></td>
+                        <td style="width:42%">
+                        <td>
+                    </tr>
+                    <tr>
+                        <td style="width:33%">
+                            <div class="form-group">
+                                <input type="number" maxlength="9" min="0" class="form-control" id="take-deposit" placeholder="amount of gold">
+                            </div>
+                            <div id="successTakeDepoMess" style="font-size: 12px; color: green; display:none">
+                                Withdrawal successful
+                            </div>
+                            <div id="errorTakeDepoMess" style="font-size: 12px; color: red; display:none">
+                                You can't withdraw more gold than you have in the bank
+                            </div>
+                        </td>
+                        <td style="padding: 18px; width:25%"><button id="btn-take-deposit" class="btn btn-primary btn-sm" role="button">Withdraw</button></td>
+                        <td style="width:42%"></td>
+                    </tr>
+                    <tr>
+                        <td>How to use the bank:</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin:-15px 12px 0px 12px">
+                The bank accepts up to 50,000 gold for permanent save, you can use it the next time you login.
+            </p>
+            <p style="margin:0px 12px 0px 12px">
+                You can store additional 100,000 gold in the bank but it will be lost as soon as you leave the game. Every withdrawal has a fee of 10%.
+            </p>
+        </div>
+        <div class="container" id="nabankContainer" style="height: 405px;">
+            <div class="col-xs-12" style="padding-top:15px">
+                <h5 class="text-warning">To use the bank, please login to your account</h5>
+            </div>
+        </div>
+    </div>
     <!-- START Game UI -->
     <div id="game-ui" class="container-fluid">
-
         <!-- Krew Leaderboard (Upper Right) -->
         <div id="leaderboard">
             <div class="leaderbord-logo">&nbsp;</div>
@@ -1521,7 +1461,6 @@
             </div>
             <div id="leaderboard-data"></div>
         </div>
-
         <!-- Player Leaderboard (Shift) -->
         <div id="player-leaderboard">
             <div id="player-leaderbord-head">
@@ -1540,10 +1479,12 @@
             </div>
             <div id="playerScoreData"></div>
         </div>
-
         <!-- Chat -->
         <div id="chat-div">
             <ul class="nav nav-tabs">
+                <li style="float: right;">
+                    <span><label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
+                </li>
                 <li class="nav-item" id="li-staff-chat" style="display:none;">
                     <a class="nav-link" id="chat-staff" href="#">Staff
                         <i id="staff-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
@@ -1564,46 +1505,20 @@
                         <i id="global-chat-alert" class="icofont icofont-speech-comments" style="display: none;"></i>
                     </a>
                 </li>
-
-                <span style="margin-right: 5px; margin-top: 5px; float: right;"><label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></span>
             </ul>
-
             <div id="chat-history"></div>
-
             <div class="form-group">
                 <input type="text" maxlength="60" id="chat-message" class="form-control" placeholder="message">
             </div>
+            <i class="btn-theme icofont icofont-volume-bar hidden"></i>
         </div>
-
         <!-- Show Chat button -->
         <div id="show-chat" class="btn btn-primary" style="bottom: 0px; display: none; position: absolute; margin: 15px;">
             <i class="icofont icofont-rounded-up"></i>
             Show Chat
         </div>
-
         <!-- Inventory UI (Bottom Middle) -->
         <div id="experience-ui">
-            <div class="text-center" style="margin-top: 2px;">
-                <span class="text-danger">
-                    <i class="icofont icofont-heart"></i>
-                    <span class="ship-hp"></span> /
-                    <span class="ship-max-hp"></span>
-                </span>
-                <span style="color: #65d94f!important;">
-                    <i class="icofont icofont-speed-meter"></i>
-                    <span class="ship-speed"></span>
-                </span>
-                <span class="text-info">
-                    <i class="icofont icofont-people"></i>
-                    <span class="ship-krew-count"></span> /
-                    <span class="ship-max-capacity"></span>
-                </span>
-                <span class="text-warning">
-                    <i class="icofont icofont-cube"></i>
-                    <span class="ship-cargo"></span>
-                </span>
-            </div>
-
             <div id="inventory-container">
                 <div data-tooltip="Press '1' to switch to cannon" data-tooltip-location="top" id="cannon-item-div" class="text-warning" style="font-size: 12px;background-color: #f9f9f9;border-radius: 5px;position: relative; border: 5px solid #f0ad4e">
                     <div style="position: absolute;top: 0px;">1</div>
@@ -1618,7 +1533,6 @@
                     <img src="/assets/img/tools/spyglass.png" alt="" style="width: 36px;height: auto;">
                 </div>
             </div>
-
             <div id="experience-attribute-container">
                 <div data-tooltip="Press '5' to increase your fire rate" data-tooltip-location="top" class="experience-attribute-fireRate" title="Fire rate">
                     <div class="level-up-button" data-attribute="fireRate" style="display: none">
@@ -1652,11 +1566,9 @@
                 <div style="width: 0%" role="progressbar"></div>
             </div>
         </div>
-
         <!-- Earn gold tip -->
         <div id="earn-gold" class="text-warning" style="display: none; font-size: 18px;background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 5px;">Earn gold by catching crabs and shells!</div>
         <span id="delta-gold" class="h1"></span>
-
         <!-- Top Menu UI (Top Middle) -->
         <div id="top-menu-ui">
             <table style="table-layout: fixed; width: 100%; margin-top: 5px">
@@ -1672,8 +1584,8 @@
                         </div>
                     </td>
                     <td style="width: 12%;">
-                        <div data-tooltip="Change krew name, manage krew members, lock your krew" data-tooltip-location="bottom" id="toggle-ship-status-button" class="btn btn-md toggle-ship-status-button">
-                            <i class="icofont icofont-sail-boat-alt-2"></i>
+                        <div data-tooltip="Bank is available at Labrador" data-tooltip-location="bottom" id="toggle-bank-modal-button" class="btn btn-md disabled toggle-bank-modal-button">
+                            <i class="icofont icofont-bank"></i>
                         </div>
                     </td>
                     <td style="width: 40%;">
@@ -1684,8 +1596,8 @@
                         </div>
                     </td>
                     <td style="width: 12%;">
-                        <div data-tooltip="Modify your client's settings" data-tooltip-location="bottom" id="toggle-game-settings-button" class="btn btn-md toggle-game-settings-button">
-                            <i class="icofont icofont-options"></i>
+                        <div data-tooltip="Hide/Show the map" data-tooltip-location="bottom" id="toggle-map-button" class="btn btn-md">
+                            <i class="icofont icofont-ui-map"></i>
                         </div>
                     </td>
                     <td style="width: 12%;">
@@ -1701,13 +1613,59 @@
                 </tr>
             </table>
         </div>
-
-        <!-- Performance stats-->
-        <div id="stats-wrapper">
-            <div id="fps-wrapper"><span>0 FPS</span></div>
-            <div id="ping-wrapper"><span>0 MS</span></div>
+        <!-- Krew info HUD (Upper Left)-->
+        <div id="krew-hud" style="background-color:rgba(0, 0, 0, 0.4); border-radius: 5px; padding: 15px">
+            <form class="form-inline h5" id="open-krew-settings">
+                <div data-tooltip="Krew settings: change krew name, manage krew members, lock your krew" data-tooltip-location="bottom" class="btn btn-secondary btn-sm float-sm-right toggle-ship-status-button">
+                    <i class="icofont icofont-options"></i>
+                </div>
+                <div class="form-group">
+                    <span class="my-krew-name"></span>
+                </div>
+            </form>
+            <div class="text-center" style="margin-bottom: 8px">
+                <span class="text-danger">
+                    <i class="icofont icofont-heart"></i>
+                    <span class="ship-hp"></span> /
+                    <span class="ship-max-hp"></span>
+                </span>
+                <span style="color: #65d94f!important;">
+                    <i class="icofont icofont-speed-meter"></i>
+                    <span class="ship-speed"></span>
+                </span>
+                <span class="text-info">
+                    <i class="icofont icofont-people"></i>
+                    <span class="ship-krew-count"></span> /
+                    <span class="ship-max-capacity"></span>
+                </span>
+                <span class="text-warning">
+                    <i class="icofont icofont-cube"></i>
+                    <span class="ship-cargo"></span>
+                </span>
+            </div>
+            <div>
+                <span data-tooltip="Depart to sea" data-tooltip-location="right" class="btn btn-success btn-sm" id="exit-island-button" style="display: none; z-index: 2; margin-right: 2.5px;">
+                    <i class="icofont icofont-ship-wheel"></i>
+                    Sail
+                </span>
+                <span data-tooltip="Invite friends to your krew" data-tooltip-location="right" class="btn btn-primary btn-sm" id="toggle-invite-link-button" style="z-index: 1; margin-right: 2.5px;">
+                    <i class="icofont icofont-link"></i>
+                    Invite
+                </span>
+                <span data-tooltip="Abandon the ship" data-tooltip-location="bottom" class="btn btn-warning btn-sm" id="abandon-ship-button" style="display: none;">
+                    <i class="icofont icofont-anchor"></i>
+                    Abandon Ship
+                </span>
+                <br>
+            </div>
+            <div id="invite-div">
+                <input type="text" maxlength="30" class="form-control" id="invite-link">
+            </div>
+            <div id="stats-wrapper">
+                <div id="fps-wrapper"><span>0 FPS</span></div>
+                <div id="ping-wrapper"><span>0 MS</span></div>
+            </div>
         </div>
-
         <!-- Docking info -->
         <div id="docking-modal" class="absolute-center initial" style="display: none;">
             <div id="you-are-docked-message">You are docked at
@@ -1721,7 +1679,6 @@
                 <span>Sail (c)</span>
             </div>
         </div>
-
         <!-- Departure info -->
         <div id="departure-modal" class="absolute-center" style="display: none;">
             <div id="cancel-departure-button" class="btn btn-primary disabled btn-lg">
@@ -1729,13 +1686,11 @@
                 <span></span>
             </div>
         </div>
-
         <!-- Center info  Container -->
         <div class="text-sm-center" style="position: absolute; left: 50%; padding: 25px">
             <div id="center-div" style="position: relative; left: -50%;">
             </div>
         </div>
-
         <!-- Shopping window -->
         <div class="text-sm-center" style="position: absolute; left: 50%; padding: 25px">
             <div id="show-shopping-modal-button" class="btn btn-primary" style="position: relative; left: -50%; z-index: 100;display: none" data-toggle="modal" data-target="#shopping-modal">
@@ -1744,32 +1699,19 @@
             <div id="center-div" style="position: relative; left: -50%;">
             </div>
         </div>
-
         <!-- Map (Lower Right) -->
         <div id="minimap-container">
             <canvas id="minimap" width="200" height="200"></canvas>
         </div>
     </div>
     <!-- END Game UI -->
-
     <!-- END Gameplay HTML -->
-
-
-
-
-
     <!-- START Miscellaneous HTML -->
-
     <!-- Preroll Ad Container (Centered class: absolute-center) -->
     <div id="preroll-centered" class="ad-player"></div>
 
-    <!-- GameAnalytics -->
+    <!-- Y8 SDK -->
     <script>
-        window.GameAnalytics = window.GameAnalytics || function () {
-            (GameAnalytics.q = GameAnalytics.q || []).push(arguments)
-        };
-        GameAnalytics("initialize", "ae40c5eb814568c74813aeeb409530bf",
-            "58ae82e5b7a5777dc69b13b1a2f6045fbaf29281");
         let adEnabled = true;
         if (document.referrer) {
             if (window.location !== window.parent.location && document.referrer.includes("y8")) {
@@ -1788,6 +1730,7 @@
         }
     </script>
 
+    <!-- Crazygames SDK -->
     <script>
         if (window.location != window.parent.location && document.referrer.includes("crazygames")) $("#portal-backlink").html("<a href='https://www.crazygames.com' target='_window'>Crazy Games</a>")
         if (!adEnabled) {
@@ -1796,15 +1739,11 @@
         }
     </script>
 
-    <script src="/build/dist.min.js"></script>
-
     <!-- Webpush script -->
     <script type="application/javascript" src="https://sdki.truepush.com/sdk/v2.0.3/app.js" async></script>
     <script>
         var truepush = window.truepush || [];
-
         truepush.push(function(){
-
             truepush.Init({
                 id: "604e38a3d567a95457216b99"
             },function(error){
@@ -1814,6 +1753,9 @@
     </script>
 
     <!-- END Miscellaneous HTML -->
+
+    <script src="/build/dist.min.js"></script>
+
 </body>
 
 </html>
