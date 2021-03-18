@@ -37,8 +37,21 @@ let ui = {
 
         /* Show splash modal */
         $(`#splash-modal`).modal(`show`);
+	
+	const crossPromo = document.getElementById ("cross-promo");
+	crossPromo.style.display = "inline-block";
+	crossPromo.style.top = "10px";
+
+	const splashModal = document.getElementById ("splash-modal");
+	splashModal.addEventListener ("scroll", 
+		function (e) {
+
+			crossPromo.style.top = (10 - splashModal.scrollTop) + "px";
+		});
+
 
         /* Show more button on Wall of Fame */
+	/*
         $(`#show-more`).on(`click`, () => {
             if ($(`#show-more`).text().indexOf(`Show more`) > -1) {
                 $(`.top50`).show();
@@ -48,6 +61,7 @@ let ui = {
                 $(`#show-more`).html(`<i class="icofont icofont-medal"></i> Show more`);
             }
         });
+	*/
 
         /* Check if an invite link is being used */
         if (getUrlVars().sid && getUrlVars().bid) {

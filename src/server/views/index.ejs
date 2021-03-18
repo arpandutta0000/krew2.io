@@ -49,7 +49,7 @@
 
 
     <!-- Get styles -->
-    <link rel="stylesheet" href="/build/styles.min.css?v=2">
+    <link rel="stylesheet" href="/build/styles.min.css?v=3">
 
     <!-- Get scripts from Cloudflare CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
@@ -99,30 +99,30 @@
 <body>
     <!-- START Pre-Gameplay HTML -->
 
+    <!-- Cross promotion system -->
+    <div id="cross-promo" class="white-transparent-bg">
+	<a id="alsoTryLink" href="" target="_blank" style="cursor: pointer;">
+		<img draggable="false" id="alsoTryImg" style="width: 100%;height: auto;border-radius:7px;margin-top:-7px;" src="https://webgames.io/img/loading-widget.png" alt="Also play our other games!">
+	</a>
+    </div>
+
+    <script src="https://webgames.io/js/widget.min.js"></script>
+    <script>
+	Widget.bind ({
+		reference : "krew.io",
+		crossPromotion : {
+			showBiscuit : {
+				border : true
+			},
+			container : "cross-promo",
+			link : "alsoTryLink",
+			img : "alsoTryImg"
+		}
+	});
+    </script>
+
     <!-- START Splash Modal (Wall of fame, select server, select spawn, buttons, changelog) -->
     <div class="modal show text-xs-center" id="splash-modal">
-
-	<!-- Cross promotion system -->
-	<div id="cross-promo" class="white-transparent-bg">
-		<a id="alsoTryLink" href="" target="_blank" style="cursor: pointer;">
-			<img draggable="false" id="alsoTryImg" style="width: 100%;height: auto;border-radius:7px;margin-top:-7px;" src="https://webgames.io/img/loading-widget.png" alt="Also play our other games!">
-		</a>
-	</div>
-
-	<script src="https://webgames.io/js/widget.min.js"></script>
-	<script>
-		Widget.bind ({
-			reference : "krew.io",
-			crossPromotion : {
-				showBiscuit : {
-					border : true
-				},
-				container : "cross-promo",
-				link : "alsoTryLink",
-				img : "alsoTryImg"
-			}
-		});
-	</script>
 
         <!-- If a user is logged in, show in top right and add logout hyperlink -->
         <span id="logged-in" style="position:absolute; top: 160px; left: 10px; color: #fff; display:none;">You are logged in as</span>
@@ -131,28 +131,57 @@
         <img src="/assets/img/logos/logo.png" class="rounded mx-auto d-block" style="width: 300px; margin: 10px 0px 20px 0px;">
 
         <!-- START Pre-Gameplay Modals -->
-        <div id="modal-dialog" class="container row justify-content-center" style="width: 100%;" role="document">
+        <div id="modal-dialog" class="container row justify-content-center" style="width: 100%; display: flex;" role="document">
 
-            <!-- Wall of Fame Modal (Left) -->
-            <div class="wall-of-fame-div white-transparent-bg">
-                <h4 class="changelog-title">Wall of Fame</h4>
-                <small>The top players in all of Krew.</small>
-                <div id="wall-of-fame-table-div">
-                    <table id="wall-of-fame-table">
-                        <tr>
-                            <th>Rank</th>
-                            <th>Player name</th>
-                            <th>Clan</th>
-                            <th>Highscore</th>
-                        </tr>
-                    </table>
-                    <button class="btn btn-success btn-sm" id="show-more" style="padding: .55rem 1rem;">
-                        <i class="icofont icofont-medal"></i>
-                        Show more
-                    </button>
-                </div>
+	    <!-- Wall of fame -->
+	    <div class="d-flex flex-column" style="width: 33%;">
+
+		    <!-- Wall of Fame Modal (Left) -->
+		    <div class="wall-of-fame-div white-transparent-bg">
+			<h4 class="changelog-title">Wall of Fame</h4>
+			<small>The top players in all of Krew.</small>
+			<div id="wall-of-fame-table-div" class="wall-of-fame-table-div">
+			    <table id="wall-of-fame-table" class="wall-of-fame-table">
+				<tr>
+				    <th>Rank</th>
+				    <th>Player Name</th>
+				    <th>Clan</th>
+				    <th>Highscore</th>
+				</tr>
+			    </table>
+
+			    <!--
+			    <button class="btn btn-success btn-sm" id="show-more" style="padding: .55rem 1rem;">
+				<i class="icofont icofont-medal"></i>
+				Show more
+			    </button>
+			    -->
+			</div>
+		    </div>
+
+		    <!-- Wall of Fame Clan Modal (Left) -->
+		    <div class="wall-of-fame-div white-transparent-bg">
+			<h4 class="changelog-title">Wall of Fame for Clans</h4>
+			<small>The top clans in all of Krew.</small>
+			<div id="wall-of-fame-table-div-clan" class="wall-of-fame-table-div">
+			    <table id="wall-of-fame-table-clan" class="wall-of-fame-table">
+				<tr>
+				    <th>Rank</th>
+				    <th>Clan</th>
+				    <th>Owner</th>
+				    <th>Total Score</th>
+				</tr>
+			    </table>
+
+			    <!--
+			    <button class="btn btn-success btn-sm" id="show-more" style="padding: .55rem 1rem;">
+				<i class="icofont icofont-medal"></i>
+				Show more
+			    </button>
+			    -->
+			</div>
+		    </div>
             </div>
-
 
             <!-- START Center Modal -->
             <div class="main-menu-div">
@@ -210,6 +239,7 @@
                     <a target="_blank" href="https://discord.krew.io" style="text-decoration: none;">
                         <img class="rounded" src="/assets/img/socials/discord.png">
                     </a>
+		    <!--
                     <a target="_blank" href="https://www.facebook.com/Krew.io/" style="text-decoration: none;">
                         <img class="rounded" src="/assets/img/socials/facebook.png">
                     </a>
@@ -225,6 +255,7 @@
                     <a target="_blank" href="https://www.youtube.com/channel/UCVbcgVc-z2WsjcW-ih8RiRQ" style="text-decoration: none;">
                         <img class="rounded" src="/assets/img/socials/youtube.png">
                     </a>
+		    -->
                     <br><br>
 
                     <small>
@@ -258,6 +289,25 @@
 
                 <!-- START Changelog Articles -->
                 <div class="changelog-div">
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.10.1) - March 18th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>New:</b> Show the clan leaderboard</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="changelog-article">
+                        <h5 class="patch-title">Patch (1.10.0) - March 13th, 2021</h5>
+                        <div class="patch-content">
+                            <ul class="patch-content-list">
+                                <li><b>Improvement:</b> Revamped sligthy the UI</li>
+                                <li><b>Improvement:</b> New Raft model</li>
+                            </ul>
+                        </div>
+                    </article>
+
                     <article class="changelog-article">
                         <h5 class="patch-title">Patch (1.9.1) - March 5th, 2021</h5>
                         <div class="patch-content">
@@ -904,9 +954,13 @@
         <div style="font-family:caribbean; font-size:20px;">Loading...</div>
     </div>
 
+    <!-- Ads -->
+    <div id="krew-io_300x600" style="position: absolute;top: 10px;z-index: 1000000;width: 300px;height: 600px;right: 10px;background: white; display: none;" class="white-transparent-bg"></div>
+
     <!-- Game Over Modal -->
     <div class="modal fade text-sm-center" id="game-over-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md modal-content modal-body role=" style="top: 25%;" document">
+
+        <div class="modal-dialog modal-md modal-content modal-body role=" style="top: 25%; width: 450px" document">
             <br><br>
             <h1>Game Over</h1>
             <br><br>
@@ -1754,7 +1808,7 @@
 
     <!-- END Miscellaneous HTML -->
 
-    <script src="/build/dist.min.js"></script>
+    <script src="/build/dist.min.js?v=4"></script>
 
 </body>
 

@@ -163,59 +163,58 @@ canvas {
 
 /* -- START Wall of fame -- */
 .wall-of-fame-div {
-    width: 33%;
-    float: left;
     padding-right: 15px;
     padding-left: 15px;
+    margin-bottom: 20px;
 }
 
-#wall-of-fame-table-div {
+.wall-of-fame-table-div {
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    max-height: 750px;
+    max-height: 289px;
     margin-top: 10px;
     border-radius: 10px 10px 10px 10px;
 }
 
-#wall-of-fame-table-div::-webkit-scrollbar {
+.wall-of-fame-table-div::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
-#wall-of-fame-table {
+.wall-of-fame-table {
     margin-top: 5px;
     margin-bottom: 15px;
     width: 100%;
 }
 
-#wall-of-fame-table th {
+.wall-of-fame-table th {
     padding: 8px;
     border-top: 1px solid;
     border-bottom: 1px solid;
     text-align: center;
 }
 
-#wall-of-fame-table td {
+.wall-of-fame-table td {
     padding: 5px;
     text-align: center;
 }
 
-#wall-of-fame-table .rank {
+.wall-of-fame-table .rank {
     font-weight: 900;
 }
 
-#wall-of-fame-table .top-1 {
+.wall-of-fame-table .top-1 {
     font-weight: 900;
     color: #FF5722;
 }
 
-#wall-of-fame-table .top-2-3 {
+.wall-of-fame-table .top-2-3 {
     font-weight: 600;
     color: #FF5722;
 }
 
-#wall-of-fame-table,
+.wall-of-fame-table,
 th,
 td {
 
@@ -1544,9 +1543,11 @@ td {
 #cross-promo {
 
 	top: 10px;
+	left: 8px;
 	width: 200px;
 	position: absolute;
 	padding: 15px 10px 10px 10px;
+	z-index: 2500;
 }
 
 /* -- END Tooltips Styling -- */

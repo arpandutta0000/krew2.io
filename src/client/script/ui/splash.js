@@ -76,6 +76,7 @@ let splash = {
      */
     createWallOfFame: () => {
         $.get(`api/wall_of_fame`, (data, status) => {
+
             if (status === `success`) {
                 let tableContent = ``;
                 for (let p in data) {
@@ -90,14 +91,50 @@ let splash = {
                         tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td class="top-1">${data[p].playerName}</td><td class="top-1">${clan}</td><td class="top-1">${highscore}</td></tr>`;
                     } else if (p <= 2) {
                         tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td class="top-2-3">${data[p].playerName}</td><td class="top-2-3">${clan}</td><td class="top-2-3">${highscore}</td></tr>`;
+                    } else {
+                        tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td>${data[p].playerName}</td><td>${clan}</td><td>${highscore}</td></tr>`;
+		    }
+		    /*
                     } else if (p <= 24) {
                         tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td>${data[p].playerName}</td><td>${clan}</td><td>${highscore}</td></tr>`;
                     } else {
                         tableContent = `<tr class="top50" style="display:none"><td class="rank">${parseInt(p) + 1}</td><td>${data[p].playerName}</td><td>${clan}</td><td>${highscore}</td></tr>`;
                     }
+		    */
                     $(`#wall-of-fame-table`).append(tableContent);
                 }
             }
         });
+    },
+
+    /**
+     * Create wall of fame of clans
+     */
+    createWallOfFameClans: () => {
+        $.get(`api/wall_of_fame_clans`, (data, status) => {
+
+            if (status === `success`) {
+                let tableContent = ``;
+
+                for (let p in data) {
+                    let totalScore = data[p].totalScore;
+                    let owner = data[p].owner;
+                    if (totalScore >= 1000 && totalScore.toString().length <= 6) {
+                        totalScore = `${totalScore / 1000} K`;
+                    } else if (totalScore.toString().length >= 7) {
+                        totalScore = `${Math.floor(totalScore / 1000) / 1000} M`;
+                    }
+                    if (p === 0) {
+                        tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td class="top-1">${data[p].name}</td><td class="top-1">${owner}</td><td class="top-1">${totalScore}</td></tr>`;
+                    } else if (p <= 2) {
+                        tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td class="top-2-3">${data[p].name}</td><td class="top-2-3">${owner}</td><td class="top-2-3">${totalScore}</td></tr>`;
+                    } else {
+                        tableContent = `<tr><td class="rank">${parseInt(p) + 1}</td><td>${data[p].name}</td><td>${owner}</td><td>${totalScore}</td></tr>`;
+		    }
+                    $(`#wall-of-fame-table-clan`).append(tableContent);
+                }
+            }
+        });
     }
+
 };
