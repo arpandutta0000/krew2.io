@@ -42,41 +42,44 @@ log(`green`, `UNIX Timestamp for server start: ${serverStartTimestamp}.`);
 filter.addWords(...config.additionalBadWords);
 
 // Configure socket.
-const server = process.env.NODE_ENV === `prod`
-    ? https.createServer({
-        key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
-        cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
-        requestCert: false,
-        rejectUnauthorized: false
-    })
-    : http.createServer();
+if (!global.io) {
+    let server = process.env.NODE_ENV === `prod`
+        ? https.createServer({
+            key: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/privkey.pem`),
+            cert: fs.readFileSync(`/etc/letsencrypt/live/${config.domain}/fullchain.pem`),
+            requestCert: false,
+            rejectUnauthorized: false
+        })
+        : http.createServer();
 
-global.io = require(`socket.io`)(server, {
-    cors: {
-        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
-        methods: [`GET`, `POST`],
-        credentials: true
-    },
+    global.io = require(`socket.io`)(server, {
+        /*
+        cors: {
+            origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
+            methods: [`GET`, `POST`],
+            credentials: true
+        },
+	*/
+        maxHttpBufferSize: 1e9,
+        pingTimeout: 2e4,
+        pingInterval: 5e3
+    });
+    server.listen(process.env.port);
+}
 
-    maxHttpBufferSize: 1e9,
-    pingTimeout: 2e4,
-    pingInterval: 5e3
-});
-server.listen(process.env.port);
-
-// Connect to database.
+// Connect to db
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => log(`green`, `Socket.IO server has connected to database.`));
 
-// Import mongoose models.
-const User = require(`./models/user.model.js`);
-const Clan = require(`./models/clan.model.js`);
-const Ban = require(`./models/ban.model.js`);
-const Mute = require(`./models/mute.model.js`);
-const Hacker = require(`./models/hacker.model.js`);
-const PlayerRestore = require(`./models/playerRestore.model.js`);
+// Mongoose Models
+let User = require(`./models/user.model.js`);
+let Clan = require(`./models/clan.model.js`);
+let Ban = require(`./models/ban.model.js`);
+let Mute = require(`./models/mute.model.js`);
+let Hacker = require(`./models/hacker.model.js`);
+let PlayerRestore = require(`./models/playerRestore.model.js`);
 
 // Log socket.io starting.
 log(`green`, `Socket.IO is listening on port to socket port ${process.env.port}`);
@@ -191,7 +194,7 @@ io.on(`connection`, async socket => {
                 }
             }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
         }
-    */
+	*/
 
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > config.maxPlayerCount) {
