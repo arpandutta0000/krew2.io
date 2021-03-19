@@ -10,6 +10,13 @@ let ecoUiInit = () => {
             } else {
                 $(`#toggle-shop-modal-button`).popover(`hide`);
                 $(`#shopping-modal`).show();
+                ui.closeAllPagesExcept(`#shopping-modal`);
+
+                $(`.btn-shopping-modal`).removeClass(`active`);
+                $(`#buy-ships`).addClass(`active`);
+                $(`#bankContainer`).hide();
+                $(`#nabankContainer`).hide();
+                updateStore();
             }
         }
         showIslandMenu();
@@ -19,17 +26,37 @@ let ecoUiInit = () => {
     $(`#buy-items`).on(`click`, () => {
         $(`.btn-shopping-modal`).removeClass(`active`);
         $(`#buy-items`).addClass(`active`);
+        $(`#bankContainer`).hide();
+        $(`#nabankContainer`).hide();
         updateStore();
     });
     $(`#buy-ships`).on(`click`, () => {
         $(`.btn-shopping-modal`).removeClass(`active`);
         $(`#buy-ships`).addClass(`active`);
+        $(`#bankContainer`).hide();
+        $(`#nabankContainer`).hide();
         updateStore();
     });
     $(`#buy-goods`).on(`click`, () => {
         $(`.btn-shopping-modal`).removeClass(`active`);
         $(`#buy-goods`).addClass(`active`);
+        $(`#bankContainer`).hide();
+        $(`#nabankContainer`).hide();
+
         updateStore();
+    });
+    $(`#open-bank-menu`).on(`click`, () => {
+        $(`.btn-shopping-modal`).removeClass(`active`);
+        $(`#open-bank-menu`).addClass(`active`);
+        $(`#bankContainer`).show();
+        $(`#nabankContainer`).hide();
+        updateStore();
+
+        $(`#successTakeDepoMess`).hide();
+        $(`#successMakeDepoMess`).hide();
+        $(`#errorMakeDepoMess`).hide();
+        $(`#errorTakeDepoMess`).hide();
+        getBankData();
     });
 
     // Create bank keybind listeners
@@ -44,9 +71,6 @@ let ecoUiInit = () => {
         }
     });
 
-    $(`#close-bank-button`).on(`click`, () => {
-        $(`#bank-modal`).hide();
-    });
     $(`#btn-make-deposit`).on(`click`, () => {
         makeDeposit();
     });

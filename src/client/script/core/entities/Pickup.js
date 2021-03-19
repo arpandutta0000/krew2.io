@@ -37,6 +37,7 @@ class Pickup extends Entity {
         if (type === 0) scale = parseInt(size) + 1;
         else if (type === 1) {
             scale = 0.05 * size;
+            GameAnalytics(`addDesignEvent`, `Game:Session:CatchFish`);
         } else if (type === 3 || type === 2) scale = 0.02;
         this.size = new THREE.Vector3(scale, scale, scale);
         this.modelscale = new THREE.Vector3(scale, scale, scale);

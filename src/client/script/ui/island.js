@@ -4,9 +4,6 @@
 let showIslandMenu = () => {
     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
     $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
-    if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
-        $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-    }
     ui.closeAllPagesExcept(`#shopping-modal`);
 
     updateStore();
@@ -39,10 +36,6 @@ let setUpIslandUI = () => {
 
     $(`#docking-modal`).hide();
 
-    if (entities[myPlayer.parent.anchorIslandId].name === `Labrador`) {
-        $(`#toggle-bank-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-    }
-
     $(`#toggle-shop-modal-button`).removeClass(`btn btn-md disabled toggle-shop-modal-button`).addClass(`btn btn-md enabled toggle-shop-modal-button`);
     $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md disabled toggle-krew-list-modal-button`).addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
 
@@ -52,6 +45,13 @@ let setUpIslandUI = () => {
 
     $(`#recruiting-div`).fadeIn(`slow`);
     controls.unLockMouseLook();
+
+    notifications.showCenterMessage(
+        `Press "C" to depart or click the depart button in the Krew management panel`,
+        4,
+        1e4
+    );
+    getPing();
 };
 
 /**
@@ -139,7 +139,6 @@ let exitIsland = (data) => {
     ui.hideSuggestionBox = true;
     if (myPlayer) audio.changeMusic(`ocean`, false);
 
-    $(`#toggle-bank-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
     $(`#exit-island-button`).hide();
     ui.closeAllPages();
     updateStore();
@@ -189,22 +188,10 @@ let setActiveBtn = (id) => {
     if (entities[id].netType === 5) {
         $(`#toggle-krew-list-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
         $(`#toggle-shop-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-shop-modal-button`);
-
-        if (entities[id].name === `Labrador`) {
-            $(`#toggle-bank-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-        } else {
-            $(`#toggle-bank-modal-button`).removeClass().addClass(`btn btn-md disabled toggle-bank-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
-        }
     } else if (entities[id].netType === 1) {
         if (entities[id].shipState === 3) {
             $(`#toggle-krew-list-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-krew-list-modal-button`);
             $(`#toggle-shop-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-shop-modal-button`);
-
-            if (entities[entities[id].anchorIslandId].name === `Labrador`) {
-                $(`#toggle-bank-modal-button`).removeClass().addClass(`btn btn-md enabled toggle-shop-modal-button`).attr(`data-tooltip`, `Deposit or withdraw gold`);
-            } else {
-                $(`#toggle-bank-modal-button`).removeClass().addClass(`btn btn-md disabled toggle-bank-modal-button`).attr(`data-tooltip`, `Bank is available at Labrador`);
-            }
         }
     }
 };
