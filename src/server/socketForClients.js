@@ -166,7 +166,6 @@ io.on(`connection`, async socket => {
         // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip.
 
         // VPNs are all IPv4.
-	/*
         if (config.mode === `prod`) {
             axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
                 if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`);
@@ -192,7 +191,6 @@ io.on(`connection`, async socket => {
                 }
             }).catch(() => log(`red`, `VPN Checking Ratelimited | IP: ${socket.handshake.address}.`));
         }
-	*/
 
         // Check if max player count has been reached.
         if (Object.keys(core.players).length > config.maxPlayerCount) {
