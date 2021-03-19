@@ -53,13 +53,11 @@ if (!global.io) {
         : http.createServer();
 
     global.io = require(`socket.io`)(server, {
-	/*
         cors: {
             origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
             methods: [`GET`, `POST`],
             credentials: true
         },
-	*/
         maxHttpBufferSize: 1e9,
         pingTimeout: 2e4,
         pingInterval: 5e3
