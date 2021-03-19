@@ -35,9 +35,6 @@ $(document).ready(() => {
     // Create the wall of fame
     splash.createWallOfFame();
 
-    // Create the wall of fame for the clans
-    splash.createWallOfFameClans();
-
     // Close socket connection on unload
     $(window).on(`unload`, () => {
         if (socket) socket.close();

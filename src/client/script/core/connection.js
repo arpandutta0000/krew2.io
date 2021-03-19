@@ -48,8 +48,6 @@ let connect = function (pid) {
     // Show game ui
     $(`#game-ui`).show();
     $(`#splash-modal`).modal(`hide`);
-    document.getElementById ("cross-promo").style.display = "none";
-    document.getElementById ("krew-io_300x600").style.display = "none";
 
     // Log connection info
     console.log(`\n\nSuccessfully connected!\nGood luck sailor! ⛵\n\nConnection information:\nPort: ${server.port}\nPlayers: ${server.playerCount}\nMax Players: ${server.maxPlayerCount}\n\n\n`);

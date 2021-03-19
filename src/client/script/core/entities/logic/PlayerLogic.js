@@ -144,11 +144,8 @@ let PlayerLogic = {
             _this.jumping = keys_jump ? 1 : 0;
 
             // Handle respawn bug (if player's boat has less than 0 HP and game over modal hasn't showed up)
-            if (_this.state === 1 && !$(`#game-over-modal`).is(`:visible`)) {
+            if (_this.state === 1 && !$(`#game-over-modal`).is(`:visible`))
                 $(`#game-over-modal`).modal(`show`);
-                document.getElementById ("cross-promo").style.display = "inline-block";
-                document.getElementById ("cross-promo").style.top = "178px";
-	    }
 
             let lookingUpLimit = 1;
             // if the player is respawning, attach the camera again to it and set state to alive.

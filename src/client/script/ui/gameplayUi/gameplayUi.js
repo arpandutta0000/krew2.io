@@ -8,12 +8,6 @@ let endTheGame = (gold) => {
 
     $(`.local-chat`).remove();
     $(`#game-over-modal`).modal(`show`);
-    document.getElementById ("cross-promo").style.display = "inline-block";
-    document.getElementById ("cross-promo").style.top = "178px";
-    try {
-        aiptag.cmd.display.push(function() { aipDisplayTag.display('krew-io_300x600'); });
-    } catch (e) {}
-    document.getElementById ("krew-io_300x600").style.display = "inline-block";
 
     setHighlights(gold);
     myPlayer.state = 1;
@@ -37,8 +31,6 @@ let initGameUi = () => {
             socket.emit(`respawn`);
             myPlayer.itemId = undefined;
             myPlayer.state = 2;
-            document.getElementById ("cross-promo").style.display = "none";
-            document.getElementById ("krew-io_300x600").style.display = "none";
 
             $(`#toggle-shop-modal-button`).removeClass(`btn btn-md enabled toggle-shop-modal-button`).addClass(`btn btn-md disabled toggle-shop-modal-button`);
             $(`#toggle-krew-list-modal-button`).removeClass(`btn btn-md enabled toggle-krew-list-modal-button`).addClass(`btn btn-md disabled toggle-krew-list-modal-button`);
