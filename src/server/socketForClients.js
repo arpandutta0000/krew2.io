@@ -53,7 +53,7 @@ if (!global.io) {
         : http.createServer();
 
     global.io = require(`socket.io`)(server, {
-        /*
+	/*
         cors: {
             origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
             methods: [`GET`, `POST`],
@@ -168,7 +168,7 @@ io.on(`connection`, async socket => {
         // Note: This has to be disabled if proxying through cloudflare! Cloudflare proxies are blacklisted and will not return the actual ip.
 
         // VPNs are all IPv4.
-        /*
+	/*
         if (config.mode === `prod`) {
             axios.get(`https://check.getipintel.net/check.php?ip=${socket.handshake.address.substring(7)}&contact=dzony@gmx.de&flags=f&format=json`).then(res => {
                 if (!res) return log(`red`, `There was an error checking while performing the VPN check request.`);

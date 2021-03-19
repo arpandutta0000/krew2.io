@@ -1,5 +1,4 @@
-let itemTypes = [
-    {
+let itemTypes = [{
         id: 0,
         name: `Attack speed upgrade`,
         Description: `+5 cannon fire rate`,

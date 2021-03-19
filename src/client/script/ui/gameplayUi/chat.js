@@ -148,7 +148,7 @@ let scrollChatInit = () => {
 
 /**
  * Display an incoming chat message
- *
+ * 
  * @param {object} msgData Message data
  */
 let displayMessage = (msgData) => {
