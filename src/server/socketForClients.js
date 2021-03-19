@@ -53,7 +53,7 @@ const server = process.env.NODE_ENV === `prod`
 
 global.io = require(`socket.io`)(server, {
     cors: {
-        origin: true,
+        origin: DEV_ENV ? `http://localhost:8080` : `https://${config.domain}`,
         methods: [`GET`, `POST`],
         credentials: true
     },

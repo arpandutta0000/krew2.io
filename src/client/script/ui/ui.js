@@ -58,6 +58,7 @@ let ui = {
 
         /* Play button */
         $(`#play-button`).on(`click`, () => {
+            GameAnalytics(`addDesignEvent`, `Game:Session:ClickedPlayButton`);
 
             if (threejsStarted) {
                 initGameUi();
