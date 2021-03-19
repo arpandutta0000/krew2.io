@@ -6,10 +6,10 @@ let swPath, host;
 if (urlObject.searchParams.get(`swPath`)) swPath = urlObject.searchParams.get(`swPath`);
 else {
     if (urlObject.searchParams.get(`version`)) version = urlObject.searchParams.get(`version`);
-
     host = urlObject.searchParams.get(`swJSHost`)
         ? `https://${urlObject.searchParams.get(`swJSHost`)}`
         : `https://sdki.truepush.com/sdk/`;
+
     swPath = `${host + version}/sw.js`;
 }
 
