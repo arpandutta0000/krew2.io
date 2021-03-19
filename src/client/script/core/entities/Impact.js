@@ -67,7 +67,6 @@ class Impact extends Entity {
 
             // Boat
             case 1: {
-                GameAnalytics(`addDesignEvent`, `Game:Session:Hit`);
                 for (let i = 0; i < 5; ++i) {
                     createParticle({
                         vx: -10 + Math.random() * 20,

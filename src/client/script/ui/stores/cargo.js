@@ -122,7 +122,6 @@ let GoodsComponent = {
 
         $btn.one(`click`, (e) => {
             e.preventDefault();
-            GameAnalytics(`addDesignEvent`, `Game:Session:Trade`);
             if ($slider.slider(`value`) > 0) {
                 socket.emit(`buy-goods`, {
                     quantity: $slider.slider(`value`),
