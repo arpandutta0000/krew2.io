@@ -71,7 +71,7 @@ function Projectile (shooter) {
     this.velocity = moveVector;
 
     if (this.shooter && this.shooter.activeWeapon === 1) {
-        let vertspeed = Math.cos(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
+        let vertspeed = Math.cos(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000)) * 2;
         let upspeed = Math.sin(shooter.pitch * 0.75) * (40 + (Math.min(10000, parseFloat(shooter.score)) / 2000));
         this.velocity.x *= vertspeed;
         this.velocity.z *= vertspeed;
