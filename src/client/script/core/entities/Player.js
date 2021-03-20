@@ -142,7 +142,7 @@ class Player extends Entity {
 
             for (let i = 1; i < entity.experienceMaxLevel + 1; i++) {
                 levels[i + 1] = {};
-                levels[i + 1].amount = Math.ceil(levels[i].amount * 1.07);
+                levels[i + 1].amount = Math.ceil(levels[i].amount * 0.001);
                 levels[i + 1].total = levels[i + 1].amount + levels[i].total;
             }
 
