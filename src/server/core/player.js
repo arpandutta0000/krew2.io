@@ -134,7 +134,7 @@ function Player (data) {
 
         for (let i = 1; i < entity.experienceMaxLevel + 1; i++) {
             levels[i + 1] = {};
-            levels[i + 1].amount = Math.ceil(levels[i].amount * 1.07);
+            levels[i + 1].amount = Math.ceil(levels[i].amount * 1.000000000000000000001);
             levels[i + 1].total = levels[i + 1].amount + levels[i].total;
         }
 
