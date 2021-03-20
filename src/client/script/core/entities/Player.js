@@ -74,10 +74,10 @@ class Player extends Entity {
         this.movementSpeedBonus = 0;
 
         // Leveling system variables
-        this.level = 0;
+        this.level = 300;
         this.experience = 0;
-        this.experienceBase = 100;
-        this.experienceMaxLevel = 50;
+        this.experienceBase = 0.001;
+        this.experienceMaxLevel = 1000;
         this.experienceNeedsUpdate = true;
         this.points = {
             fireRate: 0,
