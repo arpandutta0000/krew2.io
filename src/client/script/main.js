@@ -17,7 +17,7 @@ $(document).ready(() => {
             self != top
         ) $(`#play-on-krewio-message`).show();
 
-        $(`#goto-krew-io`).on(`click`, () => top.location.href = `https://krew.io`);
+        $(`#goto-krew-io`).on(`click`, () => top.location.href = `https://krew.cf`);
     }
 
     // Print console header
