@@ -58,7 +58,8 @@
   },
   "homepage": "https://github.com/Krew-io/krew2.io#readme",
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/core": "^7.13.10",
+    "@babel/eslint-parser": "^7.13.10",
     "eslint": "^7.17.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",

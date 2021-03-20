@@ -2,11 +2,11 @@ const config = {
     // Client side staff
     Admins: [`BR88C`, `DamienVesper`, `Sjmun`],
     Mods: [`Fiftyyyyy`, `TheChoco`, `Kekmw`],
-    Helpers: [`Tommy_Finle`, `ObamaKindaCare`, `Sky920`],
+    Helpers: [`Tommy_Finle`, `Sky920`],
     Designers: [`bread`, `ward0g71`],
 
     // Set URL
-    url: `https://krew.io`,
+    url: `https://krew.cf`,
 
     // Set config.worldsize
     worldsize: 2500,
