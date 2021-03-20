@@ -11,7 +11,7 @@ $(document).ready(() => {
 
         // Check if Krew is on a different site / in an iframe
         if (
-            !window.location.hostname.endsWith(`krew.io`) ||
+            !window.location.hostname.endsWith(`krew.cf`) ||
             (window.parent != undefined && window.location != window.parent.location) ||
             window.frameElement != null ||
             self != top
