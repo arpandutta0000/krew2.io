@@ -345,7 +345,7 @@ let boatTypes = {
         hp: 300,
         turnspeed: 1,
         price: 8e3,
-        maxKrewCapacity: 3,
+        maxKrewCapacity: 10,
         cargoSize: 600,
         baseheight: 1.4,
         width: 4,
