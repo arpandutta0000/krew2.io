@@ -413,7 +413,7 @@ router.post(`/customization`, (req, res, next) => {
     let playerModel = parseInt(req.body.playerModel);
     let hatModel = parseInt(req.body.hatModel);
 
-    if (playerModel == undefined || isNaN(playerModel) || hatModel == undefined || isNaN(hatModel)) return res.json({
+    if (!playerModel || isNaN(playerModel) || !hatModel || isNaN(hatModel)) return res.json({
         errors: `Please specify a model ID`
     });
 
