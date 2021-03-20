@@ -107,9 +107,9 @@ function Player (data) {
     this.regenBonus = 0;
 
     // Leveling system
-    this.level = 0;
+    this.level = 300;
     this.experience = 0;
-    this.experienceBase = 5;
+    this.experienceBase = 1;
     this.experienceMaxLevel = 1000;
     this.experienceNeedsUpdate = true;
     // Bank and casino
