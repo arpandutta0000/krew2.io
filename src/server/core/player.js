@@ -143,7 +143,7 @@ function Player (data) {
 
     this.points = {
         fireRate: 3000,
-        distance: 650,
+        distance: 150,
         damage: 7500
     };
 

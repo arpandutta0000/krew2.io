@@ -81,7 +81,7 @@ class Player extends Entity {
         this.experienceNeedsUpdate = true;
         this.points = {
             fireRate: 3000,
-            distance: 650,
+            distance: 150,
             damage: 7500
         };
 
