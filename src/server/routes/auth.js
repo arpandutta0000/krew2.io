@@ -21,9 +21,9 @@ router.post(`/register`, (req, res, next) => {
         });
     }
 
-    if (!req.body[`g-recaptcha-response`] || req.body[`g-recaptcha-response`].length === 0) return res.json({
-        errors: `Please verify the CAPTCHA`
-    });
+    // if (!req.body[`g-recaptcha-response`] || req.body[`g-recaptcha-response`].length === 0) return res.json({
+    //     errors: `Please verify the CAPTCHA`
+    // });
 
     if (!req.body[`register-username`] || !req.body[`register-email`] || !req.body[`register-password`] || !req.body[`register-password-confirm`] ||
         typeof req.body[`register-username`] !== `string` || typeof req.body[`register-email`] !== `string` || typeof req.body[`register-password`] !== `string` || typeof req.body[`register-password-confirm`] !== `string`) return res.json({
