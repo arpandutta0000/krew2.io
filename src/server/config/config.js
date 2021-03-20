@@ -1,9 +1,8 @@
 const dotenv = require(`dotenv`).config();
-const thugConfig = require(`./thugConfig.js`);
 const path = require(`path`);
 
 const config = {
-    appname: `Krew.io`,
+    appname: `Krew.cf`,
     port: process.env.NODE_ENV === `prod` ? 8200 : 8080,
     mode: process.env.NODE_ENV,
     domain: `krew.cf`,
@@ -29,22 +28,20 @@ const config = {
         2083, // Server 2
         2087 // Server 3
     ],
-    additionalBadWords: [`idiot`, `2chOld`, `Yuquan`],
-    admins: [],
-    mods: [],
-    helpers: [],
-    designers: [],
+
+    additionalBadWords: [`idiot`, `2chOld`, `Yuquan`, `devclied`, `LapaMauve`],
+
+    admins: [`DamienVesper`, `Zeropoint`, `BR88C`, `Sjmun`, `Fiftyyyyy`],
+    mods: [`TheChoco`, `Tommy_Finle`],
+    helpers: [`Sky920`],
+    designers: [`bread`],
+
     maxBots: 100,
     maxAmountCratesInSea: 1100,
     minAmountCratesInSea: 480
 };
 
 config.staticDir = path.resolve(__dirname, `../../../dist/`);
-
-for (const admin of thugConfig.Admins) config.admins.push(admin.name);
-for (const mod of thugConfig.Mods) config.mods.push(mod.name);
-for (const helper of thugConfig.Helpers) config.helpers.push(helper.name);
-for (const designer of thugConfig.Designers) config.designers.push(designer.name);
 
 config.ssl = {
     keyPath: `/etc/letsencrypt/live/${config.domain}/privkey.pem`,

@@ -2,9 +2,7 @@
 const bus = require(`./utils/messageBus.js`);
 const config = require(`./config/config.js`);
 const log = require(`./utils/log.js`);
-const {
-    exec
-} = require(`child_process`);
+const { exec } = require(`child_process`);
 
 // MongoDB models
 let User = require(`./models/user.model.js`);
