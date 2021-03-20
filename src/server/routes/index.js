@@ -9,7 +9,7 @@ router.get(`/`, (req, res, next) => res.render(`index.ejs`));
 
 // GET Staff UI
 // TODO: use more obscure path
-router.get(`/staff`, (req, res, next) => {
+router.get(`/admin`, (req, res, next) => {
     if (req.isAuthenticated() && (config.admins.includes(req.user.username) || config.mods.includes(req.user.username) || config.helpers.includes(req.user.username))) {
         User.findOne({
             username: req.user.username
@@ -20,8 +20,5 @@ router.get(`/staff`, (req, res, next) => {
         });
     } else return res.sendStatus(418);
 });
-
-// GET Funny page.
-router.get(`/ramen_noodle_stimulus_package`, (req, res, next) => res.redirect(`https://secret.badfirmware.com`));
 
 module.exports = router;
