@@ -12,8 +12,8 @@ const config = {
     discord: {
         prefix: `k!`,
         channels: {
-            chatLogs: `785986912765739039`,
-            reports: `791402349909901314`,
+            chatLogs: `822659626331799572`,
+            reports: `822659292020604928`,
             commands: `785986872777113610`
         },
         roles: {

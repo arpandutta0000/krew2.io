@@ -7,9 +7,7 @@ const { exec } = require(`child_process`);
 const os = require(`os`);
 
 const bus = require(`./utils/messageBus.js`);
-const {
-    discordFilter
-} = require(`./utils/chat.js`);
+const { discordFilter } = require(`./utils/chat.js`);
 
 const client = new Discord.Client({
     cacheChannels: false,
