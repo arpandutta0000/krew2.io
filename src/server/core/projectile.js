@@ -176,7 +176,7 @@ Projectile.prototype.logic = function (dt) {
                         // check if player has too many allocated points --> kick
                         if (countAllocatedPoints > 52) {
                             log(`cyan`, `Exploit (stats hacking), allocated stats: ${countAllocatedPoints} | IP ${this.shooter.socket.handshake.address}`);
-                            this.shooter.socket.disconnect();
+                            // this.shooter.socket.disconnect();
                         }
 
                         let attackDamageBonus = parseInt(this.shooter.attackDamageBonus + this.shooter.pointsFormula.getDamage());
