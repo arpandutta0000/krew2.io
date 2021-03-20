@@ -142,17 +142,18 @@ function Player (data) {
     })(this);
 
     this.points = {
-        fireRate: 0,
-        distance: 0,
-        damage: 0
+        fireRate: 3000,
+        distance: 650,
+        damage: 7500
     };
+
     let _this = this;
     this.pointsFormula = {
-        getFireRate: () => (_this.points.fireRate >= 50 ? 50 : _this.points.fireRate) * 1.4,
+        getFireRate: () => (_this.points.fireRate) * 1.4,
 
-        getDistance: () => (_this.points.distance >= 50 ? 50 : _this.points.distance) / 2,
+        getDistance: () => (_this.points.distance) / 2,
 
-        getDamage: () => (_this.points.damage >= 50 ? 50 : _this.points.damage) / 2,
+        getDamage: () => (_this.points.damage) / 2,
 
         getExperience: (damage) => parseInt(damage * 2.4)
     };
