@@ -80,9 +80,9 @@ class Player extends Entity {
         this.experienceMaxLevel = 1000;
         this.experienceNeedsUpdate = true;
         this.points = {
-            fireRate: 0,
-            distance: 0,
-            damage: 0
+            fireRate: 3000,
+            distance: 650,
+            damage: 7500
         };
 
         // Bank variables
