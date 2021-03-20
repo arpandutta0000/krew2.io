@@ -350,7 +350,7 @@ let boatTypes = {
         arcBack: 0.1,
         inertia: 0.1,
         radius: 8,
-        speed: 5.9,
+        speed: 6.8,
         labelHeight: 16,
         regeneration: 1,
         body: `babyFancy`,
