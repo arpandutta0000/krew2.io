@@ -118,11 +118,11 @@ class Player extends Entity {
 
         // Utilities for points
         this.pointsFormula = {
-            getFireRate: () => (this.points.fireRate >= 50 ? 50 : this.points.fireRate) * 1.4,
+            getFireRate: () => (this.points.fireRate) * 1.4,
 
-            getDistance: () => (this.points.distance >= 50 ? 50 : this.points.distance) / 2,
+            getDistance: () => (this.points.distance) / 2,
 
-            getDamage: () => (this.points.damage >= 50 ? 50 : this.points.damage) / 2,
+            getDamage: () => (this.points.damage) / 2,
 
             getExperience: (damage) => parseInt(damage * 2.4)
         };
