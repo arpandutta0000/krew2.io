@@ -22,7 +22,7 @@ if (cluster.isMaster) {
     server.app.workers = {};
 
     // Load the bot if it is running in production.
-    if (!DEV_ENV && config.domain === `krew.cf`) require(`./bot.js`);
+    if (!DEV_ENV && config.domain === `krew.io`) require(`./bot.js`);
 
     process.on(`uncaughtException`, (e) => {
         if (!DEV_ENV) {
