@@ -291,7 +291,7 @@ let ui = {
      */
     updateServerList: () => {
         $.ajax({
-            url: `${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/admin`, ``)}/get_servers`,
+            url: `${window.location.href.replace(/\?.*/, ``).replace(/#.*/, ``).replace(/\/$/, ``).replace(`/staff`, ``)}/get_servers`,
             data: {
                 gameId: `59a714c837cc44805415df18`
             },
