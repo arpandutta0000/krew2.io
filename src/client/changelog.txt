@@ -1,7 +1,3 @@
-v1.10.0 - [3-13-2021]
-- Revamped UI
-- New Raft model
-
 v1.9.1 - [3-5-2021]
 - Fixed audio timing for shooting the cannon
 - Swapped new island music track with the old ocean music track
