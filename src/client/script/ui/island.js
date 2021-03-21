@@ -45,13 +45,6 @@ let setUpIslandUI = () => {
 
     $(`#recruiting-div`).fadeIn(`slow`);
     controls.unLockMouseLook();
-
-    notifications.showCenterMessage(
-        `Press "C" to depart or click the depart button in the Krew management panel`,
-        4,
-        1e4
-    );
-    getPing();
 };
 
 /**
