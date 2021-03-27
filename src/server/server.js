@@ -80,6 +80,9 @@ app.use(bodyParser.urlencoded({
 app.set(`views`, path.resolve(__dirname, `views`));
 app.set(`view engine`, `ejs`);
 
+// Allow NGINX proxy.
+app.set(`trust proxy`, true);
+
 // Serve the static directory.
 app.use(express.static(config.staticDir));
 app.use(`/ads.txt`, express.static(`ads.txt`)); // Static ad loader.
